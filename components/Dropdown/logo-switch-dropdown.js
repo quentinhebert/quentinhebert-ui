@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import Image from "next/image";
 import Link from "next/link";
+import { Typography } from "@mui/material";
 
 export default function LogoSwitchDropdown(props) {
   const { src } = props;
@@ -22,10 +23,11 @@ export default function LogoSwitchDropdown(props) {
             sx={{
               backgroundColor: "transparent",
               boxShadow: "none",
+              padding: '.75rem',
               "&:hover": { backgroundColor: "transparent", boxShadow: "none" },
             }}
           >
-            <Image src={src} width="100rem" height="100rem" />
+            <Image src={src} width="60rem" height="60rem" />
           </Button>
           <Menu {...bindMenu(popupState)}>
             {menuItems.map((menuItem) => {
@@ -38,10 +40,13 @@ export default function LogoSwitchDropdown(props) {
                     <>
                       <Image
                         src={menuItem.logo}
-                        width="100rem"
-                        height="100rem"
-                      />{" "}
-                      Visiter Polygones.{menuItem.domain}
+                        width="50rem"
+                        height="50rem"
+                        sx={{paddingRight: '1rem'}}
+                      />
+                      <Typography variant="text" textAlign="center" sx={{ marginLeft: 2 }}>
+                        Visiter Polygones.{menuItem.domain}
+                      </Typography>
                     </>
                   </MenuItem>
                 </Link>
