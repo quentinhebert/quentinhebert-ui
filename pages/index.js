@@ -1,5 +1,6 @@
-import React from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
+import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
@@ -12,8 +13,8 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <a href="/dev">DEV</a>
-        <a href="/film">FILM</a>
+        <Link href="/dev">DEV</Link>
+        <Link href="/film">FILM</Link>
       </main>
     </div>
   );
