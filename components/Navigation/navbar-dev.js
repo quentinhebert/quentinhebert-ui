@@ -7,11 +7,12 @@ import LogoSwitchDropdown from "../Dropdown/logo-switch-dropdown";
 
 export default function NavbarDev() {
   return (
-    <Box sx={{ flexGrow: 2 }}>
-      <AppBar
-        position="static"
-        sx={{ backgroundColor: "#004fa0", backgroundImage: "none" }}
-      >
+    <AppBar
+      position="sticky"
+      component="nav"
+      sx={{ backgroundColor: "#004fa0", backgroundImage: "none" }}
+    >
+      <Box sx={{ flexGrow: 2 }}>
         <Toolbar>
           <LogoSwitchDropdown src="/logos/dev-logo.png" />
           <Box component="div" sx={{ flexGrow: 1 }} />
@@ -19,7 +20,7 @@ export default function NavbarDev() {
             Obtenir un devis
           </Button>
         </Toolbar>
-      </AppBar>
-    </Box>
+      </Box>
+    </AppBar>
   );
 }

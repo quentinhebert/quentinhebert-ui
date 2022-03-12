@@ -7,11 +7,12 @@ import LogoSwitchDropdown from "../Dropdown/logo-switch-dropdown";
 
 export default function NavbarFilm() {
   return (
-    <Box sx={{ flexGrow: 2 }}>
-      <AppBar
-        position="static"
-        sx={{ backgroundColor: "#87181f", backgroundImage: "none" }}
-      >
+    <AppBar
+      position="sticky"
+      component="nav"
+      sx={{ backgroundColor: "#87181f", backgroundImage: "none" }}
+    >
+      <Box sx={{ flexGrow: 2 }}>
         <Toolbar>
           <LogoSwitchDropdown src="/logos/film-logo.png" />
           <Box component="div" sx={{ flexGrow: 1 }} />
@@ -19,7 +20,7 @@ export default function NavbarFilm() {
             Obtenir un devis
           </Button>
         </Toolbar>
-      </AppBar>
-    </Box>
+      </Box>
+    </AppBar>
   );
 }
