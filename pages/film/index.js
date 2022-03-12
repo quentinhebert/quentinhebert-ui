@@ -1,19 +1,22 @@
 import React from 'react';
 import Head from 'next/head';
 import styles from '../../styles/Home.module.css';
+import NavbarFilm from '../../components/Navigation/navbar-film';
 
 export default function FilmHomePage() {
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Polygones | FILM</title>
         <meta name="description" content="Filmmaker" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <NavbarFilm />
+
       <main className={styles.main}>
         On est sur la page FILM
       </main>
-    </div>
+    </>
   );
 }
