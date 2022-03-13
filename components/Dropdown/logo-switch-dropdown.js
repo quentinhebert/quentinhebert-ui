@@ -14,17 +14,21 @@ export default function LogoSwitchDropdown(props) {
     { logo: "/logos/film-logo.png", domain: "film", color: "#87181f" },
   ];
   return (
-    <PopupState variant="popover" popupId="demo-popup-menu">
+    <PopupState variant="popover" popupId="popup-menu">
       {(popupState) => (
-        <React.Fragment>
+        <>
           <Button
             variant="contained"
             {...bindTrigger(popupState)}
             sx={{
               backgroundColor: "transparent",
               boxShadow: "none",
-              padding: '.75rem',
-              "&:hover": { backgroundColor: "transparent", boxShadow: "none" },
+              padding: ".75rem",
+              "&:hover": {
+                backgroundColor: "transparent",
+                backgroundImage: "none",
+                boxShadow: "none",
+              },
             }}
           >
             <Image src={src} width="60rem" height="60rem" />
@@ -35,17 +39,17 @@ export default function LogoSwitchDropdown(props) {
                 <Link href={`/${menuItem.domain}`} passHref>
                   <MenuItem
                     onClick={popupState.close}
-                    sx={{ backgroundColor: menuItem.color }}
+                    sx={{ backgroundColor: menuItem.color, padding: "1rem" }}
                   >
                     <>
-                      <Image
-                        src={menuItem.logo}
-                        width="50rem"
-                        height="50rem"
-                        sx={{paddingRight: '1rem'}}
-                      />
-                      <Typography variant="text" textAlign="center" sx={{ marginLeft: 2 }}>
-                        Visiter Polygones.{menuItem.domain}
+                      <Image src={menuItem.logo} width="50rem" height="50rem" />
+                      <Typography
+                        variant="text"
+                        textAlign="center"
+                        textTransform="uppercase"
+                        sx={{ marginLeft: 2, color: '#fff' }}
+                      >
+                        Visiter Polygones / {menuItem.domain}
                       </Typography>
                     </>
                   </MenuItem>
@@ -53,7 +57,7 @@ export default function LogoSwitchDropdown(props) {
               );
             })}
           </Menu>
-        </React.Fragment>
+        </>
       )}
     </PopupState>
   );
