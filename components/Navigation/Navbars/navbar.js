@@ -16,7 +16,13 @@ export default function Navbar() {
         <Toolbar>
           <LogoSwitchDropdown src="/logos/logo.png" />
           <Box component="div" sx={{ flexGrow: 1 }} />
-          <Button sx={{ backgroundColor: "#fff", color: "#000", '&:hover': {color: '#fff'} }}>
+          <Button
+            sx={{
+              backgroundColor: "#fff",
+              color: "#000",
+              "&:hover": { color: "#fff" },
+            }}
+          >
             Obtenir un devis
           </Button>
         </Toolbar>

@@ -8,6 +8,10 @@ import FacebookIcon from "../../../public/medias/social_icons/facebook.svg";
 import InstagramIcon from "../../../public/medias/social_icons/instagram.svg";
 import LinkedinIcon from "../../../public/medias/social_icons/linkedin.svg";
 import YoutubeIcon from "../../../public/medias/social_icons/youtube.svg";
+import SecuredPaymentIcon from "../../../public/medias/warranties/secured-payment-icon.svg";
+import PaypalIcon from "../../../public/medias/warranties/paypal-icon.svg";
+import CreditCardIcon from "../../../public/medias/warranties/credit-card-icon.svg";
+import QualityIcon from "../../../public/medias/warranties/quality-icon.svg";
 
 const logos = [
   { url: "/", img: "/logos/logo.png" },
@@ -57,8 +61,9 @@ const ContactPart = () => {
         variant="text"
         size="large"
         sx={{
-          textTransform: "lowercase",
+          textTransform: "uppercase",
           textDecoration: "none",
+          fontFamily: "Arial, sans-serif",
           color: "#FFF",
         }}
       >
@@ -79,13 +84,19 @@ const ContactPart = () => {
             rel="noreferrer"
             style={{ cursor: "pointer" }}
           >
-            <Image src={social.image} height="50%" width="50%" />
+            <Image src={social.image} height="40%" width="40%" />
           </a>
         ))}
       </Stack>
 
       <Link href="/newsletters" target="_blank" rel="noreferrer" passHref>
-        <Button variant="outlined" sx={{ color: "#fff", borderColor: "#fff" }}>
+        <Button
+          variant="outlined"
+          sx={{
+            color: "#fff",
+            borderColor: "#fff",
+          }}
+        >
           Newsletter
         </Button>
       </Link>
@@ -120,7 +131,7 @@ const navigationButtons = [
   },
 ];
 
-function NavigationPart() {
+const NavigationPart = () => {
   const md = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Grid
@@ -136,7 +147,9 @@ function NavigationPart() {
             <Typography
               component="span"
               variant="text"
-              textTransform="uppercase"
+              // textTransform="uppercase"
+              fontFamily="Luxerie, sans-serif"
+              fontSize="1.2rem"
               sx={{ cursor: "pointer", color: "#fff" }}
             >
               {item.name}
@@ -146,7 +159,60 @@ function NavigationPart() {
       ))}
     </Grid>
   );
-}
+};
+
+const warrantiesButtons = [
+  {
+    image: SecuredPaymentIcon,
+    text: "Paiement sécurisé",
+  },
+  {
+    image: CreditCardIcon,
+    text: "Paiement par carte bancaire",
+  },
+  {
+    image: PaypalIcon,
+    text: "Paiement par PayPal",
+  },
+  {
+    image: QualityIcon,
+    text: "Un gage de qualité",
+  },
+];
+
+const Warranties = () => {
+  const md = useMediaQuery(theme.breakpoints.down("md"));
+  return (
+    <Stack
+      direction={md ? "column" : "row"}
+      width={"80%"}
+      maxWidth={{ lg: "650px", xl: "850px" }}
+      margin="4rem auto 2rem"
+      justifyContent="space-between"
+      gap={4}
+    >
+      {warrantiesButtons.map((warranty, key) => (
+        <Stack alignItems="center" textAlign="center">
+          <Image src={warranty.image} height="40%" width="40%" />
+          <Typography
+            component="div"
+            color="#fff"
+            fontFamily="Arial"
+            textTransform="uppercase"
+            fontSize=".75rem"
+            justifyContent="center"
+            alignItems="center"
+            alignContent="center"
+            display="flex"
+            sx={{ marginTop: ".5rem" }}
+          >
+            {warranty.text}
+          </Typography>
+        </Stack>
+      ))}
+    </Stack>
+  );
+};
 
 export default function Footer(props) {
   const { bgColor } = props;
@@ -177,6 +243,7 @@ export default function Footer(props) {
         <ContactPart />
         <NavigationPart />
       </Stack>
+      <Warranties />
     </Box>
   );
 }
