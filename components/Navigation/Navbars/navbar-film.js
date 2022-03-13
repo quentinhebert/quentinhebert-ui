@@ -16,7 +16,13 @@ export default function NavbarFilm() {
         <Toolbar>
           <LogoSwitchDropdown src="/logos/film-logo.png" />
           <Box component="div" sx={{ flexGrow: 1 }} />
-          <Button sx={{ backgroundColor: "#fff", color: "#87181f", '&:hover': {color: '#fff'} }}>
+          <Button
+            sx={{
+              backgroundColor: "#fff",
+              color: "#87181f",
+              "&:hover": { color: "#fff" },
+            }}
+          >
             Obtenir un devis
           </Button>
         </Toolbar>

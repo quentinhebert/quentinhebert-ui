@@ -2,25 +2,30 @@ import React from "react";
 import Head from "next/head";
 import NavbarFilm from "../../components/Navigation/Navbars/navbar-film";
 import Footer from "../../components/Navigation/Footers/Footer";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
-import { Box, Button, Typography, useMediaQuery } from "@mui/material";
-import theme from "../../config/theme";
-import styled from "styled-components";
-import Image from "next/image";
+import GearBand from "../../components/sections/gear-band";
+import BicolorTitleBand from "../../components/sections/bicolorTitleBand";
+import HeadBand from "../../components/sections/headBand";
 
 const gear = {
-  canon: [
-    "Canon 5D MkIII",
-    "Objectif Sigma 24-70mm f2.8",
-    "Objectif Sigma 70-200mm f2.8",
-  ],
-  fujifilm: ["Fujifilm X-T3", "Objectif Fujifilm 18-55mm f2.8-4"],
+  canon: {
+    bgImg: "url(/medias/gear-canon.png)",
+    items: [
+      "Canon 5D MkIII",
+      "Objectif Sigma 24-70mm f2.8",
+      "Objectif Sigma 70-200mm f2.8",
+    ],
+  },
+  fujifilm: {
+    bgImg: "url(/medias/gear-fujifilm.png)",
+    items: ["Fujifilm X-T3", "Objectif Fujifilm 18-55mm f2.8-4"],
+  },
+  ronin: {
+    bgImg: "url(/medias/gear-ronin.png)",
+    items: ["Ronin SC"],
+  },
 };
 
 export default function FilmHomePage() {
-  const md = useMediaQuery(theme.breakpoints.down("md"));
-  const lg = useMediaQuery(theme.breakpoints.down("lg"));
   return (
     <>
       <Head>
@@ -33,257 +38,36 @@ export default function FilmHomePage() {
 
       <NavbarFilm />
 
-      <Stack
-        height="50vh"
-        component="div"
-        sx={{
-          backgroundImage: "url(/medias/home-background1.jpg)",
-          backgroundSize: "cover",
-          backgroundPosition: "50% 70%",
-        }}
-      >
-        <Stack
-          component="div"
-          width="100%"
-          height="50vh"
-          backgroundColor="rgb(0,0,0,0.6)"
-          position="absolute"
-        />
-        <Stack
-          zIndex={10}
-          justifyContent="center"
-          alignItems="center"
-          height="50vh"
-        >
-          <Typography
-            color="#fff"
-            textTransform="uppercase"
-            fontFamily="Arial"
-            lineHeight="2rem"
-            letterSpacing="3px"
-            fontSize={md ? "1.5rem" : "2rem"}
-            padding="1rem"
-          >
-            Un savoir faire et une passion au service de vos projets
-          </Typography>
-          <Button
-            sx={{
-              padding: ".5rem 1rem",
-              margin: "1rem auto",
-              backgroundColor: "#fff",
-              color: "#000",
-              "&:hover": { color: "#fff" },
-            }}
-          >
-            Découvrez mon univers
-          </Button>
-        </Stack>
-      </Stack>
+      <HeadBand
+        bgImg="url(/medias/home-background1.jpg)"
+        mainText="Un savoir faire et une passion au service de vos projets"
+        buttonText="Découvrez mon univers"
+        buttonUrl="#"
+      />
 
-      {/* <Stack
-        position="relative"
-        direction={lg ? "column" : "row"}
-        justifyContent="center"
-        alignContent="center"
-        alignItems="center"
-      >
-        <Stack width="60%" margin="-3rem 0 -20%">
-          <Stack sx={{ transform: "rotate(-3deg) translate(-5%,2%)" }}>
-            <Avatar
-              alt="Quentin HEBERT"
-              src="/medias/quentin-avatar.jpg"
-              sx={{ width: "45%", height: "45%" }}
-              variant="square"
-            />
-          </Stack>
-          <Stack sx={{ transform: "rotate(11deg) translate(-6%, -86%)" }}>
-            <Avatar
-              alt="Quentin HEBERT"
-              src="/medias/quentin-avatar.jpg"
-              sx={{ width: "45%", height: "45%" }}
-              variant="square"
-            />
-          </Stack>
-        </Stack>
-        <Stack
-          position={md ? "" : "absolute"}
-          display="flex"
-          right="10%"
-          top="-10%"
-          width="31rem"
-        >
-          <Typography
-            component="H2"
-            backgroundColor="#87181f"
-            fontFamily="xhers, sans-serif"
-            textTransform="uppercase"
-            padding="0 2.5rem"
-            fontSize="3rem"
-            color="#fff"
-            fontStyle="italic"
-          >
-            Salut, moi c'est Quentin
-          </Typography>
-          <Typography
-            fontFamily="Arial"
-            marginTop="2rem"
-            letterSpacing={1}
-            lineHeight={1.25}
-            fontStyle="italic"
-            // fontWeight="bold"
-            fontSize="1.3rem"
-            textAlign="justify"
-            color="#87181f"
-          >
-            Je suis réalisateur, cadreur et monteur indépendant. Je réalise des
-            vidéos de tout types depuis maintenant une dizaine d'années.
-            Mariages, portraits, documentaires, films de fiction, clips
-            musicaux, publictés et films d'entreprise, j'accompagne mes clients
-            dans la plus grande transparence.
-          </Typography>
-        </Stack>
-      </Stack> */}
-
-      <Stack
-        justifyContent="center"
-        alignContent="center"
-        alignItems="center"
-        width="100%"
-        minHeight="200px"
-        direction="column"
-        backgroundColor="#000"
-        padding="1rem 0"
-      >
-        <Box
-          component="div"
-          width="100%"
-          color="#fff"
-          textTransform="uppercase"
-          letterSpacing="3px"
-          textAlign="center"
-        >
-          Tout savoir sur
-        </Box>
-        <Typography
-          component="H2"
-          textTransform="uppercase"
-          letterSpacing="5px"
-          fontSize="2rem"
-          textAlign="center"
-          color="#87181f"
-        >
-          mon matériel vidéo
-        </Typography>
-      </Stack>
-      <Stack
-        justifyContent="center"
-        alignContent="center"
-        alignItems="center"
-        width="100%"
-        minHeight="300px"
-        direction={md ? "column-reverse" : "row"}
-        backgroundColor="#000"
-        padding="1rem 0"
-      >
-        <Stack
-          justifyContent="center"
-          alignContent="center"
-          alignItems="center"
-          width="50%"
-          padding="2rem"
-        >
-          <Typography
-            component="H2"
-            color="#fff"
-            fontFamily="Arial"
-            textTransform="uppercase"
-            letterSpacing="3px"
-            margin="1rem 0"
-          >
-            Un boîtier réflexe professionel haut de gamme
-          </Typography>
-          <Typography
-            color="#fff"
-            fontFamily="Arial"
-            textTransform="uppercase"
-            letterSpacing="3px"
-            textAlign="left"
-          >
-            {gear.canon.map((canonItem) => {
-              return <Typography>- {canonItem}</Typography>;
-            })}
-          </Typography>
-        </Stack>
-        <Stack
-          justifyContent="center"
-          alignContent="center"
-          alignItems="center"
-          width={md ? "80%" : "50%"}
-          height={md ? "300px" : "400px"}
-          padding="2rem"
-          sx={{
-            backgroundImage: "url(/medias/gear-canon.png)",
-            backgroundPosition: "50%",
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-          }}
-        />
-      </Stack>
-
-      <Stack
-        justifyContent="center"
-        alignContent="center"
-        alignItems="center"
-        width="100%"
-        minHeight="300px"
-        direction={md ? "column" : "row"}
-        backgroundColor="#000"
-        padding="1rem 0"
-      >
-        <Stack
-          justifyContent="center"
-          alignContent="center"
-          alignItems="center"
-          width={md ? "80%" : "50%"}
-          height={md ? "300px" : "400px"}
-          padding="2rem"
-          sx={{
-            backgroundImage: "url(/medias/gear-fujifilm.png)",
-            backgroundPosition: "50%",
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-          }}
-        />
-        <Stack
-          justifyContent="center"
-          alignContent="center"
-          alignItems="center"
-          width="50%"
-          padding="2rem"
-        >
-          <Typography
-            component="H2"
-            color="#fff"
-            fontFamily="Arial"
-            textTransform="uppercase"
-            letterSpacing="3px"
-            margin="1rem 0"
-          >
-            Un boîtier hybride récent et polyvalent
-          </Typography>
-          <Typography
-            color="#fff"
-            fontFamily="Arial"
-            textTransform="uppercase"
-            letterSpacing="3px"
-            textAlign="left"
-          >
-            {gear.fujifilm.map((fujifilmItem) => {
-              return <Typography>- {fujifilmItem}</Typography>;
-            })}
-          </Typography>
-        </Stack>
-      </Stack>
+      <BicolorTitleBand
+        mainText="mon matériel vidéo"
+        mainColor="#87181f"
+        secondaryText="Tout savoir sur"
+        secondaryColor="#fff"
+        bgColor="#000"
+      />
+      <GearBand
+        reverse={true}
+        gear={gear.canon}
+        mainText={"Un boîtier réflexe professionel haut de gamme"}
+      />
+      <GearBand
+        reverse={false}
+        gear={gear.fujifilm}
+        mainText={"Un boîtier hybride Récent et polyvalent"}
+      />
+      <GearBand
+        reverse={true}
+        gear={gear.ronin}
+        mainText={"Un stabilisateur à moteurs 3-axes"}
+        portrait
+      />
 
       <Footer bgColor="#8F3731" />
     </>
