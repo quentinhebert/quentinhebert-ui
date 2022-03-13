@@ -14,9 +14,9 @@ import {
 import theme from "../config/theme";
 import photo1 from "../public/medias/home-photo1.jpg";
 import photo2 from "../public/medias/home-photo2.jpg";
-import VideocamIcon from '@mui/icons-material/Videocam';
-import PersonalVideoIcon from '@mui/icons-material/PersonalVideo';
-import Footer from '../components/Navigation/Footers/Footer';
+import VideocamIcon from "@mui/icons-material/Videocam";
+import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
+import Footer from "../components/Navigation/Footers/Footer";
 
 const images = [
   {
@@ -46,6 +46,8 @@ export default function Home() {
           name="description"
           content="Société de développeurs et filmmakers"
         />
+        <link href="http://fonts.cdnfonts.com/css/xhers" rel="stylesheet" />
+        <link href="http://fonts.cdnfonts.com/css/luxerie" rel="stylesheet" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
@@ -58,7 +60,9 @@ export default function Home() {
         <Typography
           component="H1"
           variant="text"
-          sx={{ textTransform: "uppercase" }}
+          fontFamily="Arial, sans-serif"
+          fontWeight="light"
+          textTransform="uppercase"
         >
           Que cherchez-vous ?
         </Typography>
