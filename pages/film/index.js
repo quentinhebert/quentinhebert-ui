@@ -21,7 +21,17 @@ const gear = {
   },
   ronin: {
     bgImg: "url(/medias/gear-ronin.png)",
-    items: ["Ronin SC"],
+    items: ["DJI Ronin SC"],
+  },
+  sound: {
+    bgImg: "url(/medias/gear-sound.png)",
+    items: [
+      "Zoom H4n Pro",
+      "Zoom H4n",
+      "Kit micros cravate Synco G1A2 HF",
+      "Micro Prodipe Pro ST-1",
+      "Perche Rode 3 mètres",
+    ],
   },
 };
 
@@ -67,6 +77,19 @@ export default function FilmHomePage() {
         gear={gear.ronin}
         mainText={"Un stabilisateur à moteurs 3-axes"}
         portrait
+      />
+
+      <BicolorTitleBand
+        mainText="mon matériel de prise de son"
+        mainColor="#87181f"
+        secondaryText="Tout savoir sur"
+        secondaryColor="#fff"
+        bgColor="#000"
+      />
+      <GearBand
+        reverse={false}
+        gear={gear.sound}
+        mainText={"Un enregistreur numérique et des micros-cravate"}
       />
 
       <Footer bgColor="#8F3731" />
