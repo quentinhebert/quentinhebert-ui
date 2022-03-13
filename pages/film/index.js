@@ -4,7 +4,7 @@ import NavbarFilm from "../../components/Navigation/Navbars/navbar-film";
 import Footer from "../../components/Navigation/Footers/Footer";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
-import { Button, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import theme from "../../config/theme";
 import styled from "styled-components";
 import Image from "next/image";
@@ -149,8 +149,39 @@ export default function FilmHomePage() {
         alignContent="center"
         alignItems="center"
         width="100%"
+        minHeight="200px"
+        direction="column"
+        backgroundColor="#000"
+        padding="1rem 0"
+      >
+        <Box
+          component="div"
+          width="100%"
+          color="#fff"
+          textTransform="uppercase"
+          letterSpacing="3px"
+          textAlign="center"
+        >
+          Tout savoir sur
+        </Box>
+        <Typography
+          component="H2"
+          textTransform="uppercase"
+          letterSpacing="5px"
+          fontSize="2rem"
+          textAlign="center"
+          color="#87181f"
+        >
+          mon matériel vidéo
+        </Typography>
+      </Stack>
+      <Stack
+        justifyContent="center"
+        alignContent="center"
+        alignItems="center"
+        width="100%"
         minHeight="300px"
-        direction="row"
+        direction={md ? "column-reverse" : "row"}
         backgroundColor="#000"
         padding="1rem 0"
       >
@@ -187,8 +218,8 @@ export default function FilmHomePage() {
           justifyContent="center"
           alignContent="center"
           alignItems="center"
-          width="50%"
-          height="400px"
+          width={md ? "80%" : "50%"}
+          height={md ? "300px" : "400px"}
           padding="2rem"
           sx={{
             backgroundImage: "url(/medias/gear-canon.png)",
@@ -205,7 +236,7 @@ export default function FilmHomePage() {
         alignItems="center"
         width="100%"
         minHeight="300px"
-        direction="row"
+        direction={md ? "column" : "row"}
         backgroundColor="#000"
         padding="1rem 0"
       >
@@ -213,8 +244,8 @@ export default function FilmHomePage() {
           justifyContent="center"
           alignContent="center"
           alignItems="center"
-          width="50%"
-          height="400px"
+          width={md ? "80%" : "50%"}
+          height={md ? "300px" : "400px"}
           padding="2rem"
           sx={{
             backgroundImage: "url(/medias/gear-fujifilm.png)",
