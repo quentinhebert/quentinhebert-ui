@@ -45,9 +45,11 @@ export default function TwoRowSquareGallery(props) {
                   textTransform: "uppercase",
                   transition: "all 0.2s",
                   "& .MuiImageListItemBar-title": {
+                    whiteSpace: "normal",
                     fontSize: ".6rem",
                     fontWeight: "300",
                     letterSpacing: "2px",
+                    lineHeight: "1rem",
                     marginTop: "4rem",
                   },
                   "&:hover": {

@@ -66,6 +66,7 @@ export default function FilmHomePage() {
       <NavbarFilm />
       <HeadBand
         bgImg="url(/medias/home-background1.jpg)"
+        bgPositionY={19}
         mainText="Un savoir faire et une passion au service de vos projets"
         buttonText="Découvrez mon univers"
         buttonUrl="#"

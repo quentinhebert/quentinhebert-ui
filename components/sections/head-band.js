@@ -5,8 +5,15 @@ import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import theme from "../../config/theme";
 
 export default function HeadBand(props) {
-  const { bgImg, mainText, buttonText, buttonUrl, scrollTo, refForScroll } =
-    props;
+  const {
+    bgImg,
+    mainText,
+    buttonText,
+    buttonUrl,
+    scrollTo,
+    refForScroll,
+    bgPositionY,
+  } = props;
 
   const [showScrollToTopBtn, setShowScrollToTopBtn] = React.useState(false);
   useScrollPosition(({ prevPos, currPos }) => {
@@ -24,7 +31,7 @@ export default function HeadBand(props) {
       sx={{
         backgroundImage: bgImg,
         backgroundSize: "cover",
-        backgroundPosition: "50% 70%",
+        backgroundPosition: `50% ${bgPositionY ? `${bgPositionY}%` : "70%"}`,
       }}
     >
       <Stack
