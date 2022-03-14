@@ -38,6 +38,13 @@ export default function GearBand(props) {
           textTransform="uppercase"
           letterSpacing="3px"
           margin="1rem 0"
+          textAlign="center"
+          fontSize={{
+            xs: "0.75rem",
+            sm: "0.85rem",
+            md: "0.85rem",
+            lg: "1.1rem",
+          }}
         >
           {mainText}
         </Typography>
@@ -49,7 +56,18 @@ export default function GearBand(props) {
           textAlign="left"
         >
           {gear.items.map((item) => {
-            return <Typography>- {item}</Typography>;
+            return (
+              <Typography
+                fontSize={{
+                  xs: "0.5rem",
+                  sm: "0.75rem",
+                  md: "0.75rem",
+                  lg: "1rem",
+                }}
+              >
+                - {item}
+              </Typography>
+            );
           })}
         </Typography>
       </Stack>
