@@ -28,11 +28,11 @@ export default function GearBand(props) {
         justifyContent="center"
         alignContent="center"
         alignItems="center"
-        width="50%"
-        padding="2rem"
+        width={md ? "90%" : "50%"}
+        padding={md ? ".5rem" : "2rem"}
       >
         <Typography
-          component="H2"
+          component="h2"
           color="#fff"
           fontFamily="Arial"
           textTransform="uppercase"
@@ -59,7 +59,7 @@ export default function GearBand(props) {
         alignItems="center"
         width={md ? "80%" : "50%"}
         height={portrait ? (md ? "400px" : "600px") : md ? "300px" : "400px"}
-        padding="2rem"
+        padding={md ? ".5rem" : "2rem"}
         sx={{
           backgroundImage: gear.bgImg,
           backgroundPosition: "50%",

@@ -20,6 +20,8 @@ export default function NavbarFilm() {
             sx={{
               backgroundColor: "#fff",
               color: "#87181f",
+              letterSpacing: "1px",
+              padding: ".5rem 1rem",
               "&:hover": { color: "#fff" },
             }}
           >

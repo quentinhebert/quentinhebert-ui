@@ -147,9 +147,8 @@ const NavigationPart = () => {
             <Typography
               component="span"
               variant="text"
-              // textTransform="uppercase"
-              fontFamily="Luxerie, sans-serif"
-              fontSize="1.2rem"
+              textTransform="uppercase"
+              fontSize="1rem"
               sx={{ cursor: "pointer", color: "#fff" }}
             >
               {item.name}
@@ -214,6 +213,17 @@ const Warranties = () => {
   );
 };
 
+const Credits = () => {
+  return (
+    <Stack alignItems="center" textAlign="center">
+      <Typography fontSize="0.75rem" color="#fff">
+        ©Polygones / 2022 – Site développé par Quentin HEBERT -{" "}
+        <Link href="/about-website">En savoir plus</Link>
+      </Typography>
+    </Stack>
+  );
+};
+
 export default function Footer(props) {
   const { bgColor } = props;
   const md = useMediaQuery(theme.breakpoints.down("md"));
@@ -244,6 +254,7 @@ export default function Footer(props) {
         <NavigationPart />
       </Stack>
       <Warranties />
+      <Credits />
     </Box>
   );
 }

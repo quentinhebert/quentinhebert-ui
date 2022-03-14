@@ -20,6 +20,8 @@ export default function Navbar() {
             sx={{
               backgroundColor: "#fff",
               color: "#000",
+              letterSpacing: "1px",
+              padding: ".5rem 1rem",
               "&:hover": { color: "#fff" },
             }}
           >
