@@ -139,6 +139,7 @@ const NavigationPart = () => {
       columns={2}
       justifyContent="center"
       alignItems="center"
+      fontFamily="Arial"
       sx={{ textAlign: "center", width: { md: "50%", lg: "30rem" } }}
     >
       {navigationButtons.map((item, key) => (
