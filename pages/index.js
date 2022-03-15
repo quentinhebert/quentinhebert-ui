@@ -39,8 +39,6 @@ export default function Home() {
           name="description"
           content="Société de développeurs et filmmakers"
         />
-        <link href="http://fonts.cdnfonts.com/css/xhers" rel="stylesheet" />
-        <link href="http://fonts.cdnfonts.com/css/luxerie" rel="stylesheet" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
