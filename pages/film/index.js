@@ -59,8 +59,6 @@ export default function FilmHomePage() {
         <title>Polygones | FILM</title>
         <meta name="description" content="Filmmaker" />
         <link rel="icon" href="/favicon.ico" />
-        <link href="http://fonts.cdnfonts.com/css/xhers" rel="stylesheet" />
-        <link href="http://fonts.cdnfonts.com/css/luxerie" rel="stylesheet" />
       </Head>
       <Stack ref={topRef} />
       <NavbarFilm />

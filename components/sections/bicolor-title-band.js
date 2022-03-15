@@ -22,6 +22,7 @@ export default function BicolorTitleBand(props) {
         textTransform="uppercase"
         letterSpacing="3px"
         textAlign="center"
+        fontFamily="Arial"
       >
         {secondaryText}
       </Box>

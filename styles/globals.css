@@ -19,6 +19,21 @@ body {
     url("https://fonts.cdnfonts.com/s/74329/Xhers Regular-Italic.woff")
       format("woff");
 }
+@font-face {
+  font-family: "Luxerie";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Luxerie"),
+    url("https://fonts.cdnfonts.com/s/30507/Luxerie.woff") format("woff");
+}
+@font-face {
+  font-family: "Luxerie";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Luxerie"),
+    url("https://fonts.cdnfonts.com/s/30507/Luxerie Display.woff")
+      format("woff");
+}
 
 a {
   color: inherit;
