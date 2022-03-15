@@ -40,6 +40,7 @@ export default function Home() {
           content="Société de développeurs et filmmakers"
         />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="httpcs-site-verification" content="HTTPCS3869HTTPCS" />
       </Head>
       <Navbar />
 
