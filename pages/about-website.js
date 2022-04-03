@@ -7,8 +7,8 @@ import photo2 from "../public/medias/home-photo2.jpg";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
 import Footer from "../components/Navigation/Footers/Footer";
-import BicolorTitleBand from "../components/sections/bicolor-title-band";
-import ImgTextBand from "../components/sections/img-text-band";
+import BicolorTitleBand from "../components/Sections/bicolor-title-band";
+import ImgTextBand from "../components/Sections/img-text-band";
 
 const images = [
   {
