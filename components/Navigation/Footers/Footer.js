@@ -13,15 +13,17 @@ import PaypalIcon from "../../../public/medias/warranties/paypal-icon.svg";
 import CreditCardIcon from "../../../public/medias/warranties/credit-card-icon.svg";
 import QualityIcon from "../../../public/medias/warranties/quality-icon.svg";
 
+/********** CONSTANTES **********/
 const logos = [
   { url: "/", img: "/logos/logo.png" },
   { url: "/film", img: "/logos/film-logo.png" },
   { url: "/dev", img: "/logos/dev-logo.png" },
 ];
 
-const Logos = (logo) => {
+/********** SUB-COMPONENTS **********/
+const Logos = (logo, key) => {
   return (
-    <Link href={logo.url} passHref>
+    <Link key={key} href={logo.url} passHref>
       <Button sx={{ "&:hover": { backgroundColor: "transparent" } }}>
         <Image src={logo.img} width="100%" height="100%" />
       </Button>
@@ -192,7 +194,7 @@ const Warranties = () => {
       gap={4}
     >
       {warrantiesButtons.map((warranty, key) => (
-        <Stack alignItems="center" textAlign="center">
+        <Stack alignItems="center" textAlign="center" key={key}>
           <Image src={warranty.image} height="40%" width="40%" />
           <Typography
             component="div"
@@ -247,8 +249,8 @@ export default function Footer(props) {
         gap={4}
       >
         <Stack direction="row" justifyContent="center">
-          {logos.map((logo) => {
-            return Logos(logo);
+          {logos.map((logo, key) => {
+            return Logos(logo, key);
           })}
         </Stack>
         <ContactPart />

@@ -11,9 +11,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function TwoRowSquareGallery(props) {
+  /********** PROPS **********/
   const { images } = props;
+
+  /********** STYLE **********/
   const sm = useMediaQuery(theme.breakpoints.down("sm"));
   const md = useMediaQuery(theme.breakpoints.down("md"));
+
+  /********** RENDER **********/
   return (
     <Box
       display={"flex"}
@@ -25,15 +30,14 @@ export default function TwoRowSquareGallery(props) {
       <ImageList
         cols={sm ? 1 : 2}
         gap={15}
-        rowHeight={md ? "600px" : "800px"}
         sx={{
           width: { xs: "70%", sm: "70%", md: "70%" },
           maxWidth: { lg: "880px", xl: "1050px" },
         }}
       >
         {images.map((item, key) => (
-          <Link href={item.url}>
-            <ImageListItem key={key} sx={{ "& :hover": { cursor: "pointer" } }}>
+          <Link key={key} href={item.url}>
+            <ImageListItem sx={{ "& :hover": { cursor: "pointer" } }}>
               <Image src={item.image} alt={item.alt} />
               <ImageListItemBar
                 title={item.jobs}
