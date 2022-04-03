@@ -4,7 +4,7 @@ const mainTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#caab57",
+      main: "#fff",
       contrastText: "#272727",
     },
     secondary: {
@@ -14,6 +14,7 @@ const mainTheme = createTheme({
       main: "#272727",
       tableEven: "#424242",
       paper: "#272727",
+      alert: "rgb(255, 226, 183)",
     },
     notification: {
       main: "rgb(158, 218, 243)",
@@ -29,22 +30,29 @@ const mainTheme = createTheme({
   typography: {
     fontFamily: "Arial",
     h1: {
-      fontFamily: "Cardo",
+      fontFamily: "Arial",
     },
     h2: {
-      fontFamily: "Cardo",
+      fontFamily: "Arial",
     },
     h3: {
-      fontFamily: "Cardo",
+      fontFamily: "Arial",
     },
     h4: {
-      fontFamily: "Cardo",
+      fontFamily: "Arial",
     },
     h5: {
-      fontFamily: "Cardo",
+      fontFamily: "Arial",
     },
     h6: {
-      fontFamily: "Cardo",
+      fontFamily: "Arial",
+    },
+  },
+  alert: {
+    title: {
+      info: "#4fc3f7",
+      warning: "#ffb74d",
+      success: "#81c784",
     },
   },
   components: {
