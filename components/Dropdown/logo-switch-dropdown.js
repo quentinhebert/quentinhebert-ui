@@ -5,13 +5,12 @@ import MenuItem from "@mui/material/MenuItem";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import Image from "next/image";
 import Link from "next/link";
-import { Typography } from "@mui/material";
 
 export default function LogoSwitchDropdown(props) {
   const { src } = props;
   const menuItems = [
-    { logo: "/logos/dev-logo.png", domain: "dev", color: "#004fa0" },
-    { logo: "/logos/film-logo.png", domain: "film", color: "#87181f" },
+    { logo: "/logos/dev-logo-band.png", domain: "dev", color: "#004fa0" },
+    { logo: "/logos/film-logo-band.png", domain: "film", color: "#87181f" },
   ];
   return (
     <PopupState variant="popover" popupId="popup-menu">
@@ -33,25 +32,18 @@ export default function LogoSwitchDropdown(props) {
           >
             <Image src={src} width="60rem" height="60rem" />
           </Button>
-          <Menu {...bindMenu(popupState)}>
-            {menuItems.map((menuItem) => {
+          <Menu {...bindMenu(popupState)} sx={{ padding: 0 }}>
+            {menuItems.map((menuItem, key) => {
               return (
-                <Link href={`/${menuItem.domain}`} passHref>
+                <Link key={key} href={`/${menuItem.domain}`} passHref>
                   <MenuItem
                     onClick={popupState.close}
-                    sx={{ backgroundColor: menuItem.color, padding: "1rem" }}
+                    sx={{
+                      backgroundColor: menuItem.color,
+                      padding: ".5rem 1rem",
+                    }}
                   >
-                    <>
-                      <Image src={menuItem.logo} width="50rem" height="50rem" />
-                      <Typography
-                        variant="text"
-                        textAlign="center"
-                        textTransform="uppercase"
-                        sx={{ marginLeft: 2, color: '#fff' }}
-                      >
-                        Visiter Polygones / {menuItem.domain}
-                      </Typography>
-                    </>
+                    <Image src={menuItem.logo} width="50rem" height="25rem" />
                   </MenuItem>
                 </Link>
               );
