@@ -7,7 +7,7 @@ import photo2 from "../public/medias/home-photo2.jpg";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
 import Footer from "../components/Navigation/Footers/Footer";
-import TwoRowSquareGallery from "../components/Sections/two-row-square-gallery";
+import TwoRowSquareGallery from "../components/sections/two-row-square-gallery";
 
 const images = [
   {

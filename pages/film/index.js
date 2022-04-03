@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import NavbarFilm from "../../components/Navigation/Navbars/navbar-film";
 import Footer from "../../components/Navigation/Footers/Footer";
-import GearBand from "../../components/Sections/gear-band";
-import BicolorTitleBand from "../../components/Sections/bicolor-title-band";
-import HeadBand from "../../components/Sections/head-band";
-import CommercialBand from "../../components/Sections/commercial-band";
-import PortfolioFilm from "../../components/Sections/portfolio.js";
+import GearBand from "../../components/sections/gear-band";
+import BicolorTitleBand from "../../components/sections/bicolor-title-band";
+import HeadBand from "../../components/sections/head-band";
+import CommercialBand from "../../components/sections/commercial-band";
+import PortfolioFilm from "../../components/sections/portfolio.js";
 import { Stack } from "@mui/material";
 import ScrollToTopBtn from "../../components/Navigation/scroll-to-top";
 
