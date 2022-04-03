@@ -269,4 +269,4 @@ function SignUpModal(props) {
 }
 
 /********** EXPORT **********/
-export default withSnacks(SignUpModal);
+export default SignUpModal;

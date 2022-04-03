@@ -6,12 +6,20 @@ import { ModalTitle } from "./Modal-Components/modal-title";
 import dynamic from "next/dynamic";
 import { ModalActionButtons } from "./Modal-Components/modal-action-buttons";
 import AlertInfo from "../Other/alert-info";
+import withSnacks from "../hocs/withSnacks";
 const SignUpModal = dynamic(() => import("./signup-modal"));
 
 function LoginModal(props) {
   /********** PROPS **********/
-  const { openLogin, handleOpenLogin, handleCloseLogin, handleSetTokens } =
-    props;
+  const {
+    openLogin,
+    handleOpenLogin,
+    handleCloseLogin,
+    handleSetTokens,
+    setSeverity,
+    setOpenSnackBar,
+    setMessageSnack,
+  } = props;
 
   /********** USE-STATES **********/
   const [passwordInput, setPasswordInput] = React.useState("");
@@ -47,15 +55,11 @@ function LoginModal(props) {
     }
   };
 
-  const handleCloseSignUp = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleCloseSignUp = () => {
     setOpenSignUp(false);
   };
 
-  const handleOpenSignUp = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleOpenSignUp = () => {
     setOpenSignUp(true);
     handleCloseLogin();
   };
@@ -117,6 +121,9 @@ function LoginModal(props) {
           openSignUp={openSignUp}
           handleCloseSignUp={handleCloseSignUp}
           handleOpenLogin={handleOpenLogin}
+          setSeverity={setSeverity}
+          setOpenSnackBar={setOpenSnackBar}
+          setMessageSnack={setMessageSnack}
         />
       ) : null}
     </>
@@ -124,4 +131,4 @@ function LoginModal(props) {
 }
 
 /********** EXPORT **********/
-export default LoginModal;
+export default withSnacks(LoginModal);
