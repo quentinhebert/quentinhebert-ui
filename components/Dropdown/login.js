@@ -15,8 +15,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import PersonIcon from "@mui/icons-material/Person";
 import WorkIcon from "@mui/icons-material/Work";
 import EmailIcon from "@mui/icons-material/Email";
-import dynamic from "next/dynamic";
-const LoginModal = dynamic(() => import("../Modals/login-modal"));
+import LoginModal from "../Modals/login-modal";
 
 function Login(props) {
   /********** PROPS **********/
@@ -133,14 +132,12 @@ function Login(props) {
         Se connecter
       </Button>
 
-      {openLogin ? (
-        <LoginModal
-          openLogin={openLogin}
-          handleOpenLogin={handleOpenLogin}
-          handleCloseLogin={handleCloseLogin}
-          handleSetTokens={handleSetTokens}
-        />
-      ) : null}
+      <LoginModal
+        openLogin={openLogin}
+        handleOpenLogin={handleOpenLogin}
+        handleCloseLogin={handleCloseLogin}
+        handleSetTokens={handleSetTokens}
+      />
     </>
   );
 }
