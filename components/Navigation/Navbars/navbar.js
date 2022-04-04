@@ -6,12 +6,20 @@ import Button from "@mui/material/Button";
 import LogoSwitchDropdown from "../../Dropdown/logo-switch-dropdown";
 import Login from "../../Dropdown/login";
 
-export default function Navbar() {
+export default function Navbar(props) {
+  const { dev, film } = props;
+
+  // Define main color of navbar
+  let mainColor;
+  if (dev) mainColor = "#004fa0";
+  else if (film) mainColor = "#87181f";
+  else mainColor = "#000";
+
   return (
     <AppBar
       position="sticky"
       component="nav"
-      sx={{ backgroundColor: "#000", backgroundImage: "none" }}
+      sx={{ backgroundColor: mainColor, backgroundImage: "none" }}
     >
       <Box sx={{ flexGrow: 2 }}>
         <Toolbar>
@@ -20,10 +28,11 @@ export default function Navbar() {
           <Button
             sx={{
               backgroundColor: "#fff",
-              color: "#000",
+              color: mainColor,
               letterSpacing: "1px",
               padding: ".5rem 1rem",
               margin: ".5rem",
+              border: "solid 1px",
               "&:hover": { color: "#fff" },
             }}
           >

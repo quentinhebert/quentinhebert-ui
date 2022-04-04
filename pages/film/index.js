@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
-import NavbarFilm from "../../components/Navigation/Navbars/navbar-film";
+import Navbar from "../../components/Navigation/Navbars/navbar";
 import Footer from "../../components/Navigation/Footers/Footer";
 import GearBand from "../../components/sections/gear-band";
 import BicolorTitleBand from "../../components/sections/bicolor-title-band";
@@ -61,7 +61,7 @@ export default function FilmHomePage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Stack ref={topRef} />
-      <NavbarFilm />
+      <Navbar film />
       <HeadBand
         bgImg="url(/medias/home-background1.jpg)"
         bgPositionY={19}
