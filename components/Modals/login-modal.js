@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Dialog, TextField, Stack, useMediaQuery } from "@mui/material";
+import {
+  Dialog,
+  TextField,
+  Stack,
+  useMediaQuery,
+  Typography,
+  Link,
+} from "@mui/material";
 import apiCall from "../../services/apiCalls/apiCall";
 import theme from "../../config/theme";
 import { ModalTitle } from "./Modal-Components/modal-title";
@@ -8,6 +15,9 @@ import { ModalActionButtons } from "./Modal-Components/modal-action-buttons";
 import AlertInfo from "../Other/alert-info";
 import withSnacks from "../hocs/withSnacks";
 const SignUpModal = dynamic(() => import("./signup-modal"));
+const PasswordForgottenModal = dynamic(() =>
+  import("./password-forgotten-modal")
+);
 
 function LoginModal(props) {
   /********** PROPS **********/
@@ -25,6 +35,8 @@ function LoginModal(props) {
   const [passwordInput, setPasswordInput] = React.useState("");
   const [emailInput, setEmailInput] = React.useState("");
   const [openSignUp, setOpenSignUp] = React.useState(false);
+  const [openPasswordForgotten, setOpenPasswordForgotten] =
+    React.useState(false);
   const [showAlert, setShowAlert] = React.useState({
     show: false,
     severity: null,
@@ -53,6 +65,15 @@ function LoginModal(props) {
         title: "Mauvais mot de passe ou e-mail",
       });
     }
+  };
+
+  const handleClickPasswordForgotten = () => {
+    setOpenPasswordForgotten(true);
+    handleCloseLogin();
+  };
+
+  const handleClosePasswordForgotten = () => {
+    setOpenPasswordForgotten(false);
   };
 
   const handleCloseSignUp = () => {
@@ -97,6 +118,16 @@ function LoginModal(props) {
             value={passwordInput}
             onChange={(e) => setPasswordInput(e.target.value)}
           />
+
+          <Typography variant="body2" component="body2">
+            <Link
+              sx={{ cursor: "pointer" }}
+              onClick={handleClickPasswordForgotten}
+            >
+              J'ai oublié mon mot de passe
+            </Link>
+          </Typography>
+
           {showAlert.show ? <AlertInfo content={showAlert} /> : null}
         </Stack>
 
@@ -124,6 +155,13 @@ function LoginModal(props) {
           setSeverity={setSeverity}
           setOpenSnackBar={setOpenSnackBar}
           setMessageSnack={setMessageSnack}
+        />
+      ) : null}
+
+      {openPasswordForgotten ? (
+        <PasswordForgottenModal
+          openPasswordForgotten={openPasswordForgotten}
+          handleClosePasswordForgotten={handleClosePasswordForgotten}
         />
       ) : null}
     </>
