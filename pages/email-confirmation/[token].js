@@ -1,15 +1,14 @@
-import { Stack, Typography, TextField, Paper, Button } from "@mui/material";
+import { Stack, Typography, Paper, Button } from "@mui/material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import withSnacks from "../../components/hocs/withSnacks";
 import Footer from "../../components/Navigation/Footers/Footer";
 import Navbar from "../../components/Navigation/Navbars/navbar";
 import AlertInfo from "../../components/Other/alert-info";
-import { BottomButtons } from "../../components/Other/bottom-buttons";
+import { errorCodes } from "../../config/errorCodes";
 import apiCall from "../../services/apiCalls/apiCall";
-import { checkPassword } from "../../services/utils";
 
 const Custom401 = dynamic(() => import("../401"));
 
@@ -24,10 +23,11 @@ function EmailConfirmationPage(props) {
   /********** USE-STATES **********/
   const [userId, setUserId] = useState(null);
   const [emailConfirmed, setEmailConfirmed] = useState(false);
-  const [showAlert, setShowAlert] = useState({
+  const [error, setError] = useState({
     show: false,
-    type: null,
-    text: null,
+    severity: "warning",
+    text: "L'accès demandé n'est pas autorisé.",
+    title: "Token invalide",
   });
 
   /********** INITIAL CHECK **********/
@@ -36,8 +36,14 @@ function EmailConfirmationPage(props) {
     (async () => {
       if (token) {
         const res = await apiCall.unauthenticated.emailConfirm(token);
-        if (!(res && res.ok)) return null;
-        setEmailConfirmed(true);
+        if (!res) setError({ ...error, show: true });
+
+        if (res.status && res.status === 204) setEmailConfirmed(true);
+        else {
+          const jsonRes = await res.json();
+          if (jsonRes.code === errorCodes.EMAIL_CONFIRM_INVALID_TOKEN)
+            return setError({ ...error, show: true });
+        }
       }
     })();
   }, [token]);
@@ -80,6 +86,7 @@ function EmailConfirmationPage(props) {
                 Encore quelques instants svp...
               </Typography>
             )}
+
             {emailConfirmed ? (
               <>
                 <Typography variant="body1">
@@ -96,6 +103,8 @@ function EmailConfirmationPage(props) {
                   </Button>
                 </Stack>
               </>
+            ) : error.show ? (
+              <AlertInfo content={error} />
             ) : (
               <Typography variant="body1">
                 Un peu de patience... Nous tentons de confirmer ton adresse
