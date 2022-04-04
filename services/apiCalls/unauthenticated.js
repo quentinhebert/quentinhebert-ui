@@ -1,4 +1,5 @@
 import { defaultConfig } from "../../config/defaultConfig";
+import { getFreshToken } from "../utils";
 
 const unauthenticated = {
   login: async ({ email, password }) => {
@@ -66,17 +67,14 @@ const unauthenticated = {
       console.error(error);
     }
   },
-  /* Try to access email-confirmation page with link */
-  emailConfirmationAccess: async ({ token }) => {
+  /* Try to access email-confirmation page with link and updates DB email_confirmed=true */
+  emailConfirm: async (token) => {
     try {
-      const body = {
-        token: token,
-      };
-      return await fetch(`${defaultConfig.apiUrl}/email-confirmation-access`, {
-        method: "POST",
-        body: JSON.stringify(body),
+      return await fetch(`${defaultConfig.apiUrl}/email-confirmation`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
     } catch (error) {
