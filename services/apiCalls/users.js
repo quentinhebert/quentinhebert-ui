@@ -58,6 +58,21 @@ const users = {
       console.log(err);
     }
   },
+  resendConfirmEmail: async (token) => {
+    try {
+      const payload = { token };
+      return await fetch(`${defaultConfig.apiUrl}/users/resend-confirm-email`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };
 
 export default users;
