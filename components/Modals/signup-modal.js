@@ -15,7 +15,7 @@ import { USERTYPES } from "../../enums/userTypes";
 import { ModalTitle } from "./Modal-Components/modal-title";
 import withSnacks from "../hocs/withSnacks";
 import { ModalActionButtons } from "./Modal-Components/modal-action-buttons";
-import { checkPhone, checkEmail } from "../../services/utils";
+import { checkPhone, checkEmail, checkPassword } from "../../services/utils";
 import AlertInfo from "../Other/alert-info";
 
 function SignUpModal(props) {
@@ -54,6 +54,9 @@ function SignUpModal(props) {
     text: null,
     title: null,
   });
+  const passwordError =
+    signupErrors.password ||
+    (userData.password.trim() !== "" && !checkPassword(userData.password));
 
   /********** FUNCTIONS **********/
   const handleChange = (attribute) => (event) => {
@@ -121,7 +124,11 @@ function SignUpModal(props) {
     else localErrors.phone = false;
 
     // Check password
-    if (!userData.password || userData.password.trim() === "")
+    if (
+      !userData.password ||
+      userData.password.trim() === "" ||
+      !checkPassword(userData.password)
+    )
       localErrors.password = true;
     else localErrors.password = false;
 
@@ -243,8 +250,11 @@ function SignUpModal(props) {
           sx={{ width: "calc(100% - 3rem)" }}
           value={userData.password}
           onChange={handleChange("password")}
-          error={signupErrors.password}
-          helperText={signupErrors.password && "Problème avec ce champ"}
+          error={passwordError}
+          helperText={
+            passwordError &&
+            "Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial"
+          }
         />
         <FormGroup sx={{ width: "calc(100% - 3rem)", margin: "0.5rem auto" }}>
           <FormControlLabel

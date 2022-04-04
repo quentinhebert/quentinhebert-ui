@@ -47,3 +47,10 @@ export function checkPhone(phone) {
   const regex = RegExp(/^(?:(?:\+|00)33|0|33)\s*[1-9](?:[\s.-]*\d{2}){4}$/gm);
   return regex.test(phone);
 }
+
+export function checkPassword(password) {
+  const regex = RegExp(
+    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/gm
+  );
+  return regex.test(password);
+}

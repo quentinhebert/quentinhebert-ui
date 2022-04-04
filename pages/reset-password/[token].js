@@ -9,6 +9,7 @@ import Navbar from "../../components/Navigation/Navbars/navbar";
 import AlertInfo from "../../components/Other/alert-info";
 import { BottomButtons } from "../../components/Other/bottom-buttons";
 import apiCall from "../../services/apiCalls/apiCall";
+import { checkPassword } from "../../services/utils";
 
 const Custom401 = dynamic(() => import("../401"));
 
@@ -53,6 +54,8 @@ function ResetPassordPage(props) {
   /********** FUNCTIONS **********/
   const resetPassword = async () => {
     if (!userId && !token) return null;
+    if (!checkPassword(password)) return null;
+    if (password !== passwordConfirmation) return null;
     const res = await apiCall.unauthenticated.passwordReset({
       token,
       password,
@@ -130,14 +133,24 @@ function ResetPassordPage(props) {
                   sx={{ width: "100%" }}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  error={!checkPassword(password)}
+                  helperText={
+                    !checkPassword(password) &&
+                    "Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial"
+                  }
                 />
                 <TextField
                   required
-                  label="Répétez le mot de passe"
+                  label="Répéter le mot de passe"
                   color="primary"
                   sx={{ width: "100%" }}
                   value={passwordConfirmation}
                   onChange={(e) => setPasswordConfirmation(e.target.value)}
+                  error={password !== passwordConfirmation}
+                  helperText={
+                    !checkPassword(password) &&
+                    "Les deux mots de passe ne correspondent pas"
+                  }
                 />
                 {showAlert.show ? <AlertInfo content={showAlert} /> : null}
                 <BottomButtons
