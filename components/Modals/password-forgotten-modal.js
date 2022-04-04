@@ -7,10 +7,11 @@ import { ModalTitle } from "./Modal-Components/modal-title";
 
 function PasswordForgottenModal(props) {
   /********** PROPS **********/
-  const { openPasswordForgotten, handleClosePasswordForgotten } = props;
+  const { openPasswordForgotten, handleClosePasswordForgotten, defaultEmail } =
+    props;
 
   /********** USE-STATES **********/
-  const [emailInput, setEmailInput] = React.useState("");
+  const [emailInput, setEmailInput] = React.useState(defaultEmail || "");
   const [showAlert, setShowAlert] = React.useState({
     show: false,
     severity: null,

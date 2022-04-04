@@ -27,6 +27,8 @@ function LoginModal(props) {
     handleOpenLogin,
     handleCloseLogin,
     handleSetTokens,
+
+    // hocs
     setSeverity,
     setOpenSnackBar,
     setMessageSnack,
@@ -195,6 +197,7 @@ function LoginModal(props) {
 
       {openPasswordForgotten ? (
         <PasswordForgottenModal
+          defaultEmail={emailInput}
           openPasswordForgotten={openPasswordForgotten}
           handleClosePasswordForgotten={handleClosePasswordForgotten}
         />
