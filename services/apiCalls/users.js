@@ -5,9 +5,12 @@ import { getFreshToken, getUser } from "../utils";
 const users = {
   create: async ({ userData }) => {
     try {
+      const encodedPassword = new Buffer.from(userData.password).toString(
+        "base64"
+      );
       const payload = {
         email: userData.email,
-        password: userData.password,
+        password: encodedPassword,
         firstname: userData.firstname,
         lastname: userData.lastname,
         phone: userData.phone,
