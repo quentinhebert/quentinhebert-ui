@@ -47,6 +47,9 @@ const mainTheme = createTheme({
     h6: {
       fontFamily: "Arial",
     },
+    body1: {
+      fontFamily: "Arial",
+    },
   },
   alert: {
     title: {
