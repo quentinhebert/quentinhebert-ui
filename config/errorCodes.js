@@ -1,0 +1,5 @@
+export const errorCodes = {
+  LOGIN_EMAIL_NOT_CONFIRMED: 2010,
+  LOGIN_USER_BANNED: 2020,
+  LOGIN_WRONG_PASSWORD: 2030,
+};

@@ -32,6 +32,7 @@ function SignUpModal(props) {
   /********** USE-STATES **********/
   const [acceptAll, setAcceptAll] = React.useState(false);
   const [loadingButton, setLoadingButton] = React.useState(false);
+  const [signupCompleted, setSignupCompleted] = React.useState(false);
   const [userData, setUserData] = React.useState({
     firstname: "",
     lastname: "",
@@ -73,10 +74,16 @@ function SignUpModal(props) {
   };
 
   const handleSignUpComplete = () => {
+    setSignupCompleted(true);
     setSeverity("success");
     setMessageSnack("Votre inscription a réussi !");
     setOpenSnackBar(true);
-    handleCloseSignUp();
+    setShowAlert({
+      show: true,
+      severity: "success",
+      text: "Un lien de confirmation a été envoyé à l'adresse e-mail que vous avez renseignée. Cliquez sur le lien ou le bouton présent dans l'e-mail, afin de vérifier qu'il s'agit bien de votre e-mail.",
+      title: "Votre inscription est presque terminée !",
+    });
   };
 
   const handleSignUpIncomplete = () => {
@@ -203,77 +210,92 @@ function SignUpModal(props) {
         gap={2}
         sx={{ margin: "1rem auto", width: "400px" }}
       >
-        <TextField
-          required
-          label="Prénom"
-          color="primary"
-          sx={{ width: "calc(100% - 3rem)" }}
-          value={userData.firstname}
-          onChange={handleChange("firstname")}
-          error={signupErrors.firstname}
-          helperText={signupErrors.firstname && "Problème avec ce champ"}
-        />
-        <TextField
-          required
-          label="Nom"
-          color="primary"
-          sx={{ width: "calc(100% - 3rem)" }}
-          value={userData.lastname}
-          onChange={handleChange("lastname")}
-          error={signupErrors.lastname}
-          helperText={signupErrors.lastname && "Problème avec ce champ"}
-        />
-        <TextField
-          required
-          label="Adresse e-mail"
-          color="primary"
-          sx={{ width: "calc(100% - 3rem)" }}
-          value={userData.email}
-          onChange={handleChange("email")}
-          error={signupErrors.email}
-          helperText={signupErrors.email && "Problème avec ce champ"}
-        />
-        <TextField
-          required
-          label="Téléphone"
-          color="primary"
-          sx={{ width: "calc(100% - 3rem)" }}
-          value={userData.phone}
-          onChange={handleChange("phone")}
-          error={signupErrors.phone}
-          helperText={signupErrors.phone && "Problème avec ce champ"}
-        />
-        <TextField
-          required
-          label="Mot de passe"
-          color="primary"
-          sx={{ width: "calc(100% - 3rem)" }}
-          value={userData.password}
-          onChange={handleChange("password")}
-          error={passwordError}
-          helperText={
-            passwordError &&
-            "Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial"
-          }
-        />
-        <FormGroup sx={{ width: "calc(100% - 3rem)", margin: "0.5rem auto" }}>
-          <FormControlLabel
-            control={<Checkbox onChange={handleCheckAcceptAll} required />}
-            label="J'accepte les conditions d'utilisation de ce site"
-          />
-        </FormGroup>
+        {!signupCompleted ? (
+          <>
+            <TextField
+              required
+              label="Prénom"
+              color="primary"
+              sx={{ width: "calc(100% - 3rem)" }}
+              value={userData.firstname}
+              onChange={handleChange("firstname")}
+              error={signupErrors.firstname}
+              helperText={signupErrors.firstname && "Problème avec ce champ"}
+            />
+            <TextField
+              required
+              label="Nom"
+              color="primary"
+              sx={{ width: "calc(100% - 3rem)" }}
+              value={userData.lastname}
+              onChange={handleChange("lastname")}
+              error={signupErrors.lastname}
+              helperText={signupErrors.lastname && "Problème avec ce champ"}
+            />
+            <TextField
+              required
+              label="Adresse e-mail"
+              color="primary"
+              sx={{ width: "calc(100% - 3rem)" }}
+              value={userData.email}
+              onChange={handleChange("email")}
+              error={signupErrors.email}
+              helperText={signupErrors.email && "Problème avec ce champ"}
+            />
+            <TextField
+              required
+              label="Téléphone"
+              color="primary"
+              sx={{ width: "calc(100% - 3rem)" }}
+              value={userData.phone}
+              onChange={handleChange("phone")}
+              error={signupErrors.phone}
+              helperText={signupErrors.phone && "Problème avec ce champ"}
+            />
+            <TextField
+              required
+              label="Mot de passe"
+              color="primary"
+              sx={{ width: "calc(100% - 3rem)" }}
+              value={userData.password}
+              onChange={handleChange("password")}
+              error={passwordError}
+              helperText={
+                passwordError &&
+                "Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial"
+              }
+            />
+            <FormGroup
+              sx={{ width: "calc(100% - 3rem)", margin: "0.5rem auto" }}
+            >
+              <FormControlLabel
+                control={<Checkbox onChange={handleCheckAcceptAll} required />}
+                label="J'accepte les conditions d'utilisation de ce site"
+              />
+            </FormGroup>
+          </>
+        ) : null}
         {showAlert.show ? <AlertInfo content={showAlert} /> : null}
       </Stack>
 
-      <ModalActionButtons
-        leftButtonText="Déjà inscrit ?"
-        leftButtonOnChange={handleSwitchSignUpToLogin}
-        middleButtonText="Annuler"
-        middleButtonOnChange={handleCloseSignUp}
-        rightButtonText={loadingButton ? <CircularProgress /> : "Créer"}
-        rightButtonOnChange={signUp}
-        rightButtonDisabled={!acceptAll || loadingButton}
-      />
+      {!signupCompleted ? (
+        <ModalActionButtons
+          leftButtonText="Déjà inscrit ?"
+          leftButtonOnChange={handleSwitchSignUpToLogin}
+          middleButtonText="Annuler"
+          middleButtonOnChange={handleCloseSignUp}
+          rightButtonText={loadingButton ? <CircularProgress /> : "Créer"}
+          rightButtonOnChange={signUp}
+          rightButtonDisabled={!acceptAll || loadingButton}
+        />
+      ) : (
+        <ModalActionButtons
+          middleButtonText="Fermer"
+          middleButtonOnChange={handleCloseSignUp}
+          rightButtonText="Compris !"
+          rightButtonOnChange={handleCloseSignUp}
+        />
+      )}
     </Dialog>
   );
 }

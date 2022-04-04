@@ -14,6 +14,7 @@ import dynamic from "next/dynamic";
 import { ModalActionButtons } from "./Modal-Components/modal-action-buttons";
 import AlertInfo from "../Other/alert-info";
 import withSnacks from "../hocs/withSnacks";
+import { errorCodes } from "../../config/errorCodes";
 const SignUpModal = dynamic(() => import("./signup-modal"));
 const PasswordForgottenModal = dynamic(() =>
   import("./password-forgotten-modal")
@@ -48,6 +49,37 @@ function LoginModal(props) {
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   /********** FUNCTIONS **********/
+  const handleErrors = (errorCode) => {
+    if (errorCode === errorCodes.LOGIN_WRONG_PASSWORD)
+      setShowAlert({
+        show: true,
+        severity: "warning",
+        text: "Votre adresse e-mail ou votre mot de passe est incorrect.",
+        title: "Mauvais mot de passe ou e-mail",
+      });
+    else if (errorCode === errorCodes.LOGIN_EMAIL_NOT_CONFIRMED)
+      setShowAlert({
+        show: true,
+        severity: "warning",
+        text: "Votre adresse e-mail n'est pas confirmée. Un lien de confirmation vous a été envoyé par mail. Vérifiez vos spams. Cliquez sur le bouton ou sur le lien présent dans le mail afin de confirmer votre adresse e-mail. Puis connectez-vous.",
+        title: "E-mail non confirmé",
+      });
+    else if (errorCode === errorCodes.LOGIN_USER_BANNED)
+      setShowAlert({
+        show: true,
+        severity: "warning",
+        text: "Cet utilisateur a été banni.",
+        title: "Utilisateur banni",
+      });
+    else
+      setShowAlert({
+        show: false,
+        severity: null,
+        text: null,
+        title: null,
+      });
+  };
+
   const login = async () => {
     const res = await apiCall.unauthenticated.login({
       email: emailInput,
@@ -57,6 +89,9 @@ function LoginModal(props) {
       const jsonRes = await res.json();
       handleSetTokens(jsonRes.token, jsonRes.refreshToken); // State + cookies
       handleCloseLogin();
+    } else if (res) {
+      const jsonRes = await res.json();
+      handleErrors(jsonRes.code);
     } else {
       setShowAlert({
         show: true,
@@ -119,7 +154,7 @@ function LoginModal(props) {
             onChange={(e) => setPasswordInput(e.target.value)}
           />
 
-          <Typography variant="body2" component="body2">
+          <Typography>
             <Link
               sx={{ cursor: "pointer" }}
               onClick={handleClickPasswordForgotten}
