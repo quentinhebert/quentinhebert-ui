@@ -2,6 +2,7 @@ import { defaultConfig } from "../../config/defaultConfig";
 import { getFreshToken } from "../utils";
 
 const unauthenticated = {
+  /* LOGIN */
   login: async ({ email, password }) => {
     try {
       const encodedPassword = new Buffer.from(password).toString("base64");
