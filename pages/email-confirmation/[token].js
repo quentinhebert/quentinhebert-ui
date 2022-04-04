@@ -1,4 +1,4 @@
-import { Stack, Typography, TextField, Paper } from "@mui/material";
+import { Stack, Typography, TextField, Paper, Button } from "@mui/material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -81,10 +81,21 @@ function EmailConfirmationPage(props) {
               </Typography>
             )}
             {emailConfirmed ? (
-              <Typography variant="body1">
-                Ton adresse e-mail est désormais confirmée. Tu peux utiliser la
-                plateforme dans son intégralité ! Enjoy 😎
-              </Typography>
+              <>
+                <Typography variant="body1">
+                  Ton adresse e-mail est désormais confirmée. Tu peux utiliser
+                  la plateforme dans son intégralité ! Enjoy 😎
+                </Typography>
+                <Stack
+                  justifyContent="center"
+                  alignItems="center"
+                  sx={{ marginTop: "2rem" }}
+                >
+                  <Button variant="outlined" onClick={() => router.push("/")}>
+                    Page d'accueil
+                  </Button>
+                </Stack>
+              </>
             ) : (
               <Typography variant="body1">
                 Un peu de patience... Nous tentons de confirmer ton adresse
