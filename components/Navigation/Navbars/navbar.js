@@ -10,10 +10,14 @@ export default function Navbar(props) {
   const { dev, film } = props;
 
   // Define main color of navbar
-  let mainColor;
+  let mainColor = "#000";
   if (dev) mainColor = "#004fa0";
   else if (film) mainColor = "#87181f";
-  else mainColor = "#000";
+
+  // Define logo of navbar
+  let logo = "/logos/logo.png";
+  if (dev) logo = "/logos/dev-logo.png";
+  else if (film) logo = "/logos/film-logo.png";
 
   return (
     <AppBar
@@ -23,7 +27,7 @@ export default function Navbar(props) {
     >
       <Box sx={{ flexGrow: 2 }}>
         <Toolbar>
-          <LogoSwitchDropdown src="/logos/logo.png" />
+          <LogoSwitchDropdown src={logo} />
           <Box component="div" sx={{ flexGrow: 1 }} />
           <Button
             sx={{

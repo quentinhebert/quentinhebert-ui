@@ -9,9 +9,10 @@ export const ModalActionButtons = (props) => {
     rightButtonText,
     rightButtonOnChange,
     rightButtonDisabled,
+    rightButtonSubmit,
   } = props;
   return (
-    <DialogActions sx={{ margin: "1rem" }}>
+    <DialogActions>
       <Button sx={{ textTransform: "inherit" }} onClick={leftButtonOnChange}>
         {leftButtonText}
       </Button>
@@ -23,6 +24,7 @@ export const ModalActionButtons = (props) => {
         onClick={rightButtonOnChange}
         autoFocus
         disabled={rightButtonDisabled}
+        type={rightButtonSubmit ? "submit" : null}
       >
         {rightButtonText}
       </Button>

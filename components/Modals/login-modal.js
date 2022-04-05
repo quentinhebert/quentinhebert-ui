@@ -52,7 +52,7 @@ function LoginModal(props) {
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   /********** FUNCTIONS **********/
-  const sendConfirmEmail = async () => {
+  const resendConfirmEmail = async () => {
     if (confirmEmailToken) {
       const res = await apiCall.users.resendConfirmEmail(confirmEmailToken);
       if (res && res.ok)
@@ -70,12 +70,6 @@ function LoginModal(props) {
           title: "Échec lors de l'envoi",
         });
     } else {
-      setShowAlert({
-        show: true,
-        severity: "warning",
-        text: `Désolé, nous n'avons pas pu renvoyer d'e-mail de confirmation à ${emailInput}.`,
-        title: "Échec lors de l'envoi",
-      });
     }
   };
 
@@ -95,13 +89,13 @@ function LoginModal(props) {
         text: (
           <Stack justifyContent="center" alignItems="center">
             <Typography sx={{ margin: ".5rem auto" }}>
-              Votre adresse e-mail n'est pas confirmée. Un lien de confirmation
-              vous a été envoyé par mail. Vérifiez vos spams. Cliquez sur le
-              bouton ou sur le lien présent dans le mail afin de confirmer votre
-              adresse e-mail. Puis connectez-vous.
+              Votre adresse e-mail n'est pas encore confirmée. Un lien de
+              confirmation vous a été envoyé par mail. Vérifiez vos spams.
+              Cliquez sur le bouton ou sur le lien présent dans le mail afin de
+              confirmer votre adresse e-mail. Puis connectez-vous.
             </Typography>
             <Typography sx={{ margin: ".5rem auto" }}>
-              <Link onClick={sendConfirmEmail} sx={{ cursor: "pointer" }}>
+              <Link onClick={resendConfirmEmail} sx={{ cursor: "pointer" }}>
                 Cliquez ici
               </Link>{" "}
               pour renvoyer un email de confirmation.
@@ -125,7 +119,9 @@ function LoginModal(props) {
       });
   };
 
-  const login = async () => {
+  const login = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     const res = await apiCall.unauthenticated.login({
       email: emailInput,
       password: passwordInput,
@@ -189,20 +185,25 @@ function LoginModal(props) {
           justifyContent="center"
           gap={2}
           sx={{ margin: "1rem auto", width: "400px" }}
+          component={"form"}
         >
           <TextField
             label="Adresse e-mail"
-            color="primary"
-            sx={{ width: "calc(100% - 3rem)" }}
+            type="email"
+            id="email"
             value={emailInput}
             onChange={(e) => setEmailInput(e.target.value)}
+            color="primary"
+            sx={{ width: "calc(100% - 3rem)" }}
           />
           <TextField
             label="Mot de passe"
-            color="primary"
-            sx={{ width: "calc(100% - 3rem)" }}
+            type="password"
+            id="password"
             value={passwordInput}
             onChange={(e) => setPasswordInput(e.target.value)}
+            color="primary"
+            sx={{ width: "calc(100% - 3rem)" }}
           />
 
           <Typography>
@@ -215,22 +216,23 @@ function LoginModal(props) {
           </Typography>
 
           {showAlert.show ? <AlertInfo content={showAlert} /> : null}
-        </Stack>
 
-        <ModalActionButtons
-          leftButtonText="Créer un compte"
-          leftButtonOnChange={handleOpenSignUp}
-          middleButtonText="Annuler"
-          middleButtonOnChange={handleCloseLogin}
-          rightButtonText="Se connecter"
-          rightButtonOnChange={login}
-          rightButtonDisabled={
-            !passwordInput ||
-            !emailInput ||
-            passwordInput.trim() === "" ||
-            emailInput.trim() === ""
-          }
-        />
+          <ModalActionButtons
+            leftButtonText="Créer un compte"
+            leftButtonOnChange={handleOpenSignUp}
+            middleButtonText="Annuler"
+            middleButtonOnChange={handleCloseLogin}
+            rightButtonText="Se connecter"
+            rightButtonOnChange={login}
+            rightButtonDisabled={
+              !passwordInput ||
+              !emailInput ||
+              passwordInput.trim() === "" ||
+              emailInput.trim() === ""
+            }
+            rightButtonSubmit
+          />
+        </Stack>
       </Dialog>
 
       {openSignUp ? (

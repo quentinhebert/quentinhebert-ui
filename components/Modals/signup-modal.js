@@ -209,6 +209,7 @@ function SignUpModal(props) {
         justifyContent="center"
         gap={2}
         sx={{ margin: "1rem auto", width: "400px" }}
+        component={"form"}
       >
         {!signupCompleted ? (
           <>
@@ -287,6 +288,7 @@ function SignUpModal(props) {
           rightButtonText={loadingButton ? <CircularProgress /> : "Créer"}
           rightButtonOnChange={signUp}
           rightButtonDisabled={!acceptAll || loadingButton}
+          rightButtonSubmit={true}
         />
       ) : (
         <ModalActionButtons
