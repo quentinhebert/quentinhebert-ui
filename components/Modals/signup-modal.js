@@ -13,7 +13,6 @@ import apiCall from "../../services/apiCalls/apiCall";
 import theme from "../../config/theme";
 import { USERTYPES } from "../../enums/userTypes";
 import { ModalTitle } from "./Modal-Components/modal-title";
-import withSnacks from "../hocs/withSnacks";
 import { ModalActionButtons } from "./Modal-Components/modal-action-buttons";
 import { checkPhone, checkEmail, checkPassword } from "../../services/utils";
 import AlertInfo from "../Other/alert-info";
@@ -55,9 +54,17 @@ function SignUpModal(props) {
     text: null,
     title: null,
   });
+
+  /********** VARAIABLES FOR LIVE CHECK **********/
   const passwordError =
     signupErrors.password ||
     (userData.password.trim() !== "" && !checkPassword(userData.password));
+  const emailError =
+    signupErrors.email ||
+    (userData.email.trim() !== "" && !checkEmail(userData.email));
+  const phoneError =
+    signupErrors.phone ||
+    (userData.phone.trim() !== "" && !checkPhone(userData.phone));
 
   /********** FUNCTIONS **********/
   const handleChange = (attribute) => (event) => {
@@ -65,7 +72,11 @@ function SignUpModal(props) {
       ...userData,
       [attribute]: event.target.value,
     });
-    // checkData(attribute);
+    // On change we reset th localError of the input value, we let the live check take over
+    setSignupErrors({
+      ...signupErrors,
+      [attribute]: false,
+    });
   };
 
   const handleSwitchSignUpToLogin = (e) => {
@@ -92,6 +103,7 @@ function SignUpModal(props) {
     setOpenSnackBar(true);
   };
 
+  /* Check all data at once onSubmit button click */
   const checkAllData = () => {
     const localErrors = {
       firstname: false,
@@ -106,39 +118,22 @@ function SignUpModal(props) {
     if (!userData.firstname || userData.firstname.trim() === "")
       localErrors.firstname = true;
     else localErrors.firstname = false;
-
     // Check lastname
     if (!userData.lastname || userData.lastname.trim() === "")
       localErrors.lastname = true;
     else localErrors.lastname = false;
-
     // Check email
-    if (
-      !userData.email ||
-      userData.email.trim() === "" ||
-      !checkEmail(userData.email)
-    )
+    if (emailError || !userData.email || userData.email.trim() === "")
       localErrors.email = true;
     else localErrors.email = false;
-
     // Check phone
-    if (
-      !userData.phone ||
-      userData.phone.trim() === "" ||
-      !checkPhone(userData.phone)
-    )
+    if (phoneError || !userData.phone || userData.phone.trim() === "")
       localErrors.phone = true;
     else localErrors.phone = false;
-
     // Check password
-    if (
-      !userData.password ||
-      userData.password.trim() === "" ||
-      !checkPassword(userData.password)
-    )
+    if (passwordError || !userData.password || userData.password.trim() === "")
       localErrors.password = true;
     else localErrors.password = false;
-
     // Count number of errors
     let count = 0;
     for (const err of Object.entries(localErrors)) {
@@ -215,6 +210,8 @@ function SignUpModal(props) {
           <>
             <TextField
               required
+              type="input"
+              id="firstname"
               label="Prénom"
               color="primary"
               sx={{ width: "calc(100% - 3rem)" }}
@@ -225,36 +222,45 @@ function SignUpModal(props) {
             />
             <TextField
               required
+              type="input"
+              id="lastname"
               label="Nom"
               color="primary"
               sx={{ width: "calc(100% - 3rem)" }}
               value={userData.lastname}
               onChange={handleChange("lastname")}
               error={signupErrors.lastname}
-              helperText={signupErrors.lastname && "Problème avec ce champ"}
+              helperText={signupErrors.lastname && "Veuillez vérifier ce champ"}
             />
             <TextField
               required
+              type="email"
+              id="email"
               label="Adresse e-mail"
               color="primary"
               sx={{ width: "calc(100% - 3rem)" }}
               value={userData.email}
               onChange={handleChange("email")}
-              error={signupErrors.email}
-              helperText={signupErrors.email && "Problème avec ce champ"}
+              error={emailError || signupErrors.email}
+              helperText={emailError && "Cette adresse e-mail n'est pas valide"}
             />
             <TextField
               required
+              type="phone"
+              id="phone"
               label="Téléphone"
               color="primary"
               sx={{ width: "calc(100% - 3rem)" }}
               value={userData.phone}
               onChange={handleChange("phone")}
-              error={signupErrors.phone}
-              helperText={signupErrors.phone && "Problème avec ce champ"}
+              error={phoneError}
+              helperText={
+                phoneError && "Ce numéro de téléphone n'est pas valide"
+              }
             />
             <TextField
               required
+              type="input"
               label="Mot de passe"
               color="primary"
               sx={{ width: "calc(100% - 3rem)" }}
@@ -266,6 +272,7 @@ function SignUpModal(props) {
                 "Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial"
               }
             />
+
             <FormGroup
               sx={{ width: "calc(100% - 3rem)", margin: "0.5rem auto" }}
             >
