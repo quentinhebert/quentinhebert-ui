@@ -42,11 +42,11 @@ function ResetPassordPage(props) {
   // Before all, let's check if user has a good token to reset his/her password and not the one of someone else
   useEffect(() => {
     (async () => {
-      const res = await apiCall.unauthenticated.passwordResetAccess(token);
-      if (!(res && res.ok)) return null;
-      const user = await res.json();
-      if (user) {
-        setUserId(user.id);
+      if (token) {
+        const res = await apiCall.unauthenticated.passwordResetAccess(token);
+        if (!(res && res.ok)) return null;
+        const user = await res.json();
+        if (user) setUserId(user.id);
       }
     })();
   }, [token]);
@@ -167,8 +167,6 @@ function ResetPassordPage(props) {
       <Footer bgColor={(theme) => theme.palette.background.main} />
     </>
   );
-
-  return <>AUTHORISATION OKLM MAMENE</>;
 }
 
 export default withSnacks(ResetPassordPage);

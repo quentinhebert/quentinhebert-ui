@@ -19,8 +19,7 @@ function withUser(WrappedComponent) {
       const userFromToken = getUser(accessToken);
       const res = await apiCall.users.get(userFromToken.id);
       if (res && res.ok) {
-        const jsonRes = await res.json();
-        const userData = jsonRes[0];
+        const userData = await res.json();
         setUser(userData);
         return userData;
       }
