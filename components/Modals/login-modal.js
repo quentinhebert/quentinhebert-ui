@@ -6,6 +6,10 @@ import {
   useMediaQuery,
   Typography,
   Link,
+  InputAdornment,
+  IconButton,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import apiCall from "../../services/apiCalls/apiCall";
 import theme from "../../config/theme";
@@ -15,6 +19,9 @@ import { ModalActionButtons } from "./Modal-Components/modal-action-buttons";
 import AlertInfo from "../Other/alert-info";
 import withSnacks from "../hocs/withSnacks";
 import { errorCodes } from "../../config/errorCodes";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import OutlinedInput from "@mui/material/OutlinedInput";
 const SignUpModal = dynamic(() => import("./signup-modal"));
 const PasswordForgottenModal = dynamic(() =>
   import("./password-forgotten-modal")
@@ -38,6 +45,7 @@ function LoginModal(props) {
   const [passwordInput, setPasswordInput] = React.useState("");
   const [emailInput, setEmailInput] = React.useState("");
   const [openSignUp, setOpenSignUp] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
   const [openPasswordForgotten, setOpenPasswordForgotten] =
     React.useState(false);
   const [showAlert, setShowAlert] = React.useState({
@@ -178,6 +186,10 @@ function LoginModal(props) {
     handleCloseLogin();
   };
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   /********** RENDER **********/
   return (
     <>
@@ -207,15 +219,28 @@ function LoginModal(props) {
             color="primary"
             sx={{ width: "calc(100% - 3rem)" }}
           />
-          <TextField
-            label="Mot de passe"
-            type="password"
-            id="password"
-            value={passwordInput}
-            onChange={(e) => setPasswordInput(e.target.value)}
-            color="primary"
-            sx={{ width: "calc(100% - 3rem)" }}
-          />
+          <FormControl sx={{ width: "calc(100% - 3rem)", margin: "auto" }}>
+            <InputLabel htmlFor="password">Mot de passe</InputLabel>
+            <OutlinedInput
+              label="Mot de passe"
+              type={showPassword ? "text" : "password"}
+              id="password"
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              color="primary"
+            />
+          </FormControl>
 
           <Typography>
             <Link
