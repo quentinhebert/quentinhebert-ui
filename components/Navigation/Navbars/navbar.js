@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import LogoSwitchDropdown from "../../Dropdown/logo-switch-dropdown";
-import Login from "../../Dropdown/login";
+import LoginOrMenuButton from "../login-or-menu-button";
 
 export default function Navbar(props) {
   const { dev, film } = props;
@@ -42,7 +42,8 @@ export default function Navbar(props) {
           >
             Obtenir un devis
           </Button>
-          <Login />
+
+          <LoginOrMenuButton />
         </Toolbar>
       </Box>
     </AppBar>
