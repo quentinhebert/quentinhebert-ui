@@ -1,19 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import Head from "next/head";
 import styles from "../../styles/Home.module.css";
 import Navbar from "../../components/Navigation/Navbars/navbar";
 import Footer from "../../components/Navigation/Footers/Footer";
-import withUser from "../../components/hocs/withUser";
 import { USERTYPES } from "../../enums/userTypes";
-import { useRouter } from "next/router";
 import Redirect from "../../components/Navigation/redirect";
+import { UserContext } from "../../contexts/UserContext";
 
 function AdminPage(props) {
-  const { user } = props;
-  console.log("user", user);
-  const router = useRouter();
+  const {} = props;
 
-  if (!(!!user && user.type === USERTYPES.ADMIN)) return <Redirect />;
+  // Check if user has grant to access that page
+  const { user } = useContext(UserContext);
+  if (!user || user.type !== USERTYPES.ADMIN) return <Redirect />;
 
   return (
     <>
@@ -24,12 +23,10 @@ function AdminPage(props) {
       </Head>
       <Navbar />
 
-      <main className={styles.main}>
-        <a onClick={(e) => router.push("/")}>On est sur la page ADMIN</a>
-      </main>
+      <main className={styles.main}>On est sur la page ADMIN</main>
       <Footer />
     </>
   );
 }
 
-export default withUser(AdminPage);
+export default AdminPage;
