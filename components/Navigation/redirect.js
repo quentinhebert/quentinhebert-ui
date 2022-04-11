@@ -6,7 +6,7 @@ export default function Redirect(props) {
   const router = useRouter();
   const localTarget = target || "";
 
-  console.log("Redirecting...");
+  console.info("Redirecting...");
 
   useEffect(() => {
     router.push(`/${localTarget}`);
