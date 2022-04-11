@@ -23,7 +23,7 @@ export async function getFreshToken() {
   if (!isTokenExpired(getUser())) {
     return getToken();
   }
-  console.log("Token is expired");
+  console.info("Token is expired");
   const res = await apiCall.users.getAccessToken();
 
   if (res && res.ok) {
@@ -32,7 +32,7 @@ export async function getFreshToken() {
     setRefreshToken(tokens.refresh_token);
     return tokens.token;
   }
-  console.log("Couldn't get an access token");
+  console.info("Couldn't get an access token");
   return logout();
 }
 

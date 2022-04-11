@@ -25,7 +25,7 @@ const users = {
         },
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   },
   getAccessToken: async () => {
@@ -42,7 +42,7 @@ const users = {
         },
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   },
   get: async (id) => {
@@ -55,7 +55,7 @@ const users = {
         },
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   },
   resendConfirmEmail: async (token) => {
@@ -70,7 +70,7 @@ const users = {
         },
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   },
 };
