@@ -39,7 +39,7 @@ const ProfessionalItems = [
 
 const renderMenuItems = (setOfItems) => {
   return setOfItems.map((item) => (
-    <Link href={item.url} passHref>
+    <Link href={item.url} passHref key={item.label}>
       <ListItem button key={item.label}>
         <ListItemIcon>{item.icon}</ListItemIcon>
         <ListItemText primary={item.label} />
@@ -94,7 +94,7 @@ export default function UserMenuDrawer(props) {
               renderMenuItems(ClientItems)}
 
             {!!user &&
-              user.type === USERTYPES.CLIENT &&
+              user.type === USERTYPES.PROFESSIONAL &&
               renderMenuItems(ProfessionalItems)}
 
             <ListItem button key="Se déconnecter" onClick={handleLogout}>
