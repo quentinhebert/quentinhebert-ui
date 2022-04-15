@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import Head from "next/head";
-import styles from "../../styles/Home.module.css";
 import Navbar from "../../components/Navigation/Navbars/navbar";
 import Footer from "../../components/Navigation/Footers/Footer";
 import { USERTYPES } from "../../enums/userTypes";
 import Redirect from "../../components/Navigation/redirect";
 import { UserContext } from "../../contexts/UserContext";
+import AdminIndex from "../../components/Layouts/admin/AdminIndex";
 
-function AdminPage(props) {
+function AdminIndexPage(props) {
   const {} = props;
 
   // Check if user has grant to access that page
@@ -18,15 +18,15 @@ function AdminPage(props) {
     <>
       <Head>
         <title>Polygones | ADMIN</title>
-        <meta name="description" content="Développeur" />
+        <meta name="description" content="Admin page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
 
-      <main className={styles.main}>On est sur la page ADMIN</main>
-      <Footer />
+      <AdminIndex />
+      <Footer bgColor="#272727" />
     </>
   );
 }
 
-export default AdminPage;
+export default AdminIndexPage;

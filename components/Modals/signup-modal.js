@@ -16,6 +16,9 @@ import { ModalTitle } from "./Modal-Components/modal-title";
 import { ModalActionButtons } from "./Modal-Components/modal-action-buttons";
 import { checkPhone, checkEmail, checkPassword } from "../../services/utils";
 import AlertInfo from "../Other/alert-info";
+import CustomSelect from "../Other/custom-select";
+import { UserContext } from "../../contexts/UserContext";
+import { clearPreviewData } from "next/dist/server/api-utils";
 
 function SignUpModal(props) {
   /********** PROPS **********/
@@ -28,6 +31,10 @@ function SignUpModal(props) {
     setMessageSnack,
   } = props;
 
+  // Check if user exists and if the user is admin
+  const { user } = React.useContext(UserContext);
+  const isAdmin = user && user.type === USERTYPES.ADMIN;
+
   /********** USE-STATES **********/
   const [acceptAll, setAcceptAll] = React.useState(false);
   const [loadingButton, setLoadingButton] = React.useState(false);
@@ -38,7 +45,7 @@ function SignUpModal(props) {
     email: "",
     password: "",
     phone: "",
-    type: USERTYPES.CLIENT,
+    type: isAdmin ? "" : USERTYPES.CLIENT,
   });
   const [signupErrors, setSignupErrors] = React.useState({
     firstname: false,
@@ -87,7 +94,7 @@ function SignUpModal(props) {
   const handleSignUpComplete = () => {
     setSignupCompleted(true);
     setSeverity("success");
-    setMessageSnack("Votre inscription a réussi !");
+    setMessageSnack("L'inscription a réussi !");
     setOpenSnackBar(true);
     setShowAlert({
       show: true,
@@ -99,7 +106,7 @@ function SignUpModal(props) {
 
   const handleSignUpIncomplete = () => {
     setSeverity("error");
-    setMessageSnack("Votre inscription a échoué...");
+    setMessageSnack("L'inscription a échoué... Vérifiez tous les champs svp");
     setOpenSnackBar(true);
   };
 
@@ -184,6 +191,23 @@ function SignUpModal(props) {
     setLoadingButton(false);
   };
 
+  const clearData = () => {
+    setUserData({
+      firstname: "",
+      lastname: "",
+      email: "",
+      password: "",
+      phone: "",
+      type: isAdmin ? "" : USERTYPES.CLIENT,
+    });
+    setSignupCompleted(false);
+  };
+
+  const handleCloseSignUpAndClear = () => {
+    clearData();
+    handleCloseSignUp();
+  };
+
   /********** STYLE **********/
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -194,10 +218,14 @@ function SignUpModal(props) {
       onClose={handleCloseSignUp}
       fullScreen={fullScreen}
       sx={{
-        ".MuiPaper-root": { bgcolor: "#000" },
+        ".MuiPaper-root": { bgcolor: "#000", overflowX: "hidden" },
       }}
     >
-      <ModalTitle text="Inscription" />
+      {isAdmin ? (
+        <ModalTitle text="Ajouter un utilisateur" />
+      ) : (
+        <ModalTitle text="Inscription" />
+      )}
 
       <Stack
         alignItems="center"
@@ -253,7 +281,7 @@ function SignUpModal(props) {
               sx={{ width: "calc(100% - 3rem)" }}
               value={userData.phone}
               onChange={handleChange("phone")}
-              error={phoneError}
+              error={phoneError || signupErrors.phone}
               helperText={
                 phoneError && "Ce numéro de téléphone n'est pas valide"
               }
@@ -273,6 +301,26 @@ function SignUpModal(props) {
               }
             />
 
+            {isAdmin ? (
+              <FormGroup
+                sx={{ width: "calc(100% - 3rem)", margin: "0.5rem auto" }}
+              >
+                <CustomSelect
+                  required
+                  placeholder="Fonction"
+                  options={[
+                    { value: "admin", text: "Administrateur" },
+                    { value: "client", text: "Client" },
+                    { value: "professional", text: "Employé" },
+                  ]}
+                  value={userData.type}
+                  setValue={(eventValue) =>
+                    setUserData({ ...userData, type: eventValue })
+                  }
+                />
+              </FormGroup>
+            ) : null}
+
             <FormGroup
               sx={{ width: "calc(100% - 3rem)", margin: "0.5rem auto" }}
             >
@@ -288,21 +336,21 @@ function SignUpModal(props) {
 
       {!signupCompleted ? (
         <ModalActionButtons
-          leftButtonText="Déjà inscrit ?"
-          leftButtonOnChange={handleSwitchSignUpToLogin}
+          leftButtonText={isAdmin ? null : "Déjà inscrit ?"}
+          leftButtonOnClick={handleSwitchSignUpToLogin}
           middleButtonText="Annuler"
-          middleButtonOnChange={handleCloseSignUp}
+          middleButtonOnClick={handleCloseSignUp}
           rightButtonText={loadingButton ? <CircularProgress /> : "Créer"}
-          rightButtonOnChange={signUp}
+          rightButtonOnClick={signUp}
           rightButtonDisabled={!acceptAll || loadingButton}
           rightButtonSubmit={true}
         />
       ) : (
         <ModalActionButtons
           middleButtonText="Fermer"
-          middleButtonOnChange={handleCloseSignUp}
+          middleButtonOnClick={handleCloseSignUpAndClear}
           rightButtonText="Compris !"
-          rightButtonOnChange={handleCloseSignUp}
+          rightButtonOnClick={handleCloseSignUpAndClear}
         />
       )}
     </Dialog>
