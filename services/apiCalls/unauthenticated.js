@@ -11,7 +11,7 @@ const unauthenticated = {
         password: encodedPassword,
       };
       return await fetch(`${defaultConfig.apiUrl}/login`, {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",
@@ -26,7 +26,7 @@ const unauthenticated = {
     const body = { email: userData.email };
     try {
       return await fetch(`${defaultConfig.apiUrl}/password-forgotten`, {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const unauthenticated = {
       const encodedPassword = new Buffer.from(password).toString("base64");
       const body = { password: encodedPassword, token };
       return await fetch(`${defaultConfig.apiUrl}/users/${id}/password-reset`, {
-        method: "PUT",
+        method: "PATCH",
         body: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",

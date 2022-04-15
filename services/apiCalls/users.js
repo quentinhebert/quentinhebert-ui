@@ -35,7 +35,7 @@ const users = {
         refresh_token: getRefreshToken(),
       };
       return await fetch(`${defaultConfig.apiUrl}/new-token`, {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",
@@ -62,10 +62,23 @@ const users = {
     try {
       const payload = { token };
       return await fetch(`${defaultConfig.apiUrl}/users/resend-confirm-email`, {
-        method: "POST",
+        method: "PATCH",
         body: JSON.stringify(payload),
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  },
+  delete: async (id) => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
           "Content-Type": "application/json",
         },
       });
