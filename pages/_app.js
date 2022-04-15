@@ -6,6 +6,7 @@ import { UserContext } from "../contexts/UserContext";
 import { getToken } from "../services/cookies";
 import { getUser } from "../services/utils";
 import apiCall from "../services/apiCalls/apiCall";
+import Loading from "../components/Other/loading";
 
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState(null);
@@ -18,12 +19,13 @@ function MyApp({ Component, pageProps }) {
     if (res && res.ok) {
       const userData = await res.json();
       setUser(userData);
-      return userData;
+    } else {
+      setAccessToken(null);
     }
   };
   if (!user && !!accessToken && accessToken !== "") {
     fetchUser();
-    return <></>;
+    return <Loading />;
   }
 
   return (
