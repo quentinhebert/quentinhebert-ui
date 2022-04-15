@@ -309,9 +309,9 @@ function SignUpModal(props) {
                   required
                   placeholder="Fonction"
                   options={[
-                    { value: "admin", text: "Administrateur" },
-                    { value: "client", text: "Client" },
-                    { value: "professional", text: "Employé" },
+                    { id: "admin", label: "Administrateur" },
+                    { id: "client", label: "Client" },
+                    { id: "professional", label: "Employé" },
                   ]}
                   value={userData.type}
                   setValue={(eventValue) =>

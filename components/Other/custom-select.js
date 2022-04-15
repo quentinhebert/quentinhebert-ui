@@ -1,5 +1,4 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -18,10 +17,15 @@ export default function CustomSelect(props) {
         {placeholder}
         {required ? " *" : ""}
       </InputLabel>
-      <Select value={value} label={placeholder} onChange={handleChange}>
+      <Select
+        value={value}
+        label={placeholder}
+        onChange={handleChange}
+        sx={{ backgroundColor: (theme) => theme.palette.background.main }}
+      >
         {options.map((option) => (
-          <MenuItem value={option.value} key={option.value}>
-            {option.text}
+          <MenuItem value={option.id} key={option.id}>
+            {option.label}
           </MenuItem>
         ))}
       </Select>

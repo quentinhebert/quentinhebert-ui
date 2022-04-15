@@ -33,6 +33,8 @@ function getComparator(order, orderBy) {
 export default function CustomTable(props) {
   const {
     rows,
+    allRows,
+    setRows,
     headCells,
     arrayTitle,
     handleDelete,
@@ -51,9 +53,9 @@ export default function CustomTable(props) {
   const renderData = (row) =>
     headCells.slice(1).map((headCell) => {
       let data = `${row[headCell.id]}`;
-      if (headCell.valueGetter) {
-        data = headCell.valueGetter(row[headCell.id]);
-      }
+      // if (headCell.valueGetter) {
+      //   data = headCell.valueGetter(row[headCell.id]);
+      // }
       return (
         <TableCell align="left" sx={{ cursor: "default" }} key={headCell.id}>
           {data}
@@ -137,6 +139,9 @@ export default function CustomTable(props) {
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
           <EnhancedTableToolbar
+            headCells={headCells}
+            allRows={allRows}
+            setRows={setRows}
             numSelected={selected.length}
             arrayTitle={arrayTitle}
             selectedRows={selectedRows}

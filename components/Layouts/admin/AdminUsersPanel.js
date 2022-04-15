@@ -87,6 +87,7 @@ function AdminIndex(props) {
   } = props;
 
   const [rows, setRows] = useState(null);
+  const [allRows, setAllRows] = useState(null); // To keep a constant reference for search filter
   const [openSignUp, setOpenSignUp] = useState(false);
 
   const router = useRouter();
@@ -101,6 +102,7 @@ function AdminIndex(props) {
         localArray.push(user);
       });
       setRows(localArray);
+      setAllRows(localArray);
     }
   };
 
@@ -138,7 +140,6 @@ function AdminIndex(props) {
 
     await fetchUsers(); // Refresh data
   };
-
   const handleDeleteUser = async (usersToDelete) => {
     // usersToDelete must be an array of user ids (we get it from table-helper.js)
     if (!usersToDelete.length) {
@@ -157,11 +158,9 @@ function AdminIndex(props) {
     setNextButtonText("Supprimer");
     setOpenConfirmModal(true);
   };
-
   const handleCreate = () => {
     setOpenSignUp(true);
   };
-
   const handleCloseSignUp = async () => {
     setOpenSignUp(false);
     await fetchUsers();
@@ -182,6 +181,8 @@ function AdminIndex(props) {
       <Paper variant="contained" sx={{ width: "100%" }}>
         <CustomTable
           rows={rows}
+          allRows={allRows}
+          setRows={setRows}
           headCells={headCells}
           arrayTitle={"Utilisateurs"}
           handleDelete={handleDeleteUser}

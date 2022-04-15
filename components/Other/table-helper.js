@@ -11,6 +11,7 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  Stack,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -18,6 +19,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { alpha } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
+import CustomSearch from "./custom-search";
+import CustomSelect from "./custom-select";
 
 export function EnhancedTableHead(props) {
   const {
@@ -75,6 +78,9 @@ export function EnhancedTableHead(props) {
 
 export function EnhancedTableToolbar(props) {
   const {
+    headCells,
+    allRows,
+    setRows,
     arrayTitle,
     selectedRows,
     handleDelete,
@@ -82,6 +88,27 @@ export function EnhancedTableToolbar(props) {
     handleCreate,
     refreshData,
   } = props;
+
+  const [filterKey, setFilterKey] = React.useState("id");
+  const [filterValue, setFilterValue] = React.useState("");
+
+  React.useEffect(() => {
+    if (filterKey && filterValue) handleFilter();
+    else refreshData();
+  }, [filterValue, filterKey]);
+
+  const handleFilter = () => {
+    const filteredRows = allRows.filter((row) => {
+      if (typeof row[filterKey] === "string")
+        return row[filterKey].toLowerCase().includes(filterValue.toLowerCase()); // Case incensitive
+      if (typeof row[filterKey] === "boolean") {
+        return `${row[filterKey]}`
+          .toLowerCase()
+          .includes(filterValue.toLowerCase());
+      }
+    });
+    setRows(filteredRows);
+  };
 
   return (
     <Toolbar
@@ -119,7 +146,10 @@ export function EnhancedTableToolbar(props) {
 
       {selectedRows.length === 0 ? (
         <Tooltip title="Rafraîchir">
-          <IconButton onClick={(e) => refreshData()}>
+          <IconButton
+            onClick={(e) => refreshData()}
+            sx={{ marginRight: "1rem" }}
+          >
             <RefreshIcon />
           </IconButton>
         </Tooltip>
@@ -127,9 +157,13 @@ export function EnhancedTableToolbar(props) {
 
       {selectedRows.length === 0 ? (
         <Button
-          variant="outlined"
+          variant="contained"
           onClick={(e) => handleCreate()}
-          sx={{ textTransform: "capitalize" }}
+          sx={{
+            textTransform: "capitalize",
+            padding: "1rem",
+            width: "150px",
+          }}
           startIcon={<AddIcon />}
         >
           <Typography variant="body2">Ajouter</Typography>
@@ -151,6 +185,25 @@ export function EnhancedTableToolbar(props) {
           </IconButton>
         </Tooltip>
       ) : null}
+
+      <Stack
+        sx={{
+          width: "500px",
+          marginLeft: "2rem",
+          marginTop: "1rem",
+          marginBottom: "1rem",
+          height: "55px",
+          flexDirection: "row",
+        }}
+      >
+        <CustomSelect
+          placeholder="Filtre"
+          options={headCells}
+          value={filterKey}
+          setValue={setFilterKey}
+        />
+        <CustomSearch value={filterValue} setValue={setFilterValue} />
+      </Stack>
     </Toolbar>
   );
 }
