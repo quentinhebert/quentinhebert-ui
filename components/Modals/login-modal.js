@@ -278,11 +278,11 @@ function LoginModal(props) {
 
           <ModalActionButtons
             leftButtonText="Créer un compte"
-            leftButtonOnChange={handleOpenSignUp}
+            leftButtonOnClick={handleOpenSignUp}
             middleButtonText="Annuler"
-            middleButtonOnChange={handleCloseLogin}
+            middleButtonOnClick={handleCloseLogin}
             rightButtonText="Se connecter"
-            rightButtonOnChange={login}
+            rightButtonOnClick={login}
             rightButtonDisabled={
               !passwordInput ||
               !emailInput ||

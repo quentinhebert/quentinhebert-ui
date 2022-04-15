@@ -3,25 +3,25 @@ import { Button, DialogActions } from "@mui/material";
 export const ModalActionButtons = (props) => {
   const {
     leftButtonText,
-    leftButtonOnChange,
+    leftButtonOnClick,
     middleButtonText,
-    middleButtonOnChange,
+    middleButtonOnClick,
     rightButtonText,
-    rightButtonOnChange,
+    rightButtonOnClick,
     rightButtonDisabled,
     rightButtonSubmit,
   } = props;
   return (
     <DialogActions>
-      <Button sx={{ textTransform: "inherit" }} onClick={leftButtonOnChange}>
+      <Button sx={{ textTransform: "inherit" }} onClick={leftButtonOnClick}>
         {leftButtonText}
       </Button>
-      <Button variant="outlined" onClick={middleButtonOnChange}>
+      <Button variant="outlined" onClick={middleButtonOnClick}>
         {middleButtonText}
       </Button>
       <Button
         variant="contained"
-        onClick={rightButtonOnChange}
+        onClick={rightButtonOnClick}
         autoFocus
         disabled={rightButtonDisabled}
         type={rightButtonSubmit ? "submit" : null}

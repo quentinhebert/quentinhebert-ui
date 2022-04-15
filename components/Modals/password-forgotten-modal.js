@@ -69,9 +69,9 @@ function PasswordForgottenModal(props) {
 
           <ModalActionButtons
             middleButtonText="Annuler"
-            middleButtonOnChange={handleClosePasswordForgotten}
+            middleButtonOnClick={handleClosePasswordForgotten}
             rightButtonText="Envoyer"
-            rightButtonOnChange={handleSendPasswordForgotten}
+            rightButtonOnClick={handleSendPasswordForgotten}
             rightButtonDisabled={!emailInput || emailInput.trim() === ""}
           />
         </Stack>
