@@ -1,12 +1,13 @@
 import { Button, Link, Paper, Stack, Typography } from "@mui/material";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { compose } from "redux";
 import apiCall from "../../../services/apiCalls/apiCall";
 import withConfirmAction from "../../hocs/withConfirmAction";
 import withSnacks from "../../hocs/withSnacks";
-import SignUpModal from "../../Modals/signup-modal";
 import CustomTable from "../../sections/custom-table";
+const SignUpModal = dynamic(() => import("../../Modals/signup-modal"));
 
 const headCells = [
   {
@@ -111,28 +112,31 @@ function AdminIndex(props) {
   /***************** FUNCTIONS *****************/
   const deleteUsers = async (usersToDelete) => {
     // usersToDelete must be an array of user ids (we get it from handleDeleteUser())
-    const errorsCount = usersToDelete.length;
-    await usersToDelete.map(async (userId) => {
-      const res = await apiCall.users.delete(userId);
-      if (res && res.ok) {
-        errorsCount -= 1;
-      }
-      return errorsCount;
-    });
-    await fetchUsers(); // Refresh data
 
-    // FIXME: Problème de promise
-    if (errorsCount === 0) {
+    const errorsCount = usersToDelete.length;
+    const [errors] = await Promise.all(
+      usersToDelete.map(async (userId) => {
+        const res = await apiCall.users.delete(userId);
+        if (res && res.ok) {
+          errorsCount -= 1;
+        }
+        return errorsCount;
+      })
+    );
+
+    if (errors === 0) {
       setSeverity("success");
       setMessageSnack("Utilisateur(s) supprimé(s) avec succès.");
       setOpenSnackBar(true);
     } else {
       setSeverity("error");
       setMessageSnack(
-        `Un problème est survenu lors de la suppressions ${errorsCount} des utilisateurs sélectionnés.`
+        `Un problème est survenu lors de la suppressions ${errors} des utilisateurs sélectionnés.`
       );
       setOpenSnackBar(true);
     }
+
+    await fetchUsers(); // Refresh data
   };
 
   const handleDeleteUser = async (usersToDelete) => {
@@ -185,13 +189,15 @@ function AdminIndex(props) {
           refreshData={fetchUsers}
           editDataModel="edit-user"
         />
-        <SignUpModal
-          openSignUp={openSignUp}
-          handleCloseSignUp={handleCloseSignUp}
-          setSeverity={setSeverity}
-          setOpenSnackBar={setOpenSnackBar}
-          setMessageSnack={setMessageSnack}
-        />
+        {openSignUp ? (
+          <SignUpModal
+            openSignUp={openSignUp}
+            handleCloseSignUp={handleCloseSignUp}
+            setSeverity={setSeverity}
+            setOpenSnackBar={setOpenSnackBar}
+            setMessageSnack={setMessageSnack}
+          />
+        ) : null}
       </Paper>
     </Stack>
   );
