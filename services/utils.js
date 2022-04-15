@@ -1,4 +1,5 @@
 import jsonwebtoken from "jsonwebtoken";
+import apiCall from "./apiCalls/apiCall";
 import { getToken, removeToken, setRefreshToken, setToken } from "./cookies";
 
 export function logout() {
