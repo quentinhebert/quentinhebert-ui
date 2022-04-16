@@ -224,7 +224,7 @@ export default function EditUserForm(props) {
             >
               <MenuItem value="admin">Administrateur</MenuItem>
               <MenuItem value="client">Client</MenuItem>
-              <MenuItem value="professionnal">Employé</MenuItem>
+              <MenuItem value="professional">Employé</MenuItem>
             </Select>
           </FormControl>
           <TextField
@@ -236,8 +236,6 @@ export default function EditUserForm(props) {
             fullWidth
             value={user.firstname || ""}
             onChange={handleChange("firstname")}
-            // error={signupErrors.firstname}
-            // helperText={signupErrors.firstname && "Problème avec ce champ"}
           />
           <TextField
             required
@@ -248,8 +246,6 @@ export default function EditUserForm(props) {
             fullWidth
             value={user.lastname || ""}
             onChange={handleChange("lastname")}
-            // error={signupErrors.lastname}
-            // helperText={signupErrors.lastname && "Veuillez vérifier ce champ"}
           />
           <TextField
             required
