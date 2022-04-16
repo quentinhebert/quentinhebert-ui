@@ -14,6 +14,7 @@ import { checkEmail, checkPhone } from "../../../services/utils";
 import withSnacks from "../../hocs/withSnacks";
 import { ModalActionButtons } from "../../Modals/Modal-Components/modal-action-buttons";
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title";
+import AlertInfo from "../../Other/alert-info";
 
 function ChangePersonalInformation(props) {
   const { user, setUser, setSeverity, setMessageSnack, setOpenSnackBar } =
@@ -25,6 +26,12 @@ function ChangePersonalInformation(props) {
     email: false,
     phone: false,
     type: false,
+  });
+  const [showAlert, setShowAlert] = useState({
+    show: false,
+    severity: null,
+    text: null,
+    title: null,
   });
 
   async function fetchUser() {
@@ -76,7 +83,17 @@ function ChangePersonalInformation(props) {
     setLoadingButton(true);
     const res = await apiCall.users.update(user);
     if (res && res.ok) {
+      const jsonRes = await res.json();
       handleSuccess();
+      console.log("jsonRes", jsonRes);
+      if (jsonRes.change_email_sent) {
+        setShowAlert({
+          severity: "info",
+          show: true,
+          title: "Vous avez reçu un e-mail...",
+          text: "Un e-mail de confirmation de changement d'adresse e-mail vient de vous être envoyé. Pensez à regarder dans vos courriers indésirables (spams) 😉",
+        });
+      }
     } else if (res) {
       const jsonRes = await res.json();
       if (jsonRes.code === 1011) {
@@ -168,6 +185,8 @@ function ChangePersonalInformation(props) {
                 }
               />
             </FormControl>
+
+            {showAlert.show ? <AlertInfo content={showAlert} /> : null}
           </Stack>
 
           <ModalActionButtons

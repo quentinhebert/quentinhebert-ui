@@ -12,7 +12,7 @@ import apiCall from "../../services/apiCalls/apiCall";
 
 const Custom401 = dynamic(() => import("../401"));
 
-function EmailConfirmationPage(props) {
+function ChangeEmailPage(props) {
   /********** PROPS **********/
   const { setMessageSnack, setOpenSnackBar, setSeverity } = props;
 
@@ -21,7 +21,7 @@ function EmailConfirmationPage(props) {
   const token = router.query.token;
 
   /********** USE-STATES **********/
-  const [emailConfirmed, setEmailConfirmed] = useState(false);
+  const [emailChanged, setEmailChanged] = useState(false);
   const [error, setError] = useState({
     show: false,
     severity: "warning",
@@ -34,13 +34,13 @@ function EmailConfirmationPage(props) {
   useEffect(() => {
     (async () => {
       if (token) {
-        const res = await apiCall.unauthenticated.emailConfirm(token);
+        const res = await apiCall.unauthenticated.changeEmail(token);
         if (!res) setError({ ...error, show: true });
 
-        if (res.status && res.status === 204) setEmailConfirmed(true);
+        if (res.status && res.status === 204) setEmailChanged(true);
         else {
           const jsonRes = await res.json();
-          if (jsonRes.code === errorCodes.EMAIL_CONFIRM_INVALID_TOKEN)
+          if (jsonRes.code === errorCodes.EMAIL_CHANGE_INVALID_TOKEN)
             return setError({ ...error, show: true });
         }
       }
@@ -52,7 +52,7 @@ function EmailConfirmationPage(props) {
   return (
     <>
       <Head>
-        <title>Polygones | Confirmation d'e-mail</title>
+        <title>Polygones | Changer d'adresse e-mail</title>
         <meta name="description" content="Polygones | Confirmation d'e-mail" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -68,13 +68,13 @@ function EmailConfirmationPage(props) {
           sx={{ margin: "1rem auto" }}
         >
           <Paper variant="contained" sx={{ padding: "3rem" }}>
-            {emailConfirmed ? (
+            {emailChanged ? (
               <Typography
                 component="h1"
                 variant="h6"
                 sx={{ marginBottom: "2rem" }}
               >
-                Adresse e-mail confirmée
+                Adresse e-mail modifiée ✅
               </Typography>
             ) : (
               <Typography
@@ -86,19 +86,23 @@ function EmailConfirmationPage(props) {
               </Typography>
             )}
 
-            {emailConfirmed ? (
+            {emailChanged ? (
               <>
                 <Typography variant="body1">
-                  Ton adresse e-mail est désormais confirmée. Tu peux utiliser
-                  la plateforme dans son intégralité ! Enjoy 😎
+                  {`Ton adresse e-mail est désormais modifiée. Tu peux toujours la
+                  modifier, il te suffit de te rendre dans ton espace "Mon
+                  compte > Mes informations personnelles"`}
                 </Typography>
                 <Stack
                   justifyContent="center"
                   alignItems="center"
                   sx={{ marginTop: "2rem" }}
                 >
-                  <Button variant="outlined" onClick={() => router.push("/")}>
-                    Page d'accueil
+                  <Button
+                    variant="outlined"
+                    onClick={() => router.push("/account/personal-information")}
+                  >
+                    ALler sur mon compte
                   </Button>
                 </Stack>
               </>
@@ -106,7 +110,7 @@ function EmailConfirmationPage(props) {
               <AlertInfo content={error} />
             ) : (
               <Typography variant="body1">
-                Un peu de patience... Nous tentons de confirmer ton adresse
+                Un peu de patience... Nous tentons de modifier ton adresse
                 e-mail.
               </Typography>
             )}
@@ -118,4 +122,4 @@ function EmailConfirmationPage(props) {
   );
 }
 
-export default withSnacks(EmailConfirmationPage);
+export default withSnacks(ChangeEmailPage);

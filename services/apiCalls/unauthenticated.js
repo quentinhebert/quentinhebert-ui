@@ -82,6 +82,19 @@ const unauthenticated = {
       console.error(error);
     }
   },
+  /* Try to access change-email page with link */
+  changeEmail: async (token) => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/change-email/${token}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };
 
 export default unauthenticated;

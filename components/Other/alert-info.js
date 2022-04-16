@@ -1,4 +1,4 @@
-import { AlertTitle } from "@mui/material";
+import { AlertTitle, Stack } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import React from "react";
 import theme from "../../config/theme";
@@ -7,7 +7,7 @@ function AlertInfo(props) {
   const { content } = props;
 
   return (
-    <div style={{ marginTop: 10, width: "90%" }}>
+    <Stack style={{ marginTop: 10, width: "100%" }}>
       <Alert
         variant="outlined"
         color={content.severity}
@@ -26,7 +26,7 @@ function AlertInfo(props) {
         ) : null}
         {content.text}
       </Alert>
-    </div>
+    </Stack>
   );
 }
 
