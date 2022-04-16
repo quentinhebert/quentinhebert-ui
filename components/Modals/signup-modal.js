@@ -331,7 +331,9 @@ function SignUpModal(props) {
             </FormGroup>
           </>
         ) : null}
-        {showAlert.show ? <AlertInfo content={showAlert} /> : null}
+        <Stack sx={{ width: "90%" }}>
+          {showAlert.show ? <AlertInfo content={showAlert} /> : null}
+        </Stack>
       </Stack>
 
       {!signupCompleted ? (
