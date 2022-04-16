@@ -86,6 +86,52 @@ const users = {
       console.error(err);
     }
   },
+  updatePassword: async (user) => {
+    try {
+      const encodedPassword = new Buffer.from(user.password).toString("base64");
+      const encodedNewPassword = new Buffer.from(user.newPassword).toString(
+        "base64"
+      );
+      const payload = {
+        password: encodedPassword,
+        new_password: encodedNewPassword,
+      };
+      return await fetch(
+        `${defaultConfig.apiUrl}/users/${user.id}/update-password`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(payload),
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  },
+  update: async (user) => {
+    try {
+      const payload = {
+        id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        phone: user.phone,
+        email: user.email,
+      };
+      return await fetch(`${defaultConfig.apiUrl}/users/${user.id}`, {
+        method: "PATCH",
+        body: JSON.stringify(payload),
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  },
 };
 
 export default users;

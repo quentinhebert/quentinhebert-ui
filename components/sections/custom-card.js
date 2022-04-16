@@ -18,7 +18,12 @@ export default function CustomCard(props) {
   } = props;
 
   return (
-    <Card sx={{ width: "400px" }}>
+    <Card
+      sx={{
+        width: { sm: "100%", md: "400px" },
+        padding: "0.5rem 1rem 1rem 1rem",
+      }}
+    >
       <CardContent>
         {sectionName ? (
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -33,12 +38,25 @@ export default function CustomCard(props) {
         </Typography>
         <Typography variant="body2">{text}</Typography>
       </CardContent>
+
       <CardActions>
-        <Button size="small" onClick={buttonLeftOnclick}>
-          {buttonLeft}
-        </Button>
+        {buttonLeft && buttonLeftOnclick ? (
+          <Button
+            variant="contained"
+            size="medium"
+            onClick={buttonLeftOnclick}
+            sx={{ textTransform: "initial" }}
+          >
+            {buttonLeft}
+          </Button>
+        ) : null}
         {buttonRight && buttonRightOnclick ? (
-          <Button size="small" onClick={buttonRightOnclick}>
+          <Button
+            variant="outlined"
+            size="medium"
+            onClick={buttonRightOnclick}
+            sx={{ textTransform: "initial" }}
+          >
             {buttonRight}
           </Button>
         ) : null}

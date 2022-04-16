@@ -1,18 +1,17 @@
-import { Grid, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import CustomCard from "../../sections/custom-card";
 
-export default function AdminIndex() {
+export default function AccountIndex() {
   const router = useRouter();
 
   return (
     <Stack justifyContent="center" direction="column" gap={4} padding="1rem">
       <Typography component="h1" variant="h4">
-        Tableau de bord
+        Mon compte
       </Typography>
       <Stack
         justifyContent="center"
-        direction="row"
         gap={4}
         padding="1rem"
         sx={{
@@ -23,10 +22,10 @@ export default function AdminIndex() {
         }}
       >
         <CustomCard
-          title="Gérer les utilisateurs"
-          text="Ajouter, modifier, supprimer, modifier les rôles des utilisateurs..."
-          buttonLeft="Voir tous les utilisateurs"
-          buttonLeftOnclick={() => router.push("/admin/users")}
+          title="Mes informations personnelles"
+          text="Email, téléphone, nom, prénom..."
+          buttonLeft="Afficher"
+          buttonLeftOnclick={() => router.push("/account/personal-information")}
         />
 
         <CustomCard
