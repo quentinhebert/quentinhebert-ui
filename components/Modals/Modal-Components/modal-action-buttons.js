@@ -22,7 +22,6 @@ export const ModalActionButtons = (props) => {
       <Button
         variant="contained"
         onClick={rightButtonOnClick}
-        autoFocus
         disabled={rightButtonDisabled}
         type={rightButtonSubmit ? "submit" : null}
       >
