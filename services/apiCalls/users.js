@@ -132,6 +132,23 @@ const users = {
       console.error(err);
     }
   },
+  updateAvatar: async (payload) => {
+    const { formData, user } = payload;
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/users/${user.id}/update-avatar`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+          },
+        }
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  },
 };
 
 export default users;

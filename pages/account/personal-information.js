@@ -9,6 +9,7 @@ import ChangePersonalInformation from "../../components/Layouts/account/ChangePe
 import ChangePassword from "../../components/Layouts/account/ChangePassword";
 import { Link, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
+import ChangeAvatar from "../../components/Layouts/account/ChangeAvatar";
 
 function PersonalInformationPage(props) {
   const {} = props;
@@ -37,6 +38,7 @@ function PersonalInformationPage(props) {
         </Typography>
       </Stack>
 
+      <ChangeAvatar user={user} setUser={setUser} />
       <ChangePersonalInformation user={user} setUser={setUser} />
       <ChangePassword user={user} setUser={setUser} />
 

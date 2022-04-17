@@ -41,7 +41,7 @@ function LoginOrMenuButton(props) {
     return (
       <>
         <Button onClick={toggleDrawer(true)}>
-          <Avatar alt="Avatar" src="/logos/logo.png" />
+          <Avatar alt="Avatar" src={user.avatar_path} />
           <Typography margin={2} textTransform="capitalize">
             {user.firstname}
           </Typography>
