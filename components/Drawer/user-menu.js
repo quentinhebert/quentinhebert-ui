@@ -79,7 +79,7 @@ export default function UserMenuDrawer(props) {
             <ListItem key="Full name" sx={{ cursor: "default" }}>
               <Avatar
                 alt="Avatar"
-                src="/logos/logo.png"
+                src={user.avatar_path}
                 sx={{ marginRight: "1rem" }}
               />
               <ListItemText primary={user.firstname + " " + user.lastname} />
