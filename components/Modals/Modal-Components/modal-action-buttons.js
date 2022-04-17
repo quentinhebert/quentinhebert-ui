@@ -10,20 +10,30 @@ export const ModalActionButtons = (props) => {
     rightButtonOnClick,
     rightButtonDisabled,
     rightButtonSubmit,
+    rightBgColor,
+    rightColor,
   } = props;
   return (
     <DialogActions>
-      <Button sx={{ textTransform: "inherit" }} onClick={leftButtonOnClick}>
-        {leftButtonText}
-      </Button>
-      <Button variant="outlined" onClick={middleButtonOnClick}>
-        {middleButtonText}
-      </Button>
+      {leftButtonText && leftButtonOnClick ? (
+        <Button sx={{ textTransform: "inherit" }} onClick={leftButtonOnClick}>
+          {leftButtonText}
+        </Button>
+      ) : null}
+      {middleButtonText && middleButtonOnClick ? (
+        <Button variant="outlined" onClick={middleButtonOnClick}>
+          {middleButtonText}
+        </Button>
+      ) : null}
       <Button
         variant="contained"
         onClick={rightButtonOnClick}
         disabled={rightButtonDisabled}
         type={rightButtonSubmit ? "submit" : null}
+        sx={{
+          color: rightColor || null,
+          backgroundColor: rightBgColor || null,
+        }}
       >
         {rightButtonText}
       </Button>
