@@ -1,9 +1,16 @@
-import { Dialog, Stack, TextField, Typography } from "@mui/material";
+import {
+  Dialog,
+  Stack,
+  TextField,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import React from "react";
 import apiCall from "../../services/apiCalls/apiCall";
 import AlertInfo from "../Other/alert-info";
 import { ModalActionButtons } from "./Modal-Components/modal-action-buttons";
 import { ModalTitle } from "./Modal-Components/modal-title";
+import theme from "../../config/theme";
 
 function PasswordForgottenModal(props) {
   /********** PROPS **********/
@@ -38,6 +45,9 @@ function PasswordForgottenModal(props) {
       });
     }
   };
+
+  /********** STYLE **********/
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   /********** RENDER **********/
   return (

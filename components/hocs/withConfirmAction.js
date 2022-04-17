@@ -1,8 +1,9 @@
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography, useMediaQuery } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import React, { useState } from "react";
 import { ModalActionButtons } from "../Modals/Modal-Components/modal-action-buttons";
 import { ModalTitle } from "../Modals/Modal-Components/modal-title";
+import theme from "../../config/theme";
 
 function withConfirmAction(WrappedComponent) {
   function Enhancer(props) {
@@ -33,6 +34,9 @@ function withConfirmAction(WrappedComponent) {
       actionToFire();
       closeAndcleanState();
     };
+
+    /********** STYLE **********/
+    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
     return (
       <>
