@@ -9,16 +9,16 @@ export function getToken() {
 }
 
 export function setRefreshToken(refreshToken) {
-  Cookies.set("refreshToken", refreshToken);
+  Cookies.set("refresh_token", refreshToken);
 }
 
 export function getRefreshToken() {
-  return Cookies.get("refreshToken");
+  return Cookies.get("refresh_token");
 }
 
 export function removeToken() {
   Cookies.set("token", "");
-  Cookies.set("refreshToken", "");
+  Cookies.set("refresh_token", "");
 }
 
 export function setFirstEntry() {
