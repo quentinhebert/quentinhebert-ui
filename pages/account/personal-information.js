@@ -10,6 +10,7 @@ import ChangePassword from "../../components/Layouts/account/ChangePassword";
 import { Link, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import ChangeAvatar from "../../components/Layouts/account/ChangeAvatar";
+import DeleteAccount from "../../components/Layouts/account/DeleteAccount";
 
 function PersonalInformationPage(props) {
   const {} = props;
@@ -41,6 +42,7 @@ function PersonalInformationPage(props) {
       <ChangeAvatar user={user} setUser={setUser} />
       <ChangePersonalInformation user={user} setUser={setUser} />
       <ChangePassword user={user} setUser={setUser} />
+      <DeleteAccount user={user} setUser={setUser} />
 
       <Footer bgColor="#272727" />
     </>
