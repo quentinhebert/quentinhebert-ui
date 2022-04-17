@@ -20,6 +20,7 @@ function ChangePersonalInformation(props) {
   const { user, setUser, setSeverity, setMessageSnack, setOpenSnackBar } =
     props;
   const [loadingButton, setLoadingButton] = useState(false);
+  const [localUser, setLocalUser] = useState(user); // Prevent from live changing navbar firstnmae...
   const [updateErrors, setUpdateErrors] = useState({
     firstname: false,
     lastname: false,
@@ -50,13 +51,17 @@ function ChangePersonalInformation(props) {
   const router = useRouter();
   const emailError =
     updateErrors.email ||
-    (user && user.email.trim() !== "" && !checkEmail(user.email));
+    (localUser &&
+      localUser.email.trim() !== "" &&
+      !checkEmail(localUser.email));
   const phoneError =
     updateErrors.phone ||
-    (user && user.phone.trim() !== "" && !checkPhone(user.phone));
+    (localUser &&
+      localUser.phone.trim() !== "" &&
+      !checkPhone(localUser.phone));
 
   const handleChange = (attribute) => (event) => {
-    setUser({ ...user, [attribute]: event.target.value });
+    setLocalUser({ ...localUser, [attribute]: event.target.value });
     setUpdateErrors({ ...updateErrors, [attribute]: false });
   };
   const handleSuccess = () => {
@@ -81,11 +86,11 @@ function ChangePersonalInformation(props) {
 
   const handleSaveUser = async () => {
     setLoadingButton(true);
-    const res = await apiCall.users.update(user);
+    const res = await apiCall.users.update(localUser);
     if (res && res.ok) {
       const jsonRes = await res.json();
       handleSuccess();
-      console.log("jsonRes", jsonRes);
+      await fetchUser();
       if (jsonRes.change_email_sent) {
         setShowAlert({
           severity: "info",
@@ -137,7 +142,7 @@ function ChangePersonalInformation(props) {
                 label="Prénom"
                 color="primary"
                 fullWidth
-                value={user.firstname || ""}
+                value={localUser.firstname || ""}
                 onChange={handleChange("firstname")}
                 error={updateErrors.firstname}
                 helperText={updateErrors.firstname && "Problème avec ce champ"}
@@ -149,7 +154,7 @@ function ChangePersonalInformation(props) {
                 label="Nom"
                 color="primary"
                 fullWidth
-                value={user.lastname || ""}
+                value={localUser.lastname || ""}
                 onChange={handleChange("lastname")}
                 error={updateErrors.lastname}
                 helperText={
@@ -163,7 +168,7 @@ function ChangePersonalInformation(props) {
                 label="Adresse e-mail"
                 color="primary"
                 fullWidth
-                value={user.email || ""}
+                value={localUser.email || ""}
                 onChange={handleChange("email")}
                 error={emailError || updateErrors.email}
                 helperText={
@@ -177,7 +182,7 @@ function ChangePersonalInformation(props) {
                 label="Téléphone"
                 color="primary"
                 fullWidth
-                value={user.phone || ""}
+                value={localUser.phone || ""}
                 onChange={handleChange("phone")}
                 error={phoneError || updateErrors.phone}
                 helperText={
