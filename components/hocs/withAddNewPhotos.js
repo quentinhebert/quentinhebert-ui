@@ -145,7 +145,7 @@ function withAddNewPhotos(WrappedComponent) {
 
         {openModal ? (
           <>
-            <Dialog open={openModal}>
+            <Dialog open={openModal} onClose={() => setOpenModal(false)}>
               <DialogTitle>Modifier mes photos</DialogTitle>
               {showConfirmMessage ? (
                 <ConfirmContent />
