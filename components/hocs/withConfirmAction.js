@@ -69,7 +69,7 @@ function withConfirmAction(WrappedComponent) {
             alignItems="center"
             justifyContent="center"
             gap={2}
-            sx={{ margin: "1rem auto", width: "400px" }}
+            sx={{ margin: "1rem auto", padding: "1rem", width: "400px" }}
           >
             {confirmContent.text ? (
               <Typography>{confirmContent.text}</Typography>
