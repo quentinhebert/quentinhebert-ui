@@ -1,4 +1,12 @@
-import { Button, Link, Paper, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  Link,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -14,6 +22,14 @@ const headCells = [
     id: "id",
     numeric: false,
     label: "ID",
+  },
+  {
+    id: "avatar_path",
+    numeric: false,
+    label: "Avatar",
+    valueGetter: function (param, rowId) {
+      return <Avatar src={param} sx={{ width: "60px", height: "60px" }} />;
+    },
   },
   {
     id: "type",
@@ -44,23 +60,38 @@ const headCells = [
     id: "created_at",
     numeric: false,
     label: "Créé le",
-    valueGetter: function (param) {
+    valueGetter: function (param, rowId) {
       const year = param.split("T")[0].split("-")[0];
       const month = param.split("T")[0].split("-")[1];
       const day = param.split("T")[0].split("-")[2];
       const hour = param.split("T")[1].split(":")[0];
       const min = param.split("T")[1].split(":")[1];
       return `${year}/${month}/${day} à ${hour}:${min}`;
-      // return param;
     },
   },
   {
     id: "email_confirmed",
     numeric: false,
     label: "E-mail confirmé",
-    valueGetter: function (param) {
-      if (param) return "Oui";
-      return "Non";
+    valueGetter: function (param, rowId) {
+      if (!param)
+        return (
+          <Tooltip
+            title={`Pour filtrer, cherchez ${param.toString().toUpperCase()}`}
+          >
+            <div style={{ maxWidth: "150px" }}>❌</div>
+          </Tooltip>
+        );
+      else
+        return (
+          <>
+            <Tooltip
+              title={`Pour filtrer, cherchez ${param.toString().toUpperCase()}`}
+            >
+              <div>✅</div>
+            </Tooltip>
+          </>
+        );
     },
   },
   {
@@ -68,13 +99,29 @@ const headCells = [
     numeric: false,
     label: "Banni",
     valueGetter: function (param) {
-      if (param) return "Oui";
-      return "Non";
+      if (!param)
+        return (
+          <Tooltip
+            title={`Pour filtrer, cherchez ${param.toString().toUpperCase()}`}
+          >
+            <div style={{ maxWidth: "150px" }}>❌</div>
+          </Tooltip>
+        );
+      else
+        return (
+          <>
+            <Tooltip
+              title={`Pour filtrer, cherchez ${param.toString().toUpperCase()}`}
+            >
+              <div>✅</div>
+            </Tooltip>
+          </>
+        );
     },
   },
 ];
 
-function AdminIndex(props) {
+function AdminUsersPanel(props) {
   const {
     setSeverity,
     setOpenSnackBar,
@@ -184,7 +231,9 @@ function AdminIndex(props) {
           allRows={allRows}
           setRows={setRows}
           headCells={headCells}
-          arrayTitle={"Utilisateurs"}
+          arrayTitle={
+            rows ? `Utilisateurs - ${rows.length} résultat(s)` : "Utilisateurs"
+          }
           handleDelete={handleDeleteUser}
           handleCreate={handleCreate}
           refreshData={fetchUsers}
@@ -204,4 +253,4 @@ function AdminIndex(props) {
   );
 }
 
-export default compose(withSnacks, withConfirmAction)(AdminIndex);
+export default compose(withSnacks, withConfirmAction)(AdminUsersPanel);
