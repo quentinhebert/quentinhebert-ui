@@ -40,10 +40,12 @@ const ProfessionalItems = [
 const renderMenuItems = (setOfItems) => {
   return setOfItems.map((item) => (
     <Link href={item.url} passHref key={item.label}>
-      <ListItem button key={item.label}>
-        <ListItemIcon>{item.icon}</ListItemIcon>
-        <ListItemText primary={item.label} />
-      </ListItem>
+      <a>
+        <ListItem button key={item.label}>
+          <ListItemIcon>{item.icon}</ListItemIcon>
+          <ListItemText primary={item.label} />
+        </ListItem>
+      </a>
     </Link>
   ));
 };
