@@ -100,6 +100,47 @@ const admin = {
       console.error(err);
     }
   },
+  getImages: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/images`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  },
+  removeFileObject: async (image) => {
+    const { id } = image;
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/images/${id}/remove`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  },
+  deleteFile: async (image) => {
+    const { id } = image;
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/images/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  },
 };
 
 export default admin;

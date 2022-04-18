@@ -26,19 +26,21 @@ export default function AdminIndex() {
           title="Gérer les utilisateurs"
           text="Ajouter, modifier, supprimer, modifier les rôles des utilisateurs..."
           buttonLeft="Voir tous les utilisateurs"
-          buttonLeftOnclick={() => router.push("/admin/users")}
+          buttonLeftOnclick={() => router.push("/admin/manage-users")}
         />
 
         <CustomCard
           title="Gérer les missions"
           text="Ajouter, modifier, supprimer des missions..."
           buttonLeft="Voir toutes les missions"
-          buttonLeftOnclick={() => router.push("/admin/missions")}
+          buttonLeftOnclick={() => router.push("/admin/manage-missions")}
         />
 
         <CustomCard
-          title="Gérer les missions"
-          text="Ajouter, modifier, supprimer, modifier les rôles des utilisateurs..."
+          title="Gérer les fichiers"
+          text="Images, PDF..."
+          buttonLeft="Voir tous les fichiers"
+          buttonLeftOnclick={() => router.push("/admin/manage-files")}
         />
       </Stack>
     </Stack>

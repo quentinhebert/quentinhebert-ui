@@ -4,6 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import {
+  Avatar,
   Box,
   Button,
   Checkbox,
@@ -202,6 +203,10 @@ export default function EditUserForm(props) {
         alignItems="center"
         sx={{ width: { sm: "100%", md: "600px" }, padding: "2rem" }}
       >
+        <Avatar
+          src={user.avatar_path}
+          sx={{ width: "150px", height: "150px", marginBottom: "1rem" }}
+        />
         <FormControl fullWidth sx={{ gap: 2 }}>
           <TextField
             disabled
