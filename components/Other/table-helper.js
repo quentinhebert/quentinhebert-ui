@@ -49,6 +49,14 @@ export function EnhancedTableHead(props) {
             inputProps={{
               "aria-label": "select all",
             }}
+            sx={{
+              "&.Mui-checked": {
+                color: "rgb(144, 202, 249)",
+              },
+              "&.MuiCheckbox-indeterminate": {
+                color: "rgb(144, 202, 249)",
+              },
+            }}
           />
         </TableCell>
         {headCells.map((headCell) => (
@@ -155,7 +163,7 @@ export function EnhancedTableToolbar(props) {
         </Tooltip>
       ) : null}
 
-      {selectedRows.length === 0 ? (
+      {selectedRows.length === 0 && handleCreate ? (
         <Button
           variant="contained"
           onClick={(e) => handleCreate()}

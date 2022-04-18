@@ -53,9 +53,9 @@ export default function CustomTable(props) {
   const renderData = (row) =>
     headCells.slice(1).map((headCell) => {
       let data = `${row[headCell.id]}`;
-      // if (headCell.valueGetter) {
-      //   data = headCell.valueGetter(row[headCell.id]);
-      // }
+      if (headCell.valueGetter) {
+        data = headCell.valueGetter(row[headCell.id], row.id);
+      }
       return (
         <TableCell align="left" sx={{ cursor: "default" }} key={headCell.id}>
           {data}
@@ -151,7 +151,11 @@ export default function CustomTable(props) {
             refreshData={refreshData}
           />
           <TableContainer>
-            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+            <Table
+              stickyHeader
+              sx={{ minWidth: 750 }}
+              aria-labelledby="tableTitle"
+            >
               <EnhancedTableHead
                 headCells={headCells}
                 numSelected={selected.length}
@@ -182,6 +186,11 @@ export default function CustomTable(props) {
                         tabIndex={-1}
                         key={row.id}
                         selected={isItemSelected}
+                        sx={{
+                          "&.Mui-selected": {
+                            backgroundColor: "rgba(144, 202, 249, 0.16)",
+                          },
+                        }}
                       >
                         {/* Row selection checkbox */}
                         <TableCell padding="checkbox">
@@ -191,6 +200,11 @@ export default function CustomTable(props) {
                             inputProps={{
                               "aria-labelledby": labelId,
                             }}
+                            sx={{
+                              "&.Mui-checked": {
+                                color: "rgb(144, 202, 249)",
+                              },
+                            }}
                           />
                         </TableCell>
                         {/* ID */}
@@ -198,8 +212,11 @@ export default function CustomTable(props) {
                           component="th"
                           id={labelId}
                           scope="row"
-                          padding="none"
-                          sx={{ cursor: "default" }}
+                          sx={{
+                            cursor: "default",
+                            maxWidth: "10rem",
+                            wordBreak: "break-all",
+                          }}
                         >
                           {row.id}
                         </TableCell>
