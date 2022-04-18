@@ -41,6 +41,7 @@ export default function CustomTable(props) {
     handleCreate,
     refreshData,
     editDataModel,
+    noEdit,
   } = props;
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("created_at");
@@ -147,6 +148,7 @@ export default function CustomTable(props) {
             selectedRows={selectedRows}
             handleDelete={handleDelete}
             handleEdit={handleOpenEditModal}
+            noEdit={noEdit}
             handleCreate={handleCreate}
             refreshData={refreshData}
           />
@@ -251,7 +253,7 @@ export default function CustomTable(props) {
           />
         </Paper>
 
-        {openEditModal && (
+        {openEditModal && editDataModel && (
           <EditModalSwitch
             dataId={selectedRows[0]}
             dataModel={editDataModel}

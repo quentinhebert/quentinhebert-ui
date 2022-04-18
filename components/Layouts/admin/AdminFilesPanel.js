@@ -190,7 +190,7 @@ function AdminFilesPanel(props) {
           }
           handleDelete={handleDeleteImage}
           refreshData={fetchImages}
-          editDataModel="edit-image"
+          noEdit
         />
       </Paper>
     </Stack>

@@ -95,6 +95,7 @@ export function EnhancedTableToolbar(props) {
     handleEdit,
     handleCreate,
     refreshData,
+    noEdit,
   } = props;
 
   const [filterKey, setFilterKey] = React.useState("id");
@@ -178,7 +179,7 @@ export function EnhancedTableToolbar(props) {
         </Button>
       ) : null}
 
-      {selectedRows.length === 1 ? (
+      {selectedRows.length === 1 && !noEdit ? (
         <Tooltip title="Modifier">
           <IconButton onClick={(e) => handleEdit(selectedRows)}>
             <EditIcon />
