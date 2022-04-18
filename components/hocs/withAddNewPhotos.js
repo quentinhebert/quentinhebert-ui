@@ -43,10 +43,10 @@ function withAddNewPhotos(WrappedComponent) {
       onDrop,
     });
 
-    const handleSetPhotos = async () => {
+    const handleSetPhotos = async (event) => {
+      event.stopPropagation();
       setIsLoading(true);
       // Check max size limit whether its an album or a galery
-      console.log("files", files);
       if (files.some((file) => file.size > sizeLimit * 1000 * 1000)) {
         setMessageSnack(
           `Certaines des photos que vous avez sélectionnées ont une taille supérieure à ${sizeLimit}Mo. Veuillez uniquement sélectionner des photos inférieures à ${sizeLimit}Mo.`
