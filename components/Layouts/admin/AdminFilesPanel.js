@@ -175,7 +175,7 @@ function AdminFilesPanel(props) {
       </Typography>
 
       <Typography component="span" variant="body1">
-        Ci-dessous, vous trouverez tous les fichiers de votre site.
+        Ci-dessous, vous trouverez toutes les images de votre site.
       </Typography>
       <Paper variant="contained" sx={{ width: "100%" }}>
         <CustomTable
@@ -185,8 +185,8 @@ function AdminFilesPanel(props) {
           headCells={headCells}
           arrayTitle={
             rows
-              ? `Fichiers – ${rows.length} résultats (${totalSize} Mo)`
-              : "Fichiers"
+              ? `Images – ${rows.length} résultats (${totalSize} Mo)`
+              : "Images"
           }
           handleDelete={handleDeleteImage}
           refreshData={fetchImages}
