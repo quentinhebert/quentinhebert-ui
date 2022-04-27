@@ -17,6 +17,7 @@ import { ModalTitle } from "../../Modals/Modal-Components/modal-title";
 import { errorCodes } from "../../../config/errorCodes";
 import { compose } from "redux";
 import withAddNewPhotos from "../../hocs/withAddNewPhotos";
+import withConfirmAction from "../../hocs/withConfirmAction";
 
 function ChangeAvatar(props) {
   const {
@@ -27,20 +28,22 @@ function ChangeAvatar(props) {
     setOpenSnackBar,
     setOpenAddNewPhotosModal,
     uploadSuccess,
+    setActionToFire,
+    setOpenConfirmModal,
+    setConfirmTitle,
+    setNextButtonText,
+    setConfirmContent,
   } = props;
 
   // USE-STATES
   const [loadingButton, setLoadingButton] = useState(false);
   const router = useRouter();
 
-  const avatarRef = useRef(null);
-
   // Fetch data
   async function fetchUser() {
     const res = await apiCall.users.get(user.id);
     if (res && res.ok) {
       const jsonRes = await res.json();
-      // We add some usefull attributes to the current user object (empty strings to clear all fields when user is fetched)
       setUser(jsonRes);
     }
   }
@@ -49,53 +52,35 @@ function ChangeAvatar(props) {
     if (user.id) fetchUser();
   }, [user.id, uploadSuccess]);
 
-  // HANDLERS
-  const handleSelectFile = () => {
-    //
+  // FUNCTIONS
+  const deleteAvatar = async () => {
+    const res = await apiCall.users.deleteAvatar({ id: user.id });
+    if (res && res.ok) handleSuccess();
+    else handleError();
   };
+
+  // HANDLERS
   const handleSuccess = () => {
     setSeverity("success");
     setOpenSnackBar("true");
-    setMessageSnack("Votre mot de passe a été mis à jour avec succès");
+    setMessageSnack("Votre avatar a été supprimé avec succès");
+    setUser({ ...user, avatar_path: null }); // Update user context
   };
   const handleError = () => {
     setSeverity("error");
     setOpenSnackBar("true");
     setMessageSnack(
-      "Un problème est survenu lors de la mise à jour du mot de passe"
+      "Un problème est survenu lors de la suppression de votre avatar"
     );
   };
-  const handleCustomError = async (response) => {
-    if (response.code === errorCodes.LOGIN_WRONG_PASSWORD) {
-      // Snacks
-      setSeverity("error");
-      setOpenSnackBar("true");
-      setMessageSnack("Votre mot de passe actuel est incorrect");
-      // Custom front error
-      setUpdateErrors({ ...updateErrors, password: true });
-    }
-  };
-  const handleClearErrors = () => {
-    setUpdateErrors({
-      password: false,
-      newPassword: false,
+  const handleDeleteAvatar = () => {
+    setActionToFire(() => () => deleteAvatar());
+    setConfirmTitle("Confirmation");
+    setConfirmContent({
+      text: "Voulez vous vraiment supprimer votre avatar ?",
     });
-  };
-  const handleSaveUser = async () => {
-    console.log("user", user);
-    // setLoadingButton(true);
-    // const res = await apiCall.users.updatePassword(user);
-    // if (res && res.ok) {
-    //   handleSuccess();
-    //   await fetchUser(); // Clear input fields
-    //   handleClearErrors();
-    // } else if (res) {
-    //   const jsonRes = await res.json();
-    //   handleCustomError(jsonRes);
-    // } else {
-    //   handleError();
-    // }
-    // setLoadingButton(false);
+    setNextButtonText("Oui, je suis sûr !");
+    setOpenConfirmModal(true);
   };
 
   return (
@@ -109,7 +94,7 @@ function ChangeAvatar(props) {
         }}
       >
         <Stack justifyContent="center" padding="1rem">
-          <ModalTitle text="Modifier mon mot de passe" />
+          <ModalTitle text="Modifier mon avatar" />
 
           <Stack
             gap={2}
@@ -128,40 +113,31 @@ function ChangeAvatar(props) {
                 src={user.avatar_path}
                 sx={{ width: 100, height: 100 }}
               />
-              {/* <Input
-                sx={{ display: "none" }}
-                id="upload-avatar"
-                multiple
-                type="file"
-              />
-              <FormLabel htmlFor="upload-avatar" sx={{ marginTop: "1rem" }}>
-                <Button variant="outlined" component="span">
-                  Modifier l'avatar
+              <Stack direction="row" gap={2} sx={{ marginTop: "1rem" }}>
+                <Button
+                  variant="outlined"
+                  onClick={handleDeleteAvatar}
+                  disabled={!user.avatar_path}
+                >
+                  Supprimer
                 </Button>
-              </FormLabel> */}
-              <Button
-                variant="outlined"
-                onClick={(e) => setOpenAddNewPhotosModal(true)}
-                sx={{ marginTop: "1rem" }}
-              >
-                Modifier l'avatar
-              </Button>
+                <Button
+                  variant="contained"
+                  onClick={(e) => setOpenAddNewPhotosModal(true)}
+                >
+                  {user.avatar_path ? "Modifier" : "Ajouter"}
+                </Button>
+              </Stack>
             </FormControl>
           </Stack>
-
-          {/* <ModalActionButtons
-            middleButtonText="Reset"
-            middleButtonOnClick={fetchUser}
-            rightButtonText={
-              loadingButton ? <CircularProgress /> : "Enregistrer"
-            }
-            rightButtonOnClick={handleSaveUser}
-            rightButtonDisabled={loadingButton}
-          /> */}
         </Stack>
       </Paper>
     </Stack>
   );
 }
 
-export default compose(withSnacks, withAddNewPhotos)(ChangeAvatar);
+export default compose(
+  withSnacks,
+  withAddNewPhotos,
+  withConfirmAction
+)(ChangeAvatar);
