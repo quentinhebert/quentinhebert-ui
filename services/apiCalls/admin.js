@@ -113,11 +113,10 @@ const admin = {
       console.error(err);
     }
   },
-  removeFileObject: async (image) => {
-    const { id } = image;
+  getFiles: async () => {
     try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/images/${id}/remove`, {
-        method: "PATCH",
+      return await fetch(`${defaultConfig.apiUrl}/admin/files`, {
+        method: "GET",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
           "Content-Type": "application/json",
