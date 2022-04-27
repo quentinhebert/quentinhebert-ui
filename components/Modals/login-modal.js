@@ -263,6 +263,8 @@ function LoginModal(props) {
               }
               color="primary"
             />
+
+            {showAlert.show ? <AlertInfo content={showAlert} /> : null}
           </FormControl>
 
           <Typography>
@@ -273,8 +275,6 @@ function LoginModal(props) {
               J'ai oublié mon mot de passe
             </Link>
           </Typography>
-
-          {showAlert.show ? <AlertInfo content={showAlert} /> : null}
 
           <ModalActionButtons
             leftButtonText="Créer un compte"

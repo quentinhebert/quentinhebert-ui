@@ -26,15 +26,15 @@ function AdminFilesPanel(props) {
 
   const router = useRouter();
 
-  const fetchImages = async () => {
-    const res = await apiCall.admin.getImages();
+  const fetchFiles = async () => {
+    const res = await apiCall.admin.getFiles();
     if (res && res.ok) {
       const localTotalSize = 0;
       const localArray = [];
       const result = await res.json();
-      await result.map((image, key) => {
-        localArray.push(image);
-        localTotalSize += image.size;
+      await result.map((file, key) => {
+        localArray.push(file);
+        localTotalSize += file.size;
       });
       localTotalSize = Number(formatter.format(localTotalSize / 1024 / 1024));
       setTotalSize(localTotalSize);
@@ -43,9 +43,9 @@ function AdminFilesPanel(props) {
     }
   };
 
-  // Get images from DB
+  // Get files from DB
   useEffect(() => {
-    fetchImages();
+    fetchFiles();
   }, []);
 
   /***************** FUNCTIONS *****************/
@@ -54,12 +54,12 @@ function AdminFilesPanel(props) {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-  const deleteImages = async (imagesToDelete) => {
-    // imagesToDelete must be an array of user ids (we get it from handleDeleteImage())
+  const deleteFiles = async (filesToDelete) => {
+    // filesToDelete must be an array of user ids (we get it from handleDeleteFile())
 
-    const errorsCount = imagesToDelete.length;
+    const errorsCount = filesToDelete.length;
     const [errors] = await Promise.all(
-      imagesToDelete.map(async (imageId) => {
+      filesToDelete.map(async (imageId) => {
         const res = await apiCall.admin.deleteFile({ id: imageId });
         if (res && res.ok) {
           errorsCount -= 1;
@@ -75,27 +75,27 @@ function AdminFilesPanel(props) {
     } else {
       setSeverity("error");
       setMessageSnack(
-        `Un problème est survenu lors de la suppressions ${errors} des images sélectionnées.`
+        `Un problème est survenu lors de la suppressions ${errors} des files sélectionnées.`
       );
       setOpenSnackBar(true);
     }
 
-    await fetchImages(); // Refresh data
+    await fetchFiles(); // Refresh data
   };
-  const handleDeleteImage = async (imagesToDelete) => {
-    // imagesToDelete must be an array of user ids (we get it from table-helper.js)
-    if (!imagesToDelete.length) {
+  const handleDeleteFile = async (filesToDelete) => {
+    // filesToDelete must be an array of user ids (we get it from table-helper.js)
+    if (!filesToDelete.length) {
       setSeverity("error");
       setMessageSnack(
-        "Un problème est survenu lors de la suppressions des images sélectionnées."
+        "Un problème est survenu lors de la suppressions des fichiers sélectionnées."
       );
       return setOpenSnackBar(true);
     }
     // Open confirm modal
-    setConfirmTitle(`Supprimer ${imagesToDelete.length} image(s)`);
-    setActionToFire(() => async () => await deleteImages(imagesToDelete));
+    setConfirmTitle(`Confirmation`);
+    setActionToFire(() => async () => await deleteFiles(filesToDelete));
     setConfirmContent({
-      text: `Voulez-vous vraiment supprimer ${imagesToDelete.length} image(s) ?`,
+      text: `Voulez-vous vraiment supprimer ${filesToDelete.length} fichier(s) ?`,
     });
     setNextButtonText("Supprimer");
     setOpenConfirmModal(true);
@@ -111,7 +111,7 @@ function AdminFilesPanel(props) {
     {
       id: "public_url",
       numeric: false,
-      label: "Image",
+      label: "Fichier",
       valueGetter: function (param, rowId) {
         return param ? <img src={param} style={{ width: "80px" }} /> : <></>;
       },
@@ -175,7 +175,7 @@ function AdminFilesPanel(props) {
       </Typography>
 
       <Typography component="span" variant="body1">
-        Ci-dessous, vous trouverez toutes les images de votre site.
+        Ci-dessous, vous trouverez tous les fichiers de votre site.
       </Typography>
       <Paper variant="contained" sx={{ width: "100%" }}>
         <CustomTable
@@ -185,11 +185,11 @@ function AdminFilesPanel(props) {
           headCells={headCells}
           arrayTitle={
             rows
-              ? `Images – ${rows.length} résultats (${totalSize} Mo)`
-              : "Images"
+              ? `Fichiers – ${rows.length} résultats (${totalSize} Mo)`
+              : "Fichiers"
           }
-          handleDelete={handleDeleteImage}
-          refreshData={fetchImages}
+          handleDelete={handleDeleteFile}
+          refreshData={fetchFiles}
           noEdit
         />
       </Paper>
