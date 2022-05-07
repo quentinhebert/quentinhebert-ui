@@ -1,6 +1,6 @@
 import { Button, DialogActions } from "@mui/material";
 
-export const ModalActionButtons = (props) => {
+export const ActionButtons = (props) => {
   const {
     leftButtonText,
     leftButtonOnClick,

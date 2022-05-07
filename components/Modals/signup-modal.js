@@ -13,7 +13,7 @@ import apiCall from "../../services/apiCalls/apiCall";
 import theme from "../../config/theme";
 import { USERTYPES } from "../../enums/userTypes";
 import { ModalTitle } from "./Modal-Components/modal-title";
-import { ModalActionButtons } from "./Modal-Components/modal-action-buttons";
+import { ActionButtons } from "./Modal-Components/modal-action-buttons";
 import { checkPhone, checkEmail, checkPassword } from "../../services/utils";
 import AlertInfo from "../Other/alert-info";
 import CustomSelect from "../Other/custom-select";
@@ -337,7 +337,7 @@ function SignUpModal(props) {
       </Stack>
 
       {!signupCompleted ? (
-        <ModalActionButtons
+        <ActionButtons
           leftButtonText={isAdmin ? null : "Déjà inscrit ?"}
           leftButtonOnClick={handleSwitchSignUpToLogin}
           middleButtonText="Annuler"
@@ -348,7 +348,7 @@ function SignUpModal(props) {
           rightButtonSubmit={true}
         />
       ) : (
-        <ModalActionButtons
+        <ActionButtons
           middleButtonText="Fermer"
           middleButtonOnClick={handleCloseSignUpAndClear}
           rightButtonText="Compris !"

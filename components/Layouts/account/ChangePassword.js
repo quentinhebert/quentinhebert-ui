@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import apiCall from "../../../services/apiCalls/apiCall";
 import { checkPassword } from "../../../services/utils";
 import withSnacks from "../../hocs/withSnacks";
-import { ModalActionButtons } from "../../Modals/Modal-Components/modal-action-buttons";
+import { ActionButtons } from "../../Modals/Modal-Components/modal-action-buttons";
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -243,7 +243,7 @@ function ChangePassword(props) {
             </FormControl>
           </Stack>
 
-          <ModalActionButtons
+          <ActionButtons
             middleButtonText="Reset"
             middleButtonOnClick={fetchUser}
             rightButtonText={

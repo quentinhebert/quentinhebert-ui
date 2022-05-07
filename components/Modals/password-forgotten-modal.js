@@ -8,7 +8,7 @@ import {
 import React from "react";
 import apiCall from "../../services/apiCalls/apiCall";
 import AlertInfo from "../Other/alert-info";
-import { ModalActionButtons } from "./Modal-Components/modal-action-buttons";
+import { ActionButtons } from "./Modal-Components/modal-action-buttons";
 import { ModalTitle } from "./Modal-Components/modal-title";
 import theme from "../../config/theme";
 
@@ -77,7 +77,7 @@ function PasswordForgottenModal(props) {
           />
           {showAlert.show ? <AlertInfo content={showAlert} /> : null}
 
-          <ModalActionButtons
+          <ActionButtons
             middleButtonText="Annuler"
             middleButtonOnClick={handleClosePasswordForgotten}
             rightButtonText="Envoyer"

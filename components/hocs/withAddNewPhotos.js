@@ -13,7 +13,7 @@ import { useDropzone } from "react-dropzone";
 import withSnacks from "./withSnacks";
 import AlertInfo from "../Other/alert-info";
 import apiCall from "../../services/apiCalls/apiCall";
-import { ModalActionButtons } from "../Modals/Modal-Components/modal-action-buttons";
+import { ActionButtons } from "../Modals/Modal-Components/modal-action-buttons";
 
 function withAddNewPhotos(WrappedComponent) {
   function Enhancer(props) {
@@ -219,7 +219,7 @@ function withAddNewPhotos(WrappedComponent) {
                     )}
                   </DialogContent>
 
-                  <ModalActionButtons
+                  <ActionButtons
                     middleButtonText="Annuler"
                     middleButtonOnClick={() => setOpenModal(false)}
                     rightButtonText={`Ajouter${

@@ -18,7 +18,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { ModalTitle } from "../Modal-Components/modal-title";
 import apiCall from "../../../services/apiCalls/apiCall";
 import mainTheme from "../../../config/theme";
-import { ModalActionButtons } from "../Modal-Components/modal-action-buttons";
+import { ActionButtons } from "../Modal-Components/modal-action-buttons";
 import { isMobile } from "react-device-detect";
 import AlertInfo from "../../Other/alert-info";
 import { checkEmail, checkPhone } from "../../../services/utils";
@@ -330,7 +330,7 @@ export default function EditUserForm(props) {
         </FormControl>
       </Stack>
 
-      <ModalActionButtons
+      <ActionButtons
         middleButtonText="Annuler"
         middleButtonOnClick={handleCloseEditModal}
         rightButtonText={loadingButton ? <CircularProgress /> : "Enregistrer"}

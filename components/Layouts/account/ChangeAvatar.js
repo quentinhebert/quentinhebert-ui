@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import apiCall from "../../../services/apiCalls/apiCall";
 import withSnacks from "../../hocs/withSnacks";
-import { ModalActionButtons } from "../../Modals/Modal-Components/modal-action-buttons";
+import { ActionButtons } from "../../Modals/Modal-Components/modal-action-buttons";
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title";
 import { errorCodes } from "../../../config/errorCodes";
 import { compose } from "redux";

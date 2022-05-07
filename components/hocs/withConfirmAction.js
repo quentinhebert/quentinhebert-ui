@@ -1,7 +1,7 @@
 import { Stack, Typography, useMediaQuery } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import React, { useState } from "react";
-import { ModalActionButtons } from "../Modals/Modal-Components/modal-action-buttons";
+import { ActionButtons } from "../Modals/Modal-Components/modal-action-buttons";
 import { ModalTitle } from "../Modals/Modal-Components/modal-title";
 import theme from "../../config/theme";
 
@@ -75,7 +75,7 @@ function withConfirmAction(WrappedComponent) {
               <Typography>{confirmContent.text}</Typography>
             ) : null}
             {confirmContent.js ? content.js : null}
-            <ModalActionButtons
+            <ActionButtons
               middleButtonText="Annuler"
               middleButtonOnClick={handleCancel}
               rightButtonText={nextButtonText}

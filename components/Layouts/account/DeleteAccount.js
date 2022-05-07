@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import apiCall from "../../../services/apiCalls/apiCall";
 import withSnacks from "../../hocs/withSnacks";
-import { ModalActionButtons } from "../../Modals/Modal-Components/modal-action-buttons";
+import { ActionButtons } from "../../Modals/Modal-Components/modal-action-buttons";
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title";
 import { logout } from "../../../services/utils";
 
@@ -133,7 +133,7 @@ function DeleteAccount(props) {
             </FormControl>
           </Stack>
 
-          <ModalActionButtons
+          <ActionButtons
             rightButtonText={
               loadingButton ? <CircularProgress /> : "Supprimer mon compte"
             }

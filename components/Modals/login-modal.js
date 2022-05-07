@@ -15,7 +15,7 @@ import apiCall from "../../services/apiCalls/apiCall";
 import theme from "../../config/theme";
 import { ModalTitle } from "./Modal-Components/modal-title";
 import dynamic from "next/dynamic";
-import { ModalActionButtons } from "./Modal-Components/modal-action-buttons";
+import { ActionButtons } from "./Modal-Components/modal-action-buttons";
 import AlertInfo from "../Other/alert-info";
 import withSnacks from "../hocs/withSnacks";
 import { errorCodes } from "../../config/errorCodes";
@@ -276,7 +276,7 @@ function LoginModal(props) {
             </Link>
           </Typography>
 
-          <ModalActionButtons
+          <ActionButtons
             leftButtonText="Créer un compte"
             leftButtonOnClick={handleOpenSignUp}
             middleButtonText="Annuler"

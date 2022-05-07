@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import apiCall from "../../../services/apiCalls/apiCall";
 import { checkEmail, checkPhone } from "../../../services/utils";
 import withSnacks from "../../hocs/withSnacks";
-import { ModalActionButtons } from "../../Modals/Modal-Components/modal-action-buttons";
+import { ActionButtons } from "../../Modals/Modal-Components/modal-action-buttons";
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title";
 import AlertInfo from "../../Other/alert-info";
 
@@ -194,7 +194,7 @@ function ChangePersonalInformation(props) {
             {showAlert.show ? <AlertInfo content={showAlert} /> : null}
           </Stack>
 
-          <ModalActionButtons
+          <ActionButtons
             middleButtonText="Reset"
             middleButtonOnClick={fetchUser}
             rightButtonText={
