@@ -54,11 +54,6 @@ function ChangePersonalInformation(props) {
     (localUser &&
       localUser.email.trim() !== "" &&
       !checkEmail(localUser.email));
-  const phoneError =
-    updateErrors.phone ||
-    (localUser &&
-      localUser.phone.trim() !== "" &&
-      !checkPhone(localUser.phone));
 
   const handleChange = (attribute) => (event) => {
     setLocalUser({ ...localUser, [attribute]: event.target.value });
@@ -67,21 +62,17 @@ function ChangePersonalInformation(props) {
   const handleSuccess = () => {
     setSeverity("success");
     setOpenSnackBar("true");
-    setMessageSnack("Utilisateur mis à jour avec succès");
+    setMessageSnack("User updated successfully");
   };
   const handleError = () => {
     setSeverity("error");
     setOpenSnackBar("true");
-    setMessageSnack(
-      "Un problème est survenu lors de la mise à jour de l'utilisateur"
-    );
+    setMessageSnack("A problem occurend while updating the user");
   };
   const handleErrorDuplicate = () => {
     setSeverity("error");
     setOpenSnackBar("true");
-    setMessageSnack(
-      "L'e-mail ou le numéro de téléphone existe déjà pour un autre utilisateur"
-    );
+    setMessageSnack("The email or the phone already exists for another user");
   };
 
   const handleSaveUser = async () => {
@@ -95,8 +86,8 @@ function ChangePersonalInformation(props) {
         setShowAlert({
           severity: "info",
           show: true,
-          title: "Vous avez reçu un e-mail...",
-          text: "Un e-mail de confirmation de changement d'adresse e-mail vient de vous être envoyé. Pensez à regarder dans vos courriers indésirables (spams) 😉",
+          title: "You just received an email...",
+          text: "A confirmation email for changing email has just been sent to you. Don't forget to check your spams 😉",
         });
       }
     } else if (res) {
@@ -123,7 +114,7 @@ function ChangePersonalInformation(props) {
         }}
       >
         <Stack justifyContent="center" padding="1rem">
-          <ModalTitle text="Modifier mes informations personnelles" />
+          <ModalTitle text="Change my personal information" />
 
           <Stack
             justifyContent="center"
@@ -139,19 +130,19 @@ function ChangePersonalInformation(props) {
                 required
                 type="input"
                 id="firstname"
-                label="Prénom"
+                label="Firstname"
                 color="primary"
                 fullWidth
                 value={localUser.firstname || ""}
                 onChange={handleChange("firstname")}
                 error={updateErrors.firstname}
-                helperText={updateErrors.firstname && "Problème avec ce champ"}
+                helperText={updateErrors.firstname && "Problem with this field"}
               />
               <TextField
                 required
                 type="input"
                 id="lastname"
-                label="Nom"
+                label="Lastame"
                 color="primary"
                 fullWidth
                 value={localUser.lastname || ""}
@@ -165,29 +156,24 @@ function ChangePersonalInformation(props) {
                 required
                 type="email"
                 id="email"
-                label="Adresse e-mail"
+                label="Email address"
                 color="primary"
                 fullWidth
                 value={localUser.email || ""}
                 onChange={handleChange("email")}
                 error={emailError || updateErrors.email}
-                helperText={
-                  emailError && "Cette adresse e-mail n'est pas valide"
-                }
+                helperText={emailError && "This email is not valid"}
               />
               <TextField
-                required
                 type="phone"
                 id="phone"
-                label="Téléphone"
+                label="Phone number"
                 color="primary"
                 fullWidth
                 value={localUser.phone || ""}
                 onChange={handleChange("phone")}
-                error={phoneError || updateErrors.phone}
-                helperText={
-                  phoneError && "Ce numéro de téléphone n'est pas valide"
-                }
+                error={updateErrors.phone}
+                helperText={updateErrors.phone && "This phone is not valid"}
               />
             </FormControl>
 
@@ -197,9 +183,7 @@ function ChangePersonalInformation(props) {
           <ActionButtons
             middleButtonText="Reset"
             middleButtonOnClick={fetchUser}
-            rightButtonText={
-              loadingButton ? <CircularProgress /> : "Enregistrer"
-            }
+            rightButtonText={loadingButton ? <CircularProgress /> : "Save"}
             rightButtonOnClick={handleSaveUser}
             rightButtonDisabled={loadingButton}
           />

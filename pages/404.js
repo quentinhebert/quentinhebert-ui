@@ -1,24 +1,16 @@
-import { Stack, Typography } from "@mui/material";
 import Head from "next/head";
-import Footer from "../components/Navigation/Footers/Footer";
-import Navbar from "../components/Navigation/Navbars/navbar";
+import Custom404Layout from "../components/Layouts/error/Custom404Layout";
 
-export default function Custom404() {
+export default function Custom404Page() {
   return (
     <>
       <Head>
-        <title>Polygones | 404</title>
-        <meta
-          name="description"
-          content="Polygones | Quelques infos au sujet de mon site internet..."
-        />
+        <title>Mathias Mortelmans Films | 404</title>
+        <meta name="description" content="Mathias Mortelmans Films | 404" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
-      <Stack justifyContent="center" alignItems="center">
-        <Typography>CUSTOM 404</Typography>
-      </Stack>
-      <Footer bgColor={(theme) => theme.palette.background.main} />
+
+      <Custom404Layout />
     </>
   );
 }

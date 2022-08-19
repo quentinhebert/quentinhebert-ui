@@ -39,45 +39,45 @@ const headCells = [
   {
     id: "firstname",
     numeric: false,
-    label: "Prénom",
+    label: "Firstname",
   },
   {
     id: "lastname",
     numeric: false,
-    label: "Nom",
+    label: "Lastname",
   },
   {
     id: "email",
     numeric: false,
-    label: "E-mail",
+    label: "Email",
   },
   {
     id: "phone",
     numeric: false,
-    label: "Téléphone",
+    label: "Phone",
   },
   {
     id: "created_at",
     numeric: false,
-    label: "Créé le",
+    label: "Created on",
     valueGetter: function (param, rowId) {
       const year = param.split("T")[0].split("-")[0];
       const month = param.split("T")[0].split("-")[1];
       const day = param.split("T")[0].split("-")[2];
       const hour = param.split("T")[1].split(":")[0];
       const min = param.split("T")[1].split(":")[1];
-      return `${year}/${month}/${day} à ${hour}:${min}`;
+      return `${year}/${month}/${day} at ${hour}:${min}`;
     },
   },
   {
     id: "email_confirmed",
     numeric: false,
-    label: "E-mail confirmé",
+    label: "Email confirmed",
     valueGetter: function (param, rowId) {
       if (!param)
         return (
           <Tooltip
-            title={`Pour filtrer, cherchez ${param.toString().toUpperCase()}`}
+            title={`To filter, please search ${param.toString().toUpperCase()}`}
           >
             <div style={{ maxWidth: "150px" }}>❌</div>
           </Tooltip>
@@ -86,7 +86,9 @@ const headCells = [
         return (
           <>
             <Tooltip
-              title={`Pour filtrer, cherchez ${param.toString().toUpperCase()}`}
+              title={`To filter, please search ${param
+                .toString()
+                .toUpperCase()}`}
             >
               <div>✅</div>
             </Tooltip>
@@ -97,12 +99,12 @@ const headCells = [
   {
     id: "banned",
     numeric: false,
-    label: "Banni",
+    label: "Banned",
     valueGetter: function (param) {
       if (!param)
         return (
           <Tooltip
-            title={`Pour filtrer, cherchez ${param.toString().toUpperCase()}`}
+            title={`To filter, please search ${param.toString().toUpperCase()}`}
           >
             <div style={{ maxWidth: "150px" }}>❌</div>
           </Tooltip>
@@ -111,7 +113,9 @@ const headCells = [
         return (
           <>
             <Tooltip
-              title={`Pour filtrer, cherchez ${param.toString().toUpperCase()}`}
+              title={`To filter, please search ${param
+                .toString()
+                .toUpperCase()}`}
             >
               <div>✅</div>
             </Tooltip>
@@ -175,12 +179,12 @@ function AdminUsersPanel(props) {
 
     if (errors === 0) {
       setSeverity("success");
-      setMessageSnack("Utilisateur(s) supprimé(s) avec succès.");
+      setMessageSnack("User(s) deleted successfully.");
       setOpenSnackBar(true);
     } else {
       setSeverity("error");
       setMessageSnack(
-        `Un problème est survenu lors de la suppressions ${errors} des utilisateurs sélectionnés.`
+        `A problem occured while deletibg ${errors} of the selected users.`
       );
       setOpenSnackBar(true);
     }
@@ -191,18 +195,16 @@ function AdminUsersPanel(props) {
     // usersToDelete must be an array of user ids (we get it from table-helper.js)
     if (!usersToDelete.length) {
       setSeverity("error");
-      setMessageSnack(
-        "Un problème est survenu lors de la suppressions des utilisateurs sélectionnés."
-      );
+      setMessageSnack("A problem occurred while deleting the selected user(s)");
       return setOpenSnackBar(true);
     }
     // Open confirm modal
-    setConfirmTitle(`Supprimer ${usersToDelete.length} utilisateurs`);
+    setConfirmTitle(`Delete ${usersToDelete.length} users`);
     setActionToFire(() => async () => await deleteUsers(usersToDelete));
     setConfirmContent({
-      text: `Voulez-vous vraiment supprimer ${usersToDelete.length} utilisateur(s) ?`,
+      text: `Do you really want to delete ${usersToDelete.length} user(s) ?`,
     });
-    setNextButtonText("Supprimer");
+    setNextButtonText("Delete");
     setOpenConfirmModal(true);
   };
   const handleCreate = () => {
@@ -217,13 +219,13 @@ function AdminUsersPanel(props) {
     <Stack justifyContent="center" direction="column" gap={4} padding="1rem">
       <Typography component="h6" variant="h6">
         <Link onClick={() => router.push("/admin")} href="#" color="#000">
-          Tableau de board
+          Dashboard
         </Link>
-        {" > Utilisateurs"}
+        {" > Users"}
       </Typography>
 
       <Typography component="span" variant="body1">
-        Ci-dessous, vous trouverez tous les utilisateurs de votre site.
+        Beneath, you can find all the users of your website.
       </Typography>
       <Paper variant="contained" sx={{ width: "100%" }}>
         <CustomTable
@@ -231,9 +233,7 @@ function AdminUsersPanel(props) {
           allRows={allRows}
           setRows={setRows}
           headCells={headCells}
-          arrayTitle={
-            rows ? `Utilisateurs - ${rows.length} résultat(s)` : "Utilisateurs"
-          }
+          arrayTitle={rows ? `Users - ${rows.length} result(s)` : "Users"}
           handleDelete={handleDeleteUser}
           handleCreate={handleCreate}
           refreshData={fetchUsers}

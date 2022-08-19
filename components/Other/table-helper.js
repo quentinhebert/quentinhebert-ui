@@ -140,7 +140,7 @@ export function EnhancedTableToolbar(props) {
           variant="subtitle1"
           component="div"
         >
-          {selectedRows.length} élément(s) sélectionné(s)
+          {selectedRows.length} selected element(s)
         </Typography>
       ) : arrayTitle ? (
         <Typography
@@ -154,7 +154,7 @@ export function EnhancedTableToolbar(props) {
       ) : null}
 
       {selectedRows.length === 0 ? (
-        <Tooltip title="Rafraîchir">
+        <Tooltip title="Refresh">
           <IconButton
             onClick={(e) => refreshData()}
             sx={{ marginRight: "1rem" }}
@@ -175,12 +175,12 @@ export function EnhancedTableToolbar(props) {
           }}
           startIcon={<AddIcon />}
         >
-          <Typography variant="body2">Ajouter</Typography>
+          <Typography variant="body2">Add</Typography>
         </Button>
       ) : null}
 
       {selectedRows.length === 1 && !noEdit ? (
-        <Tooltip title="Modifier">
+        <Tooltip title="Edit">
           <IconButton onClick={(e) => handleEdit(selectedRows)}>
             <EditIcon />
           </IconButton>
@@ -188,7 +188,7 @@ export function EnhancedTableToolbar(props) {
       ) : null}
 
       {selectedRows.length > 0 ? (
-        <Tooltip title="Supprimer">
+        <Tooltip title="Delete">
           <IconButton onClick={(e) => handleDelete(selectedRows)}>
             <DeleteIcon />
           </IconButton>
@@ -206,7 +206,7 @@ export function EnhancedTableToolbar(props) {
         }}
       >
         <CustomSelect
-          placeholder="Filtre"
+          placeholder="Filter"
           options={headCells}
           value={filterKey}
           setValue={setFilterKey}

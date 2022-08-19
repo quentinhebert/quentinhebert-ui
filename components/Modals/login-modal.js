@@ -71,22 +71,22 @@ function LoginModal(props) {
         setShowAlert({
           show: true,
           severity: "success",
-          text: `Un email de confirmation a été renvoyé à ${emailInput}.`,
-          title: "E-mail de confirmation renvoyé",
+          text: `A confirmation email has been sent to ${emailInput}.`,
+          title: "Confirmation email re-sent",
         });
       else
         setShowAlert({
           show: true,
           severity: "warning",
-          text: `Désolé, nous n'avons pas pu renvoyer d'e-mail de confirmation à ${emailInput}.`,
-          title: "Échec lors de l'envoi",
+          text: `Sorry, we cannot re-send the confirmation email to ${emailInput}.`,
+          title: "Failed to send",
         });
     } else {
       setShowAlert({
         show: true,
         severity: "warning",
-        text: `Désolé, nous n'avons pas pu renvoyer d'e-mail de confirmation à ${emailInput}.`,
-        title: "Échec lors de l'envoi",
+        text: `Sorry, we cannot re-send the confirmation email to ${emailInput}.`,
+        title: "Failed to send",
       });
     }
   };
@@ -96,21 +96,21 @@ function LoginModal(props) {
       setShowAlert({
         show: true,
         severity: "warning",
-        text: "Votre adresse e-mail ou votre mot de passe est incorrect.",
-        title: "Mauvais mot de passe ou e-mail",
+        text: "Your email or your password is incorrect.",
+        title: "Wrong email or password",
       });
     else if (errorCode === errorCodes.LOGIN_EMAIL_NOT_CONFIRMED)
       setShowAlert({
         show: true,
         severity: "warning",
-        title: "E-mail non confirmé",
+        title: "Email not confirmed",
         text: (
           <Stack justifyContent="center" alignItems="center">
             <Typography sx={{ margin: ".5rem auto" }}>
-              Votre adresse e-mail n'est pas encore confirmée. Un lien de
-              confirmation vous a été envoyé par mail. Vérifiez vos spams.
-              Cliquez sur le bouton ou sur le lien présent dans le mail afin de
-              confirmer votre adresse e-mail. Puis connectez-vous.
+              Your email is not yet confirmed. A confirmation link has been sent
+              to your email. Please check your spams. Click on the button or on
+              the link in the email in order to confirm your email. Finally log
+              in.
             </Typography>
             {token ? (
               <Typography sx={{ margin: ".5rem auto" }}>
@@ -118,9 +118,9 @@ function LoginModal(props) {
                   onClick={() => resendConfirmEmail(token)}
                   sx={{ cursor: "pointer" }}
                 >
-                  Cliquez ici
+                  Click here
                 </Link>{" "}
-                pour renvoyer un email de confirmation.
+                to re-send a confirmation email.
               </Typography>
             ) : null}
           </Stack>
@@ -130,8 +130,8 @@ function LoginModal(props) {
       setShowAlert({
         show: true,
         severity: "warning",
-        text: "Cet utilisateur a été banni.",
-        title: "Utilisateur banni",
+        text: "This user has been banned.",
+        title: "Banned user",
       });
     else
       setShowAlert({
@@ -180,8 +180,8 @@ function LoginModal(props) {
       setShowAlert({
         show: true,
         severity: "warning",
-        text: "Votre adresse e-mail ou votre mot de passe est incorrect.",
-        title: "Mauvais mot de passe ou e-mail",
+        text: "Your email or your password is incorrect.",
+        title: "Wrong email or password",
       });
     }
   };
@@ -224,7 +224,7 @@ function LoginModal(props) {
           ".MuiPaper-root": { bgcolor: "#000" },
         }}
       >
-        <ModalTitle text="Connexion" />
+        <ModalTitle text="Log in" />
 
         <Stack
           alignItems="center"
@@ -234,7 +234,7 @@ function LoginModal(props) {
           component={"form"}
         >
           <TextField
-            label="Adresse e-mail"
+            label="Email address"
             type="email"
             id="email"
             value={emailInput}
@@ -243,9 +243,9 @@ function LoginModal(props) {
             sx={{ width: "calc(100% - 3rem)" }}
           />
           <FormControl sx={{ width: "calc(100% - 3rem)", margin: "auto" }}>
-            <InputLabel htmlFor="password">Mot de passe</InputLabel>
+            <InputLabel htmlFor="password">Password</InputLabel>
             <OutlinedInput
-              label="Mot de passe"
+              label="Password"
               type={showPassword ? "text" : "password"}
               id="password"
               value={passwordInput}
@@ -272,16 +272,16 @@ function LoginModal(props) {
               sx={{ cursor: "pointer" }}
               onClick={handleClickPasswordForgotten}
             >
-              J'ai oublié mon mot de passe
+              I forgot my password
             </Link>
           </Typography>
 
           <ActionButtons
-            leftButtonText="Créer un compte"
-            leftButtonOnClick={handleOpenSignUp}
-            middleButtonText="Annuler"
-            middleButtonOnClick={handleCloseLogin}
-            rightButtonText="Se connecter"
+            // leftButtonText="Créer un compte"
+            // leftButtonOnClick={handleOpenSignUp}
+            // middleButtonText="Annuler"
+            // middleButtonOnClick={handleCloseLogin}
+            rightButtonText="Login"
             rightButtonOnClick={login}
             rightButtonDisabled={
               !passwordInput ||

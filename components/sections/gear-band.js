@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Stack, Typography, useMediaQuery } from "@mui/material";
-import theme from "../../config/theme";
+import * as React from "react"
+import { Stack, Typography, useMediaQuery } from "@mui/material"
+import theme from "../../config/theme"
 
 export default function GearBand(props) {
-  const { mainText, gear, reverse, portrait } = props;
-  const md = useMediaQuery(theme.breakpoints.down("md"));
+  const { mainText, gear, reverse, portrait } = props
+  const md = useMediaQuery(theme.breakpoints.down("md"))
   return (
     <Stack
       justifyContent="center"
@@ -36,7 +36,7 @@ export default function GearBand(props) {
           color="#fff"
           fontFamily="Arial"
           textTransform="uppercase"
-          letterSpacing="3px"
+          letterSpacing="2px"
           margin="1rem 0"
           textAlign="center"
           fontSize={{
@@ -52,7 +52,7 @@ export default function GearBand(props) {
           color="#fff"
           fontFamily="Arial"
           textTransform="uppercase"
-          letterSpacing="3px"
+          letterSpacing="2px"
           textAlign="left"
         >
           {gear.items.map((item) => {
@@ -67,7 +67,7 @@ export default function GearBand(props) {
               >
                 - {item}
               </Typography>
-            );
+            )
           })}
         </Typography>
       </Stack>
@@ -86,5 +86,5 @@ export default function GearBand(props) {
         }}
       />
     </Stack>
-  );
+  )
 }

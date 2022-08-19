@@ -19,29 +19,33 @@ import Link from "next/link";
 import { USERTYPES } from "../../enums/userTypes";
 
 const AdminItems = [
-  { label: "Espace admin", icon: <AdminPanelSettingsIcon />, url: "/admin" },
-  { label: "Mon compte", icon: <PersonIcon />, url: "/account" },
-  { label: "Mes missions", icon: <WorkIcon />, url: "#" },
-  { label: "Messages", icon: <EmailIcon />, url: "#" },
+  { label: "Admin panel", icon: <AdminPanelSettingsIcon />, url: "/admin" },
+  { label: "My account", icon: <PersonIcon />, url: "/account" },
+  // { label: "Mes missions", icon: <WorkIcon />, url: "#" },
+  // { label: "Messages", icon: <EmailIcon />, url: "#" },
 ];
 
 const ClientItems = [
   { label: "Mon compte", icon: <PersonIcon />, url: "/account" },
-  { label: "Mes commandes", icon: <ShoppingCartIcon />, url: "#" },
-  { label: "Messages", icon: <EmailIcon />, url: "#" },
+  // { label: "Mes commandes", icon: <ShoppingCartIcon />, url: "#" },
+  // { label: "Messages", icon: <EmailIcon />, url: "#" },
 ];
 
 const ProfessionalItems = [
   { label: "Mon compte", icon: <PersonIcon />, url: "/account" },
-  { label: "Mes missions", icon: <WorkIcon />, url: "#" },
-  { label: "Messages", icon: <EmailIcon />, url: "#" },
+  // { label: "Mes missions", icon: <WorkIcon />, url: "#" },
+  // { label: "Messages", icon: <EmailIcon />, url: "#" },
 ];
 
 const renderMenuItems = (setOfItems) => {
-  return setOfItems.map((item) => (
-    <Link href={item.url} passHref key={item.label}>
+  return setOfItems.map((item, key) => (
+    <Link href={item.url} passHref key={key}>
       <a>
-        <ListItem button key={item.label}>
+        <ListItem
+          button
+          key={key}
+          sx={{ color: (theme) => theme.palette.text.light }}
+        >
           <ListItemIcon>{item.icon}</ListItemIcon>
           <ListItemText primary={item.label} />
         </ListItem>
@@ -84,7 +88,10 @@ export default function UserMenuDrawer(props) {
                 src={user.avatar_path}
                 sx={{ marginRight: "1rem" }}
               />
-              <ListItemText primary={user.firstname + " " + user.lastname} />
+              <ListItemText
+                primary={user.firstname + " " + user.lastname}
+                sx={{ color: (theme) => theme.palette.text.light }}
+              />
             </ListItem>
 
             {!!user &&
@@ -99,11 +106,14 @@ export default function UserMenuDrawer(props) {
               user.type === USERTYPES.PROFESSIONAL &&
               renderMenuItems(ProfessionalItems)}
 
-            <ListItem button key="Se déconnecter" onClick={handleLogout}>
+            <ListItem button key="Log out" onClick={handleLogout}>
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>
-              <ListItemText primary="Se déconnecter" />
+              <ListItemText
+                primary="Log out"
+                sx={{ color: (theme) => theme.palette.text.light }}
+              />
             </ListItem>
           </List>
         </Stack>

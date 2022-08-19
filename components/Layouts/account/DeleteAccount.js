@@ -36,7 +36,7 @@ function DeleteAccount(props) {
     setSeverity("success");
     setOpenSnackBar("true");
     setMessageSnack(
-      "Votre compte a bien été supprimé. Vous allez être déconnecté dans 5 secondes."
+      "Your account has been deleted successfully. You are being redirected in 5 seconds..."
     );
     setTimeout(() => {
       logout(); // remove tokens from cookies
@@ -47,16 +47,12 @@ function DeleteAccount(props) {
   const handleError = () => {
     setSeverity("error");
     setOpenSnackBar("true");
-    setMessageSnack(
-      "Un problème est survenu lors de la mise à jour du mot de passe"
-    );
+    setMessageSnack("A problem occured while updating the password");
   };
   const handleInvalidConfirmation = async (response) => {
     setSeverity("error");
     setOpenSnackBar("true");
-    setMessageSnack(
-      "Veuillez rentrer votre adresse e-mail afin de poursuivre l'opération"
-    );
+    setMessageSnack("Please type your email to continue the operation");
   };
   const handleDeleteUser = async () => {
     if (!invalidConfirmation) {
@@ -84,7 +80,7 @@ function DeleteAccount(props) {
         }}
       >
         <Stack justifyContent="center" padding="1rem">
-          <ModalTitle text="Supprimer mon compte" />
+          <ModalTitle text="Delete my account" />
 
           <Stack
             gap={2}
@@ -105,7 +101,7 @@ function DeleteAccount(props) {
                   color: "#f44336",
                 }}
               >
-                Saisissez{" "}
+                Type{" "}
                 <Stack
                   sx={{
                     display: "inline-flex",
@@ -117,14 +113,14 @@ function DeleteAccount(props) {
                 >
                   {user.email}
                 </Stack>{" "}
-                puis cliquez sur <em>"Supprimer mon compte"</em> pour supprimer
-                définitivement votre compte .
+                then click on <em>"Delete my account"</em> to delete your
+                account definitively.
               </FormLabel>
               <TextField
                 required
                 type="input"
                 id="confirmation"
-                label="Rentrez votre adresse e-mail"
+                label="Type your email address"
                 color="primary"
                 fullWidth
                 value={confirmation || ""}
@@ -135,7 +131,7 @@ function DeleteAccount(props) {
 
           <ActionButtons
             rightButtonText={
-              loadingButton ? <CircularProgress /> : "Supprimer mon compte"
+              loadingButton ? <CircularProgress /> : "Delete my account"
             }
             rightButtonOnClick={handleDeleteUser}
             rightButtonDisabled={

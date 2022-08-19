@@ -10,7 +10,7 @@ export const BottomButtons = (props) => {
   return (
     <DialogActions sx={{ marginTop: "1rem" }}>
       <Button variant="outlined" onClick={cancelOnChange}>
-        Annuler
+        Cancel
       </Button>
       <Button
         variant="contained"

@@ -69,20 +69,18 @@ export default function EditUserForm(props) {
   const handleSuccess = () => {
     setSeverity("success");
     setOpenSnackBar("true");
-    setMessageSnack("Utilisateur mis à jour avec succès");
+    setMessageSnack("User updated successfully");
   };
   const handleError = () => {
     setSeverity("error");
     setOpenSnackBar("true");
-    setMessageSnack(
-      "Un problème est survenu lors de la mise à jour de l'utilisateur"
-    );
+    setMessageSnack("A problem occurred while updating the user");
   };
   const handleErrorDuplicate = () => {
     setSeverity("error");
     setOpenSnackBar("true");
     setMessageSnack(
-      "L'e-mail ou le numéro de téléphone existe déjà pour un autre utilisateur"
+      "The email address or the phone already exists for anothe user"
     );
   };
   const handleSaveUser = async () => {
@@ -106,12 +104,12 @@ export default function EditUserForm(props) {
   const handleEmailSent = async () => {
     setSeverity("success");
     setOpenSnackBar("true");
-    setMessageSnack("E-mail envoyé");
+    setMessageSnack("Email sent");
   };
   const handleEmailNotSent = async () => {
     setSeverity("error");
     setOpenSnackBar("true");
-    setMessageSnack("Un problème est survenu dans lors de l'envoi de l'email.");
+    setMessageSnack("A problem occurred while sending the email");
   };
   const resendConfirmEmail = async () => {
     const res = await apiCall.admin.resendUserConfirmEmail(user);
@@ -132,7 +130,7 @@ export default function EditUserForm(props) {
         content={{
           severity: "info",
           title: "Information",
-          text: "Si la case ci-dessus est décochée, l'utilisateur ne pourra pas se connecter. Il faudra que l'utilisateur confirme son adresse e-mail grâce à un e-mail de confirmation automatique. Si l'utilisateur vient de créer son compte, il a reçu un e-mail de confirmation à son adresse e-mail renseignée. Attention, l'e-mail automatique a pu arriver dans les courriers indésirables (spams) de l'utilisateur. Sinone, utilisez le bouton pour envoyer un e-mail automatique de confirmation d'e-mail.",
+          text: "If teh checkbox is unchecked, the user wont be allowed to log in anymore. The user will need to confirm his/her email with an automatic confirmation email. If the user has just created his/her account, the user has received an automatic email at the provided email. Attention, the automatic email can be received in the spams of the user. Otherwise, use the button to send an automatic confirmation email.",
         }}
       />
     );
@@ -142,7 +140,7 @@ export default function EditUserForm(props) {
         content={{
           severity: "info",
           title: "Information",
-          text: "Si la case ci-dessus est cochée, l'utilisateur ne pourra plus se connecter. Un message l'en informant lui sera affiché si l'utilisateur tente de se connecter.",
+          text: "If the checkbox is checked, the user will not be allowed to log in anymore. A message will be shown to the user if he/she tries to log in.",
         }}
       />
     );
@@ -152,7 +150,7 @@ export default function EditUserForm(props) {
         content={{
           severity: "info",
           title: "Information",
-          text: "Si la case ci-dessus est cochée, cela signifie que l'utilisateur a cliqué sur un bouton \"Mot de passe oublié\". S'il réinitialise son mot de passe, cette case sera décochée automatiquement.",
+          text: 'If the checkbox is checked, that means the user has clicked on the button "Password forgotten". If the user resets his/her password, this checkbox will be automatically unchecked.',
         }}
       />
     );
@@ -178,7 +176,7 @@ export default function EditUserForm(props) {
         },
       }}
     >
-      <ModalTitle text="Modifier un utilisateur" />
+      <ModalTitle text="Edit user" />
 
       <Stack
         direction="row"
@@ -194,7 +192,7 @@ export default function EditUserForm(props) {
           onClick={(e) => fetchUser()}
           sx={{ width: "150px" }}
         >
-          Raffraichir
+          Refresh
         </Button>
       </Stack>
 
@@ -227,16 +225,16 @@ export default function EditUserForm(props) {
               label="Type"
               onChange={handleChange("type")}
             >
-              <MenuItem value="admin">Administrateur</MenuItem>
+              <MenuItem value="admin">Admin</MenuItem>
               <MenuItem value="client">Client</MenuItem>
-              <MenuItem value="professional">Employé</MenuItem>
+              <MenuItem value="professional">Employed</MenuItem>
             </Select>
           </FormControl>
           <TextField
             required
             type="input"
             id="firstname"
-            label="Prénom"
+            label="Firstname"
             color="primary"
             fullWidth
             value={user.firstname || ""}
@@ -246,7 +244,7 @@ export default function EditUserForm(props) {
             required
             type="input"
             id="lastname"
-            label="Nom"
+            label="Lastname"
             color="primary"
             fullWidth
             value={user.lastname || ""}
@@ -256,25 +254,25 @@ export default function EditUserForm(props) {
             required
             type="email"
             id="email"
-            label="Adresse e-mail"
+            label="Email address"
             color="primary"
             fullWidth
             value={user.email || ""}
             onChange={handleChange("email")}
             error={emailError || updateErrors.email}
-            helperText={emailError && "Cette adresse e-mail n'est pas valide"}
+            helperText={emailError && "The email is not valid"}
           />
           <TextField
             required
             type="phone"
             id="phone"
-            label="Téléphone"
+            label="Phone"
             color="primary"
             fullWidth
             value={user.phone || ""}
             onChange={handleChange("phone")}
             error={phoneError || updateErrors.phone}
-            helperText={phoneError && "Ce numéro de téléphone n'est pas valide"}
+            helperText={phoneError && "This phone is not valid"}
           />
           <Stack direction="row" gap={2}>
             <Button
@@ -283,7 +281,7 @@ export default function EditUserForm(props) {
               onClick={sendPasswordForgottenEmail}
               startIcon={<SendIcon />}
             >
-              Envoyer un mail automatique de réinitialisation de mot de passe.
+              Send an automatic password reset email
             </Button>
             <Button
               variant="outlined"
@@ -291,7 +289,7 @@ export default function EditUserForm(props) {
               onClick={resendConfirmEmail}
               startIcon={<SendIcon />}
             >
-              Envoyer un mail automatique de confirmation d'e-mail.
+              Send an automatic confirmation email
             </Button>
           </Stack>
           <FormControlLabel
@@ -302,7 +300,7 @@ export default function EditUserForm(props) {
                 checked={user.email_confirmed || false}
               />
             }
-            label="E-mail confirmé"
+            label="Email confirmed"
           />
           <InfoEmailConfirm user={user} />
           <FormControlLabel
@@ -313,7 +311,7 @@ export default function EditUserForm(props) {
                 checked={user.banned || false}
               />
             }
-            label="Banni"
+            label="Banned"
           />
           <InfoBanned user={user} />
           <FormControlLabel
@@ -324,16 +322,16 @@ export default function EditUserForm(props) {
                 value={user.password_forgotten || false}
               />
             }
-            label="Mot de passe oublié"
+            label="Password forgotten"
           />
           <InfoPasswordForgotten user={user} />
         </FormControl>
       </Stack>
 
       <ActionButtons
-        middleButtonText="Annuler"
+        middleButtonText="Cancel"
         middleButtonOnClick={handleCloseEditModal}
-        rightButtonText={loadingButton ? <CircularProgress /> : "Enregistrer"}
+        rightButtonText={loadingButton ? <CircularProgress /> : "Save"}
         rightButtonOnClick={handleSaveUser}
         rightButtonDisabled={loadingButton}
       />

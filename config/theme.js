@@ -1,28 +1,42 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles"
 
 const mainTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
       main: "#fff",
-      contrastText: "#272727",
+      contrastText: "#212121",
     },
     secondary: {
-      main: "#f50057",
+      main: "#C6900E",
+      dark: "#152D35",
     },
     background: {
-      main: "#272727",
+      main: "#070135",
+      // main: "#1E3230",
+      // dark: "#100720",
+      dark: "#111a23",
+      // dark: "#111f1e",
+      // main: "#353D2F",
+      // main: "#310D20",
+      // main: "#A64253",
+      // main: "#B0BBBF",
+      secondary: "#C6900E",
+      tersary: "#B0BBBF",
+      secondaryDark: "#152D35",
       tableEven: "#424242",
-      paper: "#272727",
+      paper: "#212121",
       alert: "rgb(255, 226, 183)",
-    },
-    notification: {
-      main: "rgb(158, 218, 243)",
+      white: "#fff",
     },
     text: {
-      primaryContrast: "#424242",
-      secondary: "#f2f2f2",
+      primary: "#fff",
+      primaryContrast: "#212121",
+      secondary: "#C6900E",
+      tersary: "#F5BB5F",
       greyed: "rgba(242, 242, 242, 0.7)",
+      light: "#fff",
+      secondaryDark: "#152D35",
     },
     divider: "#707070",
   },
@@ -69,33 +83,22 @@ const mainTheme = createTheme({
             fontSize: "16px",
           },
         },
-        {
-          props: { variant: "whiteText", color: "secondary" },
-          style: {
-            textTransform: "none",
-            color: "#fffdfd",
-            fontSize: "16px",
-          },
-        },
       ],
     },
   },
-});
+})
 
 const lightTheme = createTheme({
   ...mainTheme,
   palette: {
     primary: {
-      main: "#caab57",
+      main: "#212121",
     },
     secondary: {
-      main: "#f50057",
-    },
-    notification: {
-      main: "rgb(158, 218, 243)",
+      main: "#0d7377",
     },
   },
-});
+})
 
-export { lightTheme };
-export default mainTheme;
+export { lightTheme }
+export default mainTheme

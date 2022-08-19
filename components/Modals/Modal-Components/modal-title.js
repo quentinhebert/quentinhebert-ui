@@ -7,6 +7,7 @@ export const ModalTitle = ({ text }) => (
     sx={{
       padding: "1rem 1.5rem",
       letterSpacing: 1,
+      color: (theme) => theme.palette.text.light,
     }}
   >
     {text}

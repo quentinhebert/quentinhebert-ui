@@ -22,6 +22,7 @@ export default function CustomCard(props) {
       sx={{
         width: { sm: "100%", md: "400px" },
         padding: "0.5rem 1rem 1rem 1rem",
+        color: (theme) => theme.palette.text.light,
       }}
     >
       <CardContent>
@@ -36,7 +37,7 @@ export default function CustomCard(props) {
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           {subtitle}
         </Typography>
-        <Typography variant="body2">{text}</Typography>
+        <Typography variant="body1">{text}</Typography>
       </CardContent>
 
       <CardActions>

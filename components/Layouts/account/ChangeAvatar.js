@@ -1,22 +1,11 @@
-import {
-  FormControl,
-  Paper,
-  Stack,
-  CircularProgress,
-  Avatar,
-  Input,
-  Button,
-  FormLabel,
-} from "@mui/material";
+import { FormControl, Paper, Stack, Avatar, Button } from "@mui/material";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import apiCall from "../../../services/apiCalls/apiCall";
 import withSnacks from "../../hocs/withSnacks";
-import { ActionButtons } from "../../Modals/Modal-Components/modal-action-buttons";
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title";
-import { errorCodes } from "../../../config/errorCodes";
 import { compose } from "redux";
-import withAddNewPhotos from "../../hocs/withAddNewPhotos";
+import withAddAvatar from "../../hocs/withAddAvatar";
 import withConfirmAction from "../../hocs/withConfirmAction";
 
 function ChangeAvatar(props) {
@@ -34,10 +23,6 @@ function ChangeAvatar(props) {
     setNextButtonText,
     setConfirmContent,
   } = props;
-
-  // USE-STATES
-  const [loadingButton, setLoadingButton] = useState(false);
-  const router = useRouter();
 
   // Fetch data
   async function fetchUser() {
@@ -63,23 +48,21 @@ function ChangeAvatar(props) {
   const handleSuccess = () => {
     setSeverity("success");
     setOpenSnackBar("true");
-    setMessageSnack("Votre avatar a été supprimé avec succès");
+    setMessageSnack("Your avatar has been deleted successfully");
     setUser({ ...user, avatar_path: null }); // Update user context
   };
   const handleError = () => {
     setSeverity("error");
     setOpenSnackBar("true");
-    setMessageSnack(
-      "Un problème est survenu lors de la suppression de votre avatar"
-    );
+    setMessageSnack("A problem occured while deleting your avatar");
   };
   const handleDeleteAvatar = () => {
     setActionToFire(() => () => deleteAvatar());
     setConfirmTitle("Confirmation");
     setConfirmContent({
-      text: "Voulez vous vraiment supprimer votre avatar ?",
+      text: "Do you really want to delete your avatar ?",
     });
-    setNextButtonText("Oui, je suis sûr !");
+    setNextButtonText("Yes, I really do !");
     setOpenConfirmModal(true);
   };
 
@@ -94,7 +77,7 @@ function ChangeAvatar(props) {
         }}
       >
         <Stack justifyContent="center" padding="1rem">
-          <ModalTitle text="Modifier mon avatar" />
+          <ModalTitle text="Change my avatar" />
 
           <Stack
             gap={2}
@@ -119,13 +102,13 @@ function ChangeAvatar(props) {
                   onClick={handleDeleteAvatar}
                   disabled={!user.avatar_path}
                 >
-                  Supprimer
+                  Delete
                 </Button>
                 <Button
                   variant="contained"
                   onClick={(e) => setOpenAddNewPhotosModal(true)}
                 >
-                  {user.avatar_path ? "Modifier" : "Ajouter"}
+                  {user.avatar_path ? "Change" : "Add"}
                 </Button>
               </Stack>
             </FormControl>
@@ -138,6 +121,6 @@ function ChangeAvatar(props) {
 
 export default compose(
   withSnacks,
-  withAddNewPhotos,
+  withAddAvatar,
   withConfirmAction
 )(ChangeAvatar);

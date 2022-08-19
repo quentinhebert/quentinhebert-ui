@@ -95,6 +95,118 @@ const unauthenticated = {
       console.error(error);
     }
   },
+  /* Get public categories for website homepage */
+  getPublicCategories: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/homepage/categories`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  /* Get public categories for website homepage */
+  getWorkPageData: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/workpage`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  /* Get public categories for website homepage */
+  sendContactForm: async (clientData) => {
+    try {
+      const body = JSON.stringify(clientData);
+      return await fetch(`${defaultConfig.apiUrl}/contact-form`, {
+        method: "POST",
+        body: body,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  /* Get public category videos for a given category */
+  getCategoryVideos: async (categoryId) => {
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/categories/${categoryId}/videos`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  /* Get all public categories' videos */
+  getCategoriesVideos: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/categories/videos`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  /* Get public category with given id */
+  getCategoryVideo: async (videoId) => {
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/categories/videos/${videoId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  /* Get public category videos for a given category */
+  getReferences: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/references`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  /* Get reference with given id */
+  getReference: async (referenceId) => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/references/${referenceId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };
 
 export default unauthenticated;

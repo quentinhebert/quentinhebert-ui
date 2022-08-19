@@ -1,51 +1,82 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
-import LogoSwitchDropdown from "../../Dropdown/logo-switch-dropdown";
-import LoginOrMenuButton from "../login-or-menu-button";
+import React, { useContext, useRef } from "react"
+import AppBar from "@mui/material/AppBar"
+import Box from "@mui/material/Box"
+import Toolbar from "@mui/material/Toolbar"
+import LoginOrMenuButton from "../login-or-menu-button"
+import { USERTYPES } from "../../../enums/userTypes"
+import { UserContext } from "../../../contexts/UserContext"
+import Image from "next/image"
+import { Slide, Stack, Typography, useMediaQuery } from "@mui/material"
+import theme from "../../../config/theme"
+import { useRouter } from "next/router"
+import dynamic from "next/dynamic"
+
+const MobileNavbar = dynamic(() => import("./mobile-navbar"))
+const DesktopNavbar = dynamic(() => import("./desktop-navbar"))
 
 export default function Navbar(props) {
-  const { dev, film } = props;
-
+  const { bgColor } = props
   // Define main color of navbar
-  let mainColor = "#000";
-  if (dev) mainColor = "#004fa0";
-  else if (film) mainColor = "#87181f";
+  let mainColor = bgColor || theme.palette.background.main
 
   // Define logo of navbar
-  let logo = "/logos/logo.png";
-  if (dev) logo = "/logos/dev-logo.png";
-  else if (film) logo = "/logos/film-logo.png";
+  let logo = "/logos/logo.svg"
+
+  const menuItems = [
+    { href: "/", label: "Accueil" },
+    { href: "/films", label: "Vidéaste" },
+    { href: "/websites", label: "Développeur web" },
+    { href: "/about", label: "À propos" },
+    { href: "/contact", label: "Contact" },
+  ]
+
+  // Check if user has grant to access that page
+  const { user } = useContext(UserContext)
+
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"))
+
+  const containerRef = useRef(null)
+
+  const router = useRouter()
+  const page = router.asPath
 
   return (
     <AppBar
-      position="sticky"
+      position="fixed"
       component="nav"
-      sx={{ backgroundColor: mainColor, backgroundImage: "none" }}
+      sx={{
+        background:
+          "linear-gradient(180deg, rgb(0,0,0,0.5) 0%, transparent 100%)",
+        width: "100%",
+        boxShadow: "none",
+      }}
     >
-      <Box sx={{ flexGrow: 2 }}>
-        <Toolbar>
-          <LogoSwitchDropdown src={logo} />
+      <Box sx={{ flexGrow: 2, width: "100%" }}>
+        <Toolbar sx={{ width: "100%" }}>
+          <Stack padding="0.75rem" flexDirection="row" alignItems="center">
+            <Slide
+              direction="right"
+              {...(true ? { timeout: 1000 } : {})}
+              in
+              mountOnEnter
+              unmountOnExit
+            >
+              <Stack href="/" component="a">
+                <Image src={logo} width="150rem" height="70rem" />
+              </Stack>
+            </Slide>
+          </Stack>
           <Box component="div" sx={{ flexGrow: 1 }} />
-          <Button
-            sx={{
-              backgroundColor: "#fff",
-              color: mainColor,
-              letterSpacing: "1px",
-              padding: ".5rem 1rem",
-              margin: ".5rem",
-              border: "solid 1px",
-              "&:hover": { color: "#fff" },
-            }}
-          >
-            Obtenir un devis
-          </Button>
 
-          <LoginOrMenuButton />
+          {isMobile ? (
+            <MobileNavbar mainColor={mainColor} list={menuItems} />
+          ) : (
+            <DesktopNavbar mainColor={mainColor} list={menuItems} page={page} />
+          )}
+
+          {!!user && user.type === USERTYPES.ADMIN && <LoginOrMenuButton />}
         </Toolbar>
       </Box>
     </AppBar>
-  );
+  )
 }

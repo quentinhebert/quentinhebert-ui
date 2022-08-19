@@ -8,7 +8,7 @@ export default function AccountIndex() {
   return (
     <Stack justifyContent="center" direction="column" gap={4} padding="1rem">
       <Typography component="h1" variant="h4">
-        Mon compte
+        My account
       </Typography>
       <Stack
         justifyContent="center"
@@ -22,23 +22,23 @@ export default function AccountIndex() {
         }}
       >
         <CustomCard
-          title="Mes informations personnelles"
-          text="Email, téléphone, nom, prénom..."
-          buttonLeft="Afficher"
+          title="My personal information"
+          text="Email, phone, name, firstname..."
+          buttonLeft="Show"
           buttonLeftOnclick={() => router.push("/account/personal-information")}
         />
 
-        <CustomCard
+        {/* <CustomCard
           title="Gérer les missions"
           text="Ajouter, modifier, supprimer des missions..."
           buttonLeft="Voir toutes les missions"
           buttonLeftOnclick={() => router.push("/admin/missions")}
-        />
+        /> */}
 
-        <CustomCard
+        {/* <CustomCard
           title="Gérer les missions"
           text="Ajouter, modifier, supprimer, modifier les rôles des utilisateurs..."
-        />
+        /> */}
       </Stack>
     </Stack>
   );

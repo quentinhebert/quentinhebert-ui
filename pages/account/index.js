@@ -16,7 +16,7 @@ function AccountIndexPage(props) {
   return (
     <>
       <Head>
-        <title>Polygones | Mon compte | Mes informations personnelles</title>
+        <title>MMF | My account | My personal information</title>
         <meta name="description" content="Page mon compte" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

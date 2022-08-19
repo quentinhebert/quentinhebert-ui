@@ -18,9 +18,10 @@ export default function AdminFilesManagementPage(props) {
   return (
     <>
       <Head>
-        <title>Polygones | Fichiers</title>
-        <meta name="description" content="Tous les fichiers du site" />
+        <title>Mathias Mortelmans | Files</title>
+        <meta name="description" content="All files of your website" />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="robots" content="noindex, nofollow" />
       </Head>
       <Navbar />
 

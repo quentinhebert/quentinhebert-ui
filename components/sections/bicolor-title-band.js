@@ -1,41 +1,85 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import { Stack, Typography } from "@mui/material";
+import * as React from "react"
+import Box from "@mui/material/Box"
+import { Stack, Typography, useMediaQuery } from "@mui/material"
+import { useAnimation, motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
+import theme from "../../config/theme"
 
 export default function BicolorTitleBand(props) {
-  const { mainText, mainColor, secondaryText, secondaryColor, bgColor } = props;
+  const {
+    mainText,
+    mainColor,
+    secondaryText,
+    mainFontFamily,
+    secondaryColor,
+    bgColor,
+    padding,
+  } = props
+
+  /********** ANIMATION **********/
+  const [ref, inView] = useInView()
+  const variants = (key) => {
+    return {
+      visible: {
+        opacity: 1,
+        scaleY: 1,
+        transition: { duration: 0.5, delay: 0.2 + key / 10 },
+      },
+      hidden: { opacity: 0, scaleY: 0 },
+    }
+  }
+  const controls = useAnimation()
+
+  React.useEffect(() => {
+    if (inView) {
+      controls.start("visible")
+    } else {
+      controls.start("hidden")
+    }
+  }, [controls, inView])
+
+  const isMobileOrTablet = useMediaQuery((theme) =>
+    theme.breakpoints.down("sm")
+  )
+
   return (
     <Stack
       justifyContent="center"
       alignContent="center"
       alignItems="center"
       width="100%"
-      minHeight="200px"
+      minHeight="100px"
       direction="column"
       backgroundColor={bgColor}
-      padding="1rem 0"
+      padding={padding || "1rem"}
+      ref={ref}
+      zIndex={2}
     >
-      <Box
-        component="div"
-        width="100%"
-        color={secondaryColor}
-        textTransform="uppercase"
-        letterSpacing="3px"
-        textAlign="center"
-        fontFamily="Arial"
-      >
-        {secondaryText}
-      </Box>
-      <Typography
-        component="h2"
-        textTransform="uppercase"
-        letterSpacing="5px"
-        fontSize="2rem"
-        textAlign="center"
-        color={mainColor}
-      >
-        {mainText}
-      </Typography>
+      <motion.div initial="hidden" variants={variants(1)} animate={controls}>
+        <Box
+          component="div"
+          width="100%"
+          color={secondaryColor}
+          textTransform="uppercase"
+          letterSpacing="2px"
+          textAlign="center"
+          fontFamily="Arial"
+          fontSize={isMobileOrTablet ? "0.85rem" : "1rem"}
+        >
+          {secondaryText}
+        </Box>
+        <Typography
+          component="h2"
+          textTransform="uppercase"
+          letterSpacing="5px"
+          textAlign="center"
+          color={mainColor}
+          fontSize={isMobileOrTablet ? "1.7rem" : "2rem"}
+          fontFamily={mainFontFamily || null}
+        >
+          {mainText}
+        </Typography>
+      </motion.div>
     </Stack>
-  );
+  )
 }

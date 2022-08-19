@@ -9,8 +9,8 @@ function withConfirmAction(WrappedComponent) {
   function Enhancer(props) {
     const [actionToFire, setActionToFire] = useState(null);
     const [openModal, setOpenModal] = useState(false);
-    const [confirmTitle, setConfirmTitle] = useState("Confirmer");
-    const [nextButtonText, setNextButtonText] = useState("Continuer");
+    const [confirmTitle, setConfirmTitle] = useState("Confirmation");
+    const [nextButtonText, setNextButtonText] = useState("Continue");
     const [confirmContent, setConfirmContent] = useState({
       text: null,
       js: null,
@@ -18,8 +18,8 @@ function withConfirmAction(WrappedComponent) {
 
     const closeAndcleanState = () => {
       setActionToFire(null);
-      setConfirmTitle("Confirmer");
-      setNextButtonText("Continuer");
+      setConfirmTitle("Confirmation");
+      setNextButtonText("Continue");
       setConfirmContent({ text: null, js: null });
       setOpenModal(false);
     };
@@ -76,7 +76,7 @@ function withConfirmAction(WrappedComponent) {
             ) : null}
             {confirmContent.js ? content.js : null}
             <ActionButtons
-              middleButtonText="Annuler"
+              middleButtonText="Cancel"
               middleButtonOnClick={handleCancel}
               rightButtonText={nextButtonText}
               rightButtonOnClick={handleNext}

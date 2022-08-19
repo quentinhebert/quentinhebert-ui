@@ -1,8 +1,8 @@
-import * as React from "react";
-import { Box, Button } from "@mui/material";
-import { Stack, Typography, useMediaQuery } from "@mui/material";
-import { useScrollPosition } from "@n8tb1t/use-scroll-position";
-import theme from "../../config/theme";
+import * as React from "react"
+import { Box, Button } from "@mui/material"
+import { Stack, Typography, useMediaQuery } from "@mui/material"
+import { useScrollPosition } from "@n8tb1t/use-scroll-position"
+import theme from "../../config/theme"
 
 export default function HeadBand(props) {
   const {
@@ -13,17 +13,17 @@ export default function HeadBand(props) {
     scrollTo,
     refForScroll,
     bgPositionY,
-  } = props;
+  } = props
 
-  const [showScrollToTopBtn, setShowScrollToTopBtn] = React.useState(false);
+  const [showScrollToTopBtn, setShowScrollToTopBtn] = React.useState(false)
   useScrollPosition(({ prevPos, currPos }) => {
     if (prevPos.y > currPos.y && !showScrollToTopBtn) {
-      setShowScrollToTopBtn(true);
+      setShowScrollToTopBtn(true)
     } else if (prevPos.y < currPos.y && !showScrollToTopBtn) {
-      setShowScrollToTopBtn(false);
+      setShowScrollToTopBtn(false)
     }
-  });
-  const md = useMediaQuery(theme.breakpoints.down("md"));
+  })
+  const md = useMediaQuery(theme.breakpoints.down("md"))
   return (
     <Stack
       height="50vh"
@@ -52,7 +52,7 @@ export default function HeadBand(props) {
           textTransform="uppercase"
           fontFamily="Arial"
           lineHeight="2rem"
-          letterSpacing="3px"
+          letterSpacing="2px"
           fontSize={md ? "1.5rem" : "2rem"}
           padding="1rem"
         >
@@ -74,5 +74,5 @@ export default function HeadBand(props) {
         </Button>
       </Stack>
     </Stack>
-  );
+  )
 }

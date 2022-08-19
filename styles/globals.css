@@ -1,7 +1,56 @@
-html,
+html {
+  padding: 0;
+  margin: 0;
+  scrollbar-color: #ba820d #3D403E;
+}
 body {
   padding: 0;
   margin: 0;
+  overflow-x: hidden;
+}
+
+
+::-webkit-scrollbar {
+  background: #3D403E ;
+}
+::-webkit-scrollbar-thumb {
+  background: #ba820d;
+  border-radius: 10px;
+}
+
+.cool-button {
+  display: inline-block;
+  text-decoration: none;
+}
+.cool-button::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #ba820d;
+  transition: width .3s;
+}
+.cool-button:hover::after {
+  width: 100%;
+  transition: width .3s;
+}
+
+.cool-link {
+  display: inline-block;
+  text-decoration: none;
+}
+.cool-link::after {
+  content: '';
+  display: block;
+  width: 0;
+  margin-top: 2px;
+  height: 2px;
+  background: #06c;
+  transition: width .3s;
+}
+.cool-link:hover::after {
+  width: 100%;
+  transition: width .3s;
 }
 
 @font-face {
@@ -34,6 +83,85 @@ body {
     url("https://fonts.cdnfonts.com/s/30507/Luxerie Display.woff")
       format("woff");
 }
+@font-face {
+  font-family: 'Rebori';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Rebori'), url('https://fonts.cdnfonts.com/s/75883/Rebori-0WqRo.woff') format('woff');
+}
+@font-face {
+  font-family: 'ResotELavender';
+  font-style: normal;
+  font-weight: 500;
+  src: local('ResotELavender'), url('https://fonts.cdnfonts.com/s/31180/ResotE-Lavender.woff') format('woff');
+}
+@font-face {
+  font-family: 'ResotEPearl';
+  font-style: normal;
+  font-weight: 500;
+  src: local('ResotEPearl'), url('https://fonts.cdnfonts.com/s/31180/ResotE-Pearl.woff') format('woff');
+}
+@font-face {
+  font-family: 'ResotE';
+  font-style: normal;
+  font-weight: 500;
+  src: local('ResotE'), url('https://fonts.cdnfonts.com/s/31180/ResotE.woff') format('woff');
+}
+@font-face {
+  font-family: 'Ethereal';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Ethereal'), url('https://fonts.cdnfonts.com/s/78834/Ethereal-Thin.woff') format('woff');
+}
+@font-face {
+  font-family: 'Quiny';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Quiny'), url('https://fonts.cdnfonts.com/s/78442/quiny.woff') format('woff');
+}
+@font-face {
+  font-family: 'Rambors';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Rambors'), url('https://fonts.cdnfonts.com/s/78357/RamborsRegular-lgRPX.woff') format('woff');
+}
+@font-face {
+  font-family: 'BLUE OCEAN';
+  font-style: normal;
+  font-weight: 400;
+  src: local('BLUE OCEAN'), url('https://fonts.cdnfonts.com/s/74691/BlueOcean-YzBDa.woff') format('woff');
+}
+@font-face {
+  font-family: 'Bambi Bold';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Bambi Bold'), url('https://fonts.cdnfonts.com/s/8871/X_BAMBI.woff') format('woff');
+}
+@font-face {
+  font-family: 'xscale';
+  font-style: normal;
+  font-weight: 700;
+  src: local('xscale'), url('https://fonts.cdnfonts.com/s/6258/X-SCALE_.woff') format('woff');
+}
+@font-face {
+  font-family: 'Righteous';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Righteous'), url('https://fonts.cdnfonts.com/s/15577/Righteous-Regular.woff') format('woff');
+}
+@font-face {
+  font-family: 'neo latina';
+  font-style: normal;
+  font-weight: 400;
+  src: local('neo latina'), url('https://fonts.cdnfonts.com/s/18661/neo-latina-demo-FFP.woff') format('woff');
+}
+@font-face {
+  font-family: 'Zacbel X';
+  font-style: normal;
+  font-weight: 0;
+  src: local('Zacbel X'), url('https://fonts.cdnfonts.com/s/83998/zacbelx-extrabold.woff') format('woff');
+}
+
 
 a {
   color: inherit;

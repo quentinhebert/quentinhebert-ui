@@ -25,7 +25,7 @@ function PersonalInformationPage(props) {
     <>
       <Head>
         <title>Polygones | Mon compte</title>
-        <meta name="description" content="Page mon compte" />
+        <meta name="description" content="Account page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
@@ -33,9 +33,9 @@ function PersonalInformationPage(props) {
       <Stack padding={2}>
         <Typography component="h6" variant="h6">
           <Link onClick={() => router.push("/account")} href="#" color="#000">
-            Mon compte
+            My account
           </Link>
-          {" / Mes informations personnelles"}
+          {" / My personal information"}
         </Typography>
       </Stack>
 

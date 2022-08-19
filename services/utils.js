@@ -1,4 +1,5 @@
 import jsonwebtoken from "jsonwebtoken";
+import { useRouter } from "next/router";
 import apiCall from "./apiCalls/apiCall";
 import { getToken, removeToken, setRefreshToken, setToken } from "./cookies";
 
@@ -54,4 +55,11 @@ export function checkPassword(password) {
     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/gm
   );
   return regex.test(password);
+}
+
+export function getQueryParam(queryParam) {
+  const router = useRouter();
+  const res =
+    router.asPath.match(new RegExp(`[?&]${queryParam}(=([^&#]*)|&|#|$)`)) || [];
+  return res[2];
 }

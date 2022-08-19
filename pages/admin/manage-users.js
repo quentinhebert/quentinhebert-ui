@@ -18,9 +18,10 @@ export default function AdminUsersManagementPage(props) {
   return (
     <>
       <Head>
-        <title>Polygones | Utilisateurs</title>
-        <meta name="description" content="Tous les utilisateurs du site" />
+        <title>Mathias Mortelmans Films | Users</title>
+        <meta name="description" content="All the users of your website" />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="robots" content="noindex, nofollow" />
       </Head>
       <Navbar />
 

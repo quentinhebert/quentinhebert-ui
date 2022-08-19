@@ -70,12 +70,12 @@ function AdminFilesPanel(props) {
 
     if (errors === 0) {
       setSeverity("success");
-      setMessageSnack("Image(s) supprimé(s) avec succès.");
+      setMessageSnack("File(s) deleted successfully.");
       setOpenSnackBar(true);
     } else {
       setSeverity("error");
       setMessageSnack(
-        `Un problème est survenu lors de la suppressions ${errors} des files sélectionnées.`
+        `A problem occurred while deleting ${errors} of the selected files.`
       );
       setOpenSnackBar(true);
     }
@@ -86,18 +86,16 @@ function AdminFilesPanel(props) {
     // filesToDelete must be an array of user ids (we get it from table-helper.js)
     if (!filesToDelete.length) {
       setSeverity("error");
-      setMessageSnack(
-        "Un problème est survenu lors de la suppressions des fichiers sélectionnées."
-      );
+      setMessageSnack("A problem occurred while deleting the selected files");
       return setOpenSnackBar(true);
     }
     // Open confirm modal
     setConfirmTitle(`Confirmation`);
     setActionToFire(() => async () => await deleteFiles(filesToDelete));
     setConfirmContent({
-      text: `Voulez-vous vraiment supprimer ${filesToDelete.length} fichier(s) ?`,
+      text: `Do you really want to delete ${filesToDelete.length} file(s) ?`,
     });
-    setNextButtonText("Supprimer");
+    setNextButtonText("Delete");
     setOpenConfirmModal(true);
   };
 
@@ -111,7 +109,7 @@ function AdminFilesPanel(props) {
     {
       id: "public_url",
       numeric: false,
-      label: "Fichier",
+      label: "File",
       valueGetter: function (param, rowId) {
         return param ? <img src={param} style={{ width: "80px" }} /> : <></>;
       },
@@ -119,7 +117,7 @@ function AdminFilesPanel(props) {
     {
       id: "created_at",
       numeric: false,
-      label: "Uploadé le",
+      label: "Uploades on",
       valueGetter: function (param, rowId) {
         const year = param.split("T")[0].split("-")[0];
         const month = param.split("T")[0].split("-")[1];
@@ -129,8 +127,8 @@ function AdminFilesPanel(props) {
         const date = day + "/" + month + "/" + year.substring(2);
         const time = hour + ":" + min;
         return (
-          <Tooltip title={`Pour filtrer, cherchez "${param}"`}>
-            <div>{`Le ${date} à ${time}`}</div>
+          <Tooltip title={`To filter, search "${param}"`}>
+            <div>{`On ${date} at ${time}`}</div>
           </Tooltip>
         );
       },
@@ -148,11 +146,11 @@ function AdminFilesPanel(props) {
     {
       id: "size",
       numeric: false,
-      label: "Poids",
+      label: "Size",
       valueGetter: function (param, rowId) {
         const size = formatter.format(param / 1024 / 1024);
         return (
-          <Tooltip title={`Pour filtrer, cherchez "${param}"`}>
+          <Tooltip title={`To filter, please search "${param}"`}>
             <div>{`${size} Mo`}</div>
           </Tooltip>
         );
@@ -161,7 +159,7 @@ function AdminFilesPanel(props) {
     {
       id: "author",
       numeric: false,
-      label: "ID auteur",
+      label: "ID author",
     },
   ];
 
@@ -169,13 +167,13 @@ function AdminFilesPanel(props) {
     <Stack justifyContent="center" direction="column" gap={4} padding="1rem">
       <Typography component="h6" variant="h6">
         <Link onClick={() => router.push("/admin")} href="#" color="#000">
-          Tableau de board
+          Dashboard
         </Link>
         {" > Fichiers"}
       </Typography>
 
       <Typography component="span" variant="body1">
-        Ci-dessous, vous trouverez tous les fichiers de votre site.
+        Beneath, you can find all the files of the website.
       </Typography>
       <Paper variant="contained" sx={{ width: "100%" }}>
         <CustomTable
@@ -184,9 +182,7 @@ function AdminFilesPanel(props) {
           setRows={setRows}
           headCells={headCells}
           arrayTitle={
-            rows
-              ? `Fichiers – ${rows.length} résultats (${totalSize} Mo)`
-              : "Fichiers"
+            rows ? `Files – ${rows.length} results (${totalSize} Mo)` : "Files"
           }
           handleDelete={handleDeleteFile}
           refreshData={fetchFiles}

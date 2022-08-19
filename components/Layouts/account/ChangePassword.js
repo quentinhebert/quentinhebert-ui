@@ -77,21 +77,19 @@ function ChangePassword(props) {
   const handleSuccess = () => {
     setSeverity("success");
     setOpenSnackBar("true");
-    setMessageSnack("Votre mot de passe a été mis à jour avec succès");
+    setMessageSnack("Your password has been changed successfully");
   };
   const handleError = () => {
     setSeverity("error");
     setOpenSnackBar("true");
-    setMessageSnack(
-      "Un problème est survenu lors de la mise à jour du mot de passe"
-    );
+    setMessageSnack("A problem occured while changing your password");
   };
   const handleCustomError = async (response) => {
     if (response.code === errorCodes.LOGIN_WRONG_PASSWORD) {
       // Snacks
       setSeverity("error");
       setOpenSnackBar("true");
-      setMessageSnack("Votre mot de passe actuel est incorrect");
+      setMessageSnack("Your current password is incorrect");
       // Custom front error
       setUpdateErrors({ ...updateErrors, password: true });
     }
@@ -143,7 +141,7 @@ function ChangePassword(props) {
         }}
       >
         <Stack justifyContent="center" padding="1rem">
-          <ModalTitle text="Modifier mon mot de passe" />
+          <ModalTitle text="Change my password" />
 
           <Stack
             gap={2}
@@ -154,9 +152,9 @@ function ChangePassword(props) {
             }}
           >
             <FormControl fullWidth>
-              <InputLabel htmlFor="password">Mot de passe actuel</InputLabel>
+              <InputLabel htmlFor="password">Current password</InputLabel>
               <OutlinedInput
-                label="Mot de passe"
+                label="Password"
                 type={showPassword ? "text" : "password"}
                 id="password"
                 value={user.password || ""}
@@ -176,16 +174,14 @@ function ChangePassword(props) {
                 color="primary"
               />
               {passwordError && (
-                <CustomError text="Votre mot de passe est incorrect" />
+                <CustomError text="Your password is incorrect" />
               )}
             </FormControl>
 
             <FormControl fullWidth>
-              <InputLabel htmlFor="new_password">
-                Nouveau mot de passe
-              </InputLabel>
+              <InputLabel htmlFor="new_password">New password</InputLabel>
               <OutlinedInput
-                label="Nouveau mot de passe"
+                label="New password"
                 type={showNewPasswords ? "text" : "password"}
                 id="new_password"
                 value={user.newPassword || ""}
@@ -207,18 +203,18 @@ function ChangePassword(props) {
               />
               {newPasswordError && (
                 <CustomError
-                  text="Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1
-                  caractère spécial"
+                  text="Minimum 8 caracters, 1 lowercase, 1 uppercase, 1 number and 1
+                  special caracter"
                 />
               )}
             </FormControl>
 
             <FormControl fullWidth>
               <InputLabel htmlFor="new_password">
-                Confirmez le nouveau mot de passe
+                Confirm the new password
               </InputLabel>
               <OutlinedInput
-                label="Confirmez le nouveau mot de passe"
+                label="Confirm the new password"
                 type={showNewPasswords ? "text" : "password"}
                 id="new_password_confirmation"
                 value={user.newPasswordConfirmation || ""}
@@ -238,7 +234,7 @@ function ChangePassword(props) {
                 color="primary"
               />
               {newPasswordConfirmationError && (
-                <CustomError text="Les deux mots de passe ne correspondent pas." />
+                <CustomError text="The two passwords don't match" />
               )}
             </FormControl>
           </Stack>

@@ -94,19 +94,19 @@ function SignUpModal(props) {
   const handleSignUpComplete = () => {
     setSignupCompleted(true);
     setSeverity("success");
-    setMessageSnack("L'inscription a réussi !");
+    setMessageSnack("The onboarding is completed !");
     setOpenSnackBar(true);
     setShowAlert({
       show: true,
       severity: "success",
-      text: "Un lien de confirmation a été envoyé à l'adresse e-mail que vous avez renseignée. Cliquez sur le lien ou le bouton présent dans l'e-mail, afin de vérifier qu'il s'agit bien de votre e-mail.",
-      title: "Votre inscription est presque terminée !",
+      text: "A confirmation link has been sent to the email address you have provided. Click on the link or the button in the email, to check whether it is your email.",
+      title: "Your onboarding is almost complete",
     });
   };
 
   const handleSignUpIncomplete = () => {
     setSeverity("error");
-    setMessageSnack("L'inscription a échoué... Vérifiez tous les champs svp");
+    setMessageSnack("The signup failed, please check all the fields");
     setOpenSnackBar(true);
   };
 
@@ -157,9 +157,9 @@ function SignUpModal(props) {
   const handleDuplicateSignup = () => {
     setShowAlert({
       show: true,
-      title: "E-mail ou numéro déjà existant",
+      title: "Email or phone already exists",
       severity: "warning",
-      text: "Votre adresse e-mail ou votre numéro de téléphone est déjà lié à un utilisateur existant.",
+      text: "Your email or your phone number already exists for another user.",
     });
   };
 
@@ -222,9 +222,9 @@ function SignUpModal(props) {
       }}
     >
       {isAdmin ? (
-        <ModalTitle text="Ajouter un utilisateur" />
+        <ModalTitle text="Add users" />
       ) : (
-        <ModalTitle text="Inscription" />
+        <ModalTitle text="Sign up" />
       )}
 
       <Stack
@@ -240,51 +240,49 @@ function SignUpModal(props) {
               required
               type="input"
               id="firstname"
-              label="Prénom"
+              label="Firstname"
               color="primary"
               sx={{ width: "calc(100% - 3rem)" }}
               value={userData.firstname}
               onChange={handleChange("firstname")}
               error={signupErrors.firstname}
-              helperText={signupErrors.firstname && "Problème avec ce champ"}
+              helperText={signupErrors.firstname && "Problem with this field"}
             />
             <TextField
               required
               type="input"
               id="lastname"
-              label="Nom"
+              label="Lastname"
               color="primary"
               sx={{ width: "calc(100% - 3rem)" }}
               value={userData.lastname}
               onChange={handleChange("lastname")}
               error={signupErrors.lastname}
-              helperText={signupErrors.lastname && "Veuillez vérifier ce champ"}
+              helperText={signupErrors.lastname && "Please check this field"}
             />
             <TextField
               required
               type="email"
               id="email"
-              label="Adresse e-mail"
+              label="Email"
               color="primary"
               sx={{ width: "calc(100% - 3rem)" }}
               value={userData.email}
               onChange={handleChange("email")}
               error={emailError || signupErrors.email}
-              helperText={emailError && "Cette adresse e-mail n'est pas valide"}
+              helperText={emailError && "This email is ot valid"}
             />
             <TextField
               required
               type="phone"
               id="phone"
-              label="Téléphone"
+              label="Phone"
               color="primary"
               sx={{ width: "calc(100% - 3rem)" }}
               value={userData.phone}
               onChange={handleChange("phone")}
               error={phoneError || signupErrors.phone}
-              helperText={
-                phoneError && "Ce numéro de téléphone n'est pas valide"
-              }
+              helperText={phoneError && "This phone is not valid"}
             />
             <TextField
               required
@@ -297,7 +295,7 @@ function SignUpModal(props) {
               error={passwordError}
               helperText={
                 passwordError &&
-                "Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial"
+                "Minimum 8 caracters, 1 lowercase, 1 uppercase, 1 number et 1 special caracter"
               }
             />
 
@@ -307,11 +305,11 @@ function SignUpModal(props) {
               >
                 <CustomSelect
                   required
-                  placeholder="Fonction"
+                  placeholder="Role"
                   options={[
-                    { id: "admin", label: "Administrateur" },
+                    { id: "admin", label: "Admin" },
                     { id: "client", label: "Client" },
-                    { id: "professional", label: "Employé" },
+                    { id: "professional", label: "Employed" },
                   ]}
                   value={userData.type}
                   setValue={(eventValue) =>
@@ -326,7 +324,7 @@ function SignUpModal(props) {
             >
               <FormControlLabel
                 control={<Checkbox onChange={handleCheckAcceptAll} required />}
-                label="J'accepte les conditions d'utilisation de ce site"
+                label="I accept the usage policy of the website"
               />
             </FormGroup>
           </>
@@ -338,20 +336,20 @@ function SignUpModal(props) {
 
       {!signupCompleted ? (
         <ActionButtons
-          leftButtonText={isAdmin ? null : "Déjà inscrit ?"}
+          leftButtonText={isAdmin ? null : "Log in"}
           leftButtonOnClick={handleSwitchSignUpToLogin}
-          middleButtonText="Annuler"
+          middleButtonText="Cancel"
           middleButtonOnClick={handleCloseSignUp}
-          rightButtonText={loadingButton ? <CircularProgress /> : "Créer"}
+          rightButtonText={loadingButton ? <CircularProgress /> : "Create"}
           rightButtonOnClick={signUp}
           rightButtonDisabled={!acceptAll || loadingButton}
           rightButtonSubmit={true}
         />
       ) : (
         <ActionButtons
-          middleButtonText="Fermer"
+          middleButtonText="Close"
           middleButtonOnClick={handleCloseSignUpAndClear}
-          rightButtonText="Compris !"
+          rightButtonText="Got it !"
           rightButtonOnClick={handleCloseSignUpAndClear}
         />
       )}

@@ -50,7 +50,7 @@ export default function CustomTable(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [openEditModal, setOpenEditModal] = React.useState(false);
 
-  // WARNING: first column of the array MUST BE an th primary key/id in DB
+  // WARNING: first column of the array MUST BE a primary key/id in DB
   const renderData = (row) =>
     headCells.slice(1).map((headCell) => {
       let data = `${row[headCell.id]}`;
@@ -246,9 +246,9 @@ export default function CustomTable(props) {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage={"Élements par page :"}
+            labelRowsPerPage={"Elements per page:"}
             labelDisplayedRows={({ from, to, count }) =>
-              `${from}–${to} sur ${count !== -1 ? count : `plus de ${to}`}`
+              `${from}–${to} of ${count !== -1 ? count : `more than ${to}`}`
             }
           />
         </Paper>

@@ -1,8 +1,9 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import { UserContext } from "../../contexts/UserContext";
-import { Avatar, Typography } from "@mui/material";
+import { Avatar, Typography, useMediaQuery } from "@mui/material";
 import dynamic from "next/dynamic";
+import theme from "../../config/theme";
 const UserMenuDrawer = dynamic(() => import("../Drawer/user-menu"));
 const LoginModal = dynamic(() => import("../Modals/login-modal"));
 
@@ -35,6 +36,8 @@ function LoginOrMenuButton(props) {
     setOpenDrawer(open);
   };
 
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+
   /********** RENDER **********/
   // User logged
   if (user)
@@ -42,9 +45,11 @@ function LoginOrMenuButton(props) {
       <>
         <Button onClick={toggleDrawer(true)}>
           <Avatar alt="Avatar" src={user.avatar_path} />
-          <Typography margin={2} textTransform="capitalize">
-            {user.firstname}
-          </Typography>
+          {!isMobile ? (
+            <Typography margin={2} textTransform="capitalize">
+              {user.firstname}
+            </Typography>
+          ) : null}
         </Button>
         <UserMenuDrawer
           toggleDrawer={toggleDrawer}
@@ -68,7 +73,7 @@ function LoginOrMenuButton(props) {
           "&:hover": { color: "#fff" },
         }}
       >
-        Se connecter
+        Log in
       </Button>
 
       <LoginModal
