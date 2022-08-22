@@ -132,7 +132,11 @@ export default function FilmsPortfolioPart(props) {
           >
             {title}
           </Typography>
-          <Button
+          <Typography
+            variant="h6"
+            fontFamily="Arial"
+            textAlign="center"
+            lineHeight="1.3rem"
             className="cool-button"
             color="secondary"
             sx={{
@@ -143,14 +147,11 @@ export default function FilmsPortfolioPart(props) {
               whiteSpace: "inherit",
               wordBreak: "break",
               textShadow: "2px 2px 7px #000",
-              "&:hover": {
-                color: theme.palette.text.secondary,
-                backgroundColor: "transparent",
-              },
+              "&:hover": { color: theme.palette.secondary.main },
             }}
           >
             Voir {">"}
-          </Button>
+          </Typography>
         </Stack>
       </ImageListItem>
     )
