@@ -22,12 +22,7 @@ const Container = ({ btnColor, bgImg, href }) => {
         width="100%"
         minHeight="300px"
         zIndex={3}
-        padding="4rem 10rem"
-        sx={
-          {
-            // background: "linear-gradient(290deg, #111a23 10%, transparent 100%)",
-          }
-        }
+        sx={{ padding: { xs: "3rem 1.5rem", md: "4rem 10rem" } }}
       >
         <Stack
           sx={{
@@ -39,12 +34,15 @@ const Container = ({ btnColor, bgImg, href }) => {
           <Typography
             fontFamily="Ethereal"
             fontWeight="bold"
-            letterSpacing={2}
-            fontSize="2vw"
             lineHeight="3vw"
             textAlign="center"
             margin="2rem auto"
-            sx={{ color: "#fff" }}
+            sx={{
+              color: "#fff",
+              fontSize: { xs: "1rem", md: "1.5rem" },
+              lineHeight: { xs: "1.5rem", md: 1.5 },
+              letterSpacing: { xs: 1, md: 2 },
+            }}
           >
             Depuis que le mouvement a rencontré la photographie, la vidéo n'a
             cessé d'envahir nos vies. C'est naturellement qu'elle s'est imposée
@@ -53,13 +51,13 @@ const Container = ({ btnColor, bgImg, href }) => {
 
           <Typography
             fontFamily="Arial"
-            letterSpacing={2}
-            fontSize="1.5vw"
-            lineHeight="2vw"
-            margin="2rem auto"
             color="secondary"
             sx={{
-              width: "70%",
+              width: { xs: "100%", md: "70%" },
+              fontSize: { xs: "1rem", md: "1.5rem" },
+              lineHeight: { xs: "1.5rem", md: "1.75rem" },
+              letterSpacing: { xs: 1, md: 2 },
+              margin: { xs: "1rem 0.5rem", md: "2rem auto" },
             }}
           >
             <Box sx={{ textAlign: "right" }}>

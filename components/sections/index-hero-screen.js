@@ -28,7 +28,7 @@ export default function IndexHeadBandVideo(props) {
       paddingTop="6rem"
       sx={{
         height: { xs: "300px", sm: "600px", md: "700px", lg: "100vh" },
-        backgroundImage: "url(/medias/testing.jpg)",
+        backgroundImage: "url(/medias/homepage-background.jpg)",
         backgroundSize: "cover",
         backgroundPosition: "50% 50%",
       }}

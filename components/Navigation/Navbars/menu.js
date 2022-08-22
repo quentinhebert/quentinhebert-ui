@@ -1,39 +1,39 @@
-import * as React from "react";
+import * as React from "react"
 
-import Slide from "@mui/material/Slide";
-import { Dialog, Paper, Stack, Box, Button } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import Link from "next/link";
-import Boop from "../../Animation/boop";
-import theme from "../../../config/theme";
+import Slide from "@mui/material/Slide"
+import { Dialog, Paper, Stack, Box, Button } from "@mui/material"
+import CloseIcon from "@mui/icons-material/Close"
+import Link from "next/link"
+import Boop from "../../Animation/boop"
+import theme from "../../../config/theme"
 
 export default function Menu(props) {
-  const { open, handleClose, list, mainColor } = props;
-  const [width, setWidth] = React.useState("50%");
-  const [height, setHeight] = React.useState("50%");
-  const [opacity, setOpacity] = React.useState(0);
-  const [rotate, setRotate] = React.useState(0);
+  const { open, handleClose, list, mainColor } = props
+  const [width, setWidth] = React.useState("50%")
+  const [height, setHeight] = React.useState("50%")
+  const [opacity, setOpacity] = React.useState(0)
+  const [rotate, setRotate] = React.useState(0)
 
   const handleCloseReset = () => {
-    setWidth("50%");
-    setHeight("50%");
-    setOpacity(0);
-    setRotate("0");
+    setWidth("50%")
+    setHeight("50%")
+    setOpacity(0)
+    setRotate("0")
     setTimeout(() => {
-      handleClose();
-    }, 500);
-  };
+      handleClose()
+    }, 500)
+  }
 
   React.useEffect(() => {
     setTimeout(() => {
       if (open) {
-        setWidth("100%");
-        setHeight("100%");
-        setOpacity(1);
-        setRotate("1293deg");
+        setWidth("100%")
+        setHeight("100%")
+        setOpacity(1)
+        setRotate("1293deg")
       }
-    }, 200);
-  }, [open]);
+    }, 200)
+  }, [open])
 
   return (
     <Dialog
@@ -80,7 +80,7 @@ export default function Menu(props) {
           }}
         >
           <Boop>
-            <CloseIcon sx={{ color: theme.palette.text.light }} />
+            <CloseIcon sx={{ color: theme.palette.text.white }} />
           </Boop>
         </Stack>
         <Slide
@@ -102,20 +102,20 @@ export default function Menu(props) {
                       textTransform: "uppercase",
                       cursor: "pointer",
                       padding: ".5rem 0",
-                      color: (theme) => theme.palette.text.light,
+                      color: (theme) => theme.palette.text.white,
                       "&:hover": {
-                        color: (theme) => theme.palette.text.secondaryDark,
+                        color: (theme) => theme.palette.text.primary,
                       },
                     }}
                   >
                     {item.label}
                   </Box>
                 </Link>
-              );
+              )
             })}
           </Stack>
         </Slide>
       </Stack>
     </Dialog>
-  );
+  )
 }

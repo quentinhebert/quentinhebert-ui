@@ -42,7 +42,7 @@ export default function IndexLayout(props) {
       {/* COMMERCIAL CTA */}
       <CommercialBand
         btnColor={theme.palette.background.secondary}
-        bgImg="/medias/testing.jpg"
+        bgImg="/medias/homepage-background.jpg"
         href="/about"
       />
 

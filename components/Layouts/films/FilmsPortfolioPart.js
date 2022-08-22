@@ -1,28 +1,21 @@
 import React, { useRef } from "react"
-import Navbar from "../../Navigation/Navbars/navbar"
-import Footer from "../../Navigation/Footers/Footer"
 import {
   Box,
   Button,
   ImageList,
   ImageListItem,
-  ImageListItemBar,
   Slide,
   Stack,
   Typography,
   useMediaQuery,
 } from "@mui/material"
-import ScrollToTopBtn from "../../Navigation/scroll-to-top"
 import theme from "../../../config/theme"
-import FilmsIndexHero from "./FilmsIndexHero"
-import FilmsFocusPart from "./FilmsFocusPart"
-import FilmsExperiencePart from "./FilmsExperiencePart"
-import FilmsQuoteParallax from "./FilmsQuoteParralax"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 
 export default function FilmsPortfolioPart(props) {
   const { refForScroll } = props
 
-  const LabelCell = ({ categoryTitle, subtitle }) => {
+  const LabelCell = ({ categoryTitle, subtitle, arrowDirection }) => {
     return (
       <ImageListItem
         sx={{
@@ -30,35 +23,80 @@ export default function FilmsPortfolioPart(props) {
           width: "100%",
         }}
       >
-        <Box
+        <Box width="100%" height="100%" />
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          position="absolute"
           width="100%"
           height="100%"
-          sx={{
-            backgroundColor: "#2b5b8a",
-            // backgroundColor: "#111a23",
-          }}
-        />
-        <ImageListItemBar
-          title={categoryTitle}
-          subtitle={subtitle}
-          sx={{
-            pointerEvents: "none",
-            wordBreak: "break",
-            //background: "rgb(42, 46, 69, 0.7)",
-            height: "100%",
-            textAlign: "center",
-            textTransform: "uppercase",
-            fontFamily: "Ethereal",
-            ".MuiImageListItemBar-title": {
-              fontWeight: "bold",
-              color: (theme) => theme.palette.secondary.main,
-              lineHeight: "2rem",
-              fontSize: "2vw",
-              letterSpacing: "2px",
-              whiteSpace: "inherit",
-            },
-          }}
-        />
+          padding="1rem"
+        >
+          <Typography
+            fontFamily="Ethereal"
+            textTransform="uppercase"
+            fontWeight="bold"
+            textAlign="center"
+            sx={{
+              color: theme.palette.text.primaryLight,
+              fontSize: { xs: "3vw", md: "2vw" },
+              letterSpacing: { xs: "0.5px", md: "2px" },
+            }}
+          >
+            {categoryTitle}
+          </Typography>
+
+          {/* <Typography
+            fontFamily="Ethereal"
+            sx={{
+              color: theme.palette.text.primaryLight,
+              fontSize: "1.1rem",
+              letterSpacing: "1.5px",
+              textAlign: "center",
+            }}
+          >
+            {subtitle}
+          </Typography> */}
+
+          <Stack flexDirection="row" alignItems="center" marginTop="1rem">
+            {arrowDirection === "left" ? (
+              <ArrowForwardIcon
+                sx={{
+                  rotate: "180deg",
+                  fontSize: { xs: "3.5vw", sm: "2.5vw", md: "1.5vw" },
+                  display: "flex",
+                }}
+              />
+            ) : null}
+            <Typography
+              variant="h6"
+              fontFamily="Ethereal"
+              textAlign="center"
+              className="cool-button"
+              sx={{
+                cursor: "pointer",
+                borderRadius: 0,
+                margin: 0.5,
+                fontSize: { xs: "3.5vw", sm: "2.5vw", md: "1.5vw" },
+                letterSpacing: "0.15vw",
+                whiteSpace: "inherit",
+                wordBreak: "break",
+                lineHeight: { xs: "0.8rem", md: "1.3rem" },
+                "&:hover": { color: theme.palette.secondary.main },
+              }}
+            >
+              Parcourir
+            </Typography>
+            {arrowDirection === "right" ? (
+              <ArrowForwardIcon
+                sx={{
+                  fontSize: { xs: "3.5vw", sm: "2.5vw", md: "1.5vw" },
+                  display: "flex",
+                }}
+              />
+            ) : null}
+          </Stack>
+        </Stack>
       </ImageListItem>
     )
   }
@@ -90,7 +128,6 @@ export default function FilmsPortfolioPart(props) {
             "-webkit-transition": "transform 0.4s ease-in-out",
             "-ms-transition": "transform 0.4s ease-in-out",
             transition: "transform 0.4s ease-in-out",
-            //filter: "grayscale(1)",
           }}
         />
         <Stack
@@ -106,51 +143,33 @@ export default function FilmsPortfolioPart(props) {
           justifyContent="center"
           alignItems="center"
           sx={{
-            margin: "1rem",
-            width: "calc(100% - 2rem)",
-            height: "calc(100% - 2rem)",
+            width: "100%",
+            height: "100%",
             position: "absolute",
-            border: `.2rem solid ${theme.palette.secondary.main}`,
             zIndex: 2,
             "-webkit-transition": "background 200ms linear",
             "-ms-transition": "background 200ms linear",
             transition: "background 200ms linear",
+            padding: "1rem",
             "&:hover": {
               background: "rgb(0, 0, 0, 0.4)",
             },
           }}
         >
           <Typography
+            color="secondary"
+            fontWeight="bold"
+            fontStyle="italic"
             sx={{
               textAlign: "center",
               fontFamily: "Ethereal",
-              fontSize: "1.5rem",
-              color: "#fff",
+              fontSize: { xs: "3.5vw", sm: "2.5vw", md: "1.5vw" },
               textShadow: "2px 2px 7px #000",
-              letterSpacing: "0.05rem",
+              letterSpacing: { xs: "0.5px", md: "0.05rem" },
+              lineHeight: { xs: "3.75vw", md: "1.5vw" },
             }}
           >
             {title}
-          </Typography>
-          <Typography
-            variant="h6"
-            fontFamily="Arial"
-            textAlign="center"
-            lineHeight="1.3rem"
-            className="cool-button"
-            color="secondary"
-            sx={{
-              borderRadius: 0,
-              margin: 0.5,
-              fontSize: "1.25vw",
-              letterSpacing: "0.15vw",
-              whiteSpace: "inherit",
-              wordBreak: "break",
-              textShadow: "2px 2px 7px #000",
-              "&:hover": { color: theme.palette.secondary.main },
-            }}
-          >
-            Voir {">"}
           </Typography>
         </Stack>
       </ImageListItem>
@@ -160,7 +179,11 @@ export default function FilmsPortfolioPart(props) {
   const RowStartingLabel = ({ categoryTitle, subtitle, videos }) => {
     return (
       <>
-        <LabelCell categoryTitle={categoryTitle} subtitle={subtitle} />
+        <LabelCell
+          categoryTitle={categoryTitle}
+          subtitle={subtitle}
+          arrowDirection="right"
+        />
 
         {videos && videos.length
           ? videos.map((video, key) => {
@@ -200,44 +223,50 @@ export default function FilmsPortfolioPart(props) {
             })
           : null}
 
-        <LabelCell categoryTitle={categoryTitle} subtitle={subtitle} />
+        <LabelCell
+          categoryTitle={categoryTitle}
+          subtitle={subtitle}
+          arrowDirection="left"
+        />
       </>
     )
   }
+
+  const sm = useMediaQuery((theme) => theme.breakpoints.up("sm"))
+  const md = useMediaQuery((theme) => theme.breakpoints.up("md"))
 
   return (
     <>
       {/* TOP Anchor */}
       <Stack ref={refForScroll} />
 
-      {/* <Stack sx={{ backgroundColor: "#2b5b8a" }}> */}
       <Stack
         sx={{
-          // backgroundColor: "#111a23",
-          // backgroundImage: "url(/medias/3333.svg)",
-          backgroundPosition: "50% 50%",
-          backgroundSize: "cover",
+          backgroundColor: theme.palette.background.white,
+          paddingRight: { xs: 0, md: "4rem" },
+          paddingLeft: { xs: 0, md: "4rem" },
+          paddingBottom: { xs: "2rem", md: "4rem" },
         }}
       >
         <Slide direction="right" {...{ timeout: 1000 }} in>
           <Stack width="100%" alignItems="start">
-            <Stack padding="4rem" width="100%">
+            <Stack
+              width="100%"
+              sx={{ padding: { xs: "2rem 0 0", md: "4rem 2rem 0rem 0" } }}
+            >
               <Typography
                 variant="h1"
                 fontFamily="Ethereal"
                 fontWeight="bold"
                 textAlign="left"
-                // color="secondary"
                 sx={{
-                  color: "#2b5b8a",
-                  // color: "#fff",
+                  color: theme.palette.text.primaryLight,
                   fontSize: {
                     xs: "4.5rem",
                     sm: "12vw",
                   },
                   lineHeight: {
-                    xs: "4rem",
-                    sm: "8rem",
+                    xs: "8rem",
                     md: "10rem",
                     lg: "13rem",
                     xl: "17rem",
@@ -246,113 +275,107 @@ export default function FilmsPortfolioPart(props) {
               >
                 Portfolio .
               </Typography>
-
-              <ImageList
-                gap={0}
-                sx={{
-                  margin: 1,
-                  // maxWidth: {
-                  //   xs: "300px",
-                  //   sm: "800px",
-                  //   md: "800px",
-                  //   lg: "1200px",
-                  //   xl: "1200px",
-                  // },
-                  flexDirection: "row",
-                }}
-                cols={3}
-                rowHeight={200}
-              >
-                <RowStartingLabel
-                  categoryTitle={"Courts-métrages"}
-                  subtitle={"Fiction – Sensibilisation"}
-                  videos={[
-                    {
-                      src: "/medias/tryptique-short-film.png",
-                      alt: "ALT",
-                      title: "Amour à l'Horizon",
-                    },
-                    {
-                      src: "/medias/tryptique-short-film-2.png",
-                      alt: "ALT",
-                      title: "Trois secondes",
-                    },
-                  ]}
-                />
-
-                <RowEndingLabel
-                  categoryTitle={"Clips"}
-                  subtitle={"Musique – Aftermovies"}
-                  videos={[
-                    {
-                      src: "/medias/tryptique-clip.png",
-                      alt: "ALT",
-                      title: "Aqua",
-                    },
-                    {
-                      src: "/medias/clip-cover-2.png",
-                      alt: "ALT",
-                      title: "Aftermovie Beguee Fest' 2018",
-                    },
-                  ]}
-                />
-
-                <RowStartingLabel
-                  categoryTitle={"Événementiel"}
-                  subtitle={"Mariages – Baptêmes – EVG & EVGF"}
-                  videos={[
-                    {
-                      src: "/medias/event-cover.png",
-                      alt: "ALT",
-                      title: "Baptême d'Elio",
-                    },
-                    {
-                      src: "/medias/event-cover-2.png",
-                      alt: "ALT",
-                      title: "Élections Mademoiselle Aube 2017",
-                    },
-                  ]}
-                />
-
-                <RowEndingLabel
-                  categoryTitle={"Associations"}
-                  subtitle={"Films d'étudiants – Formations – Couvertures"}
-                  videos={[
-                    {
-                      src: "/medias/associations-cover.png",
-                      alt: "ALT",
-                      title: "Présentation des Cordées de la Réussite",
-                    },
-                    {
-                      src: "/medias/associations-cover-2.png",
-                      alt: "ALT",
-                      title: "Films d'étudiants de l'ESCOM",
-                    },
-                  ]}
-                />
-
-                <RowStartingLabel
-                  categoryTitle={"Entreprises"}
-                  subtitle={
-                    "Publicités – Films d'entreprise – Formations – Interviews – Immobilier"
-                  }
-                  videos={[
-                    {
-                      src: "/medias/tryptique-corporate.png",
-                      alt: "ALT",
-                      title: "Andrea Martins Photography",
-                    },
-                    {
-                      src: "/medias/corporate-cover.png",
-                      alt: "ALT",
-                      title: "Levée de fonds pour Wideop",
-                    },
-                  ]}
-                />
-              </ImageList>
             </Stack>
           </Stack>
         </Slide>
+
+        <ImageList
+          sx={{
+            margin: { xs: 0, md: 1 },
+            backgroundColor: theme.palette.background.white,
+            flexDirection: "row",
+          }}
+          cols={3}
+          rowHeight={md ? 220 : sm ? 200 : 120}
+          gap={0}
+        >
+          <RowStartingLabel
+            categoryTitle={"Courts-métrages"}
+            subtitle={"Fiction – Sensibilisation"}
+            videos={[
+              {
+                src: "/medias/tryptique-short-film.png",
+                alt: "ALT",
+                title: "Amour à l'Horizon",
+              },
+              {
+                src: "/medias/tryptique-short-film-2.png",
+                alt: "ALT",
+                title: "Trois Secondes",
+              },
+            ]}
+          />
+
+          <RowEndingLabel
+            categoryTitle={"Clips"}
+            subtitle={"Musique – Aftermovies"}
+            videos={[
+              {
+                src: "/medias/tryptique-clip.png",
+                alt: "ALT",
+                title: "Aqua",
+              },
+              {
+                src: "/medias/clip-cover-2.png",
+                alt: "ALT",
+                title: "Aftermovie Beguee Fest' 2018",
+              },
+            ]}
+          />
+
+          <RowStartingLabel
+            categoryTitle={"Événementiel"}
+            subtitle={"Mariages – Baptêmes – EVG & EVGF"}
+            videos={[
+              {
+                src: "/medias/event-cover.png",
+                alt: "ALT",
+                title: "Baptême d'Elio",
+              },
+              {
+                src: "/medias/event-cover-2.png",
+                alt: "ALT",
+                title: "Élections Mademoiselle Aube 2017",
+              },
+            ]}
+          />
+
+          <RowEndingLabel
+            categoryTitle={"Associations"}
+            subtitle={"Films d'étudiants – Formations – Couvertures"}
+            videos={[
+              {
+                src: "/medias/associations-cover.png",
+                alt: "ALT",
+                title: "Les Cordées de la Réussite",
+              },
+              {
+                src: "/medias/associations-cover-2.png",
+                alt: "ALT",
+                title: "Films d'étudiants de l'ESCOM",
+              },
+            ]}
+          />
+
+          <RowStartingLabel
+            categoryTitle={"Entreprises"}
+            subtitle={
+              "Publicités – Films d'entreprise – Formations – Interviews – Immobilier"
+            }
+            videos={[
+              {
+                src: "/medias/tryptique-corporate.png",
+                alt: "ALT",
+                title: "Andrea Martins Photography",
+              },
+              {
+                src: "/medias/corporate-cover.png",
+                alt: "ALT",
+                title: "Levée de fonds pour Wideop",
+              },
+            ]}
+          />
+        </ImageList>
       </Stack>
     </>
   )

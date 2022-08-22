@@ -23,6 +23,7 @@ export default function FilmsIndexHero(props) {
         width: "100%",
         minHeight: "400px",
         height: { xs: "50vh", md: "100vh" },
+        maxHeight: "900px",
       }}
     >
       <Slide
@@ -83,6 +84,7 @@ export default function FilmsIndexHero(props) {
             width: "100%",
             minHeight: "400px",
             height: { xs: "50vh", md: "100vh" },
+            maxHeight: "900px",
             zIndex: 1,
           }}
         />

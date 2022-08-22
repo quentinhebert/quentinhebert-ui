@@ -30,18 +30,20 @@ export default function FilmsFocusPart(props) {
       <Stack ref={refsForScroll.focus} />
       <Stack
         sx={{
-          // backgroundImage: "url(/medias/fade-background.png)",
-          //   backgroundImage: "url(/medias/test.svg)",
-          backgroundImage: "url(/medias/1111.svg)",
-          // backgroundImage: "url(/medias/4444.svg)",
+          backgroundImage: "url(/medias/focus-film-bg.svg)",
           backgroundSize: "cover",
           backgroundPosition: "50% 10%",
-          height: "600px",
+          height: { xs: "700px", md: "600px" },
         }}
       >
-        <Slide direction="right" {...{ timeout: 1000 }} in>
+        <Slide direction="left" {...{ timeout: 1000 }} in>
           <Stack width="100%" alignItems="end">
-            <Stack padding="4rem" width="80%">
+            <Stack
+              sx={{
+                padding: { xs: "8rem 1rem 0 0", md: "4rem" },
+                width: { xs: "70%", sm: "80%", md: "80%" },
+              }}
+            >
               <Typography
                 variant="h1"
                 fontFamily="Ethereal"
@@ -49,9 +51,9 @@ export default function FilmsFocusPart(props) {
                 textAlign="right"
                 color="secondary"
                 sx={{
-                  color: "#2b5b8a",
+                  color: theme.palette.text.primaryLight,
                   fontSize: {
-                    xs: "4.5rem",
+                    xs: "4rem",
                     sm: "13vw",
                   },
                   lineHeight: {
@@ -72,23 +74,22 @@ export default function FilmsFocusPart(props) {
                 Focus .
               </Typography>
               <Typography
-                fontFamily="Arial"
+                fontFamily="Ethereal"
                 letterSpacing={2}
-                fontSize="1.25rem"
-                lineHeight="1.75rem"
-                // color="secondary"
                 textAlign="center"
+                fontWeight="bold"
                 sx={{
+                  fontSize: { xs: "4vw", sm: "2.5vw", md: "1.75vw" },
+                  lineHeight: { xs: "6.5vw", sm: "1.75rem" },
                   alignSelf: "end",
-                  color: "#1B3957",
-                  //   color: "#2b5b8a",
-                  // color: "#FFF",
-                  width: "70%",
+                  color: theme.palette.text.primary,
+                  marginTop: { xs: "3rem", md: 0 },
+                  width: { xs: "100%", sm: "80%", md: "70%" },
                 }}
               >
                 <span
                   style={{
-                    color: "#2b5b8a",
+                    color: theme.palette.text.primaryLight,
                     fontSize: "1.5rem",
                   }}
                 >
@@ -101,7 +102,7 @@ export default function FilmsFocusPart(props) {
                 avec le plus de{" "}
                 <span
                   style={{
-                    color: "#2b5b8a",
+                    color: theme.palette.text.primaryLight,
                     fontSize: "1.5rem",
                   }}
                 >
@@ -114,7 +115,7 @@ export default function FilmsFocusPart(props) {
                 J'ai appris en{" "}
                 <span
                   style={{
-                    color: "#2b5b8a",
+                    color: theme.palette.text.primaryLight,
                     fontSize: "1.5rem",
                   }}
                 >
@@ -125,13 +126,18 @@ export default function FilmsFocusPart(props) {
                 , poussé par l'envie de créer.
               </Typography>
 
-              <Stack sx={{ width: "70%", alignSelf: "end", marginTop: "2rem" }}>
+              <Stack
+                sx={{
+                  width: { xs: "90%", sm: "80%", md: "70%" },
+                  alignSelf: "end",
+                  marginTop: "2rem",
+                }}
+              >
                 <Box sx={{ alignSelf: "center" }}>
                   <Button
                     variant="outlined"
                     color="secondary"
                     sx={{
-                      // textTransform: "initial",
                       fontSize: { xs: "1rem", md: "1.5vw" },
                       fontFamily: "Ethereal",
                       fontWeight: "bold",
@@ -153,10 +159,10 @@ export default function FilmsFocusPart(props) {
             backgroundImage: "url(/medias/filmmaker-shadow-alpha.png)",
             backgroundImage: "url(/medias/back-profile.png)",
             backgroundSize: "cover",
-            backgroundPosition: "0% 50%",
+            backgroundPosition: "50% 50%",
             position: "absolute",
-            width: "50%",
-            height: "600px",
+            width: { xs: "35%", md: "50%" },
+            height: { xs: "700px", md: "600px" },
             mixBlendMode: "multiply",
           }}
         />
