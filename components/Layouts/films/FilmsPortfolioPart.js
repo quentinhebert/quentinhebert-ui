@@ -39,8 +39,9 @@ export default function FilmsPortfolioPart(props) {
             textAlign="center"
             sx={{
               color: theme.palette.text.primaryLight,
-              fontSize: { xs: "3vw", md: "2vw" },
-              letterSpacing: { xs: "0.5px", md: "2px" },
+              fontSize: { xs: "3.7vw", sm: "1.2rem", md: "1.5rem" },
+              letterSpacing: { xs: 0.25, sm: 1, md: 2 },
+              lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
             }}
           >
             {categoryTitle}
@@ -77,11 +78,14 @@ export default function FilmsPortfolioPart(props) {
                 cursor: "pointer",
                 borderRadius: 0,
                 margin: 0.5,
-                fontSize: { xs: "3.5vw", sm: "2.5vw", md: "1.5vw" },
-                letterSpacing: "0.15vw",
+                // fontSize: { xs: "3.5vw", sm: "2.5vw", md: "1.5vw" },
+                // letterSpacing: "0.15vw",
+                // lineHeight: { xs: "0.8rem", md: "1.3rem" },
+                fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+                letterSpacing: { xs: 0.25, sm: 1, md: 2 },
+                lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
                 whiteSpace: "inherit",
                 wordBreak: "break",
-                lineHeight: { xs: "0.8rem", md: "1.3rem" },
                 "&:hover": { color: theme.palette.secondary.main },
               }}
             >
@@ -111,7 +115,10 @@ export default function FilmsPortfolioPart(props) {
           cursor: "pointer",
           overflow: "hidden",
           "&:hover": {
-            "& .MuiBox-root": { transform: "scale(1.1)" },
+            "& .MuiBox-root": {
+              transform: "scale(1.1)",
+              filter: "grayscale(1)",
+            },
           },
         }}
       >
@@ -127,7 +134,7 @@ export default function FilmsPortfolioPart(props) {
             objectPosition: "50% 50%",
             "-webkit-transition": "transform 0.4s ease-in-out",
             "-ms-transition": "transform 0.4s ease-in-out",
-            transition: "transform 0.4s ease-in-out",
+            transition: "transform 0.4s ease-in-out, filter 0.4s ease-in-out",
           }}
         />
         <Stack
@@ -163,10 +170,10 @@ export default function FilmsPortfolioPart(props) {
             sx={{
               textAlign: "center",
               fontFamily: "Ethereal",
-              fontSize: { xs: "3.5vw", sm: "2.5vw", md: "1.5vw" },
+              fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+              letterSpacing: { xs: 0.25, sm: 1, md: 2 },
+              lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
               textShadow: "2px 2px 7px #000",
-              letterSpacing: { xs: "0.5px", md: "0.05rem" },
-              lineHeight: { xs: "3.75vw", md: "1.5vw" },
             }}
           >
             {title}
@@ -252,7 +259,7 @@ export default function FilmsPortfolioPart(props) {
           <Stack width="100%" alignItems="start">
             <Stack
               width="100%"
-              sx={{ padding: { xs: "2rem 0 0", md: "4rem 2rem 0rem 0" } }}
+              sx={{ padding: { xs: "2rem 0 0 1rem", md: "4rem 2rem 0rem 0" } }}
             >
               <Typography
                 variant="h1"

@@ -53,10 +53,10 @@ const Container = ({ btnColor, bgImg, href }) => {
             fontFamily="Arial"
             color="secondary"
             sx={{
-              width: { xs: "100%", md: "70%" },
-              fontSize: { xs: "1rem", md: "1.5rem" },
-              lineHeight: { xs: "1.5rem", md: "1.75rem" },
-              letterSpacing: { xs: 1, md: 2 },
+              width: { xs: "100%", md: "90%", lg: "70%" },
+              fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+              letterSpacing: { xs: 0.25, sm: 1, md: 2 },
+              lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
               margin: { xs: "1rem 0.5rem", md: "2rem auto" },
             }}
           >

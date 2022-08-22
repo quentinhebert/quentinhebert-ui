@@ -35,14 +35,13 @@ export default function FilmsExperiencePart(props) {
                 fontWeight="bold"
                 textAlign="start"
                 sx={{
-                  color: "#c6900e",
+                  color: (theme) => theme.palette.text.secondary,
                   fontSize: {
                     xs: "4.5rem",
                     sm: "12vw",
                   },
                   lineHeight: {
-                    xs: "4rem",
-                    sm: "8rem",
+                    xs: "5rem",
                     md: "10rem",
                     lg: "13rem",
                     xl: "17rem",
@@ -62,11 +61,11 @@ export default function FilmsExperiencePart(props) {
                 marginBottom="3rem"
                 sx={{
                   alignSelf: "start",
-                  color: "#825E09",
-                  fontSize: { xs: "1.2rem", md: "1.5rem" },
+                  color: (theme) => theme.palette.text.secondaryDark,
                   width: { xs: "95%", sm: "80%", md: "70%" },
-                  letterSpacing: { xs: 0.25, md: 2 },
-                  lineHeight: { xs: "1.4rem", md: "2rem" },
+                  fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+                  letterSpacing: { xs: 0.25, sm: 1, md: 2 },
+                  lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
                 }}
               >
                 D'abord pris de passion pour la réalisation de courts-métrages,

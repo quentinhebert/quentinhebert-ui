@@ -40,7 +40,7 @@ export default function FilmsFocusPart(props) {
           <Stack width="100%" alignItems="end">
             <Stack
               sx={{
-                padding: { xs: "8rem 1rem 0 0", md: "4rem" },
+                padding: { xs: "8rem 1rem 0 0", md: "2rem 4rem" },
                 width: { xs: "70%", sm: "80%", md: "80%" },
               }}
             >
@@ -79,8 +79,9 @@ export default function FilmsFocusPart(props) {
                 textAlign="center"
                 fontWeight="bold"
                 sx={{
-                  fontSize: { xs: "4vw", sm: "2.5vw", md: "1.75vw" },
-                  lineHeight: { xs: "6.5vw", sm: "1.75rem" },
+                  fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+                  letterSpacing: { xs: 0.25, sm: 1, md: 2 },
+                  lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
                   alignSelf: "end",
                   color: theme.palette.text.primary,
                   marginTop: { xs: "3rem", md: 0 },
@@ -128,7 +129,7 @@ export default function FilmsFocusPart(props) {
 
               <Stack
                 sx={{
-                  width: { xs: "90%", sm: "80%", md: "70%" },
+                  width: { xs: "100%", sm: "80%", md: "70%" },
                   alignSelf: "end",
                   marginTop: "2rem",
                 }}
@@ -154,18 +155,20 @@ export default function FilmsFocusPart(props) {
           </Stack>
         </Slide>
 
-        <Box
-          sx={{
-            backgroundImage: "url(/medias/filmmaker-shadow-alpha.png)",
-            backgroundImage: "url(/medias/back-profile.png)",
-            backgroundSize: "cover",
-            backgroundPosition: "50% 50%",
-            position: "absolute",
-            width: { xs: "35%", md: "50%" },
-            height: { xs: "700px", md: "600px" },
-            mixBlendMode: "multiply",
-          }}
-        />
+        <Slide direction="right" {...{ timeout: 1000 }} in>
+          <Box
+            sx={{
+              backgroundImage: "url(/medias/filmmaker-shadow-alpha.png)",
+              backgroundImage: "url(/medias/back-profile.png)",
+              backgroundSize: "cover",
+              backgroundPosition: "50% 50%",
+              position: "absolute",
+              width: { xs: "35%", md: "50%" },
+              height: { xs: "700px", md: "600px" },
+              mixBlendMode: "multiply",
+            }}
+          />
+        </Slide>
       </Stack>
     </>
   )

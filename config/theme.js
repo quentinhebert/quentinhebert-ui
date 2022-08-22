@@ -4,8 +4,21 @@ const primary = "#1B3957"
 const primaryLight = "#2b5b8a"
 const primaryDark = "#111a23"
 const secondary = "#C6900E"
+const secondaryDark = "#825E09"
 const secondaryLight = "#F5BB5F"
 const link = "#06c"
+
+/*
+
+TITLE
+  fontSize: 
+TEXT (normal)
+  fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+  letterSpacing: { xs: 0.25, sm: 1, md: 2 },
+  lineHeight: { xs: "1.3rem", sm: '1.5rem', md: "2rem" },
+TEXT (small)
+
+*/
 
 const mainTheme = createTheme({
   palette: {
@@ -28,6 +41,7 @@ const mainTheme = createTheme({
       primaryLight: primaryLight,
       primaryDark: primaryDark,
       secondary: secondary,
+      secondaryDark: secondaryDark,
       secondaryLight: secondaryLight,
       white: "#dddddd",
       link: link,
