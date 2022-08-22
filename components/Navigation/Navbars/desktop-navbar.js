@@ -24,7 +24,7 @@ export default function DesktopNavbar(props) {
                 fontFamily="Arial"
                 textAlign="center"
                 lineHeight="1.3rem"
-                className="cool-button"
+                className="cool-button no-select"
                 sx={{
                   textTransform: "uppercase",
                   letterSpacing: "2px",

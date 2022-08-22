@@ -47,9 +47,7 @@
   -webkit-animation: opacity 2s infinite;
   animation: opacity 2s infinite;
   z-index: 0;
-  position: absolute;
-  top: -5px;
-  right: 8%;
-  height: 3px;
-  width: 3px;
+  /* position: absolute; */
+  position: relative;
+  display: inline-flex;
 }

@@ -1,14 +1,12 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useRef } from "react"
 import Navbar from "../Navigation/Navbars/navbar"
 import Footer from "../Navigation/Footers/Footer"
 import CommercialBand from "../sections/commercial-band"
-import { Box, Stack, Typography } from "@mui/material"
+import { Stack } from "@mui/material"
 import ScrollToTopBtn from "../Navigation/scroll-to-top"
 import theme from "../../config/theme"
-import References from "../Layouts/references/references"
 import IndexHeroScreen from "../sections/index-hero-screen"
 import PortfolioOptions from "./portfolio-options"
-import CarRentalIcon from "@mui/icons-material/CarRental"
 import ContactSection from "../sections/contact-section"
 
 export default function IndexLayout(props) {

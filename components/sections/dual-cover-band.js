@@ -117,7 +117,7 @@ export default function DualCoverBand(props) {
                         cursor: "pointer",
                         marginRight: "0.5rem",
                         fontSize: { xs: "1.1rem", md: "1.3rem" },
-                        letterSpacing: { xs: "1px", md: "3px" },
+                        letterSpacing: { xs: "1px", md: "2px" },
                       }}
                     >
                       Portfolio

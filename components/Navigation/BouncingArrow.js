@@ -25,6 +25,7 @@ export default function BouncingArrow(props) {
     >
       {text ? (
         <Typography
+          className="no-select"
           sx={{
             fontSize: "0.8rem",
             fontWeight: "bold",

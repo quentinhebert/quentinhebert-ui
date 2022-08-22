@@ -1,15 +1,9 @@
 import * as React from "react"
-import {
-  Box,
-  Button,
-  Slide,
-  Stack,
-  Typography,
-  useMediaQuery,
-} from "@mui/material"
+import { Box, Slide, Stack, Typography } from "@mui/material"
 import { useScrollPosition } from "@n8tb1t/use-scroll-position"
 import theme from "../../config/theme"
 import BouncingArrow from "../Navigation/BouncingArrow"
+import { motion } from "framer-motion"
 
 export default function IndexHeadBandVideo(props) {
   const { scrollTo, refForScroll } = props
@@ -25,173 +19,130 @@ export default function IndexHeadBandVideo(props) {
     }
   })
 
-  // STYLE
-  const md = useMediaQuery(theme.breakpoints.down("md"))
-  const landscape = useMediaQuery("@media (min-aspect-ratio: 16/9)")
-  const portrait = useMediaQuery("@media (max-aspect-ratio: 16/9)")
-
   return (
     <Stack
       justifyContent="center"
+      width="100%"
+      overflow="hidden"
+      minHeight="500px"
+      paddingTop="6rem"
       sx={{
-        width: "100%",
-        height: { xs: "600px", sm: "800px", md: "100vh" },
-        minHeight: "500px",
-        overflow: "hidden",
-        // background: "linear-gradient(170deg, #393333 30%, black 100%)",
-        // background: "linear-gradient(170deg, #2d465d 30%, black 100%)", // greg + betta
-        // background: "linear-gradient(170deg, #325373 30%, black 100%)",
-        background: "linear-gradient(170deg, #2b5b8a 30%, black 100%)",
+        height: { xs: "300px", sm: "600px", md: "700px", lg: "100vh" },
+        backgroundImage: "url(/medias/testing.jpg)",
+        backgroundSize: "cover",
+        backgroundPosition: "50% 50%",
       }}
     >
       <Stack
-        paddingTop="2rem"
+        padding="2rem"
         height="90vh"
-        sx={{
-          flexDirection: "row",
-        }}
+        width="100%"
+        flexDirection="column"
+        gap={0}
       >
         <Stack
-          width="100%"
-          flexDirection="column"
-          gap={0}
           sx={{
-            padding: { xs: "6rem 0.5rem", md: "5rem 2rem" },
+            color: theme.palette.secondary.main,
           }}
         >
-          <Typography
-            variant="h2"
-            textTransform="uppercase"
-            fontFamily="Arial"
-            color="secondary"
-            sx={{
-              textAlignLast: "end",
-              textAlign: "right",
-              fontSize: { xs: "1rem", md: "2vw" },
-              letterSpacing: { xs: "3px", md: "6px" },
-              marginBottom: { xs: "10vw", md: "0" },
-            }}
-          >
-            /// Freelance ///
-          </Typography>
-
-          <Stack
-            sx={{
-              backgroundImage: "url(/medias/caca.jpg)",
-              backgroundSize: "cover",
-              backgroundPosition: "100% 10%",
-              backgroundClip: "text",
-              color: "transparent",
-              WebkitBackgroundClip: "text",
-            }}
-          >
-            <Slide
-              direction="right"
-              {...(true ? { timeout: 1000 } : {})}
-              in
-              mountOnEnter
-              unmountOnExit
-            >
-              <Box>
-                <Typography
-                  variant="h1"
-                  fontFamily="Ethereal"
-                  fontWeight="bold"
-                  alignSelf="flex-start"
-                  sx={{
-                    fontSize: { xs: "4.2vw", md: "2.3vw" },
-                    lineHeight: { xs: "5vw", md: "4rem" },
-                    letterSpacing: { xs: 3, md: 7 },
-                  }}
-                >
-                  Creative videomaker
-                </Typography>
-                <Typography
-                  variant="h2"
-                  fontFamily="Ethereal"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                  alignSelf="flex-start"
-                  sx={{
-                    fontSize: { xs: "11vw", md: "9vw" },
-                    lineHeight: { xs: "11vw", sm: "8vw" },
-                  }}
-                >
-                  Film Director
-                </Typography>
-              </Box>
-            </Slide>
-            <Slide
-              direction="left"
-              {...(true ? { timeout: 1250 } : {})}
-              in
-              mountOnEnter
-              unmountOnExit
-            >
-              <Typography
-                variant="h2"
-                fontFamily="Bambi Bold"
-                fontWeight="bold"
-                textTransform="uppercase"
-                alignSelf="flex-end"
-                sx={{
-                  fontSize: { xs: "9.5vw", md: "10vw" },
-                  letterSpacing: { xs: "2px", md: "7px" },
-                  lineHeight: { xs: "9vw", sm: "7vw" },
-                }}
-              >
-                AND EDITOR
-              </Typography>
-            </Slide>
-          </Stack>
-
           <Slide
-            direction="up"
-            {...(true ? { timeout: 1500 } : {})}
+            direction="right"
+            {...{ timeout: 1000 }}
             in
             mountOnEnter
             unmountOnExit
           >
             <Box>
               <Typography
-                variant="h2"
-                fontFamily="Zacbel X"
-                color="secondary"
+                className="no-select"
+                fontFamily="Ethereal"
+                fontWeight="bold"
+                alignSelf="flex-start"
                 sx={{
-                  textAlignLast: "end",
-                  textAlign: "right",
-                  fontSize: "7.5vw",
-                  marginTop: { xs: "12vw", md: "7.5vw" },
-                  // background: `-webkit-linear-gradient(${theme.palette.secondary.main}, #77340d)`,
-                  // "-webkit-background-clip": "text",
-                  // "-webkit-text-fill-color": "transparent",
+                  color: "#fff",
+                  fontSize: { xs: "4.2vw", md: "2.3vw" },
+                  lineHeight: { xs: "8vw", md: "4rem" },
+                  letterSpacing: { xs: 2, md: 3 },
+                  textShadow: "2px 2px 7px #000",
                 }}
               >
-                {"&"} Web Developper
+                Creative videomaker
               </Typography>
-              <Slide
-                direction="left"
-                {...(true ? { timeout: 1500 } : {})}
-                in
-                mountOnEnter
-                unmountOnExit
+
+              <Typography
+                className="no-select"
+                fontFamily="Ethereal"
+                fontWeight="bold"
+                alignSelf="flex-start"
+                sx={{
+                  fontSize: { xs: "11vw", md: "9vw" },
+                  lineHeight: { xs: "10vw", md: "8vw" },
+                }}
               >
-                <Typography
-                  color="#fff"
-                  variant="h2"
-                  fontFamily="Zacbel X"
-                  sx={{
-                    textAlignLast: "end",
-                    textAlign: "right",
-                    fontSize: { xs: "1rem", md: "1.6vw" },
-                  }}
-                >
-                  JS Backend / Frontend
-                </Typography>
-              </Slide>
+                Film director
+                <br />
+                and editor
+              </Typography>
             </Box>
           </Slide>
         </Stack>
+
+        <motion.div
+          initial={{ rotate: 0, scale: 0.5 }}
+          animate={{ rotate: 360, scale: 1 }}
+          transition={{ duration: 0.75 }}
+        >
+          <Typography
+            className="no-select"
+            fontFamily="Arial"
+            textAlign="center"
+            sx={{
+              color: "#fff",
+              rotate: "45deg",
+              fontSize: { xs: "10vw", md: "7.5vw" },
+              lineHeight: { xs: "4rem", md: "8rem" },
+              textShadow: "2px 2px 7px #000",
+            }}
+          >
+            +
+          </Typography>
+        </motion.div>
+
+        <Slide
+          direction="left"
+          {...{ timeout: 1000 }}
+          in
+          mountOnEnter
+          unmountOnExit
+        >
+          <Box>
+            <Typography
+              fontFamily="Zacbel X"
+              className="no-select"
+              color="secondary"
+              sx={{
+                textAlignLast: "end",
+                textAlign: "right",
+                fontSize: "7.5vw",
+              }}
+            >
+              Web developper
+            </Typography>
+            <Typography
+              className="no-select"
+              color="#fff"
+              fontFamily="Zacbel X"
+              sx={{
+                textAlignLast: "end",
+                textAlign: "right",
+                fontSize: { xs: "1rem", md: "1.6vw" },
+                textShadow: "2px 2px 7px #000",
+              }}
+            >
+              JS Backend / Frontend
+            </Typography>
+          </Box>
+        </Slide>
       </Stack>
 
       <Stack zIndex={10} justifyContent="end" alignItems="center">

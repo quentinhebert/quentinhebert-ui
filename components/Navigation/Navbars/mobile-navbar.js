@@ -2,6 +2,7 @@ import { Box, Button, Stack } from "@mui/material"
 import { useState } from "react"
 import Menu from "./menu"
 import FlashingRedDot from "../FlashingRedDot"
+import DragHandleIcon from "@mui/icons-material/DragHandle"
 
 export default function MobileNavbar(props) {
   const { mainColor, list } = props
@@ -21,14 +22,11 @@ export default function MobileNavbar(props) {
         <Button
           variant="outlined"
           sx={{
-            backgroundColor: "#fff",
             color: "#fff",
             letterSpacing: "1px",
             padding: ".25rem .75rem",
             margin: ".5rem",
-            backgroundColor: (theme) => theme.palette.background.main,
-            border: "1px solid #fff",
-            borderRadius: 0,
+            border: "none",
             "&:hover": {
               color: (theme) => theme.palette.text.primary,
             },
@@ -43,7 +41,6 @@ export default function MobileNavbar(props) {
               left: "10%",
               height: "110%",
               width: "80%",
-              backgroundColor: (theme) => theme.palette.background.main,
             }}
           />
           <Box
@@ -54,11 +51,13 @@ export default function MobileNavbar(props) {
               left: "-5%",
               height: "70%",
               width: "110%",
-              backgroundColor: (theme) => theme.palette.background.main,
             }}
           />
-          <FlashingRedDot />
-          <Box sx={{ zIndex: 1 }}>Menu</Box>
+          {/* <FlashingRedDot /> */}
+          {/* <Box sx={{ zIndex: 1 }}>Menu</Box> */}
+          <Box sx={{ zIndex: 1 }}>
+            <DragHandleIcon />
+          </Box>
         </Button>
       </Stack>
       <Menu
