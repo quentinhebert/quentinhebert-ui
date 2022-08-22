@@ -1,44 +1,37 @@
 import { createTheme } from "@mui/material/styles"
 
+const primary = "#1B3957"
+const primaryLight = "#2b5b8a"
+const primaryDark = "#111a23"
+const secondary = "#C6900E"
+const secondaryLight = "#F5BB5F"
+const link = "#06c"
+
 const mainTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#fff",
-      contrastText: "#212121",
+      main: primary,
     },
     secondary: {
-      main: "#C6900E",
-      dark: "#152D35",
+      main: secondary,
     },
     background: {
-      main: "#070135",
-      // main: "#1E3230",
-      // dark: "#100720",
-      dark: "#111a23",
-      // dark: "#111f1e",
-      // main: "#353D2F",
-      // main: "#310D20",
-      // main: "#A64253",
-      // main: "#B0BBBF",
-      secondary: "#C6900E",
-      tersary: "#B0BBBF",
-      secondaryDark: "#152D35",
-      tableEven: "#424242",
-      paper: "#212121",
+      main: primaryDark,
+      secondary: secondary,
+      paper: primaryDark,
       alert: "rgb(255, 226, 183)",
-      white: "#fff",
+      white: "#dddddd",
     },
     text: {
-      primary: "#fff",
-      primaryContrast: "#212121",
-      secondary: "#C6900E",
-      tersary: "#F5BB5F",
-      greyed: "rgba(242, 242, 242, 0.7)",
-      light: "#fff",
-      secondaryDark: "#152D35",
+      primary: primary,
+      primaryLight: primaryLight,
+      primaryDark: primaryDark,
+      secondary: secondary,
+      secondaryLight: secondaryLight,
+      white: "#dddddd",
+      link: link,
     },
-    divider: "#707070",
   },
   spacing: 8,
   typography: {

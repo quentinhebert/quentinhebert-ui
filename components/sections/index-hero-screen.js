@@ -34,7 +34,7 @@ export default function IndexHeadBandVideo(props) {
       }}
     >
       <Stack
-        padding="2rem"
+        padding="2rem 2rem 0 2rem"
         height="90vh"
         width="100%"
         flexDirection="column"
@@ -57,7 +57,6 @@ export default function IndexHeadBandVideo(props) {
                 className="no-select"
                 fontFamily="Ethereal"
                 fontWeight="bold"
-                alignSelf="flex-start"
                 sx={{
                   color: "#fff",
                   fontSize: { xs: "4.2vw", md: "2.3vw" },
@@ -145,7 +144,12 @@ export default function IndexHeadBandVideo(props) {
         </Slide>
       </Stack>
 
-      <Stack zIndex={10} justifyContent="end" alignItems="center">
+      <Stack
+        zIndex={10}
+        justifyContent="end"
+        alignItems="center"
+        sx={{ display: { xs: "none", lg: "flex" } }}
+      >
         <BouncingArrow
           text="Voir plus"
           scrollTo={scrollTo}

@@ -1,7 +1,7 @@
 html {
   padding: 0;
   margin: 0;
-  scrollbar-color: #ba820d #3D403E;
+  scrollbar-color: #C6900E #3D403E;
 }
 body {
   padding: 0;
@@ -9,12 +9,11 @@ body {
   overflow-x: hidden;
 }
 
-
 ::-webkit-scrollbar {
   background: #3D403E ;
 }
 ::-webkit-scrollbar-thumb {
-  background: #ba820d;
+  background: #C6900E;
   border-radius: 10px;
 }
 
@@ -27,7 +26,7 @@ body {
   display: block;
   width: 0;
   height: 2px;
-  background: #ba820d;
+  background: #C6900E;
   transition: width .3s;
 }
 .cool-button:hover::after {
@@ -63,106 +62,10 @@ body {
 }
 
 @font-face {
-  font-family: "Xhers";
-  font-style: normal;
-  font-weight: 400;
-  src: local("Xhers"),
-    url("https://fonts.cdnfonts.com/s/74329/Xhers Regular.woff") format("woff");
-}
-@font-face {
-  font-family: "Xhers";
-  font-style: italic;
-  font-weight: 400;
-  src: local("Xhers"),
-    url("https://fonts.cdnfonts.com/s/74329/Xhers Regular-Italic.woff")
-      format("woff");
-}
-@font-face {
-  font-family: "Luxerie";
-  font-style: normal;
-  font-weight: 400;
-  src: local("Luxerie"),
-    url("https://fonts.cdnfonts.com/s/30507/Luxerie.woff") format("woff");
-}
-@font-face {
-  font-family: "Luxerie";
-  font-style: normal;
-  font-weight: 400;
-  src: local("Luxerie"),
-    url("https://fonts.cdnfonts.com/s/30507/Luxerie Display.woff")
-      format("woff");
-}
-@font-face {
-  font-family: 'Rebori';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Rebori'), url('https://fonts.cdnfonts.com/s/75883/Rebori-0WqRo.woff') format('woff');
-}
-@font-face {
-  font-family: 'ResotELavender';
-  font-style: normal;
-  font-weight: 500;
-  src: local('ResotELavender'), url('https://fonts.cdnfonts.com/s/31180/ResotE-Lavender.woff') format('woff');
-}
-@font-face {
-  font-family: 'ResotEPearl';
-  font-style: normal;
-  font-weight: 500;
-  src: local('ResotEPearl'), url('https://fonts.cdnfonts.com/s/31180/ResotE-Pearl.woff') format('woff');
-}
-@font-face {
-  font-family: 'ResotE';
-  font-style: normal;
-  font-weight: 500;
-  src: local('ResotE'), url('https://fonts.cdnfonts.com/s/31180/ResotE.woff') format('woff');
-}
-@font-face {
   font-family: 'Ethereal';
   font-style: normal;
   font-weight: 100;
   src: local('Ethereal'), url('https://fonts.cdnfonts.com/s/78834/Ethereal-Thin.woff') format('woff');
-}
-@font-face {
-  font-family: 'Quiny';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Quiny'), url('https://fonts.cdnfonts.com/s/78442/quiny.woff') format('woff');
-}
-@font-face {
-  font-family: 'Rambors';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Rambors'), url('https://fonts.cdnfonts.com/s/78357/RamborsRegular-lgRPX.woff') format('woff');
-}
-@font-face {
-  font-family: 'BLUE OCEAN';
-  font-style: normal;
-  font-weight: 400;
-  src: local('BLUE OCEAN'), url('https://fonts.cdnfonts.com/s/74691/BlueOcean-YzBDa.woff') format('woff');
-}
-@font-face {
-  font-family: 'Bambi Bold';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Bambi Bold'), url('https://fonts.cdnfonts.com/s/8871/X_BAMBI.woff') format('woff');
-}
-@font-face {
-  font-family: 'xscale';
-  font-style: normal;
-  font-weight: 700;
-  src: local('xscale'), url('https://fonts.cdnfonts.com/s/6258/X-SCALE_.woff') format('woff');
-}
-@font-face {
-  font-family: 'Righteous';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Righteous'), url('https://fonts.cdnfonts.com/s/15577/Righteous-Regular.woff') format('woff');
-}
-@font-face {
-  font-family: 'neo latina';
-  font-style: normal;
-  font-weight: 400;
-  src: local('neo latina'), url('https://fonts.cdnfonts.com/s/18661/neo-latina-demo-FFP.woff') format('woff');
 }
 @font-face {
   font-family: 'Zacbel X';

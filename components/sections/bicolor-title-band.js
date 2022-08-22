@@ -14,6 +14,7 @@ export default function BicolorTitleBand(props) {
     secondaryColor,
     bgColor,
     padding,
+    letterSpacing,
   } = props
 
   /********** ANIMATION **********/
@@ -71,7 +72,7 @@ export default function BicolorTitleBand(props) {
         <Typography
           component="h2"
           textTransform="uppercase"
-          letterSpacing="5px"
+          letterSpacing={letterSpacing || "5px"}
           textAlign="center"
           color={mainColor}
           fontSize={isMobileOrTablet ? "1.7rem" : "2rem"}
