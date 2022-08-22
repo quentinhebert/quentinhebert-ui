@@ -82,7 +82,7 @@ export default function IndexHeadBandVideo(props) {
               backgroundPosition: "100% 10%",
               backgroundClip: "text",
               color: "transparent",
-              "-webkit-background-clip": "text",
+              WebkitBackgroundClip: "text",
             }}
           >
             <Slide

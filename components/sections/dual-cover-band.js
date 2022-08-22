@@ -72,6 +72,7 @@ export default function DualCoverBand(props) {
             <Stack
               flexDirection="column"
               sx={{ width: { xs: "100%", md: "50%" }, overflow: "hidden" }}
+              key={key}
             >
               <BicolorTitleBand
                 secondaryText="Découvrez"
