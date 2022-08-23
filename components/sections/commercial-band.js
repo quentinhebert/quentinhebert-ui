@@ -4,8 +4,6 @@ import theme from "../../config/theme"
 import { Parallax } from "react-parallax"
 
 const Container = ({ btnColor, bgImg, href }) => {
-  const md = useMediaQuery(theme.breakpoints.down("md"))
-
   return (
     <Parallax
       blur={{ min: -15, max: 20 }}
@@ -23,10 +21,12 @@ const Container = ({ btnColor, bgImg, href }) => {
         alignItems="center"
         textAlign="center"
         width="100%"
-        height="600px"
         zIndex={3}
         padding={3}
         border={`4px solid ${theme.palette.secondary.main}`}
+        sx={{
+          height: { xs: "400px", md: "600px" },
+        }}
       >
         <Typography
           color="#fff"
