@@ -1,6 +1,7 @@
 import React, { useRef } from "react"
 import { Box, Button, Slide, Stack, Typography } from "@mui/material"
 import SaveAltIcon from "@mui/icons-material/SaveAlt"
+import theme from "../../../config/theme"
 
 export default function FilmsExperiencePart(props) {
   const {} = props
@@ -9,7 +10,7 @@ export default function FilmsExperiencePart(props) {
     <>
       <Stack
         sx={{
-          backgroundImage: "url(/medias/Untitled.png)",
+          backgroundImage: "url(/medias/exp-film-bg-2.svg)",
           backgroundSize: "cover",
           backgroundPosition: "50% 50%",
           height: { xs: "600px", md: "900px" },
@@ -57,7 +58,7 @@ export default function FilmsExperiencePart(props) {
                 Exp .
               </Typography>
               <Typography
-                fontFamily="Arial"
+                fontFamily="Ethereal"
                 marginBottom="3rem"
                 sx={{
                   alignSelf: "start",
@@ -82,12 +83,15 @@ export default function FilmsExperiencePart(props) {
               </Typography>
 
               <Button
-                variant="contained"
-                color="secondary"
+                variant="outlined"
                 sx={{
-                  color: "#fff",
+                  color: theme.palette.text.primaryLight,
+                  fontFamily: "Ethereal",
+                  textTransform: "initial",
+                  fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
                   fontWeight: "bold",
-                  letterSpacing: "1.2px",
+                  letterSpacing: "1.5px",
+                  border: `2px solid ${theme.palette.text.primaryLight}`,
                 }}
                 startIcon={<SaveAltIcon />}
               >

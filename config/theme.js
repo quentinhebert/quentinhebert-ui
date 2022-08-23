@@ -25,6 +25,7 @@ const mainTheme = createTheme({
     mode: "dark",
     primary: {
       main: primary,
+      light: primaryLight,
     },
     secondary: {
       main: secondary,

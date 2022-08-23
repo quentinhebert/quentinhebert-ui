@@ -33,7 +33,7 @@ export default function FilmsFocusPart(props) {
           backgroundImage: "url(/medias/focus-film-bg.svg)",
           backgroundSize: "cover",
           backgroundPosition: "50% 10%",
-          height: { xs: "700px", md: "600px" },
+          height: { xs: "600px", sm: "700px", md: "600px" },
         }}
       >
         <Slide direction="left" {...{ timeout: 1000 }} in>
@@ -88,42 +88,45 @@ export default function FilmsFocusPart(props) {
                   width: { xs: "100%", sm: "80%", md: "70%" },
                 }}
               >
-                <span
-                  style={{
+                <Box
+                  component="span"
+                  sx={{
                     color: theme.palette.text.primaryLight,
-                    fontSize: "1.5rem",
+                    fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
                   }}
                 >
                   <b>
                     <em>Passionné</em>
                   </b>
-                </span>{" "}
+                </Box>{" "}
                 depuis {expNbYears} années, j'ai fait de la vidéo mon métier car
                 c'est grâce au son et à l'image que je parviens à m'exprimer
                 avec le plus de{" "}
-                <span
-                  style={{
+                <Box
+                  component="span"
+                  sx={{
                     color: theme.palette.text.primaryLight,
-                    fontSize: "1.5rem",
+                    fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
                   }}
                 >
                   <b>
                     <em>sincérité</em>
                   </b>
-                </span>
+                </Box>
                 .
                 <p />
                 J'ai appris en{" "}
-                <span
-                  style={{
+                <Box
+                  component="span"
+                  sx={{
                     color: theme.palette.text.primaryLight,
-                    fontSize: "1.5rem",
+                    fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
                   }}
                 >
                   <b>
                     <em>autodidacte</em>
                   </b>
-                </span>
+                </Box>
                 , poussé par l'envie de créer.
               </Typography>
 
@@ -139,7 +142,7 @@ export default function FilmsFocusPart(props) {
                     variant="outlined"
                     color="secondary"
                     sx={{
-                      fontSize: { xs: "1rem", md: "1.5vw" },
+                      fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
                       fontFamily: "Ethereal",
                       fontWeight: "bold",
                       letterSpacing: "1.5px",
@@ -164,7 +167,7 @@ export default function FilmsFocusPart(props) {
               backgroundPosition: "50% 50%",
               position: "absolute",
               width: { xs: "35%", md: "50%" },
-              height: { xs: "700px", md: "600px" },
+              height: { xs: "600px", sm: "700px", md: "600px" },
               mixBlendMode: "multiply",
             }}
           />

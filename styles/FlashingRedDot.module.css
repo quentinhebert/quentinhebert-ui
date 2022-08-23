@@ -49,5 +49,6 @@
   z-index: 0;
   /* position: absolute; */
   position: relative;
-  display: inline-flex;
+  display: flex;
+  align-self: flex-end;
 }

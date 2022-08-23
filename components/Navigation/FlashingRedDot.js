@@ -8,7 +8,14 @@ export default function FlashingRedDot() {
       <Typography letterSpacing={2} sx={{ color: "red" }}>
         Rec
       </Typography>
-      <CircleIcon sx={{ color: "red", display: "flex", marginLeft: ".5rem" }} />
+      <CircleIcon
+        sx={{
+          color: "red",
+          display: "flex",
+          marginLeft: ".5rem",
+          width: "1rem",
+        }}
+      />
     </Stack>
   )
 }

@@ -23,7 +23,6 @@ export default function FilmsPortfolioPart(props) {
           width: "100%",
         }}
       >
-        <Box width="100%" height="100%" />
         <Stack
           justifyContent="center"
           alignItems="center"
@@ -31,6 +30,11 @@ export default function FilmsPortfolioPart(props) {
           width="100%"
           height="100%"
           padding="1rem"
+          sx={
+            {
+              // backgroundColor: (theme) => theme.palette.background.secondary,
+            }
+          }
         >
           <Typography
             fontFamily="Ethereal"
@@ -78,9 +82,6 @@ export default function FilmsPortfolioPart(props) {
                 cursor: "pointer",
                 borderRadius: 0,
                 margin: 0.5,
-                // fontSize: { xs: "3.5vw", sm: "2.5vw", md: "1.5vw" },
-                // letterSpacing: "0.15vw",
-                // lineHeight: { xs: "0.8rem", md: "1.3rem" },
                 fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
                 letterSpacing: { xs: 0.25, sm: 1, md: 2 },
                 lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
@@ -105,10 +106,9 @@ export default function FilmsPortfolioPart(props) {
     )
   }
 
-  const VideoCell = ({ src, alt, title, key }) => {
+  const VideoCell = ({ src, alt, title }) => {
     return (
       <ImageListItem
-        key={key}
         sx={{
           height: "100%",
           width: "100%",
@@ -294,7 +294,7 @@ export default function FilmsPortfolioPart(props) {
           }}
           cols={3}
           rowHeight={md ? 220 : sm ? 200 : 120}
-          gap={0}
+          gap={0.5}
         >
           <RowStartingLabel
             categoryTitle={"Courts-métrages"}
