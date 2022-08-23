@@ -24,9 +24,7 @@ const Container = ({ btnColor, bgImg, href }) => {
         zIndex={3}
         padding={3}
         border={`4px solid ${theme.palette.secondary.main}`}
-        sx={{
-          height: { xs: "400px", md: "600px" },
-        }}
+        height="400px"
       >
         <Typography
           color="#fff"
