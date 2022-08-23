@@ -3,7 +3,6 @@ import Box from "@mui/material/Box"
 import { Stack, Typography, useMediaQuery } from "@mui/material"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import theme from "../../config/theme"
 
 export default function BicolorTitleBand(props) {
   const {
@@ -23,10 +22,10 @@ export default function BicolorTitleBand(props) {
     return {
       visible: {
         opacity: 1,
-        scaleY: 1,
-        transition: { duration: 0.5, delay: 0.2 + key / 10 },
+        scaleX: 1,
+        transition: { duration: 0.5 },
       },
-      hidden: { opacity: 0, scaleY: 0 },
+      hidden: { opacity: 0, scaleX: 0 },
     }
   }
   const controls = useAnimation()
