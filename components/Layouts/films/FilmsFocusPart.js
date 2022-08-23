@@ -1,17 +1,21 @@
 import React, { useRef } from "react"
-import Navbar from "../../Navigation/Navbars/navbar"
-import Footer from "../../Navigation/Footers/Footer"
-import {
-  Box,
-  Button,
-  Slide,
-  Stack,
-  Typography,
-  useMediaQuery,
-} from "@mui/material"
-import ScrollToTopBtn from "../../Navigation/scroll-to-top"
+import { Box, Button, Slide, Stack, Typography } from "@mui/material"
+import BigTitle from "../../sections/big-title"
 import theme from "../../../config/theme"
-import FilmsIndexHero from "./FilmsIndexHero"
+
+const Keyword = ({ text }) => (
+  <Box
+    component="span"
+    sx={{
+      color: (theme) => theme.palette.text.secondary,
+      fontSize: { xs: "1.2rem", md: "1.5rem" },
+      fontWeight: "bold",
+      fontStyle: "italic",
+    }}
+  >
+    {text}
+  </Box>
+)
 
 export default function FilmsFocusPart(props) {
   const { refsForScroll } = props
@@ -26,8 +30,9 @@ export default function FilmsFocusPart(props) {
 
   return (
     <>
-      {/* TOP Anchor */}
+      {/* Section Anchor */}
       <Stack ref={refsForScroll.focus} />
+
       <Stack
         sx={{
           backgroundImage: "url(/medias/focus-film-bg.svg)",
@@ -40,39 +45,16 @@ export default function FilmsFocusPart(props) {
           <Stack width="100%" alignItems="end">
             <Stack
               sx={{
-                padding: { xs: "8rem 1rem 0 0", md: "2rem 4rem" },
+                padding: { xs: "8rem 1rem 0 0", md: "4rem 4rem 2rem" },
                 width: { xs: "70%", sm: "80%", md: "80%" },
               }}
             >
-              <Typography
-                variant="h1"
+              <BigTitle
+                title="Focus ."
+                color={theme.palette.text.primaryLight}
                 fontFamily="Ethereal"
-                fontWeight="bold"
                 textAlign="right"
-                color="secondary"
-                sx={{
-                  color: theme.palette.text.primaryLight,
-                  fontSize: {
-                    xs: "4rem",
-                    sm: "13vw",
-                  },
-                  lineHeight: {
-                    xs: "4rem",
-                    sm: "8rem",
-                    md: "10rem",
-                    lg: "13rem",
-                    xl: "17rem",
-                  },
-                  zIndex: 0,
-                  padding: {
-                    xs: "1.5rem 0 0 1rem",
-                    sm: "1.5rem 0 0 1rem",
-                    md: "1.5rem 0 0 5rem",
-                  },
-                }}
-              >
-                Focus .
-              </Typography>
+              />
               <Typography
                 fontFamily="Ethereal"
                 letterSpacing={2}
@@ -83,51 +65,18 @@ export default function FilmsFocusPart(props) {
                   letterSpacing: { xs: 0.25, sm: 1, md: 2 },
                   lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
                   alignSelf: "end",
-                  color: theme.palette.text.primary,
+                  color: (theme) => theme.palette.text.primaryLight,
                   marginTop: { xs: "3rem", md: 0 },
                   width: { xs: "100%", sm: "80%", md: "70%" },
                 }}
               >
-                <Box
-                  component="span"
-                  sx={{
-                    color: theme.palette.text.primaryLight,
-                    fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
-                  }}
-                >
-                  <b>
-                    <em>Passionné</em>
-                  </b>
-                </Box>{" "}
-                depuis {expNbYears} années, j'ai fait de la vidéo mon métier car
-                c'est grâce au son et à l'image que je parviens à m'exprimer
-                avec le plus de{" "}
-                <Box
-                  component="span"
-                  sx={{
-                    color: theme.palette.text.primaryLight,
-                    fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
-                  }}
-                >
-                  <b>
-                    <em>sincérité</em>
-                  </b>
-                </Box>
-                .
+                <Keyword text="Passionné" /> depuis {expNbYears} années, j'ai
+                fait de la vidéo mon métier car c'est grâce au son et à l'image
+                que je parviens à m'exprimer avec le plus de{" "}
+                <Keyword text="sincérité" />.
                 <p />
-                J'ai appris en{" "}
-                <Box
-                  component="span"
-                  sx={{
-                    color: theme.palette.text.primaryLight,
-                    fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
-                  }}
-                >
-                  <b>
-                    <em>autodidacte</em>
-                  </b>
-                </Box>
-                , poussé par l'envie de créer.
+                J'ai appris en <Keyword text="autodidacte" />, poussé par
+                l'envie de créer.
               </Typography>
 
               <Stack
@@ -142,11 +91,12 @@ export default function FilmsFocusPart(props) {
                     variant="outlined"
                     color="secondary"
                     sx={{
-                      fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+                      fontSize: { xs: "1rem", md: "1.2rem" },
                       fontFamily: "Ethereal",
                       fontWeight: "bold",
                       letterSpacing: "1.5px",
-                      border: `1px solid ${theme.palette.secondary.main}`,
+                      border: (theme) =>
+                        `1px solid ${theme.palette.secondary.main}`,
                     }}
                     onClick={(e) => scrollTo(refsForScroll.portfolio)}
                   >

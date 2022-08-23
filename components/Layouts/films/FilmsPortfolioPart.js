@@ -11,6 +11,7 @@ import {
 } from "@mui/material"
 import theme from "../../../config/theme"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import BigTitle from "../../sections/big-title"
 
 export default function FilmsPortfolioPart(props) {
   const { refForScroll } = props
@@ -261,27 +262,11 @@ export default function FilmsPortfolioPart(props) {
               width="100%"
               sx={{ padding: { xs: "2rem 0 0 1rem", md: "4rem 2rem 0rem 0" } }}
             >
-              <Typography
-                variant="h1"
+              <BigTitle
+                title="Portfolio ."
                 fontFamily="Ethereal"
-                fontWeight="bold"
-                textAlign="left"
-                sx={{
-                  color: theme.palette.text.primaryLight,
-                  fontSize: {
-                    xs: "4.5rem",
-                    sm: "12vw",
-                  },
-                  lineHeight: {
-                    xs: "8rem",
-                    md: "10rem",
-                    lg: "13rem",
-                    xl: "17rem",
-                  },
-                }}
-              >
-                Portfolio .
-              </Typography>
+                color={theme.palette.text.primaryLight}
+              />
             </Stack>
           </Stack>
         </Slide>

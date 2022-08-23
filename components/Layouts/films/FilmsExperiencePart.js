@@ -2,6 +2,7 @@ import React, { useRef } from "react"
 import { Box, Button, Slide, Stack, Typography } from "@mui/material"
 import SaveAltIcon from "@mui/icons-material/SaveAlt"
 import theme from "../../../config/theme"
+import BigTitle from "../../sections/big-title"
 
 export default function FilmsExperiencePart(props) {
   const {} = props
@@ -13,13 +14,13 @@ export default function FilmsExperiencePart(props) {
           backgroundImage: "url(/medias/exp-film-bg-2.svg)",
           backgroundSize: "cover",
           backgroundPosition: "50% 50%",
-          height: { xs: "600px", md: "900px" },
+          height: { xs: "550px", sm: "700px", md: "800px" },
         }}
       >
-        <Slide direction="left" {...{ timeout: 1000 }} in>
+        <Slide direction="right" {...{ timeout: 1000 }} in>
           <Stack width="100%" alignItems="start">
             <Stack
-              width="80%"
+              width="75%"
               alignItems="start"
               sx={{
                 padding: {
@@ -30,54 +31,31 @@ export default function FilmsExperiencePart(props) {
                 },
               }}
             >
-              <Typography
-                variant="h1"
+              <BigTitle
+                title="Exp ."
+                color={theme.palette.text.secondary}
                 fontFamily="Ethereal"
-                fontWeight="bold"
-                textAlign="start"
-                sx={{
-                  color: (theme) => theme.palette.text.secondary,
-                  fontSize: {
-                    xs: "4.5rem",
-                    sm: "12vw",
-                  },
-                  lineHeight: {
-                    xs: "5rem",
-                    md: "10rem",
-                    lg: "13rem",
-                    xl: "17rem",
-                  },
-                  zIndex: 0,
-                  padding: {
-                    xs: "1.5rem 1rem 1rem 0",
-                    sm: "1.5rem 1rem 1rem 0",
-                    md: "1.5rem 5rem 1rem 0",
-                  },
-                }}
-              >
-                Exp .
-              </Typography>
+              />
               <Typography
                 fontFamily="Ethereal"
-                marginBottom="3rem"
                 sx={{
                   alignSelf: "start",
                   color: (theme) => theme.palette.text.secondaryDark,
-                  width: { xs: "95%", sm: "80%", md: "70%" },
+                  width: { xs: "95%", sm: "80%", md: "80%" },
                   fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
                   letterSpacing: { xs: 0.25, sm: 1, md: 2 },
                   lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
+                  fontWeight: "bold",
+                  marginBottom: { xs: "1.5rem", md: "3rem" },
                 }}
               >
                 D'abord pris de passion pour la réalisation de courts-métrages,
                 j'apprends rapidement à diriger une équipe de tournage amateure.
-                <br />
-                <br />
+                <p />
                 Je prends goût à tous les corps du métier, mais c'est dans la
                 direction photographique, le cadrage et le montage que je me
                 sens le plus créatif.
-                <br />
-                <br />
+                <p />
                 Je réalise rapidement mes premiers clips musicaux et
                 événementiels.
               </Typography>
@@ -90,7 +68,7 @@ export default function FilmsExperiencePart(props) {
                   textTransform: "initial",
                   fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
                   fontWeight: "bold",
-                  letterSpacing: "1.5px",
+                  letterSpacing: { xs: "0.5px", md: "1.5px" },
                   border: `2px solid ${theme.palette.text.primaryLight}`,
                 }}
                 startIcon={<SaveAltIcon />}
@@ -101,18 +79,20 @@ export default function FilmsExperiencePart(props) {
           </Stack>
         </Slide>
 
-        <Box
-          sx={{
-            backgroundImage: "url(/medias/prout.png)",
-            backgroundSize: "cover",
-            backgroundPosition: "0% 50%",
-            position: "absolute",
-            right: 0,
-            width: "50%",
-            height: { xs: "700px", md: "900px" },
-            mixBlendMode: "multiply",
-          }}
-        />
+        <Slide direction="left" {...{ timeout: 1000 }} in>
+          <Box
+            sx={{
+              backgroundImage: "url(/medias/prout.png)",
+              backgroundSize: "cover",
+              backgroundPosition: "0% 50%",
+              position: "absolute",
+              right: 0,
+              width: "50%",
+              height: { xs: "500px", md: "900px" },
+              mixBlendMode: "multiply",
+            }}
+          />
+        </Slide>
       </Stack>
     </>
   )
