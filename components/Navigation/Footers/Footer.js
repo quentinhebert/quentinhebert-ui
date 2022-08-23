@@ -1,12 +1,5 @@
-import * as React from "react"
-import {
-  Button,
-  Grid,
-  Stack,
-  Typography,
-  useMediaQuery,
-  Box,
-} from "@mui/material"
+import { useEffect } from "react"
+import { Button, Stack, Typography, Box } from "@mui/material"
 import theme from "../../../config/theme"
 import Image from "next/image"
 import Link from "next/link"
@@ -19,14 +12,13 @@ import PaypalIcon from "../../../public/medias/warranties/paypal-icon.svg"
 import CreditCardIcon from "../../../public/medias/warranties/credit-card-icon.svg"
 import QualityIcon from "../../../public/medias/warranties/quality-icon.svg"
 import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice"
-import Grow from "@mui/material/Grow"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 
 /********** CONSTANTES **********/
 const logoUrl = "/logos/logo.svg"
 
-const socialMedias = [
+const SOCIAL_MEDIAS = [
   {
     type: "youtube",
     image: YoutubeIcon,
@@ -73,10 +65,12 @@ const Credits = () => {
     >
       <Typography
         fontSize="0.75rem"
-        color={theme.palette.text.light}
-        letterSpacing={1.5}
+        color={theme.palette.text.white}
+        letterSpacing={1}
       >
-        © Quentin Hébert 2022 – Site web developpé par Quentin Hébert -{" "}
+        © Quentin Hébert 2022 · Vidéaste et Développeur web en Freelance ·
+        Réalisateur - Cadreur - Monteur - Développeur JS Full-Stack · Site web
+        developpé par Quentin Hébert ·{" "}
         <Box
           component="a"
           href="/about-website"
@@ -90,14 +84,76 @@ const Credits = () => {
   )
 }
 
+const Email = () => {
+  return (
+    <Stack height="100%" justifyContent={"space-between"} gap={2}>
+      <Button
+        href="mailto:hello@quentinhebert.com"
+        variant="text"
+        size="large"
+        startIcon={<LocalPostOfficeIcon />}
+        sx={{
+          textTransform: "initial",
+          fontStyle: "italic",
+          textDecoration: "none",
+          fontFamily: "Arial, sans-serif",
+          color: "#FFF",
+        }}
+      >
+        hello@quentinhebert.com
+      </Button>
+    </Stack>
+  )
+}
+
+const SocialMedias = () => {
+  return (
+    <Stack direction="row" width={"100%"} justifyContent="center">
+      {SOCIAL_MEDIAS.map((social, key) => (
+        <Box
+          component="a"
+          key={key}
+          href={social.link}
+          target="_blank"
+          rel="noreferrer"
+          style={{ cursor: "pointer", margin: "0 0.5rem" }}
+        >
+          <Image src={social.image} height="40%" width="40%" />
+        </Box>
+      ))}
+    </Stack>
+  )
+}
+
+const Logo = () => (
+  <Stack direction="row" justifyContent="center">
+    <Link href="/" passHref>
+      <Box
+        sx={{
+          "&:hover": {
+            scale: 1.5,
+            cursor: "pointer",
+          },
+        }}
+      >
+        <Image src={logoUrl} width="150%" height="80%" />
+      </Box>
+    </Link>
+  </Stack>
+)
+
 export default function Footer(props) {
-  // const bgColor = theme.palette.background.main;
-  const bgColor = theme.palette.background.main
-  const md = useMediaQuery(theme.breakpoints.down("md"))
+  /********** STYLE **********/
+  const motionDivStyle = {
+    display: "flex",
+    width: "100%",
+    justifyContent: "center",
+  }
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
   const variants = (key) => {
+    // For the footer content part
     if (key < 3)
       return {
         visible: {
@@ -107,6 +163,7 @@ export default function Footer(props) {
         },
         hidden: { opacity: 0, scaleX: 0 },
       }
+    // For the website credits part
     return {
       visible: {
         opacity: 1,
@@ -117,7 +174,7 @@ export default function Footer(props) {
   }
   const controls = useAnimation()
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (inView) {
       controls.start("visible")
     } else {
@@ -127,118 +184,65 @@ export default function Footer(props) {
 
   return (
     <Box
+      ref={ref}
       component="footer"
       width={"100%"}
       paddingTop={10}
-      paddingBottom={2}
+      paddingBottom={4}
       sx={{
         backgroundImage: "url(/medias/footer-wave.svg)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
-      ref={ref}
     >
+      {/* FOOTER CONTENT */}
       <Stack
-        direction={md ? "column" : "row"}
         width={"80%"}
-        maxWidth={{ lg: "880px", xl: "1050px" }}
+        maxWidth="880px"
         margin="auto"
-        justifyContent="space-between"
         alignItems="center"
-        gap={4}
+        gap={5}
+        sx={{ flexDirection: { xs: "column", md: "row" } }}
       >
         <motion.div
           initial="hidden"
           variants={variants(0)}
           animate={controls}
-          style={{
-            display: "flex",
-            width: "100%",
-            justifyContent: "center",
-          }}
+          style={motionDivStyle}
         >
-          <Stack direction="row" justifyContent="center">
-            <Link href="/" passHref>
-              <Box
-                sx={{
-                  "&:hover": {
-                    backgroundColor: "transparent",
-                    cursor: "pointer",
-                  },
-                }}
-              >
-                <Image src={logoUrl} width="150%" height="80%" />
-              </Box>
-            </Link>
-          </Stack>
+          <Logo />
         </motion.div>
 
         <motion.div
           initial="hidden"
           variants={variants(1)}
           animate={controls}
-          style={{ display: "flex", width: "100%", justifyContent: "center" }}
+          style={motionDivStyle}
         >
-          <Grow
-            in
-            style={{ transformOrigin: "0 0 0" }}
-            {...(true ? { timeout: 1750 } : {})}
-          >
-            <Stack height="100%" justifyContent={"space-between"} gap={2}>
-              <Button
-                href="mailto:contact@quentinhebert.com"
-                variant="text"
-                size="large"
-                startIcon={<LocalPostOfficeIcon />}
-                sx={{
-                  textTransform: "initial",
-                  fontStyle: "italic",
-                  textDecoration: "none",
-                  fontFamily: "Arial, sans-serif",
-                  color: "#FFF",
-                }}
-              >
-                contact@quentinhebert.com
-              </Button>
-            </Stack>
-          </Grow>
+          <Email />
         </motion.div>
 
         <motion.div
           initial="hidden"
           variants={variants(2)}
           animate={controls}
-          style={{ display: "flex", width: "100%", justifyContent: "center" }}
+          style={motionDivStyle}
         >
-          <Stack direction="row" width={"100%"} justifyContent="center">
-            {socialMedias.map((social, key) => (
-              <Box
-                component="a"
-                key={key}
-                href={social.link}
-                target="_blank"
-                rel="noreferrer"
-                style={{ cursor: "pointer", margin: "0 0.5rem" }}
-              >
-                <Image src={social.image} height="40%" width="40%" />
-              </Box>
-            ))}
-          </Stack>
+          <SocialMedias />
         </motion.div>
       </Stack>
 
-      <motion.div
-        initial="hidden"
-        variants={variants(3)}
-        animate={controls}
-        style={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "center",
-        }}
-      >
-        <Credits />
-      </motion.div>
+      {/* WEBSITE CREDITS */}
+      <Stack width={"80%"} maxWidth="880px" margin="auto">
+        <motion.div
+          initial="hidden"
+          variants={variants(3)}
+          animate={controls}
+          style={motionDivStyle}
+        >
+          <Credits />
+        </motion.div>
+      </Stack>
     </Box>
   )
 }
