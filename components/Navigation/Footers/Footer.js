@@ -96,8 +96,11 @@ const Email = () => {
           textTransform: "initial",
           fontStyle: "italic",
           textDecoration: "none",
-          fontFamily: "Arial, sans-serif",
-          color: "#FFF",
+          fontFamily: "Arial",
+          letterSpacing: 1.25,
+          fontSize: "1rem",
+          // fontWeight: "bold",
+          color: (theme) => theme.palette.text.white,
         }}
       >
         hello@quentinhebert.com
