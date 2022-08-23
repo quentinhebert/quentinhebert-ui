@@ -9,7 +9,7 @@ const portfolioOptions = [
     imgLink: "/films",
     url: "/films/portfolio",
     secondaryText: "Découvrez",
-    label: "Mes vidéos",
+    label: "Mes films",
     linkLabel: "Portfolio",
     secondaryTextColor: theme.palette.text.white,
     bgColor: theme.palette.background.main,
