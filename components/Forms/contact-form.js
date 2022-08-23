@@ -133,7 +133,7 @@ function ContactForm(props) {
       component={"form"}
       sx={{
         width: { xs: "100%", sm: "80%", md: "60%" },
-        margin: { xs: "1rem auto 0", sm: "4rem auto 0" },
+        margin: { xs: "1rem auto 0", sm: "2rem auto 0" },
         padding: "1rem 0",
         ".MuiOutlinedInput-input": { color: "#000" },
       }}
@@ -162,7 +162,6 @@ function ContactForm(props) {
           helperText={errors.firstname && "Please check this field"}
         />
         <CssTextField
-          required
           variant="filled"
           size="small"
           type="input"
@@ -263,6 +262,7 @@ function ContactForm(props) {
               variant="outlined"
               value={clientData.budget}
               onChange={handleChange("budget")}
+              color="secondary"
               renderValue={
                 // Trick for placeholder hiding
                 clientData.budget !== ""
@@ -275,10 +275,30 @@ function ContactForm(props) {
                 backgroundColor: "#fff",
               }}
             >
-              <MenuItem value="500€ – 1000€">500€ – 1000€</MenuItem>
-              <MenuItem value="1000€ – 1500€">1000€ – 1500€</MenuItem>
-              <MenuItem value="1500€ – 3000€">1500€ – 3000€</MenuItem>
-              <MenuItem value="+3000€">+3000€</MenuItem>
+              <MenuItem
+                value="500€ – 1000€"
+                sx={{ color: (theme) => theme.palette.text.secondary }}
+              >
+                500€ – 1000€
+              </MenuItem>
+              <MenuItem
+                value="1000€ – 1500€"
+                sx={{ color: (theme) => theme.palette.text.secondary }}
+              >
+                1000€ – 1500€
+              </MenuItem>
+              <MenuItem
+                value="1500€ – 3000€"
+                sx={{ color: (theme) => theme.palette.text.secondary }}
+              >
+                1500€ – 3000€
+              </MenuItem>
+              <MenuItem
+                value="+3000€"
+                sx={{ color: (theme) => theme.palette.text.secondary }}
+              >
+                +3000€
+              </MenuItem>
             </Select>
           </FormControl>
         </Stack>
