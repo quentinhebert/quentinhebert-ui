@@ -67,9 +67,9 @@ const Container = ({ btnColor, bgImg, href }) => {
               color: "#fff",
               margin: { xs: "2rem auto", md: "6rem auto 3rem" },
               padding: "0 1rem",
-              fontSize: { xs: "1rem", md: "1.5rem" },
-              lineHeight: { xs: "1.5rem", md: 1.5 },
-              letterSpacing: { xs: 1, md: 2 },
+              fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+              letterSpacing: { xs: 0.25, sm: 1, md: 2 },
+              lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
             }}
           >
             Depuis que le mouvement a rencontré la photographie, la vidéo n'a
