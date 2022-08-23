@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react"
 import { Box, Typography } from "@mui/material"
 
-export default function Timer() {
+export default function Timer(props) {
+  const { color, fontFamily, fontSize, letterSpacing, disabled } = props
+
   const [hours, setHours] = useState(0)
   const [minutes, setMinutes] = useState(0)
   const [seconds, setSeconds] = useState(0)
@@ -16,8 +18,8 @@ export default function Timer() {
   }
 
   useEffect(() => {
-    setTimeout(() => updateTimer(), 1000)
-  }, [totalSeconds])
+    if (!disabled) setTimeout(() => updateTimer(), 1000)
+  }, [totalSeconds, disabled])
 
   const display = (val) => {
     if (val < 10) return "0" + val
@@ -26,7 +28,13 @@ export default function Timer() {
 
   return (
     <Box component="span">
-      <Typography color="text.white">
+      <Typography
+        fontSize={fontSize || "1rem"}
+        color={color || theme.palette.text.white}
+        fontFamily={fontFamily || "Arial"}
+        fontWeight="bold"
+        letterSpacing={letterSpacing || "1px"}
+      >
         {display(hours)}:{display(minutes)}:{display(seconds)}
       </Typography>
     </Box>

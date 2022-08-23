@@ -30,14 +30,14 @@ const Container = ({ btnColor, bgImg, href }) => {
       >
         <Stack
           sx={{
-            border: `2px solid ${theme.palette.secondary.main}`,
+            border: `1px solid ${theme.palette.text.white}`,
             backgroundColor: "rgb(0,0,0,0.1)",
             backgroundImage: "url(/medias/white-grid.png)",
             backgroundSize: "100% 100%",
             padding: "1rem",
           }}
         >
-          <Stack alignItems="flex-start" flexDirection="row">
+          <Stack flexDirection="row" alignItems="center">
             <Stack width="34%" />
             <Stack alignItems="center" flexGrow={1}>
               <Box
@@ -47,7 +47,11 @@ const Container = ({ btnColor, bgImg, href }) => {
                   backgroundColor: "rgb(0,0,0,0.2)",
                 }}
               >
-                <Timer />
+                <Timer
+                  color={theme.palette.secondary.main}
+                  fontFamily="Ethereal"
+                  letterSpacing="0.15rem"
+                />
               </Box>
             </Stack>
             <Stack width="33%">
@@ -74,7 +78,7 @@ const Container = ({ btnColor, bgImg, href }) => {
           </Typography>
 
           <Typography
-            fontFamily="Arial"
+            fontFamily="Ethereal"
             color="secondary"
             sx={{
               width: { xs: "100%", md: "90%", lg: "70%" },
@@ -84,10 +88,12 @@ const Container = ({ btnColor, bgImg, href }) => {
               margin: { xs: "1rem 0.5rem", md: "0rem auto 2rem" },
             }}
           >
-            <Box sx={{ textAlign: "right" }}>
-              <em>"Une image vaut mieux que mille mots"</em>.
+            <Box textAlign="right" fontStyle="italic" fontWeight="bold">
+              "Une image vaut mieux que mille mots".
             </Box>
-            <b>– Alors que dire de vingt-cinq images par secondes ?</b>
+            <Box fontWeight="bold">
+              – Alors que dire de vingt-cinq images par secondes ?
+            </Box>
           </Typography>
         </Stack>
       </Stack>
@@ -109,8 +115,8 @@ export default function FilmsQuoteParallax(props) {
       >
         <Container
           btnColor={btnColor}
-          // bgImg={"/medias/movement-parallax.jpg"}
-          bgImg={"/medias/gif.gif"}
+          bgImg={"/medias/movement-parallax.jpg"}
+          // bgImg={"/medias/gif.gif"}
           href={href}
         />
       </Stack>
