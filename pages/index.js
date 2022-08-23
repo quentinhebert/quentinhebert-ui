@@ -26,6 +26,7 @@ export default function HomePage() {
           content="Belgian creative filmmaker for weddings, corporate, nightlife videos, and so much more !"
         />
         <meta property="og:type" content="website" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
       <IndexLayout />

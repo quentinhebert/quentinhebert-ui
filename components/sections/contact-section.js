@@ -1,28 +1,42 @@
 import React, { useEffect, useRef, useState } from "react"
-import Navbar from "../Navigation/Navbars/navbar"
-import Footer from "../Navigation/Footers/Footer"
-import CommercialBand from "./commercial-band"
-import { Box, Stack, Typography } from "@mui/material"
-import ScrollToTopBtn from "../Navigation/scroll-to-top"
-import theme from "../../config/theme"
-import References from "../Layouts/references/references"
-import IndexHeroScreen from "./index-hero-screen"
-import CarRentalIcon from "@mui/icons-material/CarRental"
+import { Stack, Typography } from "@mui/material"
 import ContactForm from "../Forms/contact-form"
+import { useAnimation, motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 
 export default function ContactSection(props) {
   const {} = props
 
-  const topRef = useRef()
-  const categoriesRef = useRef()
-  const refsForScroll = {
-    portfolio: categoriesRef,
+  /********** ANIMATION **********/
+  const [ref, inView] = useInView()
+  const variants = (key) => {
+    if (key === 0)
+      return {
+        visible: {
+          opacity: 1,
+          x: 0,
+          transition: { duration: 0.75, delay: 0 },
+        },
+        hidden: { opacity: 0, x: -50 },
+      }
+    return {
+      visible: {
+        opacity: 1,
+        x: 0,
+        transition: { duration: 0.75, delay: 0 },
+      },
+      hidden: { opacity: 0, x: 50 },
+    }
   }
-  const scrollTo = (ref) => {
-    ref.current.scrollIntoView({
-      behavior: "smooth",
-    })
-  }
+  const controls = useAnimation()
+
+  React.useEffect(() => {
+    if (inView) {
+      controls.start("visible")
+    } else {
+      controls.start("hidden")
+    }
+  }, [controls, inView])
 
   return (
     <Stack
@@ -33,32 +47,34 @@ export default function ContactSection(props) {
         backgroundColor: (theme) => theme.palette.secondary.main,
         padding: "2rem",
       }}
+      ref={ref}
     >
-      <Stack justifyContent="center" alignItems="center" flexDirection="row">
-        <Typography
-          variant="h2"
-          textAlign="center"
-          color="background.main"
-          textTransform="uppercase"
-          fontWeight="bold"
-          display="flex"
-          sx={{
-            fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
-            letterSpacing: { xs: "1px", sm: "1.5px", md: "2px" },
-          }}
-        >
-          Allumez le contact
-        </Typography>
-        <CarRentalIcon
-          sx={{
-            display: "flex",
-            width: { xs: "2rem", sm: "2.5rem", md: "3rem" },
-            height: { xs: "2rem", sm: "2.5rem", md: "3rem" },
-            marginLeft: { xs: "0.75rem", md: "1rem" },
-          }}
-        />
-      </Stack>
-      <ContactForm />
+      <motion.div initial="hidden" variants={variants(0)} animate={controls}>
+        <Stack justifyContent="center" alignItems="center" flexDirection="row">
+          <Typography
+            textAlign="center"
+            color="text.primaryDark"
+            // textTransform="uppercase"
+            fontWeight="bold"
+            display="flex"
+            sx={{
+              fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
+              letterSpacing: { xs: "0.5px", sm: "1px", md: "1.5px" },
+            }}
+          >
+            Toutes les histoires commencent ici !
+          </Typography>
+        </Stack>
+      </motion.div>
+
+      <motion.div
+        initial="hidden"
+        variants={variants(1)}
+        animate={controls}
+        style={{ width: "100%" }}
+      >
+        <ContactForm />
+      </motion.div>
     </Stack>
   )
 }
