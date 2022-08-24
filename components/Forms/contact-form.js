@@ -7,17 +7,53 @@ import {
   Stack,
   TextField,
   Typography,
-  useMediaQuery,
 } from "@mui/material"
 import { USERTYPES } from "../../enums/userTypes"
 import { checkEmail } from "../../services/utils"
 import theme from "../../config/theme"
 import apiCall from "../../services/apiCalls/apiCall"
 import withSnacks from "../hocs/withSnacks"
-import { styled } from "@mui/material/styles"
+import { styled } from "@mui/system"
 
-const CssTextField = styled((props) => (
-  <TextField InputProps={{ disableUnderline: true }} {...props} />
+/** CONSTANTS **/
+
+const BUDGET_SET = ["500€ - 1000€", "1000€ - 1500€", "1500€ - 3000€", "+3000€"]
+
+/** CSS CUSTOMIZED COMPONENTS **/
+const FormContainer = styled((props) => (
+  <Stack
+    component={"form"}
+    alignItems="center"
+    justifyContent="center"
+    gap={2}
+    padding="1rem 0"
+    sx={{
+      width: { xs: "100%", sm: "80%", md: "60%" },
+      margin: { xs: "1rem auto 0", sm: "2rem auto 0" },
+      ".MuiFilledInput-input": {
+        // color of the input value text
+        color: (theme) => theme.palette.text.primary,
+      },
+      ".MuiOutlinedInput-input": {
+        // color of the select value text
+        color: (theme) => `${theme.palette.text.primary} !important`,
+      },
+    }}
+    {...props}
+  />
+))()
+
+const FormInput = styled((props) => (
+  <TextField
+    size="small"
+    variant="filled"
+    InputProps={{ disableUnderline: true }}
+    sx={{
+      width: "100%",
+      borderRadius: "5px",
+    }}
+    {...props}
+  />
 ))(({ theme }) => ({
   "& .MuiFilledInput-root": {
     overflow: "hidden",
@@ -48,28 +84,89 @@ const CssTextField = styled((props) => (
   },
 }))
 
-const BudgetOption = ({ value }) => {
-  const str = new String(value)
-  return (
-    <MenuItem
-      value={value}
-      sx={{ color: (theme) => theme.palette.text.secondary }}
-    >
-      <Typography>{str.toString()}</Typography>
-    </MenuItem>
-  )
-}
+const FormTextArea = styled((props) => (
+  <FormInput multiline rows={4} {...props} />
+))()
 
-const BudgetOptions = () => {
-  return (
-    <>
-      <BudgetOption value="500€ - 1000€" />
-      <BudgetOption value="100€ - 1500€" />
-      <BudgetOption value="1500€ - 3000€" />
-      <BudgetOption value="+3000€" />
-    </>
-  )
-}
+const SelectFormControl = styled((props) => (
+  <FormControl
+    sx={{
+      width: "100%",
+      ".MuiOutlinedInput-input": {
+        color: `${theme.palette.background.main} !important`,
+        padding: "0.8rem",
+      },
+      ".MuiSelect-iconOutlined": {
+        color: `${theme.palette.secondary.main} !important`,
+      },
+      ".Mui-selected": {
+        background: "red !important",
+      },
+    }}
+    {...props}
+  />
+))()
+
+const BudgetSelect = styled((props) => (
+  <Select
+    size="small"
+    displayEmpty
+    variant="outlined"
+    color="secondary"
+    sx={{
+      backgroundColor: "#fff", // Overrides the background-color of the select input
+    }}
+    MenuProps={{
+      sx: {
+        "&& .Mui-selected": {
+          // overrides the color and background-color of the selected option of the select
+          color: (theme) => theme.palette.text.primary,
+          backgroundColor: (theme) => theme.palette.text.secondaryDark,
+          "&:hover": {
+            backgroundColor: (theme) => theme.palette.background.secondary,
+          },
+        },
+      },
+    }}
+    {...props}
+  />
+))()
+
+const TwoInputLine = styled((props) => (
+  <Stack
+    sx={{
+      width: "100%",
+      gap: "1rem",
+      flexDirection: { xs: "column", sm: "row" },
+    }}
+    {...props}
+  />
+))()
+
+const ButtonContainer = styled((props) => (
+  <Stack sx={{ width: "100%", alignItems: "end" }} {...props} />
+))()
+
+const SubmitButton = styled((props) => (
+  <Button
+    variant="outlined"
+    size="large"
+    sx={{
+      width: "200px",
+      color: (theme) => "#fff",
+      backgroundColor: "transparent",
+      border: `2px solid #fff`,
+      borderRadius: "10px",
+      letterSpacing: "1.5px",
+      "&:hover": {
+        border: `2px solid #fff`,
+        backgroundColor: "#fff",
+        color: theme.palette.secondary.main,
+      },
+    }}
+    {...props}
+  />
+))()
 
 function ContactForm(props) {
   const { setSeverity, setOpenSnackBar, setMessageSnack } = props
@@ -144,204 +241,102 @@ function ContactForm(props) {
     errors.email ||
     (clientData.email.trim() !== "" && !checkEmail(clientData.email))
 
-  /********** STYLE **********/
-  const fullScreen = useMediaQuery((theme) => theme.breakpoints.down("md"))
-  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
-
   return (
-    <Stack
-      alignItems="center"
-      justifyContent="center"
-      gap={2}
-      component={"form"}
-      sx={{
-        width: { xs: "100%", sm: "80%", md: "60%" },
-        margin: { xs: "1rem auto 0", sm: "2rem auto 0" },
-        padding: "1rem 0",
-        ".MuiOutlinedInput-input": { color: "#000" },
-      }}
-    >
-      <Stack
-        sx={{
-          width: "100%",
-          gap: "1rem",
-          flexDirection: { xs: "column", sm: "row" },
-        }}
-      >
-        <CssTextField
-          size="small"
-          variant="filled"
+    <FormContainer>
+      <TwoInputLine>
+        <FormInput
           required
           type="input"
           id="firstname"
           label="Prénom"
-          sx={{
-            width: "100%",
-            borderRadius: "5px",
-          }}
           value={clientData.firstname}
           onChange={handleChange("firstname")}
           error={errors.firstname}
           helperText={errors.firstname && "Please check this field"}
         />
-        <CssTextField
-          variant="filled"
-          size="small"
+        <FormInput
           type="input"
           id="lastname"
           label="Nom"
-          sx={{
-            width: "100%",
-            borderRadius: "5px",
-          }}
           value={clientData.lastname}
           onChange={handleChange("lastname")}
           error={errors.lastname}
           helperText={errors.lastname && "Please check this field"}
         />
-      </Stack>
+      </TwoInputLine>
 
-      <Stack
-        sx={{
-          width: "100%",
-          gap: "1rem",
-          flexDirection: { xs: "column", sm: "row" },
-        }}
-      >
-        <CssTextField
+      <TwoInputLine>
+        <FormInput
           required
-          variant="filled"
-          size="small"
           type="email"
           id="email"
           label="E-mail"
-          sx={{
-            width: "100%",
-            borderRadius: "5px",
-          }}
           value={clientData.email}
           onChange={handleChange("email")}
           error={emailError || errors.email}
           helperText={emailError && "This email is not valid"}
         />
-        <CssTextField
-          variant="filled"
-          size="small"
+        <FormInput
           type="phone"
           id="phone"
           label="Téléphone"
-          sx={{
-            width: "100%",
-            borderRadius: "5px",
-          }}
           value={clientData.phone}
           onChange={handleChange("phone")}
         />
-      </Stack>
+      </TwoInputLine>
 
-      <Stack
-        sx={{
-          width: "100%",
-          gap: "1rem",
-          flexDirection: { xs: "column", sm: "row" },
-        }}
-      >
-        <CssTextField
-          variant="filled"
+      <TwoInputLine>
+        <FormInput
           type="input"
           id="company"
           label="Entreprise"
-          sx={{
-            width: "100%",
-            borderRadius: "5px",
-          }}
           value={clientData.company}
           onChange={handleChange("company")}
           error={errors.company}
           helperText={errors.company && "Please check this field"}
         />
-        <Stack sx={{ width: "100%" }}>
-          <FormControl
-            sx={{
-              width: "100%",
-              ".MuiSelect-select": {
-                color: `${theme.palette.background.main} !important`,
-              },
-              ".MuiOutlinedInput-input": {
-                color: `${theme.palette.background.main} !important`,
-              },
-              ".MuiSelect-iconOutlined": {
-                color: `${theme.palette.secondary.main} !important`,
-              },
-              ".MuiInputLabel-root": {
-                border: "none",
-                color: `${theme.palette.secondary.main} !important`,
-              },
-            }}
+        <SelectFormControl>
+          <BudgetSelect
+            required
+            id="budget"
+            value={clientData.budget}
+            onChange={handleChange("budget")}
+            renderValue={
+              // Trick for placeholder hiding
+              clientData.budget !== ""
+                ? undefined
+                : () => <Typography color="secondary">Mon budget *</Typography>
+            }
           >
-            <Select
-              required
-              displayEmpty
-              variant="outlined"
-              value={clientData.budget}
-              onChange={handleChange("budget")}
-              color="secondary"
-              renderValue={
-                // Trick for placeholder hiding
-                clientData.budget !== ""
-                  ? undefined
-                  : () => (
-                      <Typography color="secondary">Mon budget *</Typography>
-                    )
-              }
-              sx={{
-                backgroundColor: "#fff",
-              }}
-            >
-              <BudgetOptions />
-            </Select>
-          </FormControl>
-        </Stack>
-      </Stack>
+            {BUDGET_SET.map((budgetSlice, key) => (
+              <MenuItem
+                value={budgetSlice}
+                key={key}
+                sx={{
+                  color: (theme) => theme.palette.text.secondary,
+                }}
+              >
+                {budgetSlice}
+              </MenuItem>
+            ))}
+          </BudgetSelect>
+        </SelectFormControl>
+      </TwoInputLine>
 
-      <CssTextField
+      <FormTextArea
         required
+        id="description"
         label="Dites-m'en plus à propos de votre projet..."
-        variant="filled"
-        multiline
-        rows={4}
         value={clientData.description}
         onChange={handleChange("description")}
-        sx={{
-          borderRadius: "5px",
-          width: "100%",
-        }}
       />
 
-      <Stack sx={{ width: "100%", alignItems: "end" }}>
-        <Button
-          variant="outlined"
-          onClick={handleSendRequest}
-          disabled={loadingButton}
-          size="large"
-          sx={{
-            width: "200px",
-            color: (theme) => "#fff",
-            backgroundColor: "transparent",
-            border: `2px solid #fff`,
-            borderRadius: "10px",
-            letterSpacing: "1.5px",
-            "&:hover": {
-              border: `2px solid #fff`,
-              backgroundColor: "#fff",
-              color: theme.palette.secondary.main,
-            },
-          }}
-        >
+      <ButtonContainer>
+        <SubmitButton onClick={handleSendRequest} disabled={loadingButton}>
           {loadingButton ? <CircularProgress /> : "Envoyer"}
-        </Button>
-      </Stack>
-    </Stack>
+        </SubmitButton>
+      </ButtonContainer>
+    </FormContainer>
   )
 }
 
