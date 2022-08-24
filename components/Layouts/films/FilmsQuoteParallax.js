@@ -166,6 +166,7 @@ export default function FilmsQuoteParallax(props) {
         alignContent="center"
         alignItems="center"
         width="100%"
+        overflow="hidden"
       >
         <Container
           btnColor={btnColor}

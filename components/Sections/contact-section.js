@@ -17,7 +17,7 @@ export default function ContactSection(props) {
           x: 0,
           transition: { duration: 0.75, delay: 0 },
         },
-        hidden: { opacity: 0, x: -50 },
+        hidden: { opacity: 0, x: -25 },
       }
     return {
       visible: {
@@ -25,7 +25,7 @@ export default function ContactSection(props) {
         x: 0,
         transition: { duration: 0.75, delay: 0 },
       },
-      hidden: { opacity: 0, x: 50 },
+      hidden: { opacity: 0, x: 25 },
     }
   }
   const controls = useAnimation()
@@ -40,10 +40,12 @@ export default function ContactSection(props) {
 
   return (
     <Stack
+      width="100%"
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
       sx={{
+        overflow: "hidden",
         backgroundColor: (theme) => theme.palette.secondary.main,
         padding: "2rem",
       }}
