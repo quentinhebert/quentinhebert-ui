@@ -48,6 +48,29 @@ const CssTextField = styled((props) => (
   },
 }))
 
+const BudgetOption = ({ value }) => {
+  const str = new String(value)
+  return (
+    <MenuItem
+      value={value}
+      sx={{ color: (theme) => theme.palette.text.secondary }}
+    >
+      <Typography>{str.toString()}</Typography>
+    </MenuItem>
+  )
+}
+
+const BudgetOptions = () => {
+  return (
+    <>
+      <BudgetOption value="500€ - 1000€" />
+      <BudgetOption value="100€ - 1500€" />
+      <BudgetOption value="1500€ - 3000€" />
+      <BudgetOption value="+3000€" />
+    </>
+  )
+}
+
 function ContactForm(props) {
   const { setSeverity, setOpenSnackBar, setMessageSnack } = props
   const [loadingButton, setLoadingButton] = React.useState(false)
@@ -275,30 +298,7 @@ function ContactForm(props) {
                 backgroundColor: "#fff",
               }}
             >
-              <MenuItem
-                value="500€ – 1000€"
-                sx={{ color: (theme) => theme.palette.text.secondary }}
-              >
-                500€ – 1000€
-              </MenuItem>
-              <MenuItem
-                value="1000€ – 1500€"
-                sx={{ color: (theme) => theme.palette.text.secondary }}
-              >
-                1000€ – 1500€
-              </MenuItem>
-              <MenuItem
-                value="1500€ – 3000€"
-                sx={{ color: (theme) => theme.palette.text.secondary }}
-              >
-                1500€ – 3000€
-              </MenuItem>
-              <MenuItem
-                value="+3000€"
-                sx={{ color: (theme) => theme.palette.text.secondary }}
-              >
-                +3000€
-              </MenuItem>
+              <BudgetOptions />
             </Select>
           </FormControl>
         </Stack>
