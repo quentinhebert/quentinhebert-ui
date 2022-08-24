@@ -6,18 +6,18 @@ import {
   Select,
   Stack,
   Typography,
-} from "@mui/material";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { compose } from "redux";
-import apiCall from "../../../services/apiCalls/apiCall";
-import withConfirmAction from "../../hocs/withConfirmAction";
-import withSnacks from "../../hocs/withSnacks";
-import CustomTable from "../../sections/custom-table";
+} from "@mui/material"
+import dynamic from "next/dynamic"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
+import { compose } from "redux"
+import apiCall from "../../../services/apiCalls/apiCall"
+import withConfirmAction from "../../hocs/withConfirmAction"
+import withSnacks from "../../hocs/withSnacks"
+import CustomTable from "../../Sections/custom-table"
 const AddReferenceModal = dynamic(() =>
   import("../../Modals/Create-Modals/add-reference-modal")
-);
+)
 
 const headCells = [
   {
@@ -30,7 +30,7 @@ const headCells = [
     numeric: false,
     label: "Logo",
     valueGetter: function (param, rowId) {
-      return param ? <img src={param} style={{ width: "100px" }} /> : <></>;
+      return param ? <img src={param} style={{ width: "100px" }} /> : <></>
     },
   },
   {
@@ -38,7 +38,7 @@ const headCells = [
     numeric: false,
     label: "Name",
   },
-];
+]
 
 function AdminReferencesPanel(props) {
   const {
@@ -51,86 +51,86 @@ function AdminReferencesPanel(props) {
     setConfirmTitle,
     setNextButtonText,
     setConfirmContent,
-  } = props;
+  } = props
 
-  const [rows, setRows] = useState(null);
-  const [allRows, setAllRows] = useState(null);
-  const [openAddReferenceModal, setOpenAddReferenceModal] = useState(false);
-  const router = useRouter();
+  const [rows, setRows] = useState(null)
+  const [allRows, setAllRows] = useState(null)
+  const [openAddReferenceModal, setOpenAddReferenceModal] = useState(false)
+  const router = useRouter()
 
   /***************** FETCH DATA ****************/
   const fetchReferences = async () => {
-    const res = await apiCall.unauthenticated.getReferences();
+    const res = await apiCall.unauthenticated.getReferences()
     if (res && res.ok) {
-      const result = await res.json();
-      const localArray = [];
+      const result = await res.json()
+      const localArray = []
       await result.map((category, key) => {
-        localArray.push(category);
-      });
-      setRows(localArray);
-      setAllRows(localArray);
+        localArray.push(category)
+      })
+      setRows(localArray)
+      setAllRows(localArray)
     }
-  };
+  }
 
   // Imediately fetch up-to-date data
   useEffect(() => {
-    fetchReferences();
-  }, []);
+    fetchReferences()
+  }, [])
 
   /***************** FUNCTIONS *****************/
   const deleteReferences = async (referencesToDelete) => {
     // referencesToDelete must be an array of reference ids (we get it from handleDeleteReferences())
-    const errorsCount = referencesToDelete.length;
+    const errorsCount = referencesToDelete.length
     const [errors] = await Promise.all(
       referencesToDelete.map(async (referenceId) => {
         const res = await apiCall.admin.deleteReference({
           id: referenceId,
-        });
+        })
         if (res && res.ok) {
-          errorsCount -= 1;
+          errorsCount -= 1
         }
-        return errorsCount;
+        return errorsCount
       })
-    );
+    )
 
     if (errors === 0) {
-      setSeverity("success");
-      setMessageSnack("Reference(s) deleted successfully.");
-      setOpenSnackBar(true);
-      fetchReferences(); // Refresh data
+      setSeverity("success")
+      setMessageSnack("Reference(s) deleted successfully.")
+      setOpenSnackBar(true)
+      fetchReferences() // Refresh data
     } else {
-      setSeverity("error");
+      setSeverity("error")
       setMessageSnack(
         `A problem occured while deleting ${errors} of the selected reference.`
-      );
-      setOpenSnackBar(true);
+      )
+      setOpenSnackBar(true)
     }
-  };
+  }
 
   /***************** HANDLERS *****************/
   const handleDeleteReferences = async (referencesToDelete) => {
     // referencesToDelete must be an array of reference ids (we get it from table-helper.js)
     if (!referencesToDelete.length) {
-      setSeverity("error");
+      setSeverity("error")
       setMessageSnack(
         "A problem occurred while deleting the selected reference(s)"
-      );
-      return setOpenSnackBar(true);
+      )
+      return setOpenSnackBar(true)
     }
     // Open confirm modal
-    setConfirmTitle(`Delete ${referencesToDelete.length} reference(s)`);
+    setConfirmTitle(`Delete ${referencesToDelete.length} reference(s)`)
     setActionToFire(
       () => async () => await deleteReferences(referencesToDelete)
-    );
+    )
     setConfirmContent({
       text: `Do you really want to delete ${referencesToDelete.length} reference(s) ?`,
-    });
-    setNextButtonText("Delete");
-    setOpenConfirmModal(true);
-  };
+    })
+    setNextButtonText("Delete")
+    setOpenConfirmModal(true)
+  }
   const handleCreate = () => {
-    setOpenAddReferenceModal(true);
-  };
+    setOpenAddReferenceModal(true)
+  }
 
   return (
     <Stack justifyContent="center" direction="column" gap={4} padding="1rem">
@@ -172,7 +172,7 @@ function AdminReferencesPanel(props) {
         ) : null}
       </Stack>
     </Stack>
-  );
+  )
 }
 
-export default compose(withSnacks, withConfirmAction)(AdminReferencesPanel);
+export default compose(withSnacks, withConfirmAction)(AdminReferencesPanel)

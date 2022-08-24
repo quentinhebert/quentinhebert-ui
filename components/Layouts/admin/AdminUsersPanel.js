@@ -6,16 +6,16 @@ import {
   Stack,
   Tooltip,
   Typography,
-} from "@mui/material";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { compose } from "redux";
-import apiCall from "../../../services/apiCalls/apiCall";
-import withConfirmAction from "../../hocs/withConfirmAction";
-import withSnacks from "../../hocs/withSnacks";
-import CustomTable from "../../sections/custom-table";
-const SignUpModal = dynamic(() => import("../../Modals/signup-modal"));
+} from "@mui/material"
+import dynamic from "next/dynamic"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
+import { compose } from "redux"
+import apiCall from "../../../services/apiCalls/apiCall"
+import withConfirmAction from "../../hocs/withConfirmAction"
+import withSnacks from "../../hocs/withSnacks"
+import CustomTable from "../../Sections/custom-table"
+const SignUpModal = dynamic(() => import("../../Modals/signup-modal"))
 
 const headCells = [
   {
@@ -28,7 +28,7 @@ const headCells = [
     numeric: false,
     label: "Avatar",
     valueGetter: function (param, rowId) {
-      return <Avatar src={param} sx={{ width: "60px", height: "60px" }} />;
+      return <Avatar src={param} sx={{ width: "60px", height: "60px" }} />
     },
   },
   {
@@ -61,12 +61,12 @@ const headCells = [
     numeric: false,
     label: "Created on",
     valueGetter: function (param, rowId) {
-      const year = param.split("T")[0].split("-")[0];
-      const month = param.split("T")[0].split("-")[1];
-      const day = param.split("T")[0].split("-")[2];
-      const hour = param.split("T")[1].split(":")[0];
-      const min = param.split("T")[1].split(":")[1];
-      return `${year}/${month}/${day} at ${hour}:${min}`;
+      const year = param.split("T")[0].split("-")[0]
+      const month = param.split("T")[0].split("-")[1]
+      const day = param.split("T")[0].split("-")[2]
+      const hour = param.split("T")[1].split(":")[0]
+      const min = param.split("T")[1].split(":")[1]
+      return `${year}/${month}/${day} at ${hour}:${min}`
     },
   },
   {
@@ -81,7 +81,7 @@ const headCells = [
           >
             <div style={{ maxWidth: "150px" }}>❌</div>
           </Tooltip>
-        );
+        )
       else
         return (
           <>
@@ -93,7 +93,7 @@ const headCells = [
               <div>✅</div>
             </Tooltip>
           </>
-        );
+        )
     },
   },
   {
@@ -108,7 +108,7 @@ const headCells = [
           >
             <div style={{ maxWidth: "150px" }}>❌</div>
           </Tooltip>
-        );
+        )
       else
         return (
           <>
@@ -120,10 +120,10 @@ const headCells = [
               <div>✅</div>
             </Tooltip>
           </>
-        );
+        )
     },
   },
-];
+]
 
 function AdminUsersPanel(props) {
   const {
@@ -135,85 +135,85 @@ function AdminUsersPanel(props) {
     setConfirmTitle,
     setNextButtonText,
     setConfirmContent,
-  } = props;
+  } = props
 
-  const [rows, setRows] = useState(null);
-  const [allRows, setAllRows] = useState(null); // To keep a constant reference for search filter
-  const [openSignUp, setOpenSignUp] = useState(false);
+  const [rows, setRows] = useState(null)
+  const [allRows, setAllRows] = useState(null) // To keep a constant reference for search filter
+  const [openSignUp, setOpenSignUp] = useState(false)
 
-  const router = useRouter();
+  const router = useRouter()
 
   const fetchUsers = async () => {
-    const res = await apiCall.admin.getAllUsers();
+    const res = await apiCall.admin.getAllUsers()
     if (res && res.ok) {
-      const result = await res.json();
+      const result = await res.json()
       // setRows(result);
-      const localArray = [];
+      const localArray = []
       await result.map((user, key) => {
-        localArray.push(user);
-      });
-      setRows(localArray);
-      setAllRows(localArray);
+        localArray.push(user)
+      })
+      setRows(localArray)
+      setAllRows(localArray)
     }
-  };
+  }
 
   // Get users from DB
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    fetchUsers()
+  }, [])
 
   /***************** FUNCTIONS *****************/
   const deleteUsers = async (usersToDelete) => {
     // usersToDelete must be an array of user ids (we get it from handleDeleteUser())
 
-    const errorsCount = usersToDelete.length;
+    const errorsCount = usersToDelete.length
     const [errors] = await Promise.all(
       usersToDelete.map(async (userId) => {
-        const res = await apiCall.users.delete(userId);
+        const res = await apiCall.users.delete(userId)
         if (res && res.ok) {
-          errorsCount -= 1;
+          errorsCount -= 1
         }
-        return errorsCount;
+        return errorsCount
       })
-    );
+    )
 
     if (errors === 0) {
-      setSeverity("success");
-      setMessageSnack("User(s) deleted successfully.");
-      setOpenSnackBar(true);
+      setSeverity("success")
+      setMessageSnack("User(s) deleted successfully.")
+      setOpenSnackBar(true)
     } else {
-      setSeverity("error");
+      setSeverity("error")
       setMessageSnack(
         `A problem occured while deletibg ${errors} of the selected users.`
-      );
-      setOpenSnackBar(true);
+      )
+      setOpenSnackBar(true)
     }
 
-    await fetchUsers(); // Refresh data
-  };
+    await fetchUsers() // Refresh data
+  }
   const handleDeleteUser = async (usersToDelete) => {
     // usersToDelete must be an array of user ids (we get it from table-helper.js)
     if (!usersToDelete.length) {
-      setSeverity("error");
-      setMessageSnack("A problem occurred while deleting the selected user(s)");
-      return setOpenSnackBar(true);
+      setSeverity("error")
+      setMessageSnack("A problem occurred while deleting the selected user(s)")
+      return setOpenSnackBar(true)
     }
     // Open confirm modal
-    setConfirmTitle(`Delete ${usersToDelete.length} users`);
-    setActionToFire(() => async () => await deleteUsers(usersToDelete));
+    setConfirmTitle(`Delete ${usersToDelete.length} users`)
+    setActionToFire(() => async () => await deleteUsers(usersToDelete))
     setConfirmContent({
       text: `Do you really want to delete ${usersToDelete.length} user(s) ?`,
-    });
-    setNextButtonText("Delete");
-    setOpenConfirmModal(true);
-  };
+    })
+    setNextButtonText("Delete")
+    setOpenConfirmModal(true)
+  }
   const handleCreate = () => {
-    setOpenSignUp(true);
-  };
+    setOpenSignUp(true)
+  }
   const handleCloseSignUp = async () => {
-    setOpenSignUp(false);
-    await fetchUsers();
-  };
+    setOpenSignUp(false)
+    await fetchUsers()
+  }
 
   return (
     <Stack justifyContent="center" direction="column" gap={4} padding="1rem">
@@ -250,7 +250,7 @@ function AdminUsersPanel(props) {
         ) : null}
       </Paper>
     </Stack>
-  );
+  )
 }
 
-export default compose(withSnacks, withConfirmAction)(AdminUsersPanel);
+export default compose(withSnacks, withConfirmAction)(AdminUsersPanel)

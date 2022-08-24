@@ -1,21 +1,21 @@
 import React, { useRef } from "react"
 import Navbar from "../Navigation/Navbars/navbar"
 import Footer from "../Navigation/Footers/Footer"
-import CommercialBand from "../sections/commercial-band"
+import ParallaxLanding from "../Sections/parallax-landing"
 import { Stack } from "@mui/material"
 import ScrollToTopBtn from "../Navigation/scroll-to-top"
 import theme from "../../config/theme"
-import IndexHeroScreen from "../sections/index-hero-screen"
+import IndexHeroScreen from "../Sections/index-hero-screen"
 import PortfolioOptions from "./portfolio-options"
-import ContactSection from "../sections/contact-section"
+import ContactSection from "../Sections/contact-section"
 
 export default function IndexLayout(props) {
   const {} = props
 
   const topRef = useRef()
-  const categoriesRef = useRef()
+  const portfolioRef = useRef()
   const refsForScroll = {
-    portfolio: categoriesRef,
+    portfolio: portfolioRef,
   }
   const scrollTo = (ref) => {
     ref.current.scrollIntoView({
@@ -26,26 +26,25 @@ export default function IndexLayout(props) {
   return (
     <>
       <Stack ref={topRef} />
-      <Navbar bgColor="transparent" />
+      <Navbar />
+
+      {/* HERO */}
       <IndexHeroScreen
         scrollTo={scrollTo}
         refForScroll={refsForScroll.portfolio}
       />
-      {/* CATEGORIES */}
-      <Stack ref={categoriesRef} sx={{ scrollMarginTop: "90px" }} />
-      {/* <Stack ref={categoriesRef} /> */}
-      <PortfolioOptions />
 
-      {/* REFERENCES */}
-      {/* <References /> */}
+      {/* DUAL PORTFOLIO – Landing Section */}
+      <PortfolioOptions refForScroll={refsForScroll.portfolio} />
 
-      {/* COMMERCIAL CTA */}
-      <CommercialBand
+      {/* ABOUT ME – Landing Section */}
+      <ParallaxLanding
         btnColor={theme.palette.background.secondary}
         bgImg="/medias/homepage-background.jpg"
         href="/about"
       />
 
+      {/* CONTACT Section */}
       <ContactSection />
 
       <ScrollToTopBtn refForScroll={topRef} />

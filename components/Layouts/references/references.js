@@ -3,7 +3,7 @@ import theme from "../../../config/theme"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { useEffect } from "react"
-import BicolorTitleBand from "../../sections/bicolor-title-band"
+import BicolorTitle from "../../ReusableComponents/bicolor-title"
 import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AutoPlayCarousel from "./AutoPlayCarousel"
@@ -67,7 +67,7 @@ export default function References(props) {
       alignItems="center"
       ref={ref}
     >
-      <BicolorTitleBand
+      <BicolorTitle
         secondaryText="My"
         secondaryColor={theme.palette.text.secondary}
         mainText="References"

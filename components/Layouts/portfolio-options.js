@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Stack } from "@mui/material"
-import DualCoverBand from "../sections/dual-cover-band"
+import DualCoverBand from "../ReusableComponents/dual-cover-band"
 import theme from "../../config/theme"
 
 const portfolioOptions = [
@@ -31,7 +31,14 @@ const portfolioOptions = [
 ]
 
 export default function PortfolioOptions(props) {
-  const {} = props
+  const { refForScroll } = props
 
-  return <DualCoverBand images={portfolioOptions} />
+  return (
+    <>
+      {/* SECTION ANCHOR */}
+      {/* <Stack ref={refForScroll} sx={{ scrollMarginTop: "90px" }} /> */}
+      <Stack ref={refForScroll} />
+      <DualCoverBand items={portfolioOptions} />
+    </>
+  )
 }

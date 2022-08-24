@@ -1,10 +1,10 @@
 import { Dialog, Stack, Box, Typography, Slide } from "@mui/material"
-import VimeoPlayer from "../sections/vimeo-player"
+import VimeoPlayer from "../Sections/vimeo-player"
 import theme from "../../config/theme"
 import Boop from "../Animation/boop"
 import CloseIcon from "@mui/icons-material/Close"
 import React, { useEffect, useState } from "react"
-import YoutubePlayer from "../sections/youtube-player"
+import YoutubePlayer from "../Sections/youtube-player"
 
 export default function VideoPlayer(props) {
   const { video, open, handleClose } = props

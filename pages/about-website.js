@@ -3,8 +3,8 @@ import Navbar from "../components/Navigation/Navbars/navbar"
 import { Box, Stack, Typography, useMediaQuery } from "@mui/material"
 import theme from "../config/theme"
 import Footer from "../components/Navigation/Footers/Footer"
-import BicolorTitleBand from "../components/sections/bicolor-title-band"
-import ImgTextBand from "../components/sections/img-text-band-about-website"
+import BicolorTitle from "../components/ReusableComponents/bicolor-title"
+import ImgTextBand from "../components/Sections/img-text-band-about-website"
 
 export default function Home() {
   const sm = useMediaQuery(theme.breakpoints.down("sm"))
@@ -24,7 +24,7 @@ export default function Home() {
       <Navbar />
 
       <Box sx={{ marginTop: "90px" }} />
-      <BicolorTitleBand
+      <BicolorTitle
         mainText="le site polygones.com"
         mainColor="#87181f"
         secondaryText="Tout savoir sur"

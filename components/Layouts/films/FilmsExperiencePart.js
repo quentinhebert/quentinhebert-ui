@@ -2,7 +2,7 @@ import React, { useRef } from "react"
 import { Box, Button, Slide, Stack, Typography } from "@mui/material"
 import SaveAltIcon from "@mui/icons-material/SaveAlt"
 import theme from "../../../config/theme"
-import BigTitle from "../../sections/big-title"
+import BigTitle from "../../ReusableComponents/big-title"
 
 export default function FilmsExperiencePart(props) {
   const {} = props
@@ -37,6 +37,7 @@ export default function FilmsExperiencePart(props) {
                 fontFamily="Ethereal"
               />
               <Typography
+                component={"span"}
                 fontFamily="Ethereal"
                 sx={{
                   alignSelf: "start",
@@ -88,7 +89,7 @@ export default function FilmsExperiencePart(props) {
               position: "absolute",
               right: 0,
               width: "50%",
-              height: { xs: "500px", md: "900px" },
+              height: { xs: "500px", sm: "700px", md: "800px" },
               mixBlendMode: "multiply",
             }}
           />

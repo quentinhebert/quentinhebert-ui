@@ -2,7 +2,7 @@ import { Box, Stack, Typography } from "@mui/material"
 import { Parallax } from "react-parallax"
 import theme from "../../../config/theme"
 import FlashingRedDot from "../../Navigation/FlashingRedDot"
-import Timer from "../../sections/timer"
+import Timer from "../../ReusableComponents/timer"
 
 const Container = ({ btnColor, bgImg, href }) => {
   return (
@@ -59,6 +59,7 @@ const Container = ({ btnColor, bgImg, href }) => {
             </Stack>
           </Stack>
           <Typography
+            component={"span"}
             fontFamily="Ethereal"
             fontWeight="bold"
             lineHeight="3vw"
@@ -78,6 +79,7 @@ const Container = ({ btnColor, bgImg, href }) => {
           </Typography>
 
           <Typography
+            component={"span"}
             fontFamily="Ethereal"
             color="secondary"
             sx={{
@@ -116,7 +118,6 @@ export default function FilmsQuoteParallax(props) {
         <Container
           btnColor={btnColor}
           bgImg={"/medias/movement-parallax.jpg"}
-          // bgImg={"/medias/gif.gif"}
           href={href}
         />
       </Stack>

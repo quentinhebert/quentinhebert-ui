@@ -4,7 +4,7 @@ import { Stack, Typography, useMediaQuery } from "@mui/material"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 
-export default function BicolorTitleBand(props) {
+export default function BicolorTitle(props) {
   const {
     mainText,
     mainColor,
@@ -18,15 +18,12 @@ export default function BicolorTitleBand(props) {
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
-  const variants = (key) => {
-    return {
-      visible: {
-        opacity: 1,
-        scaleX: 1,
-        transition: { duration: 0.5 },
-      },
-      hidden: { opacity: 0, scaleX: 0 },
-    }
+  const variants = {
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.75 },
+    },
+    hidden: { opacity: 0 },
   }
   const controls = useAnimation()
 
@@ -52,10 +49,10 @@ export default function BicolorTitleBand(props) {
       direction="column"
       backgroundColor={bgColor}
       padding={padding || "1rem"}
+      marginTop="0.25px"
       ref={ref}
-      zIndex={2}
     >
-      <motion.div initial="hidden" variants={variants(1)} animate={controls}>
+      <motion.div initial="hidden" variants={variants} animate={controls}>
         <Box
           component="div"
           width="100%"

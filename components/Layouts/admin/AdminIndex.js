@@ -1,9 +1,9 @@
-import { Grid, Stack, Typography } from "@mui/material";
-import { useRouter } from "next/router";
-import CustomCard from "../../sections/custom-card";
+import { Grid, Stack, Typography } from "@mui/material"
+import { useRouter } from "next/router"
+import CustomCard from "../../Sections/custom-card"
 
 export default function AdminIndex() {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <Stack justifyContent="center" direction="column" gap={4} padding="1rem">
@@ -66,5 +66,5 @@ export default function AdminIndex() {
         />
       </Stack>
     </Stack>
-  );
+  )
 }

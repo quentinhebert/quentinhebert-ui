@@ -1,8 +1,8 @@
 import * as React from "react"
 import { Stack, useMediaQuery } from "@mui/material"
 import theme from "../../config/theme"
-import MultirowGallery from "../sections/multirow-gallery"
-import BicolorTitleBand from "../sections/bicolor-title-band"
+import MultirowGallery from "../Sections/multirow-gallery"
+import BicolorTitle from "../ReusableComponents/bicolor-title"
 import apiCall from "../../services/apiCalls/apiCall"
 import useSWR from "swr"
 import Loading from "../Other/loading"
@@ -52,7 +52,7 @@ export default function Catgeories(props) {
 
   return (
     <Stack paddingBottom="2rem" bgcolor="white">
-      <BicolorTitleBand
+      <BicolorTitle
         secondaryText="Découvrez"
         secondaryColor="#000"
         mainText="Mes réalisations"

@@ -7,9 +7,9 @@ import theme from "../../../config/theme"
 import FilmsIndexHero from "./FilmsIndexHero"
 import FilmsFocusPart from "./FilmsFocusPart"
 import FilmsExperiencePart from "./FilmsExperiencePart"
-import FilmsQuoteParallax from "./FilmsQuoteParralax"
+import FilmsQuoteParallax from "./FilmsQuoteParallax"
 import FilmsPortfolioPart from "./FilmsPortfolioPart"
-import ContactSection from "../../sections/contact-section"
+import ContactSection from "../../Sections/contact-section"
 
 export default function FilmsIndexLayout(props) {
   const {} = props

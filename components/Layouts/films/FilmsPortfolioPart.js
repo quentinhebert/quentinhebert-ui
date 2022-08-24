@@ -11,7 +11,7 @@ import {
 } from "@mui/material"
 import theme from "../../../config/theme"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import BigTitle from "../../sections/big-title"
+import BigTitle from "../../ReusableComponents/big-title"
 
 export default function FilmsPortfolioPart(props) {
   const { refForScroll } = props
@@ -133,8 +133,8 @@ export default function FilmsPortfolioPart(props) {
             zIndex: 0,
             objectFit: "cover",
             objectPosition: "50% 50%",
-            "-webkit-transition": "transform 0.4s ease-in-out",
-            "-ms-transition": "transform 0.4s ease-in-out",
+            WebkitTransition: "transform 0.4s ease-in-out",
+            msTransition: "transform 0.4s ease-in-out",
             transition: "transform 0.4s ease-in-out, filter 0.4s ease-in-out",
           }}
         />
@@ -155,8 +155,8 @@ export default function FilmsPortfolioPart(props) {
             height: "100%",
             position: "absolute",
             zIndex: 2,
-            "-webkit-transition": "background 200ms linear",
-            "-ms-transition": "background 200ms linear",
+            WebkitTransition: "background 200ms linear",
+            msTransition: "background 200ms linear",
             transition: "background 200ms linear",
             padding: "1rem",
             "&:hover": {

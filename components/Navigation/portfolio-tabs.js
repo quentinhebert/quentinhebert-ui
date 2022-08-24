@@ -1,24 +1,24 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import { Slide, Stack, useMediaQuery } from "@mui/material";
-import BicolorTitleBand from "../sections/bicolor-title-band";
-import theme from "../../config/theme";
-import { useAnimation, motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import * as React from "react"
+import Box from "@mui/material/Box"
+import Tabs from "@mui/material/Tabs"
+import Tab from "@mui/material/Tab"
+import { Slide, Stack, useMediaQuery } from "@mui/material"
+import BicolorTitle from "../ReusableComponents/bicolor-title"
+import theme from "../../config/theme"
+import { useAnimation, motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 
 export default function PortfolioTabs(props) {
-  const { tab, setTab, categories } = props;
+  const { tab, setTab, categories } = props
 
-  if (!categories || !categories.length) return <></>;
+  if (!categories || !categories.length) return <></>
 
   const isMobileOrTablet = useMediaQuery((theme) =>
     theme.breakpoints.down("sm")
-  );
+  )
 
   /********** ANIMATION **********/
-  const [ref, inView] = useInView();
+  const [ref, inView] = useInView()
   const variants = (key) => {
     return {
       visible: {
@@ -27,44 +27,44 @@ export default function PortfolioTabs(props) {
         transition: { duration: 0.5, delay: 0 },
       },
       hidden: { opacity: 0, scaleY: 0 },
-    };
-  };
-  const controls = useAnimation();
+    }
+  }
+  const controls = useAnimation()
 
   React.useEffect(() => {
     if (inView) {
-      controls.start("visible");
+      controls.start("visible")
     } else {
-      controls.start("hidden");
+      controls.start("hidden")
     }
-  }, [controls, inView]);
+  }, [controls, inView])
 
   React.useEffect(() => {
-    controls.start("hidden");
+    controls.start("hidden")
     setTimeout(() => {
-      controls.start("visible");
-    }, 500);
-  }, [tab]);
+      controls.start("visible")
+    }, 500)
+  }, [tab])
 
   const handleChangeTab = (event, newValue) => {
-    setTab(newValue);
-  };
+    setTab(newValue)
+  }
 
   const DynamicTitle = () => {
     const title = {
       smallText: categories[tab].catch_phrase_secondary,
       bigText: categories[tab].catch_phrase_primary,
-    };
+    }
     return (
-      <BicolorTitleBand
+      <BicolorTitle
         secondaryText={title.smallText}
         mainText={title.bigText}
         secondaryColor="#000"
         mainColor={theme.palette.text.secondary}
         padding="2rem"
       />
-    );
-  };
+    )
+  }
 
   return (
     <Stack width="100%" ref={ref}>
@@ -86,10 +86,10 @@ export default function PortfolioTabs(props) {
           }}
         >
           {categories.map((category, key) => {
-            return <Tab key={key} label={category.label} />;
+            return <Tab key={key} label={category.label} />
           })}
         </Tabs>
       </Box>
     </Stack>
-  );
+  )
 }

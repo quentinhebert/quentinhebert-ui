@@ -16,7 +16,7 @@ import apiCall from "../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import withSnacks from "../../hocs/withSnacks"
 import SortVideos from "../../Modals/sort-videos"
-import CustomTable from "../../sections/custom-table"
+import CustomTable from "../../Sections/custom-table"
 import SortIcon from "@mui/icons-material/Sort"
 const AddCategoryVideoModal = dynamic(() =>
   import("../../Modals/Create-Modals/add-video-modal")

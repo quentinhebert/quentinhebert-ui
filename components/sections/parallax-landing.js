@@ -93,7 +93,7 @@ const Container = ({ btnColor, bgImg, href }) => {
   )
 }
 
-export default function CommercialBand(props) {
+export default function ParralaxLandingSection(props) {
   const { btnColor, bgImg, href } = props
   return (
     <Stack

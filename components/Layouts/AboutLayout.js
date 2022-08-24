@@ -1,13 +1,11 @@
 import React, { useRef } from "react"
 import Navbar from "../Navigation/Navbars/navbar"
 import Footer from "../Navigation/Footers/Footer"
-import { Box, Stack, Typography, useMediaQuery } from "@mui/material"
+import { Stack, Typography, useMediaQuery } from "@mui/material"
 import ScrollToTopBtn from "../Navigation/scroll-to-top"
 import theme from "../../config/theme"
-import DuoTextBand from "../sections/duo-text-band"
-import BicolorTitleBand from "../sections/bicolor-title-band"
-import ImgTextBand from "../sections/img-text-band"
-import VimeoPlayer from "../sections/vimeo-player"
+import BicolorTitle from "../ReusableComponents/bicolor-title"
+import VimeoPlayer from "../Sections/vimeo-player"
 import References from "../Layouts/references/references"
 import { Parallax } from "react-parallax"
 import BouncingArrow from "../Navigation/BouncingArrow"
@@ -100,7 +98,7 @@ export default function AboutLayout(props) {
         </Parallax>
         <Stack ref={VideoRef} />
       </Stack>
-      <BicolorTitleBand
+      <BicolorTitle
         secondaryText="Watch one of"
         secondaryColor="#000"
         mainText="my first videos"

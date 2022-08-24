@@ -1,6 +1,6 @@
 import React, { useRef } from "react"
 import { Box, Button, Slide, Stack, Typography } from "@mui/material"
-import BigTitle from "../../sections/big-title"
+import BigTitle from "../../ReusableComponents/big-title"
 import theme from "../../../config/theme"
 
 const Keyword = ({ text }) => (
@@ -56,6 +56,7 @@ export default function FilmsFocusPart(props) {
                 textAlign="right"
               />
               <Typography
+                component={"span"}
                 fontFamily="Ethereal"
                 letterSpacing={2}
                 textAlign="center"

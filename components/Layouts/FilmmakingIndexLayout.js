@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react"
 import Navbar from "../Navigation/Navbars/navbar"
 import Footer from "../Navigation/Footers/Footer"
-import CommercialBand from "../sections/commercial-band"
+import CommercialBand from "../Sections/commercial-band"
 import Categories from "./categories.js"
 import { Stack } from "@mui/material"
 import ScrollToTopBtn from "../Navigation/scroll-to-top"
 import theme from "../../config/theme"
 import References from "./references/references"
-import IndexHeadBandVideo from "../sections/index-head-band-video"
+import IndexHeadBandVideo from "../Sections/index-head-band-video"
 
 export default function FilmmakingIndexLayout(props) {
   const {} = props
