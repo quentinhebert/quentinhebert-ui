@@ -5,6 +5,7 @@ import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import Link from "next/link"
 import BicolorTitle from "./bicolor-title"
+import BlueLink from "./blue-link"
 
 export default function DualCoverBand(props) {
   /********** PROPS **********/
@@ -83,7 +84,7 @@ export default function DualCoverBand(props) {
                 letterSpacing={item.letterSpacing || null}
               />
 
-              <Stack alignItems="center" ref={ref}>
+              {/* <Stack alignItems="center" ref={ref}>
                 <motion.div
                   initial="hidden"
                   variants={variants}
@@ -120,7 +121,8 @@ export default function DualCoverBand(props) {
                     </Stack>
                   </Link>
                 </motion.div>
-              </Stack>
+              </Stack> */}
+              <BlueLink href={item.url || "#"} text={item.linkLabel} />
 
               <Link href={item.imgLink}>
                 <Stack
