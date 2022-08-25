@@ -1,6 +1,9 @@
 import { Box, Button, Slide, Stack } from "@mui/material"
 import BigTitle from "../../ReusableComponents/titles/big-title"
 import BodyText from "../../ReusableComponents/text/body-text"
+import { useAnimation, motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
+import { useEffect, useState } from "react"
 
 const Keyword = ({ text }) => (
   <Box
@@ -19,11 +22,35 @@ const Keyword = ({ text }) => (
 export default function FilmsFocusPart(props) {
   const { refsForScroll } = props
 
+  const [show, setShow] = useState(false)
+
   const scrollTo = (ref) => {
     ref.current.scrollIntoView({
       behavior: "smooth",
     })
   }
+
+  /********** ANIMATION **********/
+  const [ref, inView] = useInView()
+  const variants = {
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.75, delay: 0 },
+    },
+    hidden: { opacity: 0, x: 100 },
+  }
+  const controls = useAnimation()
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible")
+      setShow(true)
+    } else {
+      controls.start("hidden")
+      setShow(false)
+    }
+  }, [controls, inView])
 
   const expNbYears = new Date().getFullYear() - 2011 // J'ai réalisé mes premiers clips de musique en 5ème (collège) à l'âge de 13 ans
 
@@ -38,14 +65,17 @@ export default function FilmsFocusPart(props) {
           backgroundSize: "cover",
           backgroundPosition: "50% 10%",
           height: { xs: "600px", sm: "700px", md: "600px" },
+          marginTop: "0.01px",
         }}
+        ref={ref}
       >
-        <Slide direction="left" {...{ timeout: 1000 }} in>
+        <motion.div initial="hidden" variants={variants} animate={controls}>
           <Stack width="100%" alignItems="end">
             <Stack
               sx={{
-                padding: { xs: "8rem 1rem 0 0", md: "4rem 4rem 2rem" },
-                width: { xs: "70%", sm: "80%", md: "80%" },
+                padding: { xs: "8rem 1rem 0", md: "4rem 4rem 2rem" },
+                width: { xs: "70%", sm: "65%", md: "60%" },
+                alignSelf: "end",
               }}
             >
               <BigTitle
@@ -54,59 +84,47 @@ export default function FilmsFocusPart(props) {
                 fontFamily="Ethereal"
                 textAlign="right"
               />
-              <Stack
+              <BodyText
+                fontFamily="Ethereal"
+                fontWeight="bold"
+                textAlign="center"
+                color={(theme) => theme.palette.text.primaryLight}
                 sx={{
-                  alignSelf: "end",
-                  width: { xs: "100%", sm: "80%", md: "70%" },
                   marginTop: { xs: "3rem", md: 0 },
+                  marginBottom: "2rem",
                 }}
               >
-                <BodyText
-                  fontFamily="Ethereal"
-                  fontWeight="bold"
-                  textAlign="center"
-                  color={(theme) => theme.palette.text.primaryLight}
-                >
-                  <Keyword text="Passionné" /> depuis {expNbYears} années, j'ai
-                  fait de la vidéo mon métier car c'est grâce au son et à
-                  l'image que je parviens à m'exprimer avec le plus de{" "}
-                  <Keyword text="sincérité" />.
-                  <p />
-                  J'ai appris en <Keyword text="autodidacte" />, poussé par
-                  l'envie de créer.
-                </BodyText>
+                <Keyword text="Passionné" /> depuis {expNbYears} années, j'ai
+                fait de la vidéo mon métier car c'est grâce au son et à l'image
+                que je parviens à m'exprimer avec le plus de{" "}
+                <Keyword text="sincérité" />.
+                <p />
+                J'ai appris en <Keyword text="autodidacte" />, poussé par
+                l'envie de créer.
+              </BodyText>
 
-                <Stack
+              <Box sx={{ textAlign: "center" }}>
+                <Button
+                  variant="outlined"
+                  color="secondary"
                   sx={{
-                    width: { xs: "100%", sm: "80%", md: "70%" },
-                    alignSelf: "center",
-                    marginTop: "2rem",
+                    fontSize: { xs: "1rem", md: "1.2rem" },
+                    fontFamily: "Ethereal",
+                    fontWeight: "bold",
+                    letterSpacing: "1.5px",
+                    border: (theme) =>
+                      `1px solid ${theme.palette.secondary.main}`,
                   }}
+                  onClick={(e) => scrollTo(refsForScroll.portfolio)}
                 >
-                  <Box sx={{ alignSelf: "center" }}>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      sx={{
-                        fontSize: { xs: "1rem", md: "1.2rem" },
-                        fontFamily: "Ethereal",
-                        fontWeight: "bold",
-                        letterSpacing: "1.5px",
-                        border: (theme) =>
-                          `1px solid ${theme.palette.secondary.main}`,
-                      }}
-                      onClick={(e) => scrollTo(refsForScroll.portfolio)}
-                    >
-                      Voir mes réalisations
-                    </Button>
-                  </Box>
-                </Stack>
-              </Stack>
+                  Voir mes réalisations
+                </Button>
+              </Box>
             </Stack>
           </Stack>
-        </Slide>
+        </motion.div>
 
-        <Slide direction="right" {...{ timeout: 1000 }} in>
+        <Slide direction="right" {...{ timeout: 1000 }} in={show}>
           <Box
             sx={{
               backgroundImage: "url(/medias/filmmaker-shadow-alpha.png)",
