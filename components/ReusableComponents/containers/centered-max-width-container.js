@@ -15,7 +15,7 @@ const Container = styled((props) => {
       {...props}
     />
   )
-})()
+})(() => ({}))
 
 export default function CenteredMaxWidthContainer(
   props = { maxWidthPx, widthPercent, flexDirection, gap }

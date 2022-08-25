@@ -20,7 +20,7 @@ const SubmitButton = styled((props) => (
     }}
     {...props}
   />
-))()
+))(() => ({}))
 
 export default function CustomSubmitButton(props) {
   return <SubmitButton {...props} />

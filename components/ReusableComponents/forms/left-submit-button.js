@@ -20,11 +20,11 @@ const SubmitButton = styled((props) => (
     }}
     {...props}
   />
-))()
+))(() => ({}))
 
 const ButtonContainer = styled((props) => (
   <Stack sx={{ width: "100%", alignItems: "start" }} {...props} />
-))()
+))(() => ({}))
 
 export default function LeftSubmitButton(props) {
   return (

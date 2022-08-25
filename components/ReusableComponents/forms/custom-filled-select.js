@@ -24,7 +24,7 @@ const CustomSelect = styled((props) => (
     }}
     {...props}
   />
-))()
+))(() => ({}))
 
 const SelectFormControl = styled((props) => (
   <FormControl
@@ -44,7 +44,7 @@ const SelectFormControl = styled((props) => (
     }}
     {...props}
   />
-))()
+))(() => ({}))
 
 export default function CustomFilledSelect(props) {
   return (

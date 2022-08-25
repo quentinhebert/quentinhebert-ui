@@ -17,7 +17,7 @@ const Text = styled((props) => {
       {...props}
     />
   )
-})()
+})(() => ({}))
 
 export default function BodyText(props = { fontFamily, color }) {
   return <Text {...props} />

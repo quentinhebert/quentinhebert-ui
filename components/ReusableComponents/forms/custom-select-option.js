@@ -8,7 +8,7 @@ const SelectOption = styled((props) => (
     }}
     {...props}
   />
-))()
+))(() => ({}))
 
 export default function CustomSelectOption(props) {
   return <SelectOption {...props} />

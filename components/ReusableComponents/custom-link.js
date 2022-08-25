@@ -2,13 +2,12 @@ import { Box } from "@mui/material"
 import { styled } from "@mui/system"
 
 const Text = styled((props) => {
-  const { text, href, openNewTab, hoverColor } = props
+  const { text, href, hoverColor } = props
 
   return (
     <Box
       component="a"
       href={href}
-      target={openNewTab ? "_blank" : ""}
       rel="noreferrer"
       sx={{
         "&:hover": {
@@ -19,12 +18,11 @@ const Text = styled((props) => {
       {...props}
     />
   )
-})()
+})(() => ({}))
 
 export default function CustomLink(
   props = {
     href,
-    openNewTab,
     hoverColor,
   }
 ) {

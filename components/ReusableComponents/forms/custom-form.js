@@ -9,7 +9,7 @@ const FormContainer = styled((props) => (
     gap={2}
     {...props}
   />
-))()
+))(() => ({}))
 
 export default function CustomForm(props) {
   return <FormContainer {...props} />

@@ -10,7 +10,7 @@ const CssAnimatedStack = styled((props) => (
     }}
     {...props}
   />
-))()
+))(() => ({}))
 
 export default function ScaleUpOnHoverStack(props) {
   return <CssAnimatedStack {...props} />

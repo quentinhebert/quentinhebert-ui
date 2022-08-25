@@ -69,7 +69,7 @@ const Credits = () => {
         <InTextLink
           href="/about-website"
           text="Plus d'informations"
-          openNewTab
+          target="_blank"
         />
       </SmallText>
     </Stack>
@@ -100,8 +100,8 @@ const SocialMedias = () => {
   return (
     <Stack direction="row" width={"100%"} justifyContent="center" gap={2}>
       {SOCIAL_MEDIAS.map((social, key) => (
-        <ScaleUpOnHoverStack>
-          <CustomLink key={key} href={social.link} openNewTab>
+        <ScaleUpOnHoverStack key={key}>
+          <CustomLink href={social.link} target="_blank">
             <Image src={social.image} height="40%" width="40%" />
           </CustomLink>
         </ScaleUpOnHoverStack>

@@ -20,7 +20,7 @@ const Text = styled((props) => (
     }}
     {...props}
   />
-))()
+))(() => ({}))
 
 const Keyword = styled((props) => (
   <Box
@@ -33,7 +33,7 @@ const Keyword = styled((props) => (
     }}
     {...props}
   />
-))()
+))(() => ({}))
 
 const Container = ({ btnColor, bgImg, href }) => {
   /********** ANIMATION **********/

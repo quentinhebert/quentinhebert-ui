@@ -2,13 +2,12 @@ import { Typography } from "@mui/material"
 import { styled } from "@mui/system"
 
 const Text = styled((props) => {
-  const { text, href, openNewTab, hoverColor, color, fontFamily } = props
+  const { text, href, hoverColor, color, fontFamily } = props
 
   return (
     <Typography
       component="a"
       href={href}
-      target={openNewTab ? "_blank" : ""}
       sx={{
         fontFamily: fontFamily || "",
         color: color || "",
@@ -22,13 +21,12 @@ const Text = styled((props) => {
       {text}
     </Typography>
   )
-})()
+})(() => ({}))
 
 export default function InTextLink(
   props = {
     text,
     href,
-    openNewTab,
     hoverColor,
     color,
     fontFamily,

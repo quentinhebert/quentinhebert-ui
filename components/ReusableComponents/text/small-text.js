@@ -14,7 +14,7 @@ const Text = styled((props) => {
       {...props}
     />
   )
-})()
+})(() => ({}))
 
 export default function SmallText(props) {
   return <Text {...props} />
