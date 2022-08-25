@@ -1,7 +1,6 @@
-import React, { useRef } from "react"
-import { Box, Button, Slide, Stack, Typography } from "@mui/material"
-import BigTitle from "../../ReusableComponents/big-title"
-import theme from "../../../config/theme"
+import { Box, Button, Slide, Stack } from "@mui/material"
+import BigTitle from "../../ReusableComponents/titles/big-title"
+import BodyText from "../../ReusableComponents/text/body-text"
 
 const Keyword = ({ text }) => (
   <Box
@@ -51,59 +50,57 @@ export default function FilmsFocusPart(props) {
             >
               <BigTitle
                 title="Focus ."
-                color={theme.palette.text.primaryLight}
+                color={(theme) => theme.palette.text.primaryLight}
                 fontFamily="Ethereal"
                 textAlign="right"
               />
-              <Typography
-                component={"span"}
-                fontFamily="Ethereal"
-                letterSpacing={2}
-                textAlign="center"
-                fontWeight="bold"
-                sx={{
-                  fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
-                  letterSpacing: { xs: 0.25, sm: 1, md: 2 },
-                  lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
-                  alignSelf: "end",
-                  color: (theme) => theme.palette.text.primaryLight,
-                  marginTop: { xs: "3rem", md: 0 },
-                  width: { xs: "100%", sm: "80%", md: "70%" },
-                }}
-              >
-                <Keyword text="Passionné" /> depuis {expNbYears} années, j'ai
-                fait de la vidéo mon métier car c'est grâce au son et à l'image
-                que je parviens à m'exprimer avec le plus de{" "}
-                <Keyword text="sincérité" />.
-                <p />
-                J'ai appris en <Keyword text="autodidacte" />, poussé par
-                l'envie de créer.
-              </Typography>
-
               <Stack
                 sx={{
-                  width: { xs: "100%", sm: "80%", md: "70%" },
                   alignSelf: "end",
-                  marginTop: "2rem",
+                  width: { xs: "100%", sm: "80%", md: "70%" },
+                  marginTop: { xs: "3rem", md: 0 },
                 }}
               >
-                <Box sx={{ alignSelf: "center" }}>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    sx={{
-                      fontSize: { xs: "1rem", md: "1.2rem" },
-                      fontFamily: "Ethereal",
-                      fontWeight: "bold",
-                      letterSpacing: "1.5px",
-                      border: (theme) =>
-                        `1px solid ${theme.palette.secondary.main}`,
-                    }}
-                    onClick={(e) => scrollTo(refsForScroll.portfolio)}
-                  >
-                    Voir mes réalisations
-                  </Button>
-                </Box>
+                <BodyText
+                  fontFamily="Ethereal"
+                  fontWeight="bold"
+                  textAlign="center"
+                  color={(theme) => theme.palette.text.primaryLight}
+                >
+                  <Keyword text="Passionné" /> depuis {expNbYears} années, j'ai
+                  fait de la vidéo mon métier car c'est grâce au son et à
+                  l'image que je parviens à m'exprimer avec le plus de{" "}
+                  <Keyword text="sincérité" />.
+                  <p />
+                  J'ai appris en <Keyword text="autodidacte" />, poussé par
+                  l'envie de créer.
+                </BodyText>
+
+                <Stack
+                  sx={{
+                    width: { xs: "100%", sm: "80%", md: "70%" },
+                    alignSelf: "center",
+                    marginTop: "2rem",
+                  }}
+                >
+                  <Box sx={{ alignSelf: "center" }}>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      sx={{
+                        fontSize: { xs: "1rem", md: "1.2rem" },
+                        fontFamily: "Ethereal",
+                        fontWeight: "bold",
+                        letterSpacing: "1.5px",
+                        border: (theme) =>
+                          `1px solid ${theme.palette.secondary.main}`,
+                      }}
+                      onClick={(e) => scrollTo(refsForScroll.portfolio)}
+                    >
+                      Voir mes réalisations
+                    </Button>
+                  </Box>
+                </Stack>
               </Stack>
             </Stack>
           </Stack>

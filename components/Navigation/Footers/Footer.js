@@ -1,6 +1,5 @@
 import { useEffect } from "react"
-import { Button, Stack, Typography, Box } from "@mui/material"
-import theme from "../../../config/theme"
+import { Stack, Typography, Box } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"
 import FacebookIcon from "../../../public/medias/social_icons/facebook.svg"
@@ -14,6 +13,11 @@ import QualityIcon from "../../../public/medias/warranties/quality-icon.svg"
 import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import SmallText from "../../ReusableComponents/text/small-text"
+import InTextLink from "../../ReusableComponents/text/in-text-link"
+import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
+import CustomLink from "../../ReusableComponents/custom-link"
+import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on-hover-stack"
 
 /********** CONSTANTES **********/
 const logoUrl = "/logos/logo.svg"
@@ -57,92 +61,61 @@ const warrantiesButtons = [
 
 const Credits = () => {
   return (
-    <Stack
-      alignItems="center"
-      textAlign="center"
-      margin="3rem auto 0"
-      padding="0 0.5rem"
-    >
-      <Typography
-        fontSize="0.75rem"
-        color={theme.palette.text.white}
-        letterSpacing={1}
-      >
+    <Stack alignItems="center" textAlign="center" margin="3rem auto 0">
+      <SmallText>
         © Quentin Hébert 2022 · Vidéaste et Développeur web en Freelance ·
         Réalisateur - Cadreur - Monteur - Développeur JS Full-Stack · Site web
         developpé par Quentin Hébert ·{" "}
-        <Box
-          component="a"
+        <InTextLink
           href="/about-website"
-          target="_blank"
-          sx={{ "&:hover": { color: (theme) => theme.palette.text.secondary } }}
-        >
-          Plus d'informations
-        </Box>
-      </Typography>
+          text="Plus d'informations"
+          openNewTab
+        />
+      </SmallText>
     </Stack>
   )
 }
 
 const Email = () => {
   return (
-    <Stack height="100%" justifyContent={"space-between"} gap={2}>
-      <Button
+    <Typography
+      display="flex"
+      alignItems="center"
+      gap={1}
+      color="text.white"
+      sx={{ "&:hover": { color: (theme) => theme.palette.text.secondary } }}
+    >
+      <LocalPostOfficeIcon />
+      <InTextLink
         href="mailto:hello@quentinhebert.com"
-        variant="text"
-        size="large"
-        startIcon={<LocalPostOfficeIcon />}
-        sx={{
-          textTransform: "initial",
-          fontStyle: "italic",
-          textDecoration: "none",
-          fontFamily: "Arial",
-          letterSpacing: 1.25,
-          fontSize: "1rem",
-          // fontWeight: "bold",
-          color: (theme) => theme.palette.text.white,
-        }}
-      >
-        hello@quentinhebert.com
-      </Button>
-    </Stack>
+        text="hello@quentinhebert.com"
+        letterSpacing={1}
+        fontStyle="italic"
+      />
+    </Typography>
   )
 }
 
 const SocialMedias = () => {
   return (
-    <Stack direction="row" width={"100%"} justifyContent="center">
+    <Stack direction="row" width={"100%"} justifyContent="center" gap={2}>
       {SOCIAL_MEDIAS.map((social, key) => (
-        <Box
-          component="a"
-          key={key}
-          href={social.link}
-          target="_blank"
-          rel="noreferrer"
-          style={{ cursor: "pointer", margin: "0 0.5rem" }}
-        >
-          <Image src={social.image} height="40%" width="40%" />
-        </Box>
+        <ScaleUpOnHoverStack>
+          <CustomLink key={key} href={social.link} openNewTab>
+            <Image src={social.image} height="40%" width="40%" />
+          </CustomLink>
+        </ScaleUpOnHoverStack>
       ))}
     </Stack>
   )
 }
 
 const Logo = () => (
-  <Stack direction="row" justifyContent="center">
+  <ScaleUpOnHoverStack direction="row" justifyContent="center">
     <Link href="/" passHref>
-      <Box
-        sx={{
-          "&:hover": {
-            scale: 1.5,
-            cursor: "pointer",
-          },
-        }}
-      >
-        <Image src={logoUrl} width="150%" height="80%" />
-      </Box>
+      <Image src={logoUrl} width="150%" height="80%" />
     </Link>
-  </Stack>
+  </ScaleUpOnHoverStack>
 )
 
 export default function Footer(props) {
@@ -191,6 +164,7 @@ export default function Footer(props) {
       component="footer"
       width={"100%"}
       paddingTop={10}
+      margin={0}
       paddingBottom={4}
       sx={{
         backgroundImage: "url(/medias/footer-wave.svg)",
@@ -198,45 +172,44 @@ export default function Footer(props) {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {/* FOOTER CONTENT */}
-      <Stack
-        width={"80%"}
-        maxWidth="880px"
-        margin="auto"
-        alignItems="center"
-        gap={5}
-        sx={{ flexDirection: { xs: "column", md: "row" } }}
-      >
-        <motion.div
-          initial="hidden"
-          variants={variants(0)}
-          animate={controls}
-          style={motionDivStyle}
+      <CenteredMaxWidthContainer>
+        {/* FOOTER CONTENT */}
+        <Stack
+          alignItems="center"
+          gap={5}
+          sx={{
+            flexDirection: { xs: "column", md: "row" },
+          }}
         >
-          <Logo />
-        </motion.div>
+          <motion.div
+            initial="hidden"
+            variants={variants(0)}
+            animate={controls}
+            style={motionDivStyle}
+          >
+            <Logo />
+          </motion.div>
 
-        <motion.div
-          initial="hidden"
-          variants={variants(1)}
-          animate={controls}
-          style={motionDivStyle}
-        >
-          <Email />
-        </motion.div>
+          <motion.div
+            initial="hidden"
+            variants={variants(1)}
+            animate={controls}
+            style={motionDivStyle}
+          >
+            <Email />
+          </motion.div>
 
-        <motion.div
-          initial="hidden"
-          variants={variants(2)}
-          animate={controls}
-          style={motionDivStyle}
-        >
-          <SocialMedias />
-        </motion.div>
-      </Stack>
+          <motion.div
+            initial="hidden"
+            variants={variants(2)}
+            animate={controls}
+            style={motionDivStyle}
+          >
+            <SocialMedias />
+          </motion.div>
+        </Stack>
 
-      {/* WEBSITE CREDITS */}
-      <Stack width={"80%"} maxWidth="880px" margin="auto">
+        {/* WEBSITE CREDITS */}
         <motion.div
           initial="hidden"
           variants={variants(3)}
@@ -245,7 +218,7 @@ export default function Footer(props) {
         >
           <Credits />
         </motion.div>
-      </Stack>
+      </CenteredMaxWidthContainer>
     </Box>
   )
 }

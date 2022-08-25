@@ -11,7 +11,7 @@ import {
 } from "@mui/material"
 import theme from "../../../config/theme"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import BigTitle from "../../ReusableComponents/big-title"
+import BigTitle from "../../ReusableComponents/titles/big-title"
 
 export default function FilmsPortfolioPart(props) {
   const { refForScroll } = props

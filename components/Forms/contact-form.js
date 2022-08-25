@@ -12,6 +12,7 @@ import RightSubmitButton from "../ReusableComponents/forms/right-submit-button"
 import Select from "../ReusableComponents/forms/custom-filled-select"
 import SelectOption from "../ReusableComponents/forms/custom-select-option"
 import Form from "../ReusableComponents/forms/custom-form"
+import CenteredMaxWidthContainer from "../ReusableComponents/containers/centered-max-width-container"
 
 /** CONSTANTS **/
 
@@ -21,18 +22,6 @@ const BUDGET_OPTIONS = [
   "1500€ - 3000€",
   "+3000€",
 ]
-
-/** CSS CUSTOMIZED COMPONENTS **/
-const FormContainer = styled((props) => (
-  <Stack
-    padding="1rem 0"
-    sx={{
-      width: { xs: "100%", sm: "80%", md: "60%" },
-      margin: { xs: "1rem auto 0", sm: "2rem auto 0" },
-    }}
-    {...props}
-  />
-))()
 
 function ContactForm(props) {
   const { setSeverity, setOpenSnackBar, setMessageSnack } = props
@@ -108,7 +97,7 @@ function ContactForm(props) {
     (clientData.email.trim() !== "" && !checkEmail(clientData.email))
 
   return (
-    <FormContainer>
+    <CenteredMaxWidthContainer marginTop="2rem">
       <Form>
         <DualInputLine>
           <Input
@@ -194,7 +183,7 @@ function ContactForm(props) {
           {loadingButton ? <CircularProgress /> : "Envoyer"}
         </RightSubmitButton>
       </Form>
-    </FormContainer>
+    </CenteredMaxWidthContainer>
   )
 }
 

@@ -1,8 +1,8 @@
-import React, { useRef } from "react"
-import { Box, Button, Slide, Stack, Typography } from "@mui/material"
+import { Box, Button, Slide, Stack } from "@mui/material"
 import SaveAltIcon from "@mui/icons-material/SaveAlt"
 import theme from "../../../config/theme"
-import BigTitle from "../../ReusableComponents/big-title"
+import BigTitle from "../../ReusableComponents/titles/big-title"
+import BodyText from "../../ReusableComponents/text/body-text"
 
 export default function FilmsExperiencePart(props) {
   const {} = props
@@ -36,46 +36,47 @@ export default function FilmsExperiencePart(props) {
                 color={theme.palette.text.secondary}
                 fontFamily="Ethereal"
               />
-              <Typography
-                component={"span"}
-                fontFamily="Ethereal"
+              <Stack
                 sx={{
-                  alignSelf: "start",
-                  color: (theme) => theme.palette.text.secondaryDark,
                   width: { xs: "95%", sm: "80%", md: "80%" },
-                  fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
-                  letterSpacing: { xs: 0.25, sm: 1, md: 2 },
-                  lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
-                  fontWeight: "bold",
-                  marginBottom: { xs: "1.5rem", md: "3rem" },
                 }}
               >
-                D'abord pris de passion pour la réalisation de courts-métrages,
-                j'apprends rapidement à diriger une équipe de tournage amateure.
-                <p />
-                Je prends goût à tous les corps du métier, mais c'est dans la
-                direction photographique, le cadrage et le montage que je me
-                sens le plus créatif.
-                <p />
-                Je réalise rapidement mes premiers clips musicaux et
-                événementiels.
-              </Typography>
+                <BodyText
+                  fontFamily="Ethereal"
+                  color={(theme) => theme.palette.text.secondaryDark}
+                  fontWeight="bold"
+                >
+                  D'abord pris de passion pour la réalisation de
+                  courts-métrages, j'apprends rapidement à diriger une équipe de
+                  tournage amateure.
+                  <p />
+                  Je prends goût à tous les corps du métier, mais c'est dans la
+                  direction photographique, le cadrage et le montage que je me
+                  sens le plus créatif.
+                  <p />
+                  Je réalise rapidement mes premiers clips musicaux et
+                  événementiels.
+                </BodyText>
 
-              <Button
-                variant="outlined"
-                sx={{
-                  color: theme.palette.text.primaryLight,
-                  fontFamily: "Ethereal",
-                  textTransform: "initial",
-                  fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
-                  fontWeight: "bold",
-                  letterSpacing: { xs: "0.5px", md: "1.5px" },
-                  border: `2px solid ${theme.palette.text.primaryLight}`,
-                }}
-                startIcon={<SaveAltIcon />}
-              >
-                Télécharger mon CV
-              </Button>
+                <Box>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      color: theme.palette.text.primaryLight,
+                      fontFamily: "Ethereal",
+                      textTransform: "initial",
+                      fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+                      fontWeight: "bold",
+                      letterSpacing: { xs: "0.5px", md: "1.5px" },
+                      border: `2px solid ${theme.palette.text.primaryLight}`,
+                      marginTop: { xs: "1.5rem", md: "3rem" },
+                    }}
+                    startIcon={<SaveAltIcon />}
+                  >
+                    Télécharger mon CV
+                  </Button>
+                </Box>
+              </Stack>
             </Stack>
           </Stack>
         </Slide>

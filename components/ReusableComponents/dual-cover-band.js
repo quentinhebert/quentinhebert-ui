@@ -4,7 +4,7 @@ import theme from "../../config/theme"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import Link from "next/link"
-import BicolorTitle from "./bicolor-title"
+import BicolorTitle from "./titles/bicolor-title"
 import BlueLink from "./blue-link"
 
 export default function DualCoverBand(props) {

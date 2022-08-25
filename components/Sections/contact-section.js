@@ -56,7 +56,6 @@ export default function ContactSection(props) {
           <Typography
             textAlign="center"
             color="text.primaryDark"
-            // textTransform="uppercase"
             fontWeight="bold"
             display="flex"
             sx={{

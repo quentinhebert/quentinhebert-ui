@@ -9,7 +9,7 @@ export default function BigTitle(props) {
       fontFamily={fontFamily || "Arial"}
       fontWeight="bold"
       textAlign={textAlign || "left"}
-      color="secondary"
+      color={"secondary"}
       sx={{
         color: color || "#fff",
         fontSize: {

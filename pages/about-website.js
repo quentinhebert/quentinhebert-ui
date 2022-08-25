@@ -3,7 +3,7 @@ import Navbar from "../components/Navigation/Navbars/navbar"
 import { Box, Stack, Typography, useMediaQuery } from "@mui/material"
 import theme from "../config/theme"
 import Footer from "../components/Navigation/Footers/Footer"
-import BicolorTitle from "../components/ReusableComponents/bicolor-title"
+import BicolorTitle from "../components/ReusableComponents/titles/bicolor-title"
 import ImgTextBand from "../components/Sections/img-text-band-about-website"
 
 export default function Home() {
