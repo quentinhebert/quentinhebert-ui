@@ -11,30 +11,6 @@ export default function VideoPlayer(props) {
   const [player, setPlayer] = useState(null)
   const [videoId, setVideoId] = useState(null)
 
-  if (!video) return <></>
-
-  const isYoutube = (path) => {
-    if (
-      path.indexOf("https://www.youtube.com") === 0 ||
-      path.indexOf("https://youtu.be") === 0 ||
-      path.indexOf("youtu.be") === 0 ||
-      path.indexOf("www.youtube.com") === 0 ||
-      path.indexOf("youtube.com") === 0
-    ) {
-      return true
-    }
-    return false
-  }
-  const isVimeo = (path) => {
-    if (
-      path.indexOf("https://vimeo.com") === 0 ||
-      path.indexOf("vimeo.com") === 0
-    ) {
-      return true
-    }
-    return false
-  }
-
   useEffect(() => {
     let identifier = ""
     if (video && video.url) {
@@ -61,6 +37,30 @@ export default function VideoPlayer(props) {
       }
     }
   }, [video])
+
+  if (!video) return <></>
+
+  const isYoutube = (path) => {
+    if (
+      path.indexOf("https://www.youtube.com") === 0 ||
+      path.indexOf("https://youtu.be") === 0 ||
+      path.indexOf("youtu.be") === 0 ||
+      path.indexOf("www.youtube.com") === 0 ||
+      path.indexOf("youtube.com") === 0
+    ) {
+      return true
+    }
+    return false
+  }
+  const isVimeo = (path) => {
+    if (
+      path.indexOf("https://vimeo.com") === 0 ||
+      path.indexOf("vimeo.com") === 0
+    ) {
+      return true
+    }
+    return false
+  }
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />

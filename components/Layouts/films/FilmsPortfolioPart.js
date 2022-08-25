@@ -12,6 +12,7 @@ import {
 import theme from "../../../config/theme"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import BigTitle from "../../ReusableComponents/titles/big-title"
+import MasonryImageList from "../../Layouts/films/MasonryImageList"
 
 export default function FilmsPortfolioPart(props) {
   const { refForScroll } = props
@@ -271,7 +272,7 @@ export default function FilmsPortfolioPart(props) {
           </Stack>
         </Slide>
 
-        <ImageList
+        {/* <ImageList
           sx={{
             margin: { xs: 0, md: 1 },
             backgroundColor: theme.palette.background.white,
@@ -367,7 +368,9 @@ export default function FilmsPortfolioPart(props) {
               },
             ]}
           />
-        </ImageList>
+        </ImageList> */}
+
+        <MasonryImageList />
       </Stack>
     </>
   )
