@@ -11,6 +11,7 @@ import theme from "../../../config/theme"
 import { useRouter } from "next/router"
 import dynamic from "next/dynamic"
 import { motion } from "framer-motion"
+import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on-hover-stack"
 
 const MobileNavbar = dynamic(() => import("./mobile-navbar"))
 const DesktopNavbar = dynamic(() => import("./desktop-navbar"))
@@ -60,9 +61,9 @@ export default function Navbar(props) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0, duration: 2 }}
             >
-              <Stack href="/" component="a">
+              <ScaleUpOnHoverStack href="/" component="a">
                 <Image src={logo} width="150rem" height="70rem" />
-              </Stack>
+              </ScaleUpOnHoverStack>
             </motion.div>
           </Stack>
           <Box component="div" sx={{ flexGrow: 1 }} />
