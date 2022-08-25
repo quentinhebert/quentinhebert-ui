@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import { useEffect } from "react"
 import { Stack, Typography } from "@mui/material"
 import ContactForm from "../Forms/contact-form"
 import { useAnimation, motion } from "framer-motion"
@@ -9,28 +9,17 @@ export default function ContactSection(props) {
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
-  const variants = (key) => {
-    if (key === 0)
-      return {
-        visible: {
-          opacity: 1,
-          x: 0,
-          transition: { duration: 0.75, delay: 0 },
-        },
-        hidden: { opacity: 0, x: -25 },
-      }
-    return {
-      visible: {
-        opacity: 1,
-        x: 0,
-        transition: { duration: 0.75, delay: 0 },
-      },
-      hidden: { opacity: 0, x: 25 },
-    }
-  }
+  const variants = (key) => ({
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.75, delay: 0 },
+    },
+    hidden: { opacity: 0, x: key === 0 ? 25 : -25 },
+  })
   const controls = useAnimation()
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (inView) {
       controls.start("visible")
     } else {

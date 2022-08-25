@@ -1,7 +1,7 @@
-import { Box, Button, Stack, Typography, Zoom } from "@mui/material"
+import { Stack, Typography, Zoom } from "@mui/material"
 import Link from "next/link"
 import theme from "../../../config/theme"
-import FlashingRedDot from "../FlashingRedDot"
+import { motion } from "framer-motion"
 
 export default function DesktopNavbar(props) {
   const { mainColor, list, page } = props
@@ -18,7 +18,11 @@ export default function DesktopNavbar(props) {
       {list.map((item, key) => {
         return (
           <Link href={item.href} key={key}>
-            <Zoom in {...(true ? { timeout: 750 + key * 250 } : {})}>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.25 + key * 0.1, duration: 1 }}
+            >
               <Typography
                 variant="h6"
                 fontFamily="Arial"
@@ -40,7 +44,7 @@ export default function DesktopNavbar(props) {
               >
                 {item.label}
               </Typography>
-            </Zoom>
+            </motion.div>
           </Link>
         )
       })}

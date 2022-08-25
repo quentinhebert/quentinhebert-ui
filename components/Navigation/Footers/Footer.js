@@ -128,26 +128,13 @@ export default function Footer(props) {
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
-  const variants = (key) => {
-    // For the footer content part
-    if (key < 3)
-      return {
-        visible: {
-          opacity: 1,
-          scaleX: 1,
-          transition: { duration: 0.7, delay: key / 10 },
-        },
-        hidden: { opacity: 0, scaleX: 0 },
-      }
-    // For the website credits part
-    return {
-      visible: {
-        opacity: 1,
-        transition: { duration: 0.7, delay: key / 10 },
-      },
-      hidden: { opacity: 0 },
-    }
-  }
+  const variants = (key) => ({
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.75, delay: key / 5 },
+    },
+    hidden: { opacity: 0 },
+  })
   const controls = useAnimation()
 
   useEffect(() => {

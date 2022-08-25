@@ -1,11 +1,36 @@
+import { useEffect, useState } from "react"
 import { Box, Button, Slide, Stack } from "@mui/material"
 import SaveAltIcon from "@mui/icons-material/SaveAlt"
 import theme from "../../../config/theme"
 import BigTitle from "../../ReusableComponents/titles/big-title"
 import BodyText from "../../ReusableComponents/text/body-text"
+import { useAnimation, motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 
 export default function FilmsExperiencePart(props) {
   const {} = props
+
+  /********** ANIMATION **********/
+  const [ref, inView] = useInView()
+  const [show, setShow] = useState(false)
+  const variants = {
+    visible: {
+      opacity: 1,
+      transition: { duration: 1, delay: 0.3 },
+    },
+    hidden: { opacity: 0 },
+  }
+  const controls = useAnimation()
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible")
+      setShow(true)
+    } else {
+      controls.start("hidden")
+      setShow(false)
+    }
+  }, [controls, inView])
 
   return (
     <>
@@ -16,8 +41,9 @@ export default function FilmsExperiencePart(props) {
           backgroundPosition: "50% 50%",
           height: { xs: "550px", sm: "700px", md: "800px" },
         }}
+        ref={ref}
       >
-        <Slide direction="right" {...{ timeout: 1000 }} in>
+        <motion.div initial="hidden" variants={variants} animate={controls}>
           <Stack width="100%" alignItems="start">
             <Stack
               width="75%"
@@ -79,9 +105,9 @@ export default function FilmsExperiencePart(props) {
               </Stack>
             </Stack>
           </Stack>
-        </Slide>
+        </motion.div>
 
-        <Slide direction="left" {...{ timeout: 1000 }} in>
+        <Slide direction="left" {...{ timeout: 2000 }} in={show}>
           <Box
             sx={{
               backgroundImage: "url(/medias/prout.png)",

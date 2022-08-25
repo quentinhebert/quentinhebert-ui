@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react"
+import { useContext, useRef } from "react"
 import AppBar from "@mui/material/AppBar"
 import Box from "@mui/material/Box"
 import Toolbar from "@mui/material/Toolbar"
@@ -10,6 +10,7 @@ import { Slide, Stack, Typography, useMediaQuery } from "@mui/material"
 import theme from "../../../config/theme"
 import { useRouter } from "next/router"
 import dynamic from "next/dynamic"
+import { motion } from "framer-motion"
 
 const MobileNavbar = dynamic(() => import("./mobile-navbar"))
 const DesktopNavbar = dynamic(() => import("./desktop-navbar"))
@@ -54,17 +55,15 @@ export default function Navbar(props) {
       <Box sx={{ flexGrow: 2, width: "100%" }}>
         <Toolbar sx={{ width: "100%" }}>
           <Stack padding="0.75rem" flexDirection="row" alignItems="center">
-            <Slide
-              direction="right"
-              {...(true ? { timeout: 1000 } : {})}
-              in
-              mountOnEnter
-              unmountOnExit
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0, duration: 2 }}
             >
               <Stack href="/" component="a">
                 <Image src={logo} width="150rem" height="70rem" />
               </Stack>
-            </Slide>
+            </motion.div>
           </Stack>
           <Box component="div" sx={{ flexGrow: 1 }} />
 

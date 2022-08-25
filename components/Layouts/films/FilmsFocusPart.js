@@ -1,9 +1,9 @@
+import { useEffect, useState } from "react"
 import { Box, Button, Slide, Stack } from "@mui/material"
 import BigTitle from "../../ReusableComponents/titles/big-title"
 import BodyText from "../../ReusableComponents/text/body-text"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import { useEffect, useState } from "react"
 
 const Keyword = ({ text }) => (
   <Box
@@ -22,8 +22,6 @@ const Keyword = ({ text }) => (
 export default function FilmsFocusPart(props) {
   const { refsForScroll } = props
 
-  const [show, setShow] = useState(false)
-
   const scrollTo = (ref) => {
     ref.current.scrollIntoView({
       behavior: "smooth",
@@ -32,13 +30,13 @@ export default function FilmsFocusPart(props) {
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
+  const [show, setShow] = useState(false)
   const variants = {
     visible: {
       opacity: 1,
-      x: 0,
-      transition: { duration: 0.75, delay: 0 },
+      transition: { duration: 1 },
     },
-    hidden: { opacity: 0, x: 100 },
+    hidden: { opacity: 0 },
   }
   const controls = useAnimation()
 
@@ -124,7 +122,7 @@ export default function FilmsFocusPart(props) {
           </Stack>
         </motion.div>
 
-        <Slide direction="right" {...{ timeout: 1000 }} in={show}>
+        <Slide direction="right" {...{ timeout: 2000 }} in={show}>
           <Box
             sx={{
               backgroundImage: "url(/medias/filmmaker-shadow-alpha.png)",
