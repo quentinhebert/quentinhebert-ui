@@ -12,7 +12,7 @@ import {
 import theme from "../../../config/theme"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import BigTitle from "../../ReusableComponents/titles/big-title"
-import MasonryImageList from "../../Layouts/films/MasonryImageList"
+import PortfolioImageList from "./PortfolioImageList"
 
 export default function FilmsPortfolioPart(props) {
   const { refForScroll } = props
@@ -370,7 +370,7 @@ export default function FilmsPortfolioPart(props) {
           />
         </ImageList> */}
 
-        <MasonryImageList />
+        <PortfolioImageList />
       </Stack>
     </>
   )

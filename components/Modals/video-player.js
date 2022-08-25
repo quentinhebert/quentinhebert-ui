@@ -91,7 +91,7 @@ export default function VideoPlayer(props) {
           }}
         >
           <Boop>
-            <CloseIcon sx={{ color: theme.palette.text.light }} />
+            <CloseIcon sx={{ color: theme.palette.secondary.main }} />
           </Boop>
         </Box>
         <Stack
