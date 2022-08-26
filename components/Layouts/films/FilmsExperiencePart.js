@@ -107,20 +107,26 @@ export default function FilmsExperiencePart(props) {
           </Stack>
         </motion.div>
 
-        <Slide direction="left" {...{ timeout: 2000 }} in={show}>
+        <motion.div
+          initial="hidden"
+          variants={variants}
+          animate={controls}
+          style={{
+            position: "absolute",
+            right: 0,
+            width: "50%",
+            mixBlendMode: "multiply",
+          }}
+        >
           <Box
             sx={{
               backgroundImage: "url(/medias/prout.png)",
               backgroundSize: "cover",
               backgroundPosition: "0% 50%",
-              position: "absolute",
-              right: 0,
-              width: "50%",
               height: { xs: "500px", sm: "700px", md: "800px" },
-              mixBlendMode: "multiply",
             }}
           />
-        </Slide>
+        </motion.div>
       </Stack>
     </>
   )
