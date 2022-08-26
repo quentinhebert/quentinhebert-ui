@@ -252,8 +252,8 @@ export default function FilmsPortfolioPart(props) {
       <Stack
         sx={{
           backgroundColor: theme.palette.background.white,
-          paddingRight: { xs: 0, md: "4rem" },
-          paddingLeft: { xs: 0, md: "4rem" },
+          paddingRight: { xs: "1rem", md: "4rem" },
+          paddingLeft: { xs: "1rem", md: "4rem" },
           paddingBottom: { xs: "2rem", md: "4rem" },
         }}
       >
@@ -261,7 +261,7 @@ export default function FilmsPortfolioPart(props) {
           <Stack width="100%" alignItems="start">
             <Stack
               width="100%"
-              sx={{ padding: { xs: "2rem 0 0 1rem", md: "4rem 2rem 0rem 0" } }}
+              sx={{ padding: { xs: "2rem 0 0", md: "4rem 2rem 0rem 0" } }}
             >
               <BigTitle
                 title="Portfolio ."

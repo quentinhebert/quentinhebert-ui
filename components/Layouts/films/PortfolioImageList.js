@@ -6,6 +6,7 @@ import {
   Link,
   Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material"
 import VideoPlayer from "../../Modals/video-player"
 import { useAnimation, motion } from "framer-motion"
@@ -101,13 +102,16 @@ export default function MasonryImageList() {
     }
   }, [controls, inView])
 
+  const md = useMediaQuery((theme) => theme.breakpoints.down("md"))
+  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
+
   return (
     <>
       <Box sx={{ width: "100%" }} ref={ref}>
         <ImageList
           rowHeight={200}
-          cols={3}
           gap={8}
+          cols={sm ? 1 : md ? 2 : 3}
           sx={{
             "& .MuiImageListItem-root": {
               marginBottom: "0 !important",
