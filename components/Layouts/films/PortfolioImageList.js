@@ -20,6 +20,9 @@ export default function MasonryImageList() {
     setOpenVideoPlayer(false)
   }
 
+  const md = useMediaQuery((theme) => theme.breakpoints.down("md"))
+  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
+
   const itemData = [
     {
       img: "/medias/tryptique-short-film.png",
@@ -88,7 +91,10 @@ export default function MasonryImageList() {
   const variants = (key) => ({
     visible: {
       opacity: 1,
-      transition: { duration: 0.5, delay: key / 8 },
+      transition: {
+        duration: 0.5,
+        delay: sm ? key / (itemData.length * 3) : key / 10,
+      },
     },
     hidden: { opacity: 0 },
   })
@@ -101,9 +107,6 @@ export default function MasonryImageList() {
       controls.start("hidden")
     }
   }, [controls, inView])
-
-  const md = useMediaQuery((theme) => theme.breakpoints.down("md"))
-  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
 
   return (
     <>
