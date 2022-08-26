@@ -1,18 +1,16 @@
 import { Stack, Typography, Zoom } from "@mui/material"
 import Link from "next/link"
-import theme from "../../../config/theme"
 import { motion } from "framer-motion"
 
 export default function DesktopNavbar(props) {
-  const { mainColor, list, page } = props
+  const { list, page } = props
 
   return (
     <Stack
       flexDirection="row"
-      gap={1}
       sx={{
-        position: "relative",
-        letterSpacing: "2px",
+        gap: { xs: "2rem", lg: "3rem" },
+        paddingRight: { xs: ".5rem", lg: "1rem" },
       }}
     >
       {list.map((item, key) => {
@@ -29,17 +27,14 @@ export default function DesktopNavbar(props) {
                 textAlign="center"
                 lineHeight="1.3rem"
                 className="cool-button no-select"
+                textTransform="uppercase"
+                letterSpacing={2}
                 sx={{
-                  textTransform: "uppercase",
-                  letterSpacing: "2px",
-                  // color: theme.palette.text.secondary,
                   color: "#fff",
-                  borderColor: theme.palette.secondary.main,
+                  borderColor: (theme) => theme.palette.secondary.main,
                   cursor: "pointer",
-                  margin: 0.5,
                   fontSize: "0.8rem",
-                  padding: "3px 1rem",
-                  "&:hover": { color: theme.palette.secondary.main },
+                  "&:hover": { color: (theme) => theme.palette.secondary.main },
                 }}
               >
                 {item.label}

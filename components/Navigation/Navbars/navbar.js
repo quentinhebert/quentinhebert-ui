@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react"
+import { useContext } from "react"
 import AppBar from "@mui/material/AppBar"
 import Box from "@mui/material/Box"
 import Toolbar from "@mui/material/Toolbar"
@@ -6,7 +6,7 @@ import LoginOrMenuButton from "../login-or-menu-button"
 import { USERTYPES } from "../../../enums/userTypes"
 import { UserContext } from "../../../contexts/UserContext"
 import Image from "next/image"
-import { Slide, Stack, Typography, useMediaQuery } from "@mui/material"
+import { Stack, useMediaQuery } from "@mui/material"
 import theme from "../../../config/theme"
 import { useRouter } from "next/router"
 import dynamic from "next/dynamic"
@@ -36,8 +36,6 @@ export default function Navbar(props) {
   const { user } = useContext(UserContext)
 
   const isMobile = useMediaQuery(theme.breakpoints.down("md"))
-
-  const containerRef = useRef(null)
 
   const router = useRouter()
   const page = router.asPath
