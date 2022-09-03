@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Box, Button, Stack, Typography, useMediaQuery } from "@mui/material"
+import { Box, Button, Stack, Typography } from "@mui/material"
 import { Parallax } from "react-parallax"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
@@ -16,7 +16,7 @@ const Text = styled((props) => (
     sx={{
       textShadow: "0.15em -0.1em 0.3em black",
       fontSize: { xs: "3vw", sm: "2rem", md: "2.3rem" },
-      letterSpacing: { xs: "2vw", sm: "4px" },
+      letterSpacing: { xs: "2vw", sm: "6px", md: "8px" },
     }}
     {...props}
   />
