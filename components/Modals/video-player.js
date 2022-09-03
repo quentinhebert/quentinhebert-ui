@@ -3,13 +3,22 @@ import VimeoPlayer from "../Sections/vimeo-player"
 import theme from "../../config/theme"
 import Boop from "../Animation/boop"
 import CloseIcon from "@mui/icons-material/Close"
-import React, { useEffect, useState } from "react"
+import { useEffect, useRef, useState, forwardRef } from "react"
 import YoutubePlayer from "../Sections/youtube-player"
+import BouncingArrow from "../Navigation/BouncingArrow"
+import ScaleUpOnHoverStack from "../ReusableComponents/animations/scale-up-on-hover-stack"
 
 export default function VideoPlayer(props) {
   const { video, open, handleClose } = props
   const [player, setPlayer] = useState(null)
   const [videoId, setVideoId] = useState(null)
+
+  const VideoInfoRef = useRef()
+  const scrollTo = (ref) => {
+    ref.current.scrollIntoView({
+      behavior: "smooth",
+    })
+  }
 
   useEffect(() => {
     let identifier = ""
@@ -62,7 +71,7 @@ export default function VideoPlayer(props) {
     return false
   }
 
-  const Transition = React.forwardRef(function Transition(props, ref) {
+  const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />
   })
 
@@ -71,29 +80,66 @@ export default function VideoPlayer(props) {
       fullScreen
       open={open}
       onClose={handleClose}
-      onClick={handleClose}
+      // onClick={handleClose}
       TransitionComponent={Transition}
+      sx={{
+        backgroundColor: (theme) => theme.palette.background.main,
+      }}
+      PaperProps={{
+        style: {
+          backgroundImage: "none",
+          boxShadow: "none",
+        },
+      }}
     >
-      <Stack
-        justifyContent="center"
-        alignItems="center"
-        height="100vh"
-        sx={{
-          backgroundColor: theme.palette.background.main,
-        }}
-      >
-        <Box
+      <Stack alignItems="center" minHeight="100vh">
+        <Stack
           sx={{
             position: "absolute",
             right: "1rem",
             top: "1rem",
             cursor: "pointer",
           }}
+          flexDirection="row"
+          alignItems="center"
+          fontFamily="Arial"
+          onClick={handleClose}
         >
+          <ScaleUpOnHoverStack>
+            <Box color="text.secondary" sx={{ marginRight: ".5rem" }}>
+              Fermer
+            </Box>
+          </ScaleUpOnHoverStack>
           <Boop>
             <CloseIcon sx={{ color: theme.palette.secondary.main }} />
           </Boop>
+        </Stack>
+
+        {/* Video infos */}
+        <Box
+          width={window.innerHeight > window.innerWidth ? "96%" : "70%"}
+          textAlign="left"
+          justifyContent="left"
+          padding="1rem 0"
+        >
+          <Typography
+            color="secondary"
+            fontFamily="Ethereal"
+            fontWeight="bold"
+            variant="h3"
+          >
+            {video.title}{" "}
+            <Box color="text.white" fontSize="1rem" component="span">
+              {video.date} – {video.type}
+            </Box>
+          </Typography>
+          {video.client ? (
+            <Typography color="text.white" fontFamily="Ethereal" variant="h5">
+              Pour {video.client}
+            </Typography>
+          ) : null}
         </Box>
+
         <Stack
           width={window.innerHeight > window.innerWidth ? "100%" : "70%"}
           justifyContent="center"
@@ -117,6 +163,96 @@ export default function VideoPlayer(props) {
             </Stack>
           )}
         </Stack>
+
+        <Stack alignItems="center" sx={{ transform: "translateY(40px)" }}>
+          <BouncingArrow
+            text=""
+            scrollTo={scrollTo}
+            refForScroll={VideoInfoRef}
+          />
+        </Stack>
+
+        {/* Project infos */}
+        <Box
+          width={window.innerHeight > window.innerWidth ? "96%" : "70%"}
+          textAlign="left"
+          justifyContent="left"
+          padding="2rem 0 2rem"
+          ref={VideoInfoRef}
+        >
+          {video.description ? (
+            <>
+              <Typography
+                color="secondary"
+                fontFamily="Ethereal"
+                fontWeight="bold"
+                variant="h4"
+              >
+                Quelques mots...
+              </Typography>
+              <Typography color="text.white" fontFamily="Ethereal" variant="h5">
+                {video.description}
+              </Typography>
+            </>
+          ) : null}
+
+          {video.roles && video.roles.length ? (
+            <>
+              <Typography
+                color="secondary"
+                fontFamily="Ethereal"
+                fontWeight="bold"
+                variant="h4"
+                marginTop={5}
+              >
+                Sur ce projet, je suis...
+              </Typography>
+              <Typography
+                color="text.white"
+                fontFamily="Ethereal"
+                variant="h5"
+                marginTop={1}
+              >
+                {video.roles.map((role, key) => (
+                  <Box
+                    component="span"
+                    key={key}
+                    padding={1}
+                    marginRight={1}
+                    sx={{
+                      border: (theme) =>
+                        `1px solid ${theme.palette.text.white}`,
+                      borderRadius: "5px",
+                    }}
+                  >
+                    {role}
+                  </Box>
+                ))}
+              </Typography>
+            </>
+          ) : null}
+
+          {video.gear && video.gear.length ? (
+            <>
+              <Typography
+                color="secondary"
+                fontFamily="Ethereal"
+                fontWeight="bold"
+                variant="h4"
+                marginTop={5}
+              >
+                Matériel utilisé
+              </Typography>
+              <Typography color="text.white" fontFamily="Ethereal" variant="h5">
+                {video.gear.map((item, key) => (
+                  <Box component="span" key={key} marginRight={1}>
+                    {item} {video.gear.length === key + 1 ? "" : "–"}
+                  </Box>
+                ))}
+              </Typography>
+            </>
+          ) : null}
+        </Box>
       </Stack>
     </Dialog>
   )
