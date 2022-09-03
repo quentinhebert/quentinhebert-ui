@@ -44,7 +44,7 @@ const mainTheme = createTheme({
       secondary: secondary,
       secondaryDark: secondaryDark,
       secondaryLight: secondaryLight,
-      white: "#dddddd",
+      white: "#fff",
       link: link,
     },
   },
