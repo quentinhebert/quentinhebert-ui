@@ -24,18 +24,18 @@ export default function IndexHeadBandVideo(props) {
       justifyContent="center"
       width="100%"
       overflow="hidden"
-      minHeight="500px"
       paddingTop="6rem"
       sx={{
         height: { xs: "300px", sm: "600px", md: "700px", lg: "100vh" },
+        minHeight: { xs: "500px", lg: "800px" },
         backgroundImage: "url(/medias/homepage-background.jpg)",
         backgroundSize: "cover",
         backgroundPosition: "50% 50%",
       }}
     >
       <Stack
-        padding="2rem 2rem 0 2rem"
-        height="90vh"
+        padding="1rem 2rem 0 2rem"
+        height="100%"
         width="100%"
         flexDirection="column"
         gap={0}
