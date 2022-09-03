@@ -1,10 +1,9 @@
 import { useState } from "react"
-import { MenuItem, Stack, Typography } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 import { USERTYPES } from "../../enums/userTypes"
 import { checkEmail } from "../../services/utils"
 import apiCall from "../../services/apiCalls/apiCall"
 import withSnacks from "../hocs/withSnacks"
-import { styled } from "@mui/system"
 import Input from "../ReusableComponents/forms/custom-filled-input"
 import TextArea from "../ReusableComponents/forms/custom-filled-text-area"
 import DualInputLine from "../ReusableComponents/forms/responsive-dual-input-container"
@@ -13,6 +12,7 @@ import Select from "../ReusableComponents/forms/custom-filled-select"
 import SelectOption from "../ReusableComponents/forms/custom-select-option"
 import Form from "../ReusableComponents/forms/custom-form"
 import CenteredMaxWidthContainer from "../ReusableComponents/containers/centered-max-width-container"
+import CustomCheckbox from "../ReusableComponents/forms/custom-checkbox"
 
 /** CONSTANTS **/
 
@@ -45,6 +45,10 @@ function ContactForm(props) {
     type: USERTYPES.CLIENT,
     description: "",
     budget: "",
+    service: {
+      film: false,
+      website: false,
+    },
   })
 
   /********** HANDLERS **********/
@@ -57,6 +61,15 @@ function ContactForm(props) {
     setErrors({
       ...errors,
       [attribute]: false,
+    })
+  }
+  const handleChangeService = (service) => (event) => {
+    setClientData({
+      ...clientData,
+      service: {
+        ...clientData.service,
+        [service]: event.target.checked,
+      },
     })
   }
   const handleSuccess = () => {
@@ -79,16 +92,21 @@ function ContactForm(props) {
       type: USERTYPES.CLIENT,
       description: "",
       budget: null,
+      service: {
+        film: false,
+        website: false,
+      },
     })
   }
   const handleSendRequest = async () => {
-    const res = await apiCall.unauthenticated.sendContactForm(clientData)
-    if (res && res.ok) {
-      handleSuccess()
-      handleResetForm()
-    } else {
-      handleError()
-    }
+    // const res = await apiCall.unauthenticated.sendContactForm(clientData)
+    // if (res && res.ok) {
+    //   handleSuccess()
+    //   handleResetForm()
+    // } else {
+    //   handleError()
+    // }
+    console.log(clientData)
   }
 
   /********** VARAIABLES FOR LIVE CHECK **********/
@@ -99,12 +117,54 @@ function ContactForm(props) {
   return (
     <CenteredMaxWidthContainer marginTop="2rem">
       <Form>
+        <Stack
+          sx={{
+            width: "100%",
+            color: "#fff",
+            flexDirection: { xs: "column", lg: "row" },
+          }}
+          alignItems="center"
+        >
+          <Typography
+            color="#fff"
+            flexGrow={1}
+            sx={{
+              fontSize: { xs: "1rem", sm: "1rem", md: "1.2rem" },
+              letterSpacing: { xs: 0.25, sm: 1.2, md: 1.5 },
+            }}
+          >
+            Je recherche un freelance pour réaliser un...
+          </Typography>
+          <Stack flexDirection="row" gap={2}>
+            <CustomCheckbox
+              label="Film"
+              check={clientData.service.film ? "true" : "false"}
+              labelcolor="#fff" // label
+              checkedcolor="#fff" // checked
+              checkboxcolor="#fff" // unchecked
+              fontFamily="Ethereal"
+              fontWeight="bold"
+              onChange={handleChangeService("film")}
+            />
+            <CustomCheckbox
+              label="Site web"
+              check={clientData.service.website ? "true" : "false"}
+              labelcolor="#fff" // label
+              checkedcolor="#fff" // checked
+              checkboxcolor="#fff" // unchecked
+              fontFamily="Zacbel X"
+              onChange={handleChangeService("website")}
+            />
+          </Stack>
+        </Stack>
+
         <DualInputLine>
           <Input
             required
             type="input"
             id="firstname"
             label="Prénom"
+            placeholder={clientData.service.film ? "Louis" : "Philippe"}
             value={clientData.firstname}
             onChange={handleChange("firstname")}
             error={errors.firstname}
@@ -114,6 +174,7 @@ function ContactForm(props) {
             type="input"
             id="lastname"
             label="Nom"
+            placeholder={clientData.service.film ? "Vuitton" : "Etchebest"}
             value={clientData.lastname}
             onChange={handleChange("lastname")}
             error={errors.lastname}
@@ -127,6 +188,11 @@ function ContactForm(props) {
             type="email"
             id="email"
             label="E-mail"
+            placeholder={
+              clientData.service.film
+                ? "loulou@vuitton.com"
+                : "philou@topchef.com"
+            }
             value={clientData.email}
             onChange={handleChange("email")}
             error={emailError || errors.email}
@@ -136,6 +202,7 @@ function ContactForm(props) {
             type="phone"
             id="phone"
             label="Téléphone"
+            placeholder="06XXXXXXXX"
             value={clientData.phone}
             onChange={handleChange("phone")}
           />
@@ -146,6 +213,9 @@ function ContactForm(props) {
             type="input"
             id="company"
             label="Entreprise"
+            placeholder={
+              clientData.service.film ? "Louis Vuitton" : "Philippe Etchebest"
+            }
             value={clientData.company}
             onChange={handleChange("company")}
             error={errors.company}
@@ -174,7 +244,14 @@ function ContactForm(props) {
         <TextArea
           required
           id="description"
-          label="Dites-m'en plus à propos de votre projet..."
+          label="À propos de mon projet..."
+          placeholder={
+            clientData.service.film
+              ? clientData.service.website
+                ? "Film de 2 minutes sur un produit de notre nouvelle collection et landing page pour ce même produit."
+                : "Film de 2 minutes sur un produit de notre nouvelle collection."
+              : "Site vitrine pour mettre en avant mon nouveau restaurant et ma carte du jour."
+          }
           value={clientData.description}
           onChange={handleChange("description")}
         />
