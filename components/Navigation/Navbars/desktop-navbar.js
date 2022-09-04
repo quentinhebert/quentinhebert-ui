@@ -3,13 +3,13 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 
 export default function DesktopNavbar(props) {
-  const { list, page } = props
+  const { list, page, isReduced } = props
 
   return (
     <Stack
       flexDirection="row"
       sx={{
-        gap: { xs: "2rem", lg: "3rem" },
+        gap: { xs: "2rem", lg: isReduced ? "2.75rem" : "3rem" },
         paddingRight: { xs: ".5rem", lg: "1rem" },
       }}
     >
@@ -33,7 +33,7 @@ export default function DesktopNavbar(props) {
                   color: "#fff",
                   borderColor: (theme) => theme.palette.secondary.main,
                   cursor: "pointer",
-                  fontSize: "0.8rem",
+                  fontSize: isReduced ? "0.75rem" : "0.8rem",
                   "&:hover": { color: (theme) => theme.palette.secondary.main },
                 }}
               >

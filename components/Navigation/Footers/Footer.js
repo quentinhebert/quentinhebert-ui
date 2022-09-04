@@ -21,6 +21,7 @@ import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on
 
 /********** CONSTANTES **********/
 const logoUrl = "/logos/logo.svg"
+const logoQH = "/logos/logo-qh.png"
 
 const SOCIAL_MEDIAS = [
   {
@@ -117,6 +118,13 @@ const Logo = () => (
     </Link>
   </ScaleUpOnHoverStack>
 )
+const LogoQH = () => (
+  <ScaleUpOnHoverStack direction="row" justifyContent="center">
+    <Link href="/" passHref>
+      <Image src={logoQH} width="100%" height="80%" />
+    </Link>
+  </ScaleUpOnHoverStack>
+)
 
 export default function Footer(props) {
   /********** STYLE **********/
@@ -175,7 +183,8 @@ export default function Footer(props) {
             animate={controls}
             style={motionDivStyle}
           >
-            <Logo />
+            {/* <Logo /> */}
+            <LogoQH />
           </motion.div>
 
           <motion.div
