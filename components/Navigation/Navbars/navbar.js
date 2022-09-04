@@ -68,7 +68,7 @@ export default function Navbar(props) {
           position: "fixed",
           width: "100%",
           height: "calc(65px + 2px)",
-          transition: "opacity 0.5s ease-in-out",
+          transition: "opacity 0.25s ease-in-out",
           opacity: isReduced ? 1 : 0,
           top: "-2px",
           background: (theme) =>
