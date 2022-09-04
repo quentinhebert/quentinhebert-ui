@@ -16,9 +16,12 @@ export default function ScrollToTopBtn(props) {
 
   const [showButton, setShowButton] = React.useState(false)
   useScrollPosition(({ prevPos, currPos }) => {
-    if (prevPos.y > currPos.y && !showButton) {
+    if (window.pageYOffset > 0) {
       setShowButton(true)
-    } else if (prevPos.y < currPos.y && showButton) {
+      setTimeout(() => {
+        setShowButton(false)
+      }, 2000)
+    } else if (window.pageYOffset === 0) {
       setShowButton(false)
     }
   })
@@ -36,12 +39,12 @@ export default function ScrollToTopBtn(props) {
         onClick={(e) => scrollTo(refForScroll)}
         startIcon={<AirplanemodeActiveIcon sx={{ marginRight: "1rem" }} />}
         sx={{
-          visibility: showButton ? "visible" : "hidden",
+          opacity: showButton ? 1 : 0,
           padding: ".5rem 1rem",
           margin: "1rem auto",
           backgroundColor: "rgb(198, 144, 14, 0.8)",
           color: "#fff",
-          transition: "visibility .25s",
+          transition: "opacity .5s ease-in-out",
           letterSpacing: "2px",
           fontSize: "0.8rem",
           fontWeight: "bold",
