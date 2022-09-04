@@ -20,7 +20,7 @@ export default function ScrollToTopBtn(props) {
       setShowButton(true)
       setTimeout(() => {
         setShowButton(false)
-      }, 2000)
+      }, 3000)
     } else if (window.pageYOffset === 0) {
       setShowButton(false)
     }
@@ -44,7 +44,7 @@ export default function ScrollToTopBtn(props) {
           margin: "1rem auto",
           backgroundColor: "rgb(198, 144, 14, 0.8)",
           color: "#fff",
-          transition: "opacity .5s ease-in-out",
+          transition: "opacity .25s ease-in-out",
           letterSpacing: "2px",
           fontSize: "0.8rem",
           fontWeight: "bold",
