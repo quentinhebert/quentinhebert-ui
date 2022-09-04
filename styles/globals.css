@@ -74,7 +74,12 @@ body {
   font-weight: 0;
   src: local('Zacbel X'), url('https://fonts.cdnfonts.com/s/83998/zacbelx-extrabold.woff') format('woff');
 }
-
+@font-face {
+  font-family: 'Helmet';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Helmet'), url('https://fonts.cdnfonts.com/s/18191/Helmet-Regular.woff') format('woff');
+}
 
 a {
   color: inherit;

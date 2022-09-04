@@ -6,7 +6,7 @@ export default function BigTitle(props) {
   return (
     <Typography
       variant="h1"
-      fontFamily={fontFamily || "Arial"}
+      fontFamily={fontFamily || "Helmet"}
       fontWeight="bold"
       textAlign={textAlign || "left"}
       color={"secondary"}

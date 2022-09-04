@@ -7,7 +7,7 @@ const Text = styled((props) => {
   return (
     <Typography
       component={"span"}
-      fontFamily={fontFamily || "Arial"}
+      fontFamily={fontFamily || "Helmet"}
       sx={{
         fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
         letterSpacing: { xs: 0.25, sm: 1, md: 2 },

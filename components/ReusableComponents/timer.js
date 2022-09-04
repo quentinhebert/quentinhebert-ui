@@ -31,7 +31,7 @@ export default function Timer(props) {
       <Typography
         fontSize={fontSize || "1rem"}
         color={color || theme.palette.text.white}
-        fontFamily={fontFamily || "Arial"}
+        fontFamily={fontFamily || "Helmet"}
         fontWeight="bold"
         letterSpacing={letterSpacing || "1px"}
       >

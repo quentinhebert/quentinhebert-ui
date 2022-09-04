@@ -78,7 +78,7 @@ export default function AboutLayout(props) {
             </Typography>
             <Typography
               color={"#fff"}
-              fontFamily="Arial"
+              fontFamily="Helmet"
               letterSpacing="2px"
               textAlign="center"
               sx={{

@@ -23,7 +23,7 @@ export default function DesktopNavbar(props) {
             >
               <Typography
                 variant="h6"
-                fontFamily="Arial"
+                fontFamily="Helmet"
                 textAlign="center"
                 lineHeight="1.3rem"
                 className="cool-button no-select"
@@ -33,7 +33,7 @@ export default function DesktopNavbar(props) {
                   color: "#fff",
                   borderColor: (theme) => theme.palette.secondary.main,
                   cursor: "pointer",
-                  fontSize: isReduced ? "0.75rem" : "0.8rem",
+                  fontSize: isReduced ? "0.85rem" : "0.9rem",
                   "&:hover": { color: (theme) => theme.palette.secondary.main },
                 }}
               >

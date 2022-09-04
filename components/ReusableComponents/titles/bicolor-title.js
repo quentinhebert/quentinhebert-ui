@@ -60,7 +60,7 @@ export default function BicolorTitle(props) {
           textTransform="uppercase"
           letterSpacing="2px"
           textAlign="center"
-          fontFamily="Arial"
+          fontFamily="Helmet"
           fontSize={isMobileOrTablet ? "0.85rem" : "1rem"}
         >
           {secondaryText}

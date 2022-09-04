@@ -50,7 +50,7 @@ export default function HeadBand(props) {
         <Typography
           color="#fff"
           textTransform="uppercase"
-          fontFamily="Arial"
+          fontFamily="Helmet"
           lineHeight="2rem"
           letterSpacing="2px"
           fontSize={md ? "1.5rem" : "2rem"}

@@ -105,14 +105,14 @@ export default function LeftPartContact(props) {
         </Typography>
         <Link
           href="tel:+32 477 895 993"
-          sx={{ color: "#000", fontFamily: "Arial" }}
+          sx={{ color: "#000", fontFamily: "Helmet" }}
         >
           +32 477 895 993
         </Link>
         <Typography component="div"></Typography>
         <Link
           href="mailto:info@mathiasmortelmans.com"
-          sx={{ color: "#000", fontFamily: "Arial" }}
+          sx={{ color: "#000", fontFamily: "Helmet" }}
         >
           info@mathiasmortelmans.com
         </Link>

@@ -63,7 +63,7 @@ export default function Menu(props) {
       >
         <Stack
           sx={{
-            fontFamily: "Arial",
+            fontFamily: "Helmet",
             position: "absolute",
             right: "2rem",
             top: "2rem",
@@ -97,7 +97,7 @@ export default function Menu(props) {
                     component="div"
                     key={key}
                     sx={{
-                      fontFamily: "Arial",
+                      fontFamily: "Helmet",
                       letterSpacing: "1px",
                       textTransform: "uppercase",
                       cursor: "pointer",

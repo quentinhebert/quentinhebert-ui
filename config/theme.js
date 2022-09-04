@@ -50,27 +50,27 @@ const mainTheme = createTheme({
   },
   spacing: 8,
   typography: {
-    fontFamily: "Arial",
+    fontFamily: "Helmet",
     h1: {
-      fontFamily: "Arial",
+      fontFamily: "Helmet",
     },
     h2: {
-      fontFamily: "Arial",
+      fontFamily: "Helmet",
     },
     h3: {
-      fontFamily: "Arial",
+      fontFamily: "Helmet",
     },
     h4: {
-      fontFamily: "Arial",
+      fontFamily: "Helmet",
     },
     h5: {
-      fontFamily: "Arial",
+      fontFamily: "Helmet",
     },
     h6: {
-      fontFamily: "Arial",
+      fontFamily: "Helmet",
     },
     body1: {
-      fontFamily: "Arial",
+      fontFamily: "Helmet",
     },
   },
   alert: {

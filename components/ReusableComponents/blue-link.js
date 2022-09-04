@@ -49,7 +49,7 @@ export default function BlueLink(props) {
           >
             <Typography
               variant="h6"
-              fontFamily="Arial"
+              fontFamily="Helmet"
               textAlign="center"
               lineHeight="1.3rem"
               className="cool-link"

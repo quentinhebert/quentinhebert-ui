@@ -77,7 +77,7 @@ export default function DualCoverBand(props) {
               <BicolorTitle
                 secondaryText={item.secondaryText}
                 secondaryColor={item.secondaryTextColor}
-                mainFontFamily={item.fontFamily || "Arial"}
+                mainFontFamily={item.fontFamily || "Helmet"}
                 mainText={item.label}
                 mainColor={theme.palette.secondary.main}
                 padding={isMobileOrTablet ? "2rem 0 0" : "4rem 0 0"}
@@ -103,7 +103,7 @@ export default function DualCoverBand(props) {
                     >
                       <Typography
                         variant="h6"
-                        fontFamily="Arial"
+                        fontFamily="Helmet"
                         textAlign="center"
                         lineHeight="1.3rem"
                         className="cool-link"

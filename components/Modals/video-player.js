@@ -102,7 +102,7 @@ export default function VideoPlayer(props) {
           }}
           flexDirection="row"
           alignItems="center"
-          fontFamily="Arial"
+          fontFamily="Helmet"
           onClick={handleClose}
         >
           <ScaleUpOnHoverStack>

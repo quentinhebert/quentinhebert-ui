@@ -34,7 +34,7 @@ export default function GearBand(props) {
         <Typography
           component="h2"
           color="#fff"
-          fontFamily="Arial"
+          fontFamily="Helmet"
           textTransform="uppercase"
           letterSpacing="2px"
           margin="1rem 0"
@@ -50,7 +50,7 @@ export default function GearBand(props) {
         </Typography>
         <Typography
           color="#fff"
-          fontFamily="Arial"
+          fontFamily="Helmet"
           textTransform="uppercase"
           letterSpacing="2px"
           textAlign="left"

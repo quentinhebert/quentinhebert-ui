@@ -28,7 +28,7 @@ export default function ImgTextBand(props) {
         <Typography
           component="h2"
           color={titleColor || "#fff"}
-          fontFamily="Arial"
+          fontFamily="Helmet"
           textTransform="uppercase"
           letterSpacing="2px"
           margin="1rem 0"
@@ -38,7 +38,7 @@ export default function ImgTextBand(props) {
         </Typography>
         <Typography
           color={textColor || "#fff"}
-          fontFamily="Arial"
+          fontFamily="Helmet"
           letterSpacing="2px"
           textAlign="left"
           width="80%"
