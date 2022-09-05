@@ -511,9 +511,9 @@ export default function MasonryImageList() {
                 sx={{
                   textAlign: "center",
                   fontFamily: "Ethereal",
-                  fontSize: { xs: "1rem", sm: "1.5rem", md: "2rem" },
+                  fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
                   letterSpacing: { xs: 0.25, sm: 1, md: 2.5 },
-                  lineHeight: { xs: "1.5rem", sm: "2rem", md: "3rem" },
+                  lineHeight: { xs: "1.5rem", sm: "2rem", md: "2rem" },
                   textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
                 }}
               >
@@ -524,9 +524,8 @@ export default function MasonryImageList() {
                 fontWeight="bold"
                 sx={{
                   textAlign: "center",
-                  fontFamily: "Ethereal",
+                  textTransform: "uppercase",
                   fontSize: { xs: "1.5rem", sm: "2rem", md: "3rem" },
-                  letterSpacing: { xs: 0.5, sm: 3, md: 4 },
                   lineHeight: { xs: "1.3rem", sm: "2rem", md: "3rem" },
                   textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
                 }}
@@ -615,29 +614,32 @@ export default function MasonryImageList() {
                     }}
                   >
                     <Typography
-                      color="text.white"
-                      fontWeight="bold"
+                      // color="text.white"
+                      color="secondary"
+                      // fontWeight="bold"
                       sx={{
                         textAlign: "center",
-                        fontFamily: "Ethereal",
-                        fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
-                        letterSpacing: { xs: 0.25, sm: 1, md: 2.5 },
-                        lineHeight: { xs: "1.5rem", sm: "2rem", md: "3rem" },
+                        // fontFamily: "Ethereal",
+                        // fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
+                        // letterSpacing: { xs: 0.25, sm: 1, md: 2.5 },
+                        // lineHeight: { xs: "1.5rem", sm: "2rem", md: "3rem" },
                         textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
+                        // textTransform: "uppercase",
                       }}
                     >
-                      – {item.type} –
+                      {item.type}
                     </Typography>
                     <Typography
                       color="secondary"
                       fontWeight="bold"
                       sx={{
                         textAlign: "center",
-                        fontFamily: "Ethereal",
-                        fontSize: { xs: "1rem", sm: "1.2rem", md: "2rem" },
-                        letterSpacing: { xs: 0.25, sm: 1, md: 2.5 },
+                        // fontFamily: "Ethereal",
+                        fontSize: { xs: "1rem", sm: "1.2rem", md: "1.7rem" },
+                        // letterSpacing: { xs: 0.25, sm: 1, md: 2.5 },
                         lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
                         textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
+                        textTransform: "uppercase",
                       }}
                     >
                       {item.title}

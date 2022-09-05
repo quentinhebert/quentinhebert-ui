@@ -1,23 +1,11 @@
 import * as React from "react"
 import { Box, Slide, Stack, Typography } from "@mui/material"
-import { useScrollPosition } from "@n8tb1t/use-scroll-position"
 import theme from "../../config/theme"
 import BouncingArrow from "../Navigation/BouncingArrow"
 import { motion } from "framer-motion"
 
 export default function IndexHeadBandVideo(props) {
   const { scrollTo, refForScroll } = props
-
-  const [showScrollToTopBtn, setShowScrollToTopBtn] = React.useState(false)
-
-  // SCROLL TO TOP
-  useScrollPosition(({ prevPos, currPos }) => {
-    if (prevPos.y > currPos.y && !showScrollToTopBtn) {
-      setShowScrollToTopBtn(true)
-    } else if (prevPos.y < currPos.y && !showScrollToTopBtn) {
-      setShowScrollToTopBtn(false)
-    }
-  })
 
   return (
     <Stack
@@ -151,7 +139,7 @@ export default function IndexHeadBandVideo(props) {
         sx={{ display: { xs: "none", lg: "flex" } }}
       >
         <BouncingArrow
-          text="Voir plus"
+          text=""
           scrollTo={scrollTo}
           refForScroll={refForScroll}
         />

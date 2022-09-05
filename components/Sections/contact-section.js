@@ -4,6 +4,7 @@ import ContactForm from "../Forms/contact-form"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import StrokeText from "../ReusableComponents/text/stroke-text"
+import CenteredMaxWidthContainer from "../ReusableComponents/containers/centered-max-width-container"
 
 export default function ContactSection(props) {
   const { defaultService } = props
@@ -35,27 +36,50 @@ export default function ContactSection(props) {
       flexDirection="column"
       sx={{
         overflow: "hidden",
-        backgroundColor: (theme) => theme.palette.secondary.main,
+        // backgroundColor: (theme) => theme.palette.secondary.main,
+        background: (theme) =>
+          `linear-gradient(180deg, #000 70%, ${theme.palette.background.secondary} 100%)`,
         padding: "2rem",
       }}
       ref={ref}
     >
-      <Typography
-        fontSize="3rem"
-        textTransform="uppercase"
-        fontWeight="bold"
-        // fontStyle="italic"
-      >
-        Hello, can I help you ?
-      </Typography>
-      <motion.div
-        initial="hidden"
-        variants={variants(1)}
-        animate={controls}
-        style={{ width: "100%" }}
-      >
-        <ContactForm defaultService={defaultService} />
-      </motion.div>
+      <CenteredMaxWidthContainer>
+        <Stack
+          sx={{
+            width: "100%",
+            borderRadius: "10px",
+            padding: "1rem",
+            background: (theme) =>
+              `linear-gradient(-50deg, rgb(0,0,0,1) 0%, ${theme.palette.background.main} 100%)`,
+          }}
+        >
+          <motion.div
+            initial="hidden"
+            variants={variants(0)}
+            animate={controls}
+          >
+            <Typography
+              // color="text.white"
+              color="secondary"
+              textAlign="center"
+              variant="h2"
+              textTransform="uppercase"
+              fontStyle="italic"
+              // fontWeight="bold"
+            >
+              <StrokeText>Me </StrokeText> Contacter
+            </Typography>
+          </motion.div>
+        </Stack>
+        <motion.div
+          initial="hidden"
+          variants={variants(1)}
+          animate={controls}
+          style={{ width: "100%" }}
+        >
+          <ContactForm defaultService={defaultService} />
+        </motion.div>
+      </CenteredMaxWidthContainer>
     </Stack>
   )
 }
