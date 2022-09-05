@@ -16,7 +16,7 @@ const Text = styled((props) => (
     sx={{
       textShadow: "0.15em -0.1em 0.3em black",
       fontSize: { xs: "3vw", sm: "2rem", md: "2.3rem" },
-      letterSpacing: { xs: "2vw", sm: "6px", md: "8px" },
+      letterSpacing: { xs: "2vw", sm: "3px", md: "4px" },
     }}
     {...props}
   />
@@ -29,7 +29,7 @@ const Keyword = styled((props) => (
     letterSpacing="3px"
     sx={{
       color: (theme) => theme.palette.secondary.main,
-      fontStyle: "italic",
+      // fontStyle: "italic",
     }}
     {...props}
   />
@@ -107,12 +107,12 @@ const Container = ({ btnColor, bgImg, href }) => {
               backgroundColor: btnColor,
               fontWeight: "bold",
               color: (theme) => theme.palette.text.primaryDark,
-              padding: ".5rem 1.5rem",
+              padding: ".25rem 1.5rem",
               zIndex: 4,
               marginTop: 2,
               textTransform: "uppercase",
-              letterSpacing: { xs: 1, md: 2 },
-              fontSize: { xs: "0.7rem", md: "0.875rem" },
+              letterSpacing: { xs: 1, md: 1.5 },
+              fontSize: { xs: "0.8rem", md: "1rem" },
               border: (theme) =>
                 `2px solid ${theme.palette.background.secondary}`,
               "&:hover": {
