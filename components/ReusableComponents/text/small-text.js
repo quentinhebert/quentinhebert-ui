@@ -8,7 +8,7 @@ const Text = styled((props) => {
     <Typography
       sx={{
         color: (theme) => color || theme.palette.text.white,
-        fontSize: fontSize || { xs: "0.5rem", md: "0.75rem" },
+        fontSize: fontSize || { xs: "0.6rem", md: "0.8rem" },
         letterSpacing: letterSpacing || 1,
       }}
       {...props}

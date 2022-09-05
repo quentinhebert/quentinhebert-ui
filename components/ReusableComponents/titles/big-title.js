@@ -24,6 +24,7 @@ export default function BigTitle(props) {
           xl: "17rem",
         },
       }}
+      {...props}
     >
       {title}
     </Typography>

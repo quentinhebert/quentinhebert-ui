@@ -34,10 +34,10 @@ const CssFormGroup = styled((props) => (
       sx={{
         color: props.labelcolor || ((theme) => theme.palette.text.primary),
         "& .MuiFormControlLabel-label": {
-          fontFamily: props.fontFamily || "inherit",
+          fontFamily: props.fontFamily || "Helmet",
           fontWeight: props.fontWeight || "",
-          fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
-          letterSpacing: { xs: 0.25, sm: 1, md: 2 },
+          fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" },
+          letterSpacing: { xs: 0.25, sm: 0.5, md: 1 },
         },
       }}
       label={props.label}
