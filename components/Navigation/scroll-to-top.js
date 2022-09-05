@@ -1,4 +1,4 @@
-import * as React from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@mui/material"
 import { Stack, useMediaQuery } from "@mui/material"
 import theme from "../../config/theme"
@@ -14,16 +14,11 @@ export default function ScrollToTopBtn(props) {
     })
   }
 
-  const [showButton, setShowButton] = React.useState(false)
+  const [showButton, setShowButton] = useState(false)
   useScrollPosition(({ prevPos, currPos }) => {
-    if (window.pageYOffset > 0) {
+    if (window.pageYOffset === 0 || currPos.y < prevPos.y) setShowButton(false)
+    if (!showButton && window.pageYOffset > 0 && currPos.y > prevPos.y)
       setShowButton(true)
-      setTimeout(() => {
-        setShowButton(false)
-      }, 3000)
-    } else if (window.pageYOffset === 0) {
-      setShowButton(false)
-    }
   })
 
   return (
@@ -33,7 +28,7 @@ export default function ScrollToTopBtn(props) {
       position="fixed"
       bottom="5%"
       right="5%"
-      zIndex={10}
+      zIndex={showButton ? 100 : -100}
     >
       <Button
         onClick={(e) => scrollTo(refForScroll)}
@@ -51,6 +46,7 @@ export default function ScrollToTopBtn(props) {
           "&:hover": {
             color: "#fff",
             backgroundColor: (theme) => theme.palette.background.secondary,
+            opacity: 1,
           },
         }}
       >
