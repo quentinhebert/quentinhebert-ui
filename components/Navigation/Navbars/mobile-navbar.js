@@ -2,9 +2,10 @@ import { Box, Button, Stack } from "@mui/material"
 import { useState } from "react"
 import Menu from "./menu"
 import DragHandleIcon from "@mui/icons-material/DragHandle"
+import { Cross as Hamburger } from "hamburger-react"
 
 export default function MobileNavbar(props) {
-  const { list } = props
+  const { list, page } = props
 
   const [openMenuDialog, setOpenMenuDialog] = useState(false)
 
@@ -17,26 +18,25 @@ export default function MobileNavbar(props) {
 
   return (
     <>
-      <Button
-        variant="text"
-        sx={{
-          color: (theme) => theme.palette.text.white,
-          letterSpacing: "1px",
-          padding: ".25rem",
-          margin: ".5rem 0",
-          "&:hover": {
-            color: (theme) => theme.palette.secondary.main,
-          },
-        }}
-        onClick={handleOpenMenuDialog}
-      >
-        <DragHandleIcon />
-      </Button>
+      <Stack position="relative" zIndex={1000}>
+        <Hamburger
+          toggled={openMenuDialog}
+          toggle={setOpenMenuDialog}
+          color="#fff"
+          rounded
+          size={20}
+          onToggle={(toggled) => {
+            if (toggled) handleOpenMenuDialog()
+            else handleCloseMenuDialog()
+          }}
+        />
+      </Stack>
 
       <Menu
         open={openMenuDialog}
         handleClose={handleCloseMenuDialog}
         list={list}
+        page={page}
       />
     </>
   )

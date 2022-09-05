@@ -30,7 +30,6 @@ export default function Navbar(props) {
     { href: "/", label: "Accueil" },
     { href: "/films", label: "Vidéaste" },
     { href: "/websites", label: "Développeur web" },
-    // { href: "/about", label: "À propos" },
     { href: "/contact", label: "Contact" },
   ]
 
@@ -124,7 +123,7 @@ export default function Navbar(props) {
           <Box component="div" sx={{ flexGrow: 1 }} />
 
           {isMobile ? (
-            <MobileNavbar mainColor={mainColor} list={menuItems} />
+            <MobileNavbar mainColor={mainColor} list={menuItems} page={page} />
           ) : (
             <DesktopNavbar
               mainColor={mainColor}
