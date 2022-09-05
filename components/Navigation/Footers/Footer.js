@@ -10,7 +10,7 @@ import SecuredPaymentIcon from "../../../public/medias/warranties/secured-paymen
 import PaypalIcon from "../../../public/medias/warranties/paypal-icon.svg"
 import CreditCardIcon from "../../../public/medias/warranties/credit-card-icon.svg"
 import QualityIcon from "../../../public/medias/warranties/quality-icon.svg"
-import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice"
+import MailOutlineIcon from "@mui/icons-material/MailOutline"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import SmallText from "../../ReusableComponents/text/small-text"
@@ -86,12 +86,13 @@ const Email = () => {
       color="text.white"
       sx={{ "&:hover": { color: (theme) => theme.palette.text.secondary } }}
     >
-      <LocalPostOfficeIcon />
+      <MailOutlineIcon />
       <InTextLink
         href="mailto:hello@quentinhebert.com"
         text="hello@quentinhebert.com"
-        letterSpacing={1}
-        fontStyle="italic"
+        letterSpacing={2}
+        textTransform="uppercase"
+        sx={{ fontSize: "0.9rem" }}
       />
     </Typography>
   )
