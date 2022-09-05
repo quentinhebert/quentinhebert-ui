@@ -245,7 +245,7 @@ export default function FilmsPortfolioPart(props) {
   const md = useMediaQuery((theme) => theme.breakpoints.up("md"))
 
   return (
-    <>
+    <Stack zIndex={1} position="relative">
       {/* TOP Anchor */}
       <Stack ref={refForScroll} />
 
@@ -274,6 +274,6 @@ export default function FilmsPortfolioPart(props) {
 
         <PortfolioImageList />
       </Stack>
-    </>
+    </Stack>
   )
 }

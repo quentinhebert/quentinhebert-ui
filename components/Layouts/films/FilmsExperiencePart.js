@@ -33,101 +33,100 @@ export default function FilmsExperiencePart(props) {
   }, [controls, inView])
 
   return (
-    <>
-      <Stack
-        sx={{
-          backgroundImage: "url(/medias/exp-film-bg-2.svg)",
-          backgroundSize: "cover",
-          backgroundPosition: "50% 50%",
-          height: { xs: "550px", sm: "700px", md: "800px" },
-        }}
-        ref={ref}
-      >
-        <motion.div initial="hidden" variants={variants} animate={controls}>
-          <Stack width="100%" alignItems="start">
+    <Stack
+      zIndex={1}
+      position="relative"
+      sx={{
+        backgroundImage: "url(/medias/exp-film-bg-2.svg)",
+        backgroundSize: "cover",
+        backgroundPosition: "50% 50%",
+        height: { xs: "550px", sm: "700px", md: "800px" },
+      }}
+      ref={ref}
+    >
+      <motion.div initial="hidden" variants={variants} animate={controls}>
+        <Stack width="100%" alignItems="start">
+          <Stack
+            width="75%"
+            alignItems="start"
+            sx={{
+              padding: {
+                xs: "1rem",
+                sm: "2rem",
+                md: "2rem 4rem",
+                lg: "4rem",
+              },
+            }}
+          >
+            <BigTitle
+              title="Exp ."
+              color={theme.palette.text.secondary}
+              fontFamily="Ethereal"
+            />
             <Stack
-              width="75%"
-              alignItems="start"
               sx={{
-                padding: {
-                  xs: "1rem",
-                  sm: "2rem",
-                  md: "2rem 4rem",
-                  lg: "4rem",
-                },
+                width: { xs: "95%", sm: "80%", md: "80%" },
               }}
             >
-              <BigTitle
-                title="Exp ."
-                color={theme.palette.text.secondary}
+              <BodyText
                 fontFamily="Ethereal"
-              />
-              <Stack
-                sx={{
-                  width: { xs: "95%", sm: "80%", md: "80%" },
-                }}
+                color={(theme) => theme.palette.text.secondaryDark}
+                fontWeight="bold"
               >
-                <BodyText
-                  fontFamily="Ethereal"
-                  color={(theme) => theme.palette.text.secondaryDark}
-                  fontWeight="bold"
-                >
-                  D'abord pris de passion pour la réalisation de
-                  courts-métrages, j'apprends rapidement à diriger une équipe de
-                  tournage amateure.
-                  <p />
-                  Je prends goût à tous les corps du métier, mais c'est dans la
-                  direction photographique, le cadrage et le montage que je me
-                  sens le plus créatif.
-                  <p />
-                  Je réalise rapidement mes premiers clips musicaux et
-                  événementiels.
-                </BodyText>
+                D'abord pris de passion pour la réalisation de courts-métrages,
+                j'apprends rapidement à diriger une équipe de tournage amateure.
+                <p />
+                Je prends goût à tous les corps du métier, mais c'est dans la
+                direction photographique, le cadrage et le montage que je me
+                sens le plus créatif.
+                <p />
+                Je réalise rapidement mes premiers clips musicaux et
+                événementiels.
+              </BodyText>
 
-                <Box>
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      color: theme.palette.text.primaryLight,
-                      fontFamily: "Ethereal",
-                      textTransform: "initial",
-                      fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
-                      fontWeight: "bold",
-                      letterSpacing: { xs: "0.5px", md: "1.5px" },
-                      border: `2px solid ${theme.palette.text.primaryLight}`,
-                      marginTop: { xs: "1.5rem", md: "3rem" },
-                    }}
-                    startIcon={<SaveAltIcon />}
-                  >
-                    Télécharger mon CV
-                  </Button>
-                </Box>
-              </Stack>
+              <Box>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    color: theme.palette.text.primaryLight,
+                    fontFamily: "Ethereal",
+                    textTransform: "initial",
+                    fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+                    fontWeight: "bold",
+                    letterSpacing: { xs: "0.5px", md: "1.5px" },
+                    border: `2px solid ${theme.palette.text.primaryLight}`,
+                    marginTop: { xs: "1.5rem", md: "3rem" },
+                  }}
+                  startIcon={<SaveAltIcon />}
+                >
+                  Télécharger mon CV
+                </Button>
+              </Box>
             </Stack>
           </Stack>
-        </motion.div>
+        </Stack>
+      </motion.div>
 
-        <motion.div
-          initial="hidden"
-          variants={variants}
-          animate={controls}
-          style={{
-            position: "absolute",
-            right: 0,
-            width: "50%",
-            mixBlendMode: "multiply",
+      <motion.div
+        initial="hidden"
+        variants={variants}
+        animate={controls}
+        style={{
+          position: "absolute",
+          right: 0,
+          width: "50%",
+          mixBlendMode: "multiply",
+        }}
+      >
+        <Box
+          sx={{
+            backgroundImage: "url(/medias/prout.png)",
+            backgroundSize: "cover",
+            backgroundPosition: "0% 50%",
+            height: { xs: "500px", sm: "700px", md: "800px" },
           }}
-        >
-          <Box
-            sx={{
-              backgroundImage: "url(/medias/prout.png)",
-              backgroundSize: "cover",
-              backgroundPosition: "0% 50%",
-              height: { xs: "500px", sm: "700px", md: "800px" },
-            }}
-          />
-        </motion.div>
-      </Stack>
-    </>
+        />
+      </motion.div>
+    </Stack>
   )
 }

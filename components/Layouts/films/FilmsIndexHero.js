@@ -15,6 +15,8 @@ export default function FilmsIndexHero(props) {
 
   return (
     <Stack
+      zIndex={1}
+      position="relative"
       sx={{
         backgroundImage: "url(/medias/circular-background.jpg)",
         backgroundSize: "cover",

@@ -20,6 +20,8 @@ export default function WebsitesIndexHero(props) {
 
   return (
     <Stack
+      zIndex={1}
+      position="relative"
       sx={{
         backgroundImage: "url(/medias/folds-background.jpg)",
         backgroundSize: "cover",

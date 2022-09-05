@@ -1,7 +1,7 @@
 import { useRef } from "react"
 import Navbar from "../../Navigation/Navbars/navbar"
 import Footer from "../../Navigation/Footers/Footer"
-import { useMediaQuery } from "@mui/material"
+import { Stack, useMediaQuery } from "@mui/material"
 import ScrollToTopBtn from "../../Navigation/scroll-to-top"
 import theme from "../../../config/theme"
 import WebsitesIndexHero from "./WebsitesIndexHero"
@@ -28,6 +28,19 @@ export default function WebsitesIndexLayout(props) {
   return (
     <>
       <Navbar bgColor="transparent" />
+
+      {/* Fixed Background for the page */}
+      <Stack
+        position="fixed"
+        width="100%"
+        height="100vh"
+        zIndex={0}
+        sx={{
+          backgroundImage: "url(/medias/lines.jpg)",
+          backgroundPosition: "25% 50%",
+          backgroundSize: "cover",
+        }}
+      />
 
       <WebsitesIndexHero refForScroll={refsForScroll.focus} />
 

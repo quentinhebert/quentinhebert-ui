@@ -53,7 +53,7 @@ export default function FilmsFocusPart(props) {
   const expNbYears = new Date().getFullYear() - 2011 // J'ai réalisé mes premiers clips de musique en 5ème (collège) à l'âge de 13 ans
 
   return (
-    <>
+    <Stack zIndex={1} position="relative">
       {/* Section Anchor */}
       <Stack ref={refsForScroll.focus} />
 
@@ -137,6 +137,6 @@ export default function FilmsFocusPart(props) {
           />
         </Slide>
       </Stack>
-    </>
+    </Stack>
   )
 }

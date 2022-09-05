@@ -54,7 +54,7 @@ export default function WebsiteFocusPart(props) {
   const expNbYears = new Date().getFullYear() - 2019 // J'ai réalisé mes premiers clips de musique en 5ème (collège) à l'âge de 13 ans
 
   return (
-    <>
+    <Stack zIndex={1} position="relative">
       {/* Section Anchor */}
       <Stack ref={refsForScroll.focus} style={{ scrollMarginTop: "65px" }} />
 
@@ -122,6 +122,6 @@ export default function WebsiteFocusPart(props) {
           </Stack>
         </motion.div>
       </Stack>
-    </>
+    </Stack>
   )
 }
