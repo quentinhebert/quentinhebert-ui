@@ -156,6 +156,7 @@ export default function Footer(props) {
       paddingTop={10}
       margin={0}
       paddingBottom={4}
+      zIndex={1}
       sx={{
         backgroundColor: "transparent",
         backgroundImage: "url(/medias/footer-wave.svg)",

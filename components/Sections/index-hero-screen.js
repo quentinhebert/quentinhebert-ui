@@ -13,6 +13,7 @@ export default function IndexHeadBandVideo(props) {
       width="100%"
       overflow="hidden"
       paddingTop="6rem"
+      zIndex={1}
       sx={{
         height: { xs: "300px", sm: "600px", md: "700px", lg: "100vh" },
         minHeight: { xs: "500px", lg: "calc(800px + 2rem)" },

@@ -30,6 +30,20 @@ const SERVICES = {
   ],
 }
 
+const List = ({ src }) =>
+  src.map((item, key) => (
+    <Typography
+      display="flex"
+      alignItems="center"
+      justifyContent="left"
+      key={key}
+      marginBottom="0.5rem"
+    >
+      <TaskAltOutlinedIcon color="secondary" sx={{ marginRight: "0.5rem" }} />
+      {item}
+    </Typography>
+  ))
+
 const VideoCard = () => (
   <CustomCard
     rightbgcolor={`${theme.palette.background.main}`}
@@ -38,25 +52,11 @@ const VideoCard = () => (
   >
     <CustomCardTitle
       title="Vidéo"
-      icon={<VideocamIcon sx={{ marginRight: "1rem" }} />}
+      icon={<VideocamIcon sx={{ fontSize: "2rem", marginRight: "1rem" }} />}
     />
 
     <Box textAlign="left" flexGrow={1} letterSpacing={1}>
-      {SERVICES.VIDEO.map((serv, key) => (
-        <Typography
-          display="flex"
-          alignItems="center"
-          justifyContent="left"
-          marginBottom="0.5rem"
-          key={key}
-        >
-          <TaskAltOutlinedIcon
-            color="secondary"
-            sx={{ marginRight: "0.5rem" }}
-          />
-          {serv}
-        </Typography>
-      ))}
+      <List src={SERVICES.VIDEO} />
     </Box>
 
     <EndCardButton href="/films" text="Découvrir +" />
@@ -71,25 +71,15 @@ const WebCard = () => (
   >
     <CustomCardTitle
       title="Web"
-      icon={<DesktopMacOutlinedIcon sx={{ marginRight: "1rem" }} />}
+      icon={
+        <DesktopMacOutlinedIcon
+          sx={{ fontSize: "2rem", marginRight: "1rem" }}
+        />
+      }
     />
 
     <Box textAlign="left" flexGrow={1} letterSpacing={1}>
-      {SERVICES.WEB.map((serv, key) => (
-        <Typography
-          display="flex"
-          alignItems="center"
-          justifyContent="left"
-          key={key}
-          marginBottom="0.5rem"
-        >
-          <TaskAltOutlinedIcon
-            color="secondary"
-            sx={{ marginRight: "0.5rem" }}
-          />
-          {serv}
-        </Typography>
-      ))}
+      <List src={SERVICES.WEB} />
     </Box>
 
     <EndCardButton href="/websites" text="Découvrir +" />
@@ -128,7 +118,7 @@ export default function ServicesSection(props) {
     <>
       <Stack ref={refForScroll} sx={{ scrollMarginTop: "65px" }} />
 
-      <CenteredMaxWidthContainer>
+      <CenteredMaxWidthContainer zIndex={1}>
         <Stack
           width="100%"
           margin="6rem 0 4rem"

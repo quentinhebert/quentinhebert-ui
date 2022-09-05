@@ -26,14 +26,21 @@ export default function IndexLayout(props) {
   }
 
   return (
-    <Stack
-      sx={{
-        background: (theme) =>
-          `linear-gradient(-60deg, #000 20%, #080c11 100%)`,
-      }}
-    >
+    <Stack>
       <Stack ref={topRef} />
       <Navbar />
+
+      <Stack
+        position="fixed"
+        width="100%"
+        height="100vh"
+        zIndex={0}
+        sx={{
+          backgroundImage: "url(/medias/lines.jpg)",
+          backgroundPosition: "25% 50%",
+          backgroundSize: "cover",
+        }}
+      />
 
       {/* HERO */}
       <IndexHeroScreen
@@ -41,16 +48,8 @@ export default function IndexLayout(props) {
         refForScroll={refsForScroll.portfolio}
       />
 
-      {/* DUAL PORTFOLIO – Landing Section */}
-      {/* <PortfolioOptions refForScroll={refsForScroll.portfolio} /> */}
+      {/* SERVICES */}
       <ServicesSection refForScroll={refsForScroll.portfolio} />
-
-      {/* ABOUT ME – Landing Section */}
-      {/* <ParallaxLanding
-        btnColor={theme.palette.background.secondary}
-        bgImg="/medias/homepage-background.jpg"
-        href="/about"
-      /> */}
 
       <DotSeparator />
 

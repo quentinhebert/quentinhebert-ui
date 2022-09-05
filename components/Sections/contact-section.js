@@ -36,6 +36,7 @@ export default function ContactSection(props) {
       alignItems="center"
       flexDirection="column"
       margin="4rem 0"
+      zIndex={1}
       sx={{
         overflow: "hidden",
         backgroundColor: "transparent",
