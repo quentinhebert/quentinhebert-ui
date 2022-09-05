@@ -123,7 +123,7 @@ export default function IndexHeadBandVideo(props) {
               sx={{
                 textAlignLast: "end",
                 textAlign: "right",
-                fontSize: { xs: "1rem", md: "1.6vw" },
+                fontSize: { xs: "0.8rem", sm: "1rem", md: "1.6vw" },
                 textShadow: "2px 2px 7px #000",
               }}
             >
