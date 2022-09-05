@@ -123,7 +123,7 @@ function ContactForm(props) {
           width: "100%",
           flexDirection: { xs: "column", lg: "row" },
           background: (theme) =>
-            `linear-gradient(100deg,rgb(0,0,0) 20%, ${theme.palette.background.main} 100%)`,
+            `linear-gradient(100deg, transparent 20%, ${theme.palette.background.main} 100%)`,
           padding: "1rem",
           borderRadius: "5px",
         }}

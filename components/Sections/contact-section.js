@@ -38,7 +38,7 @@ export default function ContactSection(props) {
       margin="4rem 0"
       sx={{
         overflow: "hidden",
-        backgroundColor: "#000",
+        backgroundColor: "transparent",
       }}
       ref={ref}
     >
@@ -47,7 +47,7 @@ export default function ContactSection(props) {
           stroketext="Me"
           text="Contacter"
           leftBgColor={theme.palette.background.main}
-          rightBgColor="#000"
+          rightBgColor="transparent"
         />
 
         <motion.div
