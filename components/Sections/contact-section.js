@@ -36,9 +36,9 @@ export default function ContactSection(props) {
       flexDirection="column"
       sx={{
         overflow: "hidden",
-        // backgroundColor: (theme) => theme.palette.secondary.main,
-        background: (theme) =>
-          `linear-gradient(180deg, #000 70%, ${theme.palette.background.secondary} 100%)`,
+        backgroundColor: "#000",
+        // background: (theme) =>
+        //   `linear-gradient(180deg, #000 80%, ${theme.palette.background.secondary} 100%)`,
         padding: "2rem",
       }}
       ref={ref}
