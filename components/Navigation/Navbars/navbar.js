@@ -30,7 +30,7 @@ export default function Navbar(props) {
     { href: "/", label: "Accueil" },
     { href: "/films", label: "Vidéaste" },
     { href: "/websites", label: "Développeur web" },
-    { href: "/about", label: "À propos" },
+    // { href: "/about", label: "À propos" },
     { href: "/contact", label: "Contact" },
   ]
 
@@ -45,9 +45,9 @@ export default function Navbar(props) {
   const [isReduced, setIsReduced] = useState(false)
   const ContainerRef = useRef(null)
   useScrollPosition(({ prevPos, currPos }) => {
-    if (prevPos.y > currPos.y && window.pageYOffset > 0) {
+    if (window.pageYOffset > 0) {
       setIsReduced(true)
-    } else if (prevPos.y < currPos.y && window.pageYOffset === 0) {
+    } else if (window.pageYOffset === 0) {
       setIsReduced(false)
     }
   })
@@ -72,7 +72,7 @@ export default function Navbar(props) {
           opacity: isReduced ? 1 : 0,
           top: "-2px",
           background: (theme) =>
-            `linear-gradient(100deg, ${theme.palette.background.main} 0%, rgb(0,0,0,0.9) 80%)`,
+            `linear-gradient(100deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`,
         }}
       />
       <Box sx={{ flexGrow: 2, width: "100%" }}>
@@ -108,8 +108,9 @@ export default function Navbar(props) {
                         letterSpacing: "1.5px",
                         fontStyle: "italic",
                         lineHeight: "1.2rem",
-                        fontSize: ".8rem",
-                        fontFamily: "Zacbel X",
+                        fontSize: "1rem",
+                        fontFamily: "Helmet",
+                        fontWeight: "bold",
                       }}
                     >
                       Quentin Hébert
