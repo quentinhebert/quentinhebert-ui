@@ -3,8 +3,9 @@ import { Box, Stack, Typography } from "@mui/material"
 import ContactForm from "../Forms/contact-form"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import StrokeText from "../ReusableComponents/text/stroke-text"
+import theme from "../../config/theme"
 import CenteredMaxWidthContainer from "../ReusableComponents/containers/centered-max-width-container"
+import TitleCard from "../ReusableComponents/cards/title-card"
 
 export default function ContactSection(props) {
   const { defaultService } = props
@@ -34,43 +35,21 @@ export default function ContactSection(props) {
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
+      margin="4rem 0"
       sx={{
         overflow: "hidden",
         backgroundColor: "#000",
-        // background: (theme) =>
-        //   `linear-gradient(180deg, #000 80%, ${theme.palette.background.secondary} 100%)`,
-        padding: "2rem",
       }}
       ref={ref}
     >
       <CenteredMaxWidthContainer>
-        <Stack
-          sx={{
-            width: "100%",
-            borderRadius: "10px",
-            padding: "1rem",
-            background: (theme) =>
-              `linear-gradient(-50deg, rgb(0,0,0,1) 0%, ${theme.palette.background.main} 100%)`,
-          }}
-        >
-          <motion.div
-            initial="hidden"
-            variants={variants(0)}
-            animate={controls}
-          >
-            <Typography
-              // color="text.white"
-              color="secondary"
-              textAlign="center"
-              variant="h2"
-              textTransform="uppercase"
-              fontStyle="italic"
-              // fontWeight="bold"
-            >
-              <StrokeText>Me </StrokeText> Contacter
-            </Typography>
-          </motion.div>
-        </Stack>
+        <TitleCard
+          stroketext="Me"
+          text="Contacter"
+          leftBgColor={theme.palette.background.main}
+          rightBgColor="#000"
+        />
+
         <motion.div
           initial="hidden"
           variants={variants(1)}

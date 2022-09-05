@@ -16,7 +16,7 @@ const CssFilledInput = styled((props) => (
     overflow: "hidden",
     borderRadius: 4,
     // backgroundColor: theme.palette.background.main,
-    background: `linear-gradient(-20deg, rgb(0,0,0) 0%, ${theme.palette.background.main} 80%)`,
+    background: `linear-gradient(-90deg, rgb(0,0,0) 0%, ${theme.palette.background.main} 10%)`,
     color: theme.palette.text.white, // input value
     "&:hover": {
       backgroundColor: theme.palette.background.main,

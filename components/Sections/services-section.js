@@ -7,6 +7,8 @@ import { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 import CenteredMaxWidthContainer from "../ReusableComponents/containers/centered-max-width-container"
 import Link from "next/link"
+import TitleCard from "../ReusableComponents/cards/title-card"
+import theme from "../../config/theme"
 
 export default function ServicesSection(props) {
   const { refForScroll } = props
@@ -47,48 +49,27 @@ export default function ServicesSection(props) {
 
       <CenteredMaxWidthContainer>
         <Stack
+          width="100%"
+          margin="6rem 0 4rem"
           sx={{
-            width: "100%",
             backgroundColor: "#000",
-            padding: "4rem 0",
             alignItems: "center",
             justifyContent: "center",
             gap: 2,
           }}
           ref={ref}
         >
-          <Stack
-            sx={{
-              width: "100%",
-              borderRadius: "10px",
-              padding: "1rem",
-              background: (theme) =>
-                `linear-gradient(-50deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 100%)`,
-            }}
-          >
-            <motion.div
-              initial="hidden"
-              variants={variants(0)}
-              animate={controls}
-            >
-              <Typography
-                // color="text.white"
-                color="secondary"
-                textAlign="center"
-                variant="h2"
-                textTransform="uppercase"
-                fontStyle="italic"
-                // fontWeight="bold"
-              >
-                <StrokeText>Mes</StrokeText> Services
-              </Typography>
-            </motion.div>
-          </Stack>
+          <TitleCard
+            stroketext="mes"
+            text="services"
+            leftBgColor="#000"
+            rightBgColor={theme.palette.background.main}
+          />
 
           <Stack
             sx={{
               width: "100%",
-              flexDirection: "row",
+              flexDirection: { xs: "column", sm: "row" },
               gap: 2,
             }}
           >
@@ -97,7 +78,7 @@ export default function ServicesSection(props) {
               variants={variants(1)}
               animate={controls}
               style={{
-                width: "50%",
+                width: "100%",
                 display: "flex",
               }}
             >
@@ -142,7 +123,7 @@ export default function ServicesSection(props) {
               variants={variants(2)}
               animate={controls}
               style={{
-                width: "50%",
+                width: "100%",
                 display: "flex",
               }}
             >
