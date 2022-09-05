@@ -8,7 +8,9 @@ const CardTitle = styled((props) => {
       display="flex"
       alignItems="center"
       justifyContent="center"
+      textTransform="uppercase"
       sx={{ fontSize: { xs: "1.3rem", md: "2rem" } }}
+      {...props}
     >
       {props.icon || null} {props.title}
     </Typography>
