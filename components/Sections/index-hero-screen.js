@@ -137,7 +137,7 @@ export default function IndexHeadBandVideo(props) {
         zIndex={10}
         justifyContent="end"
         alignItems="center"
-        sx={{ display: { xs: "none", lg: "flex" } }}
+        sx={{ display: "flex" }}
       >
         <BouncingArrow
           text=""

@@ -9,6 +9,7 @@ export default function BouncingArrow(props) {
   return (
     <ScaleUpOnHoverStack>
       <Box
+        component="a"
         className={styles.bounce}
         sx={{
           justifyContent: "center",
@@ -16,13 +17,13 @@ export default function BouncingArrow(props) {
           cursor: "pointer",
           display: "flex",
           flexDirection: "column",
+          paddingBottom: 3,
           "&:hover": {
             "&>p, &>svg": {
               color: `${theme.palette.secondary.main} !important`,
             },
           },
         }}
-        component="a"
         onClick={(e) => scrollTo(refForScroll)}
       >
         {text ? (
