@@ -1,14 +1,62 @@
-import { Box, Button, Stack, Typography } from "@mui/material"
-import StrokeText from "../ReusableComponents/text/stroke-text"
+import { Box, Stack, Typography } from "@mui/material"
 import VideocamIcon from "@mui/icons-material/Videocam"
 import DesktopMacOutlinedIcon from "@mui/icons-material/DesktopMacOutlined"
 import { motion, useAnimation } from "framer-motion"
 import { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 import CenteredMaxWidthContainer from "../ReusableComponents/containers/centered-max-width-container"
-import Link from "next/link"
 import TitleCard from "../ReusableComponents/cards/title-card"
 import theme from "../../config/theme"
+import CustomCard from "../ReusableComponents/cards/custom-card"
+import CustomCardTitle from "../ReusableComponents/cards/custom-card-title"
+import EndCardButton from "../ReusableComponents/cards/end-card-button"
+
+const VideoCard = () => (
+  <CustomCard
+    rightbgcolor={`${theme.palette.background.main}`}
+    leftbgcolor="#000"
+    lineardeg="-50deg"
+  >
+    <CustomCardTitle
+      title="Vidéo"
+      icon={<VideocamIcon sx={{ marginRight: "1rem" }} />}
+    />
+
+    <Box textAlign="left" flexGrow={1} letterSpacing={1}>
+      <Typography>- Film de mariage</Typography>
+      <Typography>- Publicité d'entreprise</Typography>
+      <Typography>- Clip musical, Aftermovie & Teaser</Typography>
+      <Typography>- Portrait et Interview</Typography>
+      <Typography>- Court-métrage</Typography>
+    </Box>
+
+    <EndCardButton href="/films" text="Découvrir +" />
+  </CustomCard>
+)
+
+const WebCard = () => (
+  <CustomCard
+    rightbgcolor="#000"
+    leftbgcolor={theme.palette.background.main}
+    lineardeg="-140deg"
+  >
+    <CustomCardTitle
+      title="Web"
+      icon={<DesktopMacOutlinedIcon sx={{ marginRight: "1rem" }} />}
+    />
+
+    <Box textAlign="left" flexGrow={1} letterSpacing={1}>
+      <Typography>- Site vitrine</Typography>
+      <Typography>- Landing Page</Typography>
+      <Typography>- Newsletters</Typography>
+      <Typography>- Back-Office personnalisé</Typography>
+      <Typography>- E-mails automatiques personnalisés</Typography>
+      <Typography>- Base de données complexe et API sur-mesure</Typography>
+    </Box>
+
+    <EndCardButton href="/websites" text="Découvrir +" />
+  </CustomCard>
+)
 
 export default function ServicesSection(props) {
   const { refForScroll } = props
@@ -17,22 +65,13 @@ export default function ServicesSection(props) {
   const [ref, inView] = useInView()
   const controls = useAnimation()
   const variants = (key) => {
-    if (key === 0)
-      return {
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.75 },
-        },
-        hidden: { opacity: 0, y: -20 },
-      }
     return {
       visible: {
         opacity: 1,
-        x: 1,
-        transition: { duration: 0.75, delay: key / 20 },
+        y: 1,
+        transition: { duration: 1, delay: key / 10 },
       },
-      hidden: { opacity: 0, x: key > 1 ? 50 : 50 },
+      hidden: { opacity: 0, y: -25 },
     }
   }
   useEffect(() => {
@@ -42,6 +81,10 @@ export default function ServicesSection(props) {
       controls.start("hidden")
     }
   }, [controls, inView])
+  const motionDivStyle = {
+    width: "100%",
+    display: "flex",
+  }
 
   return (
     <>
@@ -51,11 +94,11 @@ export default function ServicesSection(props) {
         <Stack
           width="100%"
           margin="6rem 0 4rem"
+          alignItems="center"
+          justifyContent="center"
+          gap={2}
           sx={{
             backgroundColor: "#000",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 2,
           }}
           ref={ref}
         >
@@ -67,103 +110,28 @@ export default function ServicesSection(props) {
           />
 
           <Stack
+            width="100%"
+            gap={2}
             sx={{
-              width: "100%",
               flexDirection: { xs: "column", sm: "row" },
-              gap: 2,
             }}
           >
             <motion.div
               initial="hidden"
               variants={variants(1)}
               animate={controls}
-              style={{
-                width: "100%",
-                display: "flex",
-              }}
+              style={motionDivStyle}
             >
-              <Stack
-                sx={{
-                  width: "100%",
-                  textAlign: "center",
-                  background: (theme) =>
-                    `linear-gradient(-50deg, ${theme.palette.background.main} 0%, rgb(0,0,0,0.5) 100%)`,
-                  color: "#fff",
-                  padding: "2rem",
-                  borderRadius: "10px",
-                  gap: 4,
-                }}
-              >
-                <Typography
-                  variant="h4"
-                  fontWeight="bold"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  <VideocamIcon sx={{ marginRight: "1rem" }} /> Vidéo
-                </Typography>
-                <Box textAlign="left" flexGrow={1} letterSpacing={1}>
-                  <Typography>- Film de mariage</Typography>
-                  <Typography>- Publicité d'entreprise</Typography>
-                  <Typography>- Clip musical, Aftermovie & Teaser</Typography>
-                  <Typography>- Portrait et Interview</Typography>
-                  <Typography>- Court-métrage</Typography>
-                </Box>
-                <Link href="/films" passHref>
-                  <Button variant="outlined" color="secondary">
-                    Découvrir +
-                  </Button>
-                </Link>
-              </Stack>
+              <VideoCard />
             </motion.div>
 
             <motion.div
               initial="hidden"
               variants={variants(2)}
               animate={controls}
-              style={{
-                width: "100%",
-                display: "flex",
-              }}
+              style={motionDivStyle}
             >
-              <Stack
-                sx={{
-                  width: "100%",
-                  textAlign: "center",
-                  background: (theme) =>
-                    `linear-gradient(50deg, ${theme.palette.background.main} 0%, rgb(0,0,0,0.5) 100%)`,
-                  color: "#fff",
-                  padding: "2rem",
-                  borderRadius: "10px",
-                  gap: 4,
-                }}
-              >
-                <Typography
-                  variant="h4"
-                  fontWeight="bold"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  <DesktopMacOutlinedIcon sx={{ marginRight: "1rem" }} /> Web
-                </Typography>
-                <Box textAlign="left" flexGrow={1} letterSpacing={1}>
-                  <Typography>- Site vitrine</Typography>
-                  <Typography>- Landing Page</Typography>
-                  <Typography>- Newsletters</Typography>
-                  <Typography>- Back-Office personnalisé</Typography>
-                  <Typography>- E-mails automatiques personnalisés</Typography>
-                  <Typography>
-                    - Base de données complexe et API sur-mesure
-                  </Typography>
-                </Box>
-                <Link href="/websites" passHref>
-                  <Button variant="outlined" color="secondary">
-                    Découvrir +
-                  </Button>
-                </Link>
-              </Stack>
+              <WebCard />
             </motion.div>
           </Stack>
         </Stack>
