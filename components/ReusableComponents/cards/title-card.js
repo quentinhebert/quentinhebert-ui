@@ -44,7 +44,10 @@ const Title = styled(({ stroketext, text, leftBgColor, rightBgColor }) => {
           fontStyle="italic"
           sx={{ fontSize: { xs: "2rem", md: "4rem" } }}
         >
-          <StrokeText>{stroketext}</StrokeText> {text}
+          <StrokeText color={(theme) => theme.palette.secondary.main}>
+            {stroketext}
+          </StrokeText>{" "}
+          {text}
         </Typography>
       </motion.div>
     </Stack>
