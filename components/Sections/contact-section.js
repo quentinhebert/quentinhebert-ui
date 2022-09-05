@@ -1,21 +1,21 @@
 import { useEffect } from "react"
-import { Stack, Typography } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import ContactForm from "../Forms/contact-form"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import StrokeText from "../ReusableComponents/text/stroke-text"
 
 export default function ContactSection(props) {
-  const {} = props
+  const { defaultService } = props
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
   const variants = (key) => ({
     visible: {
       opacity: 1,
-      x: 0,
       transition: { duration: 0.75, delay: 0 },
     },
-    hidden: { opacity: 0, x: key === 0 ? 25 : -25 },
+    hidden: { opacity: 0 },
   })
   const controls = useAnimation()
 
@@ -40,30 +40,21 @@ export default function ContactSection(props) {
       }}
       ref={ref}
     >
-      <motion.div initial="hidden" variants={variants(0)} animate={controls}>
-        <Stack justifyContent="center" alignItems="center" flexDirection="row">
-          <Typography
-            textAlign="center"
-            color="text.primaryDark"
-            fontWeight="bold"
-            display="flex"
-            sx={{
-              fontSize: { xs: "1.2rem", sm: "1.5rem", md: "2rem" },
-              letterSpacing: { xs: "0.5px", sm: "1px", md: "1.5px" },
-            }}
-          >
-            Toutes les histoires commencent ici !
-          </Typography>
-        </Stack>
-      </motion.div>
-
+      <Typography
+        fontSize="3rem"
+        textTransform="uppercase"
+        fontWeight="bold"
+        // fontStyle="italic"
+      >
+        Hello, can I help you ?
+      </Typography>
       <motion.div
         initial="hidden"
         variants={variants(1)}
         animate={controls}
         style={{ width: "100%" }}
       >
-        <ContactForm />
+        <ContactForm defaultService={defaultService} />
       </motion.div>
     </Stack>
   )

@@ -24,6 +24,8 @@ const BUDGET_OPTIONS = [
 ]
 
 function ContactForm(props) {
+  const { defaultService } = props
+
   const { setSeverity, setOpenSnackBar, setMessageSnack } = props
   const [loadingButton, setLoadingButton] = useState(false)
   const [errors, setErrors] = useState({
@@ -46,8 +48,8 @@ function ContactForm(props) {
     description: "",
     budget: "",
     service: {
-      film: false,
-      website: false,
+      film: defaultService && defaultService === "film" ? true : false,
+      website: defaultService && defaultService === "website" ? true : false,
     },
   })
 
@@ -93,8 +95,8 @@ function ContactForm(props) {
       description: "",
       budget: null,
       service: {
-        film: false,
-        website: false,
+        film: defaultService && defaultService === "film" ? true : false,
+        website: defaultService && defaultService === "website" ? true : false,
       },
     })
   }
@@ -120,42 +122,67 @@ function ContactForm(props) {
         <Stack
           sx={{
             width: "100%",
-            color: "#fff",
             flexDirection: { xs: "column", lg: "row" },
+            background: (theme) =>
+              `linear-gradient(100deg, ${theme.palette.background.main} 0%, rgb(0,0,0,0.9) 80%)`,
+            padding: "1rem",
+            borderRadius: "5px",
           }}
           alignItems="center"
         >
-          <Typography
-            color="#fff"
-            flexGrow={1}
-            sx={{
-              fontSize: { xs: "1rem", sm: "1rem", md: "1.2rem" },
-              letterSpacing: { xs: 0.25, sm: 1.2, md: 1.5 },
-            }}
-          >
-            Je recherche un freelance pour réaliser un...
-          </Typography>
-          <Stack flexDirection="row" gap={2}>
-            <CustomCheckbox
-              label="Film"
-              check={clientData.service.film ? "true" : "false"}
-              labelcolor="#fff" // label
-              checkedcolor="#fff" // checked
-              checkboxcolor="#fff" // unchecked
-              fontFamily="Ethereal"
-              fontWeight="bold"
-              onChange={handleChangeService("film")}
-            />
-            <CustomCheckbox
-              label="Site web"
-              check={clientData.service.website ? "true" : "false"}
-              labelcolor="#fff" // label
-              checkedcolor="#fff" // checked
-              checkboxcolor="#fff" // unchecked
-              fontFamily="Zacbel X"
-              onChange={handleChangeService("website")}
-            />
-          </Stack>
+          {!defaultService ||
+          (defaultService !== "film" && defaultService !== "website") ? (
+            <>
+              <Typography
+                color="#fff"
+                flexGrow={1}
+                sx={{
+                  fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" },
+                  letterSpacing: { xs: 1.5, sm: 2, md: 2 },
+                }}
+              >
+                Je recherche un <em>freelance</em> pour réaliser un... *
+              </Typography>
+              <Stack flexDirection="row" gap={4}>
+                <CustomCheckbox
+                  label="Film"
+                  check={clientData.service.film ? "true" : "false"}
+                  labelcolor={(theme) => theme.palette.text.secondary} // label
+                  checkedcolor={(theme) => theme.palette.text.secondary} // checked
+                  checkboxcolor="#fff" // unchecked
+                  fontFamily="Ethereal"
+                  fontWeight="bold"
+                  onChange={handleChangeService("film")}
+                />
+                <CustomCheckbox
+                  label="Site web"
+                  check={clientData.service.website ? "true" : "false"}
+                  labelcolor={(theme) => theme.palette.text.secondary} // label
+                  checkedcolor={(theme) => theme.palette.text.secondary} // checked
+                  checkboxcolor="#fff" // unchecked
+                  fontFamily="Zacbel X"
+                  onChange={handleChangeService("website")}
+                />
+              </Stack>
+            </>
+          ) : (
+            <Typography
+              color="#fff"
+              flexGrow={1}
+              textAlign="right"
+              sx={{
+                fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" },
+                letterSpacing: { xs: 1.5, sm: 2, md: 2 },
+              }}
+            >
+              Je recherche un{" "}
+              <em>
+                {defaultService === "film" && "vidéaste"}
+                {defaultService === "website" && "développeur"} freelance
+              </em>
+              ...
+            </Typography>
+          )}
         </Stack>
 
         <DualInputLine>

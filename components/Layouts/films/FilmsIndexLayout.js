@@ -48,7 +48,7 @@ export default function FilmsIndexLayout(props) {
       {/* EXPERIENCE */}
       <FilmsExperiencePart />
 
-      <ContactSection />
+      <ContactSection defaultService="film" />
 
       {/* ScrollToTop */}
       <ScrollToTopBtn refForScroll={topRef} />
