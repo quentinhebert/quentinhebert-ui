@@ -30,6 +30,7 @@ export default function IndexLayout(props) {
       <Stack ref={topRef} />
       <Navbar />
 
+      {/* Fixed Background for the page */}
       <Stack
         position="fixed"
         width="100%"
