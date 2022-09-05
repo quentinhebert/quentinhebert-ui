@@ -16,7 +16,7 @@ export default function FilmsIndexHero(props) {
   return (
     <Stack
       sx={{
-        backgroundImage: "url(/medias/circular-background.png)",
+        backgroundImage: "url(/medias/circular-background.jpg)",
         backgroundSize: "cover",
         backgroundPosition: "50%",
         backgroundRepeat: "no-repeat",
