@@ -2,19 +2,38 @@ import { Box, Stack, Typography } from "@mui/material"
 import VideocamIcon from "@mui/icons-material/Videocam"
 import DesktopMacOutlinedIcon from "@mui/icons-material/DesktopMacOutlined"
 import { motion, useAnimation } from "framer-motion"
-import { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
+import { useEffect } from "react"
 import CenteredMaxWidthContainer from "../ReusableComponents/containers/centered-max-width-container"
 import TitleCard from "../ReusableComponents/cards/title-card"
 import theme from "../../config/theme"
 import CustomCard from "../ReusableComponents/cards/custom-card"
 import CustomCardTitle from "../ReusableComponents/cards/custom-card-title"
 import EndCardButton from "../ReusableComponents/cards/end-card-button"
+import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined"
+
+const SERVICES = {
+  VIDEO: [
+    "Film de mariage",
+    "Publicité d'entreprise",
+    "Clip musical, Aftermovie & Teaser",
+    "Portrait et Interview",
+    "Court-métrage",
+  ],
+  WEB: [
+    "Site vitrine",
+    "Landing Page",
+    "Newsletters",
+    "Back-Office personnalisé",
+    "E-mails automatiques personnalisés",
+    "Base de données complexe et API sur-mesure",
+  ],
+}
 
 const VideoCard = () => (
   <CustomCard
     rightbgcolor={`${theme.palette.background.main}`}
-    leftbgcolor="#000"
+    leftbgcolor="transparent"
     lineardeg="-50deg"
   >
     <CustomCardTitle
@@ -23,11 +42,21 @@ const VideoCard = () => (
     />
 
     <Box textAlign="left" flexGrow={1} letterSpacing={1}>
-      <Typography>- Film de mariage</Typography>
-      <Typography>- Publicité d'entreprise</Typography>
-      <Typography>- Clip musical, Aftermovie & Teaser</Typography>
-      <Typography>- Portrait et Interview</Typography>
-      <Typography>- Court-métrage</Typography>
+      {SERVICES.VIDEO.map((serv, key) => (
+        <Typography
+          display="flex"
+          alignItems="center"
+          justifyContent="left"
+          marginBottom="0.5rem"
+          key={key}
+        >
+          <TaskAltOutlinedIcon
+            color="secondary"
+            sx={{ marginRight: "0.5rem" }}
+          />
+          {serv}
+        </Typography>
+      ))}
     </Box>
 
     <EndCardButton href="/films" text="Découvrir +" />
@@ -36,7 +65,7 @@ const VideoCard = () => (
 
 const WebCard = () => (
   <CustomCard
-    rightbgcolor="#000"
+    rightbgcolor="transparent"
     leftbgcolor={theme.palette.background.main}
     lineardeg="-140deg"
   >
@@ -46,12 +75,21 @@ const WebCard = () => (
     />
 
     <Box textAlign="left" flexGrow={1} letterSpacing={1}>
-      <Typography>- Site vitrine</Typography>
-      <Typography>- Landing Page</Typography>
-      <Typography>- Newsletters</Typography>
-      <Typography>- Back-Office personnalisé</Typography>
-      <Typography>- E-mails automatiques personnalisés</Typography>
-      <Typography>- Base de données complexe et API sur-mesure</Typography>
+      {SERVICES.WEB.map((serv, key) => (
+        <Typography
+          display="flex"
+          alignItems="center"
+          justifyContent="left"
+          key={key}
+          marginBottom="0.5rem"
+        >
+          <TaskAltOutlinedIcon
+            color="secondary"
+            sx={{ marginRight: "0.5rem" }}
+          />
+          {serv}
+        </Typography>
+      ))}
     </Box>
 
     <EndCardButton href="/websites" text="Découvrir +" />
@@ -97,15 +135,12 @@ export default function ServicesSection(props) {
           alignItems="center"
           justifyContent="center"
           gap={2}
-          sx={{
-            backgroundColor: "#000",
-          }}
           ref={ref}
         >
           <TitleCard
             stroketext="mes"
             text="services"
-            leftBgColor="#000"
+            leftBgColor="transparent"
             rightBgColor={theme.palette.background.main}
           />
 
