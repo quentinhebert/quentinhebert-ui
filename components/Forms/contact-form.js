@@ -12,6 +12,7 @@ import Select from "../ReusableComponents/forms/custom-filled-select"
 import SelectOption from "../ReusableComponents/forms/custom-select-option"
 import Form from "../ReusableComponents/forms/custom-form"
 import CustomCheckbox from "../ReusableComponents/forms/custom-checkbox"
+import theme from "../../config/theme"
 
 /** CONSTANTS **/
 
@@ -138,8 +139,8 @@ function ContactForm(props) {
               <CustomCheckbox
                 label="Film"
                 check={clientData.service.film ? "true" : "false"}
-                labelcolor={(theme) => theme.palette.text.secondary} // label
-                checkedcolor={(theme) => theme.palette.text.secondary} // checked
+                labelcolor={theme.palette.text.secondary} // label
+                checkedcolor={theme.palette.text.secondary} // checked
                 checkboxcolor="#fff" // unchecked
                 fontFamily="Ethereal"
                 fontWeight="bold"
@@ -148,8 +149,8 @@ function ContactForm(props) {
               <CustomCheckbox
                 label="Site web"
                 check={clientData.service.website ? "true" : "false"}
-                labelcolor={(theme) => theme.palette.text.secondary} // label
-                checkedcolor={(theme) => theme.palette.text.secondary} // checked
+                labelcolor={theme.palette.text.secondary} // label
+                checkedcolor={theme.palette.text.secondary} // checked
                 checkboxcolor="#fff" // unchecked
                 fontFamily="Zacbel X"
                 onChange={handleChangeService("website")}
