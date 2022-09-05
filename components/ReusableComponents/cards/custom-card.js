@@ -14,7 +14,10 @@ const Card = styled((props) => {
             ? `linear-gradient(${props.lineardeg}, ${props.rightbgcolor}, ${props.leftbgcolor})`
             : "",
         backgroundColor:
-          props.backgroundColor || ((theme) => theme.palette.background.main),
+          props.backgroundColor ||
+          (!props.rightbgcolor && !props.leftbgcolor && !props.lineardeg)
+            ? (theme) => theme.palette.background.main
+            : "",
         color: props.color || "#fff",
       }}
       {...props}
