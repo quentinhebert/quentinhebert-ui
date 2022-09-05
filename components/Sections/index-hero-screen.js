@@ -27,14 +27,14 @@ export default function IndexHeadBandVideo(props) {
       paddingTop="6rem"
       sx={{
         height: { xs: "300px", sm: "600px", md: "700px", lg: "100vh" },
-        minHeight: { xs: "500px", lg: "800px" },
+        minHeight: { xs: "500px", lg: "calc(800px + 2rem)" },
         backgroundImage: "url(/medias/homepage-background.jpg)",
         backgroundSize: "cover",
         backgroundPosition: "50% 50%",
       }}
     >
       <Stack
-        padding="1rem 2rem 0 2rem"
+        padding="2rem 2rem 0 2rem"
         height="100%"
         width="100%"
         flexDirection="column"
@@ -93,7 +93,7 @@ export default function IndexHeadBandVideo(props) {
         >
           <Typography
             className="no-select"
-            fontFamily="Arial"
+            fontFamily="Helmet"
             textAlign="center"
             sx={{
               color: "#fff",
@@ -122,7 +122,7 @@ export default function IndexHeadBandVideo(props) {
               sx={{
                 textAlignLast: "end",
                 textAlign: "right",
-                fontSize: "7.5vw",
+                fontSize: "7vw",
               }}
             >
               Web developper
