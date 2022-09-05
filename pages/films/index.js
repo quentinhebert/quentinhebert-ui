@@ -22,7 +22,7 @@ export default function FilmsHomePage() {
         <meta property="og:url" content="https://quentinhebert.com/films" />
         <meta
           property="og:title"
-          content="Quentin Hébert | Développeur Web Freelance"
+          content="Quentin Hébert | Vidéaste Freelance"
         />
         <meta
           property="og:description"
