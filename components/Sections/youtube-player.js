@@ -20,10 +20,12 @@ export default function YoutubePlayer(props) {
       <iframe
         width="100%"
         height="100%"
-        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&showinfo=0&loop=1&playlist=${videoId}`}
+        // src={`https://www.youtube.com/embed/${videoId}?autoplay=1&showinfo=0&loop=1&playlist=${videoId}`}
+        src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
         frameBorder="0"
         title="Embedded youtube"
         allowfullscreen="true"
+        allow="autoplay; encrypted-media"
         style={{
           position: "absolute",
           top: 0,
