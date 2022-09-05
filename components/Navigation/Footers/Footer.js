@@ -157,8 +157,7 @@ export default function Footer(props) {
       margin={0}
       paddingBottom={4}
       sx={{
-        // backgroundColor: (theme) => theme.palette.secondary.main,
-        backgroundColor: "#000",
+        backgroundColor: "transparent",
         backgroundImage: "url(/medias/footer-wave.svg)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
@@ -173,16 +172,17 @@ export default function Footer(props) {
             flexDirection: { xs: "column", md: "row" },
           }}
         >
+          {/* LOGO */}
           <motion.div
             initial="hidden"
             variants={variants(0)}
             animate={controls}
             style={motionDivStyle}
           >
-            {/* <Logo /> */}
             <LogoQH />
           </motion.div>
 
+          {/* EMAIL */}
           <motion.div
             initial="hidden"
             variants={variants(1)}
@@ -192,6 +192,7 @@ export default function Footer(props) {
             <Email />
           </motion.div>
 
+          {/* SOCIAL MEDIAS */}
           <motion.div
             initial="hidden"
             variants={variants(2)}
