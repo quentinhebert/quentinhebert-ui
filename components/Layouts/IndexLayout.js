@@ -2,14 +2,14 @@ import React, { useRef } from "react"
 import Navbar from "../Navigation/Navbars/navbar"
 import Footer from "../Navigation/Footers/Footer"
 import ParallaxLanding from "../Sections/parallax-landing"
-import { Box, Button, Stack, Typography } from "@mui/material"
+import { Stack } from "@mui/material"
 import ScrollToTopBtn from "../Navigation/scroll-to-top"
-import theme from "../../config/theme"
 import IndexHeroScreen from "../Sections/index-hero-screen"
 import PortfolioOptions from "./portfolio-options"
 import ContactSection from "../Sections/contact-section"
-import StrokeText from "../ReusableComponents/text/stroke-text"
 import ServicesSection from "../Sections/services-section"
+import DotSeparator from "../Other/dot-separator"
+import theme from "../../config/theme"
 
 export default function IndexLayout(props) {
   const {} = props
@@ -26,7 +26,12 @@ export default function IndexLayout(props) {
   }
 
   return (
-    <>
+    <Stack
+      sx={{
+        background: (theme) =>
+          `linear-gradient(-60deg, #000 20%, #080c11 100%)`,
+      }}
+    >
       <Stack ref={topRef} />
       <Navbar />
 
@@ -47,12 +52,14 @@ export default function IndexLayout(props) {
         href="/about"
       /> */}
 
+      <DotSeparator />
+
       {/* CONTACT Section */}
       <ContactSection />
 
       <ScrollToTopBtn refForScroll={topRef} />
 
       <Footer />
-    </>
+    </Stack>
   )
 }
