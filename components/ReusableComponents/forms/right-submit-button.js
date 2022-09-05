@@ -7,15 +7,15 @@ const SubmitButton = styled((props) => (
     size="large"
     sx={{
       width: "200px",
-      color: (theme) => "#fff",
+      color: (theme) => theme.palette.secondary.main,
       backgroundColor: "transparent",
-      border: `2px solid #fff`,
+      border: (theme) => `2px solid ${theme.palette.secondary.main}`,
       borderRadius: "10px",
       letterSpacing: "1.5px",
       "&:hover": {
-        border: `2px solid #fff`,
-        backgroundColor: "#fff",
-        color: (theme) => theme.palette.secondary.main,
+        border: (theme) => `2px solid ${theme.palette.secondary.main}`,
+        backgroundColor: (theme) => theme.palette.secondary.main,
+        color: (theme) => theme.palette.primary.main,
       },
     }}
     {...props}

@@ -15,13 +15,14 @@ const CssFilledInput = styled((props) => (
   "& .MuiFilledInput-root": {
     overflow: "hidden",
     borderRadius: 4,
-    backgroundColor: "#fff",
-    color: theme.palette.text.primary, // input value
+    // backgroundColor: theme.palette.background.main,
+    background: `linear-gradient(-20deg, rgb(0,0,0) 0%, ${theme.palette.background.main} 80%)`,
+    color: theme.palette.text.white, // input value
     "&:hover": {
-      backgroundColor: "#fff",
+      backgroundColor: theme.palette.background.main,
     },
     "&.Mui-focused": {
-      backgroundColor: "#fff",
+      backgroundColor: theme.palette.background.main,
     },
   },
   "& .MuiFormLabel-root.Mui-focused.Mui-error": {
