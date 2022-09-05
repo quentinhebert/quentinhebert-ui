@@ -15,12 +15,13 @@ export default function DesktopNavbar(props) {
     >
       {list.map((item, key) => {
         return (
-          <Link href={item.href} key={key}>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.25 + key * 0.1, duration: 1 }}
-            >
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.25 + key * 0.1, duration: 1 }}
+            key={key}
+          >
+            <Link href={item.href} passHref>
               <Typography
                 variant="h6"
                 fontFamily="Helmet"
@@ -29,6 +30,7 @@ export default function DesktopNavbar(props) {
                 className="cool-button no-select"
                 textTransform="uppercase"
                 letterSpacing={2}
+                component="a"
                 sx={{
                   color: "#fff",
                   borderColor: (theme) => theme.palette.secondary.main,
@@ -39,8 +41,8 @@ export default function DesktopNavbar(props) {
               >
                 {item.label}
               </Typography>
-            </motion.div>
-          </Link>
+            </Link>
+          </motion.div>
         )
       })}
     </Stack>

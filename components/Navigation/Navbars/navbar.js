@@ -13,6 +13,7 @@ import dynamic from "next/dynamic"
 import { motion } from "framer-motion"
 import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on-hover-stack"
 import { useScrollPosition } from "@n8tb1t/use-scroll-position"
+import Link from "next/link"
 
 const MobileNavbar = dynamic(() => import("./mobile-navbar"))
 const DesktopNavbar = dynamic(() => import("./desktop-navbar"))
@@ -23,7 +24,6 @@ export default function Navbar(props) {
   let mainColor = bgColor || theme.palette.background.main
 
   // Define logo of navbar
-  let logo = "/logos/logo.svg"
   let logoQH = "/logos/logo-qh.png"
 
   const menuItems = [
@@ -83,42 +83,42 @@ export default function Navbar(props) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0, duration: 2 }}
             >
-              <ScaleUpOnHoverStack
-                href="/"
-                component="a"
-                sx={{ flexDirection: "row", alignItems: "center" }}
-              >
-                <Stack
-                  width={isReduced ? "45px" : "65px"}
-                  height={isReduced ? "35px" : "50px"}
+              <Link href="/" passHref>
+                <ScaleUpOnHoverStack
+                  component="a"
+                  sx={{ flexDirection: "row", alignItems: "center" }}
                 >
-                  <Image src={logoQH} width="100%" height="100%" />
-                </Stack>
-                <Stack ref={ContainerRef} overflow="hidden">
-                  <Slide
-                    direction="right"
-                    {...{ timeout: 300 }}
-                    in={!isReduced}
-                    container={ContainerRef.current}
+                  <Stack
+                    width={isReduced ? "45px" : "65px"}
+                    height={isReduced ? "35px" : "50px"}
                   >
-                    <Typography
-                      sx={{
-                        color: "#fff",
-                        textTransform: "uppercase",
-                        letterSpacing: "1.5px",
-                        fontStyle: "italic",
-                        lineHeight: "1.2rem",
-                        fontSize: "1rem",
-                        fontFamily: "Helmet",
-                        fontWeight: "bold",
-                      }}
+                    <Image src={logoQH} width="100%" height="100%" />
+                  </Stack>
+                  <Stack ref={ContainerRef} overflow="hidden">
+                    <Slide
+                      direction="right"
+                      {...{ timeout: 300 }}
+                      in={!isReduced}
+                      container={ContainerRef.current}
                     >
-                      Quentin Hébert
-                    </Typography>
-                  </Slide>
-                </Stack>
-                {/* <Image src={logo} width="150rem" height="70rem" /> */}
-              </ScaleUpOnHoverStack>
+                      <Typography
+                        sx={{
+                          color: "#fff",
+                          textTransform: "uppercase",
+                          letterSpacing: "1.5px",
+                          fontStyle: "italic",
+                          lineHeight: "1.2rem",
+                          fontSize: "1rem",
+                          fontFamily: "Helmet",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Quentin Hébert
+                      </Typography>
+                    </Slide>
+                  </Stack>
+                </ScaleUpOnHoverStack>
+              </Link>
             </motion.div>
           </Stack>
           <Box component="div" sx={{ flexGrow: 1 }} />
