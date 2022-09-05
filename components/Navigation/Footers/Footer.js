@@ -20,7 +20,6 @@ import CustomLink from "../../ReusableComponents/custom-link"
 import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on-hover-stack"
 
 /********** CONSTANTES **********/
-const logoUrl = "/logos/logo.svg"
 const logoQH = "/logos/logo-qh.png"
 
 const SOCIAL_MEDIAS = [
@@ -112,17 +111,12 @@ const SocialMedias = () => {
   )
 }
 
-const Logo = () => (
-  <ScaleUpOnHoverStack direction="row" justifyContent="center">
-    <Link href="/" passHref>
-      <Image src={logoUrl} width="150%" height="80%" />
-    </Link>
-  </ScaleUpOnHoverStack>
-)
 const LogoQH = () => (
   <ScaleUpOnHoverStack direction="row" justifyContent="center">
     <Link href="/" passHref>
-      <Image src={logoQH} width="100%" height="80%" />
+      <Box component="a">
+        <Image src={logoQH} width="100%" height="80%" />
+      </Box>
     </Link>
   </ScaleUpOnHoverStack>
 )
