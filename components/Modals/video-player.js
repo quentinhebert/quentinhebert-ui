@@ -7,6 +7,42 @@ import { useEffect, useRef, useState, forwardRef } from "react"
 import YoutubePlayer from "../Sections/youtube-player"
 import BouncingArrow from "../Navigation/BouncingArrow"
 import ScaleUpOnHoverStack from "../ReusableComponents/animations/scale-up-on-hover-stack"
+import DotSeparator from "../Other/dot-separator"
+
+const SectionTitle = ({ text }) => (
+  <Typography
+    color="secondary"
+    variant="h5"
+    marginTop={4}
+    marginBottom={1}
+    textTransform="uppercase"
+    letterSpacing={1}
+    fontStyle="italic"
+  >
+    {text}
+  </Typography>
+)
+
+const SectionText = (props) => (
+  <Typography
+    color="text.white"
+    fontFamily="Ethereal"
+    letterSpacing={1}
+    {...props}
+  />
+)
+
+const VideoTitle = ({ text }) => (
+  <Typography
+    color="secondary"
+    textTransform="uppercase"
+    letterSpacing={1}
+    variant="h3"
+    marginRight={2}
+  >
+    {text}
+  </Typography>
+)
 
 export default function VideoPlayer(props) {
   const { video, open, handleClose } = props
@@ -14,6 +50,7 @@ export default function VideoPlayer(props) {
   const [videoId, setVideoId] = useState(null)
 
   const VideoInfoRef = useRef()
+  const TopRef = useRef()
   const scrollTo = (ref) => {
     ref.current.scrollIntoView({
       behavior: "smooth",
@@ -80,25 +117,31 @@ export default function VideoPlayer(props) {
       fullScreen
       open={open}
       onClose={handleClose}
-      // onClick={handleClose}
       TransitionComponent={Transition}
       sx={{
-        backgroundColor: (theme) => theme.palette.background.main,
+        // backgroundColor: (theme) => theme.palette.background.main,
+        background:
+          "linear-gradient(180deg, rgb(0,0,0,0.5) 0%, transparent 100%)",
       }}
       PaperProps={{
-        style: {
+        sx: {
           backgroundImage: "none",
+          background: (theme) =>
+            `linear-gradient(120deg, #000 30%, ${theme.palette.background.main} 100%)`,
           boxShadow: "none",
         },
       }}
     >
+      <Stack ref={TopRef} />
       <Stack alignItems="center" minHeight="100vh">
+        {/* CLOSE BUTTON */}
         <Stack
           sx={{
-            position: "absolute",
-            right: "1rem",
+            position: "fixed",
+            right: "2rem",
             top: "1rem",
             cursor: "pointer",
+            zIndex: 100,
           }}
           flexDirection="row"
           alignItems="center"
@@ -121,23 +164,27 @@ export default function VideoPlayer(props) {
           textAlign="left"
           justifyContent="left"
           padding="1rem 0"
+          sx={{ marginTop: { xs: "2rem", md: 0 } }}
         >
-          <Typography
-            color="secondary"
-            fontFamily="Ethereal"
-            fontWeight="bold"
-            variant="h3"
+          <Stack
+            alignItems="baseline"
+            sx={{
+              flexDirection: { xs: "column", md: "row" },
+              marginBottom: { xs: "1rem", md: 0 },
+            }}
           >
-            {video.title}{" "}
-            <Box color="text.white" fontSize="1rem" component="span">
+            <VideoTitle text={video.title} />
+            <Typography
+              color="text.white"
+              fontSize="1rem"
+              component="span"
+              fontWeight="100"
+              textTransform="Capitalize"
+            >
               {video.date} – {video.type}
-            </Box>
-          </Typography>
-          {video.client ? (
-            <Typography color="text.white" fontFamily="Ethereal" variant="h5">
-              Pour {video.client}
             </Typography>
-          ) : null}
+          </Stack>
+          {video.client ? <SectionText>Pour {video.client}</SectionText> : null}
         </Box>
 
         <Stack
@@ -182,31 +229,18 @@ export default function VideoPlayer(props) {
         >
           {video.description ? (
             <>
-              <Typography
-                color="secondary"
-                fontFamily="Ethereal"
-                fontWeight="bold"
-                variant="h4"
-              >
-                Quelques mots...
-              </Typography>
+              <SectionTitle text="Quelques mots" />
               <Typography color="text.white" fontFamily="Ethereal" variant="h5">
                 {video.description}
               </Typography>
             </>
           ) : null}
 
+          <DotSeparator marginTop={4} dots={3} />
+
           {video.roles && video.roles.length ? (
             <>
-              <Typography
-                color="secondary"
-                fontFamily="Ethereal"
-                fontWeight="bold"
-                variant="h4"
-                marginTop={5}
-              >
-                Sur ce projet, je suis...
-              </Typography>
+              <SectionTitle text="Sur ce projet, je suis..." />
               <Typography
                 color="text.white"
                 fontFamily="Ethereal"
@@ -217,9 +251,16 @@ export default function VideoPlayer(props) {
                   <Box
                     component="span"
                     key={key}
-                    padding={1}
-                    marginRight={1}
+                    padding="0.1rem 0.75rem"
+                    margin="0.25rem"
+                    display="inline-flex"
+                    lineHeight="2rem"
+                    letterSpacing={1}
+                    fontSize="1.2rem"
+                    fontWeight="bold"
                     sx={{
+                      backgroundColor: "#fff",
+                      color: (theme) => theme.palette.text.primary,
                       border: (theme) =>
                         `1px solid ${theme.palette.text.white}`,
                       borderRadius: "5px",
@@ -232,17 +273,11 @@ export default function VideoPlayer(props) {
             </>
           ) : null}
 
+          <DotSeparator marginTop={4} dots={3} />
+
           {video.gear && video.gear.length ? (
             <>
-              <Typography
-                color="secondary"
-                fontFamily="Ethereal"
-                fontWeight="bold"
-                variant="h4"
-                marginTop={5}
-              >
-                Matériel utilisé
-              </Typography>
+              <SectionTitle text="Matériel utilisé" />
               <Typography color="text.white" fontFamily="Ethereal" variant="h5">
                 {video.gear.map((item, key) => (
                   <Box component="span" key={key} marginRight={1}>
@@ -252,6 +287,19 @@ export default function VideoPlayer(props) {
               </Typography>
             </>
           ) : null}
+
+          <DotSeparator marginTop={4} dots={3} />
+
+          <Stack
+            onClick={(e) => scrollTo(TopRef)}
+            alignItems="center"
+            marginTop={4}
+            sx={{ cursor: "pointer" }}
+          >
+            <ScaleUpOnHoverStack>
+              <Typography color="secondary">Revenir en haut</Typography>
+            </ScaleUpOnHoverStack>
+          </Stack>
         </Box>
       </Stack>
     </Dialog>

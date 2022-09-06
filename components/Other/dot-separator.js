@@ -34,8 +34,9 @@ export default function DotSeparator(props) {
       justifyContent="center"
       gap={1}
       ref={ref}
+      {...props}
     >
-      {[...Array(7).keys()].map((key) => (
+      {[...Array(props.dots || 7).keys()].map((key) => (
         <motion.div
           initial="hidden"
           variants={variants(key)}

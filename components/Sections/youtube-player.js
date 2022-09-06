@@ -25,7 +25,7 @@ export default function YoutubePlayer(props) {
         frameBorder="0"
         title="Embedded youtube"
         allowfullscreen="true"
-        allow="autoplay; encrypted-media"
+        allow="autoplay; fullscreen; encrypted-media"
         style={{
           position: "absolute",
           top: 0,
