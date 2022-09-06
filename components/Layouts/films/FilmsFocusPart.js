@@ -55,7 +55,7 @@ export default function FilmsFocusPart(props) {
   return (
     <Stack zIndex={1} position="relative">
       {/* Section Anchor */}
-      <Stack ref={refsForScroll.focus} />
+      <Stack ref={refsForScroll.focus} sx={{ scrollMarginTop: "65px" }} />
 
       <Stack
         sx={{
