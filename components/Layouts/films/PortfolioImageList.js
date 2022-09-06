@@ -690,6 +690,7 @@ export default function MasonryImageList() {
                 sx={{ rotate: limit === initialLimit ? "0deg" : "180deg" }}
               />
             }
+            sx={{ fontWeight: "bold", fontSize: "1.2rem" }}
           >
             {limit === initialLimit ? "Afficher plus" : "Afficher moins"}
           </Button>
