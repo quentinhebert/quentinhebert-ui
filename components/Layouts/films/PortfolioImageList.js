@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   Box,
+  Button,
   ImageList,
   ImageListItem,
   Link,
@@ -11,10 +12,13 @@ import {
 import VideoPlayer from "../../Modals/video-player"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 
 export default function MasonryImageList() {
   const [openVideoPlayer, setOpenVideoPlayer] = useState(false)
   const [videoClicked, setVideoClicked] = useState(null)
+  const initialLimit = 6
+  const [limit, setLimit] = useState(initialLimit)
   const handleCloseVideoPlayer = () => {
     setVideoClicked(null)
     setOpenVideoPlayer(false)
@@ -423,6 +427,13 @@ export default function MasonryImageList() {
     date: "2022",
   }
 
+  const TopRef = useRef(null)
+  const scrollTo = (ref) => {
+    ref.current.scrollIntoView({
+      behavior: "smooth",
+    })
+  }
+
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
   const variants = (key) => ({
@@ -443,10 +454,11 @@ export default function MasonryImageList() {
     } else {
       controls.start("hidden")
     }
-  }, [controls, inView])
+  }, [controls, inView, limit])
 
   return (
     <>
+      <Stack ref={TopRef} sx={{ scrollMarginTop: "5rem" }} />
       <Box sx={{ width: "100%" }} ref={ref}>
         <Link
           onClick={() => {
@@ -546,110 +558,142 @@ export default function MasonryImageList() {
             },
           }}
         >
-          {itemData.map((item, key) => (
-            <motion.div
-              initial="hidden"
-              variants={variants(key)}
-              animate={controls}
-              style={{ width: "100%" }}
-              key={key}
-            >
-              <Link
-                onClick={() => {
-                  setVideoClicked(item)
-                  setOpenVideoPlayer(true)
-                }}
-                key={item.img}
-              >
-                <ImageListItem
-                  sx={{
-                    width: "100%",
-                    height: "100%",
-                    cursor: "pointer",
-                    overflow: "hidden",
-                    borderRadius: "15px",
-                    "&:hover": {
-                      "& .MuiBox-root": {
-                        transform: "scale(1.1)",
-                        filter: "grayscale(1)",
-                      },
-                    },
-                  }}
-                  key={item.img}
+          {itemData.map((item, key) => {
+            if (key < limit)
+              return (
+                <motion.div
+                  initial="hidden"
+                  variants={variants(key)}
+                  animate={controls}
+                  style={{ width: "100%" }}
+                  key={key}
                 >
-                  <Box
-                    component="img"
-                    src={item.img}
-                    srcSet={item.img}
-                    alt={item.title}
-                    width="100%"
-                    height="100%"
-                    sx={{
-                      zIndex: 0,
-                      objectFit: "cover",
-                      objectPosition: "50% 50%",
-                      WebkitTransition: "transform 0.4s ease-in-out",
-                      msTransition: "transform 0.4s ease-in-out",
-                      transition:
-                        "transform 0.4s ease-in-out, filter 0.4s ease-in-out",
+                  <Link
+                    onClick={() => {
+                      setVideoClicked(item)
+                      setOpenVideoPlayer(true)
                     }}
-                  />
-                  <Stack
-                    justifyContent="center"
-                    alignItems="center"
-                    sx={{
-                      width: "100%",
-                      height: "100%",
-                      position: "absolute",
-                      top: 0,
-                      zIndex: 100,
-                      WebkitTransition: "background 200ms linear",
-                      msTransition: "background 200ms linear",
-                      transition: "background 200ms linear",
-                      padding: "1rem",
-                      background: "rgb(0, 0, 0, 0.2)",
-                      "&:hover": {
-                        background: "rgb(0, 0, 0, 0.4)",
-                      },
-                    }}
+                    key={item.img}
                   >
-                    <Typography
-                      // color="text.white"
-                      color="secondary"
-                      // fontWeight="bold"
+                    <ImageListItem
                       sx={{
-                        textAlign: "center",
-                        // fontFamily: "Ethereal",
-                        // fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
-                        // letterSpacing: { xs: 0.25, sm: 1, md: 2.5 },
-                        // lineHeight: { xs: "1.5rem", sm: "2rem", md: "3rem" },
-                        textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
-                        // textTransform: "uppercase",
+                        width: "100%",
+                        height: "100%",
+                        cursor: "pointer",
+                        overflow: "hidden",
+                        borderRadius: "15px",
+                        "&:hover": {
+                          "& .MuiBox-root": {
+                            transform: "scale(1.1)",
+                            filter: "grayscale(1)",
+                          },
+                        },
                       }}
+                      key={item.img}
                     >
-                      {item.type}
-                    </Typography>
-                    <Typography
-                      color="secondary"
-                      fontWeight="bold"
-                      sx={{
-                        textAlign: "center",
-                        // fontFamily: "Ethereal",
-                        fontSize: { xs: "1rem", sm: "1.2rem", md: "1.7rem" },
-                        // letterSpacing: { xs: 0.25, sm: 1, md: 2.5 },
-                        lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
-                        textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {item.title}
-                    </Typography>
-                  </Stack>
-                </ImageListItem>
-              </Link>
-            </motion.div>
-          ))}
+                      <Box
+                        component="img"
+                        src={item.img}
+                        srcSet={item.img}
+                        alt={item.title}
+                        width="100%"
+                        height="100%"
+                        sx={{
+                          zIndex: 0,
+                          objectFit: "cover",
+                          objectPosition: "50% 50%",
+                          WebkitTransition: "transform 0.4s ease-in-out",
+                          msTransition: "transform 0.4s ease-in-out",
+                          transition:
+                            "transform 0.4s ease-in-out, filter 0.4s ease-in-out",
+                        }}
+                      />
+                      <Stack
+                        justifyContent="center"
+                        alignItems="center"
+                        sx={{
+                          width: "100%",
+                          height: "100%",
+                          position: "absolute",
+                          top: 0,
+                          zIndex: 100,
+                          WebkitTransition: "background 200ms linear",
+                          msTransition: "background 200ms linear",
+                          transition: "background 200ms linear",
+                          padding: "1rem",
+                          background: "rgb(0, 0, 0, 0.2)",
+                          "&:hover": {
+                            background: "rgb(0, 0, 0, 0.4)",
+                          },
+                        }}
+                      >
+                        <Typography
+                          // color="text.white"
+                          color="secondary"
+                          // fontWeight="bold"
+                          sx={{
+                            textAlign: "center",
+                            // fontFamily: "Ethereal",
+                            // fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
+                            // letterSpacing: { xs: 0.25, sm: 1, md: 2.5 },
+                            // lineHeight: { xs: "1.5rem", sm: "2rem", md: "3rem" },
+                            textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
+                            // textTransform: "uppercase",
+                          }}
+                        >
+                          {item.type}
+                        </Typography>
+                        <Typography
+                          color="secondary"
+                          fontWeight="bold"
+                          sx={{
+                            textAlign: "center",
+                            // fontFamily: "Ethereal",
+                            fontSize: {
+                              xs: "1rem",
+                              sm: "1.2rem",
+                              md: "1.7rem",
+                            },
+                            // letterSpacing: { xs: 0.25, sm: 1, md: 2.5 },
+                            lineHeight: {
+                              xs: "1.3rem",
+                              sm: "1.5rem",
+                              md: "2rem",
+                            },
+                            textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          {item.title}
+                        </Typography>
+                      </Stack>
+                    </ImageListItem>
+                  </Link>
+                </motion.div>
+              )
+          })}
         </ImageList>
+        <Stack width="100%">
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={(e) => {
+              if (limit === initialLimit) {
+                setLimit(1000)
+              } else {
+                setLimit(initialLimit)
+                scrollTo(TopRef)
+              }
+            }}
+            endIcon={
+              <KeyboardArrowDownIcon
+                sx={{ rotate: limit === initialLimit ? "0deg" : "180deg" }}
+              />
+            }
+          >
+            {limit === initialLimit ? "Afficher plus" : "Afficher moins"}
+          </Button>
+        </Stack>
       </Box>
 
       <VideoPlayer
