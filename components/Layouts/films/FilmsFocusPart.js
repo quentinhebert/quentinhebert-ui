@@ -10,9 +10,15 @@ const Keyword = ({ text }) => (
     component="span"
     sx={{
       color: (theme) => theme.palette.text.secondary,
-      fontSize: { xs: "1.2rem", md: "1.5rem" },
+      fontSize: { xs: "1.2rem", md: "1.75rem" },
+      margin: "0 .25rem",
       fontWeight: "bold",
       // fontStyle: "italic",
+      textTransform: "uppercase",
+      background: (theme) =>
+        `linear-gradient(50deg, ${theme.palette.text.secondary} 0%, ${theme.palette.text.primaryLight} 100%)`,
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
     }}
   >
     {text}
@@ -90,9 +96,10 @@ export default function FilmsFocusPart(props) {
               <BodyText
                 // fontFamily="Ethereal"
                 // fontWeight="bold"
-                textTransform="uppercase"
+                // textTransform="uppercase"
                 textAlign="center"
-                color={(theme) => theme.palette.text.primaryLight}
+                // color={(theme) => theme.palette.text.primaryLight}
+                color="text.white"
                 sx={{
                   marginTop: { xs: "3rem", md: 0 },
                   marginBottom: "2rem",

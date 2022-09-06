@@ -50,10 +50,11 @@ export default function FilmsIndexLayout(props) {
       {/* HERO screen */}
       <FilmsIndexHero refForScroll={refsForScroll.focus} />
 
+      {/* PORTFOLIO */}
+      <FilmsPortfolioPart refForScroll={refsForScroll.portfolio} />
+
       {/* INTRO */}
       <FilmsFocusPart refsForScroll={refsForScroll} />
-
-      <FilmsPortfolioPart refForScroll={refsForScroll.portfolio} />
 
       {/* EXPERIENCE */}
       {/* <FilmsExperiencePart /> */}

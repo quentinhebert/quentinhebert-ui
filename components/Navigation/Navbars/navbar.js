@@ -28,8 +28,8 @@ export default function Navbar(props) {
 
   const menuItems = [
     { href: "/", label: "Accueil" },
-    { href: "/films", label: "Vidéaste" },
-    { href: "/websites", label: "Développeur web" },
+    { href: "/films", label: "Vidéo" },
+    { href: "/websites", label: "Web" },
     { href: "/contact", label: "Contact" },
   ]
 
