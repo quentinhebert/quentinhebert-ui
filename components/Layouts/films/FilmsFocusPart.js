@@ -59,7 +59,8 @@ export default function FilmsFocusPart(props) {
 
       <Stack
         sx={{
-          backgroundImage: "url(/medias/focus-film-bg.svg)",
+          background: (theme) =>
+            `url(/medias/focus-film-bg.svg), linear-gradient(-50deg, ${theme.palette.background.main} 20%, transparent 60%)`,
           backgroundSize: "cover",
           backgroundPosition: "50% 10%",
           height: { xs: "600px", sm: "700px", md: "600px" },
