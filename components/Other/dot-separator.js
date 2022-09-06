@@ -42,6 +42,7 @@ export default function DotSeparator(props) {
           variants={variants(key)}
           animate={controls}
           style={{ display: "flex" }}
+          key={key}
         >
           <CircleIcon
             key={key}
