@@ -63,7 +63,7 @@ export default function FilmsFocusPart(props) {
             `url(/medias/focus-film-bg.svg), linear-gradient(-50deg, ${theme.palette.background.main} 20%, transparent 60%)`,
           backgroundSize: "cover",
           backgroundPosition: "50% 10%",
-          height: { xs: "600px", sm: "700px", md: "600px" },
+          height: { xs: "500px", sm: "550px", md: "600px" },
           marginTop: "0.01px",
         }}
         ref={ref}
@@ -72,8 +72,12 @@ export default function FilmsFocusPart(props) {
           <Stack width="100%" alignItems="end">
             <Stack
               sx={{
-                padding: { xs: "8rem 1rem 0", md: "4rem 4rem 2rem" },
-                width: { xs: "70%", sm: "65%", md: "60%" },
+                padding: {
+                  xs: "6rem 1rem 0",
+                  sm: "4rem 1rem 0",
+                  md: "4rem 1rem 2rem",
+                },
+                width: { xs: "65%", sm: "62%", md: "55%" },
                 alignSelf: "end",
               }}
             >
@@ -132,7 +136,7 @@ export default function FilmsFocusPart(props) {
               backgroundPosition: "50% 50%",
               position: "absolute",
               width: { xs: "35%", md: "50%" },
-              height: { xs: "600px", sm: "700px", md: "600px" },
+              height: { xs: "500px", sm: "550px", md: "600px" },
               mixBlendMode: "multiply",
             }}
           />
