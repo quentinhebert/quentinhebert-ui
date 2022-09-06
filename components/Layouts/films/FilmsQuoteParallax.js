@@ -170,7 +170,8 @@ export default function FilmsQuoteParallax(props) {
       >
         <Container
           btnColor={btnColor}
-          bgImg={"/medias/movement-parallax.jpg"}
+          // bgImg={"/medias/movement-parallax.jpg"}
+          bgImg={""}
           href={href}
         />
       </Stack>

@@ -251,7 +251,10 @@ export default function FilmsPortfolioPart(props) {
 
       <Stack
         sx={{
-          backgroundColor: theme.palette.background.white,
+          // backgroundColor: theme => theme.palette.background.white,
+          // backgroundColor: "#000",
+          background: (theme) =>
+            `linear-gradient(-220deg, #000 20%, rgb(0,0,0,0.5) 100%)`,
           paddingRight: { xs: "1rem", md: "4rem" },
           paddingLeft: { xs: "1rem", md: "4rem" },
           paddingBottom: { xs: "2rem", md: "4rem" },
@@ -266,7 +269,8 @@ export default function FilmsPortfolioPart(props) {
               <BigTitle
                 title="Portfolio ."
                 fontFamily="Ethereal"
-                color={theme.palette.text.primaryLight}
+                // color={theme.palette.text.primaryLight}
+                color={theme.palette.text.secondary}
               />
             </Stack>
           </Stack>
