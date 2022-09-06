@@ -103,7 +103,7 @@ export default function FilmsIndexHero(props) {
           }}
         >
           <BouncingArrow
-            text="Découvrez mon univers"
+            text=""
             scrollTo={scrollTo}
             refForScroll={refForScroll}
           />
