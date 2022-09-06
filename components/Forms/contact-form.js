@@ -24,7 +24,7 @@ const BUDGET_OPTIONS = [
 ]
 
 function ContactForm(props) {
-  const { defaultService } = props
+  const { defaultService, defaultDirection } = props
 
   const { setSeverity, setOpenSnackBar, setMessageSnack } = props
   const [loadingButton, setLoadingButton] = useState(false)
@@ -177,7 +177,7 @@ function ContactForm(props) {
         )}
       </Stack>
 
-      <DualInputLine>
+      <DualInputLine direction={defaultDirection}>
         <Input
           required
           type="input"
@@ -201,7 +201,7 @@ function ContactForm(props) {
         />
       </DualInputLine>
 
-      <DualInputLine>
+      <DualInputLine direction={defaultDirection}>
         <Input
           required
           type="email"
@@ -227,7 +227,7 @@ function ContactForm(props) {
         />
       </DualInputLine>
 
-      <DualInputLine>
+      <DualInputLine direction={defaultDirection}>
         <Input
           type="input"
           id="company"
