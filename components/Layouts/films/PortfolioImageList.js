@@ -471,7 +471,6 @@ export default function MasonryImageList() {
               width: "100%",
               cursor: "pointer",
               overflow: "hidden",
-              borderRadius: "15px",
               marginTop: { xs: "1rem", md: 0 },
               "&:hover": {
                 "& .MuiBox-root": {
@@ -518,20 +517,6 @@ export default function MasonryImageList() {
               }}
             >
               <Typography
-                color="text.white"
-                fontWeight="bold"
-                sx={{
-                  textAlign: "center",
-                  fontFamily: "Ethereal",
-                  fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
-                  letterSpacing: { xs: 0.25, sm: 1, md: 2.5 },
-                  lineHeight: { xs: "1.5rem", sm: "2rem", md: "2rem" },
-                  textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
-                }}
-              >
-                Découvrez ma
-              </Typography>
-              <Typography
                 color="secondary"
                 fontWeight="bold"
                 sx={{
@@ -542,7 +527,7 @@ export default function MasonryImageList() {
                   textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
                 }}
               >
-                Bande Démo
+                Bande Démo 2022
               </Typography>
             </Stack>
           </ImageListItem>
@@ -550,9 +535,11 @@ export default function MasonryImageList() {
 
         <ImageList
           rowHeight={200}
-          gap={8}
+          gap={0}
           cols={sm ? 1 : md ? 2 : 3}
           sx={{
+            marginTop: "-6px",
+            marginBottom: "2rem",
             "& .MuiImageListItem-root": {
               marginBottom: "0 !important",
             },
@@ -581,7 +568,6 @@ export default function MasonryImageList() {
                         height: "100%",
                         cursor: "pointer",
                         overflow: "hidden",
-                        borderRadius: "15px",
                         "&:hover": {
                           "& .MuiBox-root": {
                             transform: "scale(1.1)",
@@ -682,7 +668,9 @@ export default function MasonryImageList() {
                 setLimit(1000)
               } else {
                 setLimit(initialLimit)
-                scrollTo(TopRef)
+                setTimeout(() => {
+                  scrollTo(TopRef)
+                }, 200)
               }
             }}
             endIcon={

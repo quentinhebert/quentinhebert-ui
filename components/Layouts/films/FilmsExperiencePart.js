@@ -37,7 +37,8 @@ export default function FilmsExperiencePart(props) {
       zIndex={1}
       position="relative"
       sx={{
-        backgroundImage: "url(/medias/exp-film-bg-2.svg)",
+        background: (theme) =>
+          `url(/medias/exp-film-bg.svg), linear-gradient(220deg, ${theme.palette.background.main} 30%, rgb(0,0,0,0.5) 100%)`,
         backgroundSize: "cover",
         backgroundPosition: "50% 50%",
         height: { xs: "550px", sm: "700px", md: "800px" },

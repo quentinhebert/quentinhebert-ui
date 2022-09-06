@@ -1,23 +1,20 @@
 import React, { useRef } from "react"
 import Navbar from "../Navigation/Navbars/navbar"
 import Footer from "../Navigation/Footers/Footer"
-import ParallaxLanding from "../Sections/parallax-landing"
 import { Stack } from "@mui/material"
 import ScrollToTopBtn from "../Navigation/scroll-to-top"
 import IndexHeroScreen from "../Sections/index-hero-screen"
-import PortfolioOptions from "./portfolio-options"
 import ContactSection from "../Sections/contact-section"
 import ServicesSection from "../Sections/services-section"
 import DotSeparator from "../Other/dot-separator"
-import theme from "../../config/theme"
 
 export default function IndexLayout(props) {
   const {} = props
 
   const topRef = useRef()
-  const portfolioRef = useRef()
+  const servicesRef = useRef()
   const refsForScroll = {
-    portfolio: portfolioRef,
+    services: servicesRef,
   }
   const scrollTo = (ref) => {
     ref.current.scrollIntoView({
@@ -46,16 +43,16 @@ export default function IndexLayout(props) {
       {/* HERO */}
       <IndexHeroScreen
         scrollTo={scrollTo}
-        refForScroll={refsForScroll.portfolio}
+        refForScroll={refsForScroll.services}
       />
 
       {/* SERVICES */}
-      <ServicesSection refForScroll={refsForScroll.portfolio} />
+      <ServicesSection refForScroll={refsForScroll.services} />
 
-      <DotSeparator />
+      {/* <DotSeparator /> */}
 
       {/* CONTACT Section */}
-      <ContactSection />
+      {/* <ContactSection /> */}
 
       <ScrollToTopBtn refForScroll={topRef} />
 

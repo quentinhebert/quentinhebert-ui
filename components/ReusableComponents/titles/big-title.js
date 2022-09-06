@@ -23,6 +23,10 @@ export default function BigTitle(props) {
           lg: "13rem",
           xl: "17rem",
         },
+        background: (theme) =>
+          `linear-gradient(-200deg, ${theme.palette.text.secondary} 0%, ${theme.palette.text.primary} 50%)`,
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
       }}
       {...props}
     >
