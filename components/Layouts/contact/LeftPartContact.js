@@ -99,7 +99,7 @@ export default function LeftPartContact(props) {
       <SmallTitle text="Suis-moi, je te fuis !" />
       <SocialButtons />
 
-      <SmallTitle text="Où me trouver ?" />
+      <SmallTitle text="Informations utiles" />
       <Stack sx={{ letterSpacing: "1.5px", gap: "0.7rem" }}>
         <ContactLink
           href="tel:+33 6 11 54 17 75"
