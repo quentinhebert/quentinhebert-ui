@@ -67,11 +67,13 @@ const Container = ({ btnColor, bgImg, href }) => {
       >
         <Stack
           sx={{
-            border: `1px solid ${theme.palette.text.white}`,
+            border: `0.5px solid ${theme.palette.text.white}`,
             backgroundColor: "rgb(0,0,0,0.1)",
             backgroundImage: "url(/medias/white-grid.png)",
             backgroundSize: "100% 100%",
             padding: "1rem",
+            width: "100%",
+            height: "300px",
           }}
         >
           <Stack flexDirection="row" alignItems="center">
@@ -96,7 +98,7 @@ const Container = ({ btnColor, bgImg, href }) => {
             </Stack>
           </Stack>
 
-          <motion.div
+          {/* <motion.div
             initial="hidden"
             variants={variants(0)}
             animate={controls}
@@ -121,32 +123,46 @@ const Container = ({ btnColor, bgImg, href }) => {
               cessé d'envahir nos vies. C'est naturellement qu'elle s'est
               imposée comme medium le plus convaincant.
             </Typography>
-          </motion.div>
+          </motion.div> */}
 
           <motion.div
             initial="hidden"
             variants={variants(1)}
             animate={controls}
-            style={{ width: "100%", display: "flex" }}
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+            }}
           >
             <Typography
               component={"span"}
               fontFamily="Ethereal"
               color="secondary"
               sx={{
-                width: { xs: "100%", md: "90%", lg: "70%" },
-                fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+                width: { xs: "100%", md: "90%" },
+                fontSize: { xs: "1.2rem", sm: "1.4rem", md: "1.8rem" },
                 letterSpacing: { xs: 0.25, sm: 1, md: 2 },
-                lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
-                margin: { xs: "1rem 0.5rem", md: "0rem auto 2rem" },
+                margin: { xs: "0rem 0.5rem 2rem", md: "0rem auto 2rem" },
               }}
             >
-              <Box textAlign="right" fontStyle="italic" fontWeight="bold">
-                "Une image vaut mieux que mille mots".
+              <Box
+                textAlign="right"
+                fontStyle="italic"
+                fontWeight="bold"
+                color="text.white"
+              >
+                {/* "Une image vaut mieux que vingt-cinq mille mots par secondes". */}
+                "Vingt-cinq images par secondes valent mieux que{" "}
+                <Box component="span" color="text.secondary">
+                  mille mots
+                </Box>
+                ."
               </Box>
-              <Box fontWeight="bold">
-                – Alors que dire de vingt-cinq images par secondes ?
-              </Box>
+              {/* <Box fontWeight="bold">
+                Que dire de vingt-cinq images par secondes ?
+              </Box> */}
             </Typography>
           </motion.div>
         </Stack>

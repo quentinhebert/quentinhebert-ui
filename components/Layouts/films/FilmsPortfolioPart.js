@@ -26,7 +26,7 @@ export default function FilmsPortfolioPart(props) {
       <Stack
         sx={{
           background: (theme) =>
-            `linear-gradient(-220deg, #000 20%, rgb(0,0,0,0.5) 100%)`,
+            `linear-gradient(0deg, #000 20%, rgb(0,0,0,0.4) 100%)`,
           paddingRight: { xs: "1rem", md: "4rem" },
           paddingLeft: { xs: "1rem", md: "4rem" },
           paddingBottom: { xs: "2rem", md: "6rem" },
@@ -36,12 +36,13 @@ export default function FilmsPortfolioPart(props) {
           <Stack width="100%" alignItems="start">
             <Stack
               width="100%"
-              sx={{ padding: { xs: "2rem 0 0", md: "4rem 2rem 0rem 0" } }}
+              sx={{ padding: { xs: "2rem 0 0", md: "6rem 2rem 4rem 0" } }}
             >
               <BigTitle
-                title="Portfolio ."
+                title="Mes réalisations"
                 fontFamily="Ethereal"
                 color={theme.palette.text.secondary}
+                textAlign="center"
               />
             </Stack>
           </Stack>

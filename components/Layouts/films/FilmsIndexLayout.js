@@ -53,13 +53,13 @@ export default function FilmsIndexLayout(props) {
       {/* INTRO */}
       <FilmsFocusPart refsForScroll={refsForScroll} />
 
-      {/* Self QUOTE */}
-      <FilmsQuoteParallax refForScroll={refsForScroll.quote} />
-
       <FilmsPortfolioPart refForScroll={refsForScroll.portfolio} />
 
       {/* EXPERIENCE */}
-      <FilmsExperiencePart />
+      {/* <FilmsExperiencePart /> */}
+
+      {/* Self QUOTE */}
+      {/* <FilmsQuoteParallax refForScroll={refsForScroll.quote} /> */}
 
       <ContactSection defaultService="film" />
 

@@ -14,7 +14,7 @@ export default function BigTitle(props) {
         color: color || "#fff",
         fontSize: {
           xs: "4rem",
-          sm: "13vw",
+          sm: "10vw",
         },
         lineHeight: {
           xs: "4rem",

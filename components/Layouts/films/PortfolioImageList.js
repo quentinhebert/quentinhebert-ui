@@ -617,6 +617,7 @@ export default function MasonryImageList() {
                           // color="text.white"
                           color="secondary"
                           // fontWeight="bold"
+                          fontStyle="italic"
                           sx={{
                             textAlign: "center",
                             // fontFamily: "Ethereal",
@@ -678,7 +679,10 @@ export default function MasonryImageList() {
                 sx={{ rotate: limit === initialLimit ? "0deg" : "180deg" }}
               />
             }
-            sx={{ fontWeight: "bold", fontSize: "1.2rem" }}
+            sx={{
+              fontWeight: "bold",
+              fontSize: { xs: "1rem", md: "1.2rem" },
+            }}
           >
             {limit === initialLimit ? "Afficher plus" : "Afficher moins"}
           </Button>

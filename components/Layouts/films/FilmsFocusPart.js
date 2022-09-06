@@ -12,7 +12,7 @@ const Keyword = ({ text }) => (
       color: (theme) => theme.palette.text.secondary,
       fontSize: { xs: "1.2rem", md: "1.5rem" },
       fontWeight: "bold",
-      fontStyle: "italic",
+      // fontStyle: "italic",
     }}
   >
     {text}
@@ -82,14 +82,15 @@ export default function FilmsFocusPart(props) {
               }}
             >
               <BigTitle
-                title="Focus ."
+                title="Focus"
                 color={(theme) => theme.palette.text.primaryLight}
                 fontFamily="Ethereal"
-                textAlign="right"
+                textAlign="center"
               />
               <BodyText
-                fontFamily="Ethereal"
-                fontWeight="bold"
+                // fontFamily="Ethereal"
+                // fontWeight="bold"
+                textTransform="uppercase"
                 textAlign="center"
                 color={(theme) => theme.palette.text.primaryLight}
                 sx={{
@@ -111,10 +112,10 @@ export default function FilmsFocusPart(props) {
                   variant="outlined"
                   color="secondary"
                   sx={{
-                    fontSize: { xs: "1rem", md: "1.2rem" },
-                    fontFamily: "Ethereal",
-                    fontWeight: "bold",
-                    letterSpacing: "1.5px",
+                    fontSize: { xs: "1rem", md: "1.1rem" },
+                    // fontFamily: "Ethereal",
+                    // fontWeight: "bold",
+                    // letterSpacing: "1.5px",
                     border: (theme) =>
                       `1px solid ${theme.palette.secondary.main}`,
                   }}
