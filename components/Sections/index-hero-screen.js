@@ -3,6 +3,7 @@ import { Box, Slide, Stack, Typography } from "@mui/material"
 import theme from "../../config/theme"
 import BouncingArrow from "../Navigation/BouncingArrow"
 import { motion } from "framer-motion"
+import styles from "../../styles/NeonFlickerText.module.css"
 
 export default function IndexHeadBandVideo(props) {
   const { scrollTo, refForScroll } = props
@@ -16,7 +17,7 @@ export default function IndexHeadBandVideo(props) {
       zIndex={1}
       sx={{
         height: { xs: "300px", sm: "600px", md: "700px", lg: "100vh" },
-        minHeight: { xs: "500px", lg: "calc(800px + 2rem)" },
+        minHeight: { xs: "600px", lg: "calc(800px + 2rem)" },
         backgroundImage: "url(/medias/homepage-background.jpg)",
         backgroundSize: "cover",
         backgroundPosition: "50% 50%",
@@ -42,20 +43,23 @@ export default function IndexHeadBandVideo(props) {
             unmountOnExit
           >
             <Box>
-              <Typography
-                className="no-select"
-                fontFamily="Ethereal"
-                fontWeight="bold"
-                sx={{
-                  color: "#fff",
-                  fontSize: { xs: "4.2vw", md: "2.3vw" },
-                  lineHeight: { xs: "8vw", md: "4rem" },
-                  letterSpacing: { xs: 2, md: 3 },
-                  textShadow: "2px 2px 7px #000",
-                }}
-              >
-                Creative videomaker
-              </Typography>
+              <Box className={styles.sign}>
+                <Typography
+                  // className="no-select"
+                  className={styles.fastflicker}
+                  fontFamily="Ethereal"
+                  fontWeight="bold"
+                  sx={{
+                    color: "#fff",
+                    fontSize: { xs: "4.2vw", md: "2.3vw" },
+                    lineHeight: { xs: "8vw", md: "4rem" },
+                    letterSpacing: { xs: 2, md: 3 },
+                    textShadow: "2px 2px 7px #000",
+                  }}
+                >
+                  Creative videomaker
+                </Typography>
+              </Box>
 
               <Typography
                 className="no-select"
@@ -76,19 +80,20 @@ export default function IndexHeadBandVideo(props) {
         </Stack>
 
         <motion.div
+          className={styles.sign}
           initial={{ rotate: 0, scale: 0.5 }}
           animate={{ rotate: 360, scale: 1 }}
           transition={{ duration: 0.75 }}
         >
           <Typography
-            className="no-select"
+            className={styles.fastflicker2}
             fontFamily="Helmet"
             textAlign="center"
             sx={{
               color: "#fff",
               rotate: "45deg",
-              fontSize: { xs: "10vw", md: "7.5vw" },
-              lineHeight: { xs: "4rem", md: "8rem" },
+              fontSize: { xs: "10vw", md: "9vw" },
+              lineHeight: { xs: "7rem", md: "8rem" },
               textShadow: "2px 2px 7px #000",
             }}
           >
@@ -116,19 +121,23 @@ export default function IndexHeadBandVideo(props) {
             >
               Web developper
             </Typography>
-            <Typography
-              className="no-select"
-              color="#fff"
-              fontFamily="Zacbel X"
-              sx={{
-                textAlignLast: "end",
-                textAlign: "right",
-                fontSize: { xs: "0.8rem", sm: "1rem", md: "1.6vw" },
-                textShadow: "2px 2px 7px #000",
-              }}
-            >
-              JS Backend / Frontend
-            </Typography>
+
+            <Box className={styles.sign}>
+              <Typography
+                // className="no-select"
+                className={styles.fastflicker3}
+                color="#fff"
+                fontFamily="Zacbel X"
+                sx={{
+                  textAlignLast: "end",
+                  textAlign: "right",
+                  fontSize: { xs: "0.8rem", sm: "1rem", md: "1.6vw" },
+                  textShadow: "2px 2px 7px #000",
+                }}
+              >
+                JS Backend / Frontend
+              </Typography>
+            </Box>
           </Box>
         </Slide>
       </Stack>
