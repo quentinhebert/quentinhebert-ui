@@ -13,11 +13,11 @@ export default function BigTitle(props) {
       sx={{
         zIndex: 100,
         fontSize: {
-          xs: "2rem",
+          xs: "3rem",
           sm: "10vw",
         },
         lineHeight: {
-          xs: "2rem",
+          xs: "3rem",
           sm: "4rem",
           md: "10rem",
           lg: "13rem",

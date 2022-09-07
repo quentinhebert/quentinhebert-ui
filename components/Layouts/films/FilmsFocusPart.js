@@ -102,7 +102,7 @@ export default function FilmsFocusPart(props) {
                 // color={(theme) => theme.palette.text.primaryLight}
                 color="text.white"
                 sx={{
-                  marginTop: { xs: "3rem", md: 0 },
+                  marginTop: { xs: "1rem", md: 0 },
                   marginBottom: "2rem",
                 }}
               >
