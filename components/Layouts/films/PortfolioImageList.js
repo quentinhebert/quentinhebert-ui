@@ -486,8 +486,8 @@ export default function MasonryImageList() {
               srcSet={showreel.img}
               alt="Bande Démo"
               width="100%"
-              height="300px"
               sx={{
+                height: { xs: "200px", md: "300px" },
                 zIndex: 0,
                 objectFit: "cover",
                 objectPosition: "50% 30%",
@@ -534,7 +534,7 @@ export default function MasonryImageList() {
         </Link>
 
         <ImageList
-          rowHeight={200}
+          rowHeight={sm ? 150 : 200}
           gap={0}
           cols={sm ? 1 : md ? 2 : 3}
           sx={{
