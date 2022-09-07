@@ -5,7 +5,7 @@ const TwoInputLine = styled((props) => (
   <Stack
     sx={{
       width: "100%",
-      gap: "1rem",
+      gap: { xs: 1, md: 2 },
       flexDirection: props.direction || { xs: "column", sm: "row" },
     }}
     {...props}
