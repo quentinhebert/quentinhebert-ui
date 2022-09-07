@@ -4,6 +4,7 @@ import BigTitle from "../../ReusableComponents/titles/big-title"
 import BodyText from "../../ReusableComponents/text/body-text"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import styles from "../../../styles/TextShine.module.css"
 
 const Keyword = ({ text }) => (
   <Box
@@ -89,6 +90,7 @@ export default function FilmsFocusPart(props) {
             >
               <BigTitle
                 title="Focus"
+                className={styles.shine}
                 color={(theme) => theme.palette.text.primaryLight}
                 fontFamily="Ethereal"
                 textAlign="center"

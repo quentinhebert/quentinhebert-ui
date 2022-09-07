@@ -1,14 +1,14 @@
 @-moz-keyframes shine {
-  from { -webkit-mask-position: 150%; }
-  to { -webkit-mask-position: -50%; }
+  from { -webkit-mask-position: 100%; }
+  to { -webkit-mask-position: 0%; }
   }
 @-webkit-keyframes shine {
-  from { -webkit-mask-position: 150%; }
-  to { -webkit-mask-position: -50%; }
+  from { -webkit-mask-position: 100%; }
+  to { -webkit-mask-position: 0%; }
   }
 @keyframes shine {
-  from { -webkit-mask-position: 150%; }
-  to { -webkit-mask-position: -50%; }
+  from { -webkit-mask-position: 100%; }
+  to { -webkit-mask-position: 0%; }
   }
 
 .shine {
