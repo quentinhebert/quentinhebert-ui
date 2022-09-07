@@ -38,8 +38,12 @@ const List = ({ src }) =>
       justifyContent="left"
       key={key}
       marginBottom="0.5rem"
+      sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
     >
-      <TaskAltOutlinedIcon color="secondary" sx={{ marginRight: "0.5rem" }} />
+      <TaskAltOutlinedIcon
+        color="secondary"
+        sx={{ marginRight: "0.5rem", fontSize: { xs: "1.2rem", md: "1.4rem" } }}
+      />
       {item}
     </Typography>
   ))

@@ -6,8 +6,6 @@ const Card = styled((props) => {
       textAlign="center"
       width="100%"
       borderRadius="10px"
-      padding="2rem"
-      gap={4}
       sx={{
         background:
           props.rightbgcolor && props.leftbgcolor && props.lineardeg
@@ -19,6 +17,8 @@ const Card = styled((props) => {
             ? (theme) => theme.palette.background.main
             : "",
         color: props.color || "#fff",
+        padding: { xs: "1rem", md: "2rem" },
+        gap: { xs: 2, md: 4 },
       }}
       {...props}
     />
