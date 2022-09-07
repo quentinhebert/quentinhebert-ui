@@ -10,6 +10,7 @@ import FilmsExperiencePart from "./FilmsExperiencePart"
 import FilmsQuoteParallax from "./FilmsQuoteParallax"
 import FilmsPortfolioPart from "./FilmsPortfolioPart"
 import ContactSection from "../../Sections/contact-section"
+import FilmProjectSteps from "./FilmProjectSteps"
 
 export default function FilmsIndexLayout(props) {
   const {} = props
@@ -48,7 +49,7 @@ export default function FilmsIndexLayout(props) {
       />
 
       {/* HERO screen */}
-      <FilmsIndexHero refForScroll={refsForScroll.focus} />
+      <FilmsIndexHero refForScroll={refsForScroll.portfolio} />
 
       {/* PORTFOLIO */}
       <FilmsPortfolioPart refForScroll={refsForScroll.portfolio} />
@@ -61,6 +62,8 @@ export default function FilmsIndexLayout(props) {
 
       {/* Self QUOTE */}
       {/* <FilmsQuoteParallax refForScroll={refsForScroll.quote} /> */}
+
+      <FilmProjectSteps />
 
       <ContactSection defaultService="film" />
 

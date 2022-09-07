@@ -46,7 +46,6 @@ export default function FilmsPortfolioPart(props) {
                   className={styles.shine}
                   title="Mes réalisations"
                   fontFamily="Ethereal"
-                  color={theme.palette.text.secondary}
                   textAlign="center"
                 />
                 {/* <BodyText color="text.white" textAlign="center">

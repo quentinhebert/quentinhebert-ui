@@ -11,22 +11,24 @@ export default function BigTitle(props) {
       textAlign={textAlign || "left"}
       color={"secondary"}
       sx={{
-        color: color || "#fff",
+        zIndex: 100,
         fontSize: {
-          xs: "4rem",
+          xs: "2rem",
           sm: "10vw",
         },
         lineHeight: {
-          xs: "4rem",
-          sm: "8rem",
+          xs: "2rem",
+          sm: "4rem",
           md: "10rem",
           lg: "13rem",
           xl: "17rem",
         },
         background: (theme) =>
+          !color &&
           `linear-gradient(-200deg, ${theme.palette.text.secondary} 0%, ${theme.palette.text.primary} 50%)`,
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
+        WebkitBackgroundClip: !color && "text",
+        WebkitTextFillColor: !color && "transparent",
+        color: color || "",
       }}
       {...props}
     >

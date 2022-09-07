@@ -91,7 +91,6 @@ export default function FilmsFocusPart(props) {
               <BigTitle
                 title="Focus"
                 className={styles.shine}
-                color={(theme) => theme.palette.text.primaryLight}
                 fontFamily="Ethereal"
                 textAlign="center"
               />
