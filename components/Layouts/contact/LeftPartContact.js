@@ -7,6 +7,7 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone"
 import EmailIcon from "@mui/icons-material/Email"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar"
+import styles from "../../../styles/TextShine.module.css"
 
 const SOCIAL_MEDIAS = [
   {
@@ -94,7 +95,7 @@ export default function LeftPartContact(props) {
       width="100%"
       sx={{ margin: "0 auto" }}
     >
-      <PageTitle text="Contact" />
+      <PageTitle text="Contact" className={styles.shine} />
 
       <SmallTitle text="Suis-moi, je te fuis !" />
       <SocialButtons />

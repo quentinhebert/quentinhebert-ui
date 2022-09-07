@@ -13,6 +13,7 @@ import BigTitle from "../../ReusableComponents/titles/big-title"
 import PortfolioImageList from "./PortfolioImageList"
 import BodyText from "../../ReusableComponents/text/body-text"
 import CenteredMaxWidthStack from "../../ReusableComponents/containers/centered-max-width-container"
+import styles from "../../../styles/TextShine.module.css"
 
 export default function FilmsPortfolioPart(props) {
   const { refForScroll } = props
@@ -42,6 +43,7 @@ export default function FilmsPortfolioPart(props) {
                 sx={{ padding: { xs: "2rem 0 0", md: "6rem 2rem 4rem 0" } }}
               >
                 <BigTitle
+                  className={styles.shine}
                   title="Mes réalisations"
                   fontFamily="Ethereal"
                   color={theme.palette.text.secondary}
