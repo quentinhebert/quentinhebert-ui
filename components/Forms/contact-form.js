@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Stack, Typography } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import { USERTYPES } from "../../enums/userTypes"
 import { checkEmail } from "../../services/utils"
 import apiCall from "../../services/apiCalls/apiCall"
@@ -13,6 +13,7 @@ import SelectOption from "../ReusableComponents/forms/custom-select-option"
 import Form from "../ReusableComponents/forms/custom-form"
 import CustomCheckbox from "../ReusableComponents/forms/custom-checkbox"
 import theme from "../../config/theme"
+import styles from "../../styles/WordsCaroussel.module.css"
 
 /** CONSTANTS **/
 
@@ -52,6 +53,15 @@ function ContactForm(props) {
       website: defaultService && defaultService === "website" ? true : false,
     },
   })
+  const jobs = {
+    filmmaker: ["vidéaste", "réalisateur", "cadreur", "monteur"],
+    developper: [
+      "développeur front-end",
+      "développeur back-end",
+      "web-designer",
+      "mec super sympa",
+    ],
+  }
 
   /********** HANDLERS **********/
   const handleChange = (attribute) => (event) => {
@@ -168,11 +178,29 @@ function ContactForm(props) {
             }}
           >
             Je recherche un{" "}
-            <em>
-              {defaultService === "film" && "vidéaste"}
-              {defaultService === "website" && "développeur"} freelance
-            </em>
-            ...
+            <Box
+              component="span"
+              sx={{ color: (theme) => theme.palette.text.secondary }}
+            >
+              {defaultService === "film" && (
+                <Stack className={styles.scroller}>
+                  <Box className={styles.wrapper}>
+                    {jobs.filmmaker.map((job, key) => (
+                      <Box key={key}>{job}</Box>
+                    ))}
+                  </Box>
+                </Stack>
+              )}
+              {defaultService === "website" && (
+                <Stack className={styles.scroller}>
+                  <Box className={styles.wrapper}>
+                    {jobs.developper.map((job, key) => (
+                      <Box key={key}>{job}</Box>
+                    ))}
+                  </Box>
+                </Stack>
+              )}
+            </Box>
           </Typography>
         )}
       </Stack>
