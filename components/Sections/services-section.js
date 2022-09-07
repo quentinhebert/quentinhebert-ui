@@ -125,11 +125,13 @@ export default function ServicesSection(props) {
       <CenteredMaxWidthContainer zIndex={1}>
         <Stack
           width="100%"
-          margin="6rem 0 4rem"
           alignItems="center"
           justifyContent="center"
-          gap={2}
           ref={ref}
+          sx={{
+            margin: { xs: "2rem 0", md: "6rem 0 8rem" },
+            gap: { xs: 1, md: 2 },
+          }}
         >
           <TitleCard
             stroketext="mes"
