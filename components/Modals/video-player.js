@@ -230,9 +230,7 @@ export default function VideoPlayer(props) {
           {video.description ? (
             <>
               <SectionTitle text="Quelques mots" />
-              <Typography color="text.white" fontFamily="Ethereal" variant="h5">
-                {video.description}
-              </Typography>
+              <SectionText>{video.description}</SectionText>
             </>
           ) : null}
 
@@ -244,7 +242,6 @@ export default function VideoPlayer(props) {
               <Typography
                 color="text.white"
                 fontFamily="Ethereal"
-                variant="h5"
                 marginTop={1}
               >
                 {video.roles.map((role, key) => (
@@ -256,9 +253,10 @@ export default function VideoPlayer(props) {
                     display="inline-flex"
                     lineHeight="2rem"
                     letterSpacing={1}
-                    fontSize="1.2rem"
                     fontWeight="bold"
                     sx={{
+                      fontSize: { xs: "0.9rem", md: "1.2rem" },
+                      fontWeight: "bold",
                       backgroundColor: "#fff",
                       color: (theme) => theme.palette.text.primary,
                       border: (theme) =>
@@ -278,13 +276,13 @@ export default function VideoPlayer(props) {
           {video.gear && video.gear.length ? (
             <>
               <SectionTitle text="Matériel utilisé" />
-              <Typography color="text.white" fontFamily="Ethereal" variant="h5">
+              <SectionText>
                 {video.gear.map((item, key) => (
                   <Box component="span" key={key} marginRight={1}>
                     {item} {video.gear.length === key + 1 ? "" : "–"}
                   </Box>
                 ))}
-              </Typography>
+              </SectionText>
             </>
           ) : null}
 
