@@ -45,7 +45,6 @@ export default function IndexHeadBandVideo(props) {
             <Box>
               <Box className={styles.sign}>
                 <Typography
-                  // className="no-select"
                   className={styles.fastflicker}
                   fontFamily="Ethereal"
                   fontWeight="bold"
@@ -53,7 +52,7 @@ export default function IndexHeadBandVideo(props) {
                     color: "#fff",
                     fontSize: { xs: "4.2vw", md: "2.3vw" },
                     lineHeight: { xs: "8vw", md: "4rem" },
-                    letterSpacing: { xs: 2, md: 3 },
+                    letterSpacing: { xs: 1, md: 3 },
                     textShadow: "2px 2px 7px #000",
                   }}
                 >
@@ -67,8 +66,9 @@ export default function IndexHeadBandVideo(props) {
                 fontWeight="bold"
                 alignSelf="flex-start"
                 sx={{
-                  fontSize: { xs: "11vw", md: "9vw" },
+                  fontSize: { xs: "12vw", md: "9vw" },
                   lineHeight: { xs: "10vw", md: "8vw" },
+                  textShadow: "2px 1px 30px rgb(0,0,0,0.5)",
                 }}
               >
                 Film director
@@ -92,9 +92,9 @@ export default function IndexHeadBandVideo(props) {
             sx={{
               color: "#fff",
               rotate: "45deg",
-              fontSize: { xs: "10vw", md: "9vw" },
+              fontSize: { xs: "15vw", md: "9vw" },
               lineHeight: { xs: "7rem", md: "8rem" },
-              textShadow: "2px 2px 7px #000",
+              textShadow: "4px 5px 4px #000",
             }}
           >
             +
@@ -116,7 +116,8 @@ export default function IndexHeadBandVideo(props) {
               sx={{
                 textAlignLast: "end",
                 textAlign: "right",
-                fontSize: "7vw",
+                fontSize: { xs: "9vw", md: "7vw" },
+                textShadow: "2px 1px 30px rgb(0,0,0,0.5)",
               }}
             >
               Web developper
@@ -124,14 +125,13 @@ export default function IndexHeadBandVideo(props) {
 
             <Box className={styles.sign}>
               <Typography
-                // className="no-select"
                 className={styles.fastflicker3}
                 color="#fff"
                 fontFamily="Zacbel X"
                 sx={{
                   textAlignLast: "end",
                   textAlign: "right",
-                  fontSize: { xs: "0.8rem", sm: "1rem", md: "1.6vw" },
+                  fontSize: { xs: "1rem", sm: "1rem", md: "1.6vw" },
                   textShadow: "2px 2px 7px #000",
                 }}
               >
