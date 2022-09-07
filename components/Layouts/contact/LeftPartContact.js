@@ -95,7 +95,11 @@ export default function LeftPartContact(props) {
       width="100%"
       sx={{ margin: "0 auto" }}
     >
-      <PageTitle text="Contact" className={styles.shine} />
+      <PageTitle
+        text="Contact"
+        color={(theme) => theme.palette.secondary.main}
+        className={styles.shine}
+      />
 
       <SmallTitle text="Suis-moi, je te fuis !" />
       <SocialButtons />
