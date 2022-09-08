@@ -13,9 +13,14 @@ import EndCardButton from "../ReusableComponents/cards/end-card-button"
 import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined"
 import StrokeText from "../ReusableComponents/text/stroke-text"
 import styles from "../../styles/TextShine.module.css"
+import fadeStyles from "../../styles/InfiniteFade.module.css"
+import flashingStyles from "../../styles/FlashingRedDot.module.css"
 import SwipeableViews from "react-swipeable-views/lib/SwipeableViews"
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord"
 import FiberManualRecordOutlinedIcon from "@mui/icons-material/FiberManualRecordOutlined"
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
+import FlashingRedDot from "../Navigation/FlashingRedDot"
 
 const SERVICES = {
   VIDEO: [
@@ -59,10 +64,10 @@ const VideoCard = () => (
     leftbgcolor="transparent"
     lineardeg="-50deg"
   >
-    <CustomCardTitle
-      title="Vidéo"
-      icon={<VideocamIcon sx={{ fontSize: "2rem", marginRight: "1rem" }} />}
-    />
+    <CustomCardTitle>
+      Vidéo
+      <FlashingRedDot />
+    </CustomCardTitle>
 
     <Box textAlign="left" flexGrow={1} letterSpacing={1}>
       <List src={SERVICES.VIDEO} />
@@ -78,14 +83,18 @@ const WebCard = () => (
     leftbgcolor={theme.palette.background.main}
     lineardeg="-140deg"
   >
-    <CustomCardTitle
-      title="Web"
-      icon={
-        <DesktopMacOutlinedIcon
-          sx={{ fontSize: "2rem", marginRight: "1rem" }}
-        />
-      }
-    />
+    <CustomCardTitle>
+      Web
+      <Box
+        className={flashingStyles.flash}
+        sx={{
+          color: (theme) => theme.palette.text.secondary,
+          marginLeft: ".25rem",
+        }}
+      >
+        _
+      </Box>
+    </CustomCardTitle>
 
     <Box textAlign="left" flexGrow={1} letterSpacing={1}>
       <List src={SERVICES.WEB} />
@@ -105,10 +114,14 @@ const Stepper = ({ totalSteps, activeStep, setActiveStep }) => {
     >
       {[...Array(totalSteps).keys()].map((key) => {
         if (key === activeStep)
-          return <FiberManualRecordIcon sx={{ cursor: "pointer" }} />
+          return (
+            <FiberManualRecordIcon
+              sx={{ cursor: "pointer", fontSize: "1rem" }}
+            />
+          )
         return (
           <FiberManualRecordOutlinedIcon
-            sx={{ cursor: "pointer" }}
+            sx={{ cursor: "pointer", fontSize: "1rem" }}
             onClick={(e) => setActiveStep(key)}
           />
         )
@@ -161,6 +174,21 @@ const Caroussel = () => {
       </SwipeableViews>
 
       <Stepper totalSteps={2} activeStep={index} setActiveStep={setIndex} />
+
+      <Stack
+        alignItems="center"
+        justifyContent="center"
+        sx={{ color: (theme) => theme.palette.secondary.main }}
+        flexDirection="row"
+        gap={1}
+        className={styles.shine}
+      >
+        <KeyboardArrowLeftIcon className={fadeStyles.fade} />
+        <Typography fontStyle="italic" letterSpacing={1}>
+          Faire défiler
+        </Typography>
+        <KeyboardArrowRightIcon className={fadeStyles.fade} />
+      </Stack>
     </>
   )
 }

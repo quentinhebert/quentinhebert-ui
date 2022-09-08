@@ -4,18 +4,36 @@ import CircleIcon from "@mui/icons-material/Circle"
 
 export default function FlashingRedDot() {
   return (
-    <Stack className={styles.flash} flexDirection="row">
-      <Typography letterSpacing={1.5} color="text.secondary">
-        Rec
-      </Typography>
-      <CircleIcon
+    <Stack position="relative">
+      <Stack
+        alignItems="center"
+        flexDirection="row"
+        className={styles.flash}
         sx={{
-          color: (theme) => theme.palette.text.secondary,
+          zIndex: "0",
+          position: "absolute",
+          top: "-1.5rem",
+          right: "-3rem",
           display: "flex",
-          margin: "auto 1.25vw auto 0.5vw",
-          width: "1rem",
+          alignSelf: "flex-end",
         }}
-      />
+      >
+        <CircleIcon
+          sx={{
+            color: (theme) => theme.palette.text.secondary,
+            display: "flex",
+            marginRight: ".25rem",
+            width: ".5rem",
+          }}
+        />
+        <Typography
+          letterSpacing={1.5}
+          fontSize="0.75rem"
+          color="text.secondary"
+        >
+          Rec
+        </Typography>
+      </Stack>
     </Stack>
   )
 }

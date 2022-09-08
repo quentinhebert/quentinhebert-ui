@@ -1,40 +1,42 @@
 @-moz-keyframes opacity {
   0%,
-  50%,
-  100% {
-    -moz-opacity: 1;
-    opacity: 1;
-  }
-  25%,
-  75% {
-    -moz-opacity: 0;
-    opacity: 0;
-  }
-}
-@-webkit-keyframes opacity {
-  0%,
-  50%,
-  100% {
-    -webkit-opacity: 1;
-    opacity: 1;
-  }
-  25%,
-  75% {
-    -moz-opacity: 0;
-    opacity: 0;
-  }
-}
-@keyframes opacity {
-  0%,
-  50%,
   100% {
     -moz-opacity: 1;
     -ms-opacity: 1;
     -webkit-opacity: 1;
     opacity: 1;
   }
-  25%,
-  75% {
+  50% {
+    -moz-opacity: 0;
+    -ms-opacity: 0;
+    -webkit-opacity: 0;
+    opacity: 0;
+  }
+}
+@-webkit-keyframes opacity {
+  0%,
+  100% {
+    -moz-opacity: 1;
+    -ms-opacity: 1;
+    -webkit-opacity: 1;
+    opacity: 1;
+  }
+  50% {
+    -moz-opacity: 0;
+    -ms-opacity: 0;
+    -webkit-opacity: 0;
+    opacity: 0;
+  }
+}
+@keyframes opacity {
+  0%,
+  100% {
+    -moz-opacity: 1;
+    -ms-opacity: 1;
+    -webkit-opacity: 1;
+    opacity: 1;
+  }
+  50% {
     -moz-opacity: 0;
     -ms-opacity: 0;
     -webkit-opacity: 0;
@@ -42,8 +44,8 @@
   }
 }
 
-.flash {
-  -moz-animation: opacity 2s infinite;
-  -webkit-animation: opacity 2s infinite;
-  animation: opacity 2s infinite;
+.fade {
+  -moz-animation: opacity 3s infinite;
+  -webkit-animation: opacity 3s infinite;
+  animation: opacity 3s infinite;
 }
