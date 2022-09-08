@@ -116,7 +116,7 @@ export default function WebsitesIndexHero(props) {
           }}
         >
           <BouncingArrow
-            text="Voir plus"
+            text=""
             scrollTo={scrollTo}
             refForScroll={refForScroll}
           />
