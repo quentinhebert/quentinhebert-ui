@@ -5,13 +5,11 @@ import MediumTitle from "../../ReusableComponents/titles/medium-title"
 import StrokeText from "../../ReusableComponents/text/stroke-text"
 import BodyText from "../../ReusableComponents/text/body-text"
 import SwipeableViews from "react-swipeable-views/lib/SwipeableViews"
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
-import fadeStyles from "../../../styles/InfiniteFade.module.css"
-import flashingStyles from "../../../styles/FlashingRedDot.module.css"
 import { useEffect, useState } from "react"
 import Stepper from "../../Navigation/stepper"
 import SwipeIcon from "@mui/icons-material/Swipe"
+import { motion, useAnimation } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 
 const KeyWord = ({ text }) => (
   <Box
@@ -130,8 +128,35 @@ const Caroussel = () => {
     setIndex(index)
   }
 
+  /********** ANIMATION **********/
+  const [ref, inView] = useInView()
+  const controls = useAnimation()
+  const variants = (key) => {
+    return {
+      visible: {
+        opacity: 1,
+        y: 1,
+        transition: { duration: 1, delay: key / 10 },
+      },
+      hidden: { opacity: 0, y: -25 },
+    }
+  }
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible")
+    } else {
+      controls.start("hidden")
+    }
+  }, [controls, inView])
+  const motionDivStyle = {
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  }
+
   return (
-    <>
+    <Stack ref={ref}>
       <SwipeableViews
         index={index}
         disableLazyLoading
@@ -145,18 +170,25 @@ const Caroussel = () => {
         }}
       >
         {WhyStep.map((step, key) => (
-          <Stack
-            role="tabpanel"
-            id={`full-width-tabpanel-${key}`}
-            aria-controls={`full-width-tab-${key}`}
-            value={0}
+          <motion.div
+            initial="hidden"
+            variants={variants(0)}
+            animate={controls}
+            style={motionDivStyle}
             key={key}
-            alignItems="center"
-            justifyContent="center"
-            sx={{ height: "100%", width: "90%", margin: "auto" }}
           >
-            {step}
-          </Stack>
+            <Stack
+              role="tabpanel"
+              id={`full-width-tabpanel-${key}`}
+              aria-controls={`full-width-tab-${key}`}
+              value={0}
+              alignItems="center"
+              justifyContent="center"
+              sx={{ height: "100%", width: "90%", margin: "auto" }}
+            >
+              {step}
+            </Stack>
+          </motion.div>
         ))}
       </SwipeableViews>
 
@@ -176,7 +208,7 @@ const Caroussel = () => {
       </Stack>
 
       <Stepper totalSteps={4} activeStep={index} setActiveStep={setIndex} />
-    </>
+    </Stack>
   )
 }
 
