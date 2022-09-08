@@ -208,7 +208,7 @@ export default function ServicesSection(props) {
         y: 1,
         transition: { duration: 1, delay: key / 10 },
       },
-      hidden: { opacity: 0, y: -25 },
+      hidden: { opacity: 0, y: key === 0 ? 0 : -25 },
     }
   }
   useEffect(() => {
@@ -218,6 +218,12 @@ export default function ServicesSection(props) {
       controls.start("hidden")
     }
   }, [controls, inView, sm])
+  const motionDivStyle0 = {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+  }
   const motionDivStyle = {
     width: "100%",
     display: "flex",
@@ -234,7 +240,7 @@ export default function ServicesSection(props) {
           justifyContent="center"
           ref={ref}
           sx={{
-            margin: { xs: "2rem 0", md: "6rem 0 8rem" },
+            margin: { xs: "2rem 0 8rem", md: "6rem 0 12rem" },
             gap: { xs: 1, md: 2 },
           }}
         >
@@ -256,7 +262,14 @@ export default function ServicesSection(props) {
             }}
           >
             {sm ? (
-              <Caroussel />
+              <motion.div
+                initial="hidden"
+                variants={variants(0)}
+                animate={controls}
+                style={motionDivStyle0}
+              >
+                <Caroussel />
+              </motion.div>
             ) : (
               <>
                 <motion.div
