@@ -459,7 +459,10 @@ export default function MasonryImageList() {
 
   return (
     <>
-      <Stack ref={TopRef} sx={{ scrollMarginTop: "5rem" }} />
+      <Stack
+        ref={TopRef}
+        sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
+      />
       <Box sx={{ width: "100%" }} ref={ref}>
         <motion.div
           initial="hidden"

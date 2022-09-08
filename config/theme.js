@@ -48,6 +48,9 @@ const mainTheme = createTheme({
       link: link,
     },
   },
+  navbar: {
+    marginTop: "65px",
+  },
   spacing: 8,
   typography: {
     fontFamily: "Helmet",

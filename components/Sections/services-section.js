@@ -231,7 +231,10 @@ export default function ServicesSection(props) {
 
   return (
     <>
-      <Stack ref={refForScroll} sx={{ scrollMarginTop: "65px" }} />
+      <Stack
+        ref={refForScroll}
+        sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
+      />
 
       <CenteredMaxWidthContainer zIndex={1}>
         <Stack

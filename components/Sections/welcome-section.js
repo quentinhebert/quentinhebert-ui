@@ -42,7 +42,10 @@ export default function WelcomeSection(props) {
 
   return (
     <>
-      <Stack ref={topRef} sx={{ scrollMarginTop: "65px" }} />
+      <Stack
+        ref={topRef}
+        sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
+      />
 
       <Stack
         width="100%"
