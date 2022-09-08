@@ -43,6 +43,7 @@ const SERVICES = {
 const List = ({ src }) =>
   src.map((item, key) => (
     <Typography
+      className="no-select"
       display="flex"
       alignItems="center"
       justifyContent="left"
@@ -64,7 +65,7 @@ const VideoCard = () => (
     leftbgcolor="transparent"
     lineardeg="-50deg"
   >
-    <CustomCardTitle>
+    <CustomCardTitle className="no-select">
       Vidéo
       <FlashingRedDot />
     </CustomCardTitle>
@@ -83,7 +84,7 @@ const WebCard = () => (
     leftbgcolor={theme.palette.background.main}
     lineardeg="-140deg"
   >
-    <CustomCardTitle>
+    <CustomCardTitle className="no-select">
       Web
       <Box
         className={flashingStyles.flash}
@@ -173,8 +174,6 @@ const Caroussel = () => {
         </Stack>
       </SwipeableViews>
 
-      <Stepper totalSteps={2} activeStep={index} setActiveStep={setIndex} />
-
       <Stack
         alignItems="center"
         justifyContent="center"
@@ -189,6 +188,8 @@ const Caroussel = () => {
         </Typography>
         <KeyboardArrowRightIcon className={fadeStyles.fade} />
       </Stack>
+
+      <Stepper totalSteps={2} activeStep={index} setActiveStep={setIndex} />
     </>
   )
 }
@@ -237,7 +238,7 @@ export default function ServicesSection(props) {
             gap: { xs: 1, md: 2 },
           }}
         >
-          <GradientTitleCard inversed="true">
+          <GradientTitleCard inversed="true" className="no-select">
             <StrokeText color={(theme) => theme.palette.secondary.main}>
               Quels
             </StrokeText>{" "}
