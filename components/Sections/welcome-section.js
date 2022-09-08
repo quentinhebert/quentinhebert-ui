@@ -6,6 +6,7 @@ import CenteredMaxWidthContainer from "../ReusableComponents/containers/centered
 import BodyText from "../ReusableComponents/text/body-text"
 import styles from "../../styles/TextShine.module.css"
 import ChevronRightIcon from "@mui/icons-material/ChevronRight"
+import MediumTitle from "../ReusableComponents/titles/medium-title"
 
 export default function WelcomeSection(props) {
   const { scrollTo, topRef, refForScroll } = props
@@ -57,19 +58,14 @@ export default function WelcomeSection(props) {
           animate={controls}
           style={motionDivStyle}
         >
-          <Typography
-            color="secondary"
-            textAlign="center"
-            className={styles.shine}
-            fontSize="5vw"
-            lineHeight="5vw"
-          >
+          <MediumTitle textAlign="center" className={styles.shine}>
             Bienvenue sur mon site
-          </Typography>
+          </MediumTitle>
 
           <CenteredMaxWidthContainer zIndex={1}>
             <BodyText color="text.white" textAlign="center" letterSpacing={1}>
-              Je suis Quentin HÉBERT, vidéaste professionnel et développeur web.
+              Je m'appelle Quentin HÉBERT et je suis vidéaste professionnel et
+              développeur web.
               <br />
               Artisan, j'allie ma créativité à mon savoir-faire pour vous aider
               à mieux communiquer une idée, un bien ou un service.
