@@ -13,6 +13,7 @@ import VideoPlayer from "../../Modals/video-player"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline"
 
 export default function MasonryImageList() {
   const [openVideoPlayer, setOpenVideoPlayer] = useState(false)
@@ -460,78 +461,85 @@ export default function MasonryImageList() {
     <>
       <Stack ref={TopRef} sx={{ scrollMarginTop: "5rem" }} />
       <Box sx={{ width: "100%" }} ref={ref}>
-        <Link
-          onClick={() => {
-            setVideoClicked(showreel)
-            setOpenVideoPlayer(true)
-          }}
+        <motion.div
+          initial="hidden"
+          variants={variants(3)}
+          animate={controls}
+          style={{ width: "100%" }}
         >
-          <ImageListItem
-            sx={{
-              width: "100%",
-              cursor: "pointer",
-              overflow: "hidden",
-              marginTop: { xs: "1rem", md: 0 },
-              "&:hover": {
-                "& .MuiBox-root": {
-                  transform: "scale(1.1)",
-                  filter: "grayscale(1)",
-                },
-              },
+          <Link
+            onClick={() => {
+              setVideoClicked(showreel)
+              setOpenVideoPlayer(true)
             }}
           >
-            <Box
-              component="img"
-              src={showreel.img}
-              srcSet={showreel.img}
-              alt="Bande Démo"
-              width="100%"
-              sx={{
-                height: { xs: "200px", md: "300px" },
-                zIndex: 0,
-                objectFit: "cover",
-                objectPosition: "50% 30%",
-                WebkitTransition: "transform 0.4s ease-in-out",
-                msTransition: "transform 0.4s ease-in-out",
-                transition:
-                  "transform 0.4s ease-in-out, filter 0.4s ease-in-out",
-              }}
-            />
-            <Stack
-              justifyContent="center"
-              alignItems="center"
+            <ImageListItem
               sx={{
                 width: "100%",
-                height: "100%",
-                position: "absolute",
-                top: 0,
-                zIndex: 100,
-                WebkitTransition: "background 200ms linear",
-                msTransition: "background 200ms linear",
-                transition: "background 200ms linear",
-                padding: "1rem",
-                background: "rgb(0, 0, 0, 0.2)",
+                cursor: "pointer",
+                overflow: "hidden",
+                marginTop: { xs: "1rem", md: 0 },
                 "&:hover": {
-                  background: "rgb(0, 0, 0, 0.4)",
+                  "& .MuiBox-root": {
+                    transform: "scale(1.1)",
+                    filter: "grayscale(1)",
+                  },
                 },
               }}
             >
-              <Typography
-                color="secondary"
-                fontWeight="bold"
+              <Box
+                component="img"
+                src={showreel.img}
+                srcSet={showreel.img}
+                alt="Bande Démo"
+                width="100%"
                 sx={{
-                  textAlign: "center",
-                  textTransform: "uppercase",
-                  fontSize: { xs: "1.5rem", sm: "2rem", md: "3rem" },
-                  lineHeight: { xs: "1.3rem", sm: "2rem", md: "3rem" },
-                  textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
+                  height: { xs: "200px", md: "300px" },
+                  zIndex: 0,
+                  objectFit: "cover",
+                  objectPosition: "50% 30%",
+                  WebkitTransition: "transform 0.4s ease-in-out",
+                  msTransition: "transform 0.4s ease-in-out",
+                  transition:
+                    "transform 0.4s ease-in-out, filter 0.4s ease-in-out",
+                }}
+              />
+              <Stack
+                justifyContent="center"
+                alignItems="center"
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute",
+                  top: 0,
+                  zIndex: 100,
+                  WebkitTransition: "background 200ms linear",
+                  msTransition: "background 200ms linear",
+                  transition: "background 200ms linear",
+                  padding: "1rem",
+                  background: "rgb(0, 0, 0, 0.2)",
+                  "&:hover": {
+                    background: "rgb(0, 0, 0, 0.4)",
+                  },
                 }}
               >
-                Bande Démo 2022
-              </Typography>
-            </Stack>
-          </ImageListItem>
-        </Link>
+                <Typography
+                  color="secondary"
+                  fontWeight="bold"
+                  sx={{
+                    textAlign: "center",
+                    textTransform: "uppercase",
+                    fontSize: { xs: "1.5rem", sm: "2rem", md: "3rem" },
+                    lineHeight: { xs: "1.3rem", sm: "2rem", md: "3rem" },
+                    textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
+                  }}
+                >
+                  Bande Démo 2022
+                </Typography>
+              </Stack>
+            </ImageListItem>
+          </Link>
+        </motion.div>
 
         <ImageList
           rowHeight={sm ? 150 : 200}
@@ -610,22 +618,46 @@ export default function MasonryImageList() {
                           background: "rgb(0, 0, 0, 0.2)",
                           "&:hover": {
                             background: "rgb(0, 0, 0, 0.4)",
+                            "& .MuiTypography-root": {
+                              opacity: 0,
+                              textShadow: "none",
+                            },
+                            "& .MuiBox-root": {
+                              textShadow: "none",
+                              filter: "none",
+                              opacity: 1,
+                              transition: "opacity 0.4s ease-in-out",
+                            },
                           },
                         }}
                       >
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            color: (theme) => theme.palette.text.secondary,
+                            opacity: 0,
+                            textAlign: "center",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            flexDirection: "column",
+                            gap: 3,
+                            fontFamily: "Helmet",
+                            fontSize: "1.5rem",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          <PlayCircleOutlineIcon sx={{ fontSize: "2rem" }} />
+                          Play
+                        </Box>
                         <Typography
-                          // color="text.white"
                           color="secondary"
-                          // fontWeight="bold"
                           fontStyle="italic"
+                          fontFamily="Ethereal"
+                          letterSpacing={1}
                           sx={{
                             textAlign: "center",
-                            // fontFamily: "Ethereal",
-                            // fontSize: { xs: "0.8rem", sm: "1rem", md: "1.2rem" },
-                            // letterSpacing: { xs: 0.25, sm: 1, md: 2.5 },
-                            // lineHeight: { xs: "1.5rem", sm: "2rem", md: "3rem" },
                             textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
-                            // textTransform: "uppercase",
                           }}
                         >
                           {item.type}
@@ -635,13 +667,11 @@ export default function MasonryImageList() {
                           fontWeight="bold"
                           sx={{
                             textAlign: "center",
-                            // fontFamily: "Ethereal",
                             fontSize: {
                               xs: "1rem",
                               sm: "1.2rem",
                               md: "1.7rem",
                             },
-                            // letterSpacing: { xs: 0.25, sm: 1, md: 2.5 },
                             lineHeight: {
                               xs: "1.3rem",
                               sm: "1.5rem",
@@ -660,6 +690,7 @@ export default function MasonryImageList() {
               )
           })}
         </ImageList>
+
         <Stack width="100%">
           <Button
             color="secondary"
