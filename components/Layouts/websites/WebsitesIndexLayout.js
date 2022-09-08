@@ -7,14 +7,18 @@ import theme from "../../../config/theme"
 import WebsitesIndexHero from "./WebsitesIndexHero"
 import WebsiteFocusPart from "./WebsiteFocusPart"
 import ContactSection from "../../Sections/contact-section"
+import WebsitesWhyADevPart from "./WebsitesWhyADevPart"
+import WebsitesPortfolio from "./WebsitesPortfolio"
 
 export default function WebsitesIndexLayout(props) {
   const { refForScroll } = props
 
   const topRef = useRef()
+  const whyADevRef = useRef()
   const focusRef = useRef()
   const refsForScroll = {
     top: topRef,
+    whyADev: whyADevRef,
     focus: focusRef,
   }
   const scrollTo = (ref) => {
@@ -42,9 +46,13 @@ export default function WebsitesIndexLayout(props) {
         }}
       />
 
-      <WebsitesIndexHero refForScroll={refsForScroll.focus} />
+      <WebsitesIndexHero refForScroll={refsForScroll.whyADev} />
 
-      <WebsiteFocusPart refsForScroll={refsForScroll} />
+      <WebsitesWhyADevPart topRef={refsForScroll.whyADev} />
+
+      <WebsitesPortfolio />
+
+      {/* <WebsiteFocusPart refsForScroll={refsForScroll} /> */}
 
       <ContactSection defaultService="website" />
 

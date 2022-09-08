@@ -47,7 +47,10 @@ export default function ContactSection(props) {
     >
       <CenteredMaxWidthContainer>
         <GradientTitleCard inversed="true">
-          <StrokeText color={(theme) => theme.palette.secondary.main}>
+          <StrokeText
+            color={(theme) => theme.palette.secondary.main}
+            className="no-select"
+          >
             Me
           </StrokeText>{" "}
           <Box component="span" className={styles.shine}>

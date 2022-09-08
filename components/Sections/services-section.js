@@ -1,6 +1,4 @@
 import { Box, Stack, Typography, useMediaQuery } from "@mui/material"
-import VideocamIcon from "@mui/icons-material/Videocam"
-import DesktopMacOutlinedIcon from "@mui/icons-material/DesktopMacOutlined"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
@@ -16,11 +14,10 @@ import styles from "../../styles/TextShine.module.css"
 import fadeStyles from "../../styles/InfiniteFade.module.css"
 import flashingStyles from "../../styles/FlashingRedDot.module.css"
 import SwipeableViews from "react-swipeable-views/lib/SwipeableViews"
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord"
-import FiberManualRecordOutlinedIcon from "@mui/icons-material/FiberManualRecordOutlined"
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
 import FlashingRedDot from "../Navigation/FlashingRedDot"
+import Stepper from "../Navigation/stepper"
+import SwipeIcon from "@mui/icons-material/Swipe"
 
 const SERVICES = {
   VIDEO: [
@@ -105,32 +102,6 @@ const WebCard = () => (
   </CustomCard>
 )
 
-const Stepper = ({ totalSteps, activeStep, setActiveStep }) => {
-  return (
-    <Stack
-      flexDirection="row"
-      alignItems="center"
-      justifyContent="center"
-      sx={{ color: (theme) => theme.palette.secondary.main }}
-    >
-      {[...Array(totalSteps).keys()].map((key) => {
-        if (key === activeStep)
-          return (
-            <FiberManualRecordIcon
-              sx={{ cursor: "pointer", fontSize: "1rem" }}
-            />
-          )
-        return (
-          <FiberManualRecordOutlinedIcon
-            sx={{ cursor: "pointer", fontSize: "1rem" }}
-            onClick={(e) => setActiveStep(key)}
-          />
-        )
-      })}
-    </Stack>
-  )
-}
-
 const Caroussel = () => {
   const [index, setIndex] = useState(0)
   const handleChangeIndex = (index) => {
@@ -177,16 +148,15 @@ const Caroussel = () => {
       <Stack
         alignItems="center"
         justifyContent="center"
-        sx={{ color: (theme) => theme.palette.secondary.main }}
+        sx={{ color: (theme) => theme.palette.text.white }}
         flexDirection="row"
         gap={1}
         className={styles.shine}
       >
-        <KeyboardArrowLeftIcon className={fadeStyles.fade} />
+        <SwipeIcon />
         <Typography fontStyle="italic" letterSpacing={1}>
           Faire défiler
         </Typography>
-        <KeyboardArrowRightIcon className={fadeStyles.fade} />
       </Stack>
 
       <Stepper totalSteps={2} activeStep={index} setActiveStep={setIndex} />

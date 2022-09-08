@@ -10,7 +10,7 @@ const Text = styled((props) => {
       fontFamily={fontFamily || "Helmet"}
       sx={{
         fontSize: { xs: "1rem", md: "1.2rem" },
-        letterSpacing: 1,
+        letterSpacing: props.letterSpacing || 1,
         lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
         color: color || ((theme) => theme.palette.text.white),
       }}

@@ -9,6 +9,7 @@ const Container = styled((props) => {
       width={percents || "80%"}
       maxWidth={pixels || "880px"}
       margin="auto"
+      zIndex={1}
       sx={{
         flexDirection: flexDirection || "",
       }}
