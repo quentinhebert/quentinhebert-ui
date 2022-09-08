@@ -14,6 +14,7 @@ export default function BicolorTitle(props) {
     bgColor,
     padding,
     letterSpacing,
+    className,
   } = props
 
   /********** ANIMATION **********/
@@ -73,6 +74,7 @@ export default function BicolorTitle(props) {
           color={mainColor}
           fontSize={isMobileOrTablet ? "1.7rem" : "2rem"}
           fontFamily={mainFontFamily || null}
+          className={className}
         >
           {mainText}
         </Typography>

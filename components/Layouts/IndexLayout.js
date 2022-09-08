@@ -7,13 +7,16 @@ import IndexHeroScreen from "../Sections/index-hero-screen"
 import ContactSection from "../Sections/contact-section"
 import ServicesSection from "../Sections/services-section"
 import DotSeparator from "../Other/dot-separator"
+import WelcomeSection from "../Sections/welcome-section"
 
 export default function IndexLayout(props) {
   const {} = props
 
   const topRef = useRef()
+  const welcomeRef = useRef()
   const servicesRef = useRef()
   const refsForScroll = {
+    welcome: welcomeRef,
     services: servicesRef,
   }
   const scrollTo = (ref) => {
@@ -43,6 +46,12 @@ export default function IndexLayout(props) {
       {/* HERO */}
       <IndexHeroScreen
         scrollTo={scrollTo}
+        refForScroll={refsForScroll.welcome}
+      />
+
+      <WelcomeSection
+        scrollTo={scrollTo}
+        topRef={refsForScroll.welcome}
         refForScroll={refsForScroll.services}
       />
 

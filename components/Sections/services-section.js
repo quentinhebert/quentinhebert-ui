@@ -134,8 +134,8 @@ export default function ServicesSection(props) {
           }}
         >
           <TitleCard
-            stroketext="mes"
-            text="services"
+            stroketext="Quels"
+            text="services ?"
             leftBgColor="transparent"
             rightBgColor={theme.palette.background.main}
           />

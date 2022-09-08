@@ -11,19 +11,18 @@ export default function ImgTextBand(props) {
       alignContent="center"
       alignItems="center"
       width="100%"
-      minHeight="300px"
+      minHeight="250px"
       direction={
         reverse ? (md ? "column" : "row-reverse") : md ? "column" : "row"
       }
-      backgroundColor={theme.palette.background.main}
-      padding="1rem 0"
+      backgroundColor="transparent"
     >
       <Stack
         justifyContent="center"
         alignContent="center"
         alignItems="center"
         width={md ? "90%" : "40%"}
-        padding={md ? ".5rem" : "2rem"}
+        padding={md ? ".5rem" : "1rem"}
       >
         <Typography
           component="h2"
@@ -40,7 +39,7 @@ export default function ImgTextBand(props) {
           color={textColor || "#fff"}
           fontFamily="Helmet"
           letterSpacing="2px"
-          textAlign="left"
+          textAlign="center"
           width="80%"
         >
           {text}
@@ -52,7 +51,7 @@ export default function ImgTextBand(props) {
         alignItems="center"
         width={md ? "80%" : "40%"}
         height={portrait ? (md ? "400px" : "600px") : md ? "300px" : "400px"}
-        padding={md ? ".5rem" : "2rem"}
+        padding={md ? ".5rem" : "1rem"}
         sx={{
           backgroundImage: `url(${img})`,
           backgroundPosition: "50%",
