@@ -1,9 +1,9 @@
-import { Box, Stack, Typography } from "@mui/material"
+import { Box, Stack, Typography, useMediaQuery } from "@mui/material"
 import VideocamIcon from "@mui/icons-material/Videocam"
 import DesktopMacOutlinedIcon from "@mui/icons-material/DesktopMacOutlined"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import CenteredMaxWidthContainer from "../ReusableComponents/containers/centered-max-width-container"
 import GradientTitleCard from "../ReusableComponents/cards/gradient-title-card"
 import theme from "../../config/theme"
@@ -13,6 +13,9 @@ import EndCardButton from "../ReusableComponents/cards/end-card-button"
 import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined"
 import StrokeText from "../ReusableComponents/text/stroke-text"
 import styles from "../../styles/TextShine.module.css"
+import SwipeableViews from "react-swipeable-views/lib/SwipeableViews"
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord"
+import FiberManualRecordOutlinedIcon from "@mui/icons-material/FiberManualRecordOutlined"
 
 const SERVICES = {
   VIDEO: [
@@ -92,8 +95,79 @@ const WebCard = () => (
   </CustomCard>
 )
 
+const Stepper = ({ totalSteps, activeStep, setActiveStep }) => {
+  return (
+    <Stack
+      flexDirection="row"
+      alignItems="center"
+      justifyContent="center"
+      sx={{ color: (theme) => theme.palette.secondary.main }}
+    >
+      {[...Array(totalSteps).keys()].map((key) => {
+        if (key === activeStep)
+          return <FiberManualRecordIcon sx={{ cursor: "pointer" }} />
+        return (
+          <FiberManualRecordOutlinedIcon
+            sx={{ cursor: "pointer" }}
+            onClick={(e) => setActiveStep(key)}
+          />
+        )
+      })}
+    </Stack>
+  )
+}
+
+const Caroussel = () => {
+  const [index, setIndex] = useState(0)
+  const handleChangeIndex = (index) => {
+    setIndex(index)
+  }
+  return (
+    <>
+      <SwipeableViews
+        index={index}
+        disableLazyLoading
+        enableMouseEvents
+        onChangeIndex={handleChangeIndex}
+        axis="x"
+        springConfig={{
+          duration: "1s",
+          easeFunction: "cubic-bezier(0.3, 0, 0.3, 1)",
+          delay: "0s",
+        }}
+      >
+        <Stack
+          role="tabpanel"
+          id={`full-width-tabpanel-0`}
+          aria-controls={`full-width-tab-0`}
+          value={0}
+          alignItems="center"
+          justifyContent="center"
+          sx={{ height: "100%", width: "90%", margin: "auto" }}
+        >
+          <VideoCard />
+        </Stack>
+        <Stack
+          role="tabpanel"
+          id={`full-width-tabpanel-1`}
+          aria-controls={`full-width-tab-1`}
+          value={0}
+          alignItems="center"
+          justifyContent="center"
+          sx={{ height: "100%", width: "90%", margin: "auto" }}
+        >
+          <WebCard />
+        </Stack>
+      </SwipeableViews>
+
+      <Stepper totalSteps={2} activeStep={index} setActiveStep={setIndex} />
+    </>
+  )
+}
+
 export default function ServicesSection(props) {
   const { refForScroll } = props
+  const sm = useMediaQuery(theme.breakpoints.down("sm"))
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
@@ -114,7 +188,7 @@ export default function ServicesSection(props) {
     } else {
       controls.start("hidden")
     }
-  }, [controls, inView])
+  }, [controls, inView, sm])
   const motionDivStyle = {
     width: "100%",
     display: "flex",
@@ -146,28 +220,35 @@ export default function ServicesSection(props) {
 
           <Stack
             width="100%"
+            justifyContent="center"
             gap={2}
             sx={{
               flexDirection: { xs: "column", sm: "row" },
             }}
           >
-            <motion.div
-              initial="hidden"
-              variants={variants(1)}
-              animate={controls}
-              style={motionDivStyle}
-            >
-              <VideoCard />
-            </motion.div>
+            {sm ? (
+              <Caroussel />
+            ) : (
+              <>
+                <motion.div
+                  initial="hidden"
+                  variants={variants(1)}
+                  animate={controls}
+                  style={motionDivStyle}
+                >
+                  <VideoCard />
+                </motion.div>
 
-            <motion.div
-              initial="hidden"
-              variants={variants(2)}
-              animate={controls}
-              style={motionDivStyle}
-            >
-              <WebCard />
-            </motion.div>
+                <motion.div
+                  initial="hidden"
+                  variants={variants(2)}
+                  animate={controls}
+                  style={motionDivStyle}
+                >
+                  <WebCard />
+                </motion.div>
+              </>
+            )}
           </Stack>
         </Stack>
       </CenteredMaxWidthContainer>
