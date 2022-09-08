@@ -5,12 +5,14 @@ import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { useEffect } from "react"
 import CenteredMaxWidthContainer from "../ReusableComponents/containers/centered-max-width-container"
-import TitleCard from "../ReusableComponents/cards/title-card"
+import GradientTitleCard from "../ReusableComponents/cards/gradient-title-card"
 import theme from "../../config/theme"
 import CustomCard from "../ReusableComponents/cards/custom-card"
 import CustomCardTitle from "../ReusableComponents/cards/custom-card-title"
 import EndCardButton from "../ReusableComponents/cards/end-card-button"
 import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined"
+import StrokeText from "../ReusableComponents/text/stroke-text"
+import styles from "../../styles/TextShine.module.css"
 
 const SERVICES = {
   VIDEO: [
@@ -133,12 +135,14 @@ export default function ServicesSection(props) {
             gap: { xs: 1, md: 2 },
           }}
         >
-          <TitleCard
-            stroketext="Quels"
-            text="services ?"
-            leftBgColor="transparent"
-            rightBgColor={theme.palette.background.main}
-          />
+          <GradientTitleCard inversed="true">
+            <StrokeText color={(theme) => theme.palette.secondary.main}>
+              Quels
+            </StrokeText>{" "}
+            <Box component="span" className={styles.shine}>
+              services ?
+            </Box>
+          </GradientTitleCard>
 
           <Stack
             width="100%"

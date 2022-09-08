@@ -3,7 +3,7 @@ import BigTitle from "../../ReusableComponents/titles/big-title"
 import styles from "../../../styles/TextShine.module.css"
 import theme from "../../../config/theme"
 import { Box, Stack, Typography } from "@mui/material"
-import TitleCard from "../../ReusableComponents/cards/title-card"
+import GradientTitleCard from "../../ReusableComponents/cards/gradient-title-card"
 import BodyText from "../../ReusableComponents/text/body-text"
 import * as React from "react"
 import { styled } from "@mui/material/styles"
@@ -17,6 +17,7 @@ import GradingIcon from "@mui/icons-material/Grading"
 import VideocamIcon from "@mui/icons-material/Videocam"
 import EuroIcon from "@mui/icons-material/Euro"
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome"
+import StrokeText from "../../ReusableComponents/text/stroke-text"
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -184,12 +185,14 @@ export default function FilmProjectSteps(props) {
   return (
     <Stack padding="4rem 0" zIndex={1} position="relative">
       <CenteredMaxWidthContainer gap={4}>
-        <TitleCard
-          stroketext="Quatre"
-          text="étapes"
-          leftBgColor="#000"
-          rightBgColor={theme.palette.background.main}
-        />
+        <GradientTitleCard inversed="true">
+          <StrokeText color={(theme) => theme.palette.secondary.main}>
+            Quatre
+          </StrokeText>{" "}
+          <Box component="span" className={styles.shine}>
+            étapes
+          </Box>
+        </GradientTitleCard>
         <Stack
           sx={{
             color: "#fff",

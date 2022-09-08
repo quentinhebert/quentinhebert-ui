@@ -3,9 +3,10 @@ import { Box, Stack, Typography } from "@mui/material"
 import ContactForm from "../Forms/contact-form"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import theme from "../../config/theme"
 import CenteredMaxWidthContainer from "../ReusableComponents/containers/centered-max-width-container"
-import TitleCard from "../ReusableComponents/cards/title-card"
+import GradientTitleCard from "../ReusableComponents/cards/gradient-title-card"
+import StrokeText from "../ReusableComponents/text/stroke-text"
+import styles from "../../styles/TextShine.module.css"
 
 export default function ContactSection(props) {
   const { defaultService } = props
@@ -45,12 +46,14 @@ export default function ContactSection(props) {
       ref={ref}
     >
       <CenteredMaxWidthContainer>
-        <TitleCard
-          stroketext="Me"
-          text="Contacter"
-          leftBgColor={theme.palette.background.main}
-          rightBgColor="transparent"
-        />
+        <GradientTitleCard inversed="true">
+          <StrokeText color={(theme) => theme.palette.secondary.main}>
+            Me
+          </StrokeText>{" "}
+          <Box component="span" className={styles.shine}>
+            contacter
+          </Box>
+        </GradientTitleCard>
 
         <motion.div
           initial="hidden"

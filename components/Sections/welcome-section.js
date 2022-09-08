@@ -5,8 +5,8 @@ import { useEffect } from "react"
 import CenteredMaxWidthContainer from "../ReusableComponents/containers/centered-max-width-container"
 import BodyText from "../ReusableComponents/text/body-text"
 import styles from "../../styles/TextShine.module.css"
-import ChevronRightIcon from "@mui/icons-material/ChevronRight"
 import MediumTitle from "../ReusableComponents/titles/medium-title"
+import CenteredLandingButton from "../ReusableComponents/buttons/centered-landing-button"
 
 export default function WelcomeSection(props) {
   const { scrollTo, topRef, refForScroll } = props
@@ -47,7 +47,6 @@ export default function WelcomeSection(props) {
       <Stack
         width="100%"
         height="calc(100vh - 65px)"
-        alignItems="center"
         justifyContent="center"
         ref={ref}
         zIndex={1}
@@ -63,7 +62,11 @@ export default function WelcomeSection(props) {
           </MediumTitle>
 
           <CenteredMaxWidthContainer zIndex={1}>
-            <BodyText color="text.white" textAlign="center" letterSpacing={1}>
+            <BodyText
+              color="text.white"
+              textAlign="center"
+              className="no-select"
+            >
               Je m'appelle Quentin HÉBERT et je suis vidéaste professionnel et
               développeur web.
               <br />
@@ -72,34 +75,9 @@ export default function WelcomeSection(props) {
             </BodyText>
           </CenteredMaxWidthContainer>
 
-          <Stack
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Box
-              component="a"
-              className={"cool-button"}
-              sx={{
-                letterSpacing: 1,
-                cursor: "pointer",
-              }}
-              onClick={(e) => scrollTo(refForScroll)}
-            >
-              <Typography
-                color="secondary"
-                textTransform="uppercase"
-                fontSize="1.2rem"
-              >
-                Les services que je propose
-              </Typography>
-            </Box>
-            <ChevronRightIcon
-              sx={{
-                color: (theme) => theme.palette.text.secondary,
-              }}
-            />
-          </Stack>
+          <CenteredLandingButton onClick={(e) => scrollTo(refForScroll)}>
+            Les services que je propose
+          </CenteredLandingButton>
         </motion.div>
       </Stack>
     </>
