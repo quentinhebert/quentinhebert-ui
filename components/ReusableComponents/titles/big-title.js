@@ -25,7 +25,7 @@ export default function BigTitle(props) {
         },
         background: (theme) =>
           !color &&
-          `linear-gradient(-200deg, ${theme.palette.text.secondary} 0%, ${theme.palette.text.primary} 50%)`,
+          `linear-gradient(-200deg, ${theme.palette.text.secondary} 20%, ${theme.palette.text.primary} 70%)`,
         WebkitBackgroundClip: !color && "text",
         WebkitTextFillColor: !color && "transparent",
         color: color || "",
