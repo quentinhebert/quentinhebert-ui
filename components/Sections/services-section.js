@@ -115,7 +115,7 @@ const Caroussel = () => {
         axis="x"
         springConfig={{
           duration: "1s",
-          easeFunction: "cubic-bezier(0.3, 0, 0.3, 1)",
+          easeFunction: "cubic-bezier(0.1, 0.8, 0.3, 1)",
           delay: "0s",
         }}
       >

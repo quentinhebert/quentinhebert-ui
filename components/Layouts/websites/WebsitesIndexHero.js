@@ -16,8 +16,6 @@ export default function WebsitesIndexHero(props) {
     })
   }
 
-  const md = useMediaQuery((theme) => theme.breakpoints.down("md"))
-
   return (
     <Stack
       zIndex={1}
@@ -104,24 +102,22 @@ export default function WebsitesIndexHero(props) {
         />
       </Slide>
 
-      {!md ? (
-        <Stack
-          zIndex={10}
-          justifyContent="end"
-          alignItems="center"
-          sx={{
-            width: "100%",
-            minHeight: "400px",
-            height: { xs: "50vh", md: "100vh" },
-          }}
-        >
-          <BouncingArrow
-            text=""
-            scrollTo={scrollTo}
-            refForScroll={refForScroll}
-          />
-        </Stack>
-      ) : null}
+      <Stack
+        zIndex={10}
+        justifyContent="end"
+        alignItems="center"
+        sx={{
+          width: "100%",
+          minHeight: "400px",
+          height: { xs: "50vh", md: "100vh" },
+        }}
+      >
+        <BouncingArrow
+          text=""
+          scrollTo={scrollTo}
+          refForScroll={refForScroll}
+        />
+      </Stack>
     </Stack>
   )
 }

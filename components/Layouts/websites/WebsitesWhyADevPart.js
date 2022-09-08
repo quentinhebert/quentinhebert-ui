@@ -165,7 +165,7 @@ const Caroussel = () => {
         axis="x"
         springConfig={{
           duration: "1s",
-          easeFunction: "cubic-bezier(0.3, 0, 0.3, 1)",
+          easeFunction: "cubic-bezier(0.1, 0.8, 0.3, 1)",
           delay: "0s",
         }}
       >
@@ -216,7 +216,7 @@ export default function WebsitesWhyADevPart(props) {
   const { topRef } = props
 
   return (
-    <>
+    <Stack height="100vh" minHeight="800px">
       <Stack
         ref={topRef}
         sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
@@ -224,6 +224,6 @@ export default function WebsitesWhyADevPart(props) {
       <Stack padding="10rem 1rem" gap="1rem">
         <Caroussel />
       </Stack>
-    </>
+    </Stack>
   )
 }
