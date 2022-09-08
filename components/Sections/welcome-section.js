@@ -48,37 +48,38 @@ export default function WelcomeSection(props) {
         width="100%"
         height="calc(100vh - 65px)"
         justifyContent="center"
-        ref={ref}
         zIndex={1}
       >
-        <motion.div
-          initial="hidden"
-          variants={variants(2)}
-          animate={controls}
-          style={motionDivStyle}
-        >
-          <MediumTitle textAlign="center" className={styles.shine}>
-            Bienvenue sur mon site
-          </MediumTitle>
+        <Stack ref={ref}>
+          <motion.div
+            initial="hidden"
+            variants={variants(2)}
+            animate={controls}
+            style={motionDivStyle}
+          >
+            <MediumTitle textAlign="center" className={styles.shine}>
+              Bienvenue sur mon site
+            </MediumTitle>
 
-          <CenteredMaxWidthContainer zIndex={1}>
-            <BodyText
-              color="text.white"
-              textAlign="center"
-              className="no-select"
-            >
-              Je m'appelle Quentin HÉBERT et je suis vidéaste professionnel et
-              développeur web.
-              <br />
-              Artisan, j'allie ma créativité à mon savoir-faire pour vous aider
-              à mieux communiquer une idée, un bien ou un service.
-            </BodyText>
-          </CenteredMaxWidthContainer>
+            <CenteredMaxWidthContainer zIndex={1}>
+              <BodyText
+                color="text.white"
+                textAlign="center"
+                className="no-select"
+              >
+                Je m'appelle Quentin HÉBERT et je suis vidéaste professionnel et
+                développeur web.
+                <br />
+                Artisan, j'allie ma créativité à mon savoir-faire pour vous
+                aider à mieux communiquer une idée, un bien ou un service.
+              </BodyText>
+            </CenteredMaxWidthContainer>
 
-          <CenteredLandingButton onClick={(e) => scrollTo(refForScroll)}>
-            Les services que je propose
-          </CenteredLandingButton>
-        </motion.div>
+            <CenteredLandingButton onClick={(e) => scrollTo(refForScroll)}>
+              Les services que je propose
+            </CenteredLandingButton>
+          </motion.div>
+        </Stack>
       </Stack>
     </>
   )
