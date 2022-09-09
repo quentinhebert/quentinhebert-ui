@@ -4,7 +4,7 @@ import styles from "../../../styles/TextShine.module.css"
 import MediumTitle from "../../ReusableComponents/titles/medium-title"
 import StrokeText from "../../ReusableComponents/text/stroke-text"
 import BodyText from "../../ReusableComponents/text/body-text"
-import SwipeableViews from "react-swipeable-views/lib/SwipeableViews"
+import SwipeableViews from "../../Other/SwipeableViews"
 import { useEffect, useState } from "react"
 import Stepper from "../../Navigation/stepper"
 import SwipeIcon from "@mui/icons-material/Swipe"
@@ -25,7 +25,7 @@ const KeyWord = ({ text }) => (
 )
 
 const WhyWebsite = () => (
-  <Stack>
+  <Stack alignItems="center" justifyContent="center">
     <MediumTitle
       textAlign="center"
       className={styles.shine}
@@ -48,7 +48,7 @@ const WhyWebsite = () => (
 )
 
 const WhyDevelopper = () => (
-  <Stack>
+  <Stack alignItems="center" justifyContent="center">
     <MediumTitle
       textAlign="center"
       className={styles.shine}
@@ -74,7 +74,7 @@ const WhyDevelopper = () => (
 )
 
 const WhyMe = () => (
-  <Stack>
+  <Stack alignItems="center" justifyContent="center">
     <MediumTitle
       textAlign="center"
       className={styles.shine}
@@ -98,7 +98,7 @@ const WhyMe = () => (
 )
 
 const WhyUs = () => (
-  <Stack>
+  <Stack alignItems="center" justifyContent="center">
     <MediumTitle
       textAlign="center"
       className={styles.shine}
@@ -184,7 +184,7 @@ const Caroussel = () => {
               value={0}
               alignItems="center"
               justifyContent="center"
-              sx={{ height: "100%", width: "90%", margin: "auto" }}
+              sx={{ width: "90%" }}
             >
               {step}
             </Stack>
