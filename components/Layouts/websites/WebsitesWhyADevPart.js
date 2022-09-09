@@ -219,7 +219,12 @@ export default function WebsitesWhyADevPart(props) {
     <Stack height="100vh" minHeight="800px">
       <Stack
         ref={topRef}
-        sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
+        sx={{
+          scrollMarginTop: (theme) => ({
+            xs: "-65px",
+            md: theme.navbar.marginTop,
+          }),
+        }}
       />
       <Stack padding="10rem 1rem" gap="1rem">
         <Caroussel />

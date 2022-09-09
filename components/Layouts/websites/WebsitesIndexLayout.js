@@ -31,7 +31,7 @@ export default function WebsitesIndexLayout(props) {
 
   return (
     <>
-      <Navbar bgColor="transparent" />
+      <Navbar />
 
       {/* Fixed Background for the page */}
       <Stack

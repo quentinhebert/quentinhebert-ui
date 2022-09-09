@@ -33,7 +33,7 @@ export default function FilmsIndexLayout(props) {
       <Stack ref={topRef} />
 
       {/* NAVBAR */}
-      <Navbar bgColor="transparent" />
+      <Navbar />
 
       {/* Fixed Background for the page */}
       <Stack
