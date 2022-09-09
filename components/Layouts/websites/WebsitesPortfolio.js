@@ -32,9 +32,17 @@ const CLIENTS = [
     name: "Mathias Mortelmans Films",
     link: "https://www.mathiasmortelmans.com",
     img: "/medias/mmf2.png",
-    keywords: ["création web", "UX", "interface utilisateur", "intégration"],
+    keywords: ["création web", "UX", "back-office", "intégration"],
     description:
       "Mathias Mortelmans est un jeune vidéaste belge. Il réalise des vidéos corporate mais il est surtout actif dans le monde de la nuit et de la fête. Enfin, il partage les vidéos de ses voyages les plus fous ! Il m'a contacté pour lui créer un site sur-mesure.",
+  },
+  {
+    name: "Mon site",
+    link: "https://quentinhebert.com",
+    img: "/medias/quentinhebert.jpg",
+    keywords: ["création web", "UX", "back-office", "intégration"],
+    description:
+      "Eh oui, mon site web est l'une de mes plus belles créations. J'y ai passé des milliers d'heures, entre le logo, la charte graphique, les typographies, les photos, les photo-montages, le contenu vidéo, le contenu textuel, les fonctionnalités, l'expérience utilisateur, le back-office et ma base de données... Je suis fier de le présenter dans mes projets.",
   },
 ]
 
@@ -87,7 +95,7 @@ export default function WebsitesPortfolio(props) {
         </motion.div>
       </Stack>
 
-      <Stack gap="10rem" margin="10rem 0">
+      <Stack gap="10rem" margin="5rem 0 15rem">
         {CLIENTS.map((client, key) => (
           <CenteredMaxWidthContainer pixels="1200px">
             <Stack
@@ -120,6 +128,7 @@ export default function WebsitesPortfolio(props) {
                   width: { xs: "100%", md: "49%" },
                   marginRight: { xs: 0, md: key % 2 === 0 ? 0 : "2%" },
                   marginLeft: { xs: 0, md: key % 2 === 0 ? "2%" : 0 },
+                  paddingBottom: "2rem",
                 }}
               >
                 <GradientTitleCard
