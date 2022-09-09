@@ -58,7 +58,7 @@ const Title = styled((props) => {
             color="secondary"
             textAlign="center"
             variant="h2"
-            sx={{ fontSize: { xs: "2rem", md: "4rem" } }}
+            sx={{ fontSize: props.fontSize || { xs: "2rem", md: "4rem" } }}
             {...props}
           />
         </motion.div>

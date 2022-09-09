@@ -10,6 +10,7 @@ export default function SmallTitle(props) {
       textTransform="uppercase"
       letterSpacing={2}
       fontWeight="bold"
+      zIndex={1}
       sx={{
         color: (theme) => theme.palette.text.secondary,
         fontSize: "1.2rem",
