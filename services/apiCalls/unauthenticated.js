@@ -207,6 +207,18 @@ const unauthenticated = {
       console.error(error)
     }
   },
+  getFooter: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/footer`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
   getMyServices: async () => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/my-services`, {

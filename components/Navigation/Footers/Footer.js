@@ -18,6 +18,14 @@ import InTextLink from "../../ReusableComponents/text/in-text-link"
 import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
 import CustomLink from "../../ReusableComponents/custom-link"
 import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on-hover-stack"
+import apiCall from "../../../services/apiCalls/apiCall"
+import useSWR from "swr"
+
+async function fetchUpToDateFooter() {
+  const res = await apiCall.unauthenticated.getFooter()
+  const jsonRes = await res.json()
+  return jsonRes
+}
 
 /********** CONSTANTES **********/
 const logoQH = "/logos/logo-qh.png"
@@ -59,14 +67,12 @@ const warrantiesButtons = [
   },
 ]
 
-const Credits = () => {
+const Credits = ({ text }) => {
   const year = new Date().getFullYear()
   return (
     <Stack alignItems="center" textAlign="center" margin="3rem auto 0">
       <SmallText>
-        © Quentin Hébert {year} · Vidéaste et Développeur web en Freelance ·
-        Réalisateur - Cadreur - Monteur - Développeur JS Full-Stack · Site web
-        developpé par Quentin Hébert ·{" "}
+        © Quentin Hébert {year} · {text} ·{" "}
         <InTextLink
           href="/about-website"
           text="Plus d'informations"
@@ -123,6 +129,17 @@ const LogoQH = () => (
 )
 
 export default function Footer(props) {
+  const { data, error, mutate } = useSWR(
+    `/footer`,
+    async () => fetchUpToDateFooter(),
+    {
+      fallbackData: props,
+      revalidateOnMount: true,
+    }
+  )
+
+  if (!data) return null
+
   /********** STYLE **********/
   const motionDivStyle = {
     display: "flex",
@@ -213,9 +230,19 @@ export default function Footer(props) {
           animate={controls}
           style={motionDivStyle}
         >
-          <Credits />
+          <Credits text={data.credits} />
         </motion.div>
       </CenteredMaxWidthContainer>
     </Box>
   )
+}
+
+export async function getStaticProps({ params }) {
+  const {} = params
+  const data = await fetchUpToDateFooter()
+  let notFound = false
+
+  if (data.statusCode === 400 || data.statusCode === 404) notFound = true
+
+  return { props: data, notFound, revalidate: 60 }
 }
