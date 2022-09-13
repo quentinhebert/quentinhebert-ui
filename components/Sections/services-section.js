@@ -147,10 +147,6 @@ const Caroussel = ({ services }) => {
   )
 }
 
-const MotionDiv = (props) => (
-  <motion.div initial="hidden" animate={controls} {...props} />
-)
-
 export default function ServicesSection(props) {
   const { refForScroll } = props
 
