@@ -2,7 +2,7 @@ import { Box, Stack, Typography } from "@mui/material"
 import styles from "../../styles/FlashingRedDot.module.css"
 import CircleIcon from "@mui/icons-material/Circle"
 
-export default function FlashingRedDot() {
+export default function FlashingRec() {
   return (
     <Stack position="relative">
       <Stack

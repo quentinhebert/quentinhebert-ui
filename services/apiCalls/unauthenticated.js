@@ -1,29 +1,29 @@
-import { defaultConfig } from "../../config/defaultConfig";
-import { getFreshToken } from "../utils";
+import { defaultConfig } from "../../config/defaultConfig"
+import { getFreshToken } from "../utils"
 
 const unauthenticated = {
   /* LOGIN */
   login: async ({ email, password }) => {
     try {
-      const encodedPassword = new Buffer.from(password).toString("base64");
+      const encodedPassword = new Buffer.from(password).toString("base64")
       const body = {
         email,
         password: encodedPassword,
-      };
+      }
       return await fetch(`${defaultConfig.apiUrl}/login`, {
         method: "PUT",
         body: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
   /* Send password forgotten request to given email address */
   passwordForgotten: async ({ userData }) => {
-    const body = { email: userData.email };
+    const body = { email: userData.email }
     try {
       return await fetch(`${defaultConfig.apiUrl}/password-forgotten`, {
         method: "PUT",
@@ -31,9 +31,9 @@ const unauthenticated = {
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
   /* Try to access password forgotten page with link */
@@ -47,25 +47,25 @@ const unauthenticated = {
             "Content-Type": "application/json",
           },
         }
-      );
+      )
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
   /* Reset password */
   passwordReset: async ({ password, id, token }) => {
     try {
-      const encodedPassword = new Buffer.from(password).toString("base64");
-      const body = { password: encodedPassword, token };
+      const encodedPassword = new Buffer.from(password).toString("base64")
+      const body = { password: encodedPassword, token }
       return await fetch(`${defaultConfig.apiUrl}/users/${id}/password-reset`, {
         method: "PATCH",
         body: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
   /* Try to access email-confirmation page with link and updates DB email_confirmed=true */
@@ -77,9 +77,9 @@ const unauthenticated = {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      });
+      })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
   /* Try to access change-email page with link */
@@ -90,9 +90,9 @@ const unauthenticated = {
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
   /* Get public categories for website homepage */
@@ -103,9 +103,9 @@ const unauthenticated = {
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
   /* Get public categories for website homepage */
@@ -116,24 +116,24 @@ const unauthenticated = {
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
   /* Get public categories for website homepage */
   sendContactForm: async (clientData) => {
     try {
-      const body = JSON.stringify(clientData);
+      const body = JSON.stringify(clientData)
       return await fetch(`${defaultConfig.apiUrl}/contact-form`, {
         method: "POST",
         body: body,
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
   /* Get public category videos for a given category */
@@ -147,9 +147,9 @@ const unauthenticated = {
             "Content-Type": "application/json",
           },
         }
-      );
+      )
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
   /* Get all public categories' videos */
@@ -160,9 +160,9 @@ const unauthenticated = {
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
   /* Get public category with given id */
@@ -176,9 +176,9 @@ const unauthenticated = {
             "Content-Type": "application/json",
           },
         }
-      );
+      )
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
   /* Get public category videos for a given category */
@@ -189,9 +189,9 @@ const unauthenticated = {
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
   /* Get reference with given id */
@@ -202,11 +202,23 @@ const unauthenticated = {
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
-};
+  getMyServices: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/my-services`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
+}
 
-export default unauthenticated;
+export default unauthenticated

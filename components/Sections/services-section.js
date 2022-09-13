@@ -11,96 +11,71 @@ import EndCardButton from "../ReusableComponents/cards/end-card-button"
 import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined"
 import StrokeText from "../ReusableComponents/text/stroke-text"
 import styles from "../../styles/TextShine.module.css"
-import flashingStyles from "../../styles/FlashingRedDot.module.css"
 import SwipeableViews from "react-swipeable-views/lib/SwipeableViews"
-import FlashingRedDot from "../Navigation/FlashingRedDot"
 import Stepper from "../Navigation/stepper"
 import SwipeIcon from "@mui/icons-material/Swipe"
+import Loading from "../Other/loading"
+import useSWR from "swr"
+import apiCall from "../../services/apiCalls/apiCall"
+import FlashingUnderscore from "../Animation/flashing-underscore"
+import FlashingRec from "../Animation/FlashingRec"
 
-const SERVICES = {
-  VIDEO: [
-    "Film de mariage",
-    "Publicité d'entreprise",
-    "Clip musical, Aftermovie & Teaser",
-    "Portrait et Interview",
-    "Court-métrage",
-  ],
-  WEB: [
-    "Site vitrine",
-    "Landing Page",
-    "Newsletters",
-    "Back-Office personnalisé",
-    "E-mails automatiques personnalisés",
-    "Base de données complexe et API sur-mesure",
-  ],
+async function fetchUpToDateServices() {
+  const res = await apiCall.unauthenticated.getMyServices()
+  const jsonRes = await res.json()
+  return jsonRes
 }
 
-const List = ({ src }) =>
-  src.map((item, key) => (
-    <Typography
-      className="no-select"
-      display="flex"
-      alignItems="center"
-      justifyContent="left"
-      key={key}
-      marginBottom="0.5rem"
-      sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-    >
-      <TaskAltOutlinedIcon
-        color="secondary"
-        sx={{ marginRight: "0.5rem", fontSize: { xs: "1.2rem", md: "1.4rem" } }}
-      />
+const ListItem = (props) => (
+  <Typography
+    className="no-select"
+    display="flex"
+    alignItems="center"
+    justifyContent="left"
+    marginBottom="0.5rem"
+    sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+    {...props}
+  />
+)
+
+const ListIcon = () => (
+  <TaskAltOutlinedIcon
+    color="secondary"
+    sx={{ marginRight: "0.5rem", fontSize: { xs: "1.2rem", md: "1.4rem" } }}
+  />
+)
+
+const List = ({ items }) =>
+  items.map((item, key) => (
+    <ListItem key={key}>
+      <ListIcon />
       {item}
-    </Typography>
+    </ListItem>
   ))
 
-const VideoCard = () => (
-  <CustomCard
-    rightbgcolor={`${theme.palette.background.main}`}
-    leftbgcolor="transparent"
-    lineardeg="-50deg"
-  >
-    <CustomCardTitle className="no-select">
-      Vidéo
-      <FlashingRedDot />
-    </CustomCardTitle>
+const ServiceCard = ({ service, href, animationElement, gradientBgDeg }) => {
+  if (!service?.service_items) return null
+  return (
+    <CustomCard
+      rightbgcolor="transparent"
+      leftbgcolor={theme.palette.background.main}
+      lineardeg={gradientBgDeg}
+    >
+      <CustomCardTitle className="no-select">
+        {service?.name || ""}
+        {animationElement}
+      </CustomCardTitle>
 
-    <Box textAlign="left" flexGrow={1} letterSpacing={1}>
-      <List src={SERVICES.VIDEO} />
-    </Box>
-
-    <EndCardButton href="/films" text="Découvrir +" />
-  </CustomCard>
-)
-
-const WebCard = () => (
-  <CustomCard
-    rightbgcolor="transparent"
-    leftbgcolor={theme.palette.background.main}
-    lineardeg="-140deg"
-  >
-    <CustomCardTitle className="no-select">
-      Web
-      <Box
-        className={flashingStyles.flash}
-        sx={{
-          color: (theme) => theme.palette.text.secondary,
-          marginLeft: ".25rem",
-        }}
-      >
-        _
+      <Box textAlign="left" flexGrow={1} letterSpacing={1}>
+        <List items={service.service_items} />
       </Box>
-    </CustomCardTitle>
 
-    <Box textAlign="left" flexGrow={1} letterSpacing={1}>
-      <List src={SERVICES.WEB} />
-    </Box>
+      <EndCardButton href={href} text="Découvrir +" />
+    </CustomCard>
+  )
+}
 
-    <EndCardButton href="/websites" text="Découvrir +" />
-  </CustomCard>
-)
-
-const Caroussel = () => {
+const Caroussel = ({ services }) => {
   const [index, setIndex] = useState(0)
   const handleChangeIndex = (index) => {
     setIndex(index)
@@ -128,7 +103,12 @@ const Caroussel = () => {
           justifyContent="center"
           sx={{ height: "100%", width: "90%", margin: "auto" }}
         >
-          <VideoCard />
+          <ServiceCard
+            service={services[0]}
+            animationElement={<FlashingRec />}
+            href="/films"
+            gradientBgDeg="140deg"
+          />
         </Stack>
         <Stack
           role="tabpanel"
@@ -139,7 +119,12 @@ const Caroussel = () => {
           justifyContent="center"
           sx={{ height: "100%", width: "90%", margin: "auto" }}
         >
-          <WebCard />
+          <ServiceCard
+            service={services[0]}
+            animationElement={<FlashingUnderscore />}
+            href="/films"
+            gradientBgDeg="140deg"
+          />
         </Stack>
       </SwipeableViews>
 
@@ -162,8 +147,24 @@ const Caroussel = () => {
   )
 }
 
+const MotionDiv = (props) => (
+  <motion.div initial="hidden" animate={controls} {...props} />
+)
+
 export default function ServicesSection(props) {
   const { refForScroll } = props
+
+  const { data, error, mutate } = useSWR(
+    `/my-services`,
+    async () => fetchUpToDateServices(),
+    {
+      fallbackData: props,
+      revalidateOnMount: true,
+    }
+  )
+
+  if (!data) return <Loading />
+
   const sm = useMediaQuery(theme.breakpoints.down("sm"))
 
   /********** ANIMATION **********/
@@ -239,7 +240,7 @@ export default function ServicesSection(props) {
                 animate={controls}
                 style={motionDivStyle0}
               >
-                <Caroussel />
+                <Caroussel services={data} />
               </motion.div>
             ) : (
               <>
@@ -249,7 +250,12 @@ export default function ServicesSection(props) {
                   animate={controls}
                   style={motionDivStyle}
                 >
-                  <VideoCard />
+                  <ServiceCard
+                    service={data[0]}
+                    animationElement={<FlashingRec />}
+                    href="/films"
+                    gradientBgDeg="140deg"
+                  />
                 </motion.div>
 
                 <motion.div
@@ -258,7 +264,12 @@ export default function ServicesSection(props) {
                   animate={controls}
                   style={motionDivStyle}
                 >
-                  <WebCard />
+                  <ServiceCard
+                    service={data[1]}
+                    animationElement={<FlashingUnderscore />}
+                    href="/websites"
+                    gradientBgDeg="-140deg"
+                  />
                 </motion.div>
               </>
             )}
@@ -267,4 +278,14 @@ export default function ServicesSection(props) {
       </CenteredMaxWidthContainer>
     </>
   )
+}
+
+export async function getStaticProps({ params }) {
+  const {} = params
+  const data = await fetchUpToDateServices()
+  let notFound = false
+
+  if (data.statusCode === 400 || data.statusCode === 404) notFound = true
+
+  return { props: data, notFound, revalidate: 60 }
 }
