@@ -1,7 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material"
 import { Parallax } from "react-parallax"
 import theme from "../../../config/theme"
-import FlashingRedDot from "../../Navigation/FlashingRedDot"
+import FlashingRec from "../../Animation/FlashingRec"
 import Timer from "../../ReusableComponents/timer"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
@@ -94,7 +94,7 @@ const Container = ({ btnColor, bgImg, href }) => {
               </Box>
             </Stack>
             <Stack width="33%">
-              <FlashingRedDot />
+              <FlashingRec />
             </Stack>
           </Stack>
 
