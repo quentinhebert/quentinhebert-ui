@@ -75,7 +75,7 @@ const Credits = ({ text }) => {
         © Quentin Hébert {year} · {text} ·{" "}
         <InTextLink
           href="/about-website"
-          text="Plus d'informations"
+          text="À propos de ce site"
           target="_blank"
         />
       </SmallText>
