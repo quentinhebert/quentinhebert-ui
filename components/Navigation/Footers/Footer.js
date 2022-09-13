@@ -60,10 +60,11 @@ const warrantiesButtons = [
 ]
 
 const Credits = () => {
+  const year = new Date().getFullYear()
   return (
     <Stack alignItems="center" textAlign="center" margin="3rem auto 0">
       <SmallText>
-        © Quentin Hébert 2022 · Vidéaste et Développeur web en Freelance ·
+        © Quentin Hébert {year} · Vidéaste et Développeur web en Freelance ·
         Réalisateur - Cadreur - Monteur - Développeur JS Full-Stack · Site web
         developpé par Quentin Hébert ·{" "}
         <InTextLink
