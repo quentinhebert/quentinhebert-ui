@@ -34,6 +34,7 @@
     "react-spring": "^9.4.5",
     "react-swipeable-views": "^0.14.0",
     "redux": "^4.1.2",
+    "sharp": "^0.31.0",
     "styled-components": "^5.3.3",
     "swr": "^1.3.0",
     "use-boop": "^1.1.1"
