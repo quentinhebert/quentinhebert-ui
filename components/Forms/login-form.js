@@ -168,7 +168,7 @@ export default function LoginForm(props) {
       const jsonRes = await res.json()
       handleSetTokens(jsonRes.token, jsonRes.refreshToken) // cookies
       if (await fetchUser()) {
-        handleCloseLogin()
+        alert("Vous êtes connecté")
       }
     } else if (res) {
       const jsonRes = await res.json()

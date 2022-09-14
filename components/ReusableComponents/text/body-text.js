@@ -9,9 +9,13 @@ const Text = styled((props) => {
       component={"span"}
       fontFamily={fontFamily || "Helmet"}
       sx={{
-        fontSize: { xs: "1rem", md: "1.2rem" },
+        fontSize: props.fontSize || { xs: "1rem", md: "1.2rem" },
         letterSpacing: props.letterSpacing || 1,
-        lineHeight: { xs: "1.3rem", sm: "1.5rem", md: "2rem" },
+        lineHeight: props.lineHeight || {
+          xs: "1.3rem",
+          sm: "1.5rem",
+          md: "2rem",
+        },
         color: color || ((theme) => theme.palette.text.white),
       }}
       {...props}
