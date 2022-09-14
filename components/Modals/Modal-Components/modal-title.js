@@ -1,15 +1,15 @@
-import { Typography } from "@mui/material";
+import { Typography } from "@mui/material"
+import styles from "../../../styles/TextShine.module.css"
 
-export const ModalTitle = ({ text }) => (
+export const ModalTitle = (props) => (
   <Typography
-    component="h3"
+    component="h2"
     variant="h5"
     sx={{
-      padding: "1rem 1.5rem",
       letterSpacing: 1,
-      color: (theme) => theme.palette.text.light,
+      color: (theme) => theme.palette.text.secondary,
     }}
-  >
-    {text}
-  </Typography>
-);
+    className={styles.shine}
+    {...props}
+  />
+)

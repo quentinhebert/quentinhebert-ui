@@ -1,23 +1,13 @@
-import * as React from "react"
+import { useState, useContext, useEffect } from "react"
 import {
-  Dialog,
-  TextField,
   Stack,
-  useMediaQuery,
   Typography,
   Link,
   InputAdornment,
   IconButton,
-  InputLabel,
-  FormControl,
 } from "@mui/material"
 import apiCall from "../../services/apiCalls/apiCall"
-import theme from "../../config/theme"
-import { ModalTitle } from "./Modal-Components/modal-title"
-import dynamic from "next/dynamic"
-import { ActionButtons } from "./Modal-Components/modal-action-buttons"
 import AlertInfo from "../Other/alert-info"
-import withSnacks from "../hocs/withSnacks"
 import { errorCodes } from "../../config/errorCodes"
 import Visibility from "@mui/icons-material/Visibility"
 import VisibilityOff from "@mui/icons-material/VisibilityOff"
@@ -29,45 +19,53 @@ import CustomForm from "../ReusableComponents/forms/custom-form"
 import CustomFilledInput from "../ReusableComponents/forms/custom-filled-input"
 import CustomFilledInputIcon from "../ReusableComponents/forms/custom-filled-input-icon"
 import RightSubmitButton from "../ReusableComponents/forms/right-submit-button"
-import LoginForm from "../Forms/login-form"
+import { ModalTitle } from "../Modals/Modal-Components/modal-title"
+import { useAnimation, motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 
-const SignUpModal = dynamic(() => import("./signup-modal"))
-const PasswordForgottenModal = dynamic(() =>
-  import("./password-forgotten-modal")
-)
-
-function LoginModal(props) {
+export default function LoginForm(props) {
   /********** PROPS **********/
   const {
-    openLogin,
-    handleOpenLogin,
-    handleCloseLogin,
-
-    // hocs
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
+    handleClickPasswordForgotten,
+    passwordForgottenDefaultEmail,
+    setPasswordForgottenDefaultEmail,
   } = props
 
   /********** USER **********/
-  const { setUser } = React.useContext(UserContext)
+  const { setUser } = useContext(UserContext)
 
   /********** USE-STATES **********/
-  const [passwordInput, setPasswordInput] = React.useState("")
-  const [emailInput, setEmailInput] = React.useState("")
-  const [openSignUp, setOpenSignUp] = React.useState(false)
-  const [showPassword, setShowPassword] = React.useState(false)
-  const [openPasswordForgotten, setOpenPasswordForgotten] =
-    React.useState(false)
-  const [showAlert, setShowAlert] = React.useState({
+  const [passwordInput, setPasswordInput] = useState("")
+  const [emailInput, setEmailInput] = useState(
+    passwordForgottenDefaultEmail || ""
+  )
+  const [showPassword, setShowPassword] = useState(false)
+  const [showAlert, setShowAlert] = useState({
     show: false,
     severity: null,
     text: null,
     title: null,
   })
 
-  /********** STYLE **********/
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"))
+  /********** ANIMATION **********/
+  const [ref, inView] = useInView()
+  const variants = (key) => ({
+    visible: {
+      opacity: 1,
+      y: 5,
+      transition: { duration: 0.75, delay: key / 5 },
+    },
+    hidden: { opacity: 0, y: 0 },
+  })
+  const controls = useAnimation()
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible")
+    } else {
+      controls.start("hidden")
+    }
+  }, [controls, inView])
 
   /********** FUNCTIONS **********/
   const resendConfirmEmail = async (confirmEmailToken) => {
@@ -197,72 +195,112 @@ function LoginModal(props) {
     setRefreshToken(refreshToken) // Cookies
   }
 
-  const handleClickPasswordForgotten = () => {
-    setOpenPasswordForgotten(true)
-    handleCloseLogin()
-  }
-
-  const handleClosePasswordForgotten = () => {
-    setOpenPasswordForgotten(false)
-  }
-
-  const handleCloseSignUp = () => {
-    setOpenSignUp(false)
-  }
-
-  const handleOpenSignUp = () => {
-    setOpenSignUp(true)
-    handleCloseLogin()
-  }
-
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword)
   }
 
   /********** RENDER **********/
   return (
-    <>
-      <Dialog
-        open={openLogin}
-        // onClose={handleCloseLogin}
-        fullScreen={fullScreen}
-        sx={{
-          ".MuiPaper-root": {
-            background: "blue",
-            minWidth: "400px",
-            gap: 2,
-            padding: 2,
-            width: fullScreen ? "100%" : "",
-            justifyContent: fullScreen ? "center" : "",
-            alignItems: fullScreen ? "center" : "",
-          },
-        }}
+    <Stack width="100%" gap={4} ref={ref}>
+      <motion.div
+        initial="hidden"
+        variants={variants(0.5)}
+        animate={controls}
+        style={{ width: "100%" }}
       >
-        <ModalTitle text="Se connecter" />
-        <LoginForm />
-      </Dialog>
+        <ModalTitle>Se connecter</ModalTitle>
+      </motion.div>
 
-      {openSignUp ? (
-        <SignUpModal
-          openSignUp={openSignUp}
-          handleCloseSignUp={handleCloseSignUp}
-          handleOpenLogin={handleOpenLogin}
-          setSeverity={setSeverity}
-          setOpenSnackBar={setOpenSnackBar}
-          setMessageSnack={setMessageSnack}
-        />
-      ) : null}
+      <CustomForm gap={4}>
+        <motion.div
+          initial="hidden"
+          variants={variants(2)}
+          animate={controls}
+          style={{ width: "100%" }}
+        >
+          <Stack gap={2} width="100%">
+            <CustomFilledInput
+              label="E-mail"
+              type="email"
+              id="email"
+              value={emailInput}
+              onChange={(e) => {
+                setEmailInput(e.target.value)
+                setPasswordForgottenDefaultEmail
+                  ? setPasswordForgottenDefaultEmail(e.target.value)
+                  : null
+              }}
+            />
+            <CustomFilledInputIcon
+              className="input-no-underline"
+              placeholder="Mot de passe"
+              type={showPassword ? "text" : "password"}
+              id="password"
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? (
+                      <VisibilityOff
+                        color="secondary"
+                        sx={{ fontSize: "1.1rem" }}
+                      />
+                    ) : (
+                      <Visibility
+                        color="secondary"
+                        sx={{ fontSize: "1.1rem" }}
+                      />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
 
-      {openPasswordForgotten ? (
-        <PasswordForgottenModal
-          defaultEmail={emailInput}
-          openPasswordForgotten={openPasswordForgotten}
-          handleClosePasswordForgotten={handleClosePasswordForgotten}
-        />
-      ) : null}
-    </>
+            {showAlert.show ? <AlertInfo content={showAlert} /> : null}
+          </Stack>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          variants={variants(3)}
+          animate={controls}
+          style={{ width: "100%", textAlign: "center" }}
+        >
+          <Typography>
+            <CustomLink
+              sx={{ color: (theme) => theme.palette.text.white }}
+              onClick={handleClickPasswordForgotten}
+              className="cool-button"
+            >
+              Mot de passe oublié ?
+            </CustomLink>
+          </Typography>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          variants={variants(4)}
+          animate={controls}
+          style={{ width: "100%" }}
+        >
+          <RightSubmitButton
+            onClick={login}
+            disabled={
+              !passwordInput ||
+              !emailInput ||
+              passwordInput.trim() === "" ||
+              emailInput.trim() === ""
+            }
+          >
+            Se connecter
+          </RightSubmitButton>
+        </motion.div>
+      </CustomForm>
+    </Stack>
   )
 }
-
-/********** EXPORT **********/
-export default withSnacks(LoginModal)

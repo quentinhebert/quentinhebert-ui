@@ -7,7 +7,6 @@ const Text = styled((props) => {
   return (
     <Box
       component="a"
-      href={href}
       rel="noreferrer"
       sx={{
         "&:hover": {

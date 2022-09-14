@@ -63,6 +63,13 @@ body {
             user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
+.input-no-underline::before, .input-no-underline::after {
+  border-bottom: none !important;
+}
+.MuiInput-input::placeholder {
+  color: #C6900E;
+}
+
 @font-face {
   font-family: 'Ethereal';
   font-style: normal;

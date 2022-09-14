@@ -6,7 +6,7 @@ const SubmitButton = styled((props) => (
     variant="outlined"
     size="large"
     sx={{
-      width: "200px",
+      minWidth: "200px",
       color: (theme) => theme.palette.secondary.main,
       backgroundColor: "transparent",
       border: (theme) => `2px solid ${theme.palette.secondary.main}`,

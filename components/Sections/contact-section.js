@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { Box, Stack, Typography } from "@mui/material"
+import { Box, Stack } from "@mui/material"
 import ContactForm from "../Forms/contact-form"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
