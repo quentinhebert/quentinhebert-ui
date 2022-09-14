@@ -11,8 +11,9 @@ export default function SmallTitle(props) {
       letterSpacing={2}
       fontWeight="bold"
       zIndex={1}
+      className="no-select"
       sx={{
-        color: (theme) => theme.palette.text.secondary,
+        color: props.color || ((theme) => theme.palette.text.secondary),
         fontSize: "1.2rem",
       }}
       {...props}

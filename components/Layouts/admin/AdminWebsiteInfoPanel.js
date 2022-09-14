@@ -9,6 +9,7 @@ import CustomModal from "../../ReusableComponents/modals/custom-modal"
 import { useState } from "react"
 import AdminFooterForm from "../../Forms/admin/admin-footer-form"
 import AdminNavbarForm from "../../Forms/admin/admin-navbar-form"
+import AdminContactForm from "../../Forms/admin/admin-contact-form"
 
 export default function AdminWebsiteInfoPanel() {
   const [openModal, setOpenModal] = useState(false)
@@ -111,6 +112,9 @@ export default function AdminWebsiteInfoPanel() {
         )}
         {dialogContent === "footer" && (
           <AdminFooterForm handleClose={() => setOpenModal(false)} />
+        )}
+        {dialogContent === "contact" && (
+          <AdminContactForm handleClose={() => setOpenModal(false)} />
         )}
       </CustomModal>
     </>

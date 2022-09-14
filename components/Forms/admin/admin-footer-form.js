@@ -2,7 +2,6 @@ import { useState, useContext, useEffect } from "react"
 import { Stack } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AlertInfo from "../../Other/alert-info"
-import { UserContext } from "../../../contexts/UserContext"
 import CustomForm from "../../ReusableComponents/forms/custom-form"
 import CustomFilledTextArea from "../../ReusableComponents/forms/custom-filled-text-area"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
@@ -12,15 +11,7 @@ import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-but
 
 export default function AdminFooterForm(props) {
   /********** PROPS **********/
-  const {
-    handleClickPasswordForgotten,
-    passwordForgottenDefaultEmail,
-    setPasswordForgottenDefaultEmail,
-    handleClose,
-  } = props
-
-  /********** USER **********/
-  const { setUser } = useContext(UserContext)
+  const { handleClose } = props
 
   /********** USE-STATES **********/
   const [credits, setCredits] = useState("")
@@ -96,7 +87,6 @@ export default function AdminFooterForm(props) {
           <Stack gap={2} width="100%">
             <CustomFilledTextArea
               label="Modifier les crédits"
-              type="credits"
               id="credits"
               value={credits}
               onChange={(e) => setCredits(e.target.value)}

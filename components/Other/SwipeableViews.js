@@ -269,7 +269,6 @@ var SwipeableViews =
 
     function SwipeableViews(props) {
       var _this
-
       ;(0, _classCallCheck2.default)(this, SwipeableViews)
       _this = (0, _possibleConstructorReturn2.default)(
         this,
