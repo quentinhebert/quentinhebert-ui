@@ -4,8 +4,8 @@ import Navbar from "../../components/Navigation/Navbars/navbar"
 import Footer from "../../components/Navigation/Footers/Footer"
 import { USERTYPES } from "../../enums/userTypes"
 import { UserContext } from "../../contexts/UserContext"
-import AdminIndex from "../../components/Layouts/admin/AdminIndex"
 import LoginLayout from "../../components/Layouts/LoginLayout"
+import AdminManageWebsiteInfoPanel from "../../components/Layouts/admin/AdminWebsiteInfoPanel"
 
 export default function AdminManageWebsiteInformations(props) {
   const {} = props
@@ -29,7 +29,7 @@ export default function AdminManageWebsiteInformations(props) {
       {!user || user.type !== USERTYPES.ADMIN ? (
         <LoginLayout />
       ) : (
-        <AdminIndex />
+        <AdminManageWebsiteInfoPanel />
       )}
       <Footer />
     </>

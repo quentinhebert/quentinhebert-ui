@@ -42,36 +42,37 @@ export default function Menu(props) {
           unmountOnExit
         >
           <Stack textAlign="center">
-            {list.map((item, key) => {
-              return (
-                <Link href={item.href} passHref key={key}>
-                  <Typography
-                    className="no-select"
-                    key={key}
-                    padding=".5rem 0"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    fontWeight="bold"
-                    marginLeft={page === item.href ? -3 : 0}
-                    sx={{
-                      textTransform: "uppercase",
-                      cursor: page === item.href ? "default" : "pointer",
-                      color:
-                        page === item.href
-                          ? (theme) => theme.palette.text.primary
-                          : (theme) => theme.palette.text.white,
-                      "&:hover": {
-                        color: (theme) => theme.palette.text.primary,
-                      },
-                    }}
-                  >
-                    {page === item.href ? <PlayArrowIcon /> : null}
-                    {item.label}
-                  </Typography>
-                </Link>
-              )
-            })}
+            {list?.length > 0 &&
+              list.map((item, key) => {
+                return (
+                  <Link href={item.href} passHref key={key}>
+                    <Typography
+                      className="no-select"
+                      key={key}
+                      padding=".5rem 0"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      fontWeight="bold"
+                      marginLeft={page === item.href ? -3 : 0}
+                      sx={{
+                        textTransform: "uppercase",
+                        cursor: page === item.href ? "default" : "pointer",
+                        color:
+                          page === item.href
+                            ? (theme) => theme.palette.text.primary
+                            : (theme) => theme.palette.text.white,
+                        "&:hover": {
+                          color: (theme) => theme.palette.text.primary,
+                        },
+                      }}
+                    >
+                      {page === item.href ? <PlayArrowIcon /> : null}
+                      {item.label}
+                    </Typography>
+                  </Link>
+                )
+              })}
           </Stack>
         </Slide>
       </Stack>

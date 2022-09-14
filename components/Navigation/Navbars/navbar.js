@@ -14,9 +14,17 @@ import { motion } from "framer-motion"
 import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on-hover-stack"
 import { useScrollPosition } from "@n8tb1t/use-scroll-position"
 import Link from "next/link"
+import useSWR from "swr"
+import apiCall from "../../../services/apiCalls/apiCall"
 
 const MobileNavbar = dynamic(() => import("./mobile-navbar"))
 const DesktopNavbar = dynamic(() => import("./desktop-navbar"))
+
+async function fetchUpToDateNavbar() {
+  const res = await apiCall.unauthenticated.getNavbar()
+  const jsonRes = await res.json()
+  return jsonRes
+}
 
 export default function Navbar(props) {
   const { bgColor } = props
@@ -26,12 +34,16 @@ export default function Navbar(props) {
   // Define logo of navbar
   let logoQH = "/logos/logo-qh.png"
 
-  const menuItems = [
-    { href: "/", label: "Accueil" },
-    { href: "/films", label: "Vidéo" },
-    { href: "/websites", label: "Web" },
-    { href: "/contact", label: "Contact" },
-  ]
+  const { data, error, mutate } = useSWR(
+    `/navbar`,
+    async () => fetchUpToDateNavbar(),
+    {
+      fallbackData: props,
+      revalidateOnMount: true,
+    }
+  )
+
+  if (!data) return null
 
   // Check if user has grant to access that page
   const { user } = useContext(UserContext)
@@ -123,11 +135,15 @@ export default function Navbar(props) {
           <Box component="div" sx={{ flexGrow: 1 }} />
 
           {isMobile ? (
-            <MobileNavbar mainColor={mainColor} list={menuItems} page={page} />
+            <MobileNavbar
+              mainColor={mainColor}
+              list={data.menu_items}
+              page={page}
+            />
           ) : (
             <DesktopNavbar
               mainColor={mainColor}
-              list={menuItems}
+              list={data.menu_items}
               page={page}
               isReduced={isReduced}
             />
@@ -138,4 +154,14 @@ export default function Navbar(props) {
       </Box>
     </AppBar>
   )
+}
+
+export async function getStaticProps({ params }) {
+  const {} = params
+  const data = await fetchUpToDateNavbar()
+  let notFound = false
+
+  if (data.statusCode === 400 || data.statusCode === 404) notFound = true
+
+  return { props: data, notFound, revalidate: 60 }
 }
