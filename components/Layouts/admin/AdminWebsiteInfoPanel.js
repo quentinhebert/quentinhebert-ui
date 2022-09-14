@@ -8,6 +8,7 @@ import PageTitle from "../../ReusableComponents/titles/page-title"
 import CustomModal from "../../ReusableComponents/modals/custom-modal"
 import { useState } from "react"
 import AdminFooterForm from "../../Forms/admin/admin-footer-form"
+import AdminNavbarForm from "../../Forms/admin/admin-navbar-form"
 
 export default function AdminWebsiteInfoPanel() {
   const [openModal, setOpenModal] = useState(false)
@@ -106,7 +107,7 @@ export default function AdminWebsiteInfoPanel() {
 
       <CustomModal open={openModal} handleClose={() => setOpenModal(false)}>
         {dialogContent === "navbar" && (
-          <AdminFooterForm handleClose={() => setOpenModal(false)} />
+          <AdminNavbarForm handleClose={() => setOpenModal(false)} />
         )}
         {dialogContent === "footer" && (
           <AdminFooterForm handleClose={() => setOpenModal(false)} />

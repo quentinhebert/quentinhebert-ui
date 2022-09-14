@@ -24,6 +24,10 @@ const CssFilledInput = styled((props) => (
       backgroundColor: theme.palette.background.main,
     },
   },
+  "& .MuiFilledInput-input.Mui-disabled": {
+    background: `linear-gradient(-90deg, transparent 0%, ${theme.palette.background.main} 10%)`,
+    color: "grey",
+  },
   "& .MuiFormLabel-root.Mui-focused.Mui-error": {
     color: "#f44336",
   },

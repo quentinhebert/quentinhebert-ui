@@ -12,6 +12,6 @@ const TwoInputLine = styled((props) => (
   />
 ))(() => ({}))
 
-export default function CustomFilledTextArea(props) {
+export default function DualInputLine(props) {
   return <TwoInputLine {...props} />
 }

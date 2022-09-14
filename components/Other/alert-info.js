@@ -1,33 +1,40 @@
-import { AlertTitle, Stack } from "@mui/material";
-import Alert from "@mui/material/Alert";
-import React from "react";
-import theme from "../../config/theme";
+import { AlertTitle, Stack } from "@mui/material"
+import Alert from "@mui/material/Alert"
+import React from "react"
+import theme from "../../config/theme"
+import { motion } from "framer-motion"
 
 function AlertInfo(props) {
-  const { content } = props;
+  const { content } = props
 
   return (
-    <Stack style={{ marginTop: 10, width: "100%" }}>
-      <Alert
-        variant="outlined"
-        color={content.severity}
-        severity={content.severity}
-        sx={{
-          color: "#FFF",
-          "&.MuiAlert-outlined": {
-            backgroundColor: (theme) => theme.palette.background.main,
-          },
-        }}
-      >
-        {content?.title ? (
-          <AlertTitle color={theme.alert.title[content.severity]}>
-            {content.title}
-          </AlertTitle>
-        ) : null}
-        {content.text}
-      </Alert>
-    </Stack>
-  );
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
+      <Stack style={{ marginTop: 10, marginBottom: 10, width: "100%" }}>
+        <Alert
+          variant="outlined"
+          color={content.severity}
+          severity={content.severity}
+          sx={{
+            color: "#FFF",
+            "&.MuiAlert-outlined": {
+              backgroundColor: "transparent",
+            },
+          }}
+        >
+          {content?.title ? (
+            <AlertTitle color={theme.alert.title[content.severity]}>
+              {content.title}
+            </AlertTitle>
+          ) : null}
+          {content.text}
+        </Alert>
+      </Stack>
+    </motion.div>
+  )
 }
 
-export default AlertInfo;
+export default AlertInfo

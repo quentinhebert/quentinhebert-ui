@@ -24,8 +24,6 @@ export default function CustomModal(props) {
     >
       <Stack
         sx={{
-          minWidth: "200px",
-          minHeight: "100px",
           padding: 4,
           background: (theme) =>
             `linear-gradient(100deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`,

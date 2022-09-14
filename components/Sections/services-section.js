@@ -14,7 +14,6 @@ import styles from "../../styles/TextShine.module.css"
 import SwipeableViews from "react-swipeable-views/lib/SwipeableViews"
 import Stepper from "../Navigation/stepper"
 import SwipeIcon from "@mui/icons-material/Swipe"
-import Loading from "../Other/loading"
 import useSWR from "swr"
 import apiCall from "../../services/apiCalls/apiCall"
 import FlashingUnderscore from "../Animation/flashing-underscore"
@@ -159,7 +158,7 @@ export default function ServicesSection(props) {
     }
   )
 
-  if (!data) return <Loading />
+  if (!data) return null
 
   const sm = useMediaQuery(theme.breakpoints.down("sm"))
 
