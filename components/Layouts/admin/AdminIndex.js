@@ -1,4 +1,4 @@
-import { Grid, Stack, Typography } from "@mui/material"
+import { Box, Grid, Stack, Typography } from "@mui/material"
 import CustomCard from "../../ReusableComponents/cards/custom-card"
 import CustomCardTitle from "../../ReusableComponents/cards/custom-card-title"
 import EndCardButton from "../../ReusableComponents/cards/end-card-button"
@@ -8,37 +8,55 @@ import PageTitle from "../../ReusableComponents/titles/page-title"
 
 const CARDS = [
   {
-    title: "Utilisateurs",
+    title: "Informations",
     description:
-      "Ajoutez, modifiez et supprimez ou ou des utilisateurs de votre site.",
-    button: { text: "Gérer les utilisateurs", href: "/admin/manage-users" },
+      "Modifiez les informations de votre site (descriptions, footer, barre de navigation...).",
+    button: { text: "Gérer", href: "/admin/manage-website-informations" },
   },
   {
     title: "Contenu",
     description: "Ajoutez, modifiez et supprimez du contenu de votre site.",
-    button: { text: "Gérer le contenu", href: "/admin/manage-content" },
+    button: { text: "Gérer", href: "/admin/manage-content" },
+  },
+  {
+    title: "Utilisateurs",
+    description:
+      "Ajoutez, modifiez et supprimez ou ou des utilisateurs de votre site.",
+    button: { text: "Gérer", href: "/admin/manage-users" },
   },
   {
     title: "Fichiers",
     description:
       "Ajoutez, modifiez et supprimez ou ou des utilisateurs de votre site.",
-    button: { text: "Gérer les fichiers", href: "/admin/manage-files" },
-  },
-  {
-    title: "Informations",
-    description: "Modifiez les informations de votre site.",
-    button: { text: "Gérer les utilisateurs", href: "/admin/manage-users" },
+    button: { text: "Gérer", href: "/admin/manage-files" },
   },
 ]
 
 export default function AdminIndex() {
   return (
-    <Stack direction="column" marginTop={"65px"} gap={4} padding={4}>
-      <PageTitle text="Dashboard" />
+    <Stack
+      direction="column"
+      gap={4}
+      padding={4}
+      paddingTop={"7rem"}
+      paddingBottom={"7rem"}
+    >
+      <Box
+        position="fixed"
+        width="100%"
+        height="100%"
+        zIndex={0}
+        sx={{
+          backgroundImage: "url(/medias/lines.jpg)",
+          backgroundSize: "cover",
+        }}
+      />
+      <PageTitle zIndex={1} text="Dashboard" />
       <Stack
         justifyContent="center"
         direction="row"
         gap={4}
+        zIndex={1}
         sx={{
           flexDirection: {
             xs: "column",
@@ -46,7 +64,7 @@ export default function AdminIndex() {
           },
         }}
       >
-        <Grid container rowSpacing={2} columnSpacing={6}>
+        <Grid container rowSpacing={4} columnSpacing={4}>
           {CARDS.map((cardItem, key) => (
             <Grid item xs={10} sm={6} lg={3} key={key} margin="0 auto">
               <CustomCard

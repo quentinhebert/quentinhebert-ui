@@ -1,67 +1,68 @@
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import PersonIcon from "@mui/icons-material/Person";
-import WorkIcon from "@mui/icons-material/Work";
-import EmailIcon from "@mui/icons-material/Email";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings"
+import PersonIcon from "@mui/icons-material/Person"
+import WorkIcon from "@mui/icons-material/Work"
+import EmailIcon from "@mui/icons-material/Email"
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import {
   Avatar,
+  Box,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Stack,
   SwipeableDrawer,
-} from "@mui/material";
-import React from "react";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { logout } from "../../services/utils";
-import Link from "next/link";
-import { USERTYPES } from "../../enums/userTypes";
+} from "@mui/material"
+import React from "react"
+import LogoutIcon from "@mui/icons-material/Logout"
+import { logout } from "../../services/utils"
+import Link from "next/link"
+import { USERTYPES } from "../../enums/userTypes"
 
 const AdminItems = [
-  { label: "Admin panel", icon: <AdminPanelSettingsIcon />, url: "/admin" },
-  { label: "My account", icon: <PersonIcon />, url: "/account" },
+  {
+    label: "Panneau adminitrateur",
+    icon: <AdminPanelSettingsIcon />,
+    url: "/admin",
+  },
+  { label: "Mon compte", icon: <PersonIcon />, url: "/account" },
   // { label: "Mes missions", icon: <WorkIcon />, url: "#" },
   // { label: "Messages", icon: <EmailIcon />, url: "#" },
-];
+]
 
 const ClientItems = [
   { label: "Mon compte", icon: <PersonIcon />, url: "/account" },
   // { label: "Mes commandes", icon: <ShoppingCartIcon />, url: "#" },
   // { label: "Messages", icon: <EmailIcon />, url: "#" },
-];
+]
 
 const ProfessionalItems = [
   { label: "Mon compte", icon: <PersonIcon />, url: "/account" },
   // { label: "Mes missions", icon: <WorkIcon />, url: "#" },
   // { label: "Messages", icon: <EmailIcon />, url: "#" },
-];
+]
 
 const renderMenuItems = (setOfItems) => {
   return setOfItems.map((item, key) => (
     <Link href={item.url} passHref key={key}>
-      <a>
-        <ListItem
-          button
-          key={key}
-          sx={{ color: (theme) => theme.palette.text.light }}
-        >
+      <Box component="a">
+        <ListItem button sx={{ color: (theme) => theme.palette.text.white }}>
           <ListItemIcon>{item.icon}</ListItemIcon>
           <ListItemText primary={item.label} />
         </ListItem>
-      </a>
+      </Box>
     </Link>
-  ));
-};
+  ))
+}
 
 export default function UserMenuDrawer(props) {
-  const { toggleDrawer, isOpen, user, setUser, setAccessToken } = props;
+  const { toggleDrawer, isOpen, user, setUser, setAccessToken } = props
 
   const handleLogout = () => {
-    logout(); // clean local cookies
-    setAccessToken(null); // User Context
-    setUser(null); // User Context
-  };
+    logout() // clean local cookies
+    setAccessToken(null) // User Context
+    setUser(null) // User Context
+  }
 
   return (
     <SwipeableDrawer
@@ -71,10 +72,13 @@ export default function UserMenuDrawer(props) {
       onOpen={toggleDrawer(true)}
     >
       <Stack
-        justifyContent="center"
         alignItems="left"
         flexDirection="column"
-        sx={{ paddingRight: "1rem" }}
+        height="100%"
+        paddingRight="1rem"
+        sx={{
+          background: (theme) => theme.palette.background.main,
+        }}
       >
         <Stack
           role="MenuDrawer"
@@ -83,14 +87,20 @@ export default function UserMenuDrawer(props) {
         >
           <List>
             <ListItem key="Full name" sx={{ cursor: "default" }}>
-              <Avatar
-                alt="Avatar"
-                src={user.avatar_path}
-                sx={{ marginRight: "1rem" }}
-              />
+              {user.avatar_path ? (
+                <Avatar
+                  alt="Avatar"
+                  src={user.avatar_path}
+                  sx={{ marginRight: "1rem" }}
+                />
+              ) : (
+                <Avatar sx={{ marginRight: "1rem" }}>
+                  {user.firstname[0]}
+                </Avatar>
+              )}
               <ListItemText
                 primary={user.firstname + " " + user.lastname}
-                sx={{ color: (theme) => theme.palette.text.light }}
+                sx={{ color: (theme) => theme.palette.text.secondary }}
               />
             </ListItem>
 
@@ -111,13 +121,13 @@ export default function UserMenuDrawer(props) {
                 <LogoutIcon />
               </ListItemIcon>
               <ListItemText
-                primary="Log out"
-                sx={{ color: (theme) => theme.palette.text.light }}
+                primary="Déconnexion"
+                sx={{ color: (theme) => theme.palette.text.white }}
               />
             </ListItem>
           </List>
         </Stack>
       </Stack>
     </SwipeableDrawer>
-  );
+  )
 }

@@ -201,106 +201,118 @@ export default function LoginForm(props) {
 
   /********** RENDER **********/
   return (
-    <Stack width="100%" gap={4} ref={ref}>
-      <motion.div
-        initial="hidden"
-        variants={variants(0.5)}
-        animate={controls}
-        style={{ width: "100%" }}
-      >
-        <ModalTitle>Se connecter</ModalTitle>
-      </motion.div>
-
-      <CustomForm gap={4}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0, duration: 2 }}
+      style={{
+        width: "100%",
+        padding: "2rem",
+        border: `1px solid #fff`,
+        borderRadius: "10px",
+      }}
+    >
+      <Stack width="100%" gap={4} ref={ref}>
         <motion.div
           initial="hidden"
-          variants={variants(2)}
+          variants={variants(0.5)}
           animate={controls}
           style={{ width: "100%" }}
         >
-          <Stack gap={2} width="100%">
-            <CustomFilledInput
-              label="E-mail"
-              type="email"
-              id="email"
-              value={emailInput}
-              onChange={(e) => {
-                setEmailInput(e.target.value)
-                setPasswordForgottenDefaultEmail
-                  ? setPasswordForgottenDefaultEmail(e.target.value)
-                  : null
-              }}
-            />
-            <CustomFilledInputIcon
-              className="input-no-underline"
-              placeholder="Mot de passe"
-              type={showPassword ? "text" : "password"}
-              id="password"
-              value={passwordInput}
-              onChange={(e) => setPasswordInput(e.target.value)}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    edge="end"
-                  >
-                    {showPassword ? (
-                      <VisibilityOff
-                        color="secondary"
-                        sx={{ fontSize: "1.1rem" }}
-                      />
-                    ) : (
-                      <Visibility
-                        color="secondary"
-                        sx={{ fontSize: "1.1rem" }}
-                      />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-
-            {showAlert.show ? <AlertInfo content={showAlert} /> : null}
-          </Stack>
+          <ModalTitle>Se connecter</ModalTitle>
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          variants={variants(3)}
-          animate={controls}
-          style={{ width: "100%", textAlign: "center" }}
-        >
-          <Typography>
-            <CustomLink
-              sx={{ color: (theme) => theme.palette.text.white }}
-              onClick={handleClickPasswordForgotten}
-              className="cool-button"
-            >
-              Mot de passe oublié ?
-            </CustomLink>
-          </Typography>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          variants={variants(4)}
-          animate={controls}
-          style={{ width: "100%" }}
-        >
-          <RightSubmitButton
-            onClick={login}
-            disabled={
-              !passwordInput ||
-              !emailInput ||
-              passwordInput.trim() === "" ||
-              emailInput.trim() === ""
-            }
+        <CustomForm gap={4}>
+          <motion.div
+            initial="hidden"
+            variants={variants(2)}
+            animate={controls}
+            style={{ width: "100%" }}
           >
-            Se connecter
-          </RightSubmitButton>
-        </motion.div>
-      </CustomForm>
-    </Stack>
+            <Stack gap={2} width="100%">
+              <CustomFilledInput
+                label="E-mail"
+                type="email"
+                id="email"
+                value={emailInput}
+                onChange={(e) => {
+                  setEmailInput(e.target.value)
+                  setPasswordForgottenDefaultEmail
+                    ? setPasswordForgottenDefaultEmail(e.target.value)
+                    : null
+                }}
+              />
+              <CustomFilledInputIcon
+                className="input-no-underline"
+                placeholder="Mot de passe"
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      edge="end"
+                    >
+                      {showPassword ? (
+                        <VisibilityOff
+                          color="secondary"
+                          sx={{ fontSize: "1.1rem" }}
+                        />
+                      ) : (
+                        <Visibility
+                          color="secondary"
+                          sx={{ fontSize: "1.1rem" }}
+                        />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+
+              {showAlert.show ? <AlertInfo content={showAlert} /> : null}
+            </Stack>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            variants={variants(3)}
+            animate={controls}
+            style={{ width: "100%", textAlign: "center" }}
+          >
+            <Typography>
+              <CustomLink
+                sx={{ color: (theme) => theme.palette.text.white }}
+                onClick={handleClickPasswordForgotten}
+                className="cool-button"
+              >
+                Mot de passe oublié ?
+              </CustomLink>
+            </Typography>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            variants={variants(4)}
+            animate={controls}
+            style={{ width: "100%" }}
+          >
+            <RightSubmitButton
+              onClick={login}
+              disabled={
+                !passwordInput ||
+                !emailInput ||
+                passwordInput.trim() === "" ||
+                emailInput.trim() === ""
+              }
+            >
+              Se connecter
+            </RightSubmitButton>
+          </motion.div>
+        </CustomForm>
+      </Stack>
+    </motion.div>
   )
 }

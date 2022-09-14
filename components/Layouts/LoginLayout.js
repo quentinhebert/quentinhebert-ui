@@ -38,7 +38,8 @@ export default function LoginLayout(props) {
         zIndex={1}
         gap={4}
         sx={{
-          width: { xs: "250px", sm: "300px", md: "400px" },
+          width: { xs: "300px", sm: "350px", md: "500px" },
+          backgroundColor: "#000",
         }}
       >
         {!passwordForgotten ? (

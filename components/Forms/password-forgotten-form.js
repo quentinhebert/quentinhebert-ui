@@ -64,57 +64,69 @@ export default function PasswordForgottenForm(props) {
 
   /********** RENDER **********/
   return (
-    <Stack width="100%" gap={4} ref={ref}>
-      <motion.div
-        initial="hidden"
-        variants={variants(0.5)}
-        animate={controls}
-        style={{ width: "100%" }}
-      >
-        <ModalTitle>Mot de passe oublié</ModalTitle>
-      </motion.div>
-
-      <CustomForm gap={4}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0, duration: 2 }}
+      style={{
+        width: "100%",
+        padding: "2rem",
+        border: `1px solid #fff`,
+        borderRadius: "10px",
+      }}
+    >
+      <Stack width="100%" gap={4} ref={ref}>
         <motion.div
           initial="hidden"
-          variants={variants(2)}
+          variants={variants(0.5)}
           animate={controls}
           style={{ width: "100%" }}
         >
-          <Stack>
-            <CustomFilledInput
-              label="E-mail"
-              type="email"
-              id="email"
-              value={emailInput}
-              onChange={(e) => setEmailInput(e.target.value)}
-            />
-            <Box width="100%">
-              {showAlert.show ? <AlertInfo content={showAlert} /> : null}
-            </Box>
-          </Stack>
+          <ModalTitle>Mot de passe oublié</ModalTitle>
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          variants={variants(3)}
-          animate={controls}
-          style={{ width: "100%", display: "flex", justifyContent: "end" }}
-        >
-          <Stack flexDirection="row" gap={2}>
-            <CustomSubmitButton onClick={handleCancel}>
-              Annuler
-            </CustomSubmitButton>
-            <CustomSubmitButton
-              secondary="true"
-              onClick={handleSendPasswordForgotten}
-              disabled={!emailInput || emailInput.trim() === ""}
-            >
-              Envoyer
-            </CustomSubmitButton>
-          </Stack>
-        </motion.div>
-      </CustomForm>
-    </Stack>
+        <CustomForm gap={4}>
+          <motion.div
+            initial="hidden"
+            variants={variants(2)}
+            animate={controls}
+            style={{ width: "100%" }}
+          >
+            <Stack>
+              <CustomFilledInput
+                label="E-mail"
+                type="email"
+                id="email"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+              />
+              <Box width="100%">
+                {showAlert.show ? <AlertInfo content={showAlert} /> : null}
+              </Box>
+            </Stack>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            variants={variants(3)}
+            animate={controls}
+            style={{ width: "100%", display: "flex", justifyContent: "end" }}
+          >
+            <Stack flexDirection="row" gap={2}>
+              <CustomSubmitButton onClick={handleCancel}>
+                Annuler
+              </CustomSubmitButton>
+              <CustomSubmitButton
+                secondary="true"
+                onClick={handleSendPasswordForgotten}
+                disabled={!emailInput || emailInput.trim() === ""}
+              >
+                Envoyer
+              </CustomSubmitButton>
+            </Stack>
+          </motion.div>
+        </CustomForm>
+      </Stack>
+    </motion.div>
   )
 }

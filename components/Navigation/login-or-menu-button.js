@@ -1,42 +1,42 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import { UserContext } from "../../contexts/UserContext";
-import { Avatar, Typography, useMediaQuery } from "@mui/material";
-import dynamic from "next/dynamic";
-import theme from "../../config/theme";
-const UserMenuDrawer = dynamic(() => import("../Drawer/user-menu"));
-const LoginModal = dynamic(() => import("../Modals/login-modal"));
+import * as React from "react"
+import Button from "@mui/material/Button"
+import { UserContext } from "../../contexts/UserContext"
+import { Avatar, Typography, useMediaQuery } from "@mui/material"
+import dynamic from "next/dynamic"
+import theme from "../../config/theme"
+const UserMenuDrawer = dynamic(() => import("../Drawer/user-menu"))
+const LoginModal = dynamic(() => import("../Modals/login-modal"))
 
 function LoginOrMenuButton(props) {
   /********** PROPS **********/
-  const {} = props;
+  const {} = props
 
   /********** USER CONTEXT **********/
-  const { user, setUser, setAccessToken } = React.useContext(UserContext);
+  const { user, setUser, setAccessToken } = React.useContext(UserContext)
 
   /********** USE-STATES **********/
-  const [openLogin, setOpenLogin] = React.useState(false);
-  const [openDrawer, setOpenDrawer] = React.useState(false);
+  const [openLogin, setOpenLogin] = React.useState(false)
+  const [openDrawer, setOpenDrawer] = React.useState(false)
 
   /********** FUNCTIONS **********/
   const handleOpenLogin = () => {
-    setOpenLogin(true);
-  };
+    setOpenLogin(true)
+  }
   const handleCloseLogin = () => {
-    setOpenLogin(false);
-  };
+    setOpenLogin(false)
+  }
   const toggleDrawer = (open) => (event) => {
     if (
       event &&
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
     ) {
-      return;
+      return
     }
-    setOpenDrawer(open);
-  };
+    setOpenDrawer(open)
+  }
 
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"))
 
   /********** RENDER **********/
   // User logged
@@ -44,9 +44,13 @@ function LoginOrMenuButton(props) {
     return (
       <>
         <Button onClick={toggleDrawer(true)}>
-          <Avatar alt="Avatar" src={user.avatar_path} />
+          {user.avatar_path ? (
+            <Avatar alt="Avatar" src={user.avatar_path} />
+          ) : (
+            <Avatar>{user.firstname[0]}</Avatar>
+          )}
           {!isMobile ? (
-            <Typography margin={2} textTransform="capitalize">
+            <Typography margin={2} textTransform="capitalize" color="secondary">
               {user.firstname}
             </Typography>
           ) : null}
@@ -59,7 +63,7 @@ function LoginOrMenuButton(props) {
           setAccessToken={setAccessToken}
         />
       </>
-    );
+    )
 
   // Default (no user)
   return (
@@ -82,8 +86,8 @@ function LoginOrMenuButton(props) {
         handleCloseLogin={handleCloseLogin}
       />
     </>
-  );
+  )
 }
 
 /********** EXPORT **********/
-export default LoginOrMenuButton;
+export default LoginOrMenuButton
