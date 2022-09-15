@@ -9,16 +9,16 @@ import {
   Typography,
   Button,
   Dialog,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import apiCall from "../../../services/apiCalls/apiCall";
-import withSnacks from "../../hocs/withSnacks";
-import { ModalTitle } from "../Modal-Components/modal-title";
-import { compose } from "redux";
-import withConfirmAction from "../../hocs/withConfirmAction";
-import { ActionButtons } from "../Modal-Components/modal-action-buttons";
-import theme from "../../../config/theme";
-import { useDropzone } from "react-dropzone";
+} from "@mui/material"
+import { useEffect, useState } from "react"
+import apiCall from "../../../services/apiCalls/apiCall"
+import withSnacks from "../../hocs/withSnacks"
+import { ModalTitle } from "../Modal-Components/modal-title"
+import { compose } from "redux"
+import withConfirmAction from "../../hocs/withConfirmAction"
+import { ActionButtons } from "../Modal-Components/modal-action-buttons"
+import theme from "../../../config/theme"
+import { useDropzone } from "react-dropzone"
 
 function EditReferenceModal(props) {
   const {
@@ -29,7 +29,7 @@ function EditReferenceModal(props) {
     setOpenAddNewPhotosModal,
     openEditModal,
     handleCloseEditModal,
-  } = props;
+  } = props
 
   const [reference, setReference] = useState({
     id: null,
@@ -37,39 +37,39 @@ function EditReferenceModal(props) {
     logo_id: "",
     logo_url: "",
     name: "",
-  });
+  })
 
   // Fetch data
   const fetchData = async () => {
-    const res = await apiCall.unauthenticated.getReference(referenceId);
-    const jsonRes = await res.json();
-    jsonRes.new_logo = null;
-    setReference(jsonRes);
-  };
+    const res = await apiCall.unauthenticated.getReference(referenceId)
+    const jsonRes = await res.json()
+    jsonRes.new_logo = null
+    setReference(jsonRes)
+  }
 
   // We immediately fetch up-to-date categories data, and let's reset all categories on category change to prevent undesired changes to bes saved
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
-  const sizeLimit = 6; // 6MB
+  const sizeLimit = 6 // 6MB
 
   const onDrop = (files) => {
     const filesArray = files.map((file) => {
-      file.URL = URL.createObjectURL(file);
-      return file;
-    });
-    setReference({ ...reference, new_logo: filesArray[0] }); // We only save one photo (the first one)
-  };
+      file.URL = URL.createObjectURL(file)
+      return file
+    })
+    setReference({ ...reference, new_logo: filesArray[0] }) // We only save one photo (the first one)
+  }
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-  });
+  })
 
   // HANDLERS
   const handleChange = (e, attribute) => {
-    setReference({ ...reference, [attribute]: e.target.value });
-  };
+    setReference({ ...reference, [attribute]: e.target.value })
+  }
   const handleCancel = () => {
     setReference({
       id: null,
@@ -77,21 +77,21 @@ function EditReferenceModal(props) {
       logo_id: "",
       logo_url: "",
       name: "",
-    });
-    handleCloseEditModal();
-  };
+    })
+    handleCloseEditModal()
+  }
   const handleSuccess = () => {
-    setSeverity("success");
-    setMessageSnack("The reference has been changed successfully !");
-    setOpenSnackBar(true);
-    fetchData();
-    handleCloseEditModal();
-  };
+    setSeverity("success")
+    setMessageSnack("The reference has been changed successfully !")
+    setOpenSnackBar(true)
+    fetchData()
+    handleCloseEditModal()
+  }
   const handleError = () => {
-    setSeverity("error");
-    setMessageSnack("An error occurred while updating the category...");
-    setOpenSnackBar(true);
-  };
+    setSeverity("error")
+    setMessageSnack("An error occurred while updating the category...")
+    setOpenSnackBar(true)
+  }
   const handleUpdate = async () => {
     // Check max size limit whether its an album or a galery
     if (
@@ -100,19 +100,18 @@ function EditReferenceModal(props) {
     ) {
       setMessageSnack(
         `The picture you have selected has a size greater than ${sizeLimit}Mo. Please select only a lower-than-${sizeLimit}Mo image.`
-      );
-      setSeverity("error");
-      setOpenSnackBar(true);
-      return;
+      )
+      setSeverity("error")
+      setOpenSnackBar(true)
+      return
     }
-    console.log("reference", reference);
-    const res = await apiCall.admin.updateReference(reference);
+    const res = await apiCall.admin.updateReference(reference)
     if (res && res.ok) {
-      handleSuccess();
+      handleSuccess()
     } else {
-      handleError();
+      handleError()
     }
-  };
+  }
 
   return (
     <Dialog open={openEditModal} onClose={handleCloseEditModal} fullWidth>
@@ -234,7 +233,7 @@ function EditReferenceModal(props) {
         </Stack>
       </Paper>
     </Dialog>
-  );
+  )
 }
 
-export default compose(withSnacks, withConfirmAction)(EditReferenceModal);
+export default compose(withSnacks, withConfirmAction)(EditReferenceModal)

@@ -240,7 +240,6 @@ export default function AdminContactForm(props) {
   }, [])
 
   useEffect(() => {
-    console.log("contactItems", contactItems)
     setAddressItems(
       contactItems.filter((item) => item.group === "address").sort()
     )
