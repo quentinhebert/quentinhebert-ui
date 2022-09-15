@@ -73,18 +73,20 @@ export default function EditUserForm(props) {
   const handleSuccess = () => {
     setSeverity("success")
     setOpenSnackBar("true")
-    setMessageSnack("User updated successfully")
+    setMessageSnack("Utilisateur modifié avec succès")
   }
   const handleError = () => {
     setSeverity("error")
     setOpenSnackBar("true")
-    setMessageSnack("A problem occurred while updating the user")
+    setMessageSnack(
+      "Un problème est survenu lors de la modification de l'utilisateur"
+    )
   }
   const handleErrorDuplicate = () => {
     setSeverity("error")
     setOpenSnackBar("true")
     setMessageSnack(
-      "The email address or the phone already exists for anothe user"
+      "L'e-mail ou le téléphone existe déjà pour un autre utilisateur"
     )
   }
   const handleSaveUser = async () => {
@@ -108,12 +110,12 @@ export default function EditUserForm(props) {
   const handleEmailSent = async () => {
     setSeverity("success")
     setOpenSnackBar("true")
-    setMessageSnack("Email sent")
+    setMessageSnack("Email envoyé avec succès")
   }
   const handleEmailNotSent = async () => {
     setSeverity("error")
     setOpenSnackBar("true")
-    setMessageSnack("A problem occurred while sending the email")
+    setMessageSnack("Un problème est survenu lors de l'envoi de l'email")
   }
   const resendConfirmEmail = async () => {
     const res = await apiCall.admin.resendUserConfirmEmail(user)
@@ -134,7 +136,7 @@ export default function EditUserForm(props) {
         content={{
           severity: "info",
           title: "Information",
-          text: "If teh checkbox is unchecked, the user wont be allowed to log in anymore. The user will need to confirm his/her email with an automatic confirmation email. If the user has just created his/her account, the user has received an automatic email at the provided email. Attention, the automatic email can be received in the spams of the user. Otherwise, use the button to send an automatic confirmation email.",
+          text: "Si la checkbox n'est pas cochée, l'utilisateur ne pourra plus se connecter. L'utilisateur devra confirmer son e-mail via un email automatique de confirmation. Si l'utilisateur vient de créer son compte, l'utilisateur a reçu un e-mail de confirmation à l'adresse e-mail qu'il a renseignée. Attention, l'e-mail de confirmation peut être reçu dans les spams. Autrement, veuillez utiliser le bouton d'envoi d'e-mail de confirmation d'e-mail",
         }}
       />
     )
@@ -144,7 +146,7 @@ export default function EditUserForm(props) {
         content={{
           severity: "info",
           title: "Information",
-          text: "If the checkbox is checked, the user will not be allowed to log in anymore. A message will be shown to the user if he/she tries to log in.",
+          text: "Si la checkbox est cochée, l'utilisateur ne sera plus autorisé à se connecter. Un message lui en informera s'il tente de se connecter.",
         }}
       />
     )
@@ -154,7 +156,7 @@ export default function EditUserForm(props) {
         content={{
           severity: "info",
           title: "Information",
-          text: 'If the checkbox is checked, that means the user has clicked on the button "Password forgotten". If the user resets his/her password, this checkbox will be automatically unchecked.',
+          text: "Si la checkbox est cochée, cela signifie que l'utilisateur a cliqué sur le bouton \"Mot de passe oublié\". Si l'utilisateur réinitialise son mot de passe, cette checkbox sera décochée automatiquement.",
         }}
       />
     )
@@ -170,14 +172,14 @@ export default function EditUserForm(props) {
   // RENDER
   return (
     <CustomModal open={openEditModal} handleClose={handleCloseEditModal}>
-      <ModalTitle>Edit user</ModalTitle>
+      <ModalTitle>Modifier l'utilisateur</ModalTitle>
 
       <Stack direction="row" justifyContent="flex-end">
         <CustomSubmitButton
           startIcon={<RefreshIcon />}
           onClick={(e) => fetchUser()}
         >
-          Refresh
+          Rafraîchir
         </CustomSubmitButton>
       </Stack>
 
@@ -207,7 +209,7 @@ export default function EditUserForm(props) {
             options={[
               { id: "admin", label: "Admin" },
               { id: "client", label: "Client" },
-              { id: "professional", label: "Employed" },
+              { id: "professional", label: "Employé" },
             ]}
             value={user.type}
             setValue={handleChange("type")}
@@ -218,7 +220,7 @@ export default function EditUserForm(props) {
               required
               type="input"
               id="firstname"
-              label="Firstname"
+              label="Prénom"
               value={user.firstname || ""}
               onChange={handleChange("firstname")}
             />
@@ -226,7 +228,7 @@ export default function EditUserForm(props) {
               required
               type="input"
               id="lastname"
-              label="Lastname"
+              label="Nom"
               value={user.lastname || ""}
               onChange={handleChange("lastname")}
             />
@@ -237,7 +239,7 @@ export default function EditUserForm(props) {
               required
               type="email"
               id="email"
-              label="Email address"
+              label="E-mail"
               value={user.email || ""}
               onChange={handleChange("email")}
               error={emailError || updateErrors.email}
@@ -247,7 +249,7 @@ export default function EditUserForm(props) {
               required
               type="phone"
               id="phone"
-              label="Phone"
+              label="Téléphone"
               value={user.phone || ""}
               onChange={handleChange("phone")}
               error={phoneError || updateErrors.phone}
@@ -262,7 +264,7 @@ export default function EditUserForm(props) {
               startIcon={<SendIcon />}
               fontSize="0.8rem"
             >
-              Send an automatic password reset email
+              Envoyer un e-mail de réinitialisation de mot de passe
             </CustomSubmitButton>
             <CustomSubmitButton
               maxWidth="100%"
@@ -270,14 +272,14 @@ export default function EditUserForm(props) {
               startIcon={<SendIcon />}
               fontSize="0.8rem"
             >
-              Send an automatic confirmation email
+              Envoyer un email de confirmation d'e-mail
             </CustomSubmitButton>
           </DualInputLine>
 
           <Box>
             <CustomCheckbox
               required
-              label="Email confirmed"
+              label="E-mail confirmé"
               onChange={handleCheck("email_confirmed")}
               value={user.email_confirmed || false}
               checked={user.email_confirmed || false}
@@ -287,7 +289,7 @@ export default function EditUserForm(props) {
             <InfoEmailConfirm user={user} />
 
             <CustomCheckbox
-              label="Banned"
+              label="Banni"
               onChange={handleCheck("banned")}
               value={user.banned || false}
               checked={user.banned || false}
@@ -297,7 +299,7 @@ export default function EditUserForm(props) {
             <InfoBanned user={user} />
 
             <CustomCheckbox
-              label="Password forgotten"
+              label="Mot de passe oublié"
               onChange={handleCheck("password_forgotten")}
               checked={user.password_forgotten || false}
               value={user.password_forgotten || false}
