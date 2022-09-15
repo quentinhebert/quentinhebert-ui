@@ -92,14 +92,16 @@ export default function SignUpForm(props) {
     setShowAlert({
       show: true,
       severity: "success",
-      text: "A confirmation link has been sent to the email address you have provided. Click on the link or the button in the email, to check whether it is your email.",
-      title: "Your onboarding is almost complete",
+      text: "Un lien de confirmation a été envoyé à l'adresse e-mail que vous avez renseignée. Cliquez sur le lien ou bien sur le bouton dans l'e-mail, pour vérifier qu'il s'agit bien de votre e-mail.",
+      title: "Votre inscription est presque terminée",
     })
   }
 
   const handleSignUpIncomplete = () => {
     setSeverity("error")
-    setMessageSnack("The signup failed, please check all the fields")
+    setMessageSnack(
+      "L'inscription a échouée, veuillez vérifier tous les champs"
+    )
     setOpenSnackBar(true)
   }
 
@@ -150,9 +152,9 @@ export default function SignUpForm(props) {
   const handleDuplicateSignup = () => {
     setShowAlert({
       show: true,
-      title: "Email or phone already exists",
+      title: "E-mail ou téléphone déjà existant",
       severity: "warning",
-      text: "Your email or your phone number already exists for another user.",
+      text: "Votre e-mail ou votre numéro de téléphone existe déjà pour un autre utilisateur.",
     })
   }
 
@@ -224,7 +226,7 @@ export default function SignUpForm(props) {
             required
             type="input"
             id="firstname"
-            label="Firstname"
+            label="Prénom"
             value={userData.firstname}
             onChange={handleChange("firstname")}
             error={signupErrors.firstname}
@@ -234,7 +236,7 @@ export default function SignUpForm(props) {
             required
             type="input"
             id="lastname"
-            label="Lastname"
+            label="Nom"
             value={userData.lastname}
             onChange={handleChange("lastname")}
             error={signupErrors.lastname}
@@ -247,7 +249,7 @@ export default function SignUpForm(props) {
             required
             type="email"
             id="email"
-            label="Email"
+            label="E-mail"
             value={userData.email}
             onChange={handleChange("email")}
             error={emailError || signupErrors.email}
@@ -257,7 +259,7 @@ export default function SignUpForm(props) {
             required
             type="phone"
             id="phone"
-            label="Phone"
+            label="Téléphone"
             value={userData.phone}
             onChange={handleChange("phone")}
             error={phoneError || signupErrors.phone}

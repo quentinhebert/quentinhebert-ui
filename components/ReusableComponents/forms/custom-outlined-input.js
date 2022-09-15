@@ -51,7 +51,7 @@ const CssOutlinedInput = styled((props) => (
       borderColor: "#f44336",
     },
     // Color of the label
-    color: "#f44336",
+    color: "#f44336 !important",
     // Some css for the helper text
     lineHeight: 1,
     marginLeft: 0,
