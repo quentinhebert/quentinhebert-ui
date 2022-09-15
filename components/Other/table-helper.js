@@ -202,7 +202,7 @@ export function EnhancedTableToolbar(props) {
         }}
       >
         <CustomSelect
-          placeholder="Filter"
+          placeholder="Filtre"
           options={headCells}
           value={filterKey}
           setValue={setFilterKey}

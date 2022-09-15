@@ -61,7 +61,7 @@ export default function CustomSearch(props) {
           <SearchIcon color="secondary" />
         </SearchIconWrapper>
         <StyledInputBase
-          placeholder="Search"
+          placeholder="Recherche"
           inputProps={{ "aria-label": "search" }}
           value={value}
           onChange={handleChange}
