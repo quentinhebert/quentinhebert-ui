@@ -14,6 +14,8 @@ import { compose } from "redux"
 import apiCall from "../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import withSnacks from "../../hocs/withSnacks"
+import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
+import PageTitle from "../../ReusableComponents/titles/page-title"
 import CustomTable from "../../Sections/custom-table"
 const SignUpModal = dynamic(() => import("../../Modals/signup-modal"))
 
@@ -216,13 +218,15 @@ function AdminUsersPanel(props) {
   }
 
   return (
-    <Stack justifyContent="center" direction="column" gap={4} padding="1rem">
-      <Typography component="h6" variant="h6">
-        <Link onClick={() => router.push("/admin")} href="#" color="#000">
-          Dashboard
-        </Link>
-        {" > Users"}
-      </Typography>
+    <Stack
+      justifyContent="center"
+      direction="column"
+      gap={4}
+      padding="1rem"
+      marginTop="100px"
+    >
+      <PageTitle zIndex={1} text="Gérer les utilisateurs" />
+      <Breadcrumbs />
 
       <Typography component="span" variant="body1">
         Beneath, you can find all the users of your website.

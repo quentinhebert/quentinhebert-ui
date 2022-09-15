@@ -10,6 +10,7 @@ import { useState } from "react"
 import AdminFooterForm from "../../Forms/admin/admin-footer-form"
 import AdminNavbarForm from "../../Forms/admin/admin-navbar-form"
 import AdminContactForm from "../../Forms/admin/admin-contact-form"
+import AdminBreadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
 
 export default function AdminWebsiteInfoPanel() {
   const [openModal, setOpenModal] = useState(false)
@@ -73,6 +74,7 @@ export default function AdminWebsiteInfoPanel() {
           }}
         />
         <PageTitle zIndex={1} text="Gérer les informations du site" />
+        <AdminBreadcrumbs />
         <Stack justifyContent="center" direction="row" gap={4} zIndex={1}>
           <Grid container rowSpacing={4} columnSpacing={4}>
             {CARDS.map((cardItem, key) => (
