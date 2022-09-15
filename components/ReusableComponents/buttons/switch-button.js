@@ -17,9 +17,7 @@ const MySwitchButton = styled(Switch)(({ theme }) => ({
   },
 }))
 
-export default function SwitchButton(props) {
-  const { checked, handleCheck } = props
-
+export default function SwitchButton({ checked, handleCheck, ...props }) {
   const handleChange = (event) => {
     handleCheck(event.target.checked)
   }
@@ -33,9 +31,10 @@ export default function SwitchButton(props) {
             checked={checked}
             onChange={handleChange}
             inputProps={{ "aria-label": "controlled" }}
+            {...props}
           />
         }
-        label={props.label}
+        label={props.label || ""}
       />
     </FormGroup>
   )

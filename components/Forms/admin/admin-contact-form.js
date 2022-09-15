@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Stack, Typography } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AlertInfo from "../../Other/alert-info"
 import CustomForm from "../../ReusableComponents/forms/custom-form"
@@ -13,6 +13,9 @@ import styles from "../../../styles/TextShine.module.css"
 import SwipeIcon from "@mui/icons-material/Swipe"
 import Stepper from "../../Navigation/stepper"
 import SmallTitle from "../../ReusableComponents/titles/small-title"
+import InTextLink from "../../ReusableComponents/text/in-text-link"
+import SwitchButton from "../../ReusableComponents/buttons/switch-button"
+import CustomTooltip from "../../ReusableComponents/helpers/tooltip"
 
 const Caroussel = ({
   addressItems,
@@ -26,9 +29,18 @@ const Caroussel = ({
     setIndex(index)
   }
   const cards = [
-    { title: "Contacts traditionnels", items: traditionalContactItems },
-    { title: "Réseaux sociaux", items: socialNetworkItems },
-    { title: "Adresse postale", items: addressItems },
+    {
+      title: "Contacts traditionnels",
+      items: traditionalContactItems,
+      description: [
+        <Typography>
+          L'adresse e-mail que vous renseignez sera celle qui sera affichée sur
+          la page de <InTextLink text="contact" href="/contact" />
+        </Typography>,
+      ],
+    },
+    { title: "Réseaux sociaux", items: socialNetworkItems, description: null },
+    { title: "Adresse postale", items: addressItems, description: null },
   ]
 
   /********** ANIMATION **********/
@@ -89,24 +101,65 @@ const Caroussel = ({
               textAlign="left"
               color={(theme) => theme.palette.text.white}
             />
+            {card.description?.length &&
+              card.description.map((descItem, key) => (
+                <AlertInfo
+                  key={key}
+                  content={{
+                    show: true,
+                    severity: "info",
+                    text: descItem,
+                  }}
+                />
+              ))}
             {card.items.map((item, key) => (
-              <CustomFilledInput
+              <Stack
                 key={key}
-                label={item.label}
-                id={item.type}
-                value={item.value}
-                onChange={(e) => {
-                  setContactItems(
-                    Object.values({
-                      ...contactItems,
-                      [item.row]: {
-                        ...contactItems[item.row],
-                        value: e.target.value,
-                      },
-                    })
-                  )
-                }}
-              />
+                flexDirection="row"
+                alignItems="center"
+                sx={{ padding: { xs: "0 .2rem", md: "0 1rem" } }}
+              >
+                <CustomTooltip
+                  text="Cette ligne apparaît obligatoirement sur votre site."
+                  show={item.display === null}
+                  placement="right"
+                >
+                  <Box>
+                    <SwitchButton
+                      disabled={item.display === null}
+                      checked={item.display}
+                      handleCheck={(val) => {
+                        setContactItems(
+                          Object.values({
+                            ...contactItems,
+                            [item.row]: {
+                              ...contactItems[item.row],
+                              display: val,
+                            },
+                          })
+                        )
+                      }}
+                    />
+                  </Box>
+                </CustomTooltip>
+                <CustomFilledInput
+                  label={item.label}
+                  id={item.type}
+                  value={item.value}
+                  sx={{ marginLeft: "-11px" }}
+                  onChange={(e) => {
+                    setContactItems(
+                      Object.values({
+                        ...contactItems,
+                        [item.row]: {
+                          ...contactItems[item.row],
+                          value: e.target.value,
+                        },
+                      })
+                    )
+                  }}
+                />
+              </Stack>
             ))}
           </motion.div>
         ))}
