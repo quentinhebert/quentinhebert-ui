@@ -6,7 +6,7 @@ const SubmitButton = styled((props) => (
     variant="outlined"
     size="large"
     sx={{
-      maxWidth: "200px",
+      maxWidth: props.maxWidth || "200px",
       color: (theme) =>
         props.secondary ? theme.palette.text.secondary : "#fff",
       backgroundColor: "transparent",
@@ -16,6 +16,7 @@ const SubmitButton = styled((props) => (
           : `2px solid #fff`,
       borderRadius: "10px",
       letterSpacing: "1.5px",
+      fontSize: props.fontSize || "",
       "&:hover": {
         border: (theme) =>
           props.secondary

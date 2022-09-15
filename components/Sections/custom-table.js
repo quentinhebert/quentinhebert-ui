@@ -1,4 +1,4 @@
-import * as React from "react"
+import { useState } from "react"
 import { Box } from "@mui/system"
 import {
   Checkbox,
@@ -12,8 +12,7 @@ import {
 } from "@mui/material"
 import { EnhancedTableHead, EnhancedTableToolbar } from "../Other/table-helper"
 import { alpha } from "@mui/material/styles"
-import dynamic from "next/dynamic"
-const EditModalSwitch = dynamic(() => import("../Modals/edit-modal-switch"))
+import EditModalSwitch from "../Modals/edit-modal-switch"
 
 /******************** FUNCTIONS ********************/
 function descendingComparator(a, b, orderBy) {
@@ -44,12 +43,12 @@ export default function CustomTable(props) {
     editDataModel,
     noEdit,
   } = props
-  const [order, setOrder] = React.useState("desc")
-  const [orderBy, setOrderBy] = React.useState("created_at")
-  const [selected, setSelected] = React.useState([])
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
-  const [openEditModal, setOpenEditModal] = React.useState(false)
+  const [order, setOrder] = useState("desc")
+  const [orderBy, setOrderBy] = useState("created_at")
+  const [selected, setSelected] = useState([])
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [openEditModal, setOpenEditModal] = useState(false)
 
   // WARNING: first column of the array MUST BE a primary key/id in DB
   const renderData = (row) =>
@@ -306,14 +305,12 @@ export default function CustomTable(props) {
           />
         </Paper>
 
-        {openEditModal && editDataModel && (
-          <EditModalSwitch
-            dataId={selectedRows[0]}
-            dataModel={editDataModel}
-            openEditModal={openEditModal}
-            handleCloseEditModal={handleCloseEditModal}
-          />
-        )}
+        <EditModalSwitch
+          dataId={selectedRows[0]}
+          dataModel={editDataModel}
+          openEditModal={openEditModal}
+          handleCloseEditModal={handleCloseEditModal}
+        />
       </Box>
     )
   // If !rows
