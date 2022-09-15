@@ -23,7 +23,7 @@ const CssOutlinedInput = styled((props) => (
   },
   // color of the label on focus
   "& .Mui-focused": {
-    color: theme.palette.secondary.main,
+    color: `${theme.palette.secondary.main} !important`,
   },
   "& .MuiOutlinedInput-root": {
     // Color of the fieldset on focus

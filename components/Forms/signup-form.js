@@ -2,23 +2,22 @@ import { useState, useContext } from "react"
 import { Stack } from "@mui/material"
 import apiCall from "../../services/apiCalls/apiCall"
 import { USERTYPES } from "../../enums/userTypes"
-import { ModalTitle } from "./Modal-Components/modal-title"
+import { ModalTitle } from "../Modals/Modal-Components/modal-title"
 import { checkPhone, checkEmail, checkPassword } from "../../services/utils"
 import AlertInfo from "../Other/alert-info"
 import CustomSelect from "../Other/custom-select"
 import { UserContext } from "../../contexts/UserContext"
-import CustomModal from "../ReusableComponents/modals/custom-modal"
 import CustomOutlinedInput from "../ReusableComponents/forms/custom-outlined-input"
 import CustomCheckbox from "../ReusableComponents/forms/custom-checkbox"
 import CustomForm from "../ReusableComponents/forms/custom-form"
 import DualInputLine from "../ReusableComponents/forms/responsive-dual-input-container"
 import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
 
-function SignUpModal(props) {
+export default function SignUpForm(props) {
   /********** PROPS **********/
   const {
-    openSignUp,
-    handleCloseSignUp,
+    open,
+    handleClose,
     handleOpenLogin,
     setSeverity,
     setOpenSnackBar,
@@ -81,7 +80,7 @@ function SignUpModal(props) {
   }
 
   const handleSwitchSignUpToLogin = (e) => {
-    handleCloseSignUp(e)
+    handleClose(e)
     handleOpenLogin(e)
   }
 
@@ -205,14 +204,14 @@ function SignUpModal(props) {
     setSignupCompleted(false)
   }
 
-  const handleCloseSignUpAndClear = () => {
+  const handleCloseAndClear = () => {
     clearData()
-    handleCloseSignUp()
+    handleClose()
   }
 
   /********** RENDER **********/
   return (
-    <CustomModal open={openSignUp} onClose={handleCloseSignUp} gap={4}>
+    <Stack gap={4}>
       {isAdmin ? (
         <ModalTitle>Ajouter un utilisateur</ModalTitle>
       ) : (
@@ -309,7 +308,7 @@ function SignUpModal(props) {
       </CustomForm>
 
       <Stack flexDirection="row" gap={2} justifyContent="end">
-        <CustomSubmitButton onClick={handleCloseSignUpAndClear}>
+        <CustomSubmitButton onClick={handleCloseAndClear}>
           Annuler
         </CustomSubmitButton>
         <CustomSubmitButton
@@ -320,9 +319,6 @@ function SignUpModal(props) {
           Enregistrer
         </CustomSubmitButton>
       </Stack>
-    </CustomModal>
+    </Stack>
   )
 }
-
-/********** EXPORT **********/
-export default SignUpModal

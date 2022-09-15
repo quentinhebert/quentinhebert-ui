@@ -1,13 +1,4 @@
-import {
-  Avatar,
-  Button,
-  Link,
-  Paper,
-  Stack,
-  Tooltip,
-  Typography,
-} from "@mui/material"
-import { useRouter } from "next/router"
+import { Avatar, Paper, Stack, Tooltip, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { compose } from "redux"
 import apiCall from "../../../services/apiCalls/apiCall"
@@ -16,7 +7,8 @@ import withSnacks from "../../hocs/withSnacks"
 import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
 import PageTitle from "../../ReusableComponents/titles/page-title"
 import CustomTable from "../../Sections/custom-table"
-import SignUpModal from "../../Modals/signup-modal"
+import SignUpForm from "../../Forms/signup-form"
+import CustomModal from "../../ReusableComponents/modals/custom-modal"
 
 const headCells = [
   {
@@ -147,8 +139,6 @@ function AdminUsersPanel(props) {
   const [allRows, setAllRows] = useState(null) // To keep a constant reference for search filter
   const [openSignUp, setOpenSignUp] = useState(false)
 
-  const router = useRouter()
-
   const fetchUsers = async () => {
     const res = await apiCall.admin.getAllUsers()
     if (res && res.ok) {
@@ -251,13 +241,14 @@ function AdminUsersPanel(props) {
         </Paper>
       </Stack>
 
-      <SignUpModal
-        openSignUp={openSignUp}
-        handleCloseSignUp={handleCloseSignUp}
-        setSeverity={setSeverity}
-        setOpenSnackBar={setOpenSnackBar}
-        setMessageSnack={setMessageSnack}
-      />
+      <CustomModal open={openSignUp} handleClose={handleCloseSignUp}>
+        <SignUpForm
+          handleClose={handleCloseSignUp}
+          setSeverity={setSeverity}
+          setOpenSnackBar={setOpenSnackBar}
+          setMessageSnack={setMessageSnack}
+        />
+      </CustomModal>
     </>
   )
 }

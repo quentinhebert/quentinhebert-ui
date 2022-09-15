@@ -17,7 +17,7 @@ export default function CustomModal(props) {
       TransitionComponent={Transition}
       keepMounted
       sx={{
-        backgroundColor: "rgb(0,0,0, 0.8)",
+        backgroundColor: "rgb(0,0,0, 0.9)",
         "& .MuiDialog-paper": {
           background: "none",
           borderRadius: "20px",

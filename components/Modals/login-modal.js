@@ -31,7 +31,7 @@ import CustomFilledInputIcon from "../ReusableComponents/forms/custom-filled-inp
 import RightSubmitButton from "../ReusableComponents/forms/right-submit-button"
 import LoginForm from "../Forms/login-form"
 
-const SignUpModal = dynamic(() => import("./signup-modal"))
+const SignUpForm = dynamic(() => import("../Forms/signup-form"))
 const PasswordForgottenModal = dynamic(() =>
   import("./password-forgotten-modal")
 )
@@ -243,7 +243,7 @@ function LoginModal(props) {
       </Dialog>
 
       {openSignUp ? (
-        <SignUpModal
+        <SignUpForm
           openSignUp={openSignUp}
           handleCloseSignUp={handleCloseSignUp}
           handleOpenLogin={handleOpenLogin}
