@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Box } from "@mui/system";
+import * as React from "react"
+import { Box } from "@mui/system"
 import {
   Checkbox,
   IconButton,
@@ -12,15 +12,16 @@ import {
   Tooltip,
   Typography,
   Stack,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import { alpha } from "@mui/material/styles";
-import { visuallyHidden } from "@mui/utils";
-import CustomSearch from "./custom-search";
-import CustomSelect from "./custom-select";
+} from "@mui/material"
+import AddIcon from "@mui/icons-material/Add"
+import DeleteIcon from "@mui/icons-material/Delete"
+import EditIcon from "@mui/icons-material/Edit"
+import RefreshIcon from "@mui/icons-material/Refresh"
+import { alpha } from "@mui/material/styles"
+import { visuallyHidden } from "@mui/utils"
+import CustomSearch from "./custom-search"
+import CustomSelect from "./custom-select"
+import OutlinedButton from "../ReusableComponents/buttons/outlined-button"
 
 export function EnhancedTableHead(props) {
   const {
@@ -31,11 +32,11 @@ export function EnhancedTableHead(props) {
     numSelected,
     rowCount,
     onRequestSort,
-  } = props;
+  } = props
 
   const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+    onRequestSort(event, property)
+  }
 
   return (
     <TableHead>
@@ -51,10 +52,10 @@ export function EnhancedTableHead(props) {
             }}
             sx={{
               "&.Mui-checked": {
-                color: "rgb(144, 202, 249)",
+                color: (theme) => theme.palette.secondary.main,
               },
               "&.MuiCheckbox-indeterminate": {
-                color: "rgb(144, 202, 249)",
+                color: (theme) => theme.palette.secondary.main,
               },
             }}
           />
@@ -64,6 +65,12 @@ export function EnhancedTableHead(props) {
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             sortDirection={orderBy === headCell.id ? order : false}
+            sx={{
+              color: (theme) => theme.palette.text.white,
+              ".MuiTableSortLabel-root.Mui-active": {
+                color: (theme) => theme.palette.text.secondary,
+              },
+            }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -81,7 +88,7 @@ export function EnhancedTableHead(props) {
         ))}
       </TableRow>
     </TableHead>
-  );
+  )
 }
 
 export function EnhancedTableToolbar(props) {
@@ -96,28 +103,28 @@ export function EnhancedTableToolbar(props) {
     handleCreate,
     refreshData,
     noEdit,
-  } = props;
+  } = props
 
-  const [filterKey, setFilterKey] = React.useState("id");
-  const [filterValue, setFilterValue] = React.useState("");
+  const [filterKey, setFilterKey] = React.useState("id")
+  const [filterValue, setFilterValue] = React.useState("")
 
   React.useEffect(() => {
-    if (filterKey && filterValue) handleFilter();
-    else refreshData();
-  }, [filterValue, filterKey]);
+    if (filterKey && filterValue) handleFilter()
+    else refreshData()
+  }, [filterValue, filterKey])
 
   const handleFilter = () => {
     const filteredRows = allRows.filter((row) => {
       if (typeof row[filterKey] === "string")
-        return row[filterKey].toLowerCase().includes(filterValue.toLowerCase()); // Case incensitive
+        return row[filterKey].toLowerCase().includes(filterValue.toLowerCase()) // Case incensitive
       if (typeof row[filterKey] === "boolean") {
         return `${row[filterKey]}`
           .toLowerCase()
-          .includes(filterValue.toLowerCase());
+          .includes(filterValue.toLowerCase())
       }
-    });
-    setRows(filteredRows);
-  };
+    })
+    setRows(filteredRows)
+  }
 
   return (
     <Toolbar
@@ -135,8 +142,7 @@ export function EnhancedTableToolbar(props) {
     >
       {selectedRows.length > 0 ? (
         <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
+          sx={{ flex: "1 1 100%", color: (theme) => theme.palette.text.white }}
           variant="subtitle1"
           component="div"
         >
@@ -144,8 +150,7 @@ export function EnhancedTableToolbar(props) {
         </Typography>
       ) : arrayTitle ? (
         <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
+          sx={{ flex: "1 1 100%", color: (theme) => theme.palette.text.white }}
           variant="subtitle1"
           component="div"
         >
@@ -159,30 +164,21 @@ export function EnhancedTableToolbar(props) {
             onClick={(e) => refreshData()}
             sx={{ marginRight: "1rem" }}
           >
-            <RefreshIcon />
+            <RefreshIcon color="secondary" />
           </IconButton>
         </Tooltip>
       ) : null}
 
       {selectedRows.length === 0 && handleCreate ? (
-        <Button
-          variant="contained"
-          onClick={(e) => handleCreate()}
-          sx={{
-            textTransform: "capitalize",
-            padding: "1rem",
-            width: "150px",
-          }}
-          startIcon={<AddIcon />}
-        >
-          <Typography variant="body2">Add</Typography>
-        </Button>
+        <OutlinedButton onClick={(e) => handleCreate()} startIcon={<AddIcon />}>
+          Ajouter
+        </OutlinedButton>
       ) : null}
 
       {selectedRows.length === 1 && !noEdit ? (
         <Tooltip title="Edit">
           <IconButton onClick={(e) => handleEdit(selectedRows)}>
-            <EditIcon />
+            <EditIcon color="secondary" />
           </IconButton>
         </Tooltip>
       ) : null}
@@ -190,7 +186,7 @@ export function EnhancedTableToolbar(props) {
       {selectedRows.length > 0 ? (
         <Tooltip title="Delete">
           <IconButton onClick={(e) => handleDelete(selectedRows)}>
-            <DeleteIcon />
+            <DeleteIcon color="secondary" />
           </IconButton>
         </Tooltip>
       ) : null}
@@ -214,5 +210,5 @@ export function EnhancedTableToolbar(props) {
         <CustomSearch value={filterValue} setValue={setFilterValue} />
       </Stack>
     </Toolbar>
-  );
+  )
 }

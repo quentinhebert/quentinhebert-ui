@@ -1,15 +1,16 @@
-import * as React from "react";
-import { styled, alpha } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
+import * as React from "react"
+import { styled, alpha } from "@mui/material/styles"
+import Box from "@mui/material/Box"
+import InputBase from "@mui/material/InputBase"
+import SearchIcon from "@mui/icons-material/Search"
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  border: `1px solid ${theme.palette.text.secondary}`,
+  backgroundColor: theme.palette.background.main,
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.background.secondary, 0.1),
   },
   marginLeft: 0,
   width: "100%",
@@ -17,7 +18,7 @@ const Search = styled("div")(({ theme }) => ({
     marginLeft: theme.spacing(1),
     width: "auto",
   },
-}));
+}))
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -27,7 +28,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-}));
+}))
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
@@ -44,28 +45,29 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
       },
     },
   },
-}));
+}))
 
 export default function CustomSearch(props) {
-  const { value, setValue } = props;
+  const { value, setValue } = props
 
   const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+    setValue(event.target.value)
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Search>
         <SearchIconWrapper>
-          <SearchIcon />
+          <SearchIcon color="secondary" />
         </SearchIconWrapper>
         <StyledInputBase
           placeholder="Search"
           inputProps={{ "aria-label": "search" }}
           value={value}
           onChange={handleChange}
+          sx={{ color: (theme) => theme.palette.secondary.main }}
         />
       </Search>
     </Box>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext } from "react"
 import Head from "next/head"
 import Navbar from "../../components/Navigation/Navbars/navbar"
 import Footer from "../../components/Navigation/Footers/Footer"
@@ -6,6 +6,7 @@ import { USERTYPES } from "../../enums/userTypes"
 import { UserContext } from "../../contexts/UserContext"
 import LoginLayout from "../../components/Layouts/LoginLayout"
 import AdminManageWebsiteInfoPanel from "../../components/Layouts/admin/AdminWebsiteInfoPanel"
+import { Stack } from "@mui/material"
 
 export default function AdminManageWebsiteInformations(props) {
   const {} = props
@@ -14,7 +15,7 @@ export default function AdminManageWebsiteInformations(props) {
   const { user } = useContext(UserContext)
 
   return (
-    <>
+    <Stack>
       <Head>
         <title>Quentin Hébert | Admin | Gérer les informations du site</title>
         <meta
@@ -32,6 +33,6 @@ export default function AdminManageWebsiteInformations(props) {
         <AdminManageWebsiteInfoPanel />
       )}
       <Footer />
-    </>
+    </Stack>
   )
 }

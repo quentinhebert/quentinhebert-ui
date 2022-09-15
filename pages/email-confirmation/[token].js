@@ -1,10 +1,11 @@
-import Head from "next/head";
-import React from "react";
-import EmailConfirmationLayout from "../../components/Layouts/EmailConfirmationLayout";
+import { Stack } from "@mui/material"
+import Head from "next/head"
+import React from "react"
+import EmailConfirmationLayout from "../../components/Layouts/EmailConfirmationLayout"
 
 export default function EmailConfirmationPage(props) {
   return (
-    <>
+    <Stack>
       <Head>
         <title>Mathias Mortelmans Films | Confirm your email</title>
         <meta
@@ -16,6 +17,6 @@ export default function EmailConfirmationPage(props) {
       </Head>
 
       <EmailConfirmationLayout />
-    </>
-  );
+    </Stack>
+  )
 }

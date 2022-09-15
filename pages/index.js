@@ -1,10 +1,13 @@
 import React from "react"
 import Head from "next/head"
 import IndexLayout from "../components/Layouts/IndexLayout"
+import { Stack } from "@mui/material"
+import Navbar from "../components/Navigation/Navbars/navbar"
+import Footer from "../components/Navigation/Footers/Footer"
 
 export default function HomePage() {
   return (
-    <>
+    <Stack>
       <Head>
         <title>Quentin Hébert | Freelance</title>
         <meta
@@ -28,8 +31,11 @@ export default function HomePage() {
         <meta property="og:type" content="website" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+      <Navbar />
 
       <IndexLayout />
-    </>
+
+      <Footer />
+    </Stack>
   )
 }

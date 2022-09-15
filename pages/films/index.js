@@ -1,10 +1,11 @@
 import React from "react"
 import Head from "next/head"
 import FilmsIndexLayout from "../../components/Layouts/films/FilmsIndexLayout"
+import { Stack } from "@mui/material"
 
 export default function FilmsHomePage() {
   return (
-    <>
+    <Stack>
       <Head>
         <title>Quentin Hébert | Vidéaste Freelance</title>
         <meta
@@ -33,6 +34,6 @@ export default function FilmsHomePage() {
       </Head>
 
       <FilmsIndexLayout />
-    </>
+    </Stack>
   )
 }

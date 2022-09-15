@@ -28,7 +28,6 @@ export default function IndexLayout(props) {
   return (
     <Stack>
       <Stack ref={topRef} />
-      <Navbar />
 
       {/* Fixed Background for the page */}
       <Stack
@@ -64,8 +63,6 @@ export default function IndexLayout(props) {
       {/* <ContactSection /> */}
 
       <ScrollToTopBtn refForScroll={topRef} />
-
-      <Footer />
     </Stack>
   )
 }

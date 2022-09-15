@@ -32,7 +32,9 @@ const mainTheme = createTheme({
     },
     background: {
       main: primaryDark,
+      primaryLight: primaryLight,
       secondary: secondary,
+      secondaryLight: secondaryLight,
       paper: primaryDark,
       alert: "rgb(255, 226, 183)",
       white: "#dddddd",

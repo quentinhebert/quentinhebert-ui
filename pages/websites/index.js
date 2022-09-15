@@ -1,10 +1,11 @@
 import React from "react"
 import Head from "next/head"
 import WebsitesIndexLayout from "../../components/Layouts/websites/WebsitesIndexLayout"
+import { Stack } from "@mui/material"
 
 export default function WebsitesHomePage() {
   return (
-    <>
+    <Stack>
       <Head>
         <title>Quentin Hébert | Développeur Freelance</title>
         <meta
@@ -33,6 +34,6 @@ export default function WebsitesHomePage() {
       </Head>
 
       <WebsitesIndexLayout />
-    </>
+    </Stack>
   )
 }

@@ -1,10 +1,11 @@
-import Head from "next/head";
-import React from "react";
-import ResetPassordLayout from "../../components/Layouts/ResetPasswordLayout";
+import { Stack } from "@mui/material"
+import Head from "next/head"
+import React from "react"
+import ResetPassordLayout from "../../components/Layouts/ResetPasswordLayout"
 
 export default function ResetPassordPage(props) {
   return (
-    <>
+    <Stack>
       <Head>
         <title>Mathias Mortelmans Films | Reset your password</title>
         <meta
@@ -16,6 +17,6 @@ export default function ResetPassordPage(props) {
       </Head>
 
       <ResetPassordLayout />
-    </>
-  );
+    </Stack>
+  )
 }

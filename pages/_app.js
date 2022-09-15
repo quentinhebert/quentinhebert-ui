@@ -25,15 +25,8 @@ function MyApp({ Component, pageProps }) {
   }
   if (!user && !!accessToken && accessToken !== "") {
     fetchUser()
-    return (
-      <UserContext.Provider value={{ user, setUser, setAccessToken }}>
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps}>
-            <Loading />
-          </Component>
-        </ThemeProvider>
-      </UserContext.Provider>
-    )
+    // return <Loading />
+    return null
   }
 
   return (

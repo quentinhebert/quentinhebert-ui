@@ -190,7 +190,8 @@ export default function CustomTable(props) {
                         selected={isItemSelected}
                         sx={{
                           "&.Mui-selected": {
-                            backgroundColor: "rgba(144, 202, 249, 0.16)",
+                            backgroundColor: (theme) =>
+                              theme.palette.background.primaryLight,
                           },
                         }}
                       >
@@ -215,6 +216,7 @@ export default function CustomTable(props) {
                           id={labelId}
                           scope="row"
                           sx={{
+                            color: (theme) => theme.palette.text.white,
                             cursor: "default",
                             maxWidth: "10rem",
                             wordBreak: "break-all",
