@@ -7,7 +7,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material"
-import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { compose } from "redux"
@@ -17,7 +16,7 @@ import withSnacks from "../../hocs/withSnacks"
 import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
 import PageTitle from "../../ReusableComponents/titles/page-title"
 import CustomTable from "../../Sections/custom-table"
-const SignUpModal = dynamic(() => import("../../Modals/signup-modal"))
+import SignUpModal from "../../Modals/signup-modal"
 
 const headCells = [
   {
@@ -41,54 +40,57 @@ const headCells = [
   {
     id: "firstname",
     numeric: false,
-    label: "Firstname",
+    label: "Prénom",
   },
   {
     id: "lastname",
     numeric: false,
-    label: "Lastname",
+    label: "Nom",
   },
   {
     id: "email",
     numeric: false,
-    label: "Email",
+    label: "E-mail",
   },
   {
     id: "phone",
     numeric: false,
-    label: "Phone",
+    label: "Téléphone",
   },
   {
     id: "created_at",
     numeric: false,
-    label: "Created on",
+    label: "Créé le",
     valueGetter: function (param, rowId) {
       const year = param.split("T")[0].split("-")[0]
       const month = param.split("T")[0].split("-")[1]
       const day = param.split("T")[0].split("-")[2]
       const hour = param.split("T")[1].split(":")[0]
       const min = param.split("T")[1].split(":")[1]
-      return `${year}/${month}/${day} at ${hour}:${min}`
+      // return `${year}/${month}/${day} at ${hour}:${min}`
+      return `${day}/${month}/${year} à ${hour}:${min}`
     },
   },
   {
     id: "email_confirmed",
     numeric: false,
-    label: "Email confirmed",
+    label: "E-mail confirmé",
     valueGetter: function (param, rowId) {
       if (!param)
         return (
           <Tooltip
-            title={`To filter, please search ${param.toString().toUpperCase()}`}
+            title={`Pour filtrer, veuillez chercher ${param
+              .toString()
+              .toUpperCase()}`}
           >
-            <div style={{ maxWidth: "150px" }}>❌</div>
+            <div>❌</div>
           </Tooltip>
         )
       else
         return (
           <>
             <Tooltip
-              title={`To filter, please search ${param
+              title={`Pour filtrer, veuillez chercher ${param
                 .toString()
                 .toUpperCase()}`}
             >
@@ -101,21 +103,23 @@ const headCells = [
   {
     id: "banned",
     numeric: false,
-    label: "Banned",
+    label: "Banni",
     valueGetter: function (param) {
       if (!param)
         return (
           <Tooltip
-            title={`To filter, please search ${param.toString().toUpperCase()}`}
+            title={`Pour filtrer, veuillez chercher ${param
+              .toString()
+              .toUpperCase()}`}
           >
-            <div style={{ maxWidth: "150px" }}>❌</div>
+            <div>❌</div>
           </Tooltip>
         )
       else
         return (
           <>
             <Tooltip
-              title={`To filter, please search ${param
+              title={`Pour filtrer, veuillez chercher ${param
                 .toString()
                 .toUpperCase()}`}
             >
@@ -218,42 +222,43 @@ function AdminUsersPanel(props) {
   }
 
   return (
-    <Stack
-      justifyContent="center"
-      direction="column"
-      gap={4}
-      padding="1rem"
-      marginTop="100px"
-    >
-      <PageTitle zIndex={1} text="Gérer les utilisateurs" />
-      <Breadcrumbs />
+    <>
+      <Stack
+        justifyContent="center"
+        direction="column"
+        gap={4}
+        padding="1rem"
+        marginTop="100px"
+      >
+        <PageTitle zIndex={1} text="Gérer les utilisateurs" />
+        <Breadcrumbs />
 
-      <Typography component="span" variant="body1">
-        Beneath, you can find all the users of your website.
-      </Typography>
-      <Paper variant="contained" sx={{ width: "100%" }}>
-        <CustomTable
-          rows={rows}
-          allRows={allRows}
-          setRows={setRows}
-          headCells={headCells}
-          arrayTitle={rows ? `Users - ${rows.length} result(s)` : "Users"}
-          handleDelete={handleDeleteUser}
-          handleCreate={handleCreate}
-          refreshData={fetchUsers}
-          editDataModel="edit-user"
-        />
-        {openSignUp ? (
-          <SignUpModal
-            openSignUp={openSignUp}
-            handleCloseSignUp={handleCloseSignUp}
-            setSeverity={setSeverity}
-            setOpenSnackBar={setOpenSnackBar}
-            setMessageSnack={setMessageSnack}
+        <Typography component="span" variant="body1">
+          Beneath, you can find all the users of your website.
+        </Typography>
+        <Paper variant="contained" sx={{ width: "100%" }}>
+          <CustomTable
+            rows={rows}
+            allRows={allRows}
+            setRows={setRows}
+            headCells={headCells}
+            arrayTitle={rows ? `Users - ${rows.length} result(s)` : "Users"}
+            handleDelete={handleDeleteUser}
+            handleCreate={handleCreate}
+            refreshData={fetchUsers}
+            editDataModel="edit-user"
           />
-        ) : null}
-      </Paper>
-    </Stack>
+        </Paper>
+      </Stack>
+
+      <SignUpModal
+        openSignUp={openSignUp}
+        handleCloseSignUp={handleCloseSignUp}
+        setSeverity={setSeverity}
+        setOpenSnackBar={setOpenSnackBar}
+        setMessageSnack={setMessageSnack}
+      />
+    </>
   )
 }
 

@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@mui/material"
 import { EnhancedTableHead, EnhancedTableToolbar } from "../Other/table-helper"
+import { alpha } from "@mui/material/styles"
 import dynamic from "next/dynamic"
 const EditModalSwitch = dynamic(() => import("../Modals/edit-modal-switch"))
 
@@ -58,7 +59,14 @@ export default function CustomTable(props) {
         data = headCell.valueGetter(row[headCell.id], row.id)
       }
       return (
-        <TableCell align="left" sx={{ cursor: "default" }} key={headCell.id}>
+        <TableCell
+          align="left"
+          key={headCell.id}
+          sx={{
+            cursor: "default",
+            color: (theme) => theme.palette.text.white,
+          }}
+        >
           {data}
         </TableCell>
       )
@@ -190,8 +198,9 @@ export default function CustomTable(props) {
                         selected={isItemSelected}
                         sx={{
                           "&.Mui-selected": {
+                            // Overrides bg color of a selected row
                             backgroundColor: (theme) =>
-                              theme.palette.background.primaryLight,
+                              `${theme.palette.background.primaryLight} !important`,
                           },
                         }}
                       >
@@ -204,7 +213,7 @@ export default function CustomTable(props) {
                               "aria-labelledby": labelId,
                             }}
                             sx={{
-                              "&.Mui-checked": {
+                              "& .Mui-checked": {
                                 color: (theme) => theme.palette.text.secondary,
                               },
                             }}
@@ -248,10 +257,52 @@ export default function CustomTable(props) {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage={"Elements per page:"}
+            labelRowsPerPage={"Élements par page :"}
             labelDisplayedRows={({ from, to, count }) =>
-              `${from}–${to} of ${count !== -1 ? count : `more than ${to}`}`
+              `${from}–${to} sur ${count !== -1 ? count : `plus de ${to}`}`
             }
+            SelectProps={{
+              MenuProps: {
+                sx: {
+                  ".MuiPaper-root": {
+                    backgroundColor: (theme) => theme.palette.background.main,
+                    backgroundImage: "none",
+                  },
+                  ".MuiTablePagination-menuItem": {
+                    ":hover": {
+                      color: (theme) => theme.palette.text.secondary,
+                      backgroundColor: (theme) =>
+                        alpha(theme.palette.secondary.main, 0.1),
+                    },
+                    color: (theme) => theme.palette.text.white,
+                    backgroundColor: (theme) => theme.palette.background.main,
+                  },
+                  ".MuiTablePagination-menuItem.Mui-selected": {
+                    ":hover": {
+                      backgroundColor: (theme) =>
+                        theme.palette.background.secondary,
+                    },
+                    color: (theme) => theme.palette.text.primary,
+                    backgroundColor: (theme) =>
+                      theme.palette.background.secondary,
+                  },
+                },
+              },
+            }}
+            sx={{
+              // "Elements per page" label style
+              "&& .MuiTablePagination-selectLabel": {
+                color: (theme) => theme.palette.text.white,
+              },
+              // "From-To of Total" label style
+              "&& .MuiTablePagination-displayedRows": {
+                color: (theme) => theme.palette.text.white,
+              },
+              // Nb of items per page select input style
+              "&& .MuiInputBase-input": {
+                color: (theme) => theme.palette.text.secondary,
+              },
+            }}
           />
         </Paper>
 

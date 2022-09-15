@@ -206,6 +206,7 @@ export function EnhancedTableToolbar(props) {
           options={headCells}
           value={filterKey}
           setValue={setFilterKey}
+          backgroundColor={(theme) => theme.palette.background.main}
         />
         <CustomSearch value={filterValue} setValue={setFilterValue} />
       </Stack>

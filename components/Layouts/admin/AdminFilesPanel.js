@@ -6,6 +6,8 @@ import { compose } from "redux"
 import apiCall from "../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import withSnacks from "../../hocs/withSnacks"
+import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
+import PageTitle from "../../ReusableComponents/titles/page-title"
 import CustomTable from "../../Sections/custom-table"
 
 function AdminFilesPanel(props) {
@@ -164,13 +166,15 @@ function AdminFilesPanel(props) {
   ]
 
   return (
-    <Stack justifyContent="center" direction="column" gap={4} padding="1rem">
-      <Typography component="h6" variant="h6">
-        <Link onClick={() => router.push("/admin")} href="#" color="#000">
-          Dashboard
-        </Link>
-        {" > Fichiers"}
-      </Typography>
+    <Stack
+      justifyContent="center"
+      direction="column"
+      gap={4}
+      padding="1rem"
+      marginTop="100px"
+    >
+      <PageTitle zIndex={1} text="Gérer les fichiers" />
+      <Breadcrumbs />
 
       <Typography component="span" variant="body1">
         Beneath, you can find all the files of the website.

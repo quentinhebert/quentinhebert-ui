@@ -6,7 +6,7 @@ import { USERTYPES } from "../../enums/userTypes"
 import Redirect from "../../components/Navigation/redirect"
 import { UserContext } from "../../contexts/UserContext"
 import AdminFilesPanel from "../../components/Layouts/admin/AdminFilesPanel"
-import { Typography } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 
 export default function AdminFilesManagementPage(props) {
   const {} = props
