@@ -249,7 +249,7 @@ export default function SignUpForm(props) {
               options={[
                 { id: "admin", label: "Admin" },
                 { id: "client", label: "Client" },
-                { id: "professional", label: "Employed" },
+                { id: "professional", label: "Employé" },
               ]}
               value={userData.type}
               setValue={(eventValue) =>
