@@ -268,8 +268,7 @@ export default function SignUpForm(props) {
         </DualInputLine>
 
         <CustomCheckbox
-          required
-          label="J'accepte la politique du site"
+          label="J'accepte la politique du site *"
           onChange={handleCheck("policy")}
           labelcolor={(theme) => theme.palette.text.white}
           fontSize="1rem"
