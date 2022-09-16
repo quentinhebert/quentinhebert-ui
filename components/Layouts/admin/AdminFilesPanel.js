@@ -1,4 +1,4 @@
-import { Paper, Stack, Tooltip, Typography } from "@mui/material"
+import { Stack, Tooltip } from "@mui/material"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { compose } from "redux"
@@ -168,6 +168,7 @@ function AdminFilesPanel(props) {
 
   return (
     <Stack
+      flexGrow={1}
       justifyContent="center"
       direction="column"
       gap={2}
@@ -180,22 +181,20 @@ function AdminFilesPanel(props) {
       <BodyText fontSize="1rem">
         Ci-dessous, vous trouverez tous les fichiers de votre site.
       </BodyText>
-      <Paper variant="contained" sx={{ width: "100%" }}>
-        <CustomTable
-          rows={rows}
-          allRows={allRows}
-          setRows={setRows}
-          headCells={headCells}
-          arrayTitle={
-            rows
-              ? `Fichiers – ${rows.length} résultats (${totalSize} Mo)`
-              : "Fichiers"
-          }
-          handleDelete={handleDeleteFile}
-          refreshData={fetchFiles}
-          noEdit
-        />
-      </Paper>
+      <CustomTable
+        rows={rows}
+        allRows={allRows}
+        setRows={setRows}
+        headCells={headCells}
+        arrayTitle={
+          rows
+            ? `Fichiers – ${rows.length} résultats (${totalSize} Mo)`
+            : "Fichiers"
+        }
+        handleDelete={handleDeleteFile}
+        refreshData={fetchFiles}
+        noEdit
+      />
     </Stack>
   )
 }

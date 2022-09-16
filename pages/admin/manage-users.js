@@ -15,7 +15,7 @@ export default function AdminUsersManagementPage(props) {
   const { user } = useContext(UserContext)
 
   return (
-    <Stack>
+    <Stack minHeight="100vh">
       <Head>
         <title>Quentin Hébert | Admin | Gérer les utilisateurs du site</title>
         <meta

@@ -215,7 +215,7 @@ function AdminUsersPanel(props) {
   }
 
   return (
-    <>
+    <Stack flexGrow={1}>
       <Stack
         justifyContent="center"
         direction="column"
@@ -252,7 +252,7 @@ function AdminUsersPanel(props) {
           setMessageSnack={setMessageSnack}
         />
       </CustomModal>
-    </>
+    </Stack>
   )
 }
 

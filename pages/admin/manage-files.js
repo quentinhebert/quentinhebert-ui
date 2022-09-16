@@ -16,7 +16,7 @@ export default function AdminFilesManagementPage(props) {
   if (!user || user.type !== USERTYPES.ADMIN) return <Redirect />
 
   return (
-    <Stack>
+    <Stack minHeight="100vh">
       <Head>
         <title>Mathias Mortelmans | Files</title>
         <meta name="description" content="All files of your website" />
@@ -25,8 +25,13 @@ export default function AdminFilesManagementPage(props) {
       </Head>
       <Navbar />
 
-      <AdminFilesPanel />
-      <Footer bgColor="#272727" />
+      {!user || user.type !== USERTYPES.ADMIN ? (
+        <LoginLayout />
+      ) : (
+        <AdminFilesPanel />
+      )}
+
+      <Footer />
     </Stack>
   )
 }
