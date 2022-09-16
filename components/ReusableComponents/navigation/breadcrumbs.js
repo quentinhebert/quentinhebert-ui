@@ -4,9 +4,19 @@ import Stack from "@mui/material/Stack"
 import adminTree from "../../Navigation/Admin/admin-tree"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { PANELTYPES } from "../../../enums/panelTypes"
+import accountTree from "../../Navigation/Account/account-tree"
 
-export default function Breadcrumbs() {
-  const tree = adminTree
+export default function Breadcrumbs(props) {
+  const { panel } = props
+
+  if (!Object.values(PANELTYPES).includes(panel))
+    alert("Attention, le panneau est mal configuré pour le breadcrumbs")
+
+  let tree = []
+  if (panel === PANELTYPES.ADMIN) tree = adminTree
+  if (panel === PANELTYPES.ACCOUNT) tree = accountTree
+
   const breadcrumbs = []
   const path = []
 
@@ -34,9 +44,8 @@ export default function Breadcrumbs() {
       {breadcrumbs.map((item, key) => {
         const isCurrentPage = key + 1 === pages.length // current page === last element of the breadcrumbs
         return (
-          <Stack flexDirection="row" alignItems="center" gap={1.5}>
+          <Stack flexDirection="row" alignItems="center" gap={1.5} key={key}>
             <Link
-              key={key}
               href={item.href}
               passHref
               style={{

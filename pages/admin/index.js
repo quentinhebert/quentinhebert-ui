@@ -29,6 +29,7 @@ export default function AdminLoginPage(props) {
       ) : (
         <AdminIndex />
       )}
+
       <Footer />
     </Stack>
   )

@@ -5,6 +5,7 @@ import EndCardButton from "../../ReusableComponents/cards/end-card-button"
 import styles from "../../../styles/TextShine.module.css"
 import BodyText from "../../ReusableComponents/text/body-text"
 import PageTitle from "../../ReusableComponents/titles/page-title"
+import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
 
 const CARDS = [
   {
@@ -35,6 +36,7 @@ const CARDS = [
 export default function AdminIndex() {
   return (
     <Stack
+      flexGrow={1}
       direction="column"
       gap={4}
       padding={4}
@@ -52,41 +54,9 @@ export default function AdminIndex() {
         }}
       />
       <PageTitle zIndex={1} text="Dashboard" />
-      <Stack
-        justifyContent="center"
-        direction="row"
-        gap={4}
-        zIndex={1}
-        sx={{
-          flexDirection: {
-            xs: "column",
-            md: "row",
-          },
-        }}
-      >
-        <Grid container rowSpacing={4} columnSpacing={4}>
-          {CARDS.map((cardItem, key) => (
-            <Grid item xs={10} sm={6} lg={3} key={key} margin="0 auto">
-              <CustomCard
-                sx={{
-                  background: (theme) =>
-                    `linear-gradient(100deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`,
-                }}
-              >
-                <CustomCardTitle className={styles.shine} color="secondary">
-                  {cardItem.title}
-                </CustomCardTitle>
-                <BodyText lineHeight="1.5rem" fontSize="1rem">
-                  {cardItem.description}
-                </BodyText>
-                <EndCardButton
-                  text={cardItem.button.text}
-                  href={cardItem.button.href}
-                />
-              </CustomCard>
-            </Grid>
-          ))}
-        </Grid>
+
+      <Stack zIndex={0}>
+        <OneActionCardsGrid cards={CARDS} />
       </Stack>
     </Stack>
   )

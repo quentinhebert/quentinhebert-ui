@@ -1,45 +1,31 @@
-import { Stack, Typography } from "@mui/material"
-import { useRouter } from "next/router"
-import CustomCard from "../../Sections/custom-card"
+import { Stack } from "@mui/material"
+import PageTitle from "../../ReusableComponents/titles/page-title"
+import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
 
-export default function AccountIndex() {
-  const router = useRouter()
+const CARDS = [
+  {
+    title: "Informations personnelles",
+    description:
+      "Modifiez vos informations personnelles (avatar, e-mail, téléphone...).",
+    button: { text: "Accéder", href: "/account/personal-information" },
+  },
+]
+
+export default function AccountIndex(props) {
+  const {} = props
 
   return (
-    <Stack justifyContent="center" direction="column" gap={4} padding="1rem">
-      <Typography component="h1" variant="h4">
-        My account
-      </Typography>
-      <Stack
-        justifyContent="center"
-        gap={4}
-        padding="1rem"
-        sx={{
-          flexDirection: {
-            xs: "column",
-            md: "row",
-          },
-        }}
-      >
-        <CustomCard
-          title="My personal information"
-          text="Email, phone, name, firstname..."
-          buttonLeft="Show"
-          buttonLeftOnclick={() => router.push("/account/personal-information")}
-        />
+    <Stack
+      flexGrow={1}
+      direction="column"
+      gap={4}
+      padding={4}
+      paddingTop={"7rem"}
+      paddingBottom={"7rem"}
+    >
+      <PageTitle zIndex={1} text="Mon compte" />
 
-        {/* <CustomCard
-          title="Gérer les missions"
-          text="Ajouter, modifier, supprimer des missions..."
-          buttonLeft="Voir toutes les missions"
-          buttonLeftOnclick={() => router.push("/admin/missions")}
-        /> */}
-
-        {/* <CustomCard
-          title="Gérer les missions"
-          text="Ajouter, modifier, supprimer, modifier les rôles des utilisateurs..."
-        /> */}
-      </Stack>
+      <OneActionCardsGrid cards={CARDS} />
     </Stack>
   )
 }
