@@ -1,42 +1,44 @@
-import { Stack, Typography, useMediaQuery } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import React, { useState } from "react";
-import { ActionButtons } from "../Modals/Modal-Components/modal-action-buttons";
-import { ModalTitle } from "../Modals/Modal-Components/modal-title";
-import theme from "../../config/theme";
+import { Stack, Typography, useMediaQuery } from "@mui/material"
+import Dialog from "@mui/material/Dialog"
+import React, { useState } from "react"
+import { ActionButtons } from "../Modals/Modal-Components/modal-action-buttons"
+import { ModalTitle } from "../Modals/Modal-Components/modal-title"
+import theme from "../../config/theme"
+import CustomModal from "../ReusableComponents/modals/custom-modal"
+import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
 
 function withConfirmAction(WrappedComponent) {
   function Enhancer(props) {
-    const [actionToFire, setActionToFire] = useState(null);
-    const [openModal, setOpenModal] = useState(false);
-    const [confirmTitle, setConfirmTitle] = useState("Confirmation");
-    const [nextButtonText, setNextButtonText] = useState("Continue");
+    const [actionToFire, setActionToFire] = useState(null)
+    const [openModal, setOpenModal] = useState(false)
+    const [confirmTitle, setConfirmTitle] = useState("Confirmation")
+    const [nextButtonText, setNextButtonText] = useState("Continue")
     const [confirmContent, setConfirmContent] = useState({
       text: null,
       js: null,
-    });
+    })
 
     const closeAndcleanState = () => {
-      setActionToFire(null);
-      setConfirmTitle("Confirmation");
-      setNextButtonText("Continue");
-      setConfirmContent({ text: null, js: null });
-      setOpenModal(false);
-    };
+      setActionToFire(null)
+      setConfirmTitle("Confirmation")
+      setNextButtonText("Continue")
+      setConfirmContent({ text: null, js: null })
+      setOpenModal(false)
+    }
 
     const handleCancel = (e) => {
-      e.preventDefault();
-      closeAndcleanState();
-    };
+      e.preventDefault()
+      closeAndcleanState()
+    }
 
     const handleNext = async (e) => {
-      e.preventDefault();
-      actionToFire();
-      closeAndcleanState();
-    };
+      e.preventDefault()
+      actionToFire()
+      closeAndcleanState()
+    }
 
     /********** STYLE **********/
-    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"))
 
     return (
       <>
@@ -49,7 +51,7 @@ function withConfirmAction(WrappedComponent) {
           setConfirmContent={setConfirmContent}
         />
 
-        <Dialog
+        <CustomModal
           open={
             !!(
               openModal &&
@@ -57,37 +59,30 @@ function withConfirmAction(WrappedComponent) {
               (confirmContent.js || confirmContent.text)
             )
           }
-          onClose={() => setOpenModal(false)}
-          fullScreen={fullScreen}
-          sx={{
-            ".MuiPaper-root": { bgcolor: "#000" },
-          }}
+          handleClose={() => setOpenModal(false)}
+          gap={2}
         >
-          <ModalTitle text={confirmTitle} />
+          <ModalTitle>{confirmTitle}</ModalTitle>
 
-          <Stack
-            alignItems="center"
-            justifyContent="center"
-            gap={2}
-            sx={{ margin: "1rem auto", padding: "1rem", width: "400px" }}
-          >
-            {confirmContent.text ? (
-              <Typography>{confirmContent.text}</Typography>
-            ) : null}
-            {confirmContent.js ? content.js : null}
-            <ActionButtons
-              middleButtonText="Cancel"
-              middleButtonOnClick={handleCancel}
-              rightButtonText={nextButtonText}
-              rightButtonOnClick={handleNext}
-            />
+          {confirmContent.text ? (
+            <Typography color="text.white">{confirmContent.text}</Typography>
+          ) : null}
+          {confirmContent.js ? content.js : null}
+
+          <Stack flexDirection="row" gap={2} justifyContent="end">
+            <CustomSubmitButton onClick={handleCancel}>
+              Annuler
+            </CustomSubmitButton>
+            <CustomSubmitButton secondary="true" onClick={handleNext}>
+              {nextButtonText}
+            </CustomSubmitButton>
           </Stack>
-        </Dialog>
+        </CustomModal>
       </>
-    );
+    )
   }
 
-  return Enhancer;
+  return Enhancer
 }
 
-export default withConfirmAction;
+export default withConfirmAction
