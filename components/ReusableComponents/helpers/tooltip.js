@@ -56,11 +56,9 @@ export default function CustomTooltip(props) {
                   color="secondary"
                   sx={{ marginRight: ".5rem" }}
                 />
-                <SmallTitle
-                  letterSpacing={0}
-                  text={props.title || "Info"}
-                  textTransform="initial"
-                />
+                <SmallTitle letterSpacing={0} textTransform="initial">
+                  {props.title || "Info"}
+                </SmallTitle>
               </Stack>
               <Typography fontSize="1rem" lineHeight="1rem">
                 {props.text}

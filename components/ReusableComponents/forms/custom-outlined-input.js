@@ -40,18 +40,18 @@ const CssOutlinedInput = styled((props) => (
   "& .Mui-error": {
     // Default fieldset
     "& fieldset": {
-      color: "#f44336",
+      color: theme.palette.error.main,
     },
     // Fieldset on hover
     "&:hover fieldset": {
-      borderColor: "#f44336",
+      borderColor: theme.palette.error.main,
     },
     // Fieldset on focus
     "&.Mui-focused fieldset": {
-      borderColor: "#f44336",
+      borderColor: theme.palette.error.main,
     },
     // Color of the label
-    color: "#f44336 !important",
+    color: `${theme.palette.error.main} !important`,
     // Some css for the helper text
     lineHeight: 1,
     marginLeft: 0,

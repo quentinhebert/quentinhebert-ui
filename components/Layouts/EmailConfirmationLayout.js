@@ -4,22 +4,26 @@ import Navbar from "../../components/Navigation/Navbars/navbar"
 import AlertInfo from "../../components/Other/alert-info"
 import { errorCodes } from "../../config/errorCodes"
 import apiCall from "../../services/apiCalls/apiCall"
-import { Stack, Typography, Paper, Button } from "@mui/material"
+import { Stack, Typography, Button } from "@mui/material"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
-import withSnacks from "../../components/hocs/withSnacks"
+import BodyText from "../ReusableComponents/text/body-text"
+import SmallTitle from "../ReusableComponents/titles/small-title"
+import OutlinedButton from "../ReusableComponents/buttons/outlined-button"
+import LoginLayout from "../Layouts/LoginLayout"
 
 const Custom401 = dynamic(() => import("../../pages/401"))
 
-function EmailConfirmationLayout(props) {
+export default function EmailConfirmationLayout(props) {
   /********** PROPS **********/
-  const { setMessageSnack, setOpenSnackBar, setSeverity } = props
+  const {} = props
 
   /********** ROUTER & URL PARAMS **********/
   const router = useRouter()
   const token = router.query.token
 
   /********** USE-STATES **********/
+  const [login, setLogin] = useState(false)
   const [emailConfirmed, setEmailConfirmed] = useState(false)
   const [error, setError] = useState({
     show: false,
@@ -31,7 +35,7 @@ function EmailConfirmationLayout(props) {
   /********** INITIAL CHECK **********/
   // Before all, let's check if user has clicked on the link from email-confirmation email
   useEffect(() => {
-    ;(async () => {
+    const checkEmail = async () => {
       if (token) {
         const res = await apiCall.unauthenticated.emailConfirm(token)
         if (!res) setError({ ...error, show: true })
@@ -43,72 +47,75 @@ function EmailConfirmationLayout(props) {
             return setError({ ...error, show: true })
         }
       }
-    })()
+    }
+    checkEmail()
   }, [token])
 
   if (!token) return <Custom401 />
 
   return (
-    <>
+    <Stack minHeight="100vh">
       <Navbar />
-      <Stack
-        justifyContent="center"
-        alignItems="center"
-        sx={{ margin: "2rem auto" }}
-      >
+
+      {login ? (
+        <LoginLayout redirect="/" />
+      ) : (
         <Stack
-          alignItems="center"
+          flexGrow={1}
+          padding="2rem"
           justifyContent="center"
-          sx={{ margin: "1rem auto" }}
+          alignItems="center"
         >
-          <Paper variant="contained" sx={{ padding: "3rem" }}>
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            margin="100px auto"
+            padding="1.5rem 3rem"
+            borderRadius="10px"
+            gap={2}
+            sx={{ backgroundColor: (theme) => theme.palette.background.main }}
+          >
             {emailConfirmed ? (
-              <Typography
-                component="h1"
-                variant="h6"
-                sx={{ marginBottom: "2rem" }}
-              >
-                Email address confirmed
-              </Typography>
+              <SmallTitle>Votre e-mail est confirmé !</SmallTitle>
             ) : (
-              <Typography
-                component="h1"
-                variant="h6"
-                sx={{ marginBottom: "2rem" }}
-              >
-                Please wait a few seconds...
-              </Typography>
+              <SmallTitle>Veuillez patienter un instant...</SmallTitle>
             )}
+
+            {error.show && <AlertInfo content={error} />}
 
             {emailConfirmed ? (
               <>
-                <Typography variant="body1">
-                  Your email address is now confirmed. You can use the website
-                  with all its features ! Enjoy 😎
-                </Typography>
+                <BodyText fontSize="1rem" textAlign="center">
+                  Votre adresse e-mail est désormais confirmée.
+                  <br />
+                  Vous pouvez désormais profiter de toutes les fonctionnalités
+                  du site ! 😎
+                </BodyText>
+
                 <Stack
                   justifyContent="center"
                   alignItems="center"
-                  sx={{ marginTop: "2rem" }}
+                  flexDirection="row"
+                  gap={2}
                 >
-                  <Button variant="outlined" onClick={() => router.push("/")}>
-                    Homepage
-                  </Button>
+                  <OutlinedButton onClick={() => setLogin(true)}>
+                    Connexion
+                  </OutlinedButton>
+                  <OutlinedButton onClick={() => router.push("/")}>
+                    Accueil
+                  </OutlinedButton>
                 </Stack>
               </>
-            ) : error.show ? (
-              <AlertInfo content={error} />
             ) : (
-              <Typography variant="body1">
+              <BodyText>
                 Please wait, we are attempting to confirm your email address...
-              </Typography>
+              </BodyText>
             )}
-          </Paper>
+          </Stack>
         </Stack>
-      </Stack>
+      )}
+
       <Footer />
-    </>
+    </Stack>
   )
 }
-
-export default withSnacks(EmailConfirmationLayout)

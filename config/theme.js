@@ -7,6 +7,7 @@ const secondary = "#C6900E"
 const secondaryDark = "#825E09"
 const secondaryLight = "#F5BB5F"
 const link = "#06c"
+const errorColor = "#f44336"
 
 /*
 
@@ -48,6 +49,9 @@ const mainTheme = createTheme({
       secondaryLight: secondaryLight,
       white: "#fff",
       link: link,
+    },
+    error: {
+      main: errorColor,
     },
   },
   navbar: {

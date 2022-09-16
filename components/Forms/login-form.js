@@ -22,14 +22,18 @@ import RightSubmitButton from "../ReusableComponents/forms/right-submit-button"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import { useRouter } from "next/router"
 
 export default function LoginForm(props) {
   /********** PROPS **********/
   const {
+    redirect,
     handleClickPasswordForgotten,
     passwordForgottenDefaultEmail,
     setPasswordForgottenDefaultEmail,
   } = props
+
+  const router = useRouter()
 
   /********** USER **********/
   const { setUser } = useContext(UserContext)
@@ -168,7 +172,7 @@ export default function LoginForm(props) {
       const jsonRes = await res.json()
       handleSetTokens(jsonRes.token, jsonRes.refreshToken) // cookies
       if (await fetchUser()) {
-        alert("Vous êtes connecté")
+        if (redirect) router.push(redirect)
       }
     } else if (res) {
       const jsonRes = await res.json()

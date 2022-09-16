@@ -7,10 +7,10 @@ export default function EmailConfirmationPage(props) {
   return (
     <Stack>
       <Head>
-        <title>Mathias Mortelmans Films | Confirm your email</title>
+        <title>Quentin Hébert | Confirmez votre e-mail</title>
         <meta
           name="description"
-          content="Mathias Mortelmans Films | Confirm your email"
+          content="Quentin Hébert | Confirmez votre e-mail"
         />
         <link rel="icon" href="/favicon.ico" />
         <meta name="robots" content="noindex, nofollow" />

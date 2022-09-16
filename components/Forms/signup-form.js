@@ -1,5 +1,5 @@
 import { useState, useContext } from "react"
-import { Stack } from "@mui/material"
+import { FormHelperText, Stack } from "@mui/material"
 import apiCall from "../../services/apiCalls/apiCall"
 import { USERTYPES } from "../../enums/userTypes"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
@@ -31,14 +31,12 @@ export default function SignUpForm(props) {
     type: isAdmin ? "" : USERTYPES.CLIENT,
   }
   // Set initial errors on false
-  const initialSignUpErrors = () => {
-    let localErrors = {}
-    Object.keys(initialUserData).map((key) => {
-      localErrors[key] = false
-    })
-    console.log(localErrors)
-    return localErrors
-  }
+  let errors = {}
+  Object.keys(initialUserData).map((key) => {
+    errors[key] = false
+  })
+  const initialSignUpErrors = errors
+
   // Clear all data & errors
   const clearData = () => {
     setUserData(initialUserData)
@@ -242,20 +240,30 @@ export default function SignUpForm(props) {
           />
 
           {isAdmin ? (
-            <CustomSelect
-              required
-              size="small"
-              placeholder="Role"
-              options={[
-                { id: "admin", label: "Admin" },
-                { id: "client", label: "Client" },
-                { id: "professional", label: "Employé" },
-              ]}
-              value={userData.type}
-              setValue={(eventValue) =>
-                setUserData({ ...userData, type: eventValue })
-              }
-            />
+            <Stack flexDirection="column" width="100%">
+              <CustomSelect
+                required
+                size="small"
+                placeholder="Role"
+                options={[
+                  { id: "admin", label: "Admin" },
+                  { id: "client", label: "Client" },
+                  { id: "professional", label: "Employé" },
+                ]}
+                value={userData.type}
+                setValue={(eventValue) =>
+                  setUserData({ ...userData, type: eventValue })
+                }
+                error={signupErrors.type}
+              />
+              {signupErrors.type && (
+                <FormHelperText
+                  sx={{ color: (theme) => theme.palette.error.main }}
+                >
+                  Vous devez sélectionner un rôle
+                </FormHelperText>
+              )}
+            </Stack>
           ) : null}
         </DualInputLine>
 

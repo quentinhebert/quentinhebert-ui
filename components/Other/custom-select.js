@@ -14,6 +14,7 @@ export default function CustomSelect(props) {
     setValue,
     size,
     backgroundColor,
+    error,
   } = props
 
   const handleChange = (event) => {
@@ -22,7 +23,16 @@ export default function CustomSelect(props) {
 
   return (
     <FormControl fullWidth size={size || null}>
-      <InputLabel id="select-label" color="secondary">
+      <InputLabel
+        id="select-label"
+        color="secondary"
+        sx={{
+          color: (theme) => (error ? theme.palette.error.main : ""),
+          "&.Mui-focused": {
+            color: (theme) => (error ? theme.palette.error.main : ""),
+          },
+        }}
+      >
         {placeholder}
         {required ? " *" : ""}
       </InputLabel>
@@ -38,16 +48,20 @@ export default function CustomSelect(props) {
               alpha(theme.palette.background.secondary, 0.1),
           },
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: (theme) => theme.palette.secondary.main,
+            borderColor: (theme) =>
+              error ? theme.palette.error.main : theme.palette.secondary.main,
           },
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: (theme) => theme.palette.secondary.main,
+            borderColor: (theme) =>
+              error ? theme.palette.error.main : theme.palette.secondary.main,
           },
           "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: (theme) => theme.palette.secondary.main,
+            borderColor: (theme) =>
+              error ? theme.palette.error.main : theme.palette.secondary.main,
           },
           "& .MuiOutlinedInput-input": {
-            color: (theme) => theme.palette.text.secondary,
+            color: (theme) =>
+              error ? theme.palette.error.main : theme.palette.text.secondary,
           },
         }}
         MenuProps={{

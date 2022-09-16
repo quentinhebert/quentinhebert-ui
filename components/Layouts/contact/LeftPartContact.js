@@ -101,10 +101,10 @@ export default function LeftPartContact(props) {
         className={styles.shine}
       />
 
-      <SmallTitle text="Suis-moi, je te fuis !" />
+      <SmallTitle>Suis-moi, je te fuis !</SmallTitle>
       <SocialButtons />
 
-      <SmallTitle text="Informations utiles" />
+      <SmallTitle>Informations utiles</SmallTitle>
       <Stack sx={{ letterSpacing: "1.5px", gap: "0.7rem" }}>
         <ContactLink
           href="tel:+33 6 11 54 17 75"

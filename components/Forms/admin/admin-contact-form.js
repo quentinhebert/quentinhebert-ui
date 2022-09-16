@@ -97,10 +97,11 @@ const Caroussel = ({
             key={key}
           >
             <SmallTitle
-              text={`${card.title} (${index + 1}/3)`}
               textAlign="left"
               color={(theme) => theme.palette.text.white}
-            />
+            >
+              {`${card.title} (${index + 1}/3)`}
+            </SmallTitle>
             {card.description?.length &&
               card.description.map((descItem, key) => (
                 <AlertInfo

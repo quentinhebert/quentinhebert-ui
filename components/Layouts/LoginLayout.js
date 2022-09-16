@@ -18,7 +18,7 @@ const FixedBackground = () => (
 )
 
 export default function LoginLayout(props) {
-  const {} = props
+  const { redirect } = props
 
   const [passwordForgotten, setPasswordForgotten] = useState(false)
   const [defaultEmail, setDefaultEmail] = useState("")
@@ -44,6 +44,7 @@ export default function LoginLayout(props) {
       >
         {!passwordForgotten ? (
           <LoginForm
+            redirect={redirect}
             handleClickPasswordForgotten={(e) => handlePasswordForgotten(true)}
             passwordForgottenDefaultEmail={defaultEmail}
             setPasswordForgottenDefaultEmail={setDefaultEmail}
