@@ -224,7 +224,7 @@ function AdminUsersPanel(props) {
         margin="100px 0"
       >
         <PageTitle zIndex={1} text="Gérer les utilisateurs" />
-        <Breadcrumbs />
+        <Breadcrumbs panel="admin" />
 
         <BodyText fontSize="1rem">
           Ci-dessous, vous trouverez tous les utilisateurs de votre site.

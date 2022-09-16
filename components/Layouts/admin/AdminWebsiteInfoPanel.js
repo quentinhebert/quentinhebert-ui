@@ -68,7 +68,7 @@ export default function AdminWebsiteInfoPanel() {
           }}
         />
         <PageTitle zIndex={1} text="Gérer les informations du site" />
-        <AdminBreadcrumbs />
+        <AdminBreadcrumbs panel="admin" />
         <Stack justifyContent="center" direction="row" gap={4} zIndex={0}>
           <Grid container rowSpacing={4} columnSpacing={4}>
             {CARDS.map((cardItem, key) => (

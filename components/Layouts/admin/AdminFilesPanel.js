@@ -176,7 +176,7 @@ function AdminFilesPanel(props) {
       margin="100px 0"
     >
       <PageTitle zIndex={1} text="Gérer les fichiers" />
-      <Breadcrumbs />
+      <Breadcrumbs panel="admin" />
 
       <BodyText fontSize="1rem">
         Ci-dessous, vous trouverez tous les fichiers de votre site.
