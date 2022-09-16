@@ -16,6 +16,7 @@ import SmallTitle from "../../ReusableComponents/titles/small-title"
 import InTextLink from "../../ReusableComponents/text/in-text-link"
 import SwitchButton from "../../ReusableComponents/buttons/switch-button"
 import CustomTooltip from "../../ReusableComponents/helpers/tooltip"
+import PleaseWait from "../../ReusableComponents/helpers/please-wait"
 
 const Caroussel = ({
   addressItems,
@@ -191,6 +192,7 @@ export default function AdminContactForm(props) {
   const { handleClose } = props
 
   /********** USE-STATES **********/
+  const [isFetching, setIsFetching] = useState(false)
   const [contactItems, setContactItems] = useState([])
   const [addressItems, setAddressItems] = useState([])
   const [traditionalContactItems, setTraditionalContactItems] = useState([])
@@ -225,6 +227,7 @@ export default function AdminContactForm(props) {
 
   /********** FUNCTIONS **********/
   const fetchContact = async () => {
+    setIsFetching(true)
     const res = await apiCall.unauthenticated.getWebsiteContact()
     if (res && res.ok) {
       const jsonRes = await res.json()
@@ -234,6 +237,7 @@ export default function AdminContactForm(props) {
       })
       setContactItems(jsonRes)
     }
+    setIsFetching(false)
   }
 
   useEffect(() => {
@@ -261,6 +265,8 @@ export default function AdminContactForm(props) {
     // reset form
     await fetchContact()
   }
+
+  if (isFetching) return <PleaseWait />
 
   /********** RENDER **********/
   return (

@@ -13,12 +13,14 @@ import { Reorder } from "framer-motion"
 import SwitchButton from "../../ReusableComponents/buttons/switch-button"
 import theme from "../../../config/theme"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
+import PleaseWait from "../../ReusableComponents/helpers/please-wait"
 
 export default function AdminNavbarForm(props) {
   /********** PROPS **********/
   const { handleClose } = props
 
   /********** USE-STATES **********/
+  const [isFetching, setIsFetching] = useState(false)
   const [navbarItems, setNavbarItems] = useState([])
   const [orderedItems, setOrderedItems] = useState([])
   const [isSorting, setIsSorting] = useState(false)
@@ -52,11 +54,13 @@ export default function AdminNavbarForm(props) {
 
   /********** FUNCTIONS **********/
   const fetchNavbar = async () => {
+    setIsFetching(true)
     const res = await apiCall.unauthenticated.getNavbar()
     if (res && res.ok) {
       const jsonRes = await res.json()
       setNavbarItems(jsonRes.menu_items)
     }
+    setIsFetching(false)
   }
 
   useEffect(() => {
@@ -109,6 +113,8 @@ export default function AdminNavbarForm(props) {
     setIsSorting(false) // resest switch for sorting + view
     await fetchNavbar() // reset form
   }
+
+  if (isFetching) return <PleaseWait />
 
   /********** RENDER **********/
   return (
