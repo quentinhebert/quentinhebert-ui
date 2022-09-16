@@ -235,7 +235,11 @@ function AdminUsersPanel(props) {
             allRows={allRows}
             setRows={setRows}
             headCells={headCells}
-            arrayTitle={rows ? `Users - ${rows.length} result(s)` : "Users"}
+            arrayTitle={
+              rows
+                ? `Utilisateurs - ${rows.length} resultat(s)`
+                : "Utilisateurs"
+            }
             handleDelete={handleDeleteUser}
             handleCreate={handleCreate}
             refreshData={fetchUsers}
