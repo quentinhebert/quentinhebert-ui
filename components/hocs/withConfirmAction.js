@@ -1,9 +1,6 @@
-import { Stack, Typography, useMediaQuery } from "@mui/material"
-import Dialog from "@mui/material/Dialog"
+import { Stack, Typography } from "@mui/material"
 import React, { useState } from "react"
-import { ActionButtons } from "../Modals/Modal-Components/modal-action-buttons"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
-import theme from "../../config/theme"
 import CustomModal from "../ReusableComponents/modals/custom-modal"
 import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
 
@@ -37,9 +34,6 @@ function withConfirmAction(WrappedComponent) {
       closeAndcleanState()
     }
 
-    /********** STYLE **********/
-    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"))
-
     return (
       <>
         <WrappedComponent
@@ -62,13 +56,18 @@ function withConfirmAction(WrappedComponent) {
           handleClose={() => setOpenModal(false)}
           gap={2}
         >
+          {/**** TITLE ****/}
           <ModalTitle>{confirmTitle}</ModalTitle>
 
+          {/**** SIMPLE TEXT ****/}
           {confirmContent.text ? (
             <Typography color="text.white">{confirmContent.text}</Typography>
           ) : null}
+
+          {/**** COMPLEX JS ****/}
           {confirmContent.js ? content.js : null}
 
+          {/**** BOTTOM BUTTONS ****/}
           <Stack flexDirection="row" gap={2} justifyContent="end">
             <CustomSubmitButton onClick={handleCancel}>
               Annuler
