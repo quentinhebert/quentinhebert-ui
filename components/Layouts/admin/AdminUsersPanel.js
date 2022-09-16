@@ -191,16 +191,18 @@ function AdminUsersPanel(props) {
     // usersToDelete must be an array of user ids (we get it from table-helper.js)
     if (!usersToDelete.length) {
       setSeverity("error")
-      setMessageSnack("A problem occurred while deleting the selected user(s)")
+      setMessageSnack(
+        `Un problème est survenu lors de la suppression de(s) ${usersToDelete.length} utilisateur(s)`
+      )
       return setOpenSnackBar(true)
     }
     // Open confirm modal
-    setConfirmTitle(`Delete ${usersToDelete.length} users`)
+    setConfirmTitle(`Supprimer ${usersToDelete.length} utilisateur(s)`)
     setActionToFire(() => async () => await deleteUsers(usersToDelete))
     setConfirmContent({
-      text: `Do you really want to delete ${usersToDelete.length} user(s) ?`,
+      text: `Voulez-vous vraiment supprimer ${usersToDelete.length} utilisateur(s) ?`,
     })
-    setNextButtonText("Delete")
+    setNextButtonText("Supprimer")
     setOpenConfirmModal(true)
   }
   const handleCreate = () => {
