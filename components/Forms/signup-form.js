@@ -15,39 +15,42 @@ import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button
 
 export default function SignUpForm(props) {
   /********** PROPS **********/
-  const {
-    open,
-    handleClose,
-    handleOpenLogin,
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
-  } = props
+  const { handleClose, setSeverity, setOpenSnackBar, setMessageSnack } = props
 
   // Check if user exists and if the user is admin
   const { user } = useContext(UserContext)
   const isAdmin = user && user.type === USERTYPES.ADMIN
 
-  /********** USE-STATES **********/
-  const [acceptAll, setAcceptAll] = useState(false)
-  const [loadingButton, setLoadingButton] = useState(false)
-  const [signupCompleted, setSignupCompleted] = useState(false)
-  const [userData, setUserData] = useState({
+  /********** MODEL **********/
+  const initialUserData = {
     firstname: "",
     lastname: "",
     email: "",
     password: "",
     phone: "",
     type: isAdmin ? "" : USERTYPES.CLIENT,
-  })
-  const [signupErrors, setSignupErrors] = useState({
-    firstname: false,
-    lastname: false,
-    email: false,
-    password: false,
-    phone: false,
-    type: false,
-  })
+  }
+  // Set initial errors on false
+  const initialSignUpErrors = () => {
+    let localErrors = {}
+    Object.keys(initialUserData).map((key) => {
+      localErrors[key] = false
+    })
+    console.log(localErrors)
+    return localErrors
+  }
+  // Clear all data & errors
+  const clearData = () => {
+    setUserData(initialUserData)
+    setSignupErrors(initialSignUpErrors)
+  }
+
+  /********** USE-STATES **********/
+  const [accept, setAccept] = useState({ policy: false })
+  const [loadingButton, setLoadingButton] = useState(false)
+  const [signupCompleted, setSignupCompleted] = useState(false)
+  const [userData, setUserData] = useState(initialUserData)
+  const [signupErrors, setSignupErrors] = useState(initialSignUpErrors)
   const [showAlert, setShowAlert] = useState({
     show: false,
     severity: null,
@@ -56,38 +59,40 @@ export default function SignUpForm(props) {
   })
 
   /********** VARAIABLES FOR LIVE CHECK **********/
-  const passwordError =
-    signupErrors.password ||
-    (userData.password.trim() !== "" && !checkPassword(userData.password))
-  const emailError =
-    signupErrors.email ||
-    (userData.email.trim() !== "" && !checkEmail(userData.email))
-  const phoneError =
-    signupErrors.phone ||
-    (userData.phone.trim() !== "" && !checkPhone(userData.phone))
+  const liveCheck = {
+    password:
+      signupErrors.password ||
+      (userData.password.trim() !== "" && !checkPassword(userData.password)),
+    email:
+      signupErrors.email ||
+      (userData.email.trim() !== "" && !checkEmail(userData.email)),
+    phone:
+      signupErrors.phone ||
+      (userData.phone.trim() !== "" && !checkPhone(userData.phone)),
+  }
 
   /********** FUNCTIONS **********/
   const handleChange = (attribute) => (event) => {
+    // Update user data
     setUserData({
       ...userData,
       [attribute]: event.target.value,
     })
-    // On change we reset th localError of the input value, we let the live check take over
+    // On change we reset the localError of the input value, we let the live check take over
     setSignupErrors({
       ...signupErrors,
       [attribute]: false,
     })
   }
 
-  const handleSwitchSignUpToLogin = (e) => {
-    handleClose(e)
-    handleOpenLogin(e)
+  const handleCheck = (attribute) => (e) => {
+    setAccept({ ...accept, [attribute]: e.target.checked })
   }
 
   const handleSignUpComplete = () => {
     setSignupCompleted(true)
     setSeverity("success")
-    setMessageSnack("The onboarding is completed !")
+    setMessageSnack("Inscription réussie !")
     setOpenSnackBar(true)
     setShowAlert({
       show: true,
@@ -105,50 +110,6 @@ export default function SignUpForm(props) {
     setOpenSnackBar(true)
   }
 
-  /* Check all data at once onSubmit button click */
-  const checkAllData = () => {
-    const localErrors = {
-      firstname: false,
-      lastname: false,
-      email: false,
-      password: false,
-      phone: false,
-      type: false,
-    }
-
-    // Check firstname
-    if (!userData.firstname || userData.firstname.trim() === "")
-      localErrors.firstname = true
-    else localErrors.firstname = false
-    // Check lastname
-    if (!userData.lastname || userData.lastname.trim() === "")
-      localErrors.lastname = true
-    else localErrors.lastname = false
-    // Check email
-    if (emailError || !userData.email || userData.email.trim() === "")
-      localErrors.email = true
-    else localErrors.email = false
-    // Check phone
-    if (phoneError || !userData.phone || userData.phone.trim() === "")
-      localErrors.phone = true
-    else localErrors.phone = false
-    // Check password
-    if (passwordError || !userData.password || userData.password.trim() === "")
-      localErrors.password = true
-    else localErrors.password = false
-    // Count number of errors
-    let count = 0
-    for (const err of Object.entries(localErrors)) {
-      if (err[1]) count += 1
-    }
-
-    return { errors: localErrors, count }
-  }
-
-  const handleCheckAcceptAll = (e) => {
-    setAcceptAll(e.target.checked)
-  }
-
   const handleDuplicateSignup = () => {
     setShowAlert({
       show: true,
@@ -156,6 +117,25 @@ export default function SignUpForm(props) {
       severity: "warning",
       text: "Votre e-mail ou votre numéro de téléphone existe déjà pour un autre utilisateur.",
     })
+  }
+
+  /* Check all data at once onSubmit button click */
+  const checkAllData = () => {
+    const errors = initialSignUpErrors
+
+    // Let's check that all input values are not null and not empty string
+    Object.keys(userData).map((key) => {
+      if (!userData[key] || userData[key].trim() === "") errors[key] = true
+      else errors[key] = false
+    })
+
+    // Count number of errors
+    let count = 0
+    for (const err of Object.entries(errors)) {
+      if (err[1]) count += 1
+    }
+
+    return { errors, count }
   }
 
   const signUp = async (e) => {
@@ -184,26 +164,6 @@ export default function SignUpForm(props) {
     }
 
     setLoadingButton(false)
-  }
-
-  const clearData = () => {
-    setUserData({
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-      phone: "",
-      type: isAdmin ? "" : USERTYPES.CLIENT,
-    })
-    setSignupErrors({
-      firstname: false,
-      lastname: false,
-      email: false,
-      password: false,
-      phone: false,
-      type: false,
-    })
-    setSignupCompleted(false)
   }
 
   const handleCloseAndClear = () => {
@@ -252,8 +212,8 @@ export default function SignUpForm(props) {
             label="E-mail"
             value={userData.email}
             onChange={handleChange("email")}
-            error={emailError || signupErrors.email}
-            helperText={emailError && "This email is ot valid"}
+            error={liveCheck.email || signupErrors.email}
+            helperText={liveCheck.email && "This email is ot valid"}
           />
           <CustomOutlinedInput
             required
@@ -262,8 +222,8 @@ export default function SignUpForm(props) {
             label="Téléphone"
             value={userData.phone}
             onChange={handleChange("phone")}
-            error={phoneError || signupErrors.phone}
-            helperText={phoneError && "This phone is not valid"}
+            error={liveCheck.phone || signupErrors.phone}
+            helperText={liveCheck.phone && "This phone is not valid"}
           />
         </DualInputLine>
 
@@ -274,9 +234,9 @@ export default function SignUpForm(props) {
             label="Mot de passe"
             value={userData.password}
             onChange={handleChange("password")}
-            error={passwordError}
+            error={liveCheck.password}
             helperText={
-              passwordError &&
+              liveCheck.password &&
               "Minimum 8 caracters, 1 lowercase, 1 uppercase, 1 number et 1 special caracter"
             }
           />
@@ -302,7 +262,7 @@ export default function SignUpForm(props) {
         <CustomCheckbox
           required
           label="J'accepte la politique du site"
-          onChange={handleCheckAcceptAll}
+          onChange={handleCheck("policy")}
           labelcolor={(theme) => theme.palette.text.white}
           fontSize="1rem"
         />
@@ -316,7 +276,7 @@ export default function SignUpForm(props) {
         <CustomSubmitButton
           secondary="true"
           onClick={signUp}
-          disabled={!acceptAll || loadingButton}
+          disabled={!accept.policy || loadingButton}
         >
           Enregistrer
         </CustomSubmitButton>
