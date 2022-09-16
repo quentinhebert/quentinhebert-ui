@@ -45,7 +45,6 @@ export default function SignUpForm(props) {
 
   /********** USE-STATES **********/
   const [accept, setAccept] = useState({ policy: false })
-  const [loadingButton, setLoadingButton] = useState(false)
   const [signupCompleted, setSignupCompleted] = useState(false)
   const [userData, setUserData] = useState(initialUserData)
   const [signupErrors, setSignupErrors] = useState(initialSignUpErrors)
@@ -140,15 +139,11 @@ export default function SignUpForm(props) {
     e.stopPropagation()
     e.preventDefault()
 
-    setLoadingButton(true)
-
     const { errors, count } = checkAllData()
     setSignupErrors(errors)
 
-    if (count > 0) {
-      setLoadingButton(false)
-      return // we dont send the createUser request if payload is invalid
-    }
+    // we dont send the createUser request if payload is invalid
+    if (count > 0) return
 
     const res = await apiCall.users.create({ userData })
     if (res && res.ok) {
@@ -160,8 +155,6 @@ export default function SignUpForm(props) {
       }
       handleSignUpIncomplete()
     }
-
-    setLoadingButton(false)
   }
 
   const handleCloseAndClear = () => {
@@ -188,7 +181,7 @@ export default function SignUpForm(props) {
             value={userData.firstname}
             onChange={handleChange("firstname")}
             error={signupErrors.firstname}
-            helperText={signupErrors.firstname && "Problem with this field"}
+            helperText={signupErrors.firstname && "Vérifiez ce champ"}
           />
           <CustomOutlinedInput
             required
@@ -198,7 +191,7 @@ export default function SignUpForm(props) {
             value={userData.lastname}
             onChange={handleChange("lastname")}
             error={signupErrors.lastname}
-            helperText={signupErrors.lastname && "Please check this field"}
+            helperText={signupErrors.lastname && "Vérifiez ce champ"}
           />
         </DualInputLine>
 
@@ -211,7 +204,7 @@ export default function SignUpForm(props) {
             value={userData.email}
             onChange={handleChange("email")}
             error={liveCheck.email || signupErrors.email}
-            helperText={liveCheck.email && "This email is ot valid"}
+            helperText={liveCheck.email && "Cet e-mail n'est pas valide"}
           />
           <CustomOutlinedInput
             required
@@ -221,7 +214,7 @@ export default function SignUpForm(props) {
             value={userData.phone}
             onChange={handleChange("phone")}
             error={liveCheck.phone || signupErrors.phone}
-            helperText={liveCheck.phone && "This phone is not valid"}
+            helperText={liveCheck.phone && "Ce téléphone n'est pas valide"}
           />
         </DualInputLine>
 
@@ -235,7 +228,7 @@ export default function SignUpForm(props) {
             error={liveCheck.password}
             helperText={
               liveCheck.password &&
-              "Minimum 8 caracters, 1 lowercase, 1 uppercase, 1 number et 1 special caracter"
+              "Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial"
             }
           />
 
