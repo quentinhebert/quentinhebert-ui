@@ -6,6 +6,7 @@ import apiCall from "../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import withSnacks from "../../hocs/withSnacks"
 import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
+import BodyText from "../../ReusableComponents/text/body-text"
 import PageTitle from "../../ReusableComponents/titles/page-title"
 import CustomTable from "../../Sections/custom-table"
 
@@ -169,16 +170,16 @@ function AdminFilesPanel(props) {
     <Stack
       justifyContent="center"
       direction="column"
-      gap={4}
+      gap={2}
       padding="1rem"
-      marginTop="100px"
+      margin="100px 0"
     >
       <PageTitle zIndex={1} text="Gérer les fichiers" />
       <Breadcrumbs />
 
-      <Typography component="span" variant="body1">
-        Beneath, you can find all the files of the website.
-      </Typography>
+      <BodyText fontSize="1rem">
+        Ci-dessous, vous trouverez tous les fichiers de votre site.
+      </BodyText>
       <Paper variant="contained" sx={{ width: "100%" }}>
         <CustomTable
           rows={rows}

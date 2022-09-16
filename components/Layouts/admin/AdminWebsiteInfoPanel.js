@@ -56,13 +56,7 @@ export default function AdminWebsiteInfoPanel() {
 
   return (
     <>
-      <Stack
-        direction="column"
-        gap={4}
-        padding={4}
-        paddingTop={"7rem"}
-        paddingBottom={"7rem"}
-      >
+      <Stack direction="column" gap={2} padding="7rem 2rem">
         <Box
           position="fixed"
           width="100%"
@@ -75,7 +69,7 @@ export default function AdminWebsiteInfoPanel() {
         />
         <PageTitle zIndex={1} text="Gérer les informations du site" />
         <AdminBreadcrumbs />
-        <Stack justifyContent="center" direction="row" gap={4} zIndex={1}>
+        <Stack justifyContent="center" direction="row" gap={4} zIndex={0}>
           <Grid container rowSpacing={4} columnSpacing={4}>
             {CARDS.map((cardItem, key) => (
               <Grid

@@ -9,6 +9,7 @@ import PageTitle from "../../ReusableComponents/titles/page-title"
 import CustomTable from "../../Sections/custom-table"
 import SignUpForm from "../../Forms/signup-form"
 import CustomModal from "../../ReusableComponents/modals/custom-modal"
+import BodyText from "../../ReusableComponents/text/body-text"
 
 const headCells = [
   {
@@ -218,16 +219,16 @@ function AdminUsersPanel(props) {
       <Stack
         justifyContent="center"
         direction="column"
-        gap={4}
+        gap={2}
         padding="1rem"
-        marginTop="100px"
+        margin="100px 0"
       >
         <PageTitle zIndex={1} text="Gérer les utilisateurs" />
         <Breadcrumbs />
 
-        <Typography component="span" variant="body1">
-          Beneath, you can find all the users of your website.
-        </Typography>
+        <BodyText fontSize="1rem">
+          Ci-dessous, vous trouverez tous les utilisateurs de votre site.
+        </BodyText>
         <Paper variant="contained" sx={{ width: "100%" }}>
           <CustomTable
             rows={rows}
