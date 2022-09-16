@@ -257,24 +257,22 @@ export default function EditUserForm(props) {
             />
           </DualInputLine>
 
-          <DualInputLine>
-            <CustomSubmitButton
-              maxWidth="100%"
-              onClick={sendPasswordForgottenEmail}
-              startIcon={<SendIcon />}
-              fontSize="0.8rem"
-            >
-              Envoyer un e-mail de réinitialisation de mot de passe
-            </CustomSubmitButton>
-            <CustomSubmitButton
-              maxWidth="100%"
-              onClick={resendConfirmEmail}
-              startIcon={<SendIcon />}
-              fontSize="0.8rem"
-            >
-              Envoyer un email de confirmation d'e-mail
-            </CustomSubmitButton>
-          </DualInputLine>
+          <CustomSubmitButton
+            maxWidth="100%"
+            onClick={sendPasswordForgottenEmail}
+            startIcon={<SendIcon />}
+            fontSize="0.8rem"
+          >
+            Envoyer un e-mail de réinitialisation de mot de passe
+          </CustomSubmitButton>
+          <CustomSubmitButton
+            maxWidth="100%"
+            onClick={resendConfirmEmail}
+            startIcon={<SendIcon />}
+            fontSize="0.8rem"
+          >
+            Envoyer un email de confirmation d'e-mail
+          </CustomSubmitButton>
 
           <Box>
             <CustomCheckbox
