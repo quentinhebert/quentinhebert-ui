@@ -1,4 +1,4 @@
-import { Avatar, Paper, Stack, Tooltip, Typography } from "@mui/material"
+import { Avatar, Stack, Tooltip } from "@mui/material"
 import { useEffect, useState } from "react"
 import { compose } from "redux"
 import apiCall from "../../../services/apiCalls/apiCall"
@@ -229,23 +229,19 @@ function AdminUsersPanel(props) {
         <BodyText fontSize="1rem">
           Ci-dessous, vous trouverez tous les utilisateurs de votre site.
         </BodyText>
-        <Paper variant="contained" sx={{ width: "100%" }}>
-          <CustomTable
-            rows={rows}
-            allRows={allRows}
-            setRows={setRows}
-            headCells={headCells}
-            arrayTitle={
-              rows
-                ? `Utilisateurs - ${rows.length} resultat(s)`
-                : "Utilisateurs"
-            }
-            handleDelete={handleDeleteUser}
-            handleCreate={handleCreate}
-            refreshData={fetchUsers}
-            editDataModel="edit-user"
-          />
-        </Paper>
+        <CustomTable
+          rows={rows}
+          allRows={allRows}
+          setRows={setRows}
+          headCells={headCells}
+          arrayTitle={
+            rows ? `Utilisateurs - ${rows.length} resultat(s)` : "Utilisateurs"
+          }
+          handleDelete={handleDeleteUser}
+          handleCreate={handleCreate}
+          refreshData={fetchUsers}
+          editDataModel="edit-user"
+        />
       </Stack>
 
       <CustomModal open={openSignUp} handleClose={handleCloseSignUp}>

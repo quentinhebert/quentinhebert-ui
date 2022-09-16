@@ -13,6 +13,7 @@ import {
 import { EnhancedTableHead, EnhancedTableToolbar } from "../Other/table-helper"
 import { alpha } from "@mui/material/styles"
 import EditModalSwitch from "../Modals/edit-modal-switch"
+import PleaseWait from "../ReusableComponents/helpers/please-wait"
 
 /******************** FUNCTIONS ********************/
 function descendingComparator(a, b, orderBy) {
@@ -313,6 +314,7 @@ export default function CustomTable(props) {
         />
       </Box>
     )
+
   // If !rows
-  return <></>
+  return <PleaseWait />
 }
