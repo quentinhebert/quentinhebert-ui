@@ -3,13 +3,11 @@ import Footer from "../components/Navigation/Footers/Footer"
 import Navbar from "../components/Navigation/Navbars/navbar"
 import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
 import PageRoot from "../components/ReusableComponents/page-builder/page-root"
-import { defaultConfig } from "../config/defaultConfig"
 
 export default function Custom404Page() {
   // Main meta tags
-  const title = `${defaultConfig.websiteName} | 404 | Page inexistante`
-  const description = `${defaultConfig.websiteName} | 404 | Page inexistante`
-  const canonicalUrl = `${defaultConfig.webclientUrl}` // FIXME: reprendre la vraie url dynamiquement
+  const title = "404 | Page inexistante"
+  const description = "Erreur 404 : la page demandée n'estiste pas"
 
   // SEO helpers
   const follow = false
@@ -22,7 +20,6 @@ export default function Custom404Page() {
     <PageRoot>
       <HtmlHead
         title={title}
-        canonicalUrl={canonicalUrl}
         description={description}
         follow={follow}
         type={type}

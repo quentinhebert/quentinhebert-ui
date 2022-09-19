@@ -1,22 +1,30 @@
-import { Stack } from "@mui/material"
-import Head from "next/head"
 import React from "react"
 import ChangeEmailLayout from "../../components/Layouts/ChangeEmailLayout"
+import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
+import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
 
-export default function ChangeEmailPage(props) {
+export default function ChangeEmailPage() {
+  // Main meta tags
+  const title = "Modifier mon adresse e-mail"
+  const description = "Modifiez votre adresse e-mail"
+
+  // SEO helpers
+  const follow = false
+
+  // OpenGraph additional tags (sharing)
+  const type = "website"
+  const ogImg = "/medias/ogimg.png"
+
   return (
-    <Stack>
-      <Head>
-        <title>Mathias Mortelmans Films | Change your email</title>
-        <meta
-          name="description"
-          content="Mathias Mortelmans Films | Change your email"
-        />
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="robots" content="noindex, nofollow" />
-      </Head>
-
+    <PageRoot>
+      <HtmlHead
+        title={title}
+        description={description}
+        follow={follow}
+        type={type}
+        ogImg={ogImg}
+      />
       <ChangeEmailLayout />
-    </Stack>
+    </PageRoot>
   )
 }

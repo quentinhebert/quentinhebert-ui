@@ -1,17 +1,22 @@
 import Head from "next/head"
+import { useRouter } from "next/router"
+import { defaultConfig } from "../../../config/defaultConfig"
 
 export default function HtmlHead({
   title,
-  canonicalUrl,
   description,
   keywords,
   follow,
   type,
   ogImg,
 }) {
+  const router = useRouter()
+  const canonicalUrl = `${defaultConfig.webclientUrl}${router.pathname}`
+  const pageTitle = `${defaultConfig.websiteName} | ${title}`
+
   return (
     <Head>
-      <title>{title}</title>
+      <title>{pageTitle}</title>
       <meta name="description" content={description} />
       <link rel="icon" href="/favicon.ico" />
 

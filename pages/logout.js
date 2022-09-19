@@ -8,9 +8,8 @@ import { logout } from "../services/utils"
 
 export default function LogoutPage() {
   // Main meta tags
-  const title = `${defaultConfig.websiteName} | Déconnexion`
+  const title = "Déconnexion"
   const description = "Page de déconnexion"
-  const canonicalUrl = `${defaultConfig.webclientUrl}/logout`
 
   // SEO helpers
   const follow = false
@@ -35,7 +34,6 @@ export default function LogoutPage() {
     <PageRoot>
       <HtmlHead
         title={title}
-        canonicalUrl={canonicalUrl}
         description={description}
         follow={follow}
         type={type}

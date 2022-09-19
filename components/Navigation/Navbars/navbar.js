@@ -149,7 +149,7 @@ export default function Navbar(props) {
             />
           )}
 
-          {!!user && user.type === USERTYPES.ADMIN && <LoginOrMenuButton />}
+          {!!user && <LoginOrMenuButton />}
         </Toolbar>
       </Box>
     </AppBar>

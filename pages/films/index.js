@@ -7,10 +7,9 @@ import Footer from "../../components/Navigation/Footers/Footer"
 
 export default function FilmsHomePage() {
   // Main meta tags
-  const title = `${defaultConfig.websiteName} | Vidéaste Freelance`
+  const title = "Vidéaste Freelance"
   const description =
     "Réalisateur – Cadreur – Monteur : disponible dans toute la France."
-  const canonicalUrl = `${defaultConfig.webclientUrl}/films`
 
   // SEO helpers
   const follow = true
@@ -25,7 +24,6 @@ export default function FilmsHomePage() {
     <PageRoot>
       <HtmlHead
         title={title}
-        canonicalUrl={canonicalUrl}
         description={description}
         keywords={keywords}
         follow={follow}

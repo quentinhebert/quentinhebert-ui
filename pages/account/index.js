@@ -1,35 +1,43 @@
 import React, { useContext } from "react"
-import Head from "next/head"
 import Navbar from "../../components/Navigation/Navbars/navbar"
 import Footer from "../../components/Navigation/Footers/Footer"
-import Redirect from "../../components/Navigation/redirect"
 import { UserContext } from "../../contexts/UserContext"
 import AccountIndex from "../../components/Layouts/account/AccountIndex"
-import { Stack } from "@mui/material"
 import LoginLayout from "../../components/Layouts/LoginLayout"
+import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
+import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
 
-function AccountIndexPage(props) {
-  const {} = props
+function AccountIndexPage() {
+  // Main meta tags
+  const title = "Mon compte"
+  const description = "Gérez votre compte"
+
+  // SEO helpers
+  const follow = false
+
+  // OpenGraph additional tags (sharing)
+  const type = "website"
+  const ogImg = "/medias/ogimg.png"
 
   // Check if user has grant to access that page
   const { user } = useContext(UserContext)
 
   return (
-    <Stack minHeight="100vh">
-      <Head>
-        <title>
-          Quentin Hébert | Mon compte | Mes informations personnelles
-        </title>
-        <meta name="description" content="Mon compte" />
-        <meta name="robots" content="noindex, nofollow" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <PageRoot>
+      <HtmlHead
+        title={title}
+        description={description}
+        follow={follow}
+        type={type}
+        ogImg={ogImg}
+      />
+
       <Navbar />
 
       {!user ? <LoginLayout /> : <AccountIndex user={user} />}
 
       <Footer />
-    </Stack>
+    </PageRoot>
   )
 }
 
