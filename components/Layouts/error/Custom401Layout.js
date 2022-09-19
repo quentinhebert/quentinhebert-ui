@@ -1,27 +1,26 @@
-import Link from "next/link";
-import Footer from "../../Navigation/Footers/Footer";
-import Navbar from "../../Navigation/Navbars/navbar";
-import { Button, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material"
+import BodyText from "../../ReusableComponents/text/body-text"
+import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
 
 export default function Custom401Layout() {
   return (
-    <>
-      <Navbar />
-      <Stack
-        justifyContent="center"
-        alignItems="center"
-        height="400px"
-        spacing={2}
-      >
-        <Typography color="secondary" sx={{ fontSize: "2rem" }}>
-          401
-        </Typography>
-        <Typography>Access denied... I will call the police !</Typography>
-        <Link href="/">
-          <Button variant="contained">Go back home 🚗</Button>
-        </Link>
-      </Stack>
-      <Footer bgColor={(theme) => theme.palette.background.main} />
-    </>
-  );
+    <Stack
+      flexGrow={1}
+      minHeight="400px"
+      justifyContent="center"
+      alignItems="center"
+      gap={4}
+      padding={2}
+    >
+      <Typography color="secondary" variant="h2" component="h1">
+        401
+      </Typography>
+
+      <BodyText>Accès refusé... La police est en route !</BodyText>
+
+      <CustomSubmitButton secondary="true" href="/">
+        Faire demi-tour
+      </CustomSubmitButton>
+    </Stack>
+  )
 }

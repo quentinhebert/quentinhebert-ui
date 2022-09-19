@@ -1,29 +1,26 @@
-import Link from "next/link";
-import Footer from "../../Navigation/Footers/Footer";
-import Navbar from "../../Navigation/Navbars/navbar";
-import { Button, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material"
+import BodyText from "../../ReusableComponents/text/body-text"
+import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
 
 export default function Custom404Layout() {
   return (
-    <>
-      <Navbar />
+    <Stack
+      flexGrow={1}
+      minHeight="400px"
+      justifyContent="center"
+      alignItems="center"
+      gap={4}
+      padding={2}
+    >
+      <Typography color="secondary" variant="h2" component="h1">
+        404
+      </Typography>
 
-      <Stack
-        justifyContent="center"
-        alignItems="center"
-        height="400px"
-        spacing={2}
-      >
-        <Typography color="secondary" sx={{ fontSize: "2rem" }}>
-          404
-        </Typography>
-        <Typography>Oops, that page doesn't exist...</Typography>
-        <Link href="/">
-          <Button variant="contained">Go back home 🚗</Button>
-        </Link>
-      </Stack>
+      <BodyText>Il semble que vous vous êtes perdu·e en chemin...</BodyText>
 
-      <Footer />
-    </>
-  );
+      <CustomSubmitButton secondary="true" href="/">
+        Case départ
+      </CustomSubmitButton>
+    </Stack>
+  )
 }
