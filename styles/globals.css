@@ -15,7 +15,7 @@ body {
   background: #3D403E ;
 }
 ::-webkit-scrollbar-thumb {
-  background: #C6900E;
+  background: #c6900e;
   border-radius: 10px;
 }
 
@@ -96,4 +96,13 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    box-shadow: 0 0 0 30px rgb(198, 144, 14, 0.1) inset !important;
+    -webkit-box-shadow: 0 0 0 30px rgb(198, 144, 14, 0.1) inset !important;
 }
