@@ -164,8 +164,8 @@ export default function CustomTable(props) {
           <TableContainer>
             <Table
               stickyHeader
-              sx={{ minWidth: 750 }}
               aria-labelledby="tableTitle"
+              sx={{ "& .MuiTableCell-root": { padding: "0.5rem 0.25rem" } }}
             >
               <EnhancedTableHead
                 headCells={headCells}

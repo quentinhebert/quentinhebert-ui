@@ -11,6 +11,41 @@ import SignUpForm from "../../Forms/signup-form"
 import CustomModal from "../../ReusableComponents/modals/custom-modal"
 import BodyText from "../../ReusableComponents/text/body-text"
 
+function getBoolValue(param) {
+  if (!param)
+    return (
+      <Tooltip
+        title={`Pour filtrer, veuillez chercher ${param
+          .toString()
+          .toUpperCase()}`}
+      >
+        <div>❌</div>
+      </Tooltip>
+    )
+  else
+    return (
+      <>
+        <Tooltip
+          title={`Pour filtrer, veuillez chercher ${param
+            .toString()
+            .toUpperCase()}`}
+        >
+          <div>✅</div>
+        </Tooltip>
+      </>
+    )
+}
+
+function getDateValue(param) {
+  const year = param.split("T")[0].split("-")[0]
+  const month = param.split("T")[0].split("-")[1]
+  const day = param.split("T")[0].split("-")[2]
+  const hour = param.split("T")[1].split(":")[0]
+  const min = param.split("T")[1].split(":")[1]
+  // return `${year}/${month}/${day} at ${hour}:${min}`
+  return `${day}/${month}/${year} à ${hour}:${min}`
+}
+
 const headCells = [
   {
     id: "id",
@@ -21,7 +56,7 @@ const headCells = [
     id: "avatar_path",
     numeric: false,
     label: "Avatar",
-    valueGetter: function (param, rowId) {
+    valueGetter: function (param) {
       return <Avatar src={param} sx={{ width: "60px", height: "60px" }} />
     },
     centered: true,
@@ -55,74 +90,27 @@ const headCells = [
     id: "created_at",
     numeric: false,
     label: "Créé le",
-    valueGetter: function (param, rowId) {
-      const year = param.split("T")[0].split("-")[0]
-      const month = param.split("T")[0].split("-")[1]
-      const day = param.split("T")[0].split("-")[2]
-      const hour = param.split("T")[1].split(":")[0]
-      const min = param.split("T")[1].split(":")[1]
-      // return `${year}/${month}/${day} at ${hour}:${min}`
-      return `${day}/${month}/${year} à ${hour}:${min}`
-    },
+    valueGetter: (param) => getDateValue(param),
   },
   {
     id: "email_confirmed",
     numeric: false,
     label: "E-mail confirmé",
-    valueGetter: function (param, rowId) {
-      if (!param)
-        return (
-          <Tooltip
-            title={`Pour filtrer, veuillez chercher ${param
-              .toString()
-              .toUpperCase()}`}
-          >
-            <div>❌</div>
-          </Tooltip>
-        )
-      else
-        return (
-          <>
-            <Tooltip
-              title={`Pour filtrer, veuillez chercher ${param
-                .toString()
-                .toUpperCase()}`}
-            >
-              <div>✅</div>
-            </Tooltip>
-          </>
-        )
-    },
+    valueGetter: (param) => getBoolValue(param),
+    centered: true,
+  },
+  {
+    id: "password_forgotten",
+    numeric: false,
+    label: "Mot de passe oublié",
+    valueGetter: (param) => getBoolValue(param),
     centered: true,
   },
   {
     id: "banned",
     numeric: false,
     label: "Banni",
-    valueGetter: function (param) {
-      if (!param)
-        return (
-          <Tooltip
-            title={`Pour filtrer, veuillez chercher ${param
-              .toString()
-              .toUpperCase()}`}
-          >
-            <div>❌</div>
-          </Tooltip>
-        )
-      else
-        return (
-          <>
-            <Tooltip
-              title={`Pour filtrer, veuillez chercher ${param
-                .toString()
-                .toUpperCase()}`}
-            >
-              <div>✅</div>
-            </Tooltip>
-          </>
-        )
-    },
+    valueGetter: (param) => getBoolValue(param),
     centered: true,
   },
 ]
