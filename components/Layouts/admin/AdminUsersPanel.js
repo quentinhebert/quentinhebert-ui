@@ -24,6 +24,7 @@ const headCells = [
     valueGetter: function (param, rowId) {
       return <Avatar src={param} sx={{ width: "60px", height: "60px" }} />
     },
+    centered: true,
   },
   {
     id: "type",
@@ -92,6 +93,7 @@ const headCells = [
           </>
         )
     },
+    centered: true,
   },
   {
     id: "banned",
@@ -121,6 +123,7 @@ const headCells = [
           </>
         )
     },
+    centered: true,
   },
 ]
 

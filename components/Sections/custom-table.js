@@ -60,11 +60,12 @@ export default function CustomTable(props) {
       }
       return (
         <TableCell
-          align="left"
+          align={headCell.centered ? "center" : "left"}
           key={headCell.id}
           sx={{
             cursor: "default",
             color: (theme) => theme.palette.text.white,
+            paddingRight: headCell.centered ? "2rem" : 0,
           }}
         >
           {data}

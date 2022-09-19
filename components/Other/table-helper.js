@@ -63,7 +63,9 @@ export function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align={
+              headCell.centered ? "center" : headCell.numeric ? "right" : "left"
+            }
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
               color: (theme) => theme.palette.text.white,
