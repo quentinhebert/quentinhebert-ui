@@ -1,150 +1,132 @@
-import {
-  FormControl,
-  Link,
-  Paper,
-  Stack,
-  TextField,
-  CircularProgress,
-  Typography,
-} from "@mui/material";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import apiCall from "../../../services/apiCalls/apiCall";
-import { checkEmail, checkPhone } from "../../../services/utils";
-import withSnacks from "../../hocs/withSnacks";
-import { ActionButtons } from "../../Modals/Modal-Components/modal-action-buttons";
-import { ModalTitle } from "../../Modals/Modal-Components/modal-title";
-import AlertInfo from "../../Other/alert-info";
+import { Stack } from "@mui/material"
+import { useEffect, useState } from "react"
+import apiCall from "../../../services/apiCalls/apiCall"
+import { checkEmail, checkPhone } from "../../../services/utils"
+import withSnacks from "../../hocs/withSnacks"
+import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
+import AlertInfo from "../../Other/alert-info"
+import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
+import CustomForm from "../../ReusableComponents/forms/custom-form"
+import CustomOutlinedInput from "../../ReusableComponents/forms/custom-outlined-input"
+import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
+import DualInputLine from "../../ReusableComponents/forms/responsive-dual-input-container"
 
 function ChangePersonalInformation(props) {
-  const { user, setUser, setSeverity, setMessageSnack, setOpenSnackBar } =
-    props;
-  const [loadingButton, setLoadingButton] = useState(false);
-  const [localUser, setLocalUser] = useState(user); // Prevent from live changing navbar firstnmae...
+  const { user, setUser, setSeverity, setMessageSnack, setOpenSnackBar } = props
+  const [loadingButton, setLoadingButton] = useState(false)
+  const [localUser, setLocalUser] = useState(user) // Prevent from live changing navbar firstname...
   const [updateErrors, setUpdateErrors] = useState({
     firstname: false,
     lastname: false,
     email: false,
     phone: false,
     type: false,
-  });
+  })
   const [showAlert, setShowAlert] = useState({
     show: false,
     severity: null,
     text: null,
     title: null,
-  });
+  })
 
   async function fetchUser() {
-    const res = await apiCall.users.get(user.id);
+    const res = await apiCall.users.get(user.id)
     if (res && res.ok) {
-      const jsonRes = await res.json();
-      setUser(jsonRes);
+      const jsonRes = await res.json()
+      setUser(jsonRes)
+      setLocalUser(user)
     }
   }
 
   // FETCH DATA
   useEffect(() => {
-    if (user.id) fetchUser();
-  }, [user.id]);
+    if (user.id) fetchUser()
+  }, [user.id])
 
-  const router = useRouter();
   const emailError =
     updateErrors.email ||
-    (localUser &&
-      localUser.email.trim() !== "" &&
-      !checkEmail(localUser.email));
+    (localUser && localUser.email.trim() !== "" && !checkEmail(localUser.email))
 
   const handleChange = (attribute) => (event) => {
-    setLocalUser({ ...localUser, [attribute]: event.target.value });
-    setUpdateErrors({ ...updateErrors, [attribute]: false });
-  };
+    setLocalUser({ ...localUser, [attribute]: event.target.value })
+    setUpdateErrors({ ...updateErrors, [attribute]: false })
+  }
   const handleSuccess = () => {
-    setSeverity("success");
-    setOpenSnackBar("true");
-    setMessageSnack("User updated successfully");
-  };
+    setSeverity("success")
+    setOpenSnackBar("true")
+    setMessageSnack("User updated successfully")
+  }
   const handleError = () => {
-    setSeverity("error");
-    setOpenSnackBar("true");
-    setMessageSnack("A problem occurend while updating the user");
-  };
+    setSeverity("error")
+    setOpenSnackBar("true")
+    setMessageSnack("A problem occurend while updating the user")
+  }
   const handleErrorDuplicate = () => {
-    setSeverity("error");
-    setOpenSnackBar("true");
-    setMessageSnack("The email or the phone already exists for another user");
-  };
+    setSeverity("error")
+    setOpenSnackBar("true")
+    setMessageSnack("The email or the phone already exists for another user")
+  }
 
   const handleSaveUser = async () => {
-    setLoadingButton(true);
-    const res = await apiCall.users.update(localUser);
+    setLoadingButton(true)
+    const res = await apiCall.users.update(localUser)
     if (res && res.ok) {
-      const jsonRes = await res.json();
-      handleSuccess();
-      await fetchUser();
+      const jsonRes = await res.json()
+      handleSuccess()
+      await fetchUser()
       if (jsonRes.change_email_sent) {
         setShowAlert({
           severity: "info",
           show: true,
           title: "You just received an email...",
           text: "A confirmation email for changing email has just been sent to you. Don't forget to check your spams 😉",
-        });
+        })
       }
     } else if (res) {
-      const jsonRes = await res.json();
+      const jsonRes = await res.json()
       if (jsonRes.code === 1011) {
-        handleErrorDuplicate();
+        handleErrorDuplicate()
       } else {
-        handleError();
+        handleError()
       }
     } else {
-      handleError();
+      handleError()
     }
-    setLoadingButton(false);
-  };
+    setLoadingButton(false)
+  }
 
   return (
-    <Stack direction="column" padding="1rem">
-      <Paper
-        variant="contained"
-        sx={{
-          justifyContent: "center",
-          alignItems: "center",
-          margin: "auto",
-        }}
-      >
-        <Stack justifyContent="center" padding="1rem">
-          <ModalTitle text="Change my personal information" />
+    <CenteredMaxWidthContainer>
+      <CustomForm>
+        <Stack
+          gap={4}
+          padding={4}
+          width="100%"
+          alignItems="center"
+          borderRadius="10px"
+          sx={{ backgroundColor: (theme) => theme.palette.background.main }}
+        >
+          <ModalTitle>Modifier mes informations personnelles</ModalTitle>
 
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            sx={{
-              width: { xs: "300px", md: "600px" },
-              margin: "auto",
-              padding: { xs: "0.5rem", md: "2rem" },
-            }}
-          >
-            <FormControl fullWidth sx={{ gap: 2 }}>
-              <TextField
+          <Stack width="100%" gap={2}>
+            <DualInputLine>
+              <CustomOutlinedInput
                 required
                 type="input"
                 id="firstname"
-                label="Firstname"
-                color="primary"
-                fullWidth
+                label="Prénom"
                 value={localUser.firstname || ""}
                 onChange={handleChange("firstname")}
                 error={updateErrors.firstname}
-                helperText={updateErrors.firstname && "Problem with this field"}
+                helperText={
+                  updateErrors.firstname && "Veuillez vérifier ce champ"
+                }
               />
-              <TextField
+              <CustomOutlinedInput
                 required
                 type="input"
                 id="lastname"
-                label="Lastame"
-                color="primary"
-                fullWidth
+                label="Nom"
                 value={localUser.lastname || ""}
                 onChange={handleChange("lastname")}
                 error={updateErrors.lastname}
@@ -152,45 +134,50 @@ function ChangePersonalInformation(props) {
                   updateErrors.lastname && "Veuillez vérifier ce champ"
                 }
               />
-              <TextField
+            </DualInputLine>
+
+            <DualInputLine>
+              <CustomOutlinedInput
                 required
                 type="email"
                 id="email"
-                label="Email address"
-                color="primary"
-                fullWidth
+                label="E-mail"
                 value={localUser.email || ""}
                 onChange={handleChange("email")}
                 error={emailError || updateErrors.email}
-                helperText={emailError && "This email is not valid"}
+                helperText={emailError && "Cet adresse e-mail n'est pas valide"}
               />
-              <TextField
+              <CustomOutlinedInput
                 type="phone"
                 id="phone"
-                label="Phone number"
-                color="primary"
-                fullWidth
+                label="Téléphone"
                 value={localUser.phone || ""}
                 onChange={handleChange("phone")}
                 error={updateErrors.phone}
-                helperText={updateErrors.phone && "This phone is not valid"}
+                helperText={
+                  updateErrors.phone &&
+                  "Ce numéro de téléphone n'est pas valide"
+                }
               />
-            </FormControl>
-
-            {showAlert.show ? <AlertInfo content={showAlert} /> : null}
+            </DualInputLine>
           </Stack>
 
-          <ActionButtons
-            middleButtonText="Reset"
-            middleButtonOnClick={fetchUser}
-            rightButtonText={loadingButton ? <CircularProgress /> : "Save"}
-            rightButtonOnClick={handleSaveUser}
-            rightButtonDisabled={loadingButton}
-          />
+          {showAlert.show ? <AlertInfo content={showAlert} /> : null}
+
+          <Stack flexDirection="row" gap={2} justifyContent="end">
+            <CustomSubmitButton onClick={fetchUser}>Reset</CustomSubmitButton>
+            <CustomSubmitButton
+              secondary="true"
+              onClick={handleSaveUser}
+              disabled={loadingButton}
+            >
+              Enregistrer
+            </CustomSubmitButton>
+          </Stack>
         </Stack>
-      </Paper>
-    </Stack>
-  );
+      </CustomForm>
+    </CenteredMaxWidthContainer>
+  )
 }
 
-export default withSnacks(ChangePersonalInformation);
+export default withSnacks(ChangePersonalInformation)

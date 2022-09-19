@@ -1,148 +1,144 @@
-import {
-  FormControl,
-  Paper,
-  Stack,
-  CircularProgress,
-  FormLabel,
-  TextField,
-} from "@mui/material";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import apiCall from "../../../services/apiCalls/apiCall";
-import withSnacks from "../../hocs/withSnacks";
-import { ActionButtons } from "../../Modals/Modal-Components/modal-action-buttons";
-import { ModalTitle } from "../../Modals/Modal-Components/modal-title";
-import { logout } from "../../../services/utils";
+import { Button, Stack } from "@mui/material"
+import { useRouter } from "next/router"
+import { useState } from "react"
+import apiCall from "../../../services/apiCalls/apiCall"
+import withSnacks from "../../hocs/withSnacks"
+import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
+import { logout } from "../../../services/utils"
+import CustomForm from "../../ReusableComponents/forms/custom-form"
+import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
+import BodyText from "../../ReusableComponents/text/body-text"
+import CustomOutlinedInput from "../../ReusableComponents/forms/custom-outlined-input"
+
+const CopyPaste = (props) => (
+  <Stack
+    component="span"
+    sx={{
+      display: "inline-flex",
+      color: "gray",
+      border: "1px solid gray",
+      borderRadius: "5px",
+      padding: "0 .5rem",
+      margin: "0 .25rem",
+    }}
+    {...props}
+  />
+)
+
+const DeleteButton = (props) => (
+  <Button
+    variant="outlined"
+    size="large"
+    sx={{
+      color: (theme) => theme.palette.error.main,
+      backgroundColor: "transparent",
+      border: (theme) => `2px solid ${theme.palette.error.main}`,
+      borderRadius: "10px",
+      letterSpacing: "1.5px",
+      fontSize: props.fontSize || "",
+      "&:hover": {
+        border: (theme) => theme.palette.error.main,
+        backgroundColor: (theme) => theme.palette.error.main,
+        color: (theme) => theme.palette.text.primary,
+      },
+    }}
+    {...props}
+  />
+)
 
 function DeleteAccount(props) {
-  const { user, setUser, setSeverity, setMessageSnack, setOpenSnackBar } =
-    props;
+  const { user, setUser, setSeverity, setMessageSnack, setOpenSnackBar } = props
 
   // USE-STATES
-  const [loadingButton, setLoadingButton] = useState(false);
-  const [confirmation, setConfirmation] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const [loadingButton, setLoadingButton] = useState(false)
+  const [confirmation, setConfirmation] = useState(null)
+  const [success, setSuccess] = useState(null)
 
-  const router = useRouter();
+  const router = useRouter()
 
-  const invalidConfirmation = confirmation !== user.email;
+  const invalidConfirmation = confirmation !== user.email
 
   // HANDLERS
   const handleChange = (event) => {
-    setConfirmation(event.target.value);
-  };
+    setConfirmation(event.target.value)
+  }
   const handleSuccess = () => {
-    setSuccess(true); // To disable the submit button
-    setSeverity("success");
-    setOpenSnackBar("true");
+    setSuccess(true) // To disable the submit button
+    setSeverity("success")
+    setOpenSnackBar("true")
     setMessageSnack(
       "Your account has been deleted successfully. You are being redirected in 5 seconds..."
-    );
+    )
     setTimeout(() => {
-      logout(); // remove tokens from cookies
-      setUser(null);
-      router.push("/");
-    }, [5000]);
-  };
+      logout() // remove tokens from cookies
+      setUser(null)
+      router.push("/")
+    }, [5000])
+  }
   const handleError = () => {
-    setSeverity("error");
-    setOpenSnackBar("true");
-    setMessageSnack("A problem occured while updating the password");
-  };
+    setSeverity("error")
+    setOpenSnackBar("true")
+    setMessageSnack("A problem occured while updating the password")
+  }
   const handleInvalidConfirmation = async (response) => {
-    setSeverity("error");
-    setOpenSnackBar("true");
-    setMessageSnack("Please type your email to continue the operation");
-  };
+    setSeverity("error")
+    setOpenSnackBar("true")
+    setMessageSnack("Please type your email to continue the operation")
+  }
   const handleDeleteUser = async () => {
     if (!invalidConfirmation) {
-      const res = await apiCall.users.delete(user.id);
+      const res = await apiCall.users.delete(user.id)
       if (res && res.ok) {
-        handleSuccess();
+        handleSuccess()
       } else {
-        handleError();
+        handleError()
       }
     } else {
-      handleInvalidConfirmation();
+      handleInvalidConfirmation()
     }
-  };
+  }
 
-  if (!user) return <></>;
+  if (!user) return <></>
 
   return (
-    <Stack direction="column" padding="1rem">
-      <Paper
-        variant="contained"
-        sx={{
-          justifyContent: "center",
-          alignItems: "center",
-          margin: "auto",
-        }}
-      >
-        <Stack justifyContent="center" padding="1rem">
-          <ModalTitle text="Delete my account" />
+    <CenteredMaxWidthContainer>
+      <CustomForm>
+        <Stack
+          gap={4}
+          padding={4}
+          width="100%"
+          alignItems="center"
+          borderRadius="10px"
+          sx={{ backgroundColor: (theme) => theme.palette.background.main }}
+        >
+          <ModalTitle>Supprimer mon compte</ModalTitle>
 
-          <Stack
-            gap={2}
-            sx={{
-              width: { xs: "300px", md: "600px" },
-              margin: "auto",
-              padding: { xs: "0 0.5rem 1rem", md: "0 2rem 1rem" },
-            }}
-          >
-            <FormControl
-              fullWidth
-              sx={{ justifyContent: "center", alignItems: "center" }}
-            >
-              <FormLabel
-                sx={{
-                  margin: "1rem 0",
-                  textAlign: "justify",
-                  color: "#f44336",
-                }}
-              >
-                Type{" "}
-                <Stack
-                  sx={{
-                    display: "inline-flex",
-                    color: "gray",
-                    border: "1px solid gray",
-                    borderRadius: "5px",
-                    padding: "0.2rem 0.5rem",
-                  }}
-                >
-                  {user.email}
-                </Stack>{" "}
-                then click on <em>"Delete my account"</em> to delete your
-                account definitively.
-              </FormLabel>
-              <TextField
-                required
-                type="input"
-                id="confirmation"
-                label="Type your email address"
-                color="primary"
-                fullWidth
-                value={confirmation || ""}
-                onChange={handleChange}
-              />
-            </FormControl>
-          </Stack>
+          <BodyText fontSize="1rem">
+            Saisissez
+            <CopyPaste>{user.email}</CopyPaste> puis cliquez sur{" "}
+            <em>"Supprimer mon compte"</em> pour supprimer définitivement votre
+            compte.
+          </BodyText>
 
-          <ActionButtons
-            rightButtonText={
-              loadingButton ? <CircularProgress /> : "Delete my account"
-            }
-            rightButtonOnClick={handleDeleteUser}
-            rightButtonDisabled={
-              loadingButton || invalidConfirmation || success
-            }
-            rightColor="#f44336"
+          <CustomOutlinedInput
+            required
+            type="input"
+            id="confirmation"
+            label="Saisissez votre adresse e-mail"
+            value={confirmation || ""}
+            onChange={handleChange}
           />
+
+          <DeleteButton
+            onClick={handleDeleteUser}
+            disabled={loadingButton || invalidConfirmation || success}
+          >
+            Supprimer mon compte
+          </DeleteButton>
         </Stack>
-      </Paper>
-    </Stack>
-  );
+      </CustomForm>
+    </CenteredMaxWidthContainer>
+  )
 }
 
-export default withSnacks(DeleteAccount);
+export default withSnacks(DeleteAccount)
