@@ -1,9 +1,4 @@
-import { Box, Grid, Stack, Typography } from "@mui/material"
-import CustomCard from "../../ReusableComponents/cards/custom-card"
-import CustomCardTitle from "../../ReusableComponents/cards/custom-card-title"
-import EndCardButton from "../../ReusableComponents/cards/end-card-button"
-import styles from "../../../styles/TextShine.module.css"
-import BodyText from "../../ReusableComponents/text/body-text"
+import { Box, Stack } from "@mui/material"
 import PageTitle from "../../ReusableComponents/titles/page-title"
 import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
 
@@ -53,7 +48,7 @@ export default function AdminIndex() {
           backgroundSize: "cover",
         }}
       />
-      <PageTitle zIndex={1} text="Dashboard" />
+      <PageTitle zIndex={1} text="Panneau administrateur" />
 
       <Stack zIndex={0}>
         <OneActionCardsGrid cards={CARDS} />
