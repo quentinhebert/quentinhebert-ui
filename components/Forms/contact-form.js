@@ -12,8 +12,8 @@ import Select from "../ReusableComponents/forms/custom-filled-select"
 import SelectOption from "../ReusableComponents/forms/custom-select-option"
 import Form from "../ReusableComponents/forms/custom-form"
 import CustomCheckbox from "../ReusableComponents/forms/custom-checkbox"
-import theme from "../../config/theme"
 import styles from "../../styles/WordsCaroussel.module.css"
+import theme from "../../config/theme"
 
 /** CONSTANTS **/
 
@@ -23,23 +23,63 @@ const BUDGET_OPTIONS = [
   "1500€ - 3000€",
   "+3000€",
 ]
+const jobs = {
+  filmmaker: ["vidéaste", "réalisateur", "cadreur", "monteur"],
+  developper: [
+    "développeur front-end",
+    "développeur back-end",
+    "web-designer",
+    "mec super sympa",
+  ],
+}
+
+const WordCaroussel = ({ defaultService }) => (
+  <Typography
+    color="#fff"
+    flexGrow={1}
+    textAlign="right"
+    sx={{
+      fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" },
+      letterSpacing: { xs: 1.5, sm: 2, md: 2 },
+    }}
+  >
+    Je recherche un{" "}
+    <Box
+      component="span"
+      sx={{ color: (theme) => theme.palette.text.secondary }}
+    >
+      {defaultService === "film" && (
+        <Stack className={styles.scroller}>
+          <Box className={styles.wrapper}>
+            {jobs.filmmaker.map((job, key) => (
+              <Box key={key}>{job}</Box>
+            ))}
+          </Box>
+        </Stack>
+      )}
+      {defaultService === "website" && (
+        <Stack className={styles.scroller}>
+          <Box className={styles.wrapper}>
+            {jobs.developper.map((job, key) => (
+              <Box key={key}>{job}</Box>
+            ))}
+          </Box>
+        </Stack>
+      )}
+    </Box>
+  </Typography>
+)
 
 function ContactForm(props) {
-  const { defaultService, defaultDirection } = props
+  const {
+    defaultService,
+    defaultDirection,
+    setSeverity,
+    setOpenSnackBar,
+    setMessageSnack,
+  } = props
 
-  const { setSeverity, setOpenSnackBar, setMessageSnack } = props
-  const [loadingButton, setLoadingButton] = useState(false)
-  const [errors, setErrors] = useState({
-    firstname: false,
-    lastname: false,
-    email: false,
-    phone: false,
-    type: false,
-    description: false,
-    company: false,
-    budget: false,
-  })
-  const [clientData, setClientData] = useState({
+  const initialFormData = {
     firstname: "",
     lastname: "",
     company: "",
@@ -52,103 +92,93 @@ function ContactForm(props) {
       film: defaultService && defaultService === "film" ? true : false,
       website: defaultService && defaultService === "website" ? true : false,
     },
-  })
-  const jobs = {
-    filmmaker: ["vidéaste", "réalisateur", "cadreur", "monteur"],
-    developper: [
-      "développeur front-end",
-      "développeur back-end",
-      "web-designer",
-      "mec super sympa",
-    ],
   }
 
+  const [isFetching, setIsFetching] = useState(false)
+  const [formData, setFormData] = useState(initialFormData)
+  const [errors, setErrors] = useState({
+    firstname: false,
+    lastname: false,
+    email: false,
+    phone: false,
+    type: false,
+    description: false,
+    company: false,
+    budget: false,
+  })
+
   /********** HANDLERS **********/
+  const handleResetForm = () => {
+    setFormData(initialFormData)
+  }
   const handleChange = (attribute) => (event) => {
-    setClientData({
-      ...clientData,
+    setFormData({
+      ...formData,
       [attribute]: event.target.value,
     })
-    // On change we reset th localError of the input value, we let the live check take over
+    // On change : we reset the localError of the input value, we let the live check take over
     setErrors({
       ...errors,
       [attribute]: false,
     })
   }
   const handleChangeService = (service) => (event) => {
-    setClientData({
-      ...clientData,
+    setFormData({
+      ...formData,
       service: {
-        ...clientData.service,
+        ...formData.service,
         [service]: event.target.checked,
       },
     })
   }
   const handleSuccess = () => {
     setSeverity("success")
-    setMessageSnack("Your message has been sent successfully.")
+    setMessageSnack("Reçu 5/5 ! 💬")
     setOpenSnackBar("true")
+    handleResetForm()
   }
   const handleError = () => {
     setSeverity("error")
-    setMessageSnack("An error occurred while sending the contact form.")
+    setMessageSnack("Une erreur est survenue lors de l'envoi 🙁")
     setOpenSnackBar("true")
   }
-  const handleResetForm = () => {
-    setClientData({
-      firstname: "",
-      lastname: "",
-      company: "",
-      email: "",
-      phone: "",
-      type: USERTYPES.CLIENT,
-      description: "",
-      budget: null,
-      service: {
-        film: defaultService && defaultService === "film" ? true : false,
-        website: defaultService && defaultService === "website" ? true : false,
-      },
-    })
-  }
   const handleSendRequest = async () => {
-    // const res = await apiCall.unauthenticated.sendContactForm(clientData)
-    // if (res && res.ok) {
-    //   handleSuccess()
-    //   handleResetForm()
-    // } else {
-    //   handleError()
-    // }
-    console.log(clientData)
+    setIsFetching(true)
+    const res = await apiCall.unauthenticated.sendContactForm(formData)
+    if (res && res.ok) handleSuccess()
+    else handleError()
+    setIsFetching(false)
   }
 
   /********** VARAIABLES FOR LIVE CHECK **********/
   const emailError =
     errors.email ||
-    (clientData.email.trim() !== "" && !checkEmail(clientData.email))
+    (formData.email.trim() !== "" && !checkEmail(formData.email))
 
   return (
-    <Form margin="1rem 0 4rem">
+    <Form width="100%">
       <Stack
+        width="100%"
+        alignItems="center"
+        padding="1rem"
+        borderRadius="5px"
+        flexDirection="row"
         sx={{
-          width: "100%",
-          flexDirection: { xs: "column", lg: "row" },
           background: (theme) =>
             `linear-gradient(100deg, transparent 20%, ${theme.palette.background.main} 100%)`,
-          padding: "1rem",
-          borderRadius: "5px",
         }}
-        alignItems="center"
       >
         {!defaultService ||
         (defaultService !== "film" && defaultService !== "website") ? (
-          <>
-            <Typography color="#fff" flexGrow={1} letterSpacing={1}>
+          <Stack>
+            <Typography color="#fff" letterSpacing={1}>
               Je recherche un <em>freelance</em> pour réaliser un... *
             </Typography>
             <Stack flexDirection="row" gap={4}>
               <CustomCheckbox
                 label="Film"
-                check={clientData.service.film ? "true" : "false"}
+                check={formData.service.film ? "true" : "false"}
+                // colors passed as strings otw DOM warnings if objects passed as props
                 labelcolor={theme.palette.text.secondary} // label
                 checkedcolor={theme.palette.text.secondary} // checked
                 checkboxcolor="#fff" // unchecked
@@ -158,7 +188,7 @@ function ContactForm(props) {
               />
               <CustomCheckbox
                 label="Site web"
-                check={clientData.service.website ? "true" : "false"}
+                check={formData.service.website ? "true" : "false"}
                 labelcolor={theme.palette.text.secondary} // label
                 checkedcolor={theme.palette.text.secondary} // checked
                 checkboxcolor="#fff" // unchecked
@@ -166,42 +196,9 @@ function ContactForm(props) {
                 onChange={handleChangeService("website")}
               />
             </Stack>
-          </>
+          </Stack>
         ) : (
-          <Typography
-            color="#fff"
-            flexGrow={1}
-            textAlign="right"
-            sx={{
-              fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" },
-              letterSpacing: { xs: 1.5, sm: 2, md: 2 },
-            }}
-          >
-            Je recherche un{" "}
-            <Box
-              component="span"
-              sx={{ color: (theme) => theme.palette.text.secondary }}
-            >
-              {defaultService === "film" && (
-                <Stack className={styles.scroller}>
-                  <Box className={styles.wrapper}>
-                    {jobs.filmmaker.map((job, key) => (
-                      <Box key={key}>{job}</Box>
-                    ))}
-                  </Box>
-                </Stack>
-              )}
-              {defaultService === "website" && (
-                <Stack className={styles.scroller}>
-                  <Box className={styles.wrapper}>
-                    {jobs.developper.map((job, key) => (
-                      <Box key={key}>{job}</Box>
-                    ))}
-                  </Box>
-                </Stack>
-              )}
-            </Box>
-          </Typography>
+          <WordCaroussel defaultService={defaultService} />
         )}
       </Stack>
 
@@ -211,21 +208,21 @@ function ContactForm(props) {
           type="input"
           id="firstname"
           label="Prénom"
-          placeholder={clientData.service.film ? "Louis" : "Philippe"}
-          value={clientData.firstname}
+          placeholder={formData.service.film ? "Louis" : "Philippe"}
+          value={formData.firstname}
           onChange={handleChange("firstname")}
           error={errors.firstname}
-          helperText={errors.firstname && "Please check this field"}
+          helperText={errors.firstname && "Veuillez vérifier ce champ"}
         />
         <Input
           type="input"
           id="lastname"
           label="Nom"
-          placeholder={clientData.service.film ? "Vuitton" : "Etchebest"}
-          value={clientData.lastname}
+          placeholder={formData.service.film ? "Vuitton" : "Etchebest"}
+          value={formData.lastname}
           onChange={handleChange("lastname")}
           error={errors.lastname}
-          helperText={errors.lastname && "Please check this field"}
+          helperText={errors.lastname && "Veuillez vérifier ce champ"}
         />
       </DualInputLine>
 
@@ -236,11 +233,9 @@ function ContactForm(props) {
           id="email"
           label="E-mail"
           placeholder={
-            clientData.service.film
-              ? "loulou@vuitton.com"
-              : "philou@topchef.com"
+            formData.service.film ? "loulou@vuitton.com" : "philou@topchef.com"
           }
-          value={clientData.email}
+          value={formData.email}
           onChange={handleChange("email")}
           error={emailError || errors.email}
           helperText={emailError && "This email is not valid"}
@@ -250,7 +245,7 @@ function ContactForm(props) {
           id="phone"
           label="Téléphone"
           placeholder="06XXXXXXXX"
-          value={clientData.phone}
+          value={formData.phone}
           onChange={handleChange("phone")}
         />
       </DualInputLine>
@@ -261,21 +256,21 @@ function ContactForm(props) {
           id="company"
           label="Entreprise"
           placeholder={
-            clientData.service.film ? "Louis Vuitton" : "Philippe Etchebest"
+            formData.service.film ? "Louis Vuitton" : "Philippe Etchebest"
           }
-          value={clientData.company}
+          value={formData.company}
           onChange={handleChange("company")}
           error={errors.company}
-          helperText={errors.company && "Please check this field"}
+          helperText={errors.company && "Veuillez vérifier ce champ"}
         />
         <Select
           required
           id="budget"
-          value={clientData.budget}
+          value={formData.budget}
           onChange={handleChange("budget")}
           renderValue={
             // Trick for placeholder hiding
-            clientData.budget !== ""
+            formData.budget !== ""
               ? undefined
               : () => <Typography color="secondary">Mon budget *</Typography>
           }
@@ -293,18 +288,18 @@ function ContactForm(props) {
         id="description"
         label="À propos de mon projet..."
         placeholder={
-          clientData.service.film
-            ? clientData.service.website
+          formData.service.film
+            ? formData.service.website
               ? "Film de 2 minutes sur un produit de notre nouvelle collection et landing page pour ce même produit."
               : "Film de 2 minutes sur un produit de notre nouvelle collection."
             : "Site vitrine pour mettre en avant mon nouveau restaurant et ma carte du jour."
         }
-        value={clientData.description}
+        value={formData.description}
         onChange={handleChange("description")}
       />
 
-      <RightSubmitButton onClick={handleSendRequest} disabled={loadingButton}>
-        {loadingButton ? <CircularProgress /> : "Envoyer"}
+      <RightSubmitButton onClick={handleSendRequest} disabled={isFetching}>
+        {isFetching ? "Envoi en cours" : "Envoyer"}
       </RightSubmitButton>
     </Form>
   )

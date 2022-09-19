@@ -89,11 +89,11 @@ const LocationText = ({ text, icon }) => (
 export default function LeftPartContact(props) {
   return (
     <Stack
+      width="100%"
       alignItems={"flex-start"}
       justifyContent="center"
+      margin="0 auto"
       gap={2}
-      width="100%"
-      sx={{ margin: "0 auto" }}
     >
       <PageTitle
         text="Contact"

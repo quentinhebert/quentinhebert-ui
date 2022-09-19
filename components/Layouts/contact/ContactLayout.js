@@ -46,7 +46,7 @@ export default function ContactLayout(props) {
     >
       <CenteredMaxWidthContainer pixels="1200px" percents="80%">
         <Stack
-          alignItems="baseline"
+          alignItems="start"
           margin="calc(65px + 4rem) 0"
           sx={{
             flexDirection: { xs: "column", md: "row" },
