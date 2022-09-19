@@ -118,21 +118,18 @@ export default function SignUpForm(props) {
 
   /* Check all data at once onSubmit button click */
   const checkAllData = () => {
-    const errors = initialSignUpErrors
+    const localErrors = initialSignUpErrors
 
     // Let's check that all input values are not null and not empty string
     Object.keys(userData).map((key) => {
-      if (!userData[key] || userData[key].trim() === "") errors[key] = true
-      else errors[key] = false
+      if (!userData[key] || userData[key].trim() === "") localErrors[key] = true
+      else localErrors[key] = false
     })
 
     // Count number of errors
-    let count = 0
-    for (const err of Object.entries(errors)) {
-      if (err[1]) count += 1
-    }
+    let count = Object.values(localErrors).filter((err) => err === true).length
 
-    return { errors, count }
+    return { errors: localErrors, count }
   }
 
   const signUp = async (e) => {
