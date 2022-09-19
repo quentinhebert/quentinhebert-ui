@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { Box, Stack, Typography } from "@mui/material"
-import { USERTYPES } from "../../enums/userTypes"
 import { checkEmail } from "../../services/utils"
 import apiCall from "../../services/apiCalls/apiCall"
 import withSnacks from "../hocs/withSnacks"
@@ -85,7 +84,6 @@ function ContactForm(props) {
     company: "",
     email: "",
     phone: "",
-    type: USERTYPES.CLIENT,
     description: "",
     budget: "",
     service: {
@@ -101,7 +99,6 @@ function ContactForm(props) {
     lastname: false,
     email: false,
     phone: false,
-    type: false,
     description: false,
     company: false,
     budget: false,
