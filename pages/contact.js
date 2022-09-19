@@ -1,43 +1,38 @@
-import React, { useContext, useState } from "react";
-import Head from "next/head";
-import { UserContext } from "../contexts/UserContext";
-import ContactLayout from "../components/Layouts/contact/ContactLayout";
-import { useRouter } from "next/router";
+import React, { useContext, useState } from "react"
+import Head from "next/head"
+import ContactLayout from "../components/Layouts/contact/ContactLayout"
 
 function ContactPage(props) {
-  const {} = props;
+  const {} = props
 
   return (
     <>
       <Head>
-        <title>Mathias Mortelmans | Contact</title>
+        <title>Quentin Hébert | Contact</title>
         <link rel="icon" href="/favicon.ico" />
         <meta name="robots" content="index, follow" />
         <meta
           name="description"
-          content="Contact me! I'm a belgian creative filmmaker for weddings, corporate, nightlife videos, and so much more!"
+          content="Contactez-moi si vous avez un projet et que vous souhaitez collaborer !"
         />
-        <link rel="canonical" href="https://mathiasmortelmans.com" />
+        <link rel="canonical" href="https://quentinhebert.com" />
         <meta
           name="keywords"
-          content="Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, belgium, advertising, corporate videos, corporate filmmaking"
+          content="Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, france, advertising, corporate videos, corporate filmmaking"
         />
         <meta property="og:image" content="/medias/ogimg.png" />
-        <meta property="og:url" content="https://mathiasmortelmans.com" />
-        <meta
-          property="og:title"
-          content="Mathias Mortelmans Films | Contact"
-        />
+        <meta property="og:url" content="https://quentinhebert.com" />
+        <meta property="og:title" content="Quentin Hébert | Contact" />
         <meta
           property="og:description"
-          content="Contact me! I'm belgian creative filmmaker for weddings, corporate, nightlife videos, and so much more !"
+          content="Contactez-moi si vous avez un projet et que vous souhaitez collaborer !"
         />
         <meta property="og:type" content="website" />
       </Head>
 
       <ContactLayout />
     </>
-  );
+  )
 }
 
-export default ContactPage;
+export default ContactPage
