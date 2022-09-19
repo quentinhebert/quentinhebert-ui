@@ -49,6 +49,7 @@ export default function ContactLayout(props) {
           alignItems="start"
           margin="calc(65px + 4rem) 0"
           sx={{
+            gap: { xs: 8, md: 0 },
             flexDirection: { xs: "column", md: "row" },
           }}
         >

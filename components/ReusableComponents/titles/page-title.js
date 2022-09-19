@@ -12,8 +12,9 @@ export default function PageTitle(props) {
       sx={{
         color: color || "#fff",
         fontSize: {
-          xs: "2rem",
-          sm: "4vw",
+          xs: "3rem",
+          sm: "6vw",
+          md: "4vw",
         },
       }}
       {...props}
