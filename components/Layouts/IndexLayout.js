@@ -1,12 +1,8 @@
 import React, { useRef } from "react"
-import Navbar from "../Navigation/Navbars/navbar"
-import Footer from "../Navigation/Footers/Footer"
 import { Stack } from "@mui/material"
 import ScrollToTopBtn from "../Navigation/scroll-to-top"
 import IndexHeroScreen from "../Sections/index-hero-screen"
-import ContactSection from "../Sections/contact-section"
 import ServicesSection from "../Sections/services-section"
-import DotSeparator from "../Other/dot-separator"
 import WelcomeSection from "../Sections/welcome-section"
 
 export default function IndexLayout(props) {
@@ -26,7 +22,7 @@ export default function IndexLayout(props) {
   }
 
   return (
-    <Stack>
+    <Stack flexGrow={1}>
       <Stack ref={topRef} />
 
       {/* Fixed Background for the page */}

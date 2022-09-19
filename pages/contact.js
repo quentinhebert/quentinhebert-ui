@@ -1,37 +1,45 @@
-import React, { useContext, useState } from "react"
-import Head from "next/head"
+import { useContext } from "react"
 import ContactLayout from "../components/Layouts/contact/ContactLayout"
+import PageRoot from "../components/ReusableComponents/page-builder/page-root"
+import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
+import { defaultConfig } from "../config/defaultConfig"
+import Navbar from "../components/Navigation/Navbars/navbar"
+import Footer from "../components/Navigation/Footers/Footer"
 
-function ContactPage(props) {
-  const {} = props
+function ContactPage() {
+  // Main meta tags
+  const title = `${defaultConfig.websiteName} | Contact`
+  const description =
+    "Contactez-moi si vous avez un projet et que vous souhaitez collaborer !"
+  const canonicalUrl = `${defaultConfig.webclientUrl}/contact`
+
+  // SEO helpers
+  const follow = true
+  const keywords =
+    "Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, belgium, advertising, corporate videos, corporate filmmaking"
+
+  // OpenGraph additional tags (sharing)
+  const type = "website"
+  const ogImg = "/medias/ogimg.png"
 
   return (
-    <>
-      <Head>
-        <title>Quentin Hébert | Contact</title>
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="robots" content="index, follow" />
-        <meta
-          name="description"
-          content="Contactez-moi si vous avez un projet et que vous souhaitez collaborer !"
-        />
-        <link rel="canonical" href="https://quentinhebert.com" />
-        <meta
-          name="keywords"
-          content="Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, france, advertising, corporate videos, corporate filmmaking"
-        />
-        <meta property="og:image" content="/medias/ogimg.png" />
-        <meta property="og:url" content="https://quentinhebert.com" />
-        <meta property="og:title" content="Quentin Hébert | Contact" />
-        <meta
-          property="og:description"
-          content="Contactez-moi si vous avez un projet et que vous souhaitez collaborer !"
-        />
-        <meta property="og:type" content="website" />
-      </Head>
+    <PageRoot>
+      <HtmlHead
+        title={title}
+        canonicalUrl={canonicalUrl}
+        description={description}
+        keywords={keywords}
+        follow={follow}
+        type={type}
+        ogImg={ogImg}
+      />
+
+      <Navbar />
 
       <ContactLayout />
-    </>
+
+      <Footer />
+    </PageRoot>
   )
 }
 

@@ -1,13 +1,8 @@
 import React, { useRef } from "react"
-import Navbar from "../../Navigation/Navbars/navbar"
-import Footer from "../../Navigation/Footers/Footer"
-import { Box, Slide, Stack, Typography, useMediaQuery } from "@mui/material"
+import { Stack } from "@mui/material"
 import ScrollToTopBtn from "../../Navigation/scroll-to-top"
-import theme from "../../../config/theme"
 import FilmsIndexHero from "./FilmsIndexHero"
 import FilmsFocusPart from "./FilmsFocusPart"
-import FilmsExperiencePart from "./FilmsExperiencePart"
-import FilmsQuoteParallax from "./FilmsQuoteParallax"
 import FilmsPortfolioPart from "./FilmsPortfolioPart"
 import ContactSection from "../../Sections/contact-section"
 import FilmProjectSteps from "./FilmProjectSteps"
@@ -25,15 +20,10 @@ export default function FilmsIndexLayout(props) {
     portfolio: portfolioRef,
   }
 
-  const expNbYears = new Date().getFullYear() - 2011 // J'ai réalisé mes premiers clips de musique en 5ème (collège) à l'âge de 13 ans
-
   return (
     <>
       {/* TOP Anchor */}
       <Stack ref={topRef} />
-
-      {/* NAVBAR */}
-      <Navbar />
 
       {/* Fixed Background for the page */}
       <Stack
@@ -57,21 +47,12 @@ export default function FilmsIndexLayout(props) {
       {/* INTRO */}
       <FilmsFocusPart refsForScroll={refsForScroll} />
 
-      {/* EXPERIENCE */}
-      {/* <FilmsExperiencePart /> */}
-
-      {/* Self QUOTE */}
-      {/* <FilmsQuoteParallax refForScroll={refsForScroll.quote} /> */}
-
       <FilmProjectSteps />
 
       <ContactSection defaultService="film" />
 
       {/* ScrollToTop */}
       <ScrollToTopBtn refForScroll={topRef} />
-
-      {/* Footer */}
-      <Footer />
     </>
   )
 }

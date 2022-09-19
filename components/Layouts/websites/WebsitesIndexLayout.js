@@ -1,11 +1,7 @@
 import { useRef } from "react"
-import Navbar from "../../Navigation/Navbars/navbar"
-import Footer from "../../Navigation/Footers/Footer"
-import { Stack, useMediaQuery } from "@mui/material"
+import { Stack } from "@mui/material"
 import ScrollToTopBtn from "../../Navigation/scroll-to-top"
-import theme from "../../../config/theme"
 import WebsitesIndexHero from "./WebsitesIndexHero"
-import WebsiteFocusPart from "./WebsiteFocusPart"
 import ContactSection from "../../Sections/contact-section"
 import WebsitesWhyADevPart from "./WebsitesWhyADevPart"
 import WebsitesPortfolio from "./WebsitesPortfolio"
@@ -27,12 +23,8 @@ export default function WebsitesIndexLayout(props) {
     })
   }
 
-  const md = useMediaQuery(theme.breakpoints.down("md"))
-
   return (
     <>
-      <Navbar />
-
       {/* Fixed Background for the page */}
       <Stack
         position="fixed"
@@ -57,8 +49,6 @@ export default function WebsitesIndexLayout(props) {
       <ContactSection defaultService="website" />
 
       <ScrollToTopBtn refForScroll={refsForScroll.top} />
-
-      <Footer />
     </>
   )
 }
