@@ -276,7 +276,7 @@ export default function SignUpForm(props) {
         <CustomSubmitButton
           secondary="true"
           onClick={signUp}
-          disabled={!accept.policy || loadingButton}
+          disabled={!accept.policy}
         >
           Enregistrer
         </CustomSubmitButton>
