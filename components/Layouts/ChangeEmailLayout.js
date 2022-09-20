@@ -1,118 +1,104 @@
-import React, { useEffect, useState } from "react";
-import { Stack, Typography, Paper, Button } from "@mui/material";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import Footer from "../../components/Navigation/Footers/Footer";
-import Navbar from "../../components/Navigation/Navbars/navbar";
-import AlertInfo from "../../components/Other/alert-info";
-import { errorCodes } from "../../config/errorCodes";
-import apiCall from "../../services/apiCalls/apiCall";
-import withSnacks from "../../components/hocs/withSnacks";
+import React, { useEffect, useState } from "react"
+import { Stack, Typography, Paper, Button } from "@mui/material"
+import dynamic from "next/dynamic"
+import { useRouter } from "next/router"
+import AlertInfo from "../../components/Other/alert-info"
+import { errorCodes } from "../../config/errorCodes"
+import apiCall from "../../services/apiCalls/apiCall"
+import PleaseWait from "../ReusableComponents/helpers/please-wait"
+import BodyText from "../ReusableComponents/text/body-text"
+import OutlinedButton from "../ReusableComponents/buttons/outlined-button"
+import SmallTitle from "../ReusableComponents/titles/small-title"
 
-const Custom401 = dynamic(() => import("../../pages/401"));
+const Custom401Layout = dynamic(() => import("./error/Custom401Layout"))
 
-function ChangeEmailLayout(props) {
+export default function ChangeEmailLayout(props) {
   /********** PROPS **********/
-  const { setMessageSnack, setOpenSnackBar, setSeverity } = props;
+  const {} = props
 
   /********** ROUTER & URL PARAMS **********/
-  const router = useRouter();
-  const token = router.query.token;
+  const router = useRouter()
+  const token = router.query.token
 
   /********** USE-STATES **********/
-  const [emailChanged, setEmailChanged] = useState(false);
+  const [isFetching, setIsFetching] = useState(true)
+  const [emailChanged, setEmailChanged] = useState(false)
   const [error, setError] = useState({
     show: false,
     severity: "warning",
     text: "The access is denied.",
     title: "Invalid token",
-  });
+  })
 
   /********** INITIAL CHECK **********/
   // Before all, let's check if user has clicked on the link from email-confirmation email
   useEffect(() => {
-    (async () => {
+    const initialCheck = async () => {
       if (token) {
-        const res = await apiCall.unauthenticated.changeEmail(token);
-        if (!res) setError({ ...error, show: true });
+        const res = await apiCall.unauthenticated.changeEmail(token)
+        if (!res) setError({ ...error, show: true })
 
-        if (res.status && res.status === 204) setEmailChanged(true);
+        if (res.status && res.status === 204) setEmailChanged(true)
         else {
-          const jsonRes = await res.json();
+          const jsonRes = await res.json()
           if (jsonRes.code === errorCodes.EMAIL_CHANGE_INVALID_TOKEN)
-            return setError({ ...error, show: true });
+            setError({ ...error, show: true })
         }
+        setIsFetching(false)
       }
-    })();
-  }, [token]);
+    }
+    initialCheck()
+  }, [token])
 
-  if (!token) return <Custom401 />;
+  if (!token) return <Custom401Layout />
 
   return (
-    <>
-      <Navbar />
-      <Stack
-        justifyContent="center"
-        alignItems="center"
-        sx={{ margin: "2rem auto" }}
-      >
+    <Stack
+      flexGrow={1}
+      padding="2rem"
+      justifyContent="center"
+      alignItems="center"
+    >
+      {isFetching ? (
+        <PleaseWait />
+      ) : (
         <Stack
-          alignItems="center"
           justifyContent="center"
-          sx={{ margin: "1rem auto" }}
+          alignItems="center"
+          margin="100px auto"
+          padding="1.5rem 3rem"
+          borderRadius="10px"
+          maxWidth="800px"
+          gap={4}
+          sx={{ backgroundColor: (theme) => theme.palette.background.main }}
         >
-          <Paper variant="contained" sx={{ padding: "3rem" }}>
-            {emailChanged ? (
-              <Typography
-                component="h1"
-                variant="h6"
-                sx={{ marginBottom: "2rem" }}
-              >
-                Email address updated ✅
-              </Typography>
-            ) : (
-              <Typography
-                component="h1"
-                variant="h6"
-                sx={{ marginBottom: "2rem" }}
-              >
-                Please wait... We are almost there !
-              </Typography>
-            )}
+          {emailChanged && <SmallTitle>Adresse e-mail modifiée ✅</SmallTitle>}
 
-            {emailChanged ? (
-              <>
-                <Typography variant="body1">
-                  {`Your email address is now updated. You can
-                  update it again, you just have to go to "My account
-                  > My personal information"`}
-                </Typography>
-                <Stack
-                  justifyContent="center"
-                  alignItems="center"
-                  sx={{ marginTop: "2rem" }}
+          {emailChanged && (
+            <>
+              <BodyText textAlign="center">
+                {`Votre adresse e-mail a bien été modifiée. Pour la modifier de nouveau, vous devez vous rendre dans "Mon compte 
+                  > Mes informations personnelles".`}
+              </BodyText>
+
+              <Stack
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="row"
+                gap={2}
+              >
+                <OutlinedButton
+                  onClick={() => router.push("/account/personal-information")}
                 >
-                  <Button
-                    variant="outlined"
-                    onClick={() => router.push("/account/personal-information")}
-                  >
-                    Go to my account
-                  </Button>
-                </Stack>
-              </>
-            ) : error.show ? (
-              <AlertInfo content={error} />
-            ) : (
-              <Typography variant="body1">
-                Please wait, we are confirming your email address...
-              </Typography>
-            )}
-          </Paper>
-        </Stack>
-      </Stack>
-      <Footer />
-    </>
-  );
-}
+                  Mon compte
+                </OutlinedButton>
+              </Stack>
+            </>
+          )}
 
-export default withSnacks(ChangeEmailLayout);
+          {error.show && <AlertInfo content={error} />}
+        </Stack>
+      )}
+    </Stack>
+  )
+}

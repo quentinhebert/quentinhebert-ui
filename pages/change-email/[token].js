@@ -1,5 +1,7 @@
 import React from "react"
 import ChangeEmailLayout from "../../components/Layouts/ChangeEmailLayout"
+import Footer from "../../components/Navigation/Footers/Footer"
+import Navbar from "../../components/Navigation/Navbars/navbar"
 import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
 import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
 
@@ -24,7 +26,9 @@ export default function ChangeEmailPage() {
         type={type}
         ogImg={ogImg}
       />
+      <Navbar />
       <ChangeEmailLayout />
+      <Footer />
     </PageRoot>
   )
 }

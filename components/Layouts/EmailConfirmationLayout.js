@@ -83,7 +83,7 @@ export default function EmailConfirmationLayout(props) {
 
             {error.show && <AlertInfo content={error} />}
 
-            {emailConfirmed ? (
+            {emailConfirmed && (
               <>
                 <BodyText fontSize="1rem" textAlign="center">
                   Votre adresse e-mail est désormais confirmée.
@@ -106,10 +106,6 @@ export default function EmailConfirmationLayout(props) {
                   </OutlinedButton>
                 </Stack>
               </>
-            ) : (
-              <BodyText>
-                Please wait, we are attempting to confirm your email address...
-              </BodyText>
             )}
           </Stack>
         </Stack>
