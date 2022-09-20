@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Box, Stack, Typography } from "@mui/material"
+import { Box, FormHelperText, Stack, Typography } from "@mui/material"
 import { checkEmail } from "../../services/utils"
 import apiCall from "../../services/apiCalls/apiCall"
 import withSnacks from "../hocs/withSnacks"
@@ -86,15 +86,14 @@ function ContactForm(props) {
     phone: "",
     description: "",
     budget: "",
-    service: {
+    services: {
       film: defaultService && defaultService === "film" ? true : false,
       website: defaultService && defaultService === "website" ? true : false,
     },
   }
+  const requiredFields = ["firstname", "email", "budget", "description"]
 
-  const [isFetching, setIsFetching] = useState(false)
-  const [formData, setFormData] = useState(initialFormData)
-  const [errors, setErrors] = useState({
+  const initialErrors = {
     firstname: false,
     lastname: false,
     email: false,
@@ -102,7 +101,12 @@ function ContactForm(props) {
     description: false,
     company: false,
     budget: false,
-  })
+    services: false,
+  }
+
+  const [isFetching, setIsFetching] = useState(false)
+  const [formData, setFormData] = useState(initialFormData)
+  const [errors, setErrors] = useState(initialErrors)
 
   /********** HANDLERS **********/
   const handleResetForm = () => {
@@ -119,14 +123,31 @@ function ContactForm(props) {
       [attribute]: false,
     })
   }
-  const handleChangeService = (service) => (event) => {
+  const handleChangeServices = (service) => (event) => {
     setFormData({
       ...formData,
-      service: {
-        ...formData.service,
+      services: {
+        ...formData.services,
         [service]: event.target.checked,
       },
     })
+  }
+  const checkRequiredFields = () => {
+    const localErrors = initialErrors
+    requiredFields.map((field) => {
+      if (formData[field].trim() === "") {
+        localErrors[field] = true
+      }
+    })
+    // Special check for the services
+    if (!formData.services.film && !formData.services.website)
+      localErrors.services = true
+    // If at least one error, then we don't send the request
+    let errorsCount = Object.values(localErrors).filter(
+      (err) => err === true
+    ).length
+    setErrors(localErrors) // Update errors helper texts
+    return { errorsCount }
   }
   const handleSuccess = () => {
     setSeverity("success")
@@ -140,6 +161,8 @@ function ContactForm(props) {
     setOpenSnackBar("true")
   }
   const handleSendRequest = async () => {
+    const { errorsCount } = checkRequiredFields()
+    if (errorsCount > 0) return // We don't send the request if missing fields
     setIsFetching(true)
     const res = await apiCall.unauthenticated.sendContactForm(formData)
     if (res && res.ok) handleSuccess()
@@ -157,7 +180,7 @@ function ContactForm(props) {
       <Stack
         width="100%"
         alignItems="center"
-        padding="1rem"
+        padding="1rem 1rem 1rem 0"
         borderRadius="5px"
         flexDirection="row"
         sx={{
@@ -168,31 +191,42 @@ function ContactForm(props) {
         {!defaultService ||
         (defaultService !== "film" && defaultService !== "website") ? (
           <Stack>
-            <Typography color="#fff" letterSpacing={1}>
+            <Typography
+              color={errors.services ? "error.main" : "#fff"}
+              letterSpacing={1}
+            >
               Je recherche un <em>freelance</em> pour réaliser un... *
             </Typography>
             <Stack flexDirection="row" gap={4}>
               <CustomCheckbox
                 label="Film"
-                check={formData.service.film ? "true" : "false"}
+                check={formData.services.film ? "true" : "false"}
                 // colors passed as strings otw DOM warnings if objects passed as props
                 labelcolor={theme.palette.text.secondary} // label
                 checkedcolor={theme.palette.text.secondary} // checked
                 checkboxcolor="#fff" // unchecked
                 fontFamily="Ethereal"
                 fontWeight="bold"
-                onChange={handleChangeService("film")}
+                onChange={handleChangeServices("film")}
               />
               <CustomCheckbox
                 label="Site web"
-                check={formData.service.website ? "true" : "false"}
+                check={formData.services.website ? "true" : "false"}
                 labelcolor={theme.palette.text.secondary} // label
                 checkedcolor={theme.palette.text.secondary} // checked
                 checkboxcolor="#fff" // unchecked
                 fontFamily="Zacbel X"
-                onChange={handleChangeService("website")}
+                onChange={handleChangeServices("website")}
               />
             </Stack>
+            {errors.services && (
+              <FormHelperText
+                margin="0"
+                sx={{ color: (theme) => theme.palette.error.main }}
+              >
+                Veuillez cocher au moins une case
+              </FormHelperText>
+            )}
           </Stack>
         ) : (
           <WordCaroussel defaultService={defaultService} />
@@ -205,21 +239,21 @@ function ContactForm(props) {
           type="input"
           id="firstname"
           label="Prénom"
-          placeholder={formData.service.film ? "Louis" : "Philippe"}
+          placeholder={formData.services.film ? "Louis" : "Philippe"}
           value={formData.firstname}
           onChange={handleChange("firstname")}
           error={errors.firstname}
-          helperText={errors.firstname && "Veuillez vérifier ce champ"}
+          helperText={errors.firstname && "Veuillez remplir ce champ"}
         />
         <Input
           type="input"
           id="lastname"
           label="Nom"
-          placeholder={formData.service.film ? "Vuitton" : "Etchebest"}
+          placeholder={formData.services.film ? "Vuitton" : "Etchebest"}
           value={formData.lastname}
           onChange={handleChange("lastname")}
           error={errors.lastname}
-          helperText={errors.lastname && "Veuillez vérifier ce champ"}
+          helperText={errors.lastname && "Veuillez remplir ce champ"}
         />
       </DualInputLine>
 
@@ -230,7 +264,7 @@ function ContactForm(props) {
           id="email"
           label="E-mail"
           placeholder={
-            formData.service.film ? "loulou@vuitton.com" : "philou@topchef.com"
+            formData.services.film ? "loulou@vuitton.com" : "philou@topchef.com"
           }
           value={formData.email}
           onChange={handleChange("email")}
@@ -253,47 +287,80 @@ function ContactForm(props) {
           id="company"
           label="Entreprise"
           placeholder={
-            formData.service.film ? "Louis Vuitton" : "Philippe Etchebest"
+            formData.services.film ? "Louis Vuitton" : "Philippe Etchebest"
           }
           value={formData.company}
           onChange={handleChange("company")}
           error={errors.company}
-          helperText={errors.company && "Veuillez vérifier ce champ"}
+          helperText={errors.company && "Veuillez remplir ce champ"}
         />
-        <Select
-          required
-          id="budget"
-          value={formData.budget}
-          onChange={handleChange("budget")}
-          renderValue={
-            // Trick for placeholder hiding
-            formData.budget !== ""
-              ? undefined
-              : () => <Typography color="secondary">Mon budget *</Typography>
-          }
-        >
-          {BUDGET_OPTIONS.map((option, key) => (
-            <SelectOption value={option} key={key}>
-              {option}
-            </SelectOption>
-          ))}
-        </Select>
+        <Stack>
+          <Select
+            required
+            id="budget"
+            value={formData.budget}
+            onChange={handleChange("budget")}
+            renderValue={
+              // Trick for placeholder hiding
+              formData.budget !== ""
+                ? undefined
+                : () => (
+                    <Typography
+                      color={errors.budget ? "error.main" : "secondary"}
+                    >
+                      Mon budget *
+                    </Typography>
+                  )
+            }
+          >
+            {BUDGET_OPTIONS.map((option, key) => (
+              <SelectOption value={option} key={key}>
+                {option}
+              </SelectOption>
+            ))}
+          </Select>
+          {errors.budget && (
+            <FormHelperText
+              margin={0}
+              sx={{ color: (theme) => theme.palette.error.main }}
+            >
+              Veuillez sélectionner votre budget
+            </FormHelperText>
+          )}
+        </Stack>
       </DualInputLine>
 
-      <TextArea
-        required
-        id="description"
-        label="À propos de mon projet..."
-        placeholder={
-          formData.service.film
-            ? formData.service.website
-              ? "Film de 2 minutes sur un produit de notre nouvelle collection et landing page pour ce même produit."
-              : "Film de 2 minutes sur un produit de notre nouvelle collection."
-            : "Site vitrine pour mettre en avant mon nouveau restaurant et ma carte du jour."
-        }
-        value={formData.description}
-        onChange={handleChange("description")}
-      />
+      <Stack width="100%">
+        <TextArea
+          required
+          id="description"
+          label="À propos de mon projet..."
+          placeholder={
+            formData.services.film
+              ? formData.services.website
+                ? "Film de 2 minutes sur un produit de notre nouvelle collection et landing page pour ce même produit."
+                : "Film de 2 minutes sur un produit de notre nouvelle collection."
+              : "Site vitrine pour mettre en avant mon nouveau restaurant et ma carte du jour."
+          }
+          value={formData.description}
+          onChange={handleChange("description")}
+          sx={{
+            "& .MuiInputLabel-root": {
+              color: errors.description
+                ? (theme) => theme.palette.error.main
+                : (theme) => theme.palette.text.secondary,
+            },
+          }}
+        />
+        {errors.budget && (
+          <FormHelperText
+            margin={0}
+            sx={{ color: (theme) => theme.palette.error.main }}
+          >
+            Veuillez remplir ce champ
+          </FormHelperText>
+        )}
+      </Stack>
 
       <RightSubmitButton onClick={handleSendRequest} disabled={isFetching}>
         {isFetching ? "Envoi en cours" : "Envoyer"}

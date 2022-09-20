@@ -29,18 +29,18 @@ const CssFilledInput = styled((props) => (
     color: "grey",
   },
   "& .MuiFormLabel-root.Mui-focused.Mui-error": {
-    color: "#f44336",
+    color: theme.palette.error.main,
   },
   "& .MuiFormLabel-root.Mui-focused": {
     color: theme.palette.secondary.main,
   },
   "& .MuiFilledInput-root.Mui-error": {
-    color: "#f44336",
+    color: theme.palette.error.main,
     margin: 0,
     marginLeft: 0,
   },
   "& .MuiFormHelperText-root.Mui-error": {
-    color: "#fff",
+    color: theme.palette.error.main,
     margin: 0,
   },
 }))

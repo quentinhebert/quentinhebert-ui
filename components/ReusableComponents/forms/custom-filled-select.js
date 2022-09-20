@@ -43,9 +43,6 @@ const SelectFormControl = styled((props) => (
       ".MuiSelect-iconOutlined": {
         color: (theme) => `${theme.palette.secondary.main} !important`,
       },
-      ".Mui-selected": {
-        background: "red !important",
-      },
     }}
     {...props}
   />
