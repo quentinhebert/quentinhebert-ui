@@ -76,7 +76,7 @@ export default function ChangeEmailLayout(props) {
 
           {emailChanged && (
             <>
-              <BodyText textAlign="center">
+              <BodyText textAlign="center" fontSize="1rem">
                 {`Votre adresse e-mail a bien été modifiée. Pour la modifier de nouveau, vous devez vous rendre dans "Mon compte 
                   > Mes informations personnelles".`}
               </BodyText>

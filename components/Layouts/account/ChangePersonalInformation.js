@@ -54,17 +54,19 @@ function ChangePersonalInformation(props) {
   const handleSuccess = () => {
     setSeverity("success")
     setOpenSnackBar("true")
-    setMessageSnack("User updated successfully")
+    setMessageSnack("Utilisateur modifié ✅")
   }
   const handleError = () => {
     setSeverity("error")
     setOpenSnackBar("true")
-    setMessageSnack("A problem occurend while updating the user")
+    setMessageSnack("Une erreur est survenue lors de la modification 🙁")
   }
   const handleErrorDuplicate = () => {
     setSeverity("error")
     setOpenSnackBar("true")
-    setMessageSnack("The email or the phone already exists for another user")
+    setMessageSnack(
+      "L'adresse e-mail ou le numéro de téléphone existe déjà pour un autre utilisateur ❌"
+    )
   }
 
   const handleSaveUser = async () => {
@@ -78,8 +80,8 @@ function ChangePersonalInformation(props) {
         setShowAlert({
           severity: "info",
           show: true,
-          title: "You just received an email...",
-          text: "A confirmation email for changing email has just been sent to you. Don't forget to check your spams 😉",
+          title: "Vous venez de recevoir un e-mail...",
+          text: "Un e-mail de confirmation vient de vous être envoyé pour finaliser la modification de votre adresse e-mail. N'oubliez pas de vérifier vos spams 😉",
         })
       }
     } else if (res) {
