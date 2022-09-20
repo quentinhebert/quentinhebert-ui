@@ -7,6 +7,7 @@ import AdminFilesPanel from "../../components/Layouts/admin/AdminFilesPanel"
 import { useRouter } from "next/router"
 import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
 import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
+import LoginLayout from "../../components/Layouts/LoginLayout"
 
 export default function AdminFilesManagementPage() {
   // Main meta tags
