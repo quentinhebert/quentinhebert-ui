@@ -142,7 +142,6 @@ const users = {
           body: formData,
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,
-            "Content-Type": "multipart/form-data",
           },
         }
       )
