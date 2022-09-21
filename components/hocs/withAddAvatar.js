@@ -8,24 +8,21 @@ import CustomModal from "../ReusableComponents/modals/custom-modal"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
 import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
 import BodyText from "../ReusableComponents/text/body-text"
+import compressImage from "../../services/images"
 
-function withAddAvatar(WrappedComponent) {
+export default function withAddAvatar(WrappedComponent) {
   function Enhancer(props) {
-    const { user, refresh, setMessageSnack, setOpenSnackBar, setSeverity } =
-      props
+    const { user, setMessageSnack, setOpenSnackBar, setSeverity } = props
     const [isLoading, setIsLoading] = useState(false)
     const [openModal, setOpenModal] = useState(false)
     const [uploadSuccess, setUploadSuccess] = useState(false)
     const [files, setFiles] = useState([])
 
-    // Max size limit is set to 20Mo if its an upload to a galery, otherwise the size limit is increased up to 50Mo if it's an upload to an album
-    const sizeLimit = 6
-
-    const onDrop = useCallback((acceptedFiles) => {
-      // Do something with the file
-      const filesArray = acceptedFiles.map((oneFile) => {
-        oneFile.URL = URL.createObjectURL(oneFile)
-        return oneFile
+    /***** HANDLE DROP IMAGES *****/
+    const onDrop = useCallback((droppedFiles) => {
+      const filesArray = droppedFiles.map((file) => {
+        file.URL = URL.createObjectURL(file)
+        return file
       })
       setFiles(filesArray)
     }, [])
@@ -34,6 +31,13 @@ function withAddAvatar(WrappedComponent) {
       onDrop,
     })
 
+    /***** HANDLERS *****/
+    const handleClose = () => setOpenModal(false)
+    const handleCancel = () => {
+      setFiles([]) // Remove selection
+      setIsLoading(false) // Display initial modal state
+      handleClose() // Close modal
+    }
     const handleSuccess = () => {
       setMessageSnack("Votre nouvel avatar est spectaculaire ! 🤩")
       setSeverity("success")
@@ -42,24 +46,25 @@ function withAddAvatar(WrappedComponent) {
       setIsLoading(false)
       setUploadSuccess(true) // to notify lower component
     }
-
-    const handleSetPhotos = async (event) => {
+    const handleError = () => {
+      setMessageSnack("Houston, nos avons recontré un problème... 🤯")
+      setSeverity("error")
+      setOpenSnackBar(true)
+      setIsLoading(false)
+    }
+    const handleSendAvatar = async (event) => {
       event.stopPropagation()
       setIsLoading(true)
-      // Check max size limit whether its an album or a galery
-      if (files.some((file) => file.size > sizeLimit * 1000 * 1000)) {
-        setMessageSnack(
-          "L'image que vous avez sélectionnée est trop volumineuse"
-        )
-        setSeverity("error")
-        setOpenSnackBar(true)
-        setIsLoading(false)
-        return
-      }
+      // Compress the image before sending it to the API
+      const compressedImage = await compressImage(files[0]) // We only take the first image of the selection (if selection is multiple)
+      if (!compressedImage) handleError()
+      // Prepare the payload
       let formData = new FormData()
-      formData.append("avatar", files[0]) // We will take the first of the list
+      formData.append("avatar", compressedImage)
+      // Send the image to the API
       const res = await apiCall.users.updateAvatar({ formData, user })
       if (res && res.ok) handleSuccess()
+      else handleError()
     }
 
     // SUB-COMPONENTS
@@ -78,11 +83,7 @@ function withAddAvatar(WrappedComponent) {
           uploadSuccess={uploadSuccess}
         />
 
-        <CustomModal
-          open={openModal}
-          handleClose={() => setOpenModal(false)}
-          gap={2}
-        >
+        <CustomModal open={openModal} handleClose={handleClose} gap={2}>
           <ModalTitle>Modifiez votre avatar</ModalTitle>
 
           {isLoading ? (
@@ -123,7 +124,7 @@ function withAddAvatar(WrappedComponent) {
 
               <AlertInfo
                 content={{
-                  text: `JPG ou PNG (${sizeLimit}Mo maximum)`,
+                  text: `JPG ou PNG uniquement`,
                   severity: "warning",
                 }}
               />
@@ -131,12 +132,12 @@ function withAddAvatar(WrappedComponent) {
           )}
 
           <Stack flexDirection="row" gap={2} justifyContent="end">
-            <CustomSubmitButton onClick={() => setOpenModal(false)}>
+            <CustomSubmitButton onClick={handleCancel}>
               Annuler
             </CustomSubmitButton>
             <CustomSubmitButton
               secondary="true"
-              onClick={handleSetPhotos}
+              onClick={handleSendAvatar}
               disabled={!(files && files.length)}
             >
               Ajouter
@@ -148,5 +149,3 @@ function withAddAvatar(WrappedComponent) {
   }
   return withSnacks(Enhancer)
 }
-
-export default withAddAvatar
