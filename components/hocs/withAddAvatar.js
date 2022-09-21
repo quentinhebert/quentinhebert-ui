@@ -123,7 +123,7 @@ function withAddAvatar(WrappedComponent) {
 
               <AlertInfo
                 content={{
-                  text: `JPG or PNG (${sizeLimit}Mo maximum)`,
+                  text: `JPG ou PNG (${sizeLimit}Mo maximum)`,
                   severity: "warning",
                 }}
               />
