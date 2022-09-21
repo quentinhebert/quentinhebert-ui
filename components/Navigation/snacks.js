@@ -1,19 +1,19 @@
-import { Portal } from "@mui/material";
-import Alert from "@mui/material/Alert";
-import Slide from "@mui/material/Slide";
-import Snackbar from "@mui/material/Snackbar";
-import React from "react";
+import { Portal } from "@mui/material"
+import Alert from "@mui/material/Alert"
+import Slide from "@mui/material/Slide"
+import Snackbar from "@mui/material/Snackbar"
+import React from "react"
 
 function SlideTransition(props) {
-  return <Slide {...props} direction="up" />;
+  return <Slide {...props} direction="up" />
 }
 
 function Snacks(props) {
-  const { severity, openSnackBar, message, setOpenSnackBar } = props;
+  const { severity, openSnackBar, message, setOpenSnackBar } = props
 
   const handleClose = () => {
-    setOpenSnackBar(false);
-  };
+    setOpenSnackBar(false)
+  }
 
   return (
     <Portal>
@@ -31,14 +31,16 @@ function Snacks(props) {
           elevation={6}
           variant="filled"
           severity={severity}
-          sx={{ fontWeight: "bold" }}
+          sx={{
+            fontWeight: "bold",
+          }}
           onClose={handleClose}
         >
           {message}
         </Alert>
       </Snackbar>
     </Portal>
-  );
+  )
 }
 
-export default Snacks;
+export default Snacks
