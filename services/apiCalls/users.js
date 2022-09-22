@@ -143,7 +143,6 @@ const users = {
           mode: "cors",
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,
-            "Access-Control-Allow-Origin": "*",
           },
         }
       )
