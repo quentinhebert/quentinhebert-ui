@@ -143,6 +143,8 @@ const users = {
           mode: "cors",
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,
+            "Access-Control-Allow-Origin":
+              "https://api-staging.quentinhebert.com",
           },
         }
       )
