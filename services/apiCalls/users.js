@@ -140,6 +140,7 @@ const users = {
         {
           method: "POST",
           body: formData,
+          mode: "cors",
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,
           },
