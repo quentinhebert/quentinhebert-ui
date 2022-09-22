@@ -4,7 +4,7 @@ export default async function compressImage(imageFile) {
   if (!(imageFile instanceof Blob)) return null
 
   const options = {
-    maxSizeMB: 5,
+    maxSizeMB: 2,
     maxWidthOrHeight: 4000,
     useWebWorker: true,
   }
