@@ -53,7 +53,7 @@ const SortableContainer = sortableContainer(({ children }) => {
 })
 
 export default function SortVideos(props) {
-  const { videos, category, open, handleClose } = props
+  const { videos, open, handleClose } = props
 
   // TODO: Récupérer cette data avec l'API
   const [state, setState] = useState([])
@@ -83,16 +83,13 @@ export default function SortVideos(props) {
     state.map((video, key) => {
       sortedVideoIds.push(video.id)
     })
-    const res = await apiCall.admin.sortCategoryVideos(
-      sortedVideoIds,
-      category.id
-    )
+    const res = await apiCall.admin.sortCategoryVideos(sortedVideoIds)
     if (res) handleClose()
   }
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth>
-      <DialogTitle>Sort your {category.label} videos</DialogTitle>
+      <DialogTitle>Sort your videos</DialogTitle>
       <Stack flexDirection="row" alignItems="center" justifyContent="center">
         <Typography
           color="gray"

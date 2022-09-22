@@ -1,11 +1,11 @@
-import dynamic from "next/dynamic";
-import React from "react";
-import withSnacks from "../hocs/withSnacks";
-const EditVideoModal = dynamic(() => import("./Edit-Modals/edit-video-modal"));
-const EditUserModal = dynamic(() => import("./Edit-Modals/edit-user-modal"));
+import dynamic from "next/dynamic"
+import React from "react"
+import withSnacks from "../hocs/withSnacks"
+const EditFilmModal = dynamic(() => import("./Edit-Modals/edit-film-modal"))
+const EditUserModal = dynamic(() => import("./Edit-Modals/edit-user-modal"))
 const EditReferenceModal = dynamic(() =>
   import("./Edit-Modals/edit-reference-modal")
-);
+)
 
 function EditModalSwitch(props) {
   /********** PROPS **********/
@@ -17,7 +17,7 @@ function EditModalSwitch(props) {
     setSeverity,
     setOpenSnackBar,
     setMessageSnack,
-  } = props;
+  } = props
 
   // MAIN SWITCH
   switch (dataModel) {
@@ -31,18 +31,18 @@ function EditModalSwitch(props) {
           setOpenSnackBar={setOpenSnackBar}
           setMessageSnack={setMessageSnack}
         />
-      );
-    case "edit-category-video":
+      )
+    case "edit-film":
       return (
-        <EditVideoModal
-          videoId={dataId}
+        <EditFilmModal
+          filmId={dataId}
           openEditModal={openEditModal}
           handleCloseEditModal={handleCloseEditModal}
           setSeverity={setSeverity}
           setOpenSnackBar={setOpenSnackBar}
           setMessageSnack={setMessageSnack}
         />
-      );
+      )
     case "edit-reference":
       return (
         <EditReferenceModal
@@ -53,10 +53,10 @@ function EditModalSwitch(props) {
           setOpenSnackBar={setOpenSnackBar}
           setMessageSnack={setMessageSnack}
         />
-      );
+      )
     default:
-      return <></>;
+      return <></>
   }
 }
 
-export default withSnacks(EditModalSwitch);
+export default withSnacks(EditModalSwitch)

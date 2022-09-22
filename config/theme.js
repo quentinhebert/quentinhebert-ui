@@ -33,6 +33,7 @@ const mainTheme = createTheme({
     },
     background: {
       main: primaryDark,
+      primary: primary,
       primaryLight: primaryLight,
       secondary: secondary,
       secondaryLight: secondaryLight,

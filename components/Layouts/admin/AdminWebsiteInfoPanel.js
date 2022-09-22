@@ -11,6 +11,7 @@ import AdminFooterForm from "../../Forms/admin/admin-footer-form"
 import AdminNavbarForm from "../../Forms/admin/admin-navbar-form"
 import AdminContactForm from "../../Forms/admin/admin-contact-form"
 import AdminBreadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
+import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
 
 export default function AdminWebsiteInfoPanel() {
   const [openModal, setOpenModal] = useState(false)
@@ -69,36 +70,8 @@ export default function AdminWebsiteInfoPanel() {
         />
         <PageTitle zIndex={1} text="Gérer les informations du site" />
         <AdminBreadcrumbs panel="admin" />
-        <Stack justifyContent="center" direction="row" gap={4} zIndex={0}>
-          <Grid container rowSpacing={4} columnSpacing={4}>
-            {CARDS.map((cardItem, key) => (
-              <Grid
-                item
-                xs={10}
-                sm={6}
-                lg={3}
-                key={key}
-                sx={{ margin: { xs: "0 auto", sm: "0" } }}
-              >
-                <CustomCard
-                  sx={{
-                    background: (theme) => theme.palette.background.main,
-                  }}
-                >
-                  <CustomCardTitle className={styles.shine}>
-                    {cardItem.title}
-                  </CustomCardTitle>
-                  <BodyText lineHeight="1.5rem" fontSize="1rem">
-                    {cardItem.description}
-                  </BodyText>
-                  <EndCardButton
-                    text={cardItem.button.text}
-                    onClick={cardItem.button.onClick}
-                  />
-                </CustomCard>
-              </Grid>
-            ))}
-          </Grid>
+        <Stack zIndex={0}>
+          <OneActionCardsGrid cards={CARDS} />
         </Stack>
       </Stack>
 

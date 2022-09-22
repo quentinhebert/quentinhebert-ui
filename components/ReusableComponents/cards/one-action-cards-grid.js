@@ -19,13 +19,11 @@ export default function OneActionCardsGrid(props) {
           key={key}
           sx={{ margin: { xs: "0 auto", sm: "0" } }}
         >
-          <CustomCard
-            sx={{
-              background: (theme) =>
-                `linear-gradient(100deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`,
-            }}
-          >
-            <CustomCardTitle className={styles.shine} color="secondary">
+          <CustomCard>
+            <CustomCardTitle className={styles.shine} color="#fff">
+              {cardItem.icon}
+            </CustomCardTitle>
+            <CustomCardTitle className={styles.shine} color="#fff">
               {cardItem.title}
             </CustomCardTitle>
             <BodyText lineHeight="1.5rem" fontSize="1rem">
@@ -34,6 +32,7 @@ export default function OneActionCardsGrid(props) {
             <EndCardButton
               text={cardItem.button.text}
               href={cardItem.button.href}
+              onClick={cardItem.button.onClick}
             />
           </CustomCard>
         </Grid>

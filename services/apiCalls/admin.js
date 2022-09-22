@@ -127,6 +127,32 @@ const admin = {
       console.error(err)
     }
   },
+  getAllFilms: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/films`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  getFilm: async (filmId) => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/films/${filmId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
   uploadCategoryThumbnail: async (payload) => {
     const { formData, category } = payload
     try {
