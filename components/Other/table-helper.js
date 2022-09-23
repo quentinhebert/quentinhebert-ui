@@ -148,7 +148,7 @@ export function EnhancedTableToolbar(props) {
           variant="subtitle1"
           component="div"
         >
-          {selectedRows.length} selected element(s)
+          {selectedRows.length} élément(s) sélectionnés
         </Typography>
       ) : arrayTitle ? (
         <Typography
