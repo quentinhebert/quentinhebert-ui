@@ -1,8 +1,9 @@
-import { Stack, Typography } from "@mui/material"
+import { Stack } from "@mui/material"
 import React, { useState } from "react"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
 import CustomModal from "../ReusableComponents/modals/custom-modal"
 import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
+import BodyText from "../ReusableComponents/text/body-text"
 
 function withConfirmAction(WrappedComponent) {
   function Enhancer(props) {
@@ -61,7 +62,7 @@ function withConfirmAction(WrappedComponent) {
 
           {/**** SIMPLE TEXT ****/}
           {confirmContent.text ? (
-            <Typography color="text.white">{confirmContent.text}</Typography>
+            <BodyText fontSize="1rem">{confirmContent.text}</BodyText>
           ) : null}
 
           {/**** COMPLEX JS ****/}

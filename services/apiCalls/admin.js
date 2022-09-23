@@ -223,70 +223,82 @@ const admin = {
       console.error(err)
     }
   },
-  addCategoryVideo: async (categoryVideo) => {
-    const body = [
-      { key: "title", value: categoryVideo.title },
-      { key: "description", value: categoryVideo.description },
-      { key: "url", value: categoryVideo.url },
-      { key: "thumbnail", value: categoryVideo.thumbnail },
-      { key: "category_id", value: categoryVideo.category_id },
-    ]
+  addFilmThumbnail: async (thumbnail) => {
     try {
       let formData = new FormData()
-      body.map((item) => {
-        return formData.append(item.key, item.value)
+      formData.append("thumbnail", thumbnail)
+      return await fetch(`${defaultConfig.apiUrl}/admin/films/thumbnail`, {
+        method: "POST",
+        body: formData,
+        mode: "cors",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+        },
       })
-      return await fetch(
-        `${defaultConfig.apiUrl}/admin/categories/${categoryVideo.category_id}/video`,
-        {
-          method: "POST",
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${await getFreshToken()}`,
-          },
-        }
-      )
     } catch (err) {
       console.error(err)
     }
   },
-  updateCategoryVideo: async (categoryVideo) => {
+  addFilm: async (film) => {
     const body = {
-      id: categoryVideo.id,
-      title: categoryVideo.title,
-      description: categoryVideo.description,
-      url: categoryVideo.url,
-      thumbnail_id: categoryVideo.thumbnail_id,
-      category_id: categoryVideo.category_id,
+      title: film.title,
+      description: film.description,
+      url: film.url,
+      type: film.type,
+      client: film.client,
+      year: film.year,
+      gear: film.gear,
+      roles: film.roles,
+      thumbnail: film.thumbnail,
     }
     try {
-      return await fetch(
-        `${defaultConfig.apiUrl}/admin/categories/${body.category_id}/video/${body.id}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(body),
-          headers: {
-            Authorization: `Bearer ${await getFreshToken()}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      return await fetch(`${defaultConfig.apiUrl}/admin/films`, {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
     } catch (err) {
       console.error(err)
     }
   },
-  deleteCategoryVideo: async (categoryVideo) => {
+  deleteFilm: async (film) => {
     try {
-      return await fetch(
-        `${defaultConfig.apiUrl}/admin/categories/videos/${categoryVideo.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${await getFreshToken()}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      return await fetch(`${defaultConfig.apiUrl}/admin/films/${film.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  updateFilm: async (film) => {
+    const body = {
+      id: film.id,
+      title: film.title,
+      description: film.description,
+      url: film.url,
+      type: film.type,
+      client: film.client,
+      year: film.year,
+      gear: film.gear,
+      roles: film.roles,
+      thumbnail: film.thumbnail,
+    }
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/films/${body.id}`, {
+        method: "PUT",
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
     } catch (err) {
       console.error(err)
     }

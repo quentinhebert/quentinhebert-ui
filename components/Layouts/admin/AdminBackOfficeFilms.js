@@ -1,5 +1,4 @@
 import { Box, Button, Paper, Stack } from "@mui/material"
-import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 import { compose } from "redux"
 import apiCall from "../../../services/apiCalls/apiCall"
@@ -11,9 +10,7 @@ import SortIcon from "@mui/icons-material/Sort"
 import PageTitle from "../../ReusableComponents/titles/page-title"
 import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
 import BodyText from "../../ReusableComponents/text/body-text"
-const AddCategoryVideoModal = dynamic(() =>
-  import("../../Modals/Create-Modals/add-video-modal")
-)
+import AddFilmModal from "../../Modals/Create-Modals/add-film-modal"
 
 const headCells = [
   {
@@ -65,7 +62,7 @@ function AdminBackOfficeFilms(props) {
   } = props
 
   const [rows, setRows] = useState(null)
-  const [openAddVideoModal, setOpenAddVideoModal] = useState(false)
+  const [openAddFilmModal, setOpenAddFilmModal] = useState(false)
   const [openSortVideosModal, setOpenSortVideosModal] = useState(false)
 
   /***************** FETCH DATA ****************/
@@ -82,12 +79,12 @@ function AdminBackOfficeFilms(props) {
   }, [])
 
   /***************** FUNCTIONS *****************/
-  const deleteVideos = async (videosToDelete) => {
-    // videosToDelete must be an array of videos ids (we get it from handleDeleteVideos())
-    const errorsCount = videosToDelete.length
+  const deleteFilms = async (filmsToDelete) => {
+    // filmsToDelete must be an array of videos ids (we get it from handleDeleteFilms())
+    const errorsCount = filmsToDelete.length
     const [errors] = await Promise.all(
-      videosToDelete.map(async (videoId) => {
-        const res = await apiCall.admin.deleteCategoryVideo({ id: videoId })
+      filmsToDelete.map(async (videoId) => {
+        const res = await apiCall.admin.deleteFilm({ id: videoId })
         if (res && res.ok) {
           errorsCount -= 1
         }
@@ -97,12 +94,12 @@ function AdminBackOfficeFilms(props) {
 
     if (errors === 0) {
       setSeverity("success")
-      setMessageSnack("Video(s) deleted successfully.")
+      setMessageSnack("Film(s) supprimé(s)")
       setOpenSnackBar(true)
     } else {
       setSeverity("error")
       setMessageSnack(
-        `A problem occured while deleting ${errors} of the selected videos.`
+        `Une erreur est survenur lors de la suppression de ${errors} des films sélectionné(s).`
       )
       setOpenSnackBar(true)
     }
@@ -111,25 +108,25 @@ function AdminBackOfficeFilms(props) {
   }
 
   /***************** HANDLERS *****************/
-  const handleDeleteVideos = async (videosToDelete) => {
-    // videosToDelete must be an array of video ids (we get it from table-helper.js)
-    if (!videosToDelete.length) {
+  const handleDeleteFilms = async (filmsToDelete) => {
+    // filmsToDelete must be an array of video ids (we get it from table-helper.js)
+    if (!filmsToDelete.length) {
       setSeverity("error")
-      setMessageSnack("A problem occurred while deleting the selected video(s)")
+      setMessageSnack(
+        "Une erreur est survenue lors de la suppression d'un des films"
+      )
       return setOpenSnackBar(true)
     }
     // Open confirm modal
-    setConfirmTitle(`Delete ${videosToDelete.length} video(s)`)
-    setActionToFire(() => async () => await deleteVideos(videosToDelete))
+    setConfirmTitle(`Supprimer ${filmsToDelete.length} film(s)`)
+    setActionToFire(() => async () => await deleteFilms(filmsToDelete))
     setConfirmContent({
-      text: `Do you really want to delete ${videosToDelete.length} video(s) ?`,
+      text: `Voulez-vous vraiment supprimer ${filmsToDelete.length} film(s) ?`,
     })
-    setNextButtonText("Delete")
+    setNextButtonText("Supprimer")
     setOpenConfirmModal(true)
   }
-  const handleCreate = () => {
-    setOpenAddVideoModal(true)
-  }
+  const handleCreate = () => setOpenAddFilmModal(true)
   const handleCloseSortVideosModal = async () => {
     fetchFilms()
     setOpenSortVideosModal(false)
@@ -144,7 +141,7 @@ function AdminBackOfficeFilms(props) {
         padding="1rem"
         margin="100px 0"
       >
-        <PageTitle zIndex={1} text="Gérer les utilisateurs" />
+        <PageTitle zIndex={1} text="Gérer les films" />
         <Breadcrumbs panel="admin" />
 
         <BodyText fontSize="1rem">
@@ -159,7 +156,7 @@ function AdminBackOfficeFilms(props) {
             onClick={() => setOpenSortVideosModal(true)}
             startIcon={<SortIcon />}
           >
-            Modifier l'ordre des videos
+            Modifier l'ordre des films
           </Button>
         </Box>
 
@@ -173,22 +170,20 @@ function AdminBackOfficeFilms(props) {
               setRows={setRows}
               headCells={headCells}
               arrayTitle={rows ? `Films - ${rows.length} résultat(s)` : "Films"}
-              handleDelete={handleDeleteVideos}
+              handleDelete={handleDeleteFilms}
               handleCreate={handleCreate}
               refreshData={() => fetchFilms()}
               editDataModel="edit-film"
             />
           </Paper>
-          {openAddVideoModal ? (
-            <AddCategoryVideoModal
-              open={openAddVideoModal}
-              handleClose={() => setOpenAddVideoModal(false)}
-              refreshData={() => fetchFilms()}
-            />
-          ) : null}
         </Stack>
       </Stack>
 
+      <AddFilmModal
+        open={openAddFilmModal}
+        handleClose={() => setOpenAddFilmModal(false)}
+        refreshData={() => fetchFilms()}
+      />
       {rows && rows.length ? (
         <SortVideos
           videos={rows}

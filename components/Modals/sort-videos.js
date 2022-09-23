@@ -1,19 +1,12 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Stack,
-  Typography,
-} from "@mui/material"
-// import { arrayMove } from "array-move"
+import { DialogContent, Stack, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { sortableContainer, sortableElement } from "react-sortable-hoc"
 import { arrayMoveImmutable } from "array-move"
-import theme from "../../config/theme"
 import apiCall from "../../services/apiCalls/apiCall"
+import { ModalTitle } from "./Modal-Components/modal-title"
+import CustomModal from "../ReusableComponents/modals/custom-modal"
+import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
+import BodyText from "../ReusableComponents/text/body-text"
 
 const SortableItem = sortableElement(({ value }) => (
   <Stack
@@ -21,7 +14,7 @@ const SortableItem = sortableElement(({ value }) => (
     alignItems="center"
     textAlign="center"
     sx={{
-      zIndex: 100000,
+      zIndex: 10000, // Mandatory otherwise the object disappears on drag and drop
       cursor: "pointer",
       padding: ".5rem",
       margin: ".5rem 0",
@@ -88,41 +81,45 @@ export default function SortVideos(props) {
   }
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth>
-      <DialogTitle>Sort your videos</DialogTitle>
-      <Stack flexDirection="row" alignItems="center" justifyContent="center">
-        <Typography
-          color="gray"
-          margin="0 1rem"
-          fontStyle="italic"
-          display="flex"
-        >
-          Just drag and drop ! As easy as ABC 😎
-        </Typography>
-        <Button
-          variant="contained"
-          display="flex"
-          onClick={handleSaveSortedVideos}
-        >
-          Save
-        </Button>
+    <CustomModal open={open} handleClose={handleClose} gap={4}>
+      <ModalTitle>Modifier l'ordre des film</ModalTitle>
+      <BodyText fontSize="1rem">
+        Déplacez les films dans l'ordre que vous souhaitez puis enregistrez ! 😎
+      </BodyText>
+      <Stack
+        justifyContent="center"
+        alignItems="center"
+        sx={{
+          backgroundColor: "grey",
+          padding: "2rem",
+        }}
+      >
+        <SortableContainer onSortEnd={onSortEnd}>
+          {state.map((value, index) => (
+            <SortableItem key={value.id} index={index} value={value} />
+          ))}
+        </SortableContainer>
       </Stack>
-      <DialogContent sx={{ marginTop: "1rem" }}>
-        <Stack
-          justifyContent="center"
-          alignItems="center"
-          sx={{
-            backgroundColor: "grey",
-            padding: "2rem",
-          }}
-        >
-          <SortableContainer onSortEnd={onSortEnd}>
-            {state.map((value, index) => (
-              <SortableItem key={value.id} index={index} value={value} />
-            ))}
-          </SortableContainer>
+
+      <Stack
+        position="sticky"
+        bottom={0}
+        padding={2}
+        zIndex={10001}
+        sx={{
+          backgroundColor: (theme) => theme.palette.background.main,
+          border: (theme) => `1px solid ${theme.palette.secondary.main}`,
+          borderRadius: "5px",
+          alignItems: "end",
+        }}
+      >
+        <Stack flexDirection="row" gap={2}>
+          <CustomSubmitButton onClick={handleClose}>Annuler</CustomSubmitButton>
+          <CustomSubmitButton secondary="true" onClick={handleSaveSortedVideos}>
+            Enregistrer
+          </CustomSubmitButton>
         </Stack>
-      </DialogContent>
-    </Dialog>
+      </Stack>
+    </CustomModal>
   )
 }

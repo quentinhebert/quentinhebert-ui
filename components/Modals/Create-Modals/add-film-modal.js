@@ -20,19 +20,19 @@ import compressImage from "../../../services/images"
 
 const currentYear = new Date().getFullYear()
 
-function EditFilmModal(props) {
+function AddFilmModal(props) {
   const {
-    filmId,
+    refreshData,
     setSeverity,
     setMessageSnack,
     setOpenSnackBar,
-    openEditModal,
-    handleCloseEditModal,
+    open,
+    handleClose,
   } = props
 
+  const [file, setFile] = useState(null)
   const initialFilm = {
-    id: null,
-    thumbnail: { id: "", url: "" },
+    thumbnail: file,
     title: "",
     url: "",
     description: "",
@@ -47,14 +47,8 @@ function EditFilmModal(props) {
   const [filmRoles, setFilmRoles] = useState(null)
   const [film, setFilm] = useState(initialFilm)
   const [errors, setErrors] = useState({})
-  const [file, setFile] = useState(null)
 
   // Fetch data
-  const fetchData = async () => {
-    const res = await apiCall.admin.getFilm(filmId)
-    const jsonRes = await res.json()
-    setFilm(jsonRes)
-  }
   const fetchFilmTypes = async () => {
     const res = await apiCall.unauthenticated.getFilmTypes()
     if (res && res.ok) {
@@ -79,13 +73,12 @@ function EditFilmModal(props) {
 
   // We immediately fetch up-to-date data
   useEffect(() => {
-    if (filmId) {
-      fetchData()
+    if (open) {
       fetchFilmTypes()
       fetchFilmGear()
       fetchFilmRoles()
     }
-  }, [filmId, openEditModal])
+  }, [open])
 
   // HANDLERS
   const handleChange = (attribute, subAttribute) => (e) => {
@@ -100,6 +93,8 @@ function EditFilmModal(props) {
     else setFilm({ ...film, [attribute]: e.target.value })
   }
   const handleChangeMultipleCheckbox = (attribute, item) => (event) => {
+    event.stopPropagation()
+    event.preventDefault()
     const localAttribute = film[attribute]
     if (event.target.checked) {
       localAttribute.push(item)
@@ -109,18 +104,24 @@ function EditFilmModal(props) {
     setFilm({ ...film, [attribute]: localAttribute })
   }
   const handleCancel = () => {
-    handleCloseEditModal()
+    handleClose()
   }
   const handleSuccess = () => {
     setSeverity("success")
     setMessageSnack("The category has been changed successfully !")
     setOpenSnackBar(true)
-    setFile(null)
-    handleCloseEditModal()
+    handleClose()
   }
   const handleError = () => {
     setSeverity("error")
-    setMessageSnack("An error occurred while updating the category...")
+    setMessageSnack("Le film n'a pas pu sortir en salle...")
+    setOpenSnackBar(true)
+  }
+  const handleErrorThumbnail = () => {
+    setSeverity("error")
+    setMessageSnack(
+      "Une erreur est survenue lors de l'upload de la vignette..."
+    )
     setOpenSnackBar(true)
   }
   const processThumbnail = async () => {
@@ -137,27 +138,19 @@ function EditFilmModal(props) {
         handleErrorThumbnail()
         return null
       }
-    }
-    // If the films already has a thumbnail and user doesn't ask for change
-    else if (film.thumbnail.id) return film.thumbnail.id
-    // If the film has no thumbnail (or no more)
-    else return null
+    } else return null
   }
-  const handleUpdate = async () => {
+  const handleCreate = async () => {
     // Compress the image before sending it to the API
     const thumbnailId = await processThumbnail()
     const localFilm = { ...film, thumbnail: { id: thumbnailId } }
-    const res = await apiCall.admin.updateFilm(localFilm)
+    const res = await apiCall.admin.addFilm(localFilm)
     if (res && res.ok) {
       handleSuccess()
+      refreshData() // Refresh all rows of custom table
     } else {
       handleError()
     }
-  }
-  const detachBgImage = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setFilm({ ...film, thumbnail: { id: "" } })
   }
 
   // SUB-COMPONENTS
@@ -214,36 +207,19 @@ function EditFilmModal(props) {
     </DualInputLine>
   )
 
-  const IdInput = () => (
-    <CustomOutlinedInput
-      disabled
-      type="input"
-      id="id"
-      label="ID"
-      value={film.id || ""}
-    />
-  )
-
   const ThumbnailInput = () => (
     <DropzoneShowImage
       bgImage={film.thumbnail?.url || ""}
-      detachBgImage={detachBgImage}
       file={file}
       setFile={setFile}
     />
   )
 
   return (
-    <CustomModal
-      open={openEditModal}
-      handleClose={handleCloseEditModal}
-      gap={4}
-    >
-      <ModalTitle>Modifier le film</ModalTitle>
+    <CustomModal open={open} handleClose={handleClose} gap={4}>
+      <ModalTitle>Ajouter un film</ModalTitle>
 
       <CustomForm gap={3}>
-        <IdInput />
-
         <ThumbnailInput />
 
         <SelectZone />
@@ -324,11 +300,11 @@ function EditFilmModal(props) {
           </CustomAccordion>
         </Stack>
 
-        <Stack flexDirection="row" gap={2} justifyContent="end">
+        <Stack flexDirection="row" gap={2} justifyContent="end" width="100%">
           <CustomSubmitButton onClick={handleCancel}>
             Annuler
           </CustomSubmitButton>
-          <CustomSubmitButton secondary="true" onClick={handleUpdate}>
+          <CustomSubmitButton secondary="true" onClick={handleCreate}>
             Enregistrer
           </CustomSubmitButton>
         </Stack>
@@ -337,4 +313,4 @@ function EditFilmModal(props) {
   )
 }
 
-export default compose(withSnacks, withConfirmAction)(EditFilmModal)
+export default compose(withSnacks, withConfirmAction)(AddFilmModal)
