@@ -17,6 +17,7 @@ import CustomCheckbox from "../../ReusableComponents/forms/custom-checkbox"
 import CustomAccordion from "../../ReusableComponents/containers/custom-accordion"
 import DropzoneShowImage from "../../ReusableComponents/images/drop-zone-show-image"
 import compressImage from "../../../services/images"
+import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
 
 const currentYear = new Date().getFullYear()
 
@@ -48,6 +49,7 @@ function EditFilmModal(props) {
   const [film, setFilm] = useState(initialFilm)
   const [errors, setErrors] = useState({})
   const [file, setFile] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   // Fetch data
   const fetchData = async () => {
@@ -113,7 +115,7 @@ function EditFilmModal(props) {
   }
   const handleSuccess = () => {
     setSeverity("success")
-    setMessageSnack("The category has been changed successfully !")
+    setMessageSnack("Le film a été mis à jour !")
     setOpenSnackBar(true)
     setFile(null)
     handleCloseEditModal()
@@ -144,6 +146,7 @@ function EditFilmModal(props) {
     else return null
   }
   const handleUpdate = async () => {
+    setIsLoading(true)
     // Compress the image before sending it to the API
     const thumbnailId = await processThumbnail()
     const localFilm = { ...film, thumbnail: { id: thumbnailId } }
@@ -153,6 +156,7 @@ function EditFilmModal(props) {
     } else {
       handleError()
     }
+    setIsLoading(false)
   }
   const detachBgImage = (e) => {
     e.preventDefault()
@@ -324,12 +328,16 @@ function EditFilmModal(props) {
           </CustomAccordion>
         </Stack>
 
-        <Stack flexDirection="row" gap={2} justifyContent="end">
+        <Stack flexDirection="row" gap={2} justifyContent="end" width="100%">
           <CustomSubmitButton onClick={handleCancel}>
             Annuler
           </CustomSubmitButton>
-          <CustomSubmitButton secondary="true" onClick={handleUpdate}>
-            Enregistrer
+          <CustomSubmitButton
+            secondary="true"
+            onClick={handleUpdate}
+            disabled={isLoading}
+          >
+            {isLoading ? <CustomCircularProgress /> : "Enregistrer"}
           </CustomSubmitButton>
         </Stack>
       </CustomForm>
