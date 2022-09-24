@@ -41,7 +41,11 @@ function ChangeAvatar(props) {
 
   // FUNCTIONS
   const deleteAvatar = async () => {
-    const res = await apiCall.users.deleteAvatar({ id: user.id })
+    // Prepare the payload
+    let formData = new FormData()
+    formData.append("avatar", null)
+    // Send the image to the API
+    const res = await apiCall.users.updateAvatar({ formData, user })
     if (res && res.ok) handleSuccess()
     else handleError()
   }

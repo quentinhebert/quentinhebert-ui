@@ -150,18 +150,6 @@ const users = {
       console.error(err)
     }
   },
-  deleteAvatar: async (user) => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/users/${user.id}/avatar`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${await getFreshToken()}`,
-        },
-      })
-    } catch (err) {
-      console.error(err)
-    }
-  },
 }
 
 export default users
