@@ -156,6 +156,7 @@ function EditFilmModal(props) {
     if (res && res.ok) {
       handleSuccess()
     } else {
+      // TODO: if new thumbnail uploaded but film update fails, need to remove file just uploaded (DB and FTP)
       handleError()
     }
     setIsLoading(false)

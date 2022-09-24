@@ -152,6 +152,7 @@ function AddFilmModal(props) {
       handleSuccess()
       refreshData() // Refresh all rows of custom table
     } else {
+      // TODO: if new thumbnail uploaded but film update fails, need to remove file just uploaded (DB and FTP)
       handleError()
     }
     setIsLoading(false)
