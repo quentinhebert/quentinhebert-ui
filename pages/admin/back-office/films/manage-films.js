@@ -1,17 +1,17 @@
 import React, { useContext } from "react"
-import Navbar from "../../../components/Navigation/Navbars/navbar"
-import Footer from "../../../components/Navigation/Footers/Footer"
-import { USERTYPES } from "../../../enums/userTypes"
-import { UserContext } from "../../../contexts/UserContext"
-import HtmlHead from "../../../components/ReusableComponents/page-builder/html-head"
-import PageRoot from "../../../components/ReusableComponents/page-builder/page-root"
-import LoginLayout from "../../../components/Layouts/LoginLayout"
-import AdminBackOfficeFilms from "../../../components/Layouts/admin/AdminBackOfficeFilms"
+import Navbar from "../../../../components/Navigation/Navbars/navbar"
+import Footer from "../../../../components/Navigation/Footers/Footer"
+import { USERTYPES } from "../../../../enums/userTypes"
+import { UserContext } from "../../../../contexts/UserContext"
+import HtmlHead from "../../../../components/ReusableComponents/page-builder/html-head"
+import PageRoot from "../../../../components/ReusableComponents/page-builder/page-root"
+import LoginLayout from "../../../../components/Layouts/LoginLayout"
+import AdminFilmsPanel from "../../../../components/Layouts/admin/AdminFilmsPanel"
 import { useRouter } from "next/router"
 
 export default function ManageVideosPage() {
   // Main meta tags
-  const title = "Admin | Back-Office | Films"
+  const title = "Admin | Back-Office | Films | Gérer les films"
   const description = "Back-Office : gérez les films de votre site"
 
   // SEO helpers
@@ -41,7 +41,7 @@ export default function ManageVideosPage() {
       <Navbar />
 
       {!!user && user.type === USERTYPES.ADMIN ? (
-        <AdminBackOfficeFilms />
+        <AdminFilmsPanel />
       ) : (
         <LoginLayout />
       )}

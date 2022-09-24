@@ -17,6 +17,7 @@ import CustomCheckbox from "../../ReusableComponents/forms/custom-checkbox"
 import CustomAccordion from "../../ReusableComponents/containers/custom-accordion"
 import DropzoneShowImage from "../../ReusableComponents/images/drop-zone-show-image"
 import compressImage from "../../../services/images"
+import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
 
 const currentYear = new Date().getFullYear()
 
@@ -47,6 +48,7 @@ function AddFilmModal(props) {
   const [filmRoles, setFilmRoles] = useState(null)
   const [film, setFilm] = useState(initialFilm)
   const [errors, setErrors] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
 
   // Fetch data
   const fetchFilmTypes = async () => {
@@ -141,6 +143,7 @@ function AddFilmModal(props) {
     } else return null
   }
   const handleCreate = async () => {
+    setIsLoading(true)
     // Compress the image before sending it to the API
     const thumbnailId = await processThumbnail()
     const localFilm = { ...film, thumbnail: { id: thumbnailId } }
@@ -151,6 +154,7 @@ function AddFilmModal(props) {
     } else {
       handleError()
     }
+    setIsLoading(false)
   }
 
   // SUB-COMPONENTS
@@ -305,7 +309,7 @@ function AddFilmModal(props) {
             Annuler
           </CustomSubmitButton>
           <CustomSubmitButton secondary="true" onClick={handleCreate}>
-            Enregistrer
+            {isLoading ? <CustomCircularProgress /> : "Enregistrer"}
           </CustomSubmitButton>
         </Stack>
       </CustomForm>

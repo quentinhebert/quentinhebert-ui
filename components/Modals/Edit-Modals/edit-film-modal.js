@@ -89,6 +89,8 @@ function EditFilmModal(props) {
     }
   }, [filmId, openEditModal])
 
+  if (!filmId) return <></>
+
   // HANDLERS
   const handleChange = (attribute, subAttribute) => (e) => {
     if (subAttribute)

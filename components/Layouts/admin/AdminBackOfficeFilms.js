@@ -1,198 +1,54 @@
-import { Box, Button, Paper, Stack } from "@mui/material"
-import { useEffect, useState } from "react"
-import { compose } from "redux"
-import apiCall from "../../../services/apiCalls/apiCall"
-import withConfirmAction from "../../hocs/withConfirmAction"
-import withSnacks from "../../hocs/withSnacks"
-import SortVideos from "../../Modals/sort-videos"
-import CustomTable from "../../Sections/custom-table"
-import SortIcon from "@mui/icons-material/Sort"
+import { Box, Stack } from "@mui/material"
 import PageTitle from "../../ReusableComponents/titles/page-title"
 import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
-import BodyText from "../../ReusableComponents/text/body-text"
-import AddFilmModal from "../../Modals/Create-Modals/add-film-modal"
+import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
+import SuperIcon from "supercons"
+import { Multimedia, Camera } from "grommet-icons"
 
-const headCells = [
+const CARDS = [
   {
-    id: "id",
-    numeric: false,
-    label: "ID",
+    title: "Mes films",
+    icon: <Multimedia color="#fff" size="large" />,
+    description:
+      "Modifiez les informations de votre site (descriptions, footer, barre de navigation...).",
+    button: { text: "Gérer", href: "/admin/back-office/films/manage-films" },
   },
   {
-    id: "thumbnail_url",
-    numeric: false,
-    label: "Miniature",
-    valueGetter: function (param) {
-      return param ? <img src={param} style={{ width: "100px" }} /> : <></>
-    },
-  },
-  {
-    id: "title",
-    numeric: false,
-    label: "Title",
-  },
-  {
-    id: "client",
-    numeric: false,
-    label: "Client",
-  },
-  {
-    id: "type",
-    numeric: false,
-    label: "Catégorie",
-  },
-  {
-    id: "year",
-    numeric: false,
-    label: "Année",
+    title: "Mon matériel",
+    icon: <Camera color="#fff" size="large" />,
+    description: "Ajoutez, modifiez et supprimez du contenu de votre site.",
+    button: { text: "Gérer", href: "/admin/back-office/websites" },
   },
 ]
 
-function AdminBackOfficeFilms(props) {
-  const {
-    user,
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
-    setActionToFire,
-    setOpenConfirmModal,
-    setConfirmTitle,
-    setNextButtonText,
-    setConfirmContent,
-  } = props
-
-  const [rows, setRows] = useState(null)
-  const [openAddFilmModal, setOpenAddFilmModal] = useState(false)
-  const [openSortVideosModal, setOpenSortVideosModal] = useState(false)
-
-  /***************** FETCH DATA ****************/
-  const fetchFilms = async () => {
-    const res = await apiCall.admin.getAllFilms()
-    if (res && res.ok) {
-      const films = await res.json()
-      setRows(films)
-    }
-  }
-  // Initial fetch
-  useEffect(() => {
-    fetchFilms()
-  }, [])
-
-  /***************** FUNCTIONS *****************/
-  const deleteFilms = async (filmsToDelete) => {
-    // filmsToDelete must be an array of videos ids (we get it from handleDeleteFilms())
-    const errorsCount = filmsToDelete.length
-    const [errors] = await Promise.all(
-      filmsToDelete.map(async (videoId) => {
-        const res = await apiCall.admin.deleteFilm({ id: videoId })
-        if (res && res.ok) {
-          errorsCount -= 1
-        }
-        return errorsCount
-      })
-    )
-
-    if (errors === 0) {
-      setSeverity("success")
-      setMessageSnack("Film(s) supprimé(s)")
-      setOpenSnackBar(true)
-    } else {
-      setSeverity("error")
-      setMessageSnack(
-        `Une erreur est survenur lors de la suppression de ${errors} des films sélectionné(s).`
-      )
-      setOpenSnackBar(true)
-    }
-
-    await fetchFilms() // Refresh data
-  }
-
-  /***************** HANDLERS *****************/
-  const handleDeleteFilms = async (filmsToDelete) => {
-    // filmsToDelete must be an array of video ids (we get it from table-helper.js)
-    if (!filmsToDelete.length) {
-      setSeverity("error")
-      setMessageSnack(
-        "Une erreur est survenue lors de la suppression d'un des films"
-      )
-      return setOpenSnackBar(true)
-    }
-    // Open confirm modal
-    setConfirmTitle(`Supprimer ${filmsToDelete.length} film(s)`)
-    setActionToFire(() => async () => await deleteFilms(filmsToDelete))
-    setConfirmContent({
-      text: `Voulez-vous vraiment supprimer ${filmsToDelete.length} film(s) ?`,
-    })
-    setNextButtonText("Supprimer")
-    setOpenConfirmModal(true)
-  }
-  const handleCreate = () => setOpenAddFilmModal(true)
-  const handleCloseSortVideosModal = async () => {
-    fetchFilms()
-    setOpenSortVideosModal(false)
-  }
+export default function AdminBackOfficeFilms(props) {
+  const {} = props
 
   return (
-    <Stack flexGrow={1}>
-      <Stack
-        justifyContent="center"
-        direction="column"
-        gap={2}
-        padding="1rem"
-        margin="100px 0"
-      >
-        <PageTitle zIndex={1} text="Gérer les films" />
-        <Breadcrumbs panel="admin" />
-
-        <BodyText fontSize="1rem">
-          Ci-dessous, vous pouvez ajouter, modifier ou supprimer une ou
-          plusieurs films de votre site.
-        </BodyText>
-
-        <Box>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => setOpenSortVideosModal(true)}
-            startIcon={<SortIcon />}
-          >
-            Modifier l'ordre des films
-          </Button>
-        </Box>
-
-        <Stack alignItems="center" justifyContent="center" direction="column">
-          <Paper
-            variant="contained"
-            sx={{ width: "100%", flexDirection: "column" }}
-          >
-            <CustomTable
-              rows={rows}
-              setRows={setRows}
-              headCells={headCells}
-              arrayTitle={rows ? `Films - ${rows.length} résultat(s)` : "Films"}
-              handleDelete={handleDeleteFilms}
-              handleCreate={handleCreate}
-              refreshData={() => fetchFilms()}
-              editDataModel="edit-film"
-            />
-          </Paper>
-        </Stack>
-      </Stack>
-
-      <AddFilmModal
-        open={openAddFilmModal}
-        handleClose={() => setOpenAddFilmModal(false)}
-        refreshData={() => fetchFilms()}
+    <Stack
+      flexGrow={1}
+      direction="column"
+      gap={2}
+      padding={4}
+      paddingTop={"7rem"}
+      paddingBottom={"7rem"}
+    >
+      <Box
+        position="fixed"
+        width="100%"
+        height="100%"
+        zIndex={0}
+        sx={{
+          backgroundImage: "url(/medias/lines.jpg)",
+          backgroundSize: "cover",
+        }}
       />
-      {rows && rows.length ? (
-        <SortVideos
-          videos={rows}
-          open={openSortVideosModal}
-          handleClose={handleCloseSortVideosModal}
-        />
-      ) : null}
+      <PageTitle zIndex={1} text="Back-Office" />
+      <Breadcrumbs panel="admin" />
+
+      <Stack zIndex={0}>
+        <OneActionCardsGrid cards={CARDS} />
+      </Stack>
     </Stack>
   )
 }
-
-export default compose(withSnacks, withConfirmAction)(AdminBackOfficeFilms)
