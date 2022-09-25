@@ -79,22 +79,22 @@ export default function LoginForm(props) {
         setShowAlert({
           show: true,
           severity: "success",
-          text: `A confirmation email has been sent to ${emailInput}.`,
-          title: "Confirmation email re-sent",
+          text: `Un e-mail de confirmation vient d'être envoyé à ${emailInput}.`,
+          title: "E-mail de confirmation renvoyé",
         })
       else
         setShowAlert({
           show: true,
           severity: "warning",
-          text: `Sorry, we cannot re-send the confirmation email to ${emailInput}.`,
-          title: "Failed to send",
+          text: `Désolé, nous n'avons pas pu renvoyer l'e-mail de confirmation à ${emailInput}.`,
+          title: "Error lors de l'envoi",
         })
     } else {
       setShowAlert({
         show: true,
         severity: "warning",
-        text: `Sorry, we cannot re-send the confirmation email to ${emailInput}.`,
-        title: "Failed to send",
+        text: `Désolé, nous ne pouvons pas renvoyer l'e-mail de confirmation à ${emailInput}.`,
+        title: "Impossible d'effectuer l'envoi",
       })
     }
   }
@@ -111,24 +111,27 @@ export default function LoginForm(props) {
       setShowAlert({
         show: true,
         severity: "warning",
-        title: "Email not confirmed",
+        title: "Confirmez votre adresse e-mail",
         text: (
-          <Stack justifyContent="center" alignItems="center">
-            <Typography sx={{ margin: ".5rem auto" }}>
-              Your email is not yet confirmed. A confirmation link has been sent
-              to your email. Please check your spams. Click on the button or on
-              the link in the email in order to confirm your email. Finally log
-              in.
+          <Stack margin="0.5rem auto">
+            <Typography>
+              Votre e-mail n'est pas encore confirmé. Vous avez dû recevoir un
+              e-mail de confirmation à votre adresse e-mail. N'oubliez pas de
+              vérifier vos spams. Cliquez sur le bouton ou sur le lien dans
+              l'e-mail afin de confirmer votre e-mail. Vous pourrez ensuite vous
+              connecter.
             </Typography>
             {token ? (
-              <Typography sx={{ margin: ".5rem auto" }}>
+              <Typography>
                 <Link
+                  color="secondary"
                   onClick={() => resendConfirmEmail(token)}
                   sx={{ cursor: "pointer" }}
+                  className="cool-button"
                 >
-                  Click here
+                  Cliquez ici
                 </Link>{" "}
-                to re-send a confirmation email.
+                pour renvoyer l'e-mail de confirmation.
               </Typography>
             ) : null}
           </Stack>
