@@ -66,9 +66,9 @@ function ChangeAvatar(props) {
     setActionToFire(() => () => deleteAvatar())
     setConfirmTitle("Confirmation")
     setConfirmContent({
-      text: "Do you really want to delete your avatar ?",
+      text: "Voulez-vous vraiment supprimer votre avatar ?",
     })
-    setNextButtonText("Yes, I really do !")
+    setNextButtonText("Oui, je le veux ! 💍")
     setOpenConfirmModal(true)
   }
 
