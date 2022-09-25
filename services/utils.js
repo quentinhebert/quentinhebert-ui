@@ -3,8 +3,13 @@ import { useRouter } from "next/router"
 import apiCall from "./apiCalls/apiCall"
 import { getToken, removeToken, setRefreshToken, setToken } from "./cookies"
 
-export function logout() {
-  removeToken()
+export async function logout() {
+  const res = await apiCall.users.logout()
+  if (res && res.ok) {
+    removeToken()
+    return true
+  }
+  return false
 }
 
 export function getUser(token) {

@@ -23,9 +23,17 @@ export default function LogoutPage() {
 
   const router = useRouter()
 
+  const handleLogout = async () => {
+    const isLoggedOut = await logout() // clean local cookies
+    if (isLoggedOut) {
+      setAccessToken(null) // User Context
+      setUser(null) // User Context}
+    }
+  }
+
   useEffect(() => {
     if (user) {
-      logout()
+      handleLogout()
     }
     router.push("/")
   }, [user, router])

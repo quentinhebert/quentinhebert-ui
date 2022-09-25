@@ -31,7 +31,7 @@ const users = {
   getAccessToken: async () => {
     try {
       const body = {
-        email: getUser().email,
+        id: getUser().id,
         refresh_token: getRefreshToken(),
       }
       return await fetch(`${defaultConfig.apiUrl}/new-token`, {
@@ -41,6 +41,26 @@ const users = {
           "Content-Type": "application/json",
         },
       })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  logout: async () => {
+    try {
+      const body = {
+        refresh_token: getRefreshToken(),
+      }
+      return await fetch(
+        `${defaultConfig.apiUrl}/users/${getUser().id}/logout`,
+        {
+          method: "PUT",
+          body: JSON.stringify(body),
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
     } catch (err) {
       console.error(err)
     }

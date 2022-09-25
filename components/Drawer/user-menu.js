@@ -58,10 +58,12 @@ const renderMenuItems = (setOfItems) => {
 export default function UserMenuDrawer(props) {
   const { toggleDrawer, isOpen, user, setUser, setAccessToken } = props
 
-  const handleLogout = () => {
-    logout() // clean local cookies
-    setAccessToken(null) // User Context
-    setUser(null) // User Context
+  const handleLogout = async () => {
+    const isLoggedOut = await logout() // clean local cookies
+    if (isLoggedOut) {
+      setAccessToken(null) // User Context
+      setUser(null) // User Context}
+    }
   }
 
   return (
