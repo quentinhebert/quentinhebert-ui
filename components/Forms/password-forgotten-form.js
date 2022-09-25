@@ -49,15 +49,15 @@ export default function PasswordForgottenForm(props) {
       setShowAlert({
         show: true,
         severity: "info",
-        text: "An automatic confirmation email for password reset has just been sent to your email.",
-        title: "Sent !",
+        text: "Un e-mail automatique de réinitialisation de mot de passe vient d'être envoyé à votre adresse e-mail.",
+        title: "Bien envoyé !",
       })
     } else {
       setShowAlert({
         show: true,
         severity: "warning",
-        text: "A problem occurred while sending the automatic email to the address you have provided",
-        title: "Oops...",
+        text: "Un erreur est survenue lors de l'envoi de l'e-mail automatique à votre adress e-mail.",
+        title: "Oups...",
       })
     }
   }
