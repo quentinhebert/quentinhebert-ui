@@ -200,7 +200,7 @@ function ContactForm(props) {
             <Stack flexDirection="row" gap={4}>
               <CustomCheckbox
                 label="Film"
-                check={formData.services.film ? "true" : "false"}
+                checked={formData.services.film}
                 // colors passed as strings otw DOM warnings if objects passed as props
                 labelcolor={theme.palette.text.secondary} // label
                 checkedcolor={theme.palette.text.secondary} // checked
@@ -211,7 +211,7 @@ function ContactForm(props) {
               />
               <CustomCheckbox
                 label="Site web"
-                check={formData.services.website ? "true" : "false"}
+                checked={formData.services.website}
                 labelcolor={theme.palette.text.secondary} // label
                 checkedcolor={theme.palette.text.secondary} // checked
                 checkboxcolor="#fff" // unchecked
