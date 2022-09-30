@@ -20,9 +20,7 @@ export function getUser(token) {
 }
 
 export function isTokenExpired(decodedToken) {
-  if (decodedToken && decodedToken.exp < Date.now() / 1000) {
-    return true
-  }
+  if (decodedToken && decodedToken.exp < Date.now() / 1000) return true
   return false
 }
 
@@ -40,7 +38,7 @@ export async function getFreshToken() {
     return tokens.token
   }
   console.info("Couldn't get an access token")
-  return logout()
+  return removeToken()
 }
 
 export function checkEmail(email) {
