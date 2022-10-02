@@ -5,7 +5,6 @@ import { Avatar, Typography, useMediaQuery } from "@mui/material"
 import dynamic from "next/dynamic"
 import theme from "../../config/theme"
 const UserMenuDrawer = dynamic(() => import("../Drawer/user-menu"))
-const LoginModal = dynamic(() => import("../Modals/login-modal"))
 
 function LoginOrMenuButton(props) {
   /********** PROPS **********/
@@ -64,29 +63,6 @@ function LoginOrMenuButton(props) {
         />
       </>
     )
-
-  // Default (no user)
-  return (
-    <>
-      <Button
-        variant="outlined"
-        onClick={handleOpenLogin}
-        sx={{
-          letterSpacing: "1px",
-          padding: ".5rem 1rem",
-          "&:hover": { color: "#fff" },
-        }}
-      >
-        Log in
-      </Button>
-
-      <LoginModal
-        openLogin={openLogin}
-        handleOpenLogin={handleOpenLogin}
-        handleCloseLogin={handleCloseLogin}
-      />
-    </>
-  )
 }
 
 /********** EXPORT **********/
