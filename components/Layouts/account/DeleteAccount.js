@@ -67,7 +67,7 @@ function DeleteAccount(props) {
     setSeverity("success")
     setOpenSnackBar("true")
     setMessageSnack(
-      "Your account has been deleted successfully. You are being redirected in 5 seconds..."
+      "Votre compte a bien été supprimé. Vous allez être redirigé dans 5 secondes..."
     )
     setTimeout(() => {
       logout() // remove tokens from cookies
@@ -78,12 +78,16 @@ function DeleteAccount(props) {
   const handleError = () => {
     setSeverity("error")
     setOpenSnackBar("true")
-    setMessageSnack("A problem occured while updating the password")
+    setMessageSnack(
+      "Une erreur est survenue lors de la mise à jour de votre mot de passe..."
+    )
   }
   const handleInvalidConfirmation = async (response) => {
     setSeverity("error")
     setOpenSnackBar("true")
-    setMessageSnack("Please type your email to continue the operation")
+    setMessageSnack(
+      "Veuillez saisir votre adresse e-mail pour poursuivre l'opération"
+    )
   }
   const handleDeleteUser = async () => {
     if (!invalidConfirmation) {
