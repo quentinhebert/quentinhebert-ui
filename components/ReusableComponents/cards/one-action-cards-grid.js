@@ -13,7 +13,7 @@ export default function OneActionCardsGrid(props) {
       {cards.map((cardItem, key) => (
         <Grid
           item
-          xs={10}
+          xs={12}
           sm={6}
           lg={3}
           key={key}

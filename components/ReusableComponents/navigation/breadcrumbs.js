@@ -37,9 +37,11 @@ export default function Breadcrumbs(props) {
     <Stack
       zIndex={1}
       color="#fff"
-      flexDirection="row"
       alignItems="center"
       gap={1.5}
+      sx={{
+        flexDirection: { xs: "column", sm: "row" },
+      }}
     >
       {breadcrumbs.map((item, key) => {
         const isCurrentPage = key + 1 === pages.length // current page === last element of the breadcrumbs

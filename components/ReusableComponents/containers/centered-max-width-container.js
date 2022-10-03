@@ -6,11 +6,11 @@ const Container = styled((props) => {
 
   return (
     <Stack
-      width={percents || "80%"}
       maxWidth={pixels || "880px"}
       margin="auto"
       zIndex={1}
       sx={{
+        width: percents || { xs: "100%", sm: "80%" },
         flexDirection: flexDirection || "",
       }}
       {...props}
