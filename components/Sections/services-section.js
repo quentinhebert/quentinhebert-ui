@@ -119,7 +119,7 @@ const Caroussel = ({ services }) => {
           sx={{ height: "100%", width: "90%", margin: "auto" }}
         >
           <ServiceCard
-            service={services[0]}
+            service={services[1]}
             animationElement={<FlashingUnderscore />}
             href="/films"
             gradientBgDeg="140deg"
