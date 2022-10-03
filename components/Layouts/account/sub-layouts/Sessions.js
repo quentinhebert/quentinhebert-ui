@@ -13,6 +13,7 @@ import { compose } from "redux"
 import withConfirmAction from "../../../hocs/withConfirmAction"
 import PleaseWait from "../../../ReusableComponents/helpers/please-wait"
 import LogoutIcon from "@mui/icons-material/Logout"
+import RefreshIcon from "@mui/icons-material/Refresh"
 
 const DataRow = (props) => (
   <BodyText
@@ -93,69 +94,91 @@ const RenderSessions = (props) => {
 
   if (isFetching) return <PleaseWait />
 
-  if (!sessions) return <></>
-
-  return sessions.map((session, key) => {
-    const formattedDate = new Date(session.date).toLocaleDateString("fr-FR", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-    let formattedLocation = "Localisation inconnue"
-    if (session.location.city && session.location.region)
-      formattedLocation = `${session.location.city}, ${session.location.region}`
-    if (session.location.country && session.location.continent)
-      formattedLocation += ` (${session.location.country}, ${session.location.continent})`
-
-    return (
-      <CustomAccordion
-        key={key}
-        title={
-          <Typography>
-            {session.device.os.name + " / " + session.device.browser}
-            <Box sx={{ color: (theme) => theme.palette.text.white }}>
-              {session.location.region || "Localisation inconnue"}
-            </Box>
-          </Typography>
-        }
-      >
-        <Stack gap={2}>
-          <DataRow>
-            <PhoneVertical color="#fff" size="medium" />
-            Appareil :{" "}
-            <DataValue>
-              {session.device.os.name + " " + session.device.os.version}
-            </DataValue>
-          </DataRow>
-          <DataRow>
-            <Language color="#fff" size="medium" />
-            Navigateur : <DataValue>{session.device.browser}</DataValue>
-          </DataRow>
-          <DataRow>
-            <Clock color="#fff" size="medium" />
-            Dernière connexion : <DataValue>{formattedDate}</DataValue>
-          </DataRow>
-          <DataRow>
-            <Map color="#fff" size="medium" />
-            Localisation : <DataValue>{formattedLocation}</DataValue>
-          </DataRow>
-
-          <Stack flexDirection="row" gap={2} justifyContent="end" marginTop={4}>
-            <CustomSubmitButton
-              secondary="true"
-              startIcon={<LogoutIcon />}
-              onClick={() => handleDeleteSession(session.id)}
-            >
-              Déconnecter
-            </CustomSubmitButton>
-          </Stack>
+  return (
+    <Stack gap={2}>
+      <Stack width="100%">
+        <Stack alignSelf="flex-end">
+          <CustomSubmitButton
+            startIcon={<RefreshIcon />}
+            onClick={fetchSessions}
+          >
+            Raffraîchir
+          </CustomSubmitButton>
         </Stack>
-      </CustomAccordion>
-    )
-  })
+      </Stack>
+
+      {sessions &&
+        sessions.map((session, key) => {
+          const formattedDate = new Date(session.date).toLocaleDateString(
+            "fr-FR",
+            {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            }
+          )
+          let formattedLocation = "Localisation inconnue"
+          if (session.location.city && session.location.region)
+            formattedLocation = `${session.location.city}, ${session.location.region}`
+          if (session.location.country && session.location.continent)
+            formattedLocation += ` (${session.location.country}, ${session.location.continent})`
+
+          return (
+            <CustomAccordion
+              key={key}
+              title={
+                <Typography>
+                  {session.device.os.name + " / " + session.device.browser}
+                  <Box sx={{ color: (theme) => theme.palette.text.white }}>
+                    {session.location.region || "Localisation inconnue"}
+                  </Box>
+                </Typography>
+              }
+            >
+              <Stack gap={2}>
+                <DataRow>
+                  <PhoneVertical color="#fff" size="medium" />
+                  Appareil :{" "}
+                  <DataValue>
+                    {session.device.os.name + " " + session.device.os.version}
+                  </DataValue>
+                </DataRow>
+                <DataRow>
+                  <Language color="#fff" size="medium" />
+                  Navigateur : <DataValue>{session.device.browser}</DataValue>
+                </DataRow>
+                <DataRow>
+                  <Clock color="#fff" size="medium" />
+                  Dernière connexion : <DataValue>{formattedDate}</DataValue>
+                </DataRow>
+                <DataRow>
+                  <Map color="#fff" size="medium" />
+                  Localisation : <DataValue>{formattedLocation}</DataValue>
+                </DataRow>
+
+                <Stack
+                  flexDirection="row"
+                  gap={2}
+                  justifyContent="end"
+                  marginTop={4}
+                >
+                  <CustomSubmitButton
+                    secondary="true"
+                    startIcon={<LogoutIcon />}
+                    onClick={() => handleDeleteSession(session.id)}
+                  >
+                    Déconnecter
+                  </CustomSubmitButton>
+                </Stack>
+              </Stack>
+            </CustomAccordion>
+          )
+        })}
+    </Stack>
+  )
 }
 
 function Sessions(props) {
