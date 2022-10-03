@@ -3,14 +3,14 @@ import Navbar from "../../components/Navigation/Navbars/navbar"
 import Footer from "../../components/Navigation/Footers/Footer"
 import { UserContext } from "../../contexts/UserContext"
 import LoginLayout from "../../components/Layouts/LoginLayout"
-import ChangePersonalInformationLayout from "../../components/Layouts/account/ChangePersonalInformationLayout"
+import SecurityLayout from "../../components/Layouts/account/SecurityLayout"
 import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
 import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
 
-function PersonalInformationPage() {
+export default function SecurityPage() {
   // Main meta tags
-  const title = "Mon compte | Mes informations personnelles"
-  const description = "Modifiez vos informations personnelles"
+  const title = "Mon compte | Sécurité"
+  const description = "Gérez la sécurité de votre compte"
 
   // SEO helpers
   const follow = false
@@ -37,12 +37,10 @@ function PersonalInformationPage() {
       {!user ? (
         <LoginLayout />
       ) : (
-        <ChangePersonalInformationLayout user={user} setUser={setUser} />
+        <SecurityLayout user={user} setUser={setUser} />
       )}
 
       <Footer />
     </PageRoot>
   )
 }
-
-export default PersonalInformationPage

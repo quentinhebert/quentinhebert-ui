@@ -170,6 +170,33 @@ const users = {
       console.error(err)
     }
   },
+  getSessions: async (userId) => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/users/${userId}/sessions`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  deleteSession: async (userId, sessionId) => {
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/users/${userId}/sessions/${sessionId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+          },
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
 }
 
 export default users

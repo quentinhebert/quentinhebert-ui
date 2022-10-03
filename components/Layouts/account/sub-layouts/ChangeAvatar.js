@@ -1,14 +1,14 @@
 import { Stack, Avatar } from "@mui/material"
 import { useEffect } from "react"
-import apiCall from "../../../services/apiCalls/apiCall"
-import withSnacks from "../../hocs/withSnacks"
-import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
+import apiCall from "../../../../services/apiCalls/apiCall"
+import withSnacks from "../../../hocs/withSnacks"
+import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import { compose } from "redux"
-import withAddAvatar from "../../hocs/withAddAvatar"
-import withConfirmAction from "../../hocs/withConfirmAction"
-import CustomForm from "../../ReusableComponents/forms/custom-form"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
-import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
+import withAddAvatar from "../../../hocs/withAddAvatar"
+import withConfirmAction from "../../../hocs/withConfirmAction"
+import CustomForm from "../../../ReusableComponents/forms/custom-form"
+import CustomSubmitButton from "../../../ReusableComponents/forms/custom-submit-button"
+import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/centered-max-width-container"
 
 function ChangeAvatar(props) {
   const {

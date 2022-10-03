@@ -1,14 +1,14 @@
 import { Button, Stack } from "@mui/material"
 import { useRouter } from "next/router"
 import { useState } from "react"
-import apiCall from "../../../services/apiCalls/apiCall"
-import withSnacks from "../../hocs/withSnacks"
-import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
-import { logout } from "../../../services/utils"
-import CustomForm from "../../ReusableComponents/forms/custom-form"
-import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
-import BodyText from "../../ReusableComponents/text/body-text"
-import CustomOutlinedInput from "../../ReusableComponents/forms/custom-outlined-input"
+import apiCall from "../../../../services/apiCalls/apiCall"
+import withSnacks from "../../../hocs/withSnacks"
+import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
+import { logout } from "../../../../services/utils"
+import CustomForm from "../../../ReusableComponents/forms/custom-form"
+import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/centered-max-width-container"
+import BodyText from "../../../ReusableComponents/text/body-text"
+import CustomOutlinedInput from "../../../ReusableComponents/forms/custom-outlined-input"
 
 const CopyPaste = (props) => (
   <Stack

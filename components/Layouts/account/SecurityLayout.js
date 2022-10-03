@@ -1,11 +1,12 @@
 import React from "react"
-import ChangePersonalInformation from "./sub-layouts/ChangePersonalInformation"
-import ChangeAvatar from "./sub-layouts/ChangeAvatar"
+import ChangePassword from "./sub-layouts/ChangePassword"
+import DeleteAccount from "./sub-layouts/DeleteAccount"
 import { Stack } from "@mui/material"
 import PageTitle from "../../ReusableComponents/titles/page-title"
 import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
+import Sessions from "./sub-layouts/Sessions"
 
-export default function ChangePersonalInformationLayout(props) {
+export default function SecurityLayout(props) {
   const { user, setUser } = props
 
   return (
@@ -16,12 +17,13 @@ export default function ChangePersonalInformationLayout(props) {
       padding="1rem"
       margin="100px 0"
     >
-      <PageTitle zIndex={1} text="Mes informations personnelles" />
+      <PageTitle zIndex={1} text="Sécurité" />
       <Breadcrumbs panel="account" />
 
       <Stack gap={4} margin="2rem 0">
-        <ChangeAvatar user={user} setUser={setUser} />
-        <ChangePersonalInformation user={user} setUser={setUser} />
+        <ChangePassword user={user} setUser={setUser} />
+        <Sessions user={user} setUser={setUser} />
+        <DeleteAccount user={user} setUser={setUser} />
       </Stack>
     </Stack>
   )

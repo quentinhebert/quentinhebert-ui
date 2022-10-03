@@ -9,6 +9,12 @@ const CARDS = [
       "Modifiez vos informations personnelles (avatar, e-mail, téléphone...).",
     button: { text: "Accéder", href: "/account/personal-information" },
   },
+  {
+    title: "Sécurité",
+    description:
+      "Gérez vos sessions de connexion, modifiez votre mot de passe...",
+    button: { text: "Accéder", href: "/account/security" },
+  },
 ]
 
 export default function AccountIndex(props) {
