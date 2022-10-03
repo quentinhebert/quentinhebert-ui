@@ -14,6 +14,8 @@ import withConfirmAction from "../../../hocs/withConfirmAction"
 import PleaseWait from "../../../ReusableComponents/helpers/please-wait"
 import LogoutIcon from "@mui/icons-material/Logout"
 import RefreshIcon from "@mui/icons-material/Refresh"
+import { getTimezoneOffset } from "date-fns-tz"
+import getLocaleDateTime from "../../../../services/time"
 
 const DataRow = (props) => (
   <BodyText
@@ -109,17 +111,15 @@ const RenderSessions = (props) => {
 
       {sessions &&
         sessions.map((session, key) => {
-          const formattedDate = new Date(session.date).toLocaleDateString(
-            "fr-FR",
-            {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            }
-          )
+          const localeDateTime = getLocaleDateTime(session.date, user.timezone)
+          let formattedDate = localeDateTime.toLocaleDateString("fr-FR", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })
           let formattedLocation = "Localisation inconnue"
           if (session.location.city && session.location.region)
             formattedLocation = `${session.location.city}, ${session.location.region}`
