@@ -17,6 +17,9 @@ const CssOutlinedInput = styled((props) => (
     {...props}
   />
 ))(({ theme }) => ({
+  "& .MuiAutocomplete-input": {
+    color: theme.palette.text.white,
+  },
   // color of the fieldset
   "& fieldset": {
     borderColor: theme.palette.secondary.main,

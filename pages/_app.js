@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }) {
   }
 
   return (
-    <UserContext.Provider value={{ user, setUser, setAccessToken }}>
+    <UserContext.Provider value={{ user, setUser, setAccessToken, fetchUser }}>
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
       </ThemeProvider>

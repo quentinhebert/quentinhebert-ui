@@ -2,7 +2,6 @@ import { useRouter } from "next/router"
 import { useContext, useEffect } from "react"
 import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
 import PageRoot from "../components/ReusableComponents/page-builder/page-root"
-import { defaultConfig } from "../config/defaultConfig"
 import { UserContext } from "../contexts/UserContext"
 import { logout } from "../services/utils"
 
@@ -18,8 +17,8 @@ export default function LogoutPage() {
   const type = "website"
   const ogImg = "/medias/ogimg.png"
 
-  // Check if user is logged in
-  const { user } = useContext(UserContext)
+  // USER CONTEXT
+  const { user, setUser, setAccessToken } = useContext(UserContext)
 
   const router = useRouter()
 

@@ -197,6 +197,21 @@ const users = {
       console.error(err)
     }
   },
+  updateTimeZone: async (userId, timezone) => {
+    const body = { timezone: timezone.label }
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/users/${userId}/timezone`, {
+        method: "PATCH",
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
 }
 
 export default users

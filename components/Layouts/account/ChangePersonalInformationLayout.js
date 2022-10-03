@@ -4,6 +4,7 @@ import ChangeAvatar from "./sub-layouts/ChangeAvatar"
 import { Stack } from "@mui/material"
 import PageTitle from "../../ReusableComponents/titles/page-title"
 import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
+import ChangeTimezone from "./sub-layouts/ChangeTimezone"
 
 export default function ChangePersonalInformationLayout(props) {
   const { user, setUser } = props
@@ -22,6 +23,7 @@ export default function ChangePersonalInformationLayout(props) {
       <Stack gap={4} margin="2rem 0">
         <ChangeAvatar user={user} setUser={setUser} />
         <ChangePersonalInformation user={user} setUser={setUser} />
+        <ChangeTimezone user={user} setUser={setUser} />
       </Stack>
     </Stack>
   )
