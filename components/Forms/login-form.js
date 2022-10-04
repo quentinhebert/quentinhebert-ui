@@ -306,6 +306,7 @@ export default function LoginForm(props) {
             style={{ width: "100%" }}
           >
             <RightSubmitButton
+              type="submit"
               onClick={login}
               disabled={
                 !passwordInput ||
