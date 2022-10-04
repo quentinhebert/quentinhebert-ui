@@ -23,6 +23,7 @@ import { ModalTitle } from "../Modals/Modal-Components/modal-title"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { useRouter } from "next/router"
+import CustomCircularProgress from "../ReusableComponents/custom-circular-progress"
 
 export default function LoginForm(props) {
   /********** PROPS **********/
@@ -39,6 +40,7 @@ export default function LoginForm(props) {
   const { setUser } = useContext(UserContext)
 
   /********** USE-STATES **********/
+  const [loading, setLoading] = useState(false)
   const [passwordInput, setPasswordInput] = useState("")
   const [emailInput, setEmailInput] = useState(
     passwordForgottenDefaultEmail || ""
@@ -168,6 +170,7 @@ export default function LoginForm(props) {
   const login = async (e) => {
     e.preventDefault()
     e.stopPropagation()
+    setLoading(true)
     const res = await apiCall.unauthenticated.login({
       email: emailInput,
       password: passwordInput,
@@ -194,6 +197,7 @@ export default function LoginForm(props) {
         title: "Wrong email or password",
       })
     }
+    setLoading(false)
   }
 
   const handleSetTokens = (token, refreshToken) => {
@@ -309,13 +313,14 @@ export default function LoginForm(props) {
               type="submit"
               onClick={login}
               disabled={
+                loading ||
                 !passwordInput ||
                 !emailInput ||
                 passwordInput.trim() === "" ||
                 emailInput.trim() === ""
               }
             >
-              Se connecter
+              {loading ? <CustomCircularProgress /> : "Se connecter"}
             </RightSubmitButton>
           </motion.div>
         </CustomForm>

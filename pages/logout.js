@@ -1,7 +1,9 @@
-import { useRouter } from "next/router"
+import { Stack } from "@mui/material"
 import { useContext, useEffect } from "react"
+import CustomCircularProgress from "../components/ReusableComponents/custom-circular-progress"
 import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
 import PageRoot from "../components/ReusableComponents/page-builder/page-root"
+import BodyText from "../components/ReusableComponents/text/body-text"
 import { UserContext } from "../contexts/UserContext"
 import { logout } from "../services/utils"
 
@@ -20,13 +22,13 @@ export default function LogoutPage() {
   // USER CONTEXT
   const { user, setUser, setAccessToken } = useContext(UserContext)
 
-  const router = useRouter()
-
   const handleLogout = async () => {
     const isLoggedOut = await logout() // clean local cookies
     if (isLoggedOut) {
       setAccessToken(null) // User Context
       setUser(null) // User Context}
+    } else {
+      window.location.href = "/"
     }
   }
 
@@ -34,8 +36,7 @@ export default function LogoutPage() {
     if (user) {
       handleLogout()
     }
-    router.push("/")
-  }, [user, router])
+  }, [user])
 
   return (
     <PageRoot>
@@ -46,6 +47,16 @@ export default function LogoutPage() {
         type={type}
         ogImg={ogImg}
       />
+      <Stack
+        alignItems="center"
+        justifyContent="center"
+        flexDirection="row"
+        gap={4}
+        flexGrow={1}
+      >
+        <CustomCircularProgress />
+        <BodyText fontSize="1rem">Déconnexion...</BodyText>
+      </Stack>
     </PageRoot>
   )
 }
