@@ -109,74 +109,104 @@ const RenderSessions = (props) => {
         </Stack>
       </Stack>
 
-      {sessions &&
-        sessions.map((session, key) => {
-          const localeDateTime = getLocaleDateTime(session.date, user.timezone)
-          let formattedDate = localeDateTime.toLocaleDateString("fr-FR", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          })
-          let formattedLocation = "Localisation inconnue"
-          if (session.location.city && session.location.region)
-            formattedLocation = `${session.location.city}, ${session.location.region}`
-          if (session.location.country && session.location.continent)
-            formattedLocation += ` (${session.location.country}, ${session.location.continent})`
+      <Stack width="100%">
+        {sessions &&
+          sessions.map((session, key) => {
+            const localeDateTime = getLocaleDateTime(
+              session.date,
+              user.timezone
+            )
+            let formattedDate = localeDateTime.toLocaleDateString("fr-FR", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            })
 
-          return (
-            <CustomAccordion
-              key={key}
-              title={
-                <Typography>
-                  {session.device.os.name + " / " + session.device.browser}
-                  <Box sx={{ color: (theme) => theme.palette.text.white }}>
-                    {session.location.region || "Localisation inconnue"}
-                  </Box>
-                </Typography>
-              }
-            >
-              <Stack gap={2}>
-                <DataRow>
-                  <PhoneVertical color="#fff" size="medium" />
-                  Appareil :{" "}
-                  <DataValue>
-                    {session.device.os.name + " " + session.device.os.version}
-                  </DataValue>
-                </DataRow>
-                <DataRow>
-                  <Language color="#fff" size="medium" />
-                  Navigateur : <DataValue>{session.device.browser}</DataValue>
-                </DataRow>
-                <DataRow>
-                  <Clock color="#fff" size="medium" />
-                  Dernière connexion : <DataValue>{formattedDate}</DataValue>
-                </DataRow>
-                <DataRow>
-                  <Map color="#fff" size="medium" />
-                  Localisation : <DataValue>{formattedLocation}</DataValue>
-                </DataRow>
+            const mainLocation = session.location?.location1
+            let formattedMainLocation = "Localisation inconnue"
+            if (mainLocation?.city && mainLocation?.region)
+              formattedMainLocation = `${mainLocation?.city} ${mainLocation?.postal_code}, ${mainLocation?.region}`
+            if (
+              mainLocation?.country &&
+              mainLocation?.continent &&
+              mainLocation?.flag
+            )
+              formattedMainLocation += ` (${mainLocation?.country} ${mainLocation?.flag}, ${mainLocation.continent})`
 
-                <Stack
-                  flexDirection="row"
-                  gap={2}
-                  justifyContent="end"
-                  marginTop={4}
-                >
-                  <CustomSubmitButton
-                    secondary="true"
-                    startIcon={<LogoutIcon />}
-                    onClick={() => handleDeleteSession(session.id)}
+            let shortMainLocation = "Localisation inconnue"
+            if (mainLocation?.region)
+              shortMainLocation = `${mainLocation?.region}`
+            if (mainLocation?.country && mainLocation?.flag)
+              shortMainLocation += ` (${mainLocation?.country} ${mainLocation?.flag})`
+
+            const secondaryLocation = session.location?.location2
+            let formattedSecondaryLocation = "Localisation inconnue"
+            if (secondaryLocation?.city && secondaryLocation?.region)
+              formattedSecondaryLocation = `${secondaryLocation?.city}, ${secondaryLocation?.region}`
+            if (secondaryLocation?.country)
+              formattedSecondaryLocation += ` (${secondaryLocation?.country})`
+
+            return (
+              <CustomAccordion
+                key={key}
+                title={
+                  <Typography>
+                    {session.device.os.name + " / " + session.device.browser}
+                    <Box sx={{ color: (theme) => theme.palette.text.white }}>
+                      {shortMainLocation}
+                    </Box>
+                  </Typography>
+                }
+              >
+                <Stack gap={2}>
+                  <DataRow>
+                    <PhoneVertical color="#fff" size="medium" />
+                    Appareil :{" "}
+                    <DataValue>
+                      {session.device.os.name + " " + session.device.os.version}
+                    </DataValue>
+                  </DataRow>
+                  <DataRow>
+                    <Language color="#fff" size="medium" />
+                    Navigateur : <DataValue>{session.device.browser}</DataValue>
+                  </DataRow>
+                  <DataRow>
+                    <Clock color="#fff" size="medium" />
+                    Dernière connexion : <DataValue>{formattedDate}</DataValue>
+                  </DataRow>
+                  <DataRow>
+                    <Map color="#fff" size="medium" />
+                    Localisation 1 :{" "}
+                    <DataValue>{formattedMainLocation}</DataValue>
+                  </DataRow>
+                  <DataRow>
+                    <Map color="#fff" size="medium" />
+                    Localisation 2 :{" "}
+                    <DataValue>{formattedSecondaryLocation}</DataValue>
+                  </DataRow>
+
+                  <Stack
+                    flexDirection="row"
+                    gap={2}
+                    justifyContent="end"
+                    marginTop={4}
                   >
-                    Déconnecter
-                  </CustomSubmitButton>
+                    <CustomSubmitButton
+                      secondary="true"
+                      startIcon={<LogoutIcon />}
+                      onClick={() => handleDeleteSession(session.id)}
+                    >
+                      Déconnecter
+                    </CustomSubmitButton>
+                  </Stack>
                 </Stack>
-              </Stack>
-            </CustomAccordion>
-          )
-        })}
+              </CustomAccordion>
+            )
+          })}
+      </Stack>
     </Stack>
   )
 }
