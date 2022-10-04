@@ -7,14 +7,13 @@ import CustomForm from "../../../ReusableComponents/forms/custom-form"
 import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/centered-max-width-container"
 import BodyText from "../../../ReusableComponents/text/body-text"
 import CustomAccordion from "../../../ReusableComponents/containers/custom-accordion"
-import { Clock, Map, PhoneVertical, Language } from "grommet-icons"
+import { Clock, Map, PhoneVertical, Language, Wifi } from "grommet-icons"
 import CustomSubmitButton from "../../../ReusableComponents/forms/custom-submit-button"
 import { compose } from "redux"
 import withConfirmAction from "../../../hocs/withConfirmAction"
 import PleaseWait from "../../../ReusableComponents/helpers/please-wait"
 import LogoutIcon from "@mui/icons-material/Logout"
 import RefreshIcon from "@mui/icons-material/Refresh"
-import { getTimezoneOffset } from "date-fns-tz"
 import getLocaleDateTime from "../../../../services/time"
 
 const DataRow = (props) => (
@@ -126,9 +125,32 @@ const RenderSessions = (props) => {
             })
 
             const mainLocation = session.location?.location1
-            let formattedMainLocation = "Localisation inconnue"
-            if (mainLocation?.city && mainLocation?.region)
-              formattedMainLocation = `${mainLocation?.city} ${mainLocation?.postal_code}, ${mainLocation?.region}`
+            let formattedMainLocation = ""
+
+            // If we have zero info about location
+            if (
+              !mainLocation?.city &&
+              !mainLocation?.postal_code &&
+              !mainLocation?.region
+            )
+              formattedMainLocation = "Localisation inconnue"
+
+            // If we have city, postal code and region
+            if (
+              mainLocation?.city &&
+              mainLocation?.postal_code &&
+              mainLocation?.region
+            )
+              formattedMainLocation = `${mainLocation?.city} ${mainLocation?.postal_code}, (${mainLocation?.region})`
+
+            // If we have only the region
+            if (
+              !mainLocation?.city &&
+              !mainLocation?.postal_code &&
+              mainLocation?.region
+            )
+              formattedMainLocation = `${mainLocation?.region}`
+
             if (
               mainLocation?.country &&
               mainLocation?.continent &&
@@ -172,6 +194,13 @@ const RenderSessions = (props) => {
                   <DataRow>
                     <Language color="#fff" size="medium" />
                     Navigateur : <DataValue>{session.device.browser}</DataValue>
+                  </DataRow>
+                  <DataRow>
+                    <Wifi color="#fff" size="medium" />
+                    Réseau :{" "}
+                    <DataValue>
+                      {mainLocation?.network || "Réseau inconnu"}
+                    </DataValue>
                   </DataRow>
                   <DataRow>
                     <Clock color="#fff" size="medium" />
