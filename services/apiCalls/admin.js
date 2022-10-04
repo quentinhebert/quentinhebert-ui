@@ -369,21 +369,18 @@ const admin = {
       console.error(err)
     }
   },
-  sortCategoryVideos: async (sortedVideoIds, categoryId) => {
+  sortFilms: async (sortedFilmIds) => {
     try {
-      const body = JSON.stringify({ sortedVideoIds })
+      const body = JSON.stringify({ sortedFilmIds })
 
-      return await fetch(
-        `${defaultConfig.apiUrl}/admin/categories/${categoryId}/sort-category-videos`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${await getFreshToken()}`,
-            "Content-Type": "application/json",
-          },
-          body: body,
-        }
-      )
+      return await fetch(`${defaultConfig.apiUrl}/admin/films/sort`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: body,
+      })
     } catch (err) {
       console.error(err)
     }

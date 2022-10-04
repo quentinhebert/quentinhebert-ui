@@ -1,4 +1,4 @@
-import { DialogContent, Stack, Typography } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { sortableContainer, sortableElement } from "react-sortable-hoc"
 import { arrayMoveImmutable } from "array-move"
@@ -73,10 +73,10 @@ export default function SortVideos(props) {
   const handleSaveSortedVideos = async () => {
     // We only send the sorted ids
     let sortedVideoIds = []
-    state.map((video, key) => {
+    state.map((video) => {
       sortedVideoIds.push(video.id)
     })
-    const res = await apiCall.admin.sortCategoryVideos(sortedVideoIds)
+    const res = await apiCall.admin.sortFilms(sortedVideoIds)
     if (res) handleClose()
   }
 
