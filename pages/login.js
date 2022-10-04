@@ -8,6 +8,7 @@ import PageRoot from "../components/ReusableComponents/page-builder/page-root"
 import { UserContext } from "../contexts/UserContext"
 import PleaseWait from "../components/ReusableComponents/helpers/please-wait"
 import { Stack } from "@mui/material"
+import { motion } from "framer-motion"
 
 export default function LoginPage() {
   // Main meta tags
@@ -28,26 +29,32 @@ export default function LoginPage() {
   if (user) router.push("/account")
 
   return (
-    <PageRoot>
-      <HtmlHead
-        title={title}
-        description={description}
-        follow={follow}
-        type={type}
-        ogImg={ogImg}
-      />
+    <motion.div
+      exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <PageRoot>
+        <HtmlHead
+          title={title}
+          description={description}
+          follow={follow}
+          type={type}
+          ogImg={ogImg}
+        />
 
-      <Navbar />
+        <Navbar />
 
-      {!user ? (
-        <LoginLayout redirect="/account" />
-      ) : (
-        <Stack flexGrow={1} justifyContent="center">
-          <PleaseWait />
-        </Stack>
-      )}
+        {!user ? (
+          <LoginLayout redirect="/account" />
+        ) : (
+          <Stack flexGrow={1} justifyContent="center">
+            <PleaseWait />
+          </Stack>
+        )}
 
-      <Footer />
-    </PageRoot>
+        <Footer />
+      </PageRoot>
+    </motion.div>
   )
 }

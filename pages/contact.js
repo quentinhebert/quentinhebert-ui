@@ -3,6 +3,7 @@ import PageRoot from "../components/ReusableComponents/page-builder/page-root"
 import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
 import Navbar from "../components/Navigation/Navbars/navbar"
 import Footer from "../components/Navigation/Footers/Footer"
+import { motion } from "framer-motion"
 
 function ContactPage() {
   // Main meta tags
@@ -20,22 +21,28 @@ function ContactPage() {
   const ogImg = "/medias/ogimg.png"
 
   return (
-    <PageRoot>
-      <HtmlHead
-        title={title}
-        description={description}
-        keywords={keywords}
-        follow={follow}
-        type={type}
-        ogImg={ogImg}
-      />
+    <motion.div
+      exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <PageRoot>
+        <HtmlHead
+          title={title}
+          description={description}
+          keywords={keywords}
+          follow={follow}
+          type={type}
+          ogImg={ogImg}
+        />
 
-      <Navbar />
+        <Navbar />
 
-      <ContactLayout />
+        <ContactLayout />
 
-      <Footer />
-    </PageRoot>
+        <Footer />
+      </PageRoot>
+    </motion.div>
   )
 }
 

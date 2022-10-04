@@ -3,6 +3,7 @@ import PageRoot from "../components/ReusableComponents/page-builder/page-root"
 import Navbar from "../components/Navigation/Navbars/navbar"
 import Footer from "../components/Navigation/Footers/Footer"
 import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
+import { motion } from "framer-motion"
 
 export default function HomePage() {
   // Main meta tags
@@ -20,20 +21,26 @@ export default function HomePage() {
   const ogImg = "/medias/ogimg.png"
 
   return (
-    <PageRoot>
-      <HtmlHead
-        title={title}
-        description={description}
-        keywords={keywords}
-        follow={follow}
-        type={type}
-        ogImg={ogImg}
-      />
-      <Navbar />
+    <motion.div
+      exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <PageRoot>
+        <HtmlHead
+          title={title}
+          description={description}
+          keywords={keywords}
+          follow={follow}
+          type={type}
+          ogImg={ogImg}
+        />
+        <Navbar />
 
-      <IndexLayout />
+        <IndexLayout />
 
-      <Footer />
-    </PageRoot>
+        <Footer />
+      </PageRoot>
+    </motion.div>
   )
 }

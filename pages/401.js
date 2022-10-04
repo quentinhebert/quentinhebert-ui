@@ -3,6 +3,7 @@ import Footer from "../components/Navigation/Footers/Footer"
 import Navbar from "../components/Navigation/Navbars/navbar"
 import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
 import PageRoot from "../components/ReusableComponents/page-builder/page-root"
+import { motion } from "framer-motion"
 
 export default function Custom401Page() {
   // Main meta tags
@@ -17,20 +18,26 @@ export default function Custom401Page() {
   const ogImg = "/medias/ogimg.png"
 
   return (
-    <PageRoot>
-      <HtmlHead
-        title={title}
-        description={description}
-        follow={follow}
-        type={type}
-        ogImg={ogImg}
-      />
+    <motion.div
+      exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <PageRoot>
+        <HtmlHead
+          title={title}
+          description={description}
+          follow={follow}
+          type={type}
+          ogImg={ogImg}
+        />
 
-      <Navbar />
+        <Navbar />
 
-      <Custom401Layout />
+        <Custom401Layout />
 
-      <Footer />
-    </PageRoot>
+        <Footer />
+      </PageRoot>
+    </motion.div>
   )
 }

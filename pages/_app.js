@@ -1,14 +1,15 @@
 import { ThemeProvider } from "@mui/material"
 import "../styles/globals.css"
 import theme from "../config/theme"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { UserContext } from "../contexts/UserContext"
 import { getToken } from "../services/cookies"
 import { getUser } from "../services/utils"
 import apiCall from "../services/apiCalls/apiCall"
 import Loading from "../components/Other/loading"
+import { AnimatePresence } from "framer-motion"
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, router }) {
   const [user, setUser] = useState(null)
   const [accessToken, setAccessToken] = useState(getToken())
 
@@ -35,7 +36,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <UserContext.Provider value={{ user, setUser, setAccessToken, fetchUser }}>
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <AnimatePresence exitBeforeEnter>
+          <Component {...pageProps} key={router.route} />
+        </AnimatePresence>
       </ThemeProvider>
     </UserContext.Provider>
   )
