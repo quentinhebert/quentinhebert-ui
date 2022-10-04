@@ -25,8 +25,11 @@ function MyApp({ Component, pageProps }) {
   }
   if (!user && !!accessToken && accessToken !== "") {
     fetchUser()
-    // return <Loading />
-    return null
+    return (
+      <body>
+        <Loading />
+      </body>
+    )
   }
 
   return (
