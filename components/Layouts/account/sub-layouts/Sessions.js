@@ -8,13 +8,19 @@ import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/ce
 import BodyText from "../../../ReusableComponents/text/body-text"
 import CustomAccordion from "../../../ReusableComponents/containers/custom-accordion"
 import { Clock, Map, PhoneVertical, Language, Wifi } from "grommet-icons"
+import ComputerRoundedIcon from "@mui/icons-material/ComputerRounded"
+import TabletRoundedIcon from "@mui/icons-material/TabletRounded"
 import CustomSubmitButton from "../../../ReusableComponents/forms/custom-submit-button"
 import { compose } from "redux"
 import withConfirmAction from "../../../hocs/withConfirmAction"
 import PleaseWait from "../../../ReusableComponents/helpers/please-wait"
 import LogoutIcon from "@mui/icons-material/Logout"
 import RefreshIcon from "@mui/icons-material/Refresh"
-import getLocaleDateTime from "../../../../services/time"
+import {
+  convertToLongString,
+  convertToShortString,
+  getLocaleDateTime,
+} from "../../../../services/date-time"
 
 const DataRow = (props) => (
   <BodyText
@@ -31,6 +37,23 @@ const DataRow = (props) => (
 const DataValue = (props) => (
   <Box color="text.secondary" fontStyle="italic" {...props} />
 )
+
+const DeviceIcon = ({ type }) => {
+  switch (type) {
+    case "desktop":
+      return <ComputerRoundedIcon sx={{ color: "#fff" }} />
+    case "tablet":
+      return <TabletRoundedIcon sx={{ color: "#fff" }} />
+    case "smartphone":
+      return <PhoneVertical color="#fff" size="medium" />
+    case "mobile":
+      return <PhoneVertical color="#fff" size="medium" />
+    case "phone":
+      return <PhoneVertical color="#fff" size="medium" />
+    default:
+      return <ComputerRoundedIcon sx={{ color: "#fff" }} />
+  }
+}
 
 const RenderSessions = (props) => {
   const {
@@ -111,18 +134,14 @@ const RenderSessions = (props) => {
       <Stack width="100%">
         {sessions &&
           sessions.map((session, key) => {
+            // Convert date time with user's timezone
             const localeDateTime = getLocaleDateTime(
               session.date,
               user.timezone
             )
-            let formattedDate = localeDateTime.toLocaleDateString("fr-FR", {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            })
+            // Convert date to long and short strings (UX readability)
+            let formattedDate = convertToLongString(localeDateTime)
+            let shortDate = convertToShortString(localeDateTime)
 
             const mainLocation = session.location?.location1
             let formattedMainLocation = ""
@@ -175,25 +194,37 @@ const RenderSessions = (props) => {
               <CustomAccordion
                 key={key}
                 title={
-                  <Typography>
-                    {session.device.os.name + " / " + session.device.browser}
-                    <Box sx={{ color: (theme) => theme.palette.text.white }}>
-                      {shortMainLocation}
-                    </Box>
-                  </Typography>
+                  <Stack flexDirection="row" alignItems="center" gap={2}>
+                    <DeviceIcon type={session.device.type} />
+                    <Typography>
+                      {`${session.device.brand || ""} ${
+                        session.device.os.name
+                      } ${session.device.os.version} / ${
+                        session.device.browser
+                      }`}
+                      <Box sx={{ color: (theme) => theme.palette.text.white }}>
+                        {shortMainLocation} – {shortDate}
+                      </Box>
+                    </Typography>
+                  </Stack>
                 }
               >
                 <Stack gap={2}>
                   <DataRow>
-                    <PhoneVertical color="#fff" size="medium" />
+                    <DeviceIcon type={session.device.type} />
                     Appareil :{" "}
                     <DataValue>
-                      {session.device.os.name + " " + session.device.os.version}
+                      {`${session.device.model || ""} ${
+                        session.device.os.name
+                      } (${session.device.os.version})`}
                     </DataValue>
                   </DataRow>
                   <DataRow>
                     <Language color="#fff" size="medium" />
-                    Navigateur : <DataValue>{session.device.browser}</DataValue>
+                    Navigateur :{" "}
+                    <DataValue>
+                      {session.device.browser || "Navigateur inconnu"}
+                    </DataValue>
                   </DataRow>
                   <DataRow>
                     <Wifi color="#fff" size="medium" />
