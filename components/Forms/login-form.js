@@ -23,7 +23,6 @@ import { ModalTitle } from "../Modals/Modal-Components/modal-title"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { useRouter } from "next/router"
-import CustomCircularProgress from "../ReusableComponents/custom-circular-progress"
 
 export default function LoginForm(props) {
   /********** PROPS **********/
@@ -320,7 +319,7 @@ export default function LoginForm(props) {
                 emailInput.trim() === ""
               }
             >
-              {loading ? <CustomCircularProgress /> : "Se connecter"}
+              {loading ? "Patientez..." : "Se connecter"}
             </RightSubmitButton>
           </motion.div>
         </CustomForm>
