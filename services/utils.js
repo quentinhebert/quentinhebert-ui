@@ -38,7 +38,11 @@ export async function getFreshToken() {
     return tokens.token
   }
   console.info("Couldn't get an access token")
-  return removeToken()
+
+  removeToken()
+
+  // Trick to force the app to reload and detect there is no access token anymore from cookies
+  window.location.reload()
 }
 
 export function checkEmail(email) {

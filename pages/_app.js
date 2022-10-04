@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@mui/material"
 import "../styles/globals.css"
 import theme from "../config/theme"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { UserContext } from "../contexts/UserContext"
 import { getToken } from "../services/cookies"
 import { getUser } from "../services/utils"
