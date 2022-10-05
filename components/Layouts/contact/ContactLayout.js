@@ -36,14 +36,7 @@ export default function ContactLayout(props) {
   }
 
   return (
-    <Stack
-      ref={ref}
-      overflow="hidden"
-      sx={{
-        background: (theme) =>
-          `linear-gradient(150deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`,
-      }}
-    >
+    <Stack ref={ref} overflow="hidden">
       <CenteredMaxWidthContainer pixels="1200px" percents="80%">
         <Stack
           alignItems="start"

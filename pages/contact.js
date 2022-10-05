@@ -4,6 +4,7 @@ import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
 import Navbar from "../components/Navigation/Navbars/navbar"
 import Footer from "../components/Navigation/Footers/Footer"
 import { motion } from "framer-motion"
+import { Box } from "@mui/material"
 
 function ContactPage() {
   // Main meta tags
@@ -37,6 +38,16 @@ function ContactPage() {
         />
 
         <Navbar />
+
+        <Box
+          sx={{
+            position: "fixed",
+            width: "100%",
+            height: "100%",
+            background: (theme) =>
+              `linear-gradient(150deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`,
+          }}
+        />
 
         <ContactLayout />
 
