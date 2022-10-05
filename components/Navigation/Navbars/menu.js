@@ -3,6 +3,13 @@ import { Dialog, Stack, Typography } from "@mui/material"
 import Link from "next/link"
 import theme from "../../../config/theme"
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
+import { forwardRef, useEffect } from "react"
+import { useAnimation, motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="left" ref={ref} {...props} />
+})
 
 export default function Menu(props) {
   const { open, handleClose, list, page } = props
@@ -11,12 +18,34 @@ export default function Menu(props) {
     handleClose()
   }
 
+  /********** ANIMATION **********/
+  const [viewRef, inView] = useInView()
+  const controls = useAnimation()
+  const variants = (key) => {
+    return {
+      visible: {
+        opacity: 1,
+        transition: { duration: 1, delay: key / 10 },
+      },
+      hidden: { opacity: 0 },
+    }
+  }
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible")
+    } else {
+      controls.start("hidden")
+    }
+  }, [controls, inView])
+
   return (
     <Dialog
       open={open}
       onClose={handleCloseReset}
       onClick={handleCloseReset}
       fullScreen
+      TransitionComponent={Transition}
+      keepMounted
       sx={{
         zIndex: 999,
         ".MuiPaper-root": {
@@ -35,17 +64,17 @@ export default function Menu(props) {
         justifyContent="center"
         alignItems="center"
       >
-        <Slide
-          direction={open ? "right" : "left"}
-          in={open}
-          mountOnEnter
-          unmountOnExit
-        >
-          <Stack textAlign="center">
-            {list?.length > 0 &&
-              list.map((item, key) => {
-                return (
-                  <Link href={item.href} passHref key={key}>
+        <Stack textAlign="center" ref={viewRef}>
+          {list?.length > 0 &&
+            list.map((item, key) => {
+              return (
+                <motion.div
+                  initial="hidden"
+                  variants={variants(key)}
+                  animate={controls}
+                  key={key}
+                >
+                  <Link href={item.href} passHref>
                     <Typography
                       className="no-select"
                       key={key}
@@ -71,10 +100,10 @@ export default function Menu(props) {
                       {item.label}
                     </Typography>
                   </Link>
-                )
-              })}
-          </Stack>
-        </Slide>
+                </motion.div>
+              )
+            })}
+        </Stack>
       </Stack>
     </Dialog>
   )
