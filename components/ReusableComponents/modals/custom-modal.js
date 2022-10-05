@@ -10,7 +10,7 @@ export default function CustomModal(props) {
   const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
   return (
     <Dialog
-      fullScreen={sm}
+      fullScreen={props.fullscreen || sm}
       fullWidth
       open={props.open}
       onClose={props.handleClose}
@@ -28,7 +28,8 @@ export default function CustomModal(props) {
         sx={{
           padding: { xs: 2, md: 4 },
           margin: "auto 0",
-          height: { xs: "100vh", md: "" },
+          height: props.fullscreen ? "auto" : { xs: "100vh", md: "" },
+          flexGrow: props.fullscreen ? 1 : null,
           background: (theme) =>
             `linear-gradient(100deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`,
         }}
