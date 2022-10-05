@@ -67,7 +67,7 @@ const SortableListItem = sortableElement(
           onClick={handleOpenEditModal}
         >
           <Stack
-            className="no-select flex-center bg-cover-hover relative"
+            className="no-select flex-center relative"
             sx={{
               cursor: showMenu ? "pointer" : "grab",
               padding: ".5rem",
@@ -76,10 +76,12 @@ const SortableListItem = sortableElement(
               background: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${
                 item.thumbnail_url || "/medias/default.jpg"
               })`,
+              backgroundSize: "cover",
               "&:hover": {
                 background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${
                   item.thumbnail_url || "/medias/default.jpg"
                 })`,
+                backgroundSize: "cover",
               },
             }}
           >
