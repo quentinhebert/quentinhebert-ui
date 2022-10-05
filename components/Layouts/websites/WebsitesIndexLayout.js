@@ -7,7 +7,7 @@ import WebsitesWhyADevPart from "./WebsitesWhyADevPart"
 import WebsitesPortfolio from "./WebsitesPortfolio"
 
 export default function WebsitesIndexLayout(props) {
-  const { refForScroll } = props
+  const {} = props
 
   const topRef = useRef()
   const whyADevRef = useRef()
@@ -17,14 +17,12 @@ export default function WebsitesIndexLayout(props) {
     whyADev: whyADevRef,
     focus: focusRef,
   }
-  const scrollTo = (ref) => {
-    ref.current.scrollIntoView({
-      behavior: "smooth",
-    })
-  }
 
   return (
     <>
+      {/* TOP Anchor */}
+      <Stack ref={refsForScroll.top} />
+
       {/* Fixed Background for the page */}
       <Stack
         position="fixed"
