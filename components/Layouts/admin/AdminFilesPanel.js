@@ -56,7 +56,7 @@ const headCells = [
     label: "Type",
   },
   {
-    id: "mimetype",
+    id: "mime_type",
     numeric: false,
     label: "MIME-Type",
   },
@@ -106,7 +106,7 @@ function AdminFilesPanel(props) {
       const result = await res.json()
       await result.map((file, key) => {
         localArray.push(file)
-        localTotalSize += file.size
+        localTotalSize += Number(file.size)
       })
       localTotalSize = Number(formatter.format(localTotalSize / 1024 / 1024))
       setTotalSize(localTotalSize)
