@@ -1,4 +1,4 @@
-import { Paper, Stack } from "@mui/material"
+import { Box, Paper, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
 import { compose } from "redux"
 import apiCall from "../../../../services/apiCalls/apiCall"
@@ -8,6 +8,8 @@ import SortVideos from "../../../Modals/sort-videos"
 import CustomTable from "../../../Sections/custom-table"
 import BodyText from "../../../ReusableComponents/text/body-text"
 import AddFilmModal from "../../../Modals/Create-Modals/add-film-modal"
+import CustomOutlinedButton from "../../../ReusableComponents/buttons/custom-outlined-button"
+import SortIcon from "@mui/icons-material/Sort"
 
 const headCells = [
   {
@@ -47,7 +49,6 @@ const headCells = [
 
 function FilmsPanel(props) {
   const {
-    user,
     setSeverity,
     setOpenSnackBar,
     setMessageSnack,
@@ -135,6 +136,15 @@ function FilmsPanel(props) {
         Ci-dessous, vous pouvez ajouter, modifier ou supprimer une ou plusieurs
         films de votre site.
       </BodyText>
+
+      <Box>
+        <CustomOutlinedButton
+          onClick={() => setOpenSortVideosModal(true)}
+          startIcon={<SortIcon />}
+        >
+          Modifier l'ordre des films
+        </CustomOutlinedButton>
+      </Box>
 
       <Stack alignItems="center" justifyContent="center" direction="column">
         <Paper
