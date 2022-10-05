@@ -8,6 +8,7 @@ const secondaryDark = "#825E09"
 const secondaryLight = "#F5BB5F"
 const link = "#06c"
 const errorColor = "#f44336"
+const grey = "#696969"
 
 /*
 
@@ -40,6 +41,7 @@ const mainTheme = createTheme({
       paper: primaryDark,
       alert: "rgb(255, 226, 183)",
       white: "#dddddd",
+      grey: grey,
     },
     text: {
       primary: primary,
@@ -49,6 +51,7 @@ const mainTheme = createTheme({
       secondaryDark: secondaryDark,
       secondaryLight: secondaryLight,
       white: "#fff",
+      grey: grey,
       link: link,
     },
     error: {

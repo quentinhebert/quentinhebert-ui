@@ -12,6 +12,7 @@ function AlertInfo(props) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
+      style={{ width: "100%" }}
     >
       <Stack style={{ marginTop: 10, marginBottom: 10, width: "100%" }}>
         <Alert
