@@ -2,22 +2,28 @@ import { Box, Stack } from "@mui/material"
 import PageTitle from "../../ReusableComponents/titles/page-title"
 import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
 import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
-import SuperIcon from "supercons"
-import { Icon } from "react-icons-kit"
-import { videoCamera } from "react-icons-kit/icomoon/videoCamera"
+import FlashingRec from "../../Animation/FlashingRec"
+import FlashingUnderscore from "../../Animation/flashing-underscore"
 
 const CARDS = [
   {
-    title: "Films",
-    icon: <Icon icon={videoCamera} size={80} />,
-    description:
-      "Modifiez les informations de votre site (descriptions, footer, barre de navigation...).",
+    title: (
+      <>
+        Vidéo
+        <FlashingRec color={(theme) => theme.palette.text.white} />
+      </>
+    ),
+    description: "Gérez tout ce qui concerne votre contenu de vidéaste.",
     button: { text: "Gérer", href: "/admin/back-office/films" },
   },
   {
-    title: "Sites web",
-    icon: <SuperIcon glyph="event-code" size={80} />,
-    description: "Ajoutez, modifiez et supprimez du contenu de votre site.",
+    title: (
+      <>
+        Web
+        <FlashingUnderscore color={(theme) => theme.palette.text.white} />
+      </>
+    ),
+    description: "Gérez tout ce qui concerne votre contenu de développeur.",
     button: { text: "Gérer", href: "/admin/back-office/websites" },
   },
 ]

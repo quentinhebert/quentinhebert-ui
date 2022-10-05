@@ -2,7 +2,7 @@ import { Box, Stack, Typography } from "@mui/material"
 import styles from "../../styles/FlashingRedDot.module.css"
 import CircleIcon from "@mui/icons-material/Circle"
 
-export default function FlashingRec() {
+export default function FlashingRec(props) {
   return (
     <Stack position="relative">
       <Stack
@@ -20,7 +20,7 @@ export default function FlashingRec() {
       >
         <CircleIcon
           sx={{
-            color: (theme) => theme.palette.text.secondary,
+            color: props.color || ((theme) => theme.palette.text.secondary),
             display: "flex",
             marginRight: ".25rem",
             width: ".5rem",
@@ -29,7 +29,9 @@ export default function FlashingRec() {
         <Typography
           letterSpacing={1.5}
           fontSize="0.75rem"
-          color="text.secondary"
+          sx={{
+            color: props.color || ((theme) => theme.palette.text.secondary),
+          }}
         >
           Rec
         </Typography>

@@ -12,7 +12,7 @@ const CARDS = [
     icon: <InfoOutlinedIcon sx={{ marginRight: ".5rem", fontSize: "5rem" }} />,
     description:
       "Modifiez les informations de votre site (descriptions, footer, barre de navigation...).",
-    button: { text: "Gérer", href: "/admin/manage-website-informations" },
+    button: { text: "Accéder", href: "/admin/manage-website-informations" },
   },
   {
     title: "Back-Office",
@@ -20,7 +20,7 @@ const CARDS = [
       <DesktopMacOutlinedIcon sx={{ marginRight: ".5rem", fontSize: "5rem" }} />
     ),
     description: "Ajoutez, modifiez et supprimez du contenu de votre site.",
-    button: { text: "Gérer", href: "/admin/back-office" },
+    button: { text: "Accéder", href: "/admin/back-office" },
   },
   {
     title: "Utilisateurs",
