@@ -112,16 +112,77 @@ const ContactLink = ({ href, text, icon }) => (
   </Link>
 )
 
+const ContactLinks = ({ contact }) => {
+  if (!contact || !contact.length) return <></>
+
+  return contact.map((item) => {
+    let prefix
+    const ICONS = {
+      phone: <LocalPhoneIcon />,
+      email: <EmailIcon />,
+    }
+    if (item.type === "phone") prefix = "tel"
+    if (item.type === "email") prefix = "mailto"
+
+    if (item.show || item.show === null)
+      return (
+        <ContactLink
+          href={`${prefix}:${item.value}`}
+          text={item.value}
+          icon={ICONS[item.type]}
+        />
+      )
+  })
+}
+
 const LocationText = ({ text, icon }) => (
   <Stack
     display="flex"
     flexDirection="row"
     sx={{ color: (theme) => theme.palette.text.white }}
   >
-    {icon}
+    {icon || null}
     <Typography sx={{ marginLeft: "1rem" }}>{text}</Typography>
   </Stack>
 )
+
+const AddressSection = ({ addressItems }) => {
+  // Get data values
+  let parsedAddress = ""
+  const line1 = addressItems.filter((elt) => elt.type === "address_line_1")[0]
+    ?.value
+  const line2 = addressItems.filter((elt) => elt.type === "address_line_2")[0]
+    ?.value
+  const postalCode = addressItems.filter(
+    (elt) => elt.type === "address_postal_code"
+  )[0]?.value
+  const city = addressItems.filter((elt) => elt.type === "address_city")[0]
+    ?.value
+  const region = addressItems.filter((elt) => elt.type === "address_region")[0]
+    ?.value
+  const country = addressItems.filter(
+    (elt) => elt.type === "address_country"
+  )?.value
+  const mobility = addressItems.filter((elt) => elt.type === "mobility")[0]
+    ?.value
+
+  // Parse the address from data
+  if (line1) parsedAddress += `${line1},`
+  if (line2) parsedAddress += ` ${line2},`
+  if (city) parsedAddress += ` ${city}`
+  if (postalCode) parsedAddress += ` ${postalCode}`
+  if (region) parsedAddress += `, ${region}`
+  if (country) parsedAddress += `, ${country}`
+
+  return (
+    <>
+      <LocationText text={parsedAddress} icon={<LocationOnIcon />} />
+      {mobility && (
+        <LocationText text={mobility} icon={<DirectionsCarIcon />} />
+      )}
+    </>
+  )
+}
 
 export default function LeftPartContact(props) {
   const { data } = useSWR(
@@ -141,6 +202,7 @@ export default function LeftPartContact(props) {
       alignItems={"flex-start"}
       justifyContent="center"
       margin="0 auto"
+      paddingRight={10}
       gap={2}
     >
       <PageTitle
@@ -154,24 +216,9 @@ export default function LeftPartContact(props) {
 
       <SmallTitle>Informations utiles</SmallTitle>
       <Stack sx={{ letterSpacing: "1.5px", gap: "0.7rem" }}>
-        <ContactLink
-          href="tel:+33 6 11 54 17 75"
-          text="06 11 54 17 75"
-          icon={<LocalPhoneIcon />}
-        />
-        <ContactLink
-          href="mailto:hello@quentinhebert.com"
-          text="hello@quentinhebert.com"
-          icon={<EmailIcon />}
-        />
-        <LocationText
-          text="Compiègne, Hauts-De-France"
-          icon={<LocationOnIcon />}
-        />
-        <LocationText
-          text="Disponible partout en France"
-          icon={<DirectionsCarIcon />}
-        />
+        <ContactLinks contact={data.contact} />
+
+        <AddressSection addressItems={data.address} />
       </Stack>
     </Stack>
   )

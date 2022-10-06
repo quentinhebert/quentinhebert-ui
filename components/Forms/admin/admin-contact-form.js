@@ -139,19 +139,7 @@ const Caroussel = ({
             {`${card.title} (${index + 1}/${cards.length})`}
           </SmallTitle>
 
-          {card.description?.length &&
-            card.description.map((descItem, key) => (
-              <AlertInfo
-                key={key}
-                content={{
-                  show: true,
-                  severity: "info",
-                  text: descItem,
-                }}
-              />
-            ))}
-
-          {sortDisabled ? (
+          {card.id === "address" ? null : sortDisabled ? (
             <CustomOutlinedButton
               onClick={handleEnableSort}
               startIcon={<SortIcon />}
@@ -172,6 +160,18 @@ const Caroussel = ({
             </Stack>
           )}
 
+          {card.description?.length &&
+            card.description.map((descItem, key) => (
+              <AlertInfo
+                key={key}
+                content={{
+                  show: true,
+                  severity: "info",
+                  text: descItem,
+                }}
+              />
+            ))}
+
           <Reorder.Group
             axis="y"
             values={card.items}
@@ -182,7 +182,7 @@ const Caroussel = ({
               <ReorderItem
                 key={item.type}
                 item={item}
-                sortDisabled={sortDisabled}
+                sortDisabled={sortDisabled || card.id === "address"}
               >
                 <Stack
                   id={item.type}
