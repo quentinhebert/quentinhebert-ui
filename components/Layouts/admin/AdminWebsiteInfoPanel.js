@@ -20,7 +20,7 @@ export default function AdminWebsiteInfoPanel() {
   const CARDS = [
     {
       title: "Navbar",
-      description: "Modifier les noms de pages dans la barre de navigation.",
+      description: "Modifiez les noms de pages dans la barre de navigation.",
       button: {
         text: "Modifier",
         onClick: () => {
@@ -32,7 +32,7 @@ export default function AdminWebsiteInfoPanel() {
     {
       id: "footer",
       title: "Footer",
-      description: "Modifier les informations du footer (crédits)",
+      description: "Modifiez les informations du footer (crédits)",
       button: {
         text: "Modifier",
         onClick: () => {
