@@ -413,6 +413,21 @@ const admin = {
       console.error(err)
     }
   },
+  updateFooter: async (credits) => {
+    const body = { credits }
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/footer`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
 }
 
 export default admin

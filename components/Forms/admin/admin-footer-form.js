@@ -8,10 +8,11 @@ import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
+import withSnacks from "../../hocs/withSnacks"
 
-export default function AdminFooterForm(props) {
+function AdminFooterForm(props) {
   /********** PROPS **********/
-  const { handleClose } = props
+  const { handleClose, setSeverity, setOpenSnackBar, setMessageSnack } = props
 
   /********** USE-STATES **********/
   const [credits, setCredits] = useState("")
@@ -55,8 +56,23 @@ export default function AdminFooterForm(props) {
     fetchFooter()
   }, [])
 
-  const handleSaveFooter = () => {
-    //
+  const handleSuccess = () => {
+    setSeverity("success")
+    setOpenSnackBar(true)
+    setMessageSnack("Footer mis à jour")
+    handleClose()
+    fetchFooter() // reset form
+  }
+  const handleError = () => {
+    setSeverity("error")
+    setOpenSnackBar(true)
+    setMessageSnack("Footer non mis à jour")
+  }
+  const handleSaveFooter = async () => {
+    console.debug(credits)
+    const res = await apiCall.admin.updateFooter(credits)
+    if (res && res.ok) handleSuccess()
+    else handleError()
   }
 
   const handleCancel = async () => {
@@ -119,3 +135,5 @@ export default function AdminFooterForm(props) {
     </Stack>
   )
 }
+
+export default withSnacks(AdminFooterForm)
