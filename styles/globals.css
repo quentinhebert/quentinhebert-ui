@@ -106,6 +106,18 @@ body {
 .pointer {
   cursor: pointer
 }
+.no-padding {
+  padding: 0
+}
+.gap-10 {
+  gap: 10px
+}
+.gap-2 {
+  gap: 2px
+}
+.gap-4 {
+  gap: 4px
+}
 
 .no-select {
   -webkit-touch-callout: none; /* iOS Safari */

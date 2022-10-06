@@ -441,6 +441,25 @@ const admin = {
       console.error(error)
     }
   },
+  updateWebsiteContact: async (contactItems) => {
+    const body = {
+      address: contactItems.address,
+      contact: contactItems.contact,
+      social_medias: contactItems.social_medias,
+    }
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/website-contact`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
 }
 
 export default admin

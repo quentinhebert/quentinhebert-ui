@@ -9,6 +9,11 @@ interface Props {
 export default function ReorderIcon({ dragControls }: Props) {
   return (
     <DragIndicatorIcon color='secondary'
-    onPointerDown={(event) => dragControls.start(event)}/>
+      sx={{"&:hover": {cursor: 'grab'}}}
+      onPointerDown={(event) => {
+        event.stopPropagation()
+        dragControls.start(event)
+      }}
+    />
   );
 }

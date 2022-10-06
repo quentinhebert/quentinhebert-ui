@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Box, Link, Stack, Typography, useMediaQuery } from "@mui/material"
+import { Box, Link, Stack, Typography } from "@mui/material"
 import PageTitle from "../../ReusableComponents/titles/page-title"
 import SmallTitle from "../../ReusableComponents/titles/small-title"
 import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on-hover-stack"
@@ -10,24 +10,6 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar"
 import styles from "../../../styles/TextShine.module.css"
 import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
-
-const SOCIAL_MEDIAS = [
-  {
-    type: "youtube",
-    icon: "/medias/social_icons/youtube.svg",
-    link: "https://www.youtube.com/c/NarcoProd",
-  },
-  {
-    type: "instagram",
-    icon: "/medias/social_icons/instagram.svg",
-    link: "https://www.instagram.com/tarte_a_la_courgette",
-  },
-  {
-    type: "facebook",
-    icon: "/medias/social_icons/facebook.svg",
-    link: "https://www.facebook.com/kioulekiou/",
-  },
-]
 
 const SOCIAL_MEDIAS_ICONS = [
   {
@@ -41,6 +23,34 @@ const SOCIAL_MEDIAS_ICONS = [
   {
     type: "facebook_url",
     icon: "/medias/social_icons/facebook.svg",
+  },
+  {
+    type: "tiktok_url",
+    icon: "/medias/social_icons/tiktok.svg",
+  },
+  {
+    type: "linkedin_url",
+    icon: "/medias/social_icons/linkedin.svg",
+  },
+  {
+    type: "snapchat_url",
+    icon: "/medias/social_icons/snapchat.svg",
+  },
+  {
+    type: "whatsapp_url",
+    icon: "/medias/social_icons/whatsapp.svg",
+  },
+  {
+    type: "pinterest_url",
+    icon: "/medias/social_icons/pinterest.svg",
+  },
+  {
+    type: "vimeo_url",
+    icon: "/medias/social_icons/vimeo.svg",
+  },
+  {
+    type: "twitter_url",
+    icon: "/medias/social_icons/twitter.svg",
   },
 ]
 

@@ -10,14 +10,10 @@ export default function ReorderItem({ item, sortDisabled, ...props }) {
     <Reorder.Item
       value={item}
       id={item}
+      className="flex row flex-center full-width"
       style={{
         y,
         x: 0,
-        flexDirection: "row",
-        display: "flex",
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "center",
       }}
       dragListener={false}
       dragControls={dragControls}

@@ -4,21 +4,20 @@ import apiCall from "../../../services/apiCalls/apiCall"
 import AlertInfo from "../../Other/alert-info"
 import CustomForm from "../../ReusableComponents/forms/custom-form"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
-import { useAnimation, motion, Reorder } from "framer-motion"
-import { useInView } from "react-intersection-observer"
+import { Reorder } from "framer-motion"
 import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
 import CustomFilledInput from "../../ReusableComponents/forms/custom-filled-input"
-import SwipeableViews from "react-swipeable-views"
-import styles from "../../../styles/TextShine.module.css"
-import SwipeIcon from "@mui/icons-material/Swipe"
-import Stepper from "../../Navigation/stepper"
 import SmallTitle from "../../ReusableComponents/titles/small-title"
 import InTextLink from "../../ReusableComponents/text/in-text-link"
 import SwitchButton from "../../ReusableComponents/buttons/switch-button"
 import CustomTooltip from "../../ReusableComponents/helpers/tooltip"
 import PleaseWait from "../../ReusableComponents/helpers/please-wait"
-import OutlinedButton from "../../ReusableComponents/buttons/outlined-button"
 import ReorderItem from "../../ReusableComponents/reorder/reorder-item"
+import MotionDivDownOnMount from "../../ReusableComponents/animations/motion-div-down-on-mount"
+import SortIcon from "@mui/icons-material/Sort"
+import CustomOutlinedButton from "../../ReusableComponents/buttons/custom-outlined-button"
+import SwipeableViewsReadyToUse from "../../ReusableComponents/containers/swipeable-view-ready-to-use"
+import withSnacks from "../../hocs/withSnacks"
 
 const Caroussel = ({
   addressItems,
@@ -48,7 +47,8 @@ const Caroussel = ({
       description: [
         <Typography>
           L'adresse e-mail que vous renseignez sera celle qui sera affichée sur
-          la page de <InTextLink text="contact" href="/contact" />
+          la page de <InTextLink text="contact" href="/contact" /> et dans le
+          footer.
         </Typography>,
       ],
     },
@@ -67,36 +67,6 @@ const Caroussel = ({
       description: null,
     },
   ]
-
-  /********** ANIMATION **********/
-  const [ref, inView] = useInView()
-  const controls = useAnimation()
-  const variants = (key) => {
-    return {
-      visible: {
-        opacity: 1,
-        y: 1,
-        transition: { duration: 1, delay: key / 10 },
-      },
-      hidden: { opacity: 0, y: -25 },
-    }
-  }
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible")
-    } else {
-      controls.start("hidden")
-    }
-  }, [controls, inView])
-  const motionDivStyle = {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    gap: 10,
-    alignSelf: "start",
-    listStyle: "none",
-    padding: 0,
-  }
 
   // Handle change data (contact items)
   const handleChange = (attribute, value, card, key) => {
@@ -119,149 +89,147 @@ const Caroussel = ({
 
   // Handle sort items (reorder)
   const handleEnableSort = () => setSortDisabled(false)
-  const handleApplySortToState = (group) => (e) => {
-    const newStateSorted = traditionalContactItems
-    setContactItems({ ...contactItems, [group]: newStateSorted })
+  const handleApplySortToState = () => {
+    // Get a copy
+    const localContactItems = contactItems
+
+    // Perform changes for each group (not only the first slide)
+    cards.map((card) => {
+      localContactItems = { ...localContactItems, [card.id]: card.items }
+    })
+
+    // Update attribute "order" in each contact item
+    Object.keys(localContactItems)
+      .map((group) => localContactItems[group])
+      .map((group) => {
+        group.map((item, key) => {
+          item.order = key + 1
+        })
+      })
+
+    // Update state
+    setContactItems(localContactItems)
     setSortDisabled(true)
   }
-  const handleCancelSort = (group) => (e) => {
+  const handleCancelSort = (group) => () => {
     const newStateSorted = contactItems[group]
     setContactItems({ ...contactItems, [group]: newStateSorted })
     setSortDisabled(true)
   }
 
   return (
-    <Stack ref={ref}>
-      <SwipeableViews
-        index={index}
-        disableLazyLoading
-        enableMouseEvents
-        onChangeIndex={handleChangeIndex}
-        axis="x"
-        springConfig={{
-          duration: "1s",
-          easeFunction: "cubic-bezier(0.1, 0.8, 0.3, 1)",
-          delay: "0s",
-        }}
-      >
-        {cards.map((card, key) => (
-          <motion.div
-            key={key}
-            initial="hidden"
-            variants={variants(0)}
-            animate={controls}
-            role="tabpanel"
-            id={`full-width-tabpanel-0`}
-            style={motionDivStyle}
+    <SwipeableViewsReadyToUse
+      index={index}
+      setIndex={setIndex}
+      handleChangeIndex={handleChangeIndex}
+      totalSteps={cards.length}
+    >
+      {cards.map((card, key) => (
+        <MotionDivDownOnMount
+          key={key}
+          role="tabpanel"
+          id={`full-width-tabpanel-0`}
+          className="flex column gap-10 full-width"
+          style={{ alignSelf: "start" }}
+        >
+          <SmallTitle
+            textAlign="left"
+            color={(theme) => theme.palette.text.white}
           >
-            <SmallTitle
-              textAlign="left"
-              color={(theme) => theme.palette.text.white}
-            >
-              {`${card.title} (${index + 1}/3)`}
-            </SmallTitle>
+            {`${card.title} (${index + 1}/${cards.length})`}
+          </SmallTitle>
 
-            {card.description?.length &&
-              card.description.map((descItem, key) => (
-                <AlertInfo
-                  key={key}
-                  content={{
-                    show: true,
-                    severity: "info",
-                    text: descItem,
+          {card.description?.length &&
+            card.description.map((descItem, key) => (
+              <AlertInfo
+                key={key}
+                content={{
+                  show: true,
+                  severity: "info",
+                  text: descItem,
+                }}
+              />
+            ))}
+
+          {sortDisabled ? (
+            <CustomOutlinedButton
+              onClick={handleEnableSort}
+              startIcon={<SortIcon />}
+            >
+              Modifier l'ordre
+            </CustomOutlinedButton>
+          ) : (
+            <Stack className="row gap-10">
+              <CustomOutlinedButton
+                onClick={handleCancelSort(card.id)}
+                color={(theme) => theme.palette.text.white}
+              >
+                Annuler
+              </CustomOutlinedButton>
+              <CustomOutlinedButton onClick={handleApplySortToState}>
+                Appliquer l'ordre
+              </CustomOutlinedButton>
+            </Stack>
+          )}
+
+          <Reorder.Group
+            axis="y"
+            values={card.items}
+            onReorder={card.setItems}
+            className="full-width flex column list-style-none no-padding gap-10"
+          >
+            {card.items.map((item) => (
+              <ReorderItem
+                key={item.type}
+                item={item}
+                sortDisabled={sortDisabled}
+              >
+                <Stack
+                  id={item.type}
+                  className="row flex-center full-width"
+                  sx={{
+                    padding: { xs: "0 .2rem", md: "0 1rem" },
                   }}
-                />
-              ))}
-
-            {sortDisabled ? (
-              <OutlinedButton onClick={handleEnableSort}>
-                Modifier l'ordre
-              </OutlinedButton>
-            ) : (
-              <Stack gap={2} flexDirection="row">
-                <OutlinedButton onClick={handleCancelSort(card.id)}>
-                  Annuler
-                </OutlinedButton>
-                <OutlinedButton onClick={handleApplySortToState(card.id)}>
-                  Appliquer l'ordre
-                </OutlinedButton>
-              </Stack>
-            )}
-
-            <Reorder.Group
-              axis="y"
-              style={motionDivStyle}
-              values={card.items}
-              onReorder={card.setItems}
-            >
-              {card.items.map((item, key) => (
-                <ReorderItem
-                  key={item.type}
-                  item={item}
-                  sortDisabled={sortDisabled}
                 >
-                  <Stack
-                    id={item.type}
-                    key={key}
-                    className="row flex-center full-width"
-                    sx={{
-                      padding: { xs: "0 .2rem", md: "0 1rem" },
-                    }}
+                  {/* Switch to toggle SHOW PROPERTY */}
+                  <CustomTooltip
+                    text="Cette ligne apparaît obligatoirement sur votre site."
+                    show={item.show === null}
+                    placement="right"
                   >
-                    <CustomTooltip
-                      text="Cette ligne apparaît obligatoirement sur votre site."
-                      show={item.show === null}
-                      placement="right"
-                    >
-                      <SwitchButton
-                        disabled={item.show === null}
-                        checked={item.show}
-                        handleCheck={(val) =>
-                          handleChange("show", val, card, key)
-                        }
-                      />
-                    </CustomTooltip>
-                    <CustomFilledInput
-                      label={item.label}
-                      id={item.type}
-                      value={item.value || ""}
-                      sx={{ width: "100%" }}
-                      onMouseDown={(e) => e.stopPropagation()} // Prevent from carousel swipe
-                      onChange={(e) =>
-                        handleChange("value", e.target.value, card, key)
+                    <SwitchButton
+                      disabled={item.show === null}
+                      checked={item.show}
+                      handleCheck={(val) =>
+                        handleChange("show", val, card, key)
                       }
                     />
-                  </Stack>
-                </ReorderItem>
-              ))}
-            </Reorder.Group>
-          </motion.div>
-        ))}
-      </SwipeableViews>
+                  </CustomTooltip>
 
-      <Stack
-        marginTop="2rem"
-        alignItems="center"
-        justifyContent="center"
-        sx={{ color: (theme) => theme.palette.text.white }}
-        flexDirection="row"
-        gap={1}
-        className={styles.shine}
-      >
-        <SwipeIcon />
-        <Typography fontStyle="italic" letterSpacing={1}>
-          Faire défiler
-        </Typography>
-      </Stack>
-
-      <Stepper totalSteps={3} activeStep={index} setActiveStep={setIndex} />
-    </Stack>
+                  {/* Input to change CONTACT FIELD */}
+                  <CustomFilledInput
+                    className="full-width"
+                    label={item.label}
+                    id={item.type}
+                    value={item.value || ""}
+                    onMouseDown={(e) => e.stopPropagation()} // Prevent from carousel swipe
+                    onChange={(e) =>
+                      handleChange("value", e.target.value, card, key)
+                    }
+                  />
+                </Stack>
+              </ReorderItem>
+            ))}
+          </Reorder.Group>
+        </MotionDivDownOnMount>
+      ))}
+    </SwipeableViewsReadyToUse>
   )
 }
 
-export default function AdminContactForm(props) {
+function AdminContactForm(props) {
   /********** PROPS **********/
-  const { handleClose } = props
+  const { handleClose, setSeverity, setOpenSnackBar, setMessageSnack } = props
 
   /********** USE-STATES **********/
   const [isFetching, setIsFetching] = useState(false)
@@ -278,27 +246,7 @@ export default function AdminContactForm(props) {
     title: null,
   })
 
-  /********** ANIMATION **********/
-  const [ref, inView] = useInView()
-  const variants = (key) => ({
-    visible: {
-      opacity: 1,
-      y: 5,
-      transition: { duration: 0.75, delay: key / 10 },
-    },
-    hidden: { opacity: 0, y: 0 },
-  })
-  const controls = useAnimation()
-
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible")
-    } else {
-      controls.start("hidden")
-    }
-  }, [controls, inView])
-
-  /********** FUNCTIONS **********/
+  /********** FETCH DATA **********/
   const fetchContact = async () => {
     setIsFetching(true)
     const res = await apiCall.admin.getWebsiteContact()
@@ -314,43 +262,49 @@ export default function AdminContactForm(props) {
     fetchContact()
   }, [])
 
+  // Populate intermediate states (useful for reordering)
   useEffect(() => {
     setAddressItems(contactItems.address)
     setSocialMediaItems(contactItems.social_medias)
     setTraditionalContactItems(contactItems.contact)
   }, [contactItems])
 
-  const handleSaveContact = () => {
-    console.log(contactItems)
+  const handleSuccess = () => {
+    setSeverity("success")
+    setOpenSnackBar(true)
+    setMessageSnack("Informations de contact mises à jour")
+    fetchContact() // update data
+    if (handleClose) handleClose()
+  }
+  const handleError = () => {
+    setSeverity("error")
+    setOpenSnackBar(true)
+    setMessageSnack(
+      "Une erreur est survenue lors de la modification des informations de contact..."
+    )
+  }
+  const handleSaveContact = async () => {
+    const res = await apiCall.admin.updateWebsiteContact(contactItems)
+    if (res && res.ok) return handleSuccess()
+    return handleError()
   }
 
   const handleCancel = async () => {
     if (handleClose) handleClose()
-    // reset form
-    await fetchContact()
+    await fetchContact() // reset data
   }
 
   if (isFetching) return <PleaseWait />
 
   /********** RENDER **********/
   return (
-    <Stack width="100%" gap={4} ref={ref}>
-      <motion.div
-        initial="hidden"
-        variants={variants(0.5)}
-        animate={controls}
-        style={{ width: "100%" }}
-      >
+    <Stack width="100%" gap={4}>
+      <MotionDivDownOnMount>
         <ModalTitle>Modifier les informations de contact</ModalTitle>
-      </motion.div>
+      </MotionDivDownOnMount>
 
       <CustomForm gap={4}>
-        <motion.div
-          initial="hidden"
-          variants={variants(2)}
-          animate={controls}
-          style={{ width: "100%" }}
-        >
+        <MotionDivDownOnMount delay={0.5}>
           <Stack gap={2} width="100%">
             <Caroussel
               addressItems={addressItems}
@@ -367,16 +321,11 @@ export default function AdminContactForm(props) {
 
             {showAlert.show ? <AlertInfo content={showAlert} /> : null}
           </Stack>
-        </motion.div>
+        </MotionDivDownOnMount>
 
-        <motion.div
-          className="full-width"
-          initial="hidden"
-          variants={variants(4)}
-          animate={controls}
-        >
+        <MotionDivDownOnMount delay={1}>
           {sortDisabled && (
-            // We hide that section if user is reordering the elements
+            // We hide that section if user is reordering the elements so the user has to apply or cancel sorting change
             <Stack flexDirection="row" gap={2} justifyContent="end">
               <CustomSubmitButton onClick={handleCancel}>
                 Annuler
@@ -386,8 +335,10 @@ export default function AdminContactForm(props) {
               </CustomSubmitButton>
             </Stack>
           )}
-        </motion.div>
+        </MotionDivDownOnMount>
       </CustomForm>
     </Stack>
   )
 }
+
+export default withSnacks(AdminContactForm)
