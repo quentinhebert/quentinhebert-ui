@@ -14,6 +14,7 @@ import theme from "../../../config/theme"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
 import PleaseWait from "../../ReusableComponents/helpers/please-wait"
 import withSnacks from "../../hocs/withSnacks"
+import AlertInfo from "../../Other/alert-info"
 
 function AdminNavbarForm(props) {
   /********** PROPS **********/
@@ -60,14 +61,14 @@ function AdminNavbarForm(props) {
     fetchNavbar()
   }, [])
 
-  const handleChangeLabel = (value, row) => {
+  const handleChange = (attribute, value, row) => {
     // Get a copy
     let localItems = navbarItems
 
     // Update copy
     localItems = {
       ...localItems,
-      [row]: { ...localItems[row], label: value },
+      [row]: { ...localItems[row], [attribute]: value },
     }
 
     // Convert object copy to array
@@ -77,13 +78,6 @@ function AdminNavbarForm(props) {
 
     // Update state
     setNavbarItems(localItems)
-  }
-
-  const handleChangeHref = (value, row) => {
-    setNavbarItems({
-      ...navbarItems,
-      [row]: { ...navbarItems[row], href: value },
-    })
   }
 
   const handleCheckSort = (bool) => {
@@ -116,6 +110,7 @@ function AdminNavbarForm(props) {
       return (localItems[key].order = key + 1)
     })
 
+    console.debug(localItems)
     const res = await apiCall.admin.updateNavbar(localItems)
     if (res && res.ok) handleSuccess()
     else handleError()
@@ -162,18 +157,23 @@ function AdminNavbarForm(props) {
             )}
 
             {!isSorting ? (
-              Object.keys(navbarItems).map((item, key) => (
+              navbarItems.map((item, key) => (
                 <DualInputLine key={key}>
+                  <SwitchButton
+                    label="Visible"
+                    checked={item?.show}
+                    handleCheck={() => handleChange("show", !item?.show, key)}
+                  />
                   <CustomFilledInput
                     label="Nom de l'item"
-                    value={navbarItems[key]?.label || ""}
-                    onChange={(e) => handleChangeLabel(e.target.value, key)}
+                    value={item?.label || ""}
+                    onChange={(e) => handleChange("label", e.target.value, key)}
                   />
                   <CustomFilledInput
                     disabled={!updateRedirects}
                     label="Page de redirection *"
-                    value={navbarItems[key]?.href || ""}
-                    onChange={(e) => handleChangeHref(e.target.value, key)}
+                    value={item?.href || ""}
+                    onChange={(e) => handleChange("href", e.target.value, key)}
                   />
                 </DualInputLine>
               ))
