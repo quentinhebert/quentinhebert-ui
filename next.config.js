@@ -24,7 +24,7 @@ module.exports = withPlugins([
     headers: async () => {
       return [
         {
-          source: "/:pages*",
+          source: "/:all*(svg|jpg|png)",
           headers: [
             {
               key: "Cache-Control",
