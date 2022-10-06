@@ -178,7 +178,7 @@ const Caroussel = ({
             onReorder={card.setItems}
             className="full-width flex column list-style-none no-padding gap-10"
           >
-            {card.items.map((item) => (
+            {card.items.map((item, key) => (
               <ReorderItem
                 key={item.type}
                 item={item}
