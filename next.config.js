@@ -28,7 +28,7 @@ module.exports = withPlugins([
           headers: [
             {
               key: "Cache-Control",
-              value: "private, max-age=180, must-revalidate",
+              value: "public, max-age=9999999999, must-revalidate",
             },
           ],
         },
