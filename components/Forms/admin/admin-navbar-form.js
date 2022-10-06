@@ -15,16 +15,32 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
 import PleaseWait from "../../ReusableComponents/helpers/please-wait"
 import withSnacks from "../../hocs/withSnacks"
 import AlertInfo from "../../Other/alert-info"
+import OutlinedButton from "../../ReusableComponents/buttons/outlined-button"
+import AddIcon from "@mui/icons-material/Add"
+import DeleteIcon from "@mui/icons-material/Delete"
+import { compose } from "redux"
+import withConfirmAction from "../../hocs/withConfirmAction"
 
 function AdminNavbarForm(props) {
   /********** PROPS **********/
-  const { handleClose, setSeverity, setOpenSnackBar, setMessageSnack } = props
+  const {
+    handleClose,
+    setSeverity,
+    setOpenSnackBar,
+    setMessageSnack,
+    setActionToFire,
+    setOpenConfirmModal,
+    setConfirmTitle,
+    setNextButtonText,
+    setConfirmContent,
+  } = props
 
   /********** USE-STATES **********/
   const [isFetching, setIsFetching] = useState(false)
   const [navbarItems, setNavbarItems] = useState([])
   const [isSorting, setIsSorting] = useState(false)
   const [updateRedirects, setUpdateRedirects] = useState(false)
+  const [idsToDelete, setIdsToDelete] = useState([])
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
@@ -65,6 +81,7 @@ function AdminNavbarForm(props) {
     // Get a copy
     let localItems = navbarItems
 
+    /** Trick to reload component when array changes **/
     // Update copy
     localItems = {
       ...localItems,
@@ -94,13 +111,11 @@ function AdminNavbarForm(props) {
     setMessageSnack("Navbar mise à jour")
     handleClose()
   }
-
   const handleError = () => {
     setSeverity("error")
     setOpenSnackBar(true)
     setMessageSnack("Navbar non mise à jour")
   }
-
   const handleSave = async () => {
     // Get a copy
     let localItems = navbarItems
@@ -110,8 +125,7 @@ function AdminNavbarForm(props) {
       return (localItems[key].order = key + 1)
     })
 
-    console.debug(localItems)
-    const res = await apiCall.admin.updateNavbar(localItems)
+    const res = await apiCall.admin.updateNavbar(localItems, idsToDelete)
     if (res && res.ok) handleSuccess()
     else handleError()
   }
@@ -121,6 +135,61 @@ function AdminNavbarForm(props) {
     setUpdateRedirects(false) // reset switch for redirects
     setIsSorting(false) // resest switch for sorting + view
     await fetchNavbar() // reset form
+  }
+
+  const handleAddItem = () => {
+    const localItems = navbarItems
+    const totalItems = localItems.length
+
+    /** Trick to reload component when array changes **/
+    // Update copy
+    localItems = {
+      ...localItems,
+      [totalItems + 1]: {
+        href: "/",
+        label: "",
+        show: false,
+        order: totalItems + 1,
+      },
+    }
+
+    // Convert object copy to array
+    localItems = Object.keys(localItems).map((key) => {
+      return localItems[key]
+    })
+
+    setNavbarItems(localItems)
+  }
+
+  const handleDeleteItem = (item, row) => {
+    const deleteItem = () => {
+      // Get copy
+      const localItems = navbarItems
+      const localIdsToDelete = idsToDelete
+
+      // Save the item id to delete
+      localIdsToDelete.push(item.id)
+      setIdsToDelete(localIdsToDelete)
+
+      // Delete row of object
+      delete localItems[row]
+
+      // Convert object copy to array
+      localItems = Object.keys(localItems).map((key) => {
+        return localItems[key]
+      })
+
+      // Update state
+      setNavbarItems(localItems)
+    }
+
+    setActionToFire(() => () => deleteItem())
+    setOpenConfirmModal(true)
+    setConfirmTitle("Confirmer")
+    setNextButtonText("Supprimer")
+    setConfirmContent({
+      text: `Voulez-vous vraiment supprimer "${item.label}" de la navbar ?`,
+    })
   }
 
   if (isFetching) return <PleaseWait />
@@ -144,45 +213,47 @@ function AdminNavbarForm(props) {
           animate={controls}
           style={{ width: "100%" }}
         >
-          <Stack gap={2} width="100%">
+          <Stack gap={4} width="100%">
+            <Stack
+              flexDirection="row"
+              gap={4}
+              padding={2}
+              borderRadius="5px"
+              sx={{
+                border: "1px solid",
+                borderColor: (theme) => theme.palette.secondary.main,
+              }}
+            >
+              <SwitchButton
+                label="Modifier l'ordre"
+                handleCheck={handleCheckSort}
+                checked={isSorting}
+              />
+              <SwitchButton
+                label="Modifier les liens de page"
+                handleCheck={handleCheckRedirects}
+                checked={updateRedirects}
+              />
+            </Stack>
+
             {updateRedirects && (
               <AlertInfo
                 content={{
                   show: true,
                   severity: "info",
                   text: "Veillez à contacter un développeur pour qu'il puisse effectuer les changements sur le serveur.",
-                  title: "Modification des pages de redirection *",
+                  title: "Modification des liens de pages *",
                 }}
               />
             )}
 
-            {!isSorting ? (
-              navbarItems.map((item, key) => (
-                <DualInputLine key={key}>
-                  <SwitchButton
-                    label="Visible"
-                    checked={item?.show}
-                    handleCheck={() => handleChange("show", !item?.show, key)}
-                  />
-                  <CustomFilledInput
-                    label="Nom de l'item"
-                    value={item?.label || ""}
-                    onChange={(e) => handleChange("label", e.target.value, key)}
-                  />
-                  <CustomFilledInput
-                    disabled={!updateRedirects}
-                    label="Page de redirection *"
-                    value={item?.href || ""}
-                    onChange={(e) => handleChange("href", e.target.value, key)}
-                  />
-                </DualInputLine>
-              ))
-            ) : (
+            {isSorting ? (
               <Reorder.Group
                 axis="x"
                 onReorder={setNavbarItems}
                 values={navbarItems}
                 style={{
+                  overflow: "auto",
                   display: "flex",
                   backgroundColor: theme.palette.background.secondary,
                   borderRadius: "10px",
@@ -219,20 +290,41 @@ function AdminNavbarForm(props) {
                   </Reorder.Item>
                 ))}
               </Reorder.Group>
+            ) : (
+              navbarItems.map((item, key) => (
+                <DualInputLine key={key}>
+                  <SwitchButton
+                    label="Visible"
+                    checked={item?.show}
+                    handleCheck={() => handleChange("show", !item?.show, key)}
+                  />
+                  <CustomFilledInput
+                    label="Nom"
+                    value={item?.label || ""}
+                    onChange={(e) => handleChange("label", e.target.value, key)}
+                  />
+                  <CustomFilledInput
+                    disabled={!updateRedirects}
+                    label="Lien de la page *"
+                    value={item?.href || ""}
+                    onChange={(e) => handleChange("href", e.target.value, key)}
+                  />
+                  <Stack
+                    className="flex-center pointer"
+                    onClick={() => handleDeleteItem(item, key)}
+                  >
+                    <DeleteIcon
+                      color="secondary"
+                      sx={{ "&:hover": { opacity: 0.5 } }}
+                    />
+                  </Stack>
+                </DualInputLine>
+              ))
             )}
 
-            <Stack flexDirection="row" gap={4}>
-              <SwitchButton
-                label="Modifier l'ordre"
-                handleCheck={handleCheckSort}
-                checked={isSorting}
-              />
-              <SwitchButton
-                label="Modifier les pages de redirection"
-                handleCheck={handleCheckRedirects}
-                checked={updateRedirects}
-              />
-            </Stack>
+            <OutlinedButton startIcon={<AddIcon />} onClick={handleAddItem}>
+              Ajouter
+            </OutlinedButton>
           </Stack>
         </motion.div>
 
@@ -256,4 +348,4 @@ function AdminNavbarForm(props) {
   )
 }
 
-export default withSnacks(AdminNavbarForm)
+export default compose(withSnacks, withConfirmAction)(AdminNavbarForm)

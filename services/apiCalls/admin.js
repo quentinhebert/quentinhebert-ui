@@ -398,8 +398,8 @@ const admin = {
       console.error(err)
     }
   },
-  updateNavbar: async (menuItems) => {
-    const body = { menu_items: menuItems }
+  updateNavbar: async (menuItems, idsToDelete) => {
+    const body = { menu_items: menuItems, ids_to_delete: idsToDelete }
     try {
       return await fetch(`${defaultConfig.apiUrl}/admin/navbar`, {
         method: "PUT",
