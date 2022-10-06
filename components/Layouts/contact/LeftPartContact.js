@@ -61,10 +61,9 @@ const fetchUpToDateContact = async () => {
 }
 
 const SocialButton = ({ item }) => {
-  console.debug("item.type", item.type)
   const icon = SOCIAL_MEDIAS_ICONS.filter((obj) => obj.type === item.type)[0]
     .icon
-  console.debug("icon", icon)
+
   return (
     <Box component="a" href={item.link} target="_blank" rel="noreferrer">
       <ScaleUpOnHoverStack>
