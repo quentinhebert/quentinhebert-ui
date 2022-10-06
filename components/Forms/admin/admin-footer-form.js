@@ -9,10 +9,13 @@ import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
 import withSnacks from "../../hocs/withSnacks"
+import useSWR from "swr"
 
 function AdminFooterForm(props) {
   /********** PROPS **********/
   const { handleClose, setSeverity, setOpenSnackBar, setMessageSnack } = props
+
+  const { mutate } = useSWR("/footer")
 
   /********** USE-STATES **********/
   const [credits, setCredits] = useState("")
@@ -61,6 +64,7 @@ function AdminFooterForm(props) {
     setOpenSnackBar(true)
     setMessageSnack("Footer mis à jour")
     handleClose()
+    mutate() // Refresh footer static props (SWR)
     fetchFooter() // reset form
   }
   const handleError = () => {
@@ -69,7 +73,6 @@ function AdminFooterForm(props) {
     setMessageSnack("Footer non mis à jour")
   }
   const handleSaveFooter = async () => {
-    console.debug(credits)
     const res = await apiCall.admin.updateFooter(credits)
     if (res && res.ok) handleSuccess()
     else handleError()

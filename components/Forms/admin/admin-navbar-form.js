@@ -20,6 +20,7 @@ import AddIcon from "@mui/icons-material/Add"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { compose } from "redux"
 import withConfirmAction from "../../hocs/withConfirmAction"
+import useSWR from "swr"
 
 function AdminNavbarForm(props) {
   /********** PROPS **********/
@@ -77,6 +78,9 @@ function AdminNavbarForm(props) {
     fetchNavbar()
   }, [])
 
+  // Mutate function will be used to force refresh static prop data of the navabar
+  const { mutate } = useSWR("/navbar")
+
   const handleChange = (attribute, value, row) => {
     // Get a copy
     let localItems = navbarItems
@@ -110,7 +114,8 @@ function AdminNavbarForm(props) {
     setOpenSnackBar(true)
     setMessageSnack("Navbar mise à jour")
     handleClose()
-    fetchNavbar() // reset form
+    mutate() // Refresh navbar static props
+    fetchNavbar() // Reset form
   }
   const handleError = () => {
     setSeverity("error")
