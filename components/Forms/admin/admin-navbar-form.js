@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react"
 import { Stack, Typography } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
-import AlertInfo from "../../Other/alert-info"
 import CustomForm from "../../ReusableComponents/forms/custom-form"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import { useAnimation, motion } from "framer-motion"
@@ -23,15 +22,8 @@ function AdminNavbarForm(props) {
   /********** USE-STATES **********/
   const [isFetching, setIsFetching] = useState(false)
   const [navbarItems, setNavbarItems] = useState([])
-  const [orderedItems, setOrderedItems] = useState([])
   const [isSorting, setIsSorting] = useState(false)
   const [updateRedirects, setUpdateRedirects] = useState(false)
-  const [showAlert, setShowAlert] = useState({
-    show: false,
-    severity: null,
-    text: null,
-    title: null,
-  })
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
@@ -95,13 +87,6 @@ function AdminNavbarForm(props) {
   }
 
   const handleCheckSort = (bool) => {
-    let localArray = []
-    if (bool === true) {
-      navbarItems.map((item, key) => {
-        localArray.push(item.label)
-      })
-      setOrderedItems(localArray)
-    }
     setIsSorting(bool)
   }
 
@@ -248,8 +233,6 @@ function AdminNavbarForm(props) {
                 checked={updateRedirects}
               />
             </Stack>
-
-            {showAlert.show ? <AlertInfo content={showAlert} /> : null}
           </Stack>
         </motion.div>
 
