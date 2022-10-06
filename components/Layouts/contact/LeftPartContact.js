@@ -8,54 +8,82 @@ import EmailIcon from "@mui/icons-material/Email"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar"
 import styles from "../../../styles/TextShine.module.css"
+import useSWR from "swr"
+import apiCall from "../../../services/apiCalls/apiCall"
 
 const SOCIAL_MEDIAS = [
   {
     type: "youtube",
-    image: "/medias/social_icons/youtube.svg",
+    icon: "/medias/social_icons/youtube.svg",
     link: "https://www.youtube.com/c/NarcoProd",
   },
   {
     type: "instagram",
-    image: "/medias/social_icons/instagram.svg",
+    icon: "/medias/social_icons/instagram.svg",
     link: "https://www.instagram.com/tarte_a_la_courgette",
   },
   {
     type: "facebook",
-    image: "/medias/social_icons/facebook.svg",
+    icon: "/medias/social_icons/facebook.svg",
     link: "https://www.facebook.com/kioulekiou/",
   },
 ]
 
-const SocialButton = ({ item }) => (
-  <Box component="a" href={item.link} target="_blank" rel="noreferrer">
-    <ScaleUpOnHoverStack>
-      <Box
-        component="img"
-        src={item.image}
-        alt={item.type}
-        sx={{
-          color: (theme) => theme.palette.text.white,
-          width: "30px",
-          height: "30px",
-          marginRight: ".5rem",
-          "&:hover": { opacity: 0.9 },
-        }}
-      />
-    </ScaleUpOnHoverStack>
-  </Box>
-)
+const SOCIAL_MEDIAS_ICONS = [
+  {
+    type: "youtube_url",
+    icon: "/medias/social_icons/youtube.svg",
+  },
+  {
+    type: "instagram_url",
+    icon: "/medias/social_icons/instagram.svg",
+  },
+  {
+    type: "facebook_url",
+    icon: "/medias/social_icons/facebook.svg",
+  },
+]
 
-const SocialButtons = () => (
+const fetchUpToDateContact = async () => {
+  const res = await apiCall.unauthenticated.getWebsiteContact()
+  const jsonRes = await res.json()
+  return jsonRes
+}
+
+const SocialButton = ({ item }) => {
+  console.debug("item.type", item.type)
+  const icon = SOCIAL_MEDIAS_ICONS.filter((obj) => obj.type === item.type)[0]
+    .icon
+  console.debug("icon", icon)
+  return (
+    <Box component="a" href={item.link} target="_blank" rel="noreferrer">
+      <ScaleUpOnHoverStack>
+        <Box
+          component="img"
+          src={icon}
+          alt={item.type}
+          sx={{
+            color: (theme) => theme.palette.text.white,
+            width: "30px",
+            height: "30px",
+            marginRight: ".5rem",
+            "&:hover": { opacity: 0.9 },
+          }}
+        />
+      </ScaleUpOnHoverStack>
+    </Box>
+  )
+}
+
+const SocialButtons = ({ socialMedias }) => (
   <Stack
     flexDirection="row"
     alignItems="center"
     gap={1}
     sx={{ marginBottom: "4rem" }}
   >
-    {SOCIAL_MEDIAS.map((item, key) => (
-      <SocialButton item={item} key={key} />
-    ))}
+    {socialMedias &&
+      socialMedias.map((item, key) => <SocialButton item={item} key={key} />)}
   </Stack>
 )
 
@@ -87,6 +115,17 @@ const LocationText = ({ text, icon }) => (
 )
 
 export default function LeftPartContact(props) {
+  const { data } = useSWR(
+    `/website-contact`,
+    async () => fetchUpToDateContact(),
+    {
+      fallbackData: props,
+      revalidateOnMount: true,
+    }
+  )
+
+  if (!data) return null
+
   return (
     <Stack
       width="100%"
@@ -102,7 +141,7 @@ export default function LeftPartContact(props) {
       />
 
       <SmallTitle>Suis-moi, je te fuis !</SmallTitle>
-      <SocialButtons />
+      <SocialButtons socialMedias={data.social_medias} />
 
       <SmallTitle>Informations utiles</SmallTitle>
       <Stack sx={{ letterSpacing: "1.5px", gap: "0.7rem" }}>
@@ -127,4 +166,14 @@ export default function LeftPartContact(props) {
       </Stack>
     </Stack>
   )
+}
+
+export async function getStaticProps({ params }) {
+  const {} = params
+  const data = await fetchUpToDateContact()
+  let notFound = false
+
+  if (data.statusCode === 400 || data.statusCode === 404) notFound = true
+
+  return { props: data, notFound, revalidate: 60 }
 }

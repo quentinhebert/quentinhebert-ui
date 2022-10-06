@@ -428,6 +428,19 @@ const admin = {
       console.error(err)
     }
   },
+  getWebsiteContact: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/website-contact`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
 }
 
 export default admin

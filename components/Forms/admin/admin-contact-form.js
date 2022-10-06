@@ -21,7 +21,7 @@ import PleaseWait from "../../ReusableComponents/helpers/please-wait"
 const Caroussel = ({
   addressItems,
   traditionalContactItems,
-  socialNetworkItems,
+  socialMediaItems,
   contactItems,
   setContactItems,
 }) => {
@@ -32,6 +32,7 @@ const Caroussel = ({
   const cards = [
     {
       title: "Contacts traditionnels",
+      id: "contact",
       items: traditionalContactItems,
       description: [
         <Typography>
@@ -40,8 +41,18 @@ const Caroussel = ({
         </Typography>,
       ],
     },
-    { title: "Réseaux sociaux", items: socialNetworkItems, description: null },
-    { title: "Adresse postale", items: addressItems, description: null },
+    {
+      title: "Réseaux sociaux",
+      id: "social_medias",
+      items: socialMediaItems,
+      description: null,
+    },
+    {
+      title: "Adresse postale",
+      id: "address",
+      items: addressItems,
+      description: null,
+    },
   ]
 
   /********** ANIMATION **********/
@@ -70,6 +81,24 @@ const Caroussel = ({
     flexDirection: "column",
     gap: 10,
     alignSelf: "start",
+  }
+
+  const handleChange = (attribute, value, card, key) => {
+    // Get copies
+    const localGroup = contactItems[card.id] // Array
+    const localItem = localGroup[key] // object
+
+    // Update copy
+    localItem[attribute] = value
+
+    // Update local group
+    localGroup[key] = localItem
+
+    // Update state
+    setContactItems({
+      ...contactItems,
+      [card.id]: localGroup,
+    })
   }
 
   return (
@@ -116,6 +145,7 @@ const Caroussel = ({
               ))}
             {card.items.map((item, key) => (
               <Stack
+                id={item.type}
                 key={key}
                 flexDirection="row"
                 alignItems="center"
@@ -123,43 +153,27 @@ const Caroussel = ({
               >
                 <CustomTooltip
                   text="Cette ligne apparaît obligatoirement sur votre site."
-                  show={item.display === null}
+                  show={item.show === null}
                   placement="right"
                 >
                   <Box>
                     <SwitchButton
-                      disabled={item.display === null}
-                      checked={item.display}
-                      handleCheck={(val) => {
-                        setContactItems(
-                          Object.values({
-                            ...contactItems,
-                            [item.row]: {
-                              ...contactItems[item.row],
-                              display: val,
-                            },
-                          })
-                        )
-                      }}
+                      disabled={item.show === null}
+                      checked={item.show}
+                      handleCheck={(val) =>
+                        handleChange("show", val, card, key)
+                      }
                     />
                   </Box>
                 </CustomTooltip>
                 <CustomFilledInput
                   label={item.label}
                   id={item.type}
-                  value={item.value}
+                  value={item.value || ""}
                   sx={{ marginLeft: "-11px" }}
-                  onChange={(e) => {
-                    setContactItems(
-                      Object.values({
-                        ...contactItems,
-                        [item.row]: {
-                          ...contactItems[item.row],
-                          value: e.target.value,
-                        },
-                      })
-                    )
-                  }}
+                  onChange={(e) =>
+                    handleChange("value", e.target.value, card, key)
+                  }
                 />
               </Stack>
             ))}
@@ -196,7 +210,7 @@ export default function AdminContactForm(props) {
   const [contactItems, setContactItems] = useState([])
   const [addressItems, setAddressItems] = useState([])
   const [traditionalContactItems, setTraditionalContactItems] = useState([])
-  const [socialNetworkItems, setSocialNetworkItems] = useState([])
+  const [socialMediaItems, setSocialMediaItems] = useState([])
 
   const [showAlert, setShowAlert] = useState({
     show: false,
@@ -228,36 +242,27 @@ export default function AdminContactForm(props) {
   /********** FUNCTIONS **********/
   const fetchContact = async () => {
     setIsFetching(true)
-    const res = await apiCall.unauthenticated.getWebsiteContact()
+    const res = await apiCall.admin.getWebsiteContact()
     if (res && res.ok) {
       const jsonRes = await res.json()
-      // Let's populate each row of contactItems with their row number (useFull for the onChange function)
-      await jsonRes.map((item, key) => {
-        jsonRes[key] = { ...jsonRes[key], row: key }
-      })
       setContactItems(jsonRes)
     }
     setIsFetching(false)
   }
 
+  // Initial fetch
   useEffect(() => {
     fetchContact()
   }, [])
 
   useEffect(() => {
-    setAddressItems(
-      contactItems.filter((item) => item.group === "address").sort()
-    )
-    setSocialNetworkItems(
-      contactItems.filter((item) => item.group === "social_networks")
-    )
-    setTraditionalContactItems(
-      contactItems.filter((item) => item.group === "contact")
-    )
+    setAddressItems(contactItems.address)
+    setSocialMediaItems(contactItems.social_medias)
+    setTraditionalContactItems(contactItems.contact)
   }, [contactItems])
 
   const handleSaveFooter = () => {
-    //
+    console.log(contactItems)
   }
 
   const handleCancel = async () => {
@@ -291,7 +296,7 @@ export default function AdminContactForm(props) {
             <Caroussel
               addressItems={addressItems}
               traditionalContactItems={traditionalContactItems}
-              socialNetworkItems={socialNetworkItems}
+              socialMediaItems={socialMediaItems}
               setContactItems={setContactItems}
               contactItems={contactItems}
             />
