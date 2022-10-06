@@ -110,6 +110,7 @@ function AdminNavbarForm(props) {
     setOpenSnackBar(true)
     setMessageSnack("Navbar mise à jour")
     handleClose()
+    fetchNavbar() // reset form
   }
   const handleError = () => {
     setSeverity("error")
