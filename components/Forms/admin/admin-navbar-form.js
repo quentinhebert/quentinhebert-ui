@@ -14,10 +14,11 @@ import SwitchButton from "../../ReusableComponents/buttons/switch-button"
 import theme from "../../../config/theme"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
 import PleaseWait from "../../ReusableComponents/helpers/please-wait"
+import withSnacks from "../../hocs/withSnacks"
 
-export default function AdminNavbarForm(props) {
+function AdminNavbarForm(props) {
   /********** PROPS **********/
-  const { handleClose } = props
+  const { handleClose, setSeverity, setOpenSnackBar, setMessageSnack } = props
 
   /********** USE-STATES **********/
   const [isFetching, setIsFetching] = useState(false)
@@ -55,7 +56,7 @@ export default function AdminNavbarForm(props) {
   /********** FUNCTIONS **********/
   const fetchNavbar = async () => {
     setIsFetching(true)
-    const res = await apiCall.unauthenticated.getNavbar()
+    const res = await apiCall.admin.getNavbar()
     if (res && res.ok) {
       const jsonRes = await res.json()
       setNavbarItems(jsonRes.menu_items)
@@ -68,10 +69,22 @@ export default function AdminNavbarForm(props) {
   }, [])
 
   const handleChangeLabel = (value, row) => {
-    setNavbarItems({
-      ...navbarItems,
-      [row]: { ...navbarItems[row], label: value },
+    // Get a copy
+    let localItems = navbarItems
+
+    // Update copy
+    localItems = {
+      ...localItems,
+      [row]: { ...localItems[row], label: value },
+    }
+
+    // Convert object copy to array
+    localItems = Object.keys(localItems).map((key) => {
+      return localItems[key]
     })
+
+    // Update state
+    setNavbarItems(localItems)
   }
 
   const handleChangeHref = (value, row) => {
@@ -88,13 +101,6 @@ export default function AdminNavbarForm(props) {
         localArray.push(item.label)
       })
       setOrderedItems(localArray)
-    } else {
-      orderedItems.map((item) => {
-        localArray.push(
-          navbarItems.filter((navItem) => navItem.label === item)[0]
-        )
-      })
-      setNavbarItems(localArray)
     }
     setIsSorting(bool)
   }
@@ -103,8 +109,31 @@ export default function AdminNavbarForm(props) {
     setUpdateRedirects(bool)
   }
 
-  const handleSave = () => {
-    //
+  const handleSuccess = () => {
+    setSeverity("success")
+    setOpenSnackBar(true)
+    setMessageSnack("Navbar mise à jour")
+    handleClose()
+  }
+
+  const handleError = () => {
+    setSeverity("error")
+    setOpenSnackBar(true)
+    setMessageSnack("Navbar non mise à jour")
+  }
+
+  const handleSave = async () => {
+    // Get a copy
+    let localItems = navbarItems
+
+    // Change order attribute according to order in the array
+    localItems.map((item, key) => {
+      return (localItems[key].order = key + 1)
+    })
+
+    const res = await apiCall.admin.updateNavbar(localItems)
+    if (res && res.ok) handleSuccess()
+    else handleError()
   }
 
   const handleCancel = async () => {
@@ -166,8 +195,8 @@ export default function AdminNavbarForm(props) {
             ) : (
               <Reorder.Group
                 axis="x"
-                onReorder={setOrderedItems}
-                values={orderedItems}
+                onReorder={setNavbarItems}
+                values={navbarItems}
                 style={{
                   display: "flex",
                   backgroundColor: theme.palette.background.secondary,
@@ -176,9 +205,9 @@ export default function AdminNavbarForm(props) {
                   gap: 2,
                 }}
               >
-                {orderedItems.map((item) => (
+                {navbarItems.map((item) => (
                   <Reorder.Item
-                    key={item}
+                    key={item.id}
                     value={item}
                     style={{
                       width: "100%",
@@ -200,7 +229,7 @@ export default function AdminNavbarForm(props) {
                       textTransform="uppercase"
                       letterSpacing={1}
                     >
-                      {item}
+                      {item.label}
                     </Typography>
                   </Reorder.Item>
                 ))}
@@ -243,3 +272,5 @@ export default function AdminNavbarForm(props) {
     </Stack>
   )
 }
+
+export default withSnacks(AdminNavbarForm)

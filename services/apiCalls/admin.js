@@ -385,6 +385,34 @@ const admin = {
       console.error(err)
     }
   },
+  getNavbar: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/navbar`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  updateNavbar: async (menuItems) => {
+    const body = { menu_items: menuItems }
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/navbar`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
 }
 
 export default admin
