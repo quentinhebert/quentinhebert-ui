@@ -69,8 +69,9 @@ export default function CustomTooltip(props) {
             ""
           )
         }
-        {...props}
-      />
+      >
+        <Box {...props} />
+      </HtmlTooltip>
     </Box>
   )
 }

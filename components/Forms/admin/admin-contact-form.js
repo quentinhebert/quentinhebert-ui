@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
-import { Box, Stack, Typography } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AlertInfo from "../../Other/alert-info"
 import CustomForm from "../../ReusableComponents/forms/custom-form"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
-import { useAnimation, motion } from "framer-motion"
+import { useAnimation, motion, Reorder } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
 import CustomFilledInput from "../../ReusableComponents/forms/custom-filled-input"
@@ -17,6 +17,8 @@ import InTextLink from "../../ReusableComponents/text/in-text-link"
 import SwitchButton from "../../ReusableComponents/buttons/switch-button"
 import CustomTooltip from "../../ReusableComponents/helpers/tooltip"
 import PleaseWait from "../../ReusableComponents/helpers/please-wait"
+import OutlinedButton from "../../ReusableComponents/buttons/outlined-button"
+import ReorderItem from "../../ReusableComponents/reorder/reorder-item"
 
 const Caroussel = ({
   addressItems,
@@ -24,16 +26,25 @@ const Caroussel = ({
   socialMediaItems,
   contactItems,
   setContactItems,
+  setAddressItems,
+  setTraditionalContactItems,
+  setSocialMediaItems,
+  setSortDisabled,
+  sortDisabled,
 }) => {
+  // Carousel utils
   const [index, setIndex] = useState(0)
   const handleChangeIndex = (index) => {
     setIndex(index)
   }
+
+  // Format the different slides/cards of the carousel
   const cards = [
     {
       title: "Contacts traditionnels",
       id: "contact",
       items: traditionalContactItems,
+      setItems: setTraditionalContactItems,
       description: [
         <Typography>
           L'adresse e-mail que vous renseignez sera celle qui sera affichée sur
@@ -45,12 +56,14 @@ const Caroussel = ({
       title: "Réseaux sociaux",
       id: "social_medias",
       items: socialMediaItems,
+      setItems: setSocialMediaItems,
       description: null,
     },
     {
       title: "Adresse postale",
       id: "address",
       items: addressItems,
+      setItems: setAddressItems,
       description: null,
     },
   ]
@@ -81,8 +94,11 @@ const Caroussel = ({
     flexDirection: "column",
     gap: 10,
     alignSelf: "start",
+    listStyle: "none",
+    padding: 0,
   }
 
+  // Handle change data (contact items)
   const handleChange = (attribute, value, card, key) => {
     // Get copies
     const localGroup = contactItems[card.id] // Array
@@ -101,6 +117,19 @@ const Caroussel = ({
     })
   }
 
+  // Handle sort items (reorder)
+  const handleEnableSort = () => setSortDisabled(false)
+  const handleApplySortToState = (group) => (e) => {
+    const newStateSorted = traditionalContactItems
+    setContactItems({ ...contactItems, [group]: newStateSorted })
+    setSortDisabled(true)
+  }
+  const handleCancelSort = (group) => (e) => {
+    const newStateSorted = contactItems[group]
+    setContactItems({ ...contactItems, [group]: newStateSorted })
+    setSortDisabled(true)
+  }
+
   return (
     <Stack ref={ref}>
       <SwipeableViews
@@ -117,14 +146,13 @@ const Caroussel = ({
       >
         {cards.map((card, key) => (
           <motion.div
+            key={key}
             initial="hidden"
             variants={variants(0)}
             animate={controls}
-            style={motionDivStyle}
             role="tabpanel"
             id={`full-width-tabpanel-0`}
-            aria-controls={`full-width-tab-0`}
-            key={key}
+            style={motionDivStyle}
           >
             <SmallTitle
               textAlign="left"
@@ -132,6 +160,7 @@ const Caroussel = ({
             >
               {`${card.title} (${index + 1}/3)`}
             </SmallTitle>
+
             {card.description?.length &&
               card.description.map((descItem, key) => (
                 <AlertInfo
@@ -143,40 +172,69 @@ const Caroussel = ({
                   }}
                 />
               ))}
-            {card.items.map((item, key) => (
-              <Stack
-                id={item.type}
-                key={key}
-                flexDirection="row"
-                alignItems="center"
-                sx={{ padding: { xs: "0 .2rem", md: "0 1rem" } }}
-              >
-                <CustomTooltip
-                  text="Cette ligne apparaît obligatoirement sur votre site."
-                  show={item.show === null}
-                  placement="right"
+
+            {sortDisabled ? (
+              <OutlinedButton onClick={handleEnableSort}>
+                Modifier l'ordre
+              </OutlinedButton>
+            ) : (
+              <Stack gap={2} flexDirection="row">
+                <OutlinedButton onClick={handleCancelSort(card.id)}>
+                  Annuler
+                </OutlinedButton>
+                <OutlinedButton onClick={handleApplySortToState(card.id)}>
+                  Appliquer l'ordre
+                </OutlinedButton>
+              </Stack>
+            )}
+
+            <Reorder.Group
+              axis="y"
+              style={motionDivStyle}
+              values={card.items}
+              onReorder={card.setItems}
+            >
+              {card.items.map((item, key) => (
+                <ReorderItem
+                  key={item.type}
+                  item={item}
+                  sortDisabled={sortDisabled}
                 >
-                  <Box>
-                    <SwitchButton
-                      disabled={item.show === null}
-                      checked={item.show}
-                      handleCheck={(val) =>
-                        handleChange("show", val, card, key)
+                  <Stack
+                    id={item.type}
+                    key={key}
+                    className="row flex-center full-width"
+                    sx={{
+                      padding: { xs: "0 .2rem", md: "0 1rem" },
+                    }}
+                  >
+                    <CustomTooltip
+                      text="Cette ligne apparaît obligatoirement sur votre site."
+                      show={item.show === null}
+                      placement="right"
+                    >
+                      <SwitchButton
+                        disabled={item.show === null}
+                        checked={item.show}
+                        handleCheck={(val) =>
+                          handleChange("show", val, card, key)
+                        }
+                      />
+                    </CustomTooltip>
+                    <CustomFilledInput
+                      label={item.label}
+                      id={item.type}
+                      value={item.value || ""}
+                      sx={{ width: "100%" }}
+                      onMouseDown={(e) => e.stopPropagation()} // Prevent from carousel swipe
+                      onChange={(e) =>
+                        handleChange("value", e.target.value, card, key)
                       }
                     />
-                  </Box>
-                </CustomTooltip>
-                <CustomFilledInput
-                  label={item.label}
-                  id={item.type}
-                  value={item.value || ""}
-                  sx={{ marginLeft: "-11px" }}
-                  onChange={(e) =>
-                    handleChange("value", e.target.value, card, key)
-                  }
-                />
-              </Stack>
-            ))}
+                  </Stack>
+                </ReorderItem>
+              ))}
+            </Reorder.Group>
           </motion.div>
         ))}
       </SwipeableViews>
@@ -211,6 +269,7 @@ export default function AdminContactForm(props) {
   const [addressItems, setAddressItems] = useState([])
   const [traditionalContactItems, setTraditionalContactItems] = useState([])
   const [socialMediaItems, setSocialMediaItems] = useState([])
+  const [sortDisabled, setSortDisabled] = useState(true)
 
   const [showAlert, setShowAlert] = useState({
     show: false,
@@ -261,7 +320,7 @@ export default function AdminContactForm(props) {
     setTraditionalContactItems(contactItems.contact)
   }, [contactItems])
 
-  const handleSaveFooter = () => {
+  const handleSaveContact = () => {
     console.log(contactItems)
   }
 
@@ -297,8 +356,13 @@ export default function AdminContactForm(props) {
               addressItems={addressItems}
               traditionalContactItems={traditionalContactItems}
               socialMediaItems={socialMediaItems}
+              setAddressItems={setAddressItems}
+              setTraditionalContactItems={setTraditionalContactItems}
+              setSocialMediaItems={setSocialMediaItems}
               setContactItems={setContactItems}
               contactItems={contactItems}
+              setSortDisabled={setSortDisabled}
+              sortDisabled={sortDisabled}
             />
 
             {showAlert.show ? <AlertInfo content={showAlert} /> : null}
@@ -306,19 +370,22 @@ export default function AdminContactForm(props) {
         </motion.div>
 
         <motion.div
+          className="full-width"
           initial="hidden"
           variants={variants(4)}
           animate={controls}
-          style={{ width: "100%" }}
         >
-          <Stack flexDirection="row" gap={2} justifyContent="end">
-            <CustomSubmitButton onClick={handleCancel}>
-              Annuler
-            </CustomSubmitButton>
-            <CustomSubmitButton secondary="true" onClick={handleSaveFooter}>
-              Enregistrer
-            </CustomSubmitButton>
-          </Stack>
+          {sortDisabled && (
+            // We hide that section if user is reordering the elements
+            <Stack flexDirection="row" gap={2} justifyContent="end">
+              <CustomSubmitButton onClick={handleCancel}>
+                Annuler
+              </CustomSubmitButton>
+              <CustomSubmitButton secondary="true" onClick={handleSaveContact}>
+                Enregistrer
+              </CustomSubmitButton>
+            </Stack>
+          )}
         </motion.div>
       </CustomForm>
     </Stack>
