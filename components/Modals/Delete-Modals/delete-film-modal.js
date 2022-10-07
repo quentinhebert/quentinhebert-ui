@@ -24,12 +24,12 @@ export default function DeleteFilmModal(props) {
   }
   const handleSuccess = () => {
     setSnackSeverity("success")
-    setSnackMessage("Le film a été mis à jour !")
+    setSnackMessage("Le film a été supprimé !")
     handleClose()
   }
   const handleError = () => {
     setSnackSeverity("error")
-    setSnackMessage("An error occurred while updating the category...")
+    setSnackMessage("Une erreur est survenue...")
   }
   const handleDelete = async () => {
     setIsLoading(true)

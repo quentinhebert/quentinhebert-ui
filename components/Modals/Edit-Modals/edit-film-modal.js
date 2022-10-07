@@ -118,7 +118,7 @@ function EditFilmModal(props) {
   }
   const handleError = () => {
     setSnackSeverity("error")
-    setSnackMessage("An error occurred while updating the category...")
+    setSnackMessage("Une erreur est survenue")
   }
   const processThumbnail = async () => {
     if (file) {
