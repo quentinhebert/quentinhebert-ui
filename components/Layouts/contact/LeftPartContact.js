@@ -84,17 +84,20 @@ const SocialButton = ({ item }) => {
   )
 }
 
-const SocialButtons = ({ socialMedias }) => (
-  <Stack
-    flexDirection="row"
-    alignItems="center"
-    gap={1}
-    sx={{ marginBottom: "4rem" }}
-  >
-    {socialMedias &&
-      socialMedias.map((item, key) => <SocialButton item={item} key={key} />)}
-  </Stack>
-)
+const SocialButtons = ({ socialMedias }) => {
+  if (!socialMedias) return <></>
+  return (
+    <Stack
+      flexDirection="row"
+      alignItems="center"
+      gap={1}
+      sx={{ marginBottom: "4rem" }}
+    >
+      {socialMedias &&
+        socialMedias.map((item, key) => <SocialButton item={item} key={key} />)}
+    </Stack>
+  )
+}
 
 const ContactLink = ({ href, text, icon }) => (
   <Link
