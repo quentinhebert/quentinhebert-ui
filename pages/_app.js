@@ -1,9 +1,9 @@
 import { ThemeProvider } from "@mui/material"
 import "../styles/globals.css"
 import theme from "../config/theme"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { UserContext } from "../contexts/UserContext"
-import { getToken } from "../services/cookies"
+import { getToken } from "../services/auth"
 import { getUser } from "../services/utils"
 import apiCall from "../services/apiCalls/apiCall"
 import Loading from "../components/Other/loading"
@@ -11,7 +11,7 @@ import { AnimatePresence } from "framer-motion"
 
 function MyApp({ Component, pageProps, router }) {
   const [user, setUser] = useState(null)
-  const [accessToken, setAccessToken] = useState(getToken())
+  const [accessToken, setAccessToken] = useState(null)
 
   // In case we have to convert access token into a user (i.e. when coming directly from URL)
   const fetchUser = async () => {
@@ -24,8 +24,15 @@ function MyApp({ Component, pageProps, router }) {
       setAccessToken(null)
     }
   }
+
+  useEffect(() => {
+    if (window) setAccessToken(getToken())
+    if (!user && !!accessToken && accessToken !== "") {
+      fetchUser()
+    }
+  }, [user, accessToken])
+
   if (!user && !!accessToken && accessToken !== "") {
-    fetchUser()
     return (
       <body>
         <Loading />

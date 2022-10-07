@@ -1,5 +1,5 @@
 import { defaultConfig } from "../../config/defaultConfig"
-import { getRefreshToken } from "../cookies"
+import { getRefreshToken } from "../auth"
 import { getFreshToken, getUser } from "../utils"
 
 const users = {

@@ -1,7 +1,7 @@
 import jsonwebtoken from "jsonwebtoken"
 import { useRouter } from "next/router"
 import apiCall from "./apiCalls/apiCall"
-import { getToken, removeToken, setRefreshToken, setToken } from "./cookies"
+import { getToken, removeToken, setRefreshToken, setToken } from "./auth"
 
 export async function logout() {
   const res = await apiCall.users.logout()
