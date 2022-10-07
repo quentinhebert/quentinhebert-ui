@@ -4,6 +4,21 @@ import Slide from "@mui/material/Slide"
 import Snackbar from "@mui/material/Snackbar"
 import React, { useEffect, useState } from "react"
 
+function getBgColor(severity) {
+  switch (severity) {
+    case "success":
+      return "#125C27"
+    case "error":
+      return "#AF241C"
+    case "warning":
+      return "#C6900E"
+    case "info":
+      return "#2A28B5"
+    default:
+      return ""
+  }
+}
+
 function SlideTransition(props) {
   return <Slide {...props} direction="left" />
 }
@@ -42,6 +57,7 @@ function Snacks(props) {
           severity={severity}
           sx={{
             fontWeight: "bold",
+            backgroundColor: getBgColor(severity),
           }}
           onClose={handleClose}
         >
