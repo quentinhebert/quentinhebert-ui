@@ -1,19 +1,22 @@
+import Cookies from "js-cookie"
+
 export function setToken(token) {
-  localStorage.setItem("token", token)
+  Cookies.set("token", token, { expires: 7 })
 }
 
 export function getToken() {
-  return localStorage.getItem("token")
+  return Cookies.get("token")
 }
 
 export function setRefreshToken(refreshToken) {
-  localStorage.setItem("refresh_token", refreshToken)
+  Cookies.set("refresh_token", refreshToken, { expires: 7 })
 }
 
 export function getRefreshToken() {
-  return localStorage.getItem("refresh_token")
+  return Cookies.get("refresh_token")
 }
 
 export function removeToken() {
-  localStorage.clear()
+  Cookies.set("token", "")
+  Cookies.set("refresh_token", "")
 }
