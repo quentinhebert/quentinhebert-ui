@@ -3,7 +3,7 @@ import "../styles/globals.css"
 import theme from "../config/theme"
 import { useEffect, useState } from "react"
 import { UserContext } from "../contexts/UserContext"
-import { getToken } from "../services/auth"
+import { getToken, removeToken } from "../services/auth"
 import { getUser } from "../services/utils"
 import apiCall from "../services/apiCalls/apiCall"
 import Loading from "../components/Other/loading"
@@ -21,12 +21,13 @@ function MyApp({ Component, pageProps, router }) {
       const userData = await res.json()
       setUser(userData)
     } else {
-      setAccessToken(null)
+      removeToken() // Local storage
+      setAccessToken(null) // Context
     }
   }
 
   useEffect(() => {
-    if (window) setAccessToken(getToken())
+    if (window && getToken()) setAccessToken(getToken())
     if (!user && !!accessToken && accessToken !== "") {
       fetchUser()
     }
