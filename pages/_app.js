@@ -8,10 +8,16 @@ import { getUser } from "../services/utils"
 import apiCall from "../services/apiCalls/apiCall"
 import Loading from "../components/Other/loading"
 import { AnimatePresence } from "framer-motion"
+import AnimatedLogoLayout from "../components/ReusableComponents/animations/animated-logo"
 
 function MyApp({ Component, pageProps, router }) {
   const [user, setUser] = useState(null)
   const [accessToken, setAccessToken] = useState(null)
+  const [minimumDelay, setMinimumDelay] = useState(false)
+
+  setTimeout(() => {
+    setMinimumDelay(true)
+  }, 2000)
 
   // In case we have to convert access token into a user (i.e. when coming directly from URL)
   const fetchUser = async () => {
@@ -19,7 +25,7 @@ function MyApp({ Component, pageProps, router }) {
     const res = await apiCall.users.get(userFromToken.id)
     if (res && res.ok) {
       const userData = await res.json()
-      setUser(userData)
+      if (minimumDelay) setUser(userData)
     } else {
       removeToken() // Local storage
       setAccessToken(null) // Context
@@ -31,14 +37,10 @@ function MyApp({ Component, pageProps, router }) {
     if (!user && !!accessToken && accessToken !== "") {
       fetchUser()
     }
-  }, [user, accessToken])
+  }, [user, accessToken, minimumDelay])
 
   if (!user && !!accessToken && accessToken !== "") {
-    return (
-      <body>
-        <Loading />
-      </body>
-    )
+    return <AnimatedLogoLayout />
   }
 
   return (
