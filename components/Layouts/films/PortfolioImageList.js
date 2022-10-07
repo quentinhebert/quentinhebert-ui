@@ -30,6 +30,24 @@ export default function MasonryImageList() {
 
   const itemData = [
     {
+      img: "/medias/aviron.png",
+      title: "Club d'aviron de Soissons",
+      client: "Société Nautique Soissonnaise",
+      type: "Sport",
+      url: "https://www.youtube.com/watch?v=x--sqOlS0S8",
+      roles: ["Réalisateur", "Cadreur", "Monteur"],
+      gear: [
+        "Fujifilm XT-3",
+        "Fujifilm 18-55mm f2.8-4",
+        "Ronin SC",
+        "Canon 5DIII",
+        "Sigma 70-200mm f2.8",
+      ],
+      description:
+        "Le club d'aviron de Soissons est fier de voir ses rameurs de tous âges sur le beau bassin d'entraînement de l'Aisne. Amateurs comme compétiteurs, c'est toujours dans l'esprit d'une grande famille que la SNS vous accueille au club !",
+      date: "2022",
+    },
+    {
       img: "/medias/event-cover.png",
       title: "Baptême d'Elio",
       client: "Sophie & Jérémy",
