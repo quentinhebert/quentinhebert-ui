@@ -20,6 +20,7 @@ import CustomLink from "../../ReusableComponents/custom-link"
 import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on-hover-stack"
 import apiCall from "../../../services/apiCalls/apiCall"
 import useSWR from "swr"
+import MotionDivFadeInOnMount from "../../ReusableComponents/animations/motion-div-fade-in-on-mount"
 
 async function fetchUpToDateFooter() {
   const res = await apiCall.unauthenticated.getFooter()
@@ -30,23 +31,18 @@ async function fetchUpToDateFooter() {
 /********** CONSTANTES **********/
 const logoQH = "/logos/logo-qh.png"
 
-const SOCIAL_MEDIAS = [
-  {
-    type: "youtube",
-    image: YoutubeIcon,
-    link: "https://www.youtube.com/c/NarcoProd",
-  },
-  {
-    type: "instagram",
-    image: InstagramIcon,
-    link: "https://www.instagram.com/tarte_a_la_courgette",
-  },
-  {
-    type: "facebook",
-    image: FacebookIcon,
-    link: "https://www.facebook.com/kioulekiou/",
-  },
-]
+function getIcon(type) {
+  switch (type) {
+    case "youtube_url":
+      return YoutubeIcon
+    case "facebook_url":
+      return FacebookIcon
+    case "instagram_url":
+      return InstagramIcon
+    default:
+      return ""
+  }
+}
 
 const warrantiesButtons = [
   {
@@ -70,7 +66,12 @@ const warrantiesButtons = [
 const Credits = ({ text }) => {
   const year = new Date().getFullYear()
   return (
-    <Stack alignItems="center" textAlign="center" margin="3rem auto 0">
+    <Stack
+      alignItems="center"
+      textAlign="center"
+      margin="3rem auto 0"
+      padding="0 1rem"
+    >
       <SmallText>
         © Quentin Hébert {year} · {text} ·{" "}
         <InTextLink
@@ -83,34 +84,32 @@ const Credits = ({ text }) => {
   )
 }
 
-const Email = () => {
-  return (
-    <Typography
-      display="flex"
-      alignItems="center"
-      gap={1}
-      color="text.white"
-      sx={{ "&:hover": { color: (theme) => theme.palette.text.secondary } }}
-    >
-      <MailOutlineIcon />
-      <InTextLink
-        href="mailto:hello@quentinhebert.com"
-        text="hello@quentinhebert.com"
-        letterSpacing={2}
-        textTransform="uppercase"
-        sx={{ fontSize: "0.9rem" }}
-      />
-    </Typography>
-  )
-}
+const Email = ({ email }) => (
+  <Typography
+    display="flex"
+    alignItems="center"
+    gap={1}
+    color="text.white"
+    sx={{ "&:hover": { color: (theme) => theme.palette.text.secondary } }}
+  >
+    <MailOutlineIcon />
+    <InTextLink
+      href={`mailto:${email || ""}`}
+      text={email || ""}
+      letterSpacing={2}
+      textTransform="uppercase"
+      sx={{ fontSize: "0.9rem" }}
+    />
+  </Typography>
+)
 
-const SocialMedias = () => {
+const SocialMedias = ({ items }) => {
   return (
     <Stack direction="row" width={"100%"} justifyContent="center" gap={2}>
-      {SOCIAL_MEDIAS.map((social, key) => (
+      {items.map((social, key) => (
         <ScaleUpOnHoverStack key={key}>
-          <CustomLink href={social.link} target="_blank">
-            <Image src={social.image} height="40%" width="40%" />
+          <CustomLink href={social.value} target="_blank">
+            <Image src={getIcon(social.type)} height="40%" width="40%" />
           </CustomLink>
         </ScaleUpOnHoverStack>
       ))}
@@ -129,16 +128,10 @@ const LogoQH = () => (
 )
 
 export default function Footer(props) {
-  const { data, error, mutate } = useSWR(
-    `/footer`,
-    async () => fetchUpToDateFooter(),
-    {
-      fallbackData: props,
-      revalidateOnMount: true,
-    }
-  )
-
-  if (!data) return null
+  const { data } = useSWR(`/footer`, async () => fetchUpToDateFooter(), {
+    fallbackData: props,
+    revalidateOnMount: true,
+  })
 
   /********** STYLE **********/
   const motionDivStyle = {
@@ -166,74 +159,75 @@ export default function Footer(props) {
     }
   }, [controls, inView])
 
+  if (!data || !data.email || !data.credits || !data.social_medias) return <></>
   return (
-    <Box
-      ref={ref}
-      component="footer"
-      width={"100%"}
-      paddingTop={10}
-      margin={0}
-      paddingBottom={4}
-      zIndex={1}
-      position="relative"
-      sx={{
-        backgroundColor: "transparent",
-        backgroundImage: "url(/medias/footer-wave.svg)",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <CenteredMaxWidthContainer>
-        {/* FOOTER CONTENT */}
-        <Stack
-          alignItems="center"
-          gap={5}
-          sx={{
-            flexDirection: { xs: "column", md: "row" },
-          }}
-        >
-          {/* LOGO */}
+    <MotionDivFadeInOnMount>
+      <Box
+        ref={ref}
+        component="footer"
+        className="full-width relative no-margin"
+        paddingTop={10}
+        paddingBottom={4}
+        zIndex={1}
+        sx={{
+          backgroundColor: "transparent",
+          backgroundImage: "url(/medias/footer-wave.svg)",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <CenteredMaxWidthContainer>
+          {/* FOOTER CONTENT */}
+          <Stack
+            alignItems="center"
+            gap={5}
+            sx={{
+              flexDirection: { xs: "column", md: "row" },
+            }}
+          >
+            {/* LOGO */}
+            <motion.div
+              initial="hidden"
+              variants={variants(0)}
+              animate={controls}
+              style={motionDivStyle}
+            >
+              <LogoQH />
+            </motion.div>
+
+            {/* EMAIL */}
+            <motion.div
+              initial="hidden"
+              variants={variants(1)}
+              animate={controls}
+              style={motionDivStyle}
+            >
+              <Email email={data.email} />
+            </motion.div>
+
+            {/* SOCIAL MEDIAS */}
+            <motion.div
+              initial="hidden"
+              variants={variants(2)}
+              animate={controls}
+              style={motionDivStyle}
+            >
+              <SocialMedias items={data.social_medias} />
+            </motion.div>
+          </Stack>
+
+          {/* WEBSITE CREDITS */}
           <motion.div
             initial="hidden"
-            variants={variants(0)}
+            variants={variants(3)}
             animate={controls}
             style={motionDivStyle}
           >
-            <LogoQH />
+            <Credits text={data.credits} />
           </motion.div>
-
-          {/* EMAIL */}
-          <motion.div
-            initial="hidden"
-            variants={variants(1)}
-            animate={controls}
-            style={motionDivStyle}
-          >
-            <Email />
-          </motion.div>
-
-          {/* SOCIAL MEDIAS */}
-          <motion.div
-            initial="hidden"
-            variants={variants(2)}
-            animate={controls}
-            style={motionDivStyle}
-          >
-            <SocialMedias />
-          </motion.div>
-        </Stack>
-
-        {/* WEBSITE CREDITS */}
-        <motion.div
-          initial="hidden"
-          variants={variants(3)}
-          animate={controls}
-          style={motionDivStyle}
-        >
-          <Credits text={data.credits} />
-        </motion.div>
-      </CenteredMaxWidthContainer>
-    </Box>
+        </CenteredMaxWidthContainer>
+      </Box>
+    </MotionDivFadeInOnMount>
   )
 }
 

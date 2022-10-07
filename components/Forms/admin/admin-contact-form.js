@@ -18,6 +18,7 @@ import SortIcon from "@mui/icons-material/Sort"
 import CustomOutlinedButton from "../../ReusableComponents/buttons/custom-outlined-button"
 import SwipeableViewsReadyToUse from "../../ReusableComponents/containers/swipeable-view-ready-to-use"
 import withSnacks from "../../hocs/withSnacks"
+import useSWR from "swr"
 
 const Caroussel = ({
   addressItems,
@@ -231,6 +232,8 @@ function AdminContactForm(props) {
   /********** PROPS **********/
   const { handleClose, setSeverity, setOpenSnackBar, setMessageSnack } = props
 
+  const { mutate } = useSWR("/footer")
+
   /********** USE-STATES **********/
   const [isFetching, setIsFetching] = useState(false)
   const [contactItems, setContactItems] = useState([])
@@ -274,6 +277,7 @@ function AdminContactForm(props) {
     setOpenSnackBar(true)
     setMessageSnack("Informations de contact mises à jour")
     fetchContact() // update data
+    mutate() // update footer swr
     if (handleClose) handleClose()
   }
   const handleError = () => {
