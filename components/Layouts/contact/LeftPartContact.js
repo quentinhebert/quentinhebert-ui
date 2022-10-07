@@ -76,15 +76,15 @@ const SocialButton = ({ item, delay }) => {
   const icon = SOCIAL_MEDIAS_ICONS.filter((obj) => obj.type === item.type)[0]
     .icon
   return (
-    <MotionDivDownOnMount delay={0.25 + delay / 5}>
-      <Box component="a" href={item.link} target="_blank" rel="noreferrer">
+    <Box component="a" href={item.link} target="_blank" rel="noreferrer">
+      <MotionDivDownOnMount delay={0.25 + delay / 5}>
         <ScaleUpOnHoverStack>
           <Box sx={{ marginRight: ".5rem" }}>
-            <Image src={icon} width="30" height="30" />
+            <Image src={icon} width="30" height="30" priority />
           </Box>
         </ScaleUpOnHoverStack>
-      </Box>
-    </MotionDivDownOnMount>
+      </MotionDivDownOnMount>
+    </Box>
   )
 }
 
