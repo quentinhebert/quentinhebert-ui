@@ -9,14 +9,15 @@ import apiCall from "../services/apiCalls/apiCall"
 import Loading from "../components/Other/loading"
 import { AnimatePresence } from "framer-motion"
 import AnimatedLogoLayout from "../components/ReusableComponents/animations/animated-logo"
+import { AppContext } from "../contexts/AppContext"
 
 function MyApp({ Component, pageProps, router }) {
   const [user, setUser] = useState(null)
   const [accessToken, setAccessToken] = useState(null)
-  const [minimumDelay, setMinimumDelay] = useState(false)
+  const [appLoading, setAppLoading] = useState(true)
 
   setTimeout(() => {
-    setMinimumDelay(true)
+    setAppLoading(false)
   }, 2000)
 
   // In case we have to convert access token into a user (i.e. when coming directly from URL)
@@ -25,7 +26,7 @@ function MyApp({ Component, pageProps, router }) {
     const res = await apiCall.users.get(userFromToken.id)
     if (res && res.ok) {
       const userData = await res.json()
-      if (minimumDelay) setUser(userData)
+      if (!appLoading) setUser(userData)
     } else {
       removeToken() // Local storage
       setAccessToken(null) // Context
@@ -37,20 +38,24 @@ function MyApp({ Component, pageProps, router }) {
     if (!user && !!accessToken && accessToken !== "") {
       fetchUser()
     }
-  }, [user, accessToken, minimumDelay])
+  }, [user, accessToken, appLoading])
 
-  if (!user && !!accessToken && accessToken !== "") {
+  if ((!user && !!accessToken && accessToken !== "") || appLoading) {
     return <AnimatedLogoLayout />
   }
 
   return (
-    <UserContext.Provider value={{ user, setUser, setAccessToken, fetchUser }}>
-      <ThemeProvider theme={theme}>
-        <AnimatePresence exitBeforeEnter>
-          <Component {...pageProps} key={router.route} />
-        </AnimatePresence>
-      </ThemeProvider>
-    </UserContext.Provider>
+    <AppContext.Provider value={{ appLoading, setAppLoading }}>
+      <UserContext.Provider
+        value={{ user, setUser, setAccessToken, fetchUser }}
+      >
+        <ThemeProvider theme={theme}>
+          <AnimatePresence exitBeforeEnter>
+            <Component {...pageProps} key={router.route} />
+          </AnimatePresence>
+        </ThemeProvider>
+      </UserContext.Provider>
+    </AppContext.Provider>
   )
 }
 
