@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../../services/apiCalls/apiCall"
 import { Box, Stack, Typography } from "@mui/material"
 import { sortableContainer, sortableElement } from "react-sortable-hoc"
@@ -15,6 +15,7 @@ import OutlinedButton from "../../../ReusableComponents/buttons/outlined-button"
 import AddIcon from "@mui/icons-material/Add"
 import AddFilmModal from "../../../Modals/Create-Modals/add-film-modal"
 import BodyText from "../../../ReusableComponents/text/body-text"
+import { AppContext } from "../../../../contexts/AppContext"
 
 const SortableListItem = sortableElement(({ item, fetchFilms, showMenu }) => {
   const [openEditModal, setOpenEditModal] = useState(false)
@@ -166,6 +167,8 @@ export default function FilmsPanelUI(props) {
   const [disableSort, setDisableSort] = useState(true)
   const [openAddFilmModal, setOpenAddFilmModal] = useState(false)
 
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+
   /***************** FETCH DATA ****************/
   const fetchFilms = async () => {
     setIsLoading(true)
@@ -182,6 +185,16 @@ export default function FilmsPanelUI(props) {
   }, [])
 
   /***************** HANDLERS ****************/
+  const handleSuccess = () => {
+    setDisableSort(true)
+    setSnackSeverity("success")
+    setSnackMessage("Ordre des films mis à jour")
+    fetchFilms()
+  }
+  const handleError = () => {
+    setSnackSeverity("error")
+    setSnackMessage("Une erreur est survenue...")
+  }
   const handleSaveSortedVideos = async () => {
     // We only send the sorted ids
     let sortedFilmIds = []
@@ -189,10 +202,8 @@ export default function FilmsPanelUI(props) {
       sortedFilmIds.push(film.id)
     })
     const res = await apiCall.admin.sortFilms(sortedFilmIds)
-    if (res) {
-      setDisableSort(true)
-      fetchFilms()
-    }
+    if (res) handleSuccess()
+    else handleError()
   }
   const handleOpenAddFilmModal = () => setOpenAddFilmModal(true)
   const handleCloseAddFilmModal = () => setOpenAddFilmModal(false)
