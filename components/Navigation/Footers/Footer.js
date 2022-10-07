@@ -21,6 +21,7 @@ import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on
 import apiCall from "../../../services/apiCalls/apiCall"
 import useSWR from "swr"
 import MotionDivFadeInOnMount from "../../ReusableComponents/animations/motion-div-fade-in-on-mount"
+import getSocialIcon from "../../Other/get-social-icon"
 
 async function fetchUpToDateFooter() {
   const res = await apiCall.unauthenticated.getFooter()
@@ -30,19 +31,6 @@ async function fetchUpToDateFooter() {
 
 /********** CONSTANTES **********/
 const logoQH = "/logos/logo-qh.png"
-
-function getIcon(type) {
-  switch (type) {
-    case "youtube_url":
-      return YoutubeIcon
-    case "facebook_url":
-      return FacebookIcon
-    case "instagram_url":
-      return InstagramIcon
-    default:
-      return ""
-  }
-}
 
 const warrantiesButtons = [
   {
@@ -109,7 +97,7 @@ const SocialMedias = ({ items }) => {
       {items.map((social, key) => (
         <ScaleUpOnHoverStack key={key}>
           <CustomLink href={social.value} target="_blank">
-            <Image src={getIcon(social.type)} height="40%" width="40%" />
+            <Image src={getSocialIcon(social.type)} height="40%" width="40%" />
           </CustomLink>
         </ScaleUpOnHoverStack>
       ))}

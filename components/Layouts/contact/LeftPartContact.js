@@ -11,60 +11,10 @@ import styles from "../../../styles/TextShine.module.css"
 import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
 import Image from "next/image"
-import youtubeIcon from "../../../public/medias/social_icons/youtube.svg"
-import facebookIcon from "../../../public/medias/social_icons/facebook.svg"
-import instagramIcon from "../../../public/medias/social_icons/instagram.svg"
-import tiktokIcon from "../../../public/medias/social_icons/tiktok.svg"
-import linkedinIcon from "../../../public/medias/social_icons/linkedin.svg"
-import snapchatIcon from "../../../public/medias/social_icons/snapchat.svg"
-import pinterestIcon from "../../../public/medias/social_icons/pinterest.svg"
-import whatsappIcon from "../../../public/medias/social_icons/whatsapp.svg"
-import vimeoIcon from "../../../public/medias/social_icons/vimeo.svg"
-import twitterIcon from "../../../public/medias/social_icons/twitter.svg"
-import MotionDivDownOnMount from "../../ReusableComponents/animations/motion-div-down-on-mount"
-
-const SOCIAL_MEDIAS_ICONS = [
-  {
-    type: "youtube_url",
-    icon: youtubeIcon,
-  },
-  {
-    type: "instagram_url",
-    icon: instagramIcon,
-  },
-  {
-    type: "facebook_url",
-    icon: facebookIcon,
-  },
-  {
-    type: "tiktok_url",
-    icon: tiktokIcon,
-  },
-  {
-    type: "linkedin_url",
-    icon: linkedinIcon,
-  },
-  {
-    type: "snapchat_url",
-    icon: snapchatIcon,
-  },
-  {
-    type: "whatsapp_url",
-    icon: whatsappIcon,
-  },
-  {
-    type: "pinterest_url",
-    icon: pinterestIcon,
-  },
-  {
-    type: "vimeo_url",
-    icon: vimeoIcon,
-  },
-  {
-    type: "twitter_url",
-    icon: twitterIcon,
-  },
-]
+import getSocialIcon from "../../Other/get-social-icon"
+import { motion } from "framer-motion"
+import StaggerParent from "../../ReusableComponents/animations/stagger-parent"
+import { moveLeftVariants } from "../../ReusableComponents/animations/variants"
 
 const fetchUpToDateContact = async () => {
   const res = await apiCall.unauthenticated.getWebsiteContact()
@@ -72,18 +22,21 @@ const fetchUpToDateContact = async () => {
   return jsonRes
 }
 
-const SocialButton = ({ item, delay }) => {
-  const icon = SOCIAL_MEDIAS_ICONS.filter((obj) => obj.type === item.type)[0]
-    .icon
+const SocialButton = ({ item }) => {
   return (
     <Box component="a" href={item.link} target="_blank" rel="noreferrer">
-      <MotionDivDownOnMount delay={0.25 + delay / 5}>
+      <motion.div variants={moveLeftVariants}>
         <ScaleUpOnHoverStack>
           <Box sx={{ marginRight: ".5rem" }}>
-            <Image src={icon} width="30" height="30" priority />
+            <Image
+              src={getSocialIcon(item.type)}
+              width="30"
+              height="30"
+              priority
+            />
           </Box>
         </ScaleUpOnHoverStack>
-      </MotionDivDownOnMount>
+      </motion.div>
     </Box>
   )
 }
@@ -91,15 +44,12 @@ const SocialButton = ({ item, delay }) => {
 const SocialButtons = ({ socialMedias }) => {
   if (!socialMedias || !socialMedias.length) return <></>
   return (
-    <Stack
-      flexDirection="row"
-      alignItems="center"
-      gap={1}
-      sx={{ marginBottom: "4rem" }}
-    >
-      {socialMedias.map((item, key) => (
-        <SocialButton item={item} key={key} delay={key} />
-      ))}
+    <Stack sx={{ marginBottom: "4rem" }}>
+      <StaggerParent className="flex row flex-center gap-10">
+        {socialMedias.map((item, key) => (
+          <SocialButton item={item} key={key} />
+        ))}
+      </StaggerParent>
     </Stack>
   )
 }
@@ -134,12 +84,17 @@ const ContactLinks = ({ contact }) => {
 
     if (item.show || item.show === null)
       return (
-        <ContactLink
+        <motion.div
           key={key}
-          href={`${prefix}:${item.value}`}
-          text={item.value}
-          icon={ICONS[item.type]}
-        />
+          className="full-width"
+          variants={moveLeftVariants}
+        >
+          <ContactLink
+            href={`${prefix}:${item.value}`}
+            text={item.value}
+            icon={ICONS[item.type]}
+          />
+        </motion.div>
       )
   })
 }
@@ -187,9 +142,14 @@ const AddressSection = ({ addressItems }) => {
 
   return (
     <>
-      <LocationText text={parsedAddress} icon={<LocationOnIcon />} />
+      <motion.div className="full-width" variants={moveLeftVariants}>
+        <LocationText text={parsedAddress} icon={<LocationOnIcon />} />
+      </motion.div>
+
       {mobility && (
-        <LocationText text={mobility} icon={<DirectionsCarIcon />} />
+        <motion.div className="full-width" variants={moveLeftVariants}>
+          <LocationText text={mobility} icon={<DirectionsCarIcon />} />
+        </motion.div>
       )}
     </>
   )
@@ -205,7 +165,8 @@ export default function LeftPartContact(props) {
     }
   )
 
-  if (!data) return null
+  if (!data || !data.social_medias || !data.contact || !data.address)
+    return <></>
 
   return (
     <Stack
@@ -226,11 +187,19 @@ export default function LeftPartContact(props) {
       <SocialButtons socialMedias={data.social_medias} />
 
       <SmallTitle>Informations utiles</SmallTitle>
-      <Stack sx={{ letterSpacing: "1.5px", gap: "0.7rem" }}>
+
+      <StaggerParent
+        className="flex column"
+        staggerChildren={0.6}
+        style={{
+          letterSpacing: "1.5px",
+          gap: "0.7rem",
+        }}
+      >
         <ContactLinks contact={data.contact} />
 
         <AddressSection addressItems={data.address} />
-      </Stack>
+      </StaggerParent>
     </Stack>
   )
 }
