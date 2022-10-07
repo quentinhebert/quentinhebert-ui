@@ -147,6 +147,8 @@ const LocationText = ({ text, icon }) => (
 )
 
 const AddressSection = ({ addressItems }) => {
+  if (!addressItems?.length) return <></>
+
   // Get data values
   let parsedAddress = ""
   const line1 = addressItems.filter((elt) => elt.type === "address_line_1")[0]
