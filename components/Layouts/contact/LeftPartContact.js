@@ -10,6 +10,7 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar"
 import styles from "../../../styles/TextShine.module.css"
 import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
+import Image from "next/image"
 
 const SOCIAL_MEDIAS_ICONS = [
   {
@@ -67,7 +68,7 @@ const SocialButton = ({ item }) => {
   return (
     <Box component="a" href={item.link} target="_blank" rel="noreferrer">
       <ScaleUpOnHoverStack>
-        <Box
+        {/* <Box
           component="img"
           src={icon}
           alt={item.type}
@@ -78,7 +79,10 @@ const SocialButton = ({ item }) => {
             marginRight: ".5rem",
             "&:hover": { opacity: 0.9 },
           }}
-        />
+        /> */}
+        <Box sx={{ marginRight: ".5rem" }}>
+          <Image src={icon} width="30" height="30" />
+        </Box>
       </ScaleUpOnHoverStack>
     </Box>
   )
