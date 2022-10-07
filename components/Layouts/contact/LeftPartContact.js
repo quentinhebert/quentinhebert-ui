@@ -21,6 +21,7 @@ import pinterestIcon from "../../../public/medias/social_icons/pinterest.svg"
 import whatsappIcon from "../../../public/medias/social_icons/whatsapp.svg"
 import vimeoIcon from "../../../public/medias/social_icons/vimeo.svg"
 import twitterIcon from "../../../public/medias/social_icons/twitter.svg"
+import MotionDivDownOnMount from "../../ReusableComponents/animations/motion-div-down-on-mount"
 
 const SOCIAL_MEDIAS_ICONS = [
   {
@@ -71,23 +72,24 @@ const fetchUpToDateContact = async () => {
   return jsonRes
 }
 
-const SocialButton = ({ item }) => {
+const SocialButton = ({ item, delay }) => {
   const icon = SOCIAL_MEDIAS_ICONS.filter((obj) => obj.type === item.type)[0]
     .icon
-
   return (
-    <Box component="a" href={item.link} target="_blank" rel="noreferrer">
-      <ScaleUpOnHoverStack>
-        <Box sx={{ marginRight: ".5rem" }}>
-          <Image src={icon} width="30" height="30" />
-        </Box>
-      </ScaleUpOnHoverStack>
-    </Box>
+    <MotionDivDownOnMount delay={0.25 + delay / 5}>
+      <Box component="a" href={item.link} target="_blank" rel="noreferrer">
+        <ScaleUpOnHoverStack>
+          <Box sx={{ marginRight: ".5rem" }}>
+            <Image src={icon} width="30" height="30" />
+          </Box>
+        </ScaleUpOnHoverStack>
+      </Box>
+    </MotionDivDownOnMount>
   )
 }
 
 const SocialButtons = ({ socialMedias }) => {
-  if (!socialMedias) return <></>
+  if (!socialMedias || !socialMedias.length) return <></>
   return (
     <Stack
       flexDirection="row"
@@ -95,8 +97,9 @@ const SocialButtons = ({ socialMedias }) => {
       gap={1}
       sx={{ marginBottom: "4rem" }}
     >
-      {socialMedias &&
-        socialMedias.map((item, key) => <SocialButton item={item} key={key} />)}
+      {socialMedias.map((item, key) => (
+        <SocialButton item={item} key={key} delay={key} />
+      ))}
     </Stack>
   )
 }
@@ -120,7 +123,7 @@ const ContactLink = ({ href, text, icon }) => (
 const ContactLinks = ({ contact }) => {
   if (!contact || !contact.length) return <></>
 
-  return contact.map((item) => {
+  return contact.map((item, key) => {
     let prefix
     const ICONS = {
       phone: <LocalPhoneIcon />,
@@ -132,6 +135,7 @@ const ContactLinks = ({ contact }) => {
     if (item.show || item.show === null)
       return (
         <ContactLink
+          key={key}
           href={`${prefix}:${item.value}`}
           text={item.value}
           icon={ICONS[item.type]}
