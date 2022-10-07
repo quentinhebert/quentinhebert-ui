@@ -36,7 +36,9 @@ export default function LoginForm(props) {
   const router = useRouter()
 
   /********** USER **********/
-  const { setUser } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
+
+  if (user) return router.push("/account")
 
   /********** USE-STATES **********/
   const [loading, setLoading] = useState(false)

@@ -25,9 +25,6 @@ export default function LoginPage() {
   // Check if user is already logged in
   const { user } = useContext(UserContext)
 
-  const router = useRouter()
-  if (user) router.push("/account")
-
   return (
     <motion.div
       exit={{ opacity: 0 }}
