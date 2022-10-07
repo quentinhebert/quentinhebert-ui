@@ -1,25 +1,11 @@
-import { Link, Stack, Typography } from "@mui/material";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import { compose } from "redux";
-import withConfirmAction from "../../hocs/withConfirmAction";
-import withSnacks from "../../hocs/withSnacks";
-import EditAboutPage from "./EditAboutPage";
+import { Link, Stack, Typography } from "@mui/material"
+import { useRouter } from "next/router"
+import EditAboutPage from "./EditAboutPage"
 
-function AdminAboutPanel(props) {
-  const {
-    user,
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
-    setActionToFire,
-    setOpenConfirmModal,
-    setConfirmTitle,
-    setNextButtonText,
-    setConfirmContent,
-  } = props;
+export default function AdminAboutPanel(props) {
+  const {} = props
 
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <Stack justifyContent="center" direction="column" gap={4} padding="1rem">
@@ -37,7 +23,5 @@ function AdminAboutPanel(props) {
         <EditAboutPage />
       </Stack>
     </Stack>
-  );
+  )
 }
-
-export default compose(withSnacks, withConfirmAction)(AdminAboutPanel);

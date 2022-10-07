@@ -1,15 +1,14 @@
 import { Avatar, Stack, Tooltip } from "@mui/material"
-import { useEffect, useState } from "react"
-import { compose } from "redux"
+import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../hocs/withConfirmAction"
-import withSnacks from "../../hocs/withSnacks"
 import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
 import PageTitle from "../../ReusableComponents/titles/page-title"
 import CustomTable from "../../Sections/custom-table"
 import SignUpForm from "../../Forms/signup-form"
 import CustomModal from "../../ReusableComponents/modals/custom-modal"
 import BodyText from "../../ReusableComponents/text/body-text"
+import { AppContext } from "../../../contexts/AppContext"
 
 function getBoolValue(param) {
   if (!param)
@@ -117,15 +116,14 @@ const headCells = [
 
 function AdminUsersPanel(props) {
   const {
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
     setActionToFire,
     setOpenConfirmModal,
     setConfirmTitle,
     setNextButtonText,
     setConfirmContent,
   } = props
+
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   const [rows, setRows] = useState(null)
   const [allRows, setAllRows] = useState(null) // To keep a constant reference for search filter
@@ -166,15 +164,13 @@ function AdminUsersPanel(props) {
     )
 
     if (errors === 0) {
-      setSeverity("success")
-      setMessageSnack("User(s) deleted successfully.")
-      setOpenSnackBar(true)
+      setSnackSeverity("success")
+      setSnackMessage("User(s) deleted successfully.")
     } else {
-      setSeverity("error")
-      setMessageSnack(
+      setSnackSeverity("error")
+      setSnackMessage(
         `A problem occured while deletibg ${errors} of the selected users.`
       )
-      setOpenSnackBar(true)
     }
 
     await fetchUsers() // Refresh data
@@ -182,11 +178,10 @@ function AdminUsersPanel(props) {
   const handleDeleteUser = async (usersToDelete) => {
     // usersToDelete must be an array of user ids (we get it from table-helper.js)
     if (!usersToDelete.length) {
-      setSeverity("error")
-      setMessageSnack(
+      setSnackSeverity("error")
+      return setSnackMessage(
         `Un problème est survenu lors de la suppression de(s) ${usersToDelete.length} utilisateur(s)`
       )
-      return setOpenSnackBar(true)
     }
     // Open confirm modal
     setConfirmTitle(`Supprimer ${usersToDelete.length} utilisateur(s)`)
@@ -236,15 +231,10 @@ function AdminUsersPanel(props) {
       </Stack>
 
       <CustomModal open={openSignUp} handleClose={handleCloseSignUp}>
-        <SignUpForm
-          handleClose={handleCloseSignUp}
-          setSeverity={setSeverity}
-          setOpenSnackBar={setOpenSnackBar}
-          setMessageSnack={setMessageSnack}
-        />
+        <SignUpForm handleClose={handleCloseSignUp} />
       </CustomModal>
     </Stack>
   )
 }
 
-export default compose(withSnacks, withConfirmAction)(AdminUsersPanel)
+export default withConfirmAction(AdminUsersPanel)

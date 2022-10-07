@@ -1,7 +1,6 @@
 import { Stack, Avatar } from "@mui/material"
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import apiCall from "../../../../services/apiCalls/apiCall"
-import withSnacks from "../../../hocs/withSnacks"
 import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import { compose } from "redux"
 import withAddAvatar from "../../../hocs/withAddAvatar"
@@ -9,14 +8,11 @@ import withConfirmAction from "../../../hocs/withConfirmAction"
 import CustomForm from "../../../ReusableComponents/forms/custom-form"
 import CustomSubmitButton from "../../../ReusableComponents/forms/custom-submit-button"
 import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/centered-max-width-container"
+import { UserContext } from "../../../../contexts/UserContext"
+import { AppContext } from "../../../../contexts/AppContext"
 
 function ChangeAvatar(props) {
   const {
-    user,
-    setUser,
-    setSeverity,
-    setMessageSnack,
-    setOpenSnackBar,
     setOpenAddNewPhotosModal,
     uploadSuccess,
     setActionToFire,
@@ -25,6 +21,9 @@ function ChangeAvatar(props) {
     setNextButtonText,
     setConfirmContent,
   } = props
+
+  const { user, setUser } = useContext(UserContext)
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   // Fetch data
   async function fetchUser() {
@@ -52,15 +51,13 @@ function ChangeAvatar(props) {
 
   // HANDLERS
   const handleSuccess = () => {
-    setSeverity("success")
-    setOpenSnackBar("true")
-    setMessageSnack("Your avatar has been deleted successfully")
+    setSnackSeverity("success")
+    setSnackMessage("Your avatar has been deleted successfully")
     setUser({ ...user, avatar_path: null }) // Update user context
   }
   const handleError = () => {
-    setSeverity("error")
-    setOpenSnackBar("true")
-    setMessageSnack("A problem occured while deleting your avatar")
+    setSnackSeverity("error")
+    setSnackMessage("A problem occured while deleting your avatar")
   }
   const handleDeleteAvatar = () => {
     setActionToFire(() => () => deleteAvatar())
@@ -111,8 +108,4 @@ function ChangeAvatar(props) {
   )
 }
 
-export default compose(
-  withSnacks,
-  withAddAvatar,
-  withConfirmAction
-)(ChangeAvatar)
+export default compose(withAddAvatar, withConfirmAction)(ChangeAvatar)

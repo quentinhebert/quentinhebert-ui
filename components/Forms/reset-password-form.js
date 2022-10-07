@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react"
-import { IconButton, InputAdornment, Stack, TextField } from "@mui/material"
+import { useState, useEffect, useContext } from "react"
+import { Stack } from "@mui/material"
 import apiCall from "../../services/apiCalls/apiCall"
 import CustomForm from "../ReusableComponents/forms/custom-form"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
 import { motion } from "framer-motion"
-import withSnacks from "../../components/hocs/withSnacks"
 import AlertInfo from "../../components/Other/alert-info"
 import { checkPassword } from "../../services/utils"
 import PleaseWait from "../ReusableComponents/helpers/please-wait"
@@ -12,6 +11,7 @@ import dynamic from "next/dynamic"
 import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
 import CustomOutlinedInput from "../ReusableComponents/forms/custom-outlined-input"
 import { useRouter } from "next/router"
+import { AppContext } from "../../contexts/AppContext"
 
 const Custom401Layout = dynamic(() =>
   import("../Layouts/error/Custom401Layout")
@@ -32,9 +32,11 @@ const AnimationRoot = (props) => (
   />
 )
 
-function ResetPasswordForm(props) {
+export default function ResetPasswordForm(props) {
   /********** PROPS **********/
-  const { token, setMessageSnack, setOpenSnackBar, setSeverity } = props
+  const { token } = props
+
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   /********** USE-STATES **********/
   const [isFetching, setIsFetching] = useState(true)
@@ -74,9 +76,8 @@ function ResetPasswordForm(props) {
     }
   }
   const handleSuccess = () => {
-    setMessageSnack("Votre mot de passe a bien été changé")
-    setOpenSnackBar(true)
-    setSeverity("success")
+    setSnackMessage("Votre mot de passe a bien été changé")
+    setSnackSeverity("success")
 
     setShowAlert({
       show: true,
@@ -90,9 +91,8 @@ function ResetPasswordForm(props) {
     }, 5000)
   }
   const handleError = (jsonRes) => {
-    setMessageSnack("Problème")
-    setSeverity("error")
-    setOpenSnackBar(true)
+    setSnackMessage("Problème")
+    setSnackSeverity("error")
     setShowAlert({
       show: true,
       severity: "warning",
@@ -188,5 +188,3 @@ function ResetPasswordForm(props) {
     </AnimationRoot>
   )
 }
-
-export default withSnacks(ResetPasswordForm)

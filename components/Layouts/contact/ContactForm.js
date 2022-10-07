@@ -1,4 +1,3 @@
-import * as React from "react"
 import {
   Box,
   Button,
@@ -17,7 +16,8 @@ import { checkEmail } from "../../../services/utils"
 import theme, { lightTheme } from "../../../config/theme"
 import { ThemeProvider } from "styled-components"
 import apiCall from "../../../services/apiCalls/apiCall"
-import withSnacks from "../../hocs/withSnacks"
+import { AppContext } from "../../../contexts/AppContext"
+import { useContext, useState } from "react"
 
 // TextField
 const CssTextField = styled(TextField)({
@@ -43,10 +43,13 @@ const CssTextField = styled(TextField)({
   },
 })
 
-function ContactForm(props) {
-  const { setSeverity, setOpenSnackBar, setMessageSnack } = props
-  const [loadingButton, setLoadingButton] = React.useState(false)
-  const [errors, setErrors] = React.useState({
+export default function ContactForm(props) {
+  const {} = props
+
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+
+  const [loadingButton, setLoadingButton] = useState(false)
+  const [errors, setErrors] = useState({
     firstname: false,
     lastname: false,
     email: false,
@@ -56,7 +59,7 @@ function ContactForm(props) {
     company: false,
     budget: false,
   })
-  const [clientData, setClientData] = React.useState({
+  const [clientData, setClientData] = useState({
     firstname: "",
     lastname: "",
     company: "",
@@ -80,14 +83,12 @@ function ContactForm(props) {
     })
   }
   const handleSuccess = () => {
-    setSeverity("success")
-    setMessageSnack("Your message has been sent successfully.")
-    setOpenSnackBar("true")
+    setSnackSeverity("success")
+    setSnackMessage("Your message has been sent successfully.")
   }
   const handleError = () => {
-    setSeverity("error")
-    setMessageSnack("An error occurred while sending the contact form.")
-    setOpenSnackBar("true")
+    setSnackSeverity("error")
+    setSnackMessage("An error occurred while sending the contact form.")
   }
   const handleResetForm = () => {
     setClientData({
@@ -307,5 +308,3 @@ function ContactForm(props) {
     </ThemeProvider>
   )
 }
-
-export default withSnacks(ContactForm)

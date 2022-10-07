@@ -8,22 +8,18 @@ import {
   MenuItem,
   Typography,
   Button,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import apiCall from "../../../services/apiCalls/apiCall";
-import withSnacks from "../../hocs/withSnacks";
-import { ModalTitle } from "../../Modals/Modal-Components/modal-title";
-import { compose } from "redux";
-import withConfirmAction from "../../hocs/withConfirmAction";
-import { ActionButtons } from "../../Modals/Modal-Components/modal-action-buttons";
-import theme from "../../../config/theme";
-import withAddCategoryPhoto from "../../hocs/withAddCategoryThumbnail";
+} from "@mui/material"
+import { useContext, useEffect, useState } from "react"
+import apiCall from "../../../services/apiCalls/apiCall"
+import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
+import { compose } from "redux"
+import withConfirmAction from "../../hocs/withConfirmAction"
+import { ActionButtons } from "../../Modals/Modal-Components/modal-action-buttons"
+import withAddCategoryPhoto from "../../hocs/withAddCategoryThumbnail"
+import { AppContext } from "../../../contexts/AppContext"
 
 function EditCategories(props) {
   const {
-    setSeverity,
-    setMessageSnack,
-    setOpenSnackBar,
     setActionToFire,
     setOpenConfirmModal,
     setConfirmTitle,
@@ -32,85 +28,85 @@ function EditCategories(props) {
     setOpenAddNewPhotosModal,
     uploadSuccess,
     setCategory,
-  } = props;
+  } = props
 
-  const [changes, setChanges] = useState(false);
-  const [categories, setCategories] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+
+  const [changes, setChanges] = useState(false)
+  const [categories, setCategories] = useState(null)
+  const [selectedCategory, setSelectedCategory] = useState(null)
 
   // Fetch data
   const fetchData = async () => {
-    const res = await apiCall.unauthenticated.getPublicCategories();
-    const jsonRes = await res.json();
-    setCategories(jsonRes);
-    console.log(jsonRes);
-    if (!selectedCategory) setSelectedCategory(jsonRes[0]);
-  };
+    const res = await apiCall.unauthenticated.getPublicCategories()
+    const jsonRes = await res.json()
+    setCategories(jsonRes)
+    console.log(jsonRes)
+    if (!selectedCategory) setSelectedCategory(jsonRes[0])
+  }
   const fetchDataAndSelectCategory = async (key) => {
-    const res = await apiCall.unauthenticated.getPublicCategories();
-    const jsonRes = await res.json();
-    setCategories(jsonRes);
-    setSelectedCategory(jsonRes[key]);
-  };
+    const res = await apiCall.unauthenticated.getPublicCategories()
+    const jsonRes = await res.json()
+    setCategories(jsonRes)
+    setSelectedCategory(jsonRes[key])
+  }
 
   // We immediately fetch up-to-date categories data, and let's reset all categories on category change to prevent undesired changes to bes saved
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   // Refresh data when thumbnail is changed
   useEffect(() => {
-    if (uploadSuccess) fetchDataAndSelectCategory(selectedCategory.id - 1);
-  }, [uploadSuccess]);
+    if (uploadSuccess) fetchDataAndSelectCategory(selectedCategory.id - 1)
+  }, [uploadSuccess])
 
   // HANDLERS
   const handleChange = (e, key, attribute) => {
-    setChanges(true);
-    const localCategories = [...categories];
-    localCategories[key][attribute] = e.target.value;
-    setCategories(localCategories);
-  };
+    setChanges(true)
+    const localCategories = [...categories]
+    localCategories[key][attribute] = e.target.value
+    setCategories(localCategories)
+  }
   const handleCancel = async () => {
-    setChanges(false);
-    fetchDataAndSelectCategory(selectedCategory.id - 1);
-  };
+    setChanges(false)
+    fetchDataAndSelectCategory(selectedCategory.id - 1)
+  }
   const handleSuccess = () => {
-    setSeverity("success");
-    setMessageSnack("The category has been changed successfully !");
-    setOpenSnackBar(true);
-  };
+    setSnackSeverity("success")
+    setSnackMessage("The category has been changed successfully !")
+  }
   const handleError = () => {
-    setSeverity("error");
-    setMessageSnack("An error occurred while updating the category...");
-    setOpenSnackBar(true);
-  };
+    setSnackSeverity("error")
+    setSnackMessage("An error occurred while updating the category...")
+  }
   const handleUpdateCategories = async () => {
     const res = await apiCall.admin.updateCategory(
       categories[selectedCategory.id - 1]
-    );
+    )
     if (res && res.ok) {
-      handleSuccess();
+      handleSuccess()
     } else {
-      handleError();
+      handleError()
     }
-  };
+  }
   const handleChangeSelectedCategory = async (e) => {
     if (changes) {
-      setConfirmTitle("Continue without saving ?");
-      setNextButtonText("Don't save");
+      setConfirmTitle("Continue without saving ?")
+      setNextButtonText("Don't save")
       setConfirmContent({
         text: "There are some unsaved changes. Do you really want to continue without saving them ?",
-      });
+      })
       setActionToFire(() => () => {
-        setChanges(false);
-        fetchDataAndSelectCategory(e.target.value - 1);
-      });
-      setOpenConfirmModal(true);
+        setChanges(false)
+        fetchDataAndSelectCategory(e.target.value - 1)
+      })
+      setOpenConfirmModal(true)
     } else {
-      setChanges(false);
-      await fetchDataAndSelectCategory(e.target.value - 1);
+      setChanges(false)
+      await fetchDataAndSelectCategory(e.target.value - 1)
     }
-  };
+  }
 
   // SUB-COMPONENTS
   const SelectCategory = () => (
@@ -129,10 +125,10 @@ function EditCategories(props) {
         </MenuItem>
       ))}
     </Select>
-  );
+  )
 
   // Allows user to cancel the changes
-  if (!categories || !selectedCategory) return <></>;
+  if (!categories || !selectedCategory) return <></>
 
   return (
     <Stack
@@ -268,8 +264,8 @@ function EditCategories(props) {
                 <Button
                   variant="contained"
                   onClick={() => {
-                    setCategory(selectedCategory);
-                    setOpenAddNewPhotosModal(true);
+                    setCategory(selectedCategory)
+                    setOpenAddNewPhotosModal(true)
                   }}
                 >
                   Change thumbnail
@@ -280,11 +276,7 @@ function EditCategories(props) {
         </Stack>
       </Paper>
     </Stack>
-  );
+  )
 }
 
-export default compose(
-  withSnacks,
-  withAddCategoryPhoto,
-  withConfirmAction
-)(EditCategories);
+export default compose(withAddCategoryPhoto, withConfirmAction)(EditCategories)

@@ -1,7 +1,6 @@
 import { CircularProgress, Stack } from "@mui/material"
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useContext, useState } from "react"
 import { useDropzone } from "react-dropzone"
-import withSnacks from "./withSnacks"
 import AlertInfo from "../Other/alert-info"
 import apiCall from "../../services/apiCalls/apiCall"
 import CustomModal from "../ReusableComponents/modals/custom-modal"
@@ -9,10 +8,16 @@ import { ModalTitle } from "../Modals/Modal-Components/modal-title"
 import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
 import BodyText from "../ReusableComponents/text/body-text"
 import compressImage from "../../services/images"
+import { UserContext } from "../../contexts/UserContext"
+import { AppContext } from "../../contexts/AppContext"
 
 export default function withAddAvatar(WrappedComponent) {
-  function Enhancer(props) {
-    const { user, setMessageSnack, setOpenSnackBar, setSeverity } = props
+  return function Enhancer(props) {
+    const {} = props
+
+    const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+    const { user } = useContext(UserContext)
+
     const [isLoading, setIsLoading] = useState(false)
     const [openModal, setOpenModal] = useState(false)
     const [uploadSuccess, setUploadSuccess] = useState(false)
@@ -39,17 +44,15 @@ export default function withAddAvatar(WrappedComponent) {
       handleClose() // Close modal
     }
     const handleSuccess = () => {
-      setMessageSnack("Votre nouvel avatar est spectaculaire ! 🤩")
-      setSeverity("success")
-      setOpenSnackBar(true)
+      setSnackMessage("Votre nouvel avatar est spectaculaire ! 🤩")
+      setSnackSeverity("success")
       setOpenModal(false)
       setIsLoading(false)
       setUploadSuccess(true) // to notify lower component
     }
     const handleError = () => {
-      setMessageSnack("Houston, nos avons recontré un problème... 🤯")
-      setSeverity("error")
-      setOpenSnackBar(true)
+      setSnackMessage("Houston, nos avons recontré un problème... 🤯")
+      setSnackSeverity("error")
       setIsLoading(false)
     }
     const handleSendAvatar = async (event) => {
@@ -147,5 +150,4 @@ export default function withAddAvatar(WrappedComponent) {
       </>
     )
   }
-  return withSnacks(Enhancer)
 }

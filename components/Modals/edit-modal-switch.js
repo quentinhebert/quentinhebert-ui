@@ -1,23 +1,13 @@
 import dynamic from "next/dynamic"
-import React from "react"
-import withSnacks from "../hocs/withSnacks"
 const EditFilmModal = dynamic(() => import("./Edit-Modals/edit-film-modal"))
 const EditUserModal = dynamic(() => import("./Edit-Modals/edit-user-modal"))
 const EditReferenceModal = dynamic(() =>
   import("./Edit-Modals/edit-reference-modal")
 )
 
-function EditModalSwitch(props) {
+export default function EditModalSwitch(props) {
   /********** PROPS **********/
-  const {
-    dataId,
-    dataModel,
-    openEditModal,
-    handleCloseEditModal,
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
-  } = props
+  const { dataId, dataModel, openEditModal, handleCloseEditModal } = props
 
   // MAIN SWITCH
   switch (dataModel) {
@@ -27,9 +17,6 @@ function EditModalSwitch(props) {
           userId={dataId}
           openEditModal={openEditModal}
           handleCloseEditModal={handleCloseEditModal}
-          setSeverity={setSeverity}
-          setOpenSnackBar={setOpenSnackBar}
-          setMessageSnack={setMessageSnack}
         />
       )
     case "edit-film":
@@ -38,9 +25,6 @@ function EditModalSwitch(props) {
           filmId={dataId}
           openEditModal={openEditModal}
           handleCloseEditModal={handleCloseEditModal}
-          setSeverity={setSeverity}
-          setOpenSnackBar={setOpenSnackBar}
-          setMessageSnack={setMessageSnack}
         />
       )
     case "edit-reference":
@@ -49,14 +33,9 @@ function EditModalSwitch(props) {
           referenceId={dataId}
           openEditModal={openEditModal}
           handleCloseEditModal={handleCloseEditModal}
-          setSeverity={setSeverity}
-          setOpenSnackBar={setOpenSnackBar}
-          setMessageSnack={setMessageSnack}
         />
       )
     default:
       return <></>
   }
 }
-
-export default withSnacks(EditModalSwitch)

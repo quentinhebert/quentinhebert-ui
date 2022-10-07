@@ -1,9 +1,7 @@
 import { Stack, Typography } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
-import withSnacks from "../../hocs/withSnacks"
 import { ModalTitle } from "../Modal-Components/modal-title"
-import { compose } from "redux"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import CustomModal from "../../ReusableComponents/modals/custom-modal"
 import CustomForm from "../../ReusableComponents/forms/custom-form"
@@ -18,18 +16,14 @@ import CustomAccordion from "../../ReusableComponents/containers/custom-accordio
 import DropzoneShowImage from "../../ReusableComponents/images/drop-zone-show-image"
 import compressImage from "../../../services/images"
 import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
+import { AppContext } from "../../../contexts/AppContext"
 
 const currentYear = new Date().getFullYear()
 
 function AddFilmModal(props) {
-  const {
-    refreshData,
-    setSeverity,
-    setMessageSnack,
-    setOpenSnackBar,
-    open,
-    handleClose,
-  } = props
+  const { refreshData, open, handleClose } = props
+
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   const [file, setFile] = useState(null)
   const initialFilm = {
@@ -109,22 +103,19 @@ function AddFilmModal(props) {
     handleClose()
   }
   const handleSuccess = () => {
-    setSeverity("success")
-    setMessageSnack("The category has been changed successfully !")
-    setOpenSnackBar(true)
+    setSnackSeverity("success")
+    setSnackMessage("The category has been changed successfully !")
     handleClose()
   }
   const handleError = () => {
-    setSeverity("error")
-    setMessageSnack("Le film n'a pas pu sortir en salle...")
-    setOpenSnackBar(true)
+    setSnackSeverity("error")
+    setSnackMessage("Le film n'a pas pu sortir en salle...")
   }
   const handleErrorThumbnail = () => {
-    setSeverity("error")
-    setMessageSnack(
+    setSnackSeverity("error")
+    setSnackMessage(
       "Une erreur est survenue lors de l'upload de la vignette..."
     )
-    setOpenSnackBar(true)
   }
   const processThumbnail = async () => {
     if (file) {
@@ -318,4 +309,4 @@ function AddFilmModal(props) {
   )
 }
 
-export default compose(withSnacks, withConfirmAction)(AddFilmModal)
+export default withConfirmAction(AddFilmModal)

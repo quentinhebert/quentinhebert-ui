@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import FormControl from "@mui/material/FormControl"
 import { Avatar, Box, Stack } from "@mui/material"
 import SendIcon from "@mui/icons-material/Send"
@@ -14,17 +14,13 @@ import CustomSelect from "../../Other/custom-select"
 import DualInputLine from "../../ReusableComponents/forms/responsive-dual-input-container"
 import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
 import CustomCheckbox from "../../ReusableComponents/forms/custom-checkbox"
+import { AppContext } from "../../../contexts/AppContext"
 
 export default function EditUserForm(props) {
   // PROPS
-  const {
-    userId,
-    openEditModal,
-    handleCloseEditModal,
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
-  } = props
+  const { userId, openEditModal, handleCloseEditModal } = props
+
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   // USE-STATES
   const [user, setUser] = useState(null)
@@ -58,21 +54,18 @@ export default function EditUserForm(props) {
     setUser({ ...user, [attribute]: event.target.checked })
   }
   const handleSuccess = () => {
-    setSeverity("success")
-    setOpenSnackBar("true")
-    setMessageSnack("Utilisateur modifié avec succès")
+    setSnackSeverity("success")
+    setSnackMessage("Utilisateur modifié avec succès")
   }
   const handleError = () => {
-    setSeverity("error")
-    setOpenSnackBar("true")
-    setMessageSnack(
+    setSnackSeverity("error")
+    setSnackMessage(
       "Un problème est survenu lors de la modification de l'utilisateur"
     )
   }
   const handleErrorDuplicate = () => {
-    setSeverity("error")
-    setOpenSnackBar("true")
-    setMessageSnack(
+    setSnackSeverity("error")
+    setSnackMessage(
       "L'e-mail ou le téléphone existe déjà pour un autre utilisateur"
     )
   }
@@ -95,14 +88,12 @@ export default function EditUserForm(props) {
     setLoadingButton(false)
   }
   const handleEmailSent = async () => {
-    setSeverity("success")
-    setOpenSnackBar("true")
-    setMessageSnack("Email envoyé avec succès")
+    setSnackSeverity("success")
+    setSnackMessage("Email envoyé avec succès")
   }
   const handleEmailNotSent = async () => {
-    setSeverity("error")
-    setOpenSnackBar("true")
-    setMessageSnack("Un problème est survenu lors de l'envoi de l'email")
+    setSnackSeverity("error")
+    setSnackMessage("Un problème est survenu lors de l'envoi de l'email")
   }
   const resendConfirmEmail = async () => {
     const res = await apiCall.admin.resendUserConfirmEmail(user)

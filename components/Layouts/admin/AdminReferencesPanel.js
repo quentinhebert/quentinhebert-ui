@@ -1,19 +1,10 @@
-import {
-  Box,
-  Link,
-  MenuItem,
-  Paper,
-  Select,
-  Stack,
-  Typography,
-} from "@mui/material"
+import { Link, Paper, Stack, Typography } from "@mui/material"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
-import { compose } from "redux"
+import { useContext, useEffect, useState } from "react"
+import { AppContext } from "../../../contexts/AppContext"
 import apiCall from "../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../hocs/withConfirmAction"
-import withSnacks from "../../hocs/withSnacks"
 import CustomTable from "../../Sections/custom-table"
 const AddReferenceModal = dynamic(() =>
   import("../../Modals/Create-Modals/add-reference-modal")
@@ -42,16 +33,14 @@ const headCells = [
 
 function AdminReferencesPanel(props) {
   const {
-    user,
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
     setActionToFire,
     setOpenConfirmModal,
     setConfirmTitle,
     setNextButtonText,
     setConfirmContent,
   } = props
+
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   const [rows, setRows] = useState(null)
   const [allRows, setAllRows] = useState(null)
@@ -94,16 +83,14 @@ function AdminReferencesPanel(props) {
     )
 
     if (errors === 0) {
-      setSeverity("success")
-      setMessageSnack("Reference(s) deleted successfully.")
-      setOpenSnackBar(true)
+      setSnackSeverity("success")
+      setSnackMessage("Reference(s) deleted successfully.")
       fetchReferences() // Refresh data
     } else {
-      setSeverity("error")
-      setMessageSnack(
+      setSnackSeverity("error")
+      setSnackMessage(
         `A problem occured while deleting ${errors} of the selected reference.`
       )
-      setOpenSnackBar(true)
     }
   }
 
@@ -111,11 +98,10 @@ function AdminReferencesPanel(props) {
   const handleDeleteReferences = async (referencesToDelete) => {
     // referencesToDelete must be an array of reference ids (we get it from table-helper.js)
     if (!referencesToDelete.length) {
-      setSeverity("error")
-      setMessageSnack(
+      setSnackSeverity("error")
+      return setSnackMessage(
         "A problem occurred while deleting the selected reference(s)"
       )
-      return setOpenSnackBar(true)
     }
     // Open confirm modal
     setConfirmTitle(`Delete ${referencesToDelete.length} reference(s)`)
@@ -175,4 +161,4 @@ function AdminReferencesPanel(props) {
   )
 }
 
-export default compose(withSnacks, withConfirmAction)(AdminReferencesPanel)
+export default withConfirmAction(AdminReferencesPanel)

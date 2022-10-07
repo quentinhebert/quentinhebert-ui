@@ -3,93 +3,79 @@ import {
   Paper,
   Stack,
   TextField,
-  Box,
-  Select,
-  MenuItem,
   Typography,
-  Button,
   Dialog,
-} from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
-import apiCall from "../../../services/apiCalls/apiCall";
-import withSnacks from "../../hocs/withSnacks";
-import { ModalTitle } from "../Modal-Components/modal-title";
-import { compose } from "redux";
-import withConfirmAction from "../../hocs/withConfirmAction";
-import { ActionButtons } from "../Modal-Components/modal-action-buttons";
-import theme from "../../../config/theme";
-import { useDropzone } from "react-dropzone";
+} from "@mui/material"
+import { useContext, useState } from "react"
+import apiCall from "../../../services/apiCalls/apiCall"
+import { ModalTitle } from "../Modal-Components/modal-title"
+import withConfirmAction from "../../hocs/withConfirmAction"
+import { ActionButtons } from "../Modal-Components/modal-action-buttons"
+import { useDropzone } from "react-dropzone"
+import { AppContext } from "../../../contexts/AppContext"
 
 function AddReferenceModal(props) {
-  const {
-    open,
-    handleClose,
-    setSeverity,
-    setMessageSnack,
-    setOpenSnackBar,
-    refreshData,
-  } = props;
+  const { open, handleClose, refreshData } = props
+
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   const [reference, setReference] = useState({
     logo: null,
     name: "",
-  });
+  })
 
-  const sizeLimit = 6; // 6MB
+  const sizeLimit = 6 // 6MB
 
   const onDrop = (files) => {
     const filesArray = files.map((file) => {
-      file.URL = URL.createObjectURL(file);
-      return file;
-    });
-    setReference({ ...reference, logo: filesArray[0] }); // We only save one photo (the first one)
-  };
+      file.URL = URL.createObjectURL(file)
+      return file
+    })
+    setReference({ ...reference, logo: filesArray[0] }) // We only save one photo (the first one)
+  }
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-  });
+  })
 
   // HANDLERS
   const handleChange = (e, attribute) => {
-    setReference({ ...reference, [attribute]: e.target.value });
-  };
+    setReference({ ...reference, [attribute]: e.target.value })
+  }
   const handleCancel = async () => {
     // await fetchData();
     setReference({
       logo: null,
       name: "",
-    });
-    handleClose();
-  };
+    })
+    handleClose()
+  }
   const handleSuccess = () => {
-    setSeverity("success");
-    setMessageSnack("The reference has been uploaded successfully !");
-    setOpenSnackBar(true);
-    refreshData();
-  };
+    setSnackSeverity("success")
+    setSnackMessage("The reference has been uploaded successfully !")
+    refreshData()
+  }
   const handleError = () => {
-    setSeverity("error");
-    setMessageSnack("An error occurred while adding the reference...");
-    setOpenSnackBar(true);
-  };
+    setSnackSeverity("error")
+    setSnackMessage("An error occurred while adding the reference...")
+  }
   const handleCreate = async () => {
     // Check max size limit whether its an album or a galery
     if (reference.logo.size > sizeLimit * 1000 * 1000) {
-      setMessageSnack(
+      setSnackMessage(
         `The picture you have selected has a size greater than ${sizeLimit}Mo. Please select only a lower-than-${sizeLimit}Mo image.`
-      );
-      setSeverity("error");
-      setOpenSnackBar(true);
-      return;
+      )
+      setSnackSeverity("error")
+      return
     }
-    const res = await apiCall.admin.addReference(reference);
+    const res = await apiCall.admin.addReference(reference)
     if (res && res.ok) {
-      handleSuccess();
-      handleClose();
+      handleSuccess()
+      handleClose()
     } else {
-      handleError();
+      handleError()
     }
-  };
+  }
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth>
@@ -193,7 +179,7 @@ function AddReferenceModal(props) {
         </Stack>
       </Paper>
     </Dialog>
-  );
+  )
 }
 
-export default compose(withSnacks, withConfirmAction)(AddReferenceModal);
+export default withConfirmAction(AddReferenceModal)

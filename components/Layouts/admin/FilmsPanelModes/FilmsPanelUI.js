@@ -16,163 +16,136 @@ import AddIcon from "@mui/icons-material/Add"
 import AddFilmModal from "../../../Modals/Create-Modals/add-film-modal"
 import BodyText from "../../../ReusableComponents/text/body-text"
 
-const SortableListItem = sortableElement(
-  ({
-    item,
-    fetchFilms,
-    showMenu,
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
-  }) => {
-    const [openEditModal, setOpenEditModal] = useState(false)
-    const [openDeleteModal, setOpenDeleteModal] = useState(false)
-    const [clickedFilm, setClickedFilm] = useState(null)
-    const [destroyedEdit, triggerDestroyEdit] = useState(true)
-    const [destroyedDelete, triggerDestroyDelete] = useState(true)
+const SortableListItem = sortableElement(({ item, fetchFilms, showMenu }) => {
+  const [openEditModal, setOpenEditModal] = useState(false)
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
+  const [clickedFilm, setClickedFilm] = useState(null)
+  const [destroyedEdit, triggerDestroyEdit] = useState(true)
+  const [destroyedDelete, triggerDestroyDelete] = useState(true)
 
-    const handleOpenEditModal = () => {
-      setClickedFilm(item)
-      setOpenEditModal(true)
-      triggerDestroyEdit(false)
-    }
-    const handleCloseEditModal = () => {
-      setOpenEditModal(false)
-      fetchFilms()
-      setTimeout(() => {
-        setClickedFilm(null)
-        triggerDestroyEdit(true)
-      }, "500")
-    }
-    const handleOpenDeleteModal = (e) => {
-      e.stopPropagation() // Prevent from open edit modal
-      setClickedFilm(item)
-      setOpenDeleteModal(true)
-      triggerDestroyDelete(false)
-    }
-    const handleCloseDeleteModal = () => {
-      setOpenDeleteModal(false)
-      fetchFilms()
-      setTimeout(() => {
-        triggerDestroyDelete(true)
-      }, "500")
-    }
+  const handleOpenEditModal = () => {
+    setClickedFilm(item)
+    setOpenEditModal(true)
+    triggerDestroyEdit(false)
+  }
+  const handleCloseEditModal = () => {
+    setOpenEditModal(false)
+    fetchFilms()
+    setTimeout(() => {
+      setClickedFilm(null)
+      triggerDestroyEdit(true)
+    }, "500")
+  }
+  const handleOpenDeleteModal = (e) => {
+    e.stopPropagation() // Prevent from open edit modal
+    setClickedFilm(item)
+    setOpenDeleteModal(true)
+    triggerDestroyDelete(false)
+  }
+  const handleCloseDeleteModal = () => {
+    setOpenDeleteModal(false)
+    fetchFilms()
+    setTimeout(() => {
+      triggerDestroyDelete(true)
+    }, "500")
+  }
 
-    return (
-      <>
-        <Box
-          component="li"
-          className="list-style-none"
-          width="calc(33% - 3px)"
-          onClick={handleOpenEditModal}
-        >
-          <Stack
-            className="no-select flex-center relative"
-            sx={{
-              cursor: showMenu ? "pointer" : "grab",
-              padding: ".5rem",
-              borderRadius: "10px",
-              height: { xs: "150px", md: "200px" },
-              background: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${
+  return (
+    <>
+      <Box
+        component="li"
+        className="list-style-none"
+        width="calc(33% - 3px)"
+        onClick={handleOpenEditModal}
+      >
+        <Stack
+          className="no-select flex-center relative"
+          sx={{
+            cursor: showMenu ? "pointer" : "grab",
+            padding: ".5rem",
+            borderRadius: "10px",
+            height: { xs: "150px", md: "200px" },
+            background: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${
+              item.thumbnail_url || "/medias/default.jpg"
+            })`,
+            backgroundSize: "cover",
+            "&:hover": {
+              background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${
                 item.thumbnail_url || "/medias/default.jpg"
               })`,
               backgroundSize: "cover",
-              "&:hover": {
-                background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${
-                  item.thumbnail_url || "/medias/default.jpg"
-                })`,
-                backgroundSize: "cover",
-              },
+            },
+          }}
+        >
+          <Box
+            className="absolute"
+            top={10}
+            right={10}
+            sx={{
+              color: (theme) => theme.palette.text.white,
+              display: showMenu ? "block" : "none",
             }}
+            onClick={handleOpenDeleteModal}
           >
-            <Box
-              className="absolute"
-              top={10}
-              right={10}
-              sx={{
-                color: (theme) => theme.palette.text.white,
-                display: showMenu ? "block" : "none",
-              }}
-              onClick={handleOpenDeleteModal}
-            >
-              <ScaleUpOnHoverStack>
-                <DeleteIcon
-                  sx={{
-                    fontSize: "2rem",
-                    opacity: 0.2,
-                    "&:hover": { opacity: 1 },
-                  }}
-                />
-              </ScaleUpOnHoverStack>
-            </Box>
+            <ScaleUpOnHoverStack>
+              <DeleteIcon
+                sx={{
+                  fontSize: "2rem",
+                  opacity: 0.2,
+                  "&:hover": { opacity: 1 },
+                }}
+              />
+            </ScaleUpOnHoverStack>
+          </Box>
 
-            <Typography
-              fontSize="1rem"
-              color="text.white"
-              className="uppercase text-center"
-            >
-              {item.title}
-            </Typography>
-          </Stack>
-        </Box>
+          <Typography
+            fontSize="1rem"
+            color="text.white"
+            className="uppercase text-center"
+          >
+            {item.title}
+          </Typography>
+        </Stack>
+      </Box>
 
-        {!destroyedEdit && (
-          <EditFilmModal
-            filmId={clickedFilm?.id}
-            openEditModal={openEditModal}
-            handleCloseEditModal={handleCloseEditModal}
-            setSeverity={setSeverity}
-            setOpenSnackBar={setOpenSnackBar}
-            setMessageSnack={setMessageSnack}
-          />
-        )}
-
-        {!destroyedDelete && (
-          <DeleteFilmModal
-            film={clickedFilm}
-            open={openDeleteModal}
-            handleClose={handleCloseDeleteModal}
-            setSeverity={setSeverity}
-            setOpenSnackBar={setOpenSnackBar}
-            setMessageSnack={setMessageSnack}
-          />
-        )}
-      </>
-    )
-  }
-)
-
-const SortableList = sortableContainer(
-  ({
-    items,
-    disabled,
-    fetchFilms,
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
-  }) => (
-    <Box
-      component="ul"
-      className="list-style-none no-padding full-width flex-wrap"
-      gap="4px"
-    >
-      {items.map((item, index) => (
-        <SortableListItem
-          disabled={disabled}
-          showMenu={disabled}
-          axis="xy"
-          key={index}
-          index={index}
-          item={item}
-          fetchFilms={fetchFilms}
-          setSeverity={setSeverity}
-          setOpenSnackBar={setOpenSnackBar}
-          setMessageSnack={setMessageSnack}
+      {!destroyedEdit && (
+        <EditFilmModal
+          filmId={clickedFilm?.id}
+          openEditModal={openEditModal}
+          handleCloseEditModal={handleCloseEditModal}
         />
-      ))}
-    </Box>
+      )}
+
+      {!destroyedDelete && (
+        <DeleteFilmModal
+          film={clickedFilm}
+          open={openDeleteModal}
+          handleClose={handleCloseDeleteModal}
+        />
+      )}
+    </>
   )
-)
+})
+
+const SortableList = sortableContainer(({ items, disabled, fetchFilms }) => (
+  <Box
+    component="ul"
+    className="list-style-none no-padding full-width flex-wrap"
+    gap="4px"
+  >
+    {items.map((item, index) => (
+      <SortableListItem
+        disabled={disabled}
+        showMenu={disabled}
+        axis="xy"
+        key={index}
+        index={index}
+        item={item}
+        fetchFilms={fetchFilms}
+      />
+    ))}
+  </Box>
+))
 
 const SortHelper = () => (
   <AlertInfo
@@ -186,7 +159,7 @@ const SortHelper = () => (
 )
 
 export default function FilmsPanelUI(props) {
-  const { setSeverity, setOpenSnackBar, setMessageSnack } = props
+  const {} = props
 
   const [isLoading, setIsLoading] = useState(false)
   const [films, setFilms] = useState(null)
@@ -268,9 +241,6 @@ export default function FilmsPanelUI(props) {
             disabled={disableSort}
             onSortEnd={onSortEnd}
             onSortStart={() => (document.body.style.cursor = "grabbing")}
-            setSeverity={setSeverity}
-            setOpenSnackBar={setOpenSnackBar}
-            setMessageSnack={setMessageSnack}
           />
         ) : null}
 

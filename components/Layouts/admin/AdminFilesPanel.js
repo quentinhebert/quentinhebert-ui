@@ -1,10 +1,8 @@
 import { Stack, Tooltip } from "@mui/material"
-import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
-import { compose } from "redux"
+import { useContext, useEffect, useState } from "react"
+import { AppContext } from "../../../contexts/AppContext"
 import apiCall from "../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../hocs/withConfirmAction"
-import withSnacks from "../../hocs/withSnacks"
 import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
 import BodyText from "../../ReusableComponents/text/body-text"
 import PageTitle from "../../ReusableComponents/titles/page-title"
@@ -82,9 +80,6 @@ const headCells = [
 
 function AdminFilesPanel(props) {
   const {
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
     setActionToFire,
     setOpenConfirmModal,
     setConfirmTitle,
@@ -92,11 +87,12 @@ function AdminFilesPanel(props) {
     setConfirmContent,
   } = props
 
+  // APP CONTEXT
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+
   const [rows, setRows] = useState(null)
   const [allRows, setAllRows] = useState(null) // To keep a constant reference for search filter
   const [totalSize, setTotalSize] = useState(0)
-
-  const router = useRouter()
 
   const fetchFiles = async () => {
     const res = await apiCall.admin.getFiles()
@@ -136,15 +132,13 @@ function AdminFilesPanel(props) {
     )
 
     if (errors === 0) {
-      setSeverity("success")
-      setMessageSnack("File(s) deleted successfully.")
-      setOpenSnackBar(true)
+      setSnackSeverity("success")
+      setSnackMessage("File(s) deleted successfully.")
     } else {
-      setSeverity("error")
-      setMessageSnack(
+      setSnackSeverity("error")
+      setSnackMessage(
         `A problem occurred while deleting ${errors} of the selected files.`
       )
-      setOpenSnackBar(true)
     }
 
     await fetchFiles() // Refresh data
@@ -152,9 +146,10 @@ function AdminFilesPanel(props) {
   const handleDeleteFile = async (filesToDelete) => {
     // filesToDelete must be an array of user ids (we get it from table-helper.js)
     if (!filesToDelete.length) {
-      setSeverity("error")
-      setMessageSnack("A problem occurred while deleting the selected files")
-      return setOpenSnackBar(true)
+      setSnackSeverity("error")
+      return setSnackMessage(
+        "A problem occurred while deleting the selected files"
+      )
     }
     // Open confirm modal
     setConfirmTitle(`Confirmation`)
@@ -199,4 +194,4 @@ function AdminFilesPanel(props) {
   )
 }
 
-export default compose(withSnacks, withConfirmAction)(AdminFilesPanel)
+export default withConfirmAction(AdminFilesPanel)

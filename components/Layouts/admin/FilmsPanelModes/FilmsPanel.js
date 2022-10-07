@@ -1,15 +1,14 @@
 import { Box, Paper, Stack } from "@mui/material"
-import { useEffect, useState } from "react"
-import { compose } from "redux"
+import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../../hocs/withConfirmAction"
-import withSnacks from "../../../hocs/withSnacks"
 import SortVideos from "../../../Modals/sort-videos"
 import CustomTable from "../../../Sections/custom-table"
 import BodyText from "../../../ReusableComponents/text/body-text"
 import AddFilmModal from "../../../Modals/Create-Modals/add-film-modal"
 import CustomOutlinedButton from "../../../ReusableComponents/buttons/custom-outlined-button"
 import SortIcon from "@mui/icons-material/Sort"
+import { AppContext } from "../../../../contexts/AppContext"
 
 const headCells = [
   {
@@ -49,15 +48,14 @@ const headCells = [
 
 function FilmsPanel(props) {
   const {
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
     setActionToFire,
     setOpenConfirmModal,
     setConfirmTitle,
     setNextButtonText,
     setConfirmContent,
   } = props
+
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   const [rows, setRows] = useState(null)
   const [openAddFilmModal, setOpenAddFilmModal] = useState(false)
@@ -91,15 +89,13 @@ function FilmsPanel(props) {
     )
 
     if (errors === 0) {
-      setSeverity("success")
-      setMessageSnack("Film(s) supprimé(s)")
-      setOpenSnackBar(true)
+      setSnackSeverity("success")
+      setSnackMessage("Film(s) supprimé(s)")
     } else {
-      setSeverity("error")
-      setMessageSnack(
+      setSnackSeverity("error")
+      setSnackMessage(
         `Une erreur est survenur lors de la suppression de ${errors} des films sélectionné(s).`
       )
-      setOpenSnackBar(true)
     }
 
     await fetchFilms() // Refresh data
@@ -109,11 +105,10 @@ function FilmsPanel(props) {
   const handleDeleteFilms = async (filmsToDelete) => {
     // filmsToDelete must be an array of video ids (we get it from table-helper.js)
     if (!filmsToDelete.length) {
-      setSeverity("error")
-      setMessageSnack(
+      setSnackSeverity("error")
+      return setSnackMessage(
         "Une erreur est survenue lors de la suppression d'un des films"
       )
-      return setOpenSnackBar(true)
     }
     // Open confirm modal
     setConfirmTitle(`Supprimer ${filmsToDelete.length} film(s)`)
@@ -180,4 +175,4 @@ function FilmsPanel(props) {
   )
 }
 
-export default compose(withSnacks, withConfirmAction)(FilmsPanel)
+export default withConfirmAction(FilmsPanel)

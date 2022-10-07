@@ -1,21 +1,7 @@
-import {
-  FormControl,
-  Link,
-  Paper,
-  Stack,
-  TextField,
-  CircularProgress,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
-  Typography,
-} from "@mui/material"
-import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { Stack, InputAdornment, IconButton, Typography } from "@mui/material"
+import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../../services/apiCalls/apiCall"
 import { checkPassword } from "../../../../services/utils"
-import withSnacks from "../../../hocs/withSnacks"
 import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import Visibility from "@mui/icons-material/Visibility"
 import VisibilityOff from "@mui/icons-material/VisibilityOff"
@@ -25,9 +11,14 @@ import CustomForm from "../../../ReusableComponents/forms/custom-form"
 import CustomSubmitButton from "../../../ReusableComponents/forms/custom-submit-button"
 import CustomOutlinedInput from "../../../ReusableComponents/forms/custom-outlined-input"
 import DualInputLine from "../../../ReusableComponents/forms/responsive-dual-input-container"
+import { UserContext } from "../../../../contexts/UserContext"
+import { AppContext } from "../../../../contexts/AppContext"
 
-function ChangePassword(props) {
-  const { user, setUser, setSeverity, setMessageSnack, setOpenSnackBar } = props
+export default function ChangePassword(props) {
+  const {} = props
+
+  const { user, setUser } = useContext(UserContext)
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   // USE-STATES
   const [showPassword, setShowPassword] = useState(false)
@@ -37,7 +28,6 @@ function ChangePassword(props) {
     password: false,
     newPassword: false,
   })
-  const router = useRouter()
 
   // Fetch data
   async function fetchUser() {
@@ -78,21 +68,18 @@ function ChangePassword(props) {
     setUpdateErrors({ ...updateErrors, [attribute]: false })
   }
   const handleSuccess = () => {
-    setSeverity("success")
-    setOpenSnackBar("true")
-    setMessageSnack("Your password has been changed successfully")
+    setSnackSeverity("success")
+    setSnackMessage("Your password has been changed successfully")
   }
   const handleError = () => {
-    setSeverity("error")
-    setOpenSnackBar("true")
-    setMessageSnack("A problem occured while changing your password")
+    setSnackSeverity("error")
+    setSnackMessage("A problem occured while changing your password")
   }
   const handleCustomError = async (response) => {
     if (response.code === errorCodes.LOGIN_WRONG_PASSWORD) {
       // Snacks
-      setSeverity("error")
-      setOpenSnackBar("true")
-      setMessageSnack("Your current password is incorrect")
+      setSnackSeverity("error")
+      setSnackMessage("Your current password is incorrect")
       // Custom front error
       setUpdateErrors({ ...updateErrors, password: true })
     }
@@ -236,5 +223,3 @@ function ChangePassword(props) {
     </CenteredMaxWidthContainer>
   )
 }
-
-export default withSnacks(ChangePassword)

@@ -1,14 +1,15 @@
 import { Button, Stack } from "@mui/material"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import apiCall from "../../../../services/apiCalls/apiCall"
-import withSnacks from "../../../hocs/withSnacks"
 import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import { logout } from "../../../../services/utils"
 import CustomForm from "../../../ReusableComponents/forms/custom-form"
 import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/centered-max-width-container"
 import BodyText from "../../../ReusableComponents/text/body-text"
 import CustomOutlinedInput from "../../../ReusableComponents/forms/custom-outlined-input"
+import { AppContext } from "../../../../contexts/AppContext"
+import { UserContext } from "../../../../contexts/UserContext"
 
 const CopyPaste = (props) => (
   <Stack
@@ -46,8 +47,11 @@ const DeleteButton = (props) => (
   />
 )
 
-function DeleteAccount(props) {
-  const { user, setUser, setSeverity, setMessageSnack, setOpenSnackBar } = props
+export default function DeleteAccount(props) {
+  const {} = props
+
+  const { user, setUser } = useContext(UserContext)
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   // USE-STATES
   const [loadingButton, setLoadingButton] = useState(false)
@@ -64,9 +68,8 @@ function DeleteAccount(props) {
   }
   const handleSuccess = () => {
     setSuccess(true) // To disable the submit button
-    setSeverity("success")
-    setOpenSnackBar("true")
-    setMessageSnack(
+    setSnackSeverity("success")
+    setSnackMessage(
       "Votre compte a bien été supprimé. Vous allez être redirigé dans 5 secondes..."
     )
     setTimeout(() => {
@@ -76,16 +79,14 @@ function DeleteAccount(props) {
     }, [5000])
   }
   const handleError = () => {
-    setSeverity("error")
-    setOpenSnackBar("true")
-    setMessageSnack(
+    setSnackSeverity("error")
+    setSnackMessage(
       "Une erreur est survenue lors de la mise à jour de votre mot de passe..."
     )
   }
   const handleInvalidConfirmation = async (response) => {
-    setSeverity("error")
-    setOpenSnackBar("true")
-    setMessageSnack(
+    setSnackSeverity("error")
+    setSnackMessage(
       "Veuillez saisir votre adresse e-mail pour poursuivre l'opération"
     )
   }
@@ -144,5 +145,3 @@ function DeleteAccount(props) {
     </CenteredMaxWidthContainer>
   )
 }
-
-export default withSnacks(DeleteAccount)

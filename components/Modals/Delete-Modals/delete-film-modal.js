@@ -1,5 +1,5 @@
 import { Stack } from "@mui/material"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { ModalTitle } from "../Modal-Components/modal-title"
 import CustomModal from "../../ReusableComponents/modals/custom-modal"
@@ -7,16 +7,12 @@ import CustomForm from "../../ReusableComponents/forms/custom-form"
 import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
 import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
 import BodyText from "../../ReusableComponents/text/body-text"
+import { AppContext } from "../../../contexts/AppContext"
 
 export default function DeleteFilmModal(props) {
-  const {
-    film,
-    open,
-    handleClose,
-    setSeverity,
-    setMessageSnack,
-    setOpenSnackBar,
-  } = props
+  const { film, open, handleClose } = props
+
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -27,15 +23,13 @@ export default function DeleteFilmModal(props) {
     handleClose()
   }
   const handleSuccess = () => {
-    setSeverity("success")
-    setMessageSnack("Le film a été mis à jour !")
-    setOpenSnackBar(true)
+    setSnackSeverity("success")
+    setSnackMessage("Le film a été mis à jour !")
     handleClose()
   }
   const handleError = () => {
-    setSeverity("error")
-    setMessageSnack("An error occurred while updating the category...")
-    setOpenSnackBar(true)
+    setSnackSeverity("error")
+    setSnackMessage("An error occurred while updating the category...")
   }
   const handleDelete = async () => {
     setIsLoading(true)

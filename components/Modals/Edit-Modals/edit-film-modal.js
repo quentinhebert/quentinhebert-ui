@@ -1,9 +1,7 @@
 import { Stack, Typography } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
-import withSnacks from "../../hocs/withSnacks"
 import { ModalTitle } from "../Modal-Components/modal-title"
-import { compose } from "redux"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import CustomModal from "../../ReusableComponents/modals/custom-modal"
 import CustomForm from "../../ReusableComponents/forms/custom-form"
@@ -18,18 +16,15 @@ import CustomAccordion from "../../ReusableComponents/containers/custom-accordio
 import DropzoneShowImage from "../../ReusableComponents/images/drop-zone-show-image"
 import compressImage from "../../../services/images"
 import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
+import { AppContext } from "../../../contexts/AppContext"
 
 const currentYear = new Date().getFullYear()
 
 function EditFilmModal(props) {
-  const {
-    filmId,
-    setSeverity,
-    setMessageSnack,
-    setOpenSnackBar,
-    openEditModal,
-    handleCloseEditModal,
-  } = props
+  const { filmId, openEditModal, handleCloseEditModal } = props
+
+  // APP CONTEXT
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   const initialFilm = {
     id: null,
@@ -116,16 +111,14 @@ function EditFilmModal(props) {
     handleCloseEditModal()
   }
   const handleSuccess = () => {
-    setSeverity("success")
-    setMessageSnack("Le film a été mis à jour !")
-    setOpenSnackBar(true)
+    setSnackSeverity("success")
+    setSnackMessage("Le film a été mis à jour !")
     setFile(null)
     handleCloseEditModal()
   }
   const handleError = () => {
-    setSeverity("error")
-    setMessageSnack("An error occurred while updating the category...")
-    setOpenSnackBar(true)
+    setSnackSeverity("error")
+    setSnackMessage("An error occurred while updating the category...")
   }
   const processThumbnail = async () => {
     if (file) {
@@ -348,4 +341,4 @@ function EditFilmModal(props) {
   )
 }
 
-export default compose(withSnacks, withConfirmAction)(EditFilmModal)
+export default withConfirmAction(EditFilmModal)

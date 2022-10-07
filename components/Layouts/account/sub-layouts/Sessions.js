@@ -1,7 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import apiCall from "../../../../services/apiCalls/apiCall"
-import withSnacks from "../../../hocs/withSnacks"
 import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import CustomForm from "../../../ReusableComponents/forms/custom-form"
 import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/centered-max-width-container"
@@ -11,7 +10,6 @@ import { Clock, Map, PhoneVertical, Language, Wifi } from "grommet-icons"
 import ComputerRoundedIcon from "@mui/icons-material/ComputerRounded"
 import TabletRoundedIcon from "@mui/icons-material/TabletRounded"
 import CustomSubmitButton from "../../../ReusableComponents/forms/custom-submit-button"
-import { compose } from "redux"
 import withConfirmAction from "../../../hocs/withConfirmAction"
 import PleaseWait from "../../../ReusableComponents/helpers/please-wait"
 import LogoutIcon from "@mui/icons-material/Logout"
@@ -21,6 +19,8 @@ import {
   convertToShortString,
   getLocaleDateTime,
 } from "../../../../services/date-time"
+import { UserContext } from "../../../../contexts/UserContext"
+import { AppContext } from "../../../../contexts/AppContext"
 
 const DataRow = (props) => (
   <BodyText
@@ -57,16 +57,17 @@ const DeviceIcon = ({ type }) => {
 
 const RenderSessions = (props) => {
   const {
-    user,
     setActionToFire,
     setOpenConfirmModal,
     setConfirmTitle,
     setNextButtonText,
     setConfirmContent,
-    setSeverity,
-    setMessageSnack,
-    setOpenSnackBar,
   } = props
+
+  // USER CONTEXT
+  const { user } = useContext(UserContext)
+  // APP CONTEXT
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   // USE-STATES
   const [sessions, setSessions] = useState([])
@@ -89,15 +90,13 @@ const RenderSessions = (props) => {
 
   // HANDLERS
   const handleSuccess = async () => {
-    setSeverity("success")
-    setOpenSnackBar("true")
-    setMessageSnack("L'appareil a bien été déconnecté.")
+    setSnackSeverity("success")
+    setSnackMessage("L'appareil a bien été déconnecté.")
     await fetchSessions() // Refresh data
   }
   const handleError = () => {
-    setSeverity("error")
-    setOpenSnackBar("true")
-    setMessageSnack(
+    setSnackSeverity("error")
+    setSnackMessage(
       "Une erreur est survenue lors de la déconnexion de l'appareil..."
     )
   }
@@ -273,17 +272,15 @@ const RenderSessions = (props) => {
 
 function Sessions(props) {
   const {
-    user,
-    setUser,
     setActionToFire,
     setOpenConfirmModal,
     setConfirmTitle,
     setNextButtonText,
     setConfirmContent,
-    setSeverity,
-    setMessageSnack,
-    setOpenSnackBar,
   } = props
+
+  // USER CONTEXT
+  const { user } = useContext(UserContext)
 
   if (!user) return <></>
 
@@ -308,15 +305,11 @@ function Sessions(props) {
 
           <Stack width="100%">
             <RenderSessions
-              user={user}
               setActionToFire={setActionToFire}
               setOpenConfirmModal={setOpenConfirmModal}
               setConfirmTitle={setConfirmTitle}
               setNextButtonText={setNextButtonText}
               setConfirmContent={setConfirmContent}
-              setSeverity={setSeverity}
-              setMessageSnack={setMessageSnack}
-              setOpenSnackBar={setOpenSnackBar}
             />
           </Stack>
         </Stack>
@@ -325,4 +318,4 @@ function Sessions(props) {
   )
 }
 
-export default compose(withSnacks, withConfirmAction)(Sessions)
+export default withConfirmAction(Sessions)

@@ -12,10 +12,13 @@ import CustomCheckbox from "../ReusableComponents/forms/custom-checkbox"
 import CustomForm from "../ReusableComponents/forms/custom-form"
 import DualInputLine from "../ReusableComponents/forms/responsive-dual-input-container"
 import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
+import { AppContext } from "../../contexts/AppContext"
 
 export default function SignUpForm(props) {
   /********** PROPS **********/
-  const { handleClose, setSeverity, setOpenSnackBar, setMessageSnack } = props
+  const { handleClose } = props
+
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   // Check if user exists and if the user is admin
   const { user } = useContext(UserContext)
@@ -88,9 +91,8 @@ export default function SignUpForm(props) {
 
   const handleSignUpComplete = () => {
     setSignupCompleted(true)
-    setSeverity("success")
-    setMessageSnack("Inscription réussie !")
-    setOpenSnackBar(true)
+    setSnackSeverity("success")
+    setSnackMessage("Inscription réussie !")
     setShowAlert({
       show: true,
       severity: "success",
@@ -100,11 +102,10 @@ export default function SignUpForm(props) {
   }
 
   const handleSignUpIncomplete = () => {
-    setSeverity("error")
-    setMessageSnack(
+    setSnackSeverity("error")
+    setSnackMessage(
       "L'inscription a échouée, veuillez vérifier tous les champs"
     )
-    setOpenSnackBar(true)
   }
 
   const handleDuplicateSignup = () => {

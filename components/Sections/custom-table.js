@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Box } from "@mui/system"
 import {
   Checkbox,
@@ -14,6 +14,7 @@ import { EnhancedTableHead, EnhancedTableToolbar } from "../Other/table-helper"
 import { alpha } from "@mui/material/styles"
 import EditModalSwitch from "../Modals/edit-modal-switch"
 import PleaseWait from "../ReusableComponents/helpers/please-wait"
+import { AppContext } from "../../contexts/AppContext"
 
 /******************** FUNCTIONS ********************/
 function descendingComparator(a, b, orderBy) {
@@ -44,6 +45,9 @@ export default function CustomTable(props) {
     editDataModel,
     noEdit,
   } = props
+
+  const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
+
   const [order, setOrder] = useState("desc")
   const [orderBy, setOrderBy] = useState("created_at")
   const [selected, setSelected] = useState([])
@@ -126,11 +130,10 @@ export default function CustomTable(props) {
     // usersToEdit must be an array of user ids (we get it from table-helper.js)
     // We don't allow editing several rows at the same time, so we will take the first element of the array
     if (!usersToEdit.length) {
-      setSeverity("error")
-      setMessageSnack(
+      setSnackSeverity("error")
+      return setSnackMessage(
         "Un problème est survenu lors de l'édition de l'utilisateur sélectionné."
       )
-      return setOpenSnackBar(true)
     }
     // TODO: Open Edit Modal with usersToEdit[0].id => then fetch data of user from id => create component one row edit modal
     setOpenEditModal(true)

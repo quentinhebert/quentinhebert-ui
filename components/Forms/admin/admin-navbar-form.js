@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { Stack, Typography } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
 import CustomForm from "../../ReusableComponents/forms/custom-form"
@@ -13,28 +13,26 @@ import SwitchButton from "../../ReusableComponents/buttons/switch-button"
 import theme from "../../../config/theme"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
 import PleaseWait from "../../ReusableComponents/helpers/please-wait"
-import withSnacks from "../../hocs/withSnacks"
 import AlertInfo from "../../Other/alert-info"
 import OutlinedButton from "../../ReusableComponents/buttons/outlined-button"
 import AddIcon from "@mui/icons-material/Add"
 import DeleteIcon from "@mui/icons-material/Delete"
-import { compose } from "redux"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import useSWR from "swr"
+import { AppContext } from "../../../contexts/AppContext"
 
 function AdminNavbarForm(props) {
   /********** PROPS **********/
   const {
     handleClose,
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
     setActionToFire,
     setOpenConfirmModal,
     setConfirmTitle,
     setNextButtonText,
     setConfirmContent,
   } = props
+
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   /********** USE-STATES **********/
   const [isFetching, setIsFetching] = useState(false)
@@ -110,17 +108,15 @@ function AdminNavbarForm(props) {
   }
 
   const handleSuccess = () => {
-    setSeverity("success")
-    setOpenSnackBar(true)
-    setMessageSnack("Navbar mise à jour")
+    setSnackSeverity("success")
+    setSnackMessage("Navbar mise à jour")
     handleClose()
     mutate() // Refresh navbar static props
     fetchNavbar() // Reset form
   }
   const handleError = () => {
-    setSeverity("error")
-    setOpenSnackBar(true)
-    setMessageSnack("Navbar non mise à jour")
+    setSnackSeverity("error")
+    setSnackMessage("Navbar non mise à jour")
   }
   const handleSave = async () => {
     // Get a copy
@@ -354,4 +350,4 @@ function AdminNavbarForm(props) {
   )
 }
 
-export default compose(withSnacks, withConfirmAction)(AdminNavbarForm)
+export default withConfirmAction(AdminNavbarForm)

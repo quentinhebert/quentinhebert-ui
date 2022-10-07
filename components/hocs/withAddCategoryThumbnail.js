@@ -7,78 +7,80 @@ import {
   DialogTitle,
   Stack,
   Typography,
-} from "@mui/material";
-import React, { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import withSnacks from "./withSnacks";
-import AlertInfo from "../Other/alert-info";
-import apiCall from "../../services/apiCalls/apiCall";
-import { ActionButtons } from "../Modals/Modal-Components/modal-action-buttons";
+} from "@mui/material"
+import React, { useCallback, useContext, useState } from "react"
+import { useDropzone } from "react-dropzone"
+import AlertInfo from "../Other/alert-info"
+import apiCall from "../../services/apiCalls/apiCall"
+import { ActionButtons } from "../Modals/Modal-Components/modal-action-buttons"
+import { UserContext } from "../../contexts/UserContext"
+import { AppContext } from "../../contexts/AppContext"
 
 function withAddCategoryPhoto(WrappedComponent) {
-  function Enhancer(props) {
-    const { user, refresh, setMessageSnack, setOpenSnackBar, setSeverity } =
-      props;
-    const [showConfirmMessage, setShowConfirmMessage] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
-    const [uploadSuccess, setUploadSuccess] = useState(false);
-    const [files, setFiles] = useState([]);
-    const [nbOfSentFiles, setNbOfSentFiles] = useState(0);
-    const [totalSelectedFiles, setTotalSelectedFiles] = useState(0);
-    const [category, setCategory] = useState(null);
+  return function Enhancer(props) {
+    const { refresh } = props
+
+    const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+    const { user } = useContext(UserContext)
+
+    const [showConfirmMessage, setShowConfirmMessage] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [openModal, setOpenModal] = useState(false)
+    const [uploadSuccess, setUploadSuccess] = useState(false)
+    const [files, setFiles] = useState([])
+    const [nbOfSentFiles, setNbOfSentFiles] = useState(0)
+    const [totalSelectedFiles, setTotalSelectedFiles] = useState(0)
+    const [category, setCategory] = useState(null)
 
     // Max size limit is set to 20Mo if its an upload to a galery, otherwise the size limit is increased up to 50Mo if it's an upload to an album
-    const sizeLimit = 6;
+    const sizeLimit = 6
 
     const onDrop = useCallback((acceptedFiles) => {
       // Do something with the file
       const filesArray = acceptedFiles.map((oneFile) => {
-        oneFile.URL = URL.createObjectURL(oneFile);
-        return oneFile;
-      });
-      setFiles(filesArray);
-    }, []);
+        oneFile.URL = URL.createObjectURL(oneFile)
+        return oneFile
+      })
+      setFiles(filesArray)
+    }, [])
 
     const { getRootProps, getInputProps } = useDropzone({
       onDrop,
-    });
+    })
 
     const handleSetPhotos = async (event) => {
-      event.stopPropagation();
-      setIsLoading(true);
-      setUploadSuccess(false);
+      event.stopPropagation()
+      setIsLoading(true)
+      setUploadSuccess(false)
       // Check max size limit whether its an album or a galery
       if (files.some((file) => file.size > sizeLimit * 1000 * 1000)) {
-        setMessageSnack(
+        setSnackMessage(
           `Some of the pictures you have selected have a size greater than ${sizeLimit}Mo. Please select only images lower than ${sizeLimit}Mo.`
-        );
-        setSeverity("error");
-        setOpenSnackBar(true);
-        setIsLoading(false);
-        return;
+        )
+        setSnackSeverity("error")
+        setIsLoading(false)
+        return
       }
       // Set the total files number in modal (progress count => 0/total photos... etc)
-      setTotalSelectedFiles(files.length);
+      setTotalSelectedFiles(files.length)
       // let processedIndexes = [];
-      let formData = new FormData();
+      let formData = new FormData()
       // TODO: Limit the user (UX) to select only one file from drag and click
-      formData.append("image", files[0]); // We will take the first of the list
+      formData.append("image", files[0]) // We will take the first of the list
       const res = await apiCall.admin.uploadCategoryThumbnail({
         formData,
         category: { id: category.id },
-      });
+      })
       if (res && res.ok) {
-        setMessageSnack(
+        setSnackMessage(
           "The category's thumbnail has been changed successfully"
-        );
-        setSeverity("success");
-        setOpenSnackBar(true);
-        setOpenModal(false);
-        setIsLoading(false);
-        setUploadSuccess(true); // to notify lower component
+        )
+        setSnackSeverity("success")
+        setOpenModal(false)
+        setIsLoading(false)
+        setUploadSuccess(true) // to notify lower component
       }
-    };
+    }
 
     // SUB-COMPONENTS
     const ConfirmContent = () => {
@@ -92,19 +94,19 @@ function withAddCategoryPhoto(WrappedComponent) {
           <ButtonsContainer>
             <Button
               onClick={() => {
-                setOpenModal(false);
-                setShowConfirmMessage(false);
+                setOpenModal(false)
+                setShowConfirmMessage(false)
                 setTimeout(() => {
-                  refresh();
-                }, 1500);
+                  refresh()
+                }, 1500)
               }}
             >
               Close
             </Button>
           </ButtonsContainer>
         </DialogContent>
-      );
-    };
+      )
+    }
     const UploadingContent = () => {
       return (
         <Stack justifyContent="center" alignItems="center" direction="column">
@@ -113,8 +115,8 @@ function withAddCategoryPhoto(WrappedComponent) {
           </h3>
           <CircularProgress style={{ margin: "20px 0 40px 0" }} />
         </Stack>
-      );
-    };
+      )
+    }
 
     return (
       <>
@@ -175,7 +177,7 @@ function withAddCategoryPhoto(WrappedComponent) {
                                   >
                                     {file.name}
                                   </Typography>
-                                );
+                                )
                               })}
                             </>
                           ) : (
@@ -214,9 +216,8 @@ function withAddCategoryPhoto(WrappedComponent) {
           </>
         ) : null}
       </>
-    );
+    )
   }
-  return withSnacks(Enhancer);
 }
 
-export default withAddCategoryPhoto;
+export default withAddCategoryPhoto

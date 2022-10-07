@@ -7,10 +7,9 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
 import FilmsPanel from "./FilmsPanelModes/FilmsPanel"
 import FilmsPanelUI from "./FilmsPanelModes/FilmsPanelUI"
 import CustomOutlinedButton from "../../ReusableComponents/buttons/custom-outlined-button"
-import withSnacks from "../../hocs/withSnacks"
 
-function AdminFilmsPanel(props) {
-  const { setSeverity, setOpenSnackBar, setMessageSnack } = props
+export default function AdminFilmsPanel(props) {
+  const {} = props
 
   const MODES = { PANEL: "panel", UI: "ui" }
   const [mode, setMode] = useState(MODES.UI)
@@ -67,16 +66,8 @@ function AdminFilmsPanel(props) {
         </Stack>
 
         {mode === MODES.PANEL && <FilmsPanel />}
-        {mode === MODES.UI && (
-          <FilmsPanelUI
-            setSeverity={setSeverity}
-            setOpenSnackBar={setOpenSnackBar}
-            setMessageSnack={setMessageSnack}
-          />
-        )}
+        {mode === MODES.UI && <FilmsPanelUI />}
       </Stack>
     </Stack>
   )
 }
-
-export default withSnacks(AdminFilmsPanel)

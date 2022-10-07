@@ -4,32 +4,27 @@ import {
   Stack,
   TextField,
   Box,
-  Select,
-  MenuItem,
   Typography,
-  Button,
   Dialog,
 } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
-import withSnacks from "../../hocs/withSnacks"
 import { ModalTitle } from "../Modal-Components/modal-title"
-import { compose } from "redux"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import { ActionButtons } from "../Modal-Components/modal-action-buttons"
 import theme from "../../../config/theme"
 import { useDropzone } from "react-dropzone"
+import { AppContext } from "../../../contexts/AppContext"
 
 function EditReferenceModal(props) {
   const {
     referenceId,
-    setSeverity,
-    setMessageSnack,
-    setOpenSnackBar,
     setOpenAddNewPhotosModal,
     openEditModal,
     handleCloseEditModal,
   } = props
+
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   const [reference, setReference] = useState({
     id: null,
@@ -81,16 +76,14 @@ function EditReferenceModal(props) {
     handleCloseEditModal()
   }
   const handleSuccess = () => {
-    setSeverity("success")
-    setMessageSnack("The reference has been changed successfully !")
-    setOpenSnackBar(true)
+    setSnackSeverity("success")
+    setSnackMessage("The reference has been changed successfully !")
     fetchData()
     handleCloseEditModal()
   }
   const handleError = () => {
-    setSeverity("error")
-    setMessageSnack("An error occurred while updating the category...")
-    setOpenSnackBar(true)
+    setSnackSeverity("error")
+    setSnackMessage("An error occurred while updating the category...")
   }
   const handleUpdate = async () => {
     // Check max size limit whether its an album or a galery
@@ -98,11 +91,10 @@ function EditReferenceModal(props) {
       reference.new_logo &&
       reference.new_logo.size > sizeLimit * 1000 * 1000
     ) {
-      setMessageSnack(
+      setSnackMessage(
         `The picture you have selected has a size greater than ${sizeLimit}Mo. Please select only a lower-than-${sizeLimit}Mo image.`
       )
-      setSeverity("error")
-      setOpenSnackBar(true)
+      setSnackSeverity("error")
       return
     }
     const res = await apiCall.admin.updateReference(reference)
@@ -236,4 +228,4 @@ function EditReferenceModal(props) {
   )
 }
 
-export default compose(withSnacks, withConfirmAction)(EditReferenceModal)
+export default withConfirmAction(EditReferenceModal)

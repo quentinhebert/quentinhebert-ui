@@ -1,32 +1,11 @@
-import { Link, Stack, Typography } from "@mui/material";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import { compose } from "redux";
-import withConfirmAction from "../../hocs/withConfirmAction";
-import withSnacks from "../../hocs/withSnacks";
-import EditCategories from "./EditCategories";
+import { Link, Stack, Typography } from "@mui/material"
+import { useRouter } from "next/router"
+import EditCategories from "./EditCategories"
 
-function AdminCategoriesPanel(props) {
-  const {
-    user,
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
-    setActionToFire,
-    setOpenConfirmModal,
-    setConfirmTitle,
-    setNextButtonText,
-    setConfirmContent,
-  } = props;
+export default function AdminCategoriesPanel(props) {
+  const {} = props
 
-  const router = useRouter();
-
-  /***************** FUNCTIONS *****************/
-  // Function to round param at closest decimal
-  const formatter = new Intl.NumberFormat("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  const router = useRouter()
 
   return (
     <Stack justifyContent="center" direction="column" gap={4} padding="1rem">
@@ -44,7 +23,5 @@ function AdminCategoriesPanel(props) {
         <EditCategories />
       </Stack>
     </Stack>
-  );
+  )
 }
-
-export default compose(withSnacks, withConfirmAction)(AdminCategoriesPanel);

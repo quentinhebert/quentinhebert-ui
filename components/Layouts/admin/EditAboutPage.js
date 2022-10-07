@@ -1,67 +1,43 @@
-import {
-  FormControl,
-  Paper,
-  Stack,
-  TextField,
-  Box,
-  Select,
-  MenuItem,
-  Typography,
-  Button,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import apiCall from "../../../services/apiCalls/apiCall";
-import withSnacks from "../../hocs/withSnacks";
-import { ModalTitle } from "../../Modals/Modal-Components/modal-title";
-import { compose } from "redux";
-import withConfirmAction from "../../hocs/withConfirmAction";
-import { ActionButtons } from "../../Modals/Modal-Components/modal-action-buttons";
-import theme from "../../../config/theme";
-import withAddCategoryPhoto from "../../hocs/withAddCategoryThumbnail";
+import { FormControl, Paper, Stack, TextField } from "@mui/material"
+import { useContext, useEffect, useState } from "react"
+import apiCall from "../../../services/apiCalls/apiCall"
+import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
+import { compose } from "redux"
+import withConfirmAction from "../../hocs/withConfirmAction"
+import { ActionButtons } from "../../Modals/Modal-Components/modal-action-buttons"
+import withAddCategoryPhoto from "../../hocs/withAddCategoryThumbnail"
+import { AppContext } from "../../../contexts/AppContext"
 
 function EditAboutPage(props) {
-  const {
-    setSeverity,
-    setMessageSnack,
-    setOpenSnackBar,
-    setActionToFire,
-    setOpenConfirmModal,
-    setConfirmTitle,
-    setNextButtonText,
-    setConfirmContent,
-    setOpenAddNewPhotosModal,
-    uploadSuccess,
-    setCategory,
-  } = props;
+  const {} = props
 
-  const [changes, setChanges] = useState(false);
-  const [categories, setCategories] = useState(null);
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+
+  const [categories, setCategories] = useState(null)
 
   // Fetch data
   const fetchData = async () => {
-    const res = await apiCall.unauthenticated.getPublicCategories();
-    const jsonRes = await res.json();
-    setCategories(jsonRes);
-  };
+    const res = await apiCall.unauthenticated.getPublicCategories()
+    const jsonRes = await res.json()
+    setCategories(jsonRes)
+  }
 
   // We immediately fetch up-to-date categories data, and let's reset all categories on category change to prevent undesired changes to bes saved
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   // HANDLERS
-  const handleChange = () => {};
-  const handleCancel = async () => {};
+  const handleChange = () => {}
+  const handleCancel = async () => {}
   const handleSuccess = () => {
-    setSeverity("success");
-    setMessageSnack("The category has been changed successfully !");
-    setOpenSnackBar(true);
-  };
+    setSnackSeverity("success")
+    setSnackMessage("The category has been changed successfully !")
+  }
   const handleError = () => {
-    setSeverity("error");
-    setMessageSnack("An error occurred while updating the category...");
-    setOpenSnackBar(true);
-  };
+    setSnackSeverity("error")
+    setSnackMessage("An error occurred while updating the category...")
+  }
   const handleUpdateCategories = async () => {
     // const res = await apiCall.admin.updateCategory();
     // if (res && res.ok) {
@@ -69,10 +45,10 @@ function EditAboutPage(props) {
     // } else {
     //   handleError();
     // }
-  };
+  }
 
   // Allows user to cancel the changes
-  if (!categories) return <></>;
+  if (!categories) return <></>
 
   return (
     <Stack
@@ -167,11 +143,7 @@ function EditAboutPage(props) {
         </Stack>
       </Paper>
     </Stack>
-  );
+  )
 }
 
-export default compose(
-  withSnacks,
-  withAddCategoryPhoto,
-  withConfirmAction
-)(EditAboutPage);
+export default compose(withAddCategoryPhoto, withConfirmAction)(EditAboutPage)

@@ -1,6 +1,5 @@
 import { Box, Stack } from "@mui/material"
 import { useContext, useState } from "react"
-import withSnacks from "../../../hocs/withSnacks"
 import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/centered-max-width-container"
 import CustomForm from "../../../ReusableComponents/forms/custom-form"
@@ -8,12 +7,15 @@ import CustomSubmitButton from "../../../ReusableComponents/forms/custom-submit-
 import CustomOutlinedAutocomplete from "../../../ReusableComponents/forms/custom-outlined-autocomplete"
 import { UserContext } from "../../../../contexts/UserContext"
 import apiCall from "../../../../services/apiCalls/apiCall"
+import { AppContext } from "../../../../contexts/AppContext"
 
-function ChangeTimezone(props) {
-  const { setSeverity, setMessageSnack, setOpenSnackBar } = props
+export default function ChangeTimezone(props) {
+  const {} = props
 
   // USER CONTEXT
-  const { user, setUser, fetchUser } = useContext(UserContext)
+  const { user } = useContext(UserContext)
+  // APP CONTEXT
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   // Populate list of all official timezones
   const timezones = []
@@ -40,14 +42,12 @@ function ChangeTimezone(props) {
   // HANDLERS
   const handleReset = () => setKey(key + 1)
   const handleSuccess = () => {
-    setSeverity("success")
-    setOpenSnackBar("true")
-    setMessageSnack("Votre timezone a été modifiée")
+    setSnackSeverity("success")
+    setSnackMessage("Votre timezone a été modifiée")
   }
   const handleError = () => {
-    setSeverity("error")
-    setOpenSnackBar("true")
-    setMessageSnack(
+    setSnackSeverity("error")
+    setSnackMessage(
       "Une erreur est survenue lors de la modification de votre timezone..."
     )
   }
@@ -105,5 +105,3 @@ function ChangeTimezone(props) {
     </CenteredMaxWidthContainer>
   )
 }
-
-export default withSnacks(ChangeTimezone)

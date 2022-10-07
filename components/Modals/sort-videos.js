@@ -7,7 +7,6 @@ import { ModalTitle } from "./Modal-Components/modal-title"
 import CustomModal from "../ReusableComponents/modals/custom-modal"
 import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
 import AlertInfo from "../Other/alert-info"
-import withSnacks from "../hocs/withSnacks"
 
 const SortableListItem = sortableElement(({ item }) => (
   <Box
@@ -57,7 +56,7 @@ const SortableList = sortableContainer(({ items }) => (
   </Box>
 ))
 
-function SortVideos(props) {
+export default function SortVideos(props) {
   const { videos, open, handleClose } = props
 
   // TODO: Récupérer cette data avec l'API
@@ -135,5 +134,3 @@ function SortVideos(props) {
     </CustomModal>
   )
 }
-
-export default SortVideos

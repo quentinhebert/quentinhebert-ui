@@ -1,8 +1,7 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Box, FormHelperText, Stack, Typography } from "@mui/material"
 import { checkEmail } from "../../services/utils"
 import apiCall from "../../services/apiCalls/apiCall"
-import withSnacks from "../hocs/withSnacks"
 import Input from "../ReusableComponents/forms/custom-filled-input"
 import TextArea from "../ReusableComponents/forms/custom-filled-text-area"
 import DualInputLine from "../ReusableComponents/forms/responsive-dual-input-container"
@@ -13,6 +12,7 @@ import Form from "../ReusableComponents/forms/custom-form"
 import CustomCheckbox from "../ReusableComponents/forms/custom-checkbox"
 import styles from "../../styles/WordsCaroussel.module.css"
 import theme from "../../config/theme"
+import { AppContext } from "../../contexts/AppContext"
 
 /** CONSTANTS **/
 
@@ -69,14 +69,10 @@ const WordCaroussel = ({ defaultService }) => (
   </Typography>
 )
 
-function ContactForm(props) {
-  const {
-    defaultService,
-    defaultDirection,
-    setSeverity,
-    setOpenSnackBar,
-    setMessageSnack,
-  } = props
+export default function ContactForm(props) {
+  const { defaultService, defaultDirection } = props
+
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   const initialFormData = {
     firstname: "",
@@ -150,15 +146,13 @@ function ContactForm(props) {
     return { errorsCount }
   }
   const handleSuccess = () => {
-    setSeverity("success")
-    setMessageSnack("Reçu 5/5 ! 💬")
-    setOpenSnackBar("true")
+    setSnackSeverity("success")
+    setSnackMessage("Reçu 5/5 ! 💬")
     handleResetForm()
   }
   const handleError = () => {
-    setSeverity("error")
-    setMessageSnack("Une erreur est survenue lors de l'envoi 🙁")
-    setOpenSnackBar("true")
+    setSnackSeverity("error")
+    setSnackMessage("Une erreur est survenue lors de l'envoi 🙁")
   }
   const handleSendRequest = async () => {
     const { errorsCount } = checkRequiredFields()
@@ -368,5 +362,3 @@ function ContactForm(props) {
     </Form>
   )
 }
-
-export default withSnacks(ContactForm)

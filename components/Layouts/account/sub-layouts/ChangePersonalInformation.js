@@ -1,8 +1,9 @@
 import { Stack } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { AppContext } from "../../../../contexts/AppContext"
+import { UserContext } from "../../../../contexts/UserContext"
 import apiCall from "../../../../services/apiCalls/apiCall"
 import { checkEmail, checkPhone } from "../../../../services/utils"
-import withSnacks from "../../../hocs/withSnacks"
 import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import AlertInfo from "../../../Other/alert-info"
 import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/centered-max-width-container"
@@ -11,8 +12,12 @@ import CustomOutlinedInput from "../../../ReusableComponents/forms/custom-outlin
 import CustomSubmitButton from "../../../ReusableComponents/forms/custom-submit-button"
 import DualInputLine from "../../../ReusableComponents/forms/responsive-dual-input-container"
 
-function ChangePersonalInformation(props) {
-  const { user, setUser, setSeverity, setMessageSnack, setOpenSnackBar } = props
+export default function ChangePersonalInformation(props) {
+  const {} = props
+
+  const { user, setUser } = useContext(UserContext)
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+
   const [loadingButton, setLoadingButton] = useState(false)
   const [localUser, setLocalUser] = useState(user) // Prevent from live changing navbar firstname...
   const [updateErrors, setUpdateErrors] = useState({
@@ -52,19 +57,16 @@ function ChangePersonalInformation(props) {
     setUpdateErrors({ ...updateErrors, [attribute]: false })
   }
   const handleSuccess = () => {
-    setSeverity("success")
-    setOpenSnackBar("true")
-    setMessageSnack("Utilisateur modifié ✅")
+    setSnackSeverity("success")
+    setSnackMessage("Utilisateur modifié ✅")
   }
   const handleError = () => {
-    setSeverity("error")
-    setOpenSnackBar("true")
-    setMessageSnack("Une erreur est survenue lors de la modification 🙁")
+    setSnackSeverity("error")
+    setSnackMessage("Une erreur est survenue lors de la modification 🙁")
   }
   const handleErrorDuplicate = () => {
-    setSeverity("error")
-    setOpenSnackBar("true")
-    setMessageSnack(
+    setSnackSeverity("error")
+    setSnackMessage(
       "L'adresse e-mail ou le numéro de téléphone existe déjà pour un autre utilisateur ❌"
     )
   }
@@ -181,5 +183,3 @@ function ChangePersonalInformation(props) {
     </CenteredMaxWidthContainer>
   )
 }
-
-export default withSnacks(ChangePersonalInformation)
