@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import Snacks from "../Navigation/snacks";
+import React, { useState } from "react"
+import Snacks from "../Navigation/snacks"
 
 function withSnacks(WrappedComponent) {
   function SnacksEnhancer(props) {
-    const {} = props;
-    const [severity, setSeverity] = useState("error");
-    const [openSnackBar, setOpenSnackBar] = useState(false);
-    const [messageSnack, setMessageSnack] = useState("");
+    const {} = props
+    const [severity, setSeverity] = useState("error")
+    const [openSnackBar, setOpenSnackBar] = useState(false)
+    const [messageSnack, setMessageSnack] = useState("")
 
     return (
       <>
@@ -21,11 +21,12 @@ function withSnacks(WrappedComponent) {
           openSnackBar={openSnackBar}
           message={messageSnack}
           setOpenSnackBar={setOpenSnackBar}
+          setMessage={setMessageSnack}
         />
       </>
-    );
+    )
   }
-  return SnacksEnhancer;
+  return SnacksEnhancer
 }
 
-export default withSnacks;
+export default withSnacks

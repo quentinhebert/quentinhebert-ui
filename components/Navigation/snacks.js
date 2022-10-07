@@ -2,17 +2,26 @@ import { Portal } from "@mui/material"
 import Alert from "@mui/material/Alert"
 import Slide from "@mui/material/Slide"
 import Snackbar from "@mui/material/Snackbar"
-import React from "react"
+import React, { useEffect, useState } from "react"
 
 function SlideTransition(props) {
-  return <Slide {...props} direction="up" />
+  return <Slide {...props} direction="left" />
 }
 
 function Snacks(props) {
-  const { severity, openSnackBar, message, setOpenSnackBar } = props
+  const { severity, message, setMessage } = props
+
+  const [openSnackBar, setOpenSnackBar] = useState(false)
+
+  useEffect(() => {
+    if (message !== "") setOpenSnackBar(true)
+  }, [message])
 
   const handleClose = () => {
     setOpenSnackBar(false)
+    setTimeout(() => {
+      setMessage("")
+    }, 500)
   }
 
   return (
@@ -23,7 +32,7 @@ function Snacks(props) {
           horizontal: "right",
         }}
         open={openSnackBar}
-        autoHideDuration={4000}
+        autoHideDuration={5000}
         onClose={handleClose}
         TransitionComponent={SlideTransition}
       >

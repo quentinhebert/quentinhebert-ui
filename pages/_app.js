@@ -10,11 +10,14 @@ import Loading from "../components/Other/loading"
 import { AnimatePresence } from "framer-motion"
 import AnimatedLogoLayout from "../components/ReusableComponents/animations/animated-logo"
 import { AppContext } from "../contexts/AppContext"
+import Snacks from "../components/Navigation/snacks"
 
 function MyApp({ Component, pageProps, router }) {
   const [user, setUser] = useState(null)
   const [accessToken, setAccessToken] = useState(null)
   const [appLoading, setAppLoading] = useState(true)
+  const [snackSeverity, setSnackSeverity] = useState("error")
+  const [snackMessage, setSnackMessage] = useState("")
 
   setTimeout(() => {
     setAppLoading(false)
@@ -45,13 +48,25 @@ function MyApp({ Component, pageProps, router }) {
   }
 
   return (
-    <AppContext.Provider value={{ appLoading, setAppLoading }}>
+    <AppContext.Provider
+      value={{
+        appLoading,
+        setAppLoading,
+        setSnackSeverity,
+        setSnackMessage,
+      }}
+    >
       <UserContext.Provider
         value={{ user, setUser, setAccessToken, fetchUser }}
       >
         <ThemeProvider theme={theme}>
           <AnimatePresence exitBeforeEnter>
             <Component {...pageProps} key={router.route} />
+            <Snacks
+              severity={snackSeverity}
+              message={snackMessage}
+              setMessage={setSnackMessage}
+            />
           </AnimatePresence>
         </ThemeProvider>
       </UserContext.Provider>

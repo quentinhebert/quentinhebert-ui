@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { Stack, Typography } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AlertInfo from "../../Other/alert-info"
@@ -17,8 +17,8 @@ import MotionDivDownOnMount from "../../ReusableComponents/animations/motion-div
 import SortIcon from "@mui/icons-material/Sort"
 import CustomOutlinedButton from "../../ReusableComponents/buttons/custom-outlined-button"
 import SwipeableViewsReadyToUse from "../../ReusableComponents/containers/swipeable-view-ready-to-use"
-import withSnacks from "../../hocs/withSnacks"
 import useSWR from "swr"
+import { AppContext } from "../../../contexts/AppContext"
 
 const Caroussel = ({
   addressItems,
@@ -228,9 +228,12 @@ const Caroussel = ({
   )
 }
 
-function AdminContactForm(props) {
+export default function AdminContactForm(props) {
   /********** PROPS **********/
-  const { handleClose, setSeverity, setOpenSnackBar, setMessageSnack } = props
+  const { handleClose } = props
+
+  // App context
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   const { mutate } = useSWR("/footer")
 
@@ -273,17 +276,15 @@ function AdminContactForm(props) {
   }, [contactItems])
 
   const handleSuccess = () => {
-    setSeverity("success")
-    setOpenSnackBar(true)
-    setMessageSnack("Informations de contact mises à jour")
+    setSnackSeverity("success")
+    setSnackMessage("Informations de contact mises à jour")
     fetchContact() // update data
     mutate() // update footer swr
     if (handleClose) handleClose()
   }
   const handleError = () => {
-    setSeverity("error")
-    setOpenSnackBar(true)
-    setMessageSnack(
+    setSnackSeverity("error")
+    setSnackMessage(
       "Une erreur est survenue lors de la modification des informations de contact..."
     )
   }
@@ -344,5 +345,3 @@ function AdminContactForm(props) {
     </Stack>
   )
 }
-
-export default withSnacks(AdminContactForm)
