@@ -11,47 +11,57 @@ import styles from "../../../styles/TextShine.module.css"
 import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
 import Image from "next/image"
+import youtubeIcon from "../../../public/medias/social_icons/youtube.svg"
+import facebookIcon from "../../../public/medias/social_icons/facebook.svg"
+import instagramIcon from "../../../public/medias/social_icons/instagram.svg"
+import tiktokIcon from "../../../public/medias/social_icons/tiktok.svg"
+import linkedinIcon from "../../../public/medias/social_icons/linkedin.svg"
+import snapchatIcon from "../../../public/medias/social_icons/snapchat.svg"
+import pinterestIcon from "../../../public/medias/social_icons/pinterest.svg"
+import whatsappIcon from "../../../public/medias/social_icons/whatsapp.svg"
+import vimeoIcon from "../../../public/medias/social_icons/vimeo.svg"
+import twitterIcon from "../../../public/medias/social_icons/twitter.svg"
 
 const SOCIAL_MEDIAS_ICONS = [
   {
     type: "youtube_url",
-    icon: "/medias/social_icons/youtube.svg",
+    icon: youtubeIcon,
   },
   {
     type: "instagram_url",
-    icon: "/medias/social_icons/instagram.svg",
+    icon: instagramIcon,
   },
   {
     type: "facebook_url",
-    icon: "/medias/social_icons/facebook.svg",
+    icon: facebookIcon,
   },
   {
     type: "tiktok_url",
-    icon: "/medias/social_icons/tiktok.svg",
+    icon: tiktokIcon,
   },
   {
     type: "linkedin_url",
-    icon: "/medias/social_icons/linkedin.svg",
+    icon: linkedinIcon,
   },
   {
     type: "snapchat_url",
-    icon: "/medias/social_icons/snapchat.svg",
+    icon: snapchatIcon,
   },
   {
     type: "whatsapp_url",
-    icon: "/medias/social_icons/whatsapp.svg",
+    icon: whatsappIcon,
   },
   {
     type: "pinterest_url",
-    icon: "/medias/social_icons/pinterest.svg",
+    icon: pinterestIcon,
   },
   {
     type: "vimeo_url",
-    icon: "/medias/social_icons/vimeo.svg",
+    icon: vimeoIcon,
   },
   {
     type: "twitter_url",
-    icon: "/medias/social_icons/twitter.svg",
+    icon: twitterIcon,
   },
 ]
 
@@ -68,18 +78,6 @@ const SocialButton = ({ item }) => {
   return (
     <Box component="a" href={item.link} target="_blank" rel="noreferrer">
       <ScaleUpOnHoverStack>
-        {/* <Box
-          component="img"
-          src={icon}
-          alt={item.type}
-          sx={{
-            color: (theme) => theme.palette.text.white,
-            width: "30px",
-            height: "30px",
-            marginRight: ".5rem",
-            "&:hover": { opacity: 0.9 },
-          }}
-        /> */}
         <Box sx={{ marginRight: ".5rem" }}>
           <Image src={icon} width="30" height="30" />
         </Box>
