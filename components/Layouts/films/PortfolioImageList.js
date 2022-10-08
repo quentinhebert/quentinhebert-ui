@@ -34,7 +34,7 @@ export default function MasonryImageList() {
       title: "Club d'aviron de Soissons",
       client: "Société Nautique Soissonnaise",
       type: "Sport",
-      url: "https://www.youtube.com/watch?v=x--sqOlS0S8",
+      url: "https://youtu.be/2tmVOpWrzy4",
       roles: ["Réalisateur", "Cadreur", "Monteur"],
       gear: [
         "Fujifilm XT-3",
