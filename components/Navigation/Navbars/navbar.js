@@ -71,6 +71,7 @@ export default function Navbar(props) {
         background: "linear-gradient(0deg, transparent 0%, rgb(0,0,0,0.7) 70%)",
         width: "100%",
         boxShadow: "none",
+        zIndex: "100",
       }}
     >
       <Box
