@@ -1,7 +1,6 @@
 import ContactLayout from "../components/Layouts/contact/ContactLayout"
 import PageRoot from "../components/ReusableComponents/page-builder/page-root"
 import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
-import Navbar from "../components/Navigation/Navbars/navbar"
 import Footer from "../components/Navigation/Footers/Footer"
 import { motion } from "framer-motion"
 import { Box } from "@mui/material"
@@ -36,8 +35,6 @@ function ContactPage() {
           type={type}
           ogImg={ogImg}
         />
-
-        <Navbar />
 
         <Box
           sx={{

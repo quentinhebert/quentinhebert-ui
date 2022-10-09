@@ -1,6 +1,5 @@
 import WebsitesIndexLayout from "../../components/Layouts/websites/WebsitesIndexLayout"
 import Footer from "../../components/Navigation/Footers/Footer"
-import Navbar from "../../components/Navigation/Navbars/navbar"
 import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
 import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
 import { motion } from "framer-motion"
@@ -35,8 +34,6 @@ export default function WebsitesHomePage() {
           type={type}
           ogImg={ogImg}
         />
-
-        <Navbar />
 
         <WebsitesIndexLayout />
 

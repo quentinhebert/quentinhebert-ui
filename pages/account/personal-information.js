@@ -1,5 +1,4 @@
 import React, { useContext } from "react"
-import Navbar from "../../components/Navigation/Navbars/navbar"
 import Footer from "../../components/Navigation/Footers/Footer"
 import { UserContext } from "../../contexts/UserContext"
 import LoginLayout from "../../components/Layouts/LoginLayout"
@@ -31,8 +30,6 @@ function PersonalInformationPage() {
         type={type}
         ogImg={ogImg}
       />
-
-      <Navbar />
 
       {!user ? (
         <LoginLayout />

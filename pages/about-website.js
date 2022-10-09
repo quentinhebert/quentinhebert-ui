@@ -1,4 +1,3 @@
-import Navbar from "../components/Navigation/Navbars/navbar"
 import Footer from "../components/Navigation/Footers/Footer"
 import AboutWebsiteLayout from "../components/Layouts/AboutWebsiteLayout"
 import PageRoot from "../components/ReusableComponents/page-builder/page-root"
@@ -34,8 +33,6 @@ export default function AboutWebsitePage() {
           ogImg={ogImg}
           keywords={keywords}
         />
-
-        <Navbar />
 
         <AboutWebsiteLayout />
 

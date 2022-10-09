@@ -1,5 +1,4 @@
 import React, { useContext } from "react"
-import Navbar from "../../components/Navigation/Navbars/navbar"
 import Footer from "../../components/Navigation/Footers/Footer"
 import { USERTYPES } from "../../enums/userTypes"
 import { UserContext } from "../../contexts/UserContext"
@@ -38,8 +37,6 @@ export default function AdminFilesManagementPage() {
         type={type}
         ogImg={ogImg}
       />
-
-      <Navbar />
 
       {!!user && user.type === USERTYPES.ADMIN ? (
         <AdminFilesPanel />

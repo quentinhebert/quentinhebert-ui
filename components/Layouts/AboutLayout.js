@@ -1,5 +1,4 @@
 import React, { useRef } from "react"
-import Navbar from "../Navigation/Navbars/navbar"
 import Footer from "../Navigation/Footers/Footer"
 import { Stack, Typography, useMediaQuery } from "@mui/material"
 import ScrollToTopBtn from "../Navigation/scroll-to-top"
@@ -38,7 +37,6 @@ export default function AboutLayout(props) {
   return (
     <>
       <Stack ref={topRef} />
-      <Navbar />
 
       <Stack ref={introVideoRef} />
       <Stack

@@ -3,7 +3,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 
 export default function DesktopNavbar(props) {
-  const { list, page, isReduced } = props
+  const { list, isReduced } = props
 
   return (
     <Stack

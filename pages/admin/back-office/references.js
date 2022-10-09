@@ -1,6 +1,5 @@
 import React, { useContext } from "react"
 import Head from "next/head"
-import Navbar from "../../../components/Navigation/Navbars/navbar"
 import Footer from "../../../components/Navigation/Footers/Footer"
 import { USERTYPES } from "../../../enums/userTypes"
 import Redirect from "../../../components/Navigation/redirect"
@@ -23,8 +22,6 @@ export default function References(props) {
         <link rel="icon" href="/favicon.ico" />
         <meta name="robots" content="noindex, nofollow" />
       </Head>
-      <Navbar />
-
       <AdminReferencesPanel />
       <Footer />
     </>

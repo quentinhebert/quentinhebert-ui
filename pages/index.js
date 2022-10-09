@@ -1,6 +1,5 @@
 import IndexLayout from "../components/Layouts/IndexLayout"
 import PageRoot from "../components/ReusableComponents/page-builder/page-root"
-import Navbar from "../components/Navigation/Navbars/navbar"
 import Footer from "../components/Navigation/Footers/Footer"
 import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
 import { motion } from "framer-motion"
@@ -35,7 +34,6 @@ export default function HomePage() {
           type={type}
           ogImg={ogImg}
         />
-        <Navbar />
 
         <IndexLayout />
 

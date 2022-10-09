@@ -1,8 +1,6 @@
-import { useRouter } from "next/router"
 import { useContext } from "react"
 import LoginLayout from "../components/Layouts/LoginLayout"
 import Footer from "../components/Navigation/Footers/Footer"
-import Navbar from "../components/Navigation/Navbars/navbar"
 import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
 import PageRoot from "../components/ReusableComponents/page-builder/page-root"
 import { UserContext } from "../contexts/UserContext"
@@ -39,8 +37,6 @@ export default function LoginPage() {
           type={type}
           ogImg={ogImg}
         />
-
-        <Navbar />
 
         {!user ? (
           <LoginLayout redirect="/account" />

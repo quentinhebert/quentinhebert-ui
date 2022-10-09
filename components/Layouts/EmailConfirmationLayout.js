@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import Footer from "../../components/Navigation/Footers/Footer"
-import Navbar from "../../components/Navigation/Navbars/navbar"
 import AlertInfo from "../../components/Other/alert-info"
 import { errorCodes } from "../../config/errorCodes"
 import apiCall from "../../services/apiCalls/apiCall"
@@ -55,8 +54,6 @@ export default function EmailConfirmationLayout(props) {
 
   return (
     <Stack minHeight="100vh">
-      <Navbar />
-
       {login ? (
         <LoginLayout redirect="/" />
       ) : (

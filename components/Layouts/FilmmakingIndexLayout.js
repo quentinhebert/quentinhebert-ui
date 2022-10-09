@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react"
-import Navbar from "../Navigation/Navbars/navbar"
 import Footer from "../Navigation/Footers/Footer"
 import CommercialBand from "../Sections/commercial-band"
 import Categories from "./categories.js"
@@ -26,7 +25,6 @@ export default function FilmmakingIndexLayout(props) {
   return (
     <>
       <Stack ref={topRef} />
-      <Navbar />
       <IndexHeadBandVideo
         videoId={"709683417"}
         bgPositionY={19}

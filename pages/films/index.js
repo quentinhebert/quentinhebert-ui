@@ -2,7 +2,6 @@ import FilmsIndexLayout from "../../components/Layouts/films/FilmsIndexLayout"
 import { defaultConfig } from "../../config/defaultConfig"
 import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
 import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
-import Navbar from "../../components/Navigation/Navbars/navbar"
 import Footer from "../../components/Navigation/Footers/Footer"
 import { motion } from "framer-motion"
 
@@ -36,8 +35,6 @@ export default function FilmsHomePage() {
           type={type}
           ogImg={ogImg}
         />
-
-        <Navbar />
 
         <FilmsIndexLayout />
 

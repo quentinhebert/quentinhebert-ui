@@ -1,5 +1,4 @@
 import React, { useContext } from "react"
-import Navbar from "../../components/Navigation/Navbars/navbar"
 import Footer from "../../components/Navigation/Footers/Footer"
 import { UserContext } from "../../contexts/UserContext"
 import AccountIndex from "../../components/Layouts/account/AccountIndex"
@@ -31,8 +30,6 @@ function AccountIndexPage() {
         type={type}
         ogImg={ogImg}
       />
-
-      <Navbar />
 
       {!user ? <LoginLayout /> : <AccountIndex user={user} />}
 

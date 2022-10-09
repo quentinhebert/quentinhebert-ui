@@ -1,6 +1,5 @@
 import Custom404Layout from "../components/Layouts/error/Custom404Layout"
 import Footer from "../components/Navigation/Footers/Footer"
-import Navbar from "../components/Navigation/Navbars/navbar"
 import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
 import PageRoot from "../components/ReusableComponents/page-builder/page-root"
 import { motion } from "framer-motion"
@@ -31,8 +30,6 @@ export default function Custom404Page() {
           type={type}
           ogImg={ogImg}
         />
-
-        <Navbar />
 
         <Custom404Layout />
 

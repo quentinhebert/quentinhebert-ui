@@ -68,8 +68,7 @@ export default function Navbar(props) {
       position="fixed"
       component="nav"
       sx={{
-        background:
-          "linear-gradient(180deg, rgb(0,0,0,0.5) 0%, transparent 100%)",
+        background: "linear-gradient(0deg, transparent 0%, rgb(0,0,0,0.7) 70%)",
         width: "100%",
         boxShadow: "none",
       }}
@@ -82,8 +81,8 @@ export default function Navbar(props) {
           transition: "opacity 0.25s ease-in-out",
           opacity: isReduced ? 1 : 0,
           top: "-2px",
-          background: (theme) =>
-            `linear-gradient(100deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`,
+          background:
+            "linear-gradient(0deg, transparent 0%, rgb(0,0,0,0.8) 70%)",
         }}
       />
       <Box sx={{ flexGrow: 2, width: "100%" }}>
@@ -92,7 +91,7 @@ export default function Navbar(props) {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0, duration: 2 }}
+              transition={{ duration: 2 }}
             >
               <Link href="/" passHref>
                 <ScaleUpOnHoverStack

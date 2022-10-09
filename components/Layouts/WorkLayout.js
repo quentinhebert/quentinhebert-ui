@@ -1,11 +1,8 @@
 import * as React from "react"
 import { Stack } from "@mui/material"
-import theme from "../../config/theme"
 import PortfolioTabs from "../Navigation/portfolio-tabs"
 import HeadBandVideo from "../Sections/head-band-video"
-import DuoTextBand from "../Sections/duo-text-band"
 import ScrollToTopBtn from "../Navigation/scroll-to-top"
-import Navbar from "../Navigation/Navbars/navbar"
 import Footer from "../Navigation/Footers/Footer"
 import useSWR from "swr"
 import Loading from "../Other/loading"
@@ -80,7 +77,6 @@ export default function WorkLayout(props) {
   return (
     <>
       <Stack ref={topRef} />
-      <Navbar />
       <HeadBandVideo
         mainText={title}
         buttonText="Watch my work"

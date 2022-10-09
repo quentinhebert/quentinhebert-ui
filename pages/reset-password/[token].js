@@ -1,7 +1,6 @@
 import React from "react"
 import ResetPassordLayout from "../../components/Layouts/ResetPasswordLayout"
 import Footer from "../../components/Navigation/Footers/Footer"
-import Navbar from "../../components/Navigation/Navbars/navbar"
 import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
 import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
 
@@ -26,8 +25,6 @@ export default function ResetPassordPage(props) {
         type={type}
         ogImg={ogImg}
       />
-
-      <Navbar />
 
       <ResetPassordLayout />
 
