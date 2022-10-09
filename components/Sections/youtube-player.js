@@ -1,7 +1,13 @@
 import { Stack } from "@mui/material"
-import * as React from "react"
+import { memo } from "react"
 
-export default function YoutubePlayer(props) {
+function arePropsEqual(prevProps, nextProps) {
+  return prevProps.videoId === nextProps.videoId
+}
+const YoutubePlayer = memo((props) => <Youtube {...props} />, arePropsEqual)
+export default YoutubePlayer
+
+function Youtube(props) {
   const { videoId, bgColor } = props
 
   return (
