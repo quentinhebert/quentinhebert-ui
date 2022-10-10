@@ -45,7 +45,7 @@ export default function MasonryImageList() {
       ],
       description:
         "Le club d'aviron de Soissons est fier de voir ses rameurs de tous âges sur le beau bassin d'entraînement de l'Aisne. Amateurs comme compétiteurs, c'est toujours dans l'esprit d'une grande famille que la SNS vous accueille au club !",
-      date: "2022",
+      year: "2022",
     },
     {
       img: "/medias/event-cover.png",
@@ -64,7 +64,7 @@ export default function MasonryImageList() {
       ],
       description:
         "À l'occasion de son baptême, voici quelques souvenirs du jour où Céline et Kévin sont respectivement faits marraine et parrain de l'adorable Elio.",
-      date: "2021",
+      year: "2021",
     },
     {
       img: "/medias/event-cover-2.png",
@@ -76,7 +76,7 @@ export default function MasonryImageList() {
       gear: ["Canon 5DIII", "Sigma 24-70mm f2.8", "Steadicam mécanique"],
       description:
         "La fin du règne de Mademoiselle Aube 2016 venant à terme, il est venu le temps de céder la couronne. Retour sur les répétitions et les backstages de l'élection de 2017.",
-      date: "2017",
+      year: "2017",
     },
     {
       img: "/medias/associations-cover-2.png",
@@ -98,7 +98,7 @@ export default function MasonryImageList() {
       ],
       description:
         "Avec mon association de production audiovisuelle, nous avons réalisé le film de la liste Les Machiav'Hell se présentant aux élections du Bureau Des Étudiants de l'ESCOM. Les étudiants partent pour le Week-End d'intégration de leur école, une épopée qui leur réserve bien des surprises...",
-      date: "2019",
+      year: "2019",
     },
     {
       img: "/medias/tryptique-short-film.png",
@@ -120,7 +120,7 @@ export default function MasonryImageList() {
       ],
       description:
         "Elise, une jeune écrivaine, va vivre un amour passionnel mais impossible au travers de sa nouvelle...",
-      date: "2019",
+      year: "2019",
     },
     {
       img: "/medias/aqua.png",
@@ -132,7 +132,7 @@ export default function MasonryImageList() {
       gear: ["Canon 5DIII", "Sigma 24-70mm f2.8", "Trépied"],
       description:
         'Clip musical pour le titre "Aqua" écrit et interprété par Van Elie.',
-      date: "2018",
+      year: "2018",
     },
     {
       img: "/medias/associations-cover.png",
@@ -150,7 +150,7 @@ export default function MasonryImageList() {
       ],
       description:
         "Présentation de l'assocation Les Cordées de La Réussite, association permettant à de jeunes collégiens de la ville de Troyes de découvrir la science de manière ludique et pratique.",
-      date: "2018",
+      year: "2018",
     },
     {
       img: "/medias/trois-secondes.png",
@@ -169,7 +169,7 @@ export default function MasonryImageList() {
         "Rode BoomPole",
       ],
       description: "En quête de réponses, Malik se bat contre le temps...",
-      date: "2018",
+      year: "2018",
     },
     {
       img: "/medias/tryptique-corporate.png",
@@ -181,7 +181,7 @@ export default function MasonryImageList() {
       gear: ["Canon 5DIII", "Sigma 24-70mm f2.8", "Steadicam mécanique"],
       description:
         "Andréa est une photographe indépendante. Voilà quelques images qui présentent son univers et son travail.",
-      date: "2018",
+      year: "2018",
     },
     {
       img: "/medias/corporate-cover.png",
@@ -193,7 +193,7 @@ export default function MasonryImageList() {
       gear: ["Canon 5DIII", "Sigma 24-70mm f2.8", "Steadicam mécanique"],
       description:
         "Wideop est une jeune Start-Up auboise dont l'ambition est d'agréger la demande de shooting photo avec l'offre abondante des photographes professionnels, et ce, de manière totalement éthique pour les photographes. Découvrez la vidéo de présentation pour les potentiels investisseurs !",
-      date: "2022",
+      year: "2022",
     },
     {
       img: "/medias/madrid.jpg",
@@ -204,7 +204,7 @@ export default function MasonryImageList() {
       roles: ["Réalisateur", "Cadreur", "Monteur"],
       gear: ["Canon 5DIII", "Sigma 24-70mm f2.8", "Steadicam mécanique"],
       description: "Quelques images de mon erasmus en Espagne : Madrid !",
-      date: "2019",
+      year: "2019",
     },
     {
       img: "/medias/stormer.png",
@@ -215,7 +215,7 @@ export default function MasonryImageList() {
       roles: ["Réalisateur", "Cadreur", "Monteur"],
       description:
         "Clip techno d'une production musicale originale, by Størmer.",
-      date: "2019",
+      year: "2019",
     },
     {
       img: "/medias/w-cine.png",
@@ -225,7 +225,7 @@ export default function MasonryImageList() {
       client: "W",
       roles: ["Réalisateur", "Cadreur", "Monteur"],
       gear: ["Canon 5DIII", "Sigma 24-70mm f2.8"],
-      date: "2019",
+      year: "2019",
     },
     {
       img: "/medias/w-tete.png",
@@ -240,7 +240,7 @@ export default function MasonryImageList() {
         "Canon 50mm f1.8",
         "Steadicam mécanique",
       ],
-      date: "2019",
+      year: "2019",
     },
     {
       img: "/medias/w-casa.png",
@@ -255,7 +255,7 @@ export default function MasonryImageList() {
         "Steadicam mécanique",
         "Crosse d'épaule",
       ],
-      date: "2019",
+      year: "2019",
     },
     {
       img: "/medias/fleur.png",
@@ -280,7 +280,7 @@ export default function MasonryImageList() {
       ],
       description:
         "Court-métrage sélectionné au TRÈS COURT Festival à l'occasion du DÉFI 48H. Sur le thème de l'écologie, découvrez la personnification des différents acteurs de l'écologie dans notre société actuelle.",
-      date: "2019",
+      year: "2019",
     },
     {
       img: "/medias/saint-valentin.png",
@@ -300,7 +300,7 @@ export default function MasonryImageList() {
         "Trépied",
       ],
       description: "Fêtons tous ensemble la Saint-Valentin !",
-      date: "2019",
+      year: "2019",
     },
     {
       img: "/medias/andrea-2.png",
@@ -312,7 +312,7 @@ export default function MasonryImageList() {
       gear: ["Canon 5DIII", "Sigma 24-70mm f2.8", "Steadicam mécanique"],
       description:
         "Voilà la deuxième publicité que j'ai réalisée pour Andréa et son activité de photographe.",
-      date: "2019",
+      year: "2019",
     },
     {
       img: "/medias/nfps.png",
@@ -333,7 +333,7 @@ export default function MasonryImageList() {
       ],
       description:
         "Trois frères et soeurs vont tout faire pour célébrer les fêtes de fin d'année avec leur famille...",
-      date: "2017",
+      year: "2017",
     },
     {
       img: "/medias/mca-2018.png",
@@ -344,8 +344,8 @@ export default function MasonryImageList() {
       roles: ["Réalisateur", "Cadreur", "Monteur"],
       gear: ["Canon 5DIII", "Sigma 24-70mm f2.8", "Steadicam mécanique"],
       description:
-        "Teaser de l'élection de Mademoiselle Champagne-Ardenne 2018, et présentation des candidates.",
-      date: "2017",
+        "Teaser de l'élection de Mademoiselle Champagne-Ardenne 2018, et présentation des candiyears.",
+      year: "2017",
     },
     {
       img: "/medias/aurelie.png",
@@ -356,8 +356,8 @@ export default function MasonryImageList() {
       roles: ["Réalisateur", "Cadreur", "Monteur"],
       gear: ["Canon 5DIII", "Sigma 24-70mm f2.8", "Steadicam mécanique"],
       description:
-        "Portrait d'Aurélie, candidate aux élections de Mademoiselle Champagne-Ardenne 2018.",
-      date: "2017",
+        "Portrait d'Aurélie, candiyear aux élections de Mademoiselle Champagne-Ardenne 2018.",
+      year: "2017",
     },
     {
       img: "/medias/anouck.png",
@@ -368,8 +368,8 @@ export default function MasonryImageList() {
       roles: ["Réalisateur", "Cadreur", "Monteur"],
       gear: ["Canon 5DIII", "Sigma 24-70mm f2.8", "Steadicam mécanique"],
       description:
-        "Portrait d'Anouck, candidate aux élections de Mademoiselle Champagne-Ardenne 2018.",
-      date: "2017",
+        "Portrait d'Anouck, candiyear aux élections de Mademoiselle Champagne-Ardenne 2018.",
+      year: "2017",
     },
     {
       img: "/medias/mca-2017.png",
@@ -381,7 +381,7 @@ export default function MasonryImageList() {
       gear: ["Canon 5DIII", "Sigma 24-70mm f2.8", "Steadicam mécanique"],
       description:
         "Teaser des élections de Mademoiselle Champagne-Ardenne 2017.",
-      date: "2017",
+      year: "2017",
     },
     {
       img: "/medias/terreauriste.png",
@@ -400,7 +400,7 @@ export default function MasonryImageList() {
       ],
       description:
         "Breaking News : Nouvelle attaque du Terreauriste. Une fois de plus, notre société est en danger...",
-      date: "2016",
+      year: "2016",
     },
     {
       img: "/medias/blablarap.png",
@@ -416,7 +416,7 @@ export default function MasonryImageList() {
         Thème : transports en commun
         Mots : trident, chocolatine, Benalla, sagouin, femme au volant.
         Punchline : « Boire ou conduire, à la base on devrait choisir, déboires de la vie, tourne la page, mais n’risque pas ta vie. »`,
-      date: "2018",
+      year: "2018",
     },
     {
       img: "/medias/beguee.png",
@@ -434,7 +434,7 @@ export default function MasonryImageList() {
       ],
       description:
         "Retour en image sur la 2ème édition du Beguee Fest ! Le festival picard du reggae et de la bonne vibe !",
-      date: "2018",
+      year: "2018",
     },
   ]
 
@@ -443,7 +443,7 @@ export default function MasonryImageList() {
     title: "Bande démo",
     type: "Bande démo",
     url: "https://www.youtube.com/watch?v=eAnDQRbDQ1c",
-    date: "2022",
+    year: "2022",
   }
 
   const TopRef = useRef(null)

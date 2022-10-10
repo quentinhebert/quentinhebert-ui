@@ -70,8 +70,8 @@ const Header = ({ video }) => (
           fontSize={{ xs: "0.8rem", md: "1rem" }}
           textTransform="capitalize"
         >
-          {video?.date || ""}
-          {video?.date && video?.type && " – "}
+          {video?.year || ""}
+          {video?.year && video?.type && " – "}
           {video?.type || ""}
         </BodyText>
       </VideoTitle>
