@@ -113,7 +113,7 @@ export default function WebsitesPortfolio(props) {
 
       <Stack gap="10rem" margin="5rem 0 15rem">
         {CLIENTS.map((client, key) => (
-          <CenteredMaxWidthContainer pixels="1200px" key={key}>
+          <CenteredMaxWidthContainer pixels="1200px" percents="80%" key={key}>
             <Stack
               zIndex={1}
               flexDirection={

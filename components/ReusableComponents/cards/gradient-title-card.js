@@ -35,35 +35,28 @@ const Title = styled((props) => {
   }, [controls, inView])
 
   return (
-    <motion.div
-      initial="hidden"
-      variants={variants(0)}
-      animate={controls}
-      style={{ width: "100%" }}
+    <Stack
+      borderRadius="10px"
+      width="100%"
+      padding="1rem"
+      sx={{
+        background: (theme) =>
+          `linear-gradient(${props.inversed ? "-" : ""}50deg, ${
+            props.bgcolor || theme.palette.background.main
+          }, transparent)`,
+      }}
+      ref={ref}
     >
-      <Stack
-        borderRadius="10px"
-        width="100%"
-        padding="1rem"
-        sx={{
-          background: (theme) =>
-            `linear-gradient(${props.inversed ? "-" : ""}50deg, ${
-              props.bgcolor || theme.palette.background.main
-            }, transparent)`,
-        }}
-        ref={ref}
-      >
-        <motion.div initial="hidden" variants={variants(1)} animate={controls}>
-          <Typography
-            color="secondary"
-            textAlign="center"
-            variant="h2"
-            sx={{ fontSize: props.fontSize || { xs: "2rem", md: "4rem" } }}
-            {...props}
-          />
-        </motion.div>
-      </Stack>
-    </motion.div>
+      <motion.div initial="hidden" variants={variants(1)} animate={controls}>
+        <Typography
+          color="secondary"
+          textAlign="center"
+          variant="h2"
+          sx={{ fontSize: props.fontSize || { xs: "2rem", md: "4rem" } }}
+          {...props}
+        />
+      </motion.div>
+    </Stack>
   )
 })(() => ({}))
 
