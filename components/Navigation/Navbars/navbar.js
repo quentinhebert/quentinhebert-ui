@@ -64,95 +64,110 @@ export default function Navbar(props) {
   })
 
   return (
-    <AppBar
-      position="fixed"
-      component="nav"
-      sx={{
-        background: "linear-gradient(0deg, transparent 0%, rgb(0,0,0,0.7) 70%)",
-        width: "100%",
-        boxShadow: "none",
-        zIndex: "100",
-      }}
-    >
-      <Box
+    <>
+      <AppBar
+        position="fixed"
+        component="nav"
         sx={{
-          position: "fixed",
+          background: "transparent",
           width: "100%",
-          height: "calc(65px + 2px)",
-          transition: "opacity 0.25s ease-in-out",
-          opacity: isReduced ? 1 : 0,
-          top: "-2px",
-          background:
-            "linear-gradient(0deg, transparent 0%, rgb(0,0,0,0.8) 70%)",
+          boxShadow: "none",
         }}
-      />
-      <Box sx={{ flexGrow: 2, width: "100%" }}>
-        <Toolbar sx={{ width: "100%" }}>
-          <Stack padding="1rem 0.75rem" flexDirection="row" alignItems="center">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 2 }}
+      >
+        <Box
+          sx={{
+            position: "fixed",
+            width: "100%",
+            height: "calc(65px + 2px)",
+            transition: "opacity 0.25s ease-in-out",
+            opacity: isReduced ? 1 : 0,
+            top: "-2px",
+            background: "transparent",
+          }}
+        />
+        <Box sx={{ flexGrow: 2, width: "100%" }}>
+          <Toolbar sx={{ width: "100%" }}>
+            <Stack
+              padding="1rem 0.75rem"
+              flexDirection="row"
+              alignItems="center"
             >
-              <Link href="/" passHref>
-                <ScaleUpOnHoverStack
-                  component="a"
-                  sx={{ flexDirection: "row", alignItems: "center" }}
-                >
-                  <Stack
-                    width={isReduced ? "45px" : "65px"}
-                    height={isReduced ? "35px" : "50px"}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 2 }}
+              >
+                <Link href="/" passHref>
+                  <ScaleUpOnHoverStack
+                    component="a"
+                    sx={{ flexDirection: "row", alignItems: "center" }}
                   >
-                    <Image src={logoQH} width="100%" height="100%" />
-                  </Stack>
-                  <Stack ref={ContainerRef} overflow="hidden">
-                    <Slide
-                      direction="right"
-                      {...{ timeout: 300 }}
-                      in={!isReduced}
-                      container={ContainerRef.current}
+                    <Stack
+                      width={isReduced ? "45px" : "65px"}
+                      height={isReduced ? "35px" : "50px"}
                     >
-                      <Typography
-                        sx={{
-                          color: "#fff",
-                          textTransform: "uppercase",
-                          letterSpacing: "1.5px",
-                          fontStyle: "italic",
-                          lineHeight: "1.2rem",
-                          fontSize: "1rem",
-                          fontFamily: "Helmet",
-                          fontWeight: "bold",
-                        }}
+                      <Image src={logoQH} width="100%" height="100%" />
+                    </Stack>
+                    <Stack ref={ContainerRef} overflow="hidden">
+                      <Slide
+                        direction="right"
+                        {...{ timeout: 300 }}
+                        in={!isReduced}
+                        container={ContainerRef.current}
                       >
-                        Quentin Hébert
-                      </Typography>
-                    </Slide>
-                  </Stack>
-                </ScaleUpOnHoverStack>
-              </Link>
-            </motion.div>
-          </Stack>
-          <Box component="div" sx={{ flexGrow: 1 }} />
+                        <Typography
+                          sx={{
+                            color: "#fff",
+                            textTransform: "uppercase",
+                            letterSpacing: "1.5px",
+                            fontStyle: "italic",
+                            lineHeight: "1.2rem",
+                            fontSize: "1rem",
+                            fontFamily: "Helmet",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Quentin Hébert
+                        </Typography>
+                      </Slide>
+                    </Stack>
+                  </ScaleUpOnHoverStack>
+                </Link>
+              </motion.div>
+            </Stack>
+            <Box component="div" sx={{ flexGrow: 1 }} />
 
-          {isMobile ? (
-            <MobileNavbar
-              mainColor={mainColor}
-              list={data.menu_items}
-              page={page}
-            />
-          ) : (
-            <DesktopNavbar
-              mainColor={mainColor}
-              list={data.menu_items}
-              page={page}
-              isReduced={isReduced}
-            />
-          )}
+            {isMobile ? (
+              <MobileNavbar
+                mainColor={mainColor}
+                list={data.menu_items}
+                page={page}
+              />
+            ) : (
+              <DesktopNavbar
+                mainColor={mainColor}
+                list={data.menu_items}
+                page={page}
+                isReduced={isReduced}
+              />
+            )}
 
-          {!!user && <LoginOrMenuButton />}
-        </Toolbar>
-      </Box>
-    </AppBar>
+            {!!user && <LoginOrMenuButton />}
+          </Toolbar>
+        </Box>
+      </AppBar>
+
+      {/* Trick to have a linear gradient behind the navbar but not when burger menu is open */}
+      <Stack
+        className="full-width fixed"
+        zIndex={101}
+        sx={{
+          height: "64px",
+          background:
+            "linear-gradient(0deg, transparent 0%, rgb(0,0,0,0.9) 90%)",
+        }}
+      ></Stack>
+    </>
   )
 }
 

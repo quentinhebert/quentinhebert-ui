@@ -1,48 +1,186 @@
-import { Dialog, Stack, Box, Typography, Slide } from "@mui/material"
+import { Stack, Box, Typography } from "@mui/material"
 import VimeoPlayer from "../Sections/vimeo-player"
-import theme from "../../config/theme"
 import Boop from "../Animation/boop"
 import CloseIcon from "@mui/icons-material/Close"
-import { useEffect, useRef, useState, forwardRef, memo } from "react"
+import { memo, useEffect, useRef, useState } from "react"
 import YoutubePlayer from "../Sections/youtube-player"
 import BouncingArrow from "../Navigation/BouncingArrow"
 import ScaleUpOnHoverStack from "../ReusableComponents/animations/scale-up-on-hover-stack"
-import DotSeparator from "../Other/dot-separator"
 import CustomModal from "../ReusableComponents/modals/custom-modal"
+import { isVimeo, isYoutube } from "../../services/urls"
+import BodyText from "../ReusableComponents/text/body-text"
 
-const SectionTitle = ({ text }) => (
+const CloseBtn = (props) => (
+  <Box
+    className="fixed full-width top left"
+    sx={{
+      height: "60px",
+      zIndex: 100,
+      overflow: "auto",
+      background: "linear-gradient(0deg, transparent 0%, rgb(0,0,0,0.7) 100%)",
+      textShadow: "4px 3px 10px rgba(0,0,0,0.9)",
+    }}
+  >
+    <Stack
+      className="flex-center pointer row fixed gap-4"
+      sx={{
+        right: "2rem",
+        top: "1rem",
+      }}
+      fontFamily="Helmet"
+      {...props}
+    >
+      <ScaleUpOnHoverStack>
+        <Box color="text.secondary">Fermer</Box>
+      </ScaleUpOnHoverStack>
+      <Boop>
+        <CloseIcon color="secondary" />
+      </Boop>
+    </Stack>
+  </Box>
+)
+
+const VideoTitle = (props) => (
+  <Typography
+    className="baseline uppercase gap-10"
+    color="secondary"
+    letterSpacing={1}
+    sx={{
+      fontSize: { xs: "1.3rem", md: "3rem" },
+      whiteSpace: "break-spaces",
+      wordBreak: "break-word",
+      lineHeight: { xs: "1.5rem", md: "2.6rem" },
+    }}
+    {...props}
+  />
+)
+
+const Header = ({ video }) => (
+  <Stack>
+    <Stack
+      sx={{
+        flexDirection: { xs: "column", md: "row" },
+        marginBottom: { xs: "1rem", md: ".5rem" },
+      }}
+    >
+      <VideoTitle>
+        {video?.title && `${video.title} `}
+        <BodyText
+          whiteSpace="nowrap"
+          fontSize={{ xs: "0.8rem", md: "1rem" }}
+          textTransform="capitalize"
+        >
+          {video?.date || ""}
+          {video?.date && video?.type && " – "}
+          {video?.type || ""}
+        </BodyText>
+      </VideoTitle>
+    </Stack>
+    {video?.client && (
+      <BodyText fontFamily="Ethereal" fontWeight="bold">
+        Pour {video?.client}
+      </BodyText>
+    )}
+  </Stack>
+)
+
+const RenderPlayer = ({ player, videoId }) => {
+  if (!player || !videoId) return <></>
+
+  let Player = () => (
+    <Stack>
+      <Typography color="text.light">Impossible de lire la vidéo...</Typography>
+    </Stack>
+  )
+  switch (player) {
+    case "vimeo":
+      Player = () => (
+        <VimeoPlayer
+          videoId={videoId}
+          bgColor={(theme) => theme.palette.background.main}
+        />
+      )
+      break
+    case "youtube":
+      Player = () => (
+        <YoutubePlayer
+          videoId={videoId}
+          bgColor={(theme) => theme.palette.background.main}
+        />
+      )
+      break
+    default:
+      break
+  }
+
+  return <Player />
+}
+
+function arePropsEqual(prevProps, nextProps) {
+  return prevProps.videoId === nextProps.videoId
+}
+// Prevent from re-rendering on window resize
+const MemoPlayer = memo((props) => <RenderPlayer {...props} />, arePropsEqual)
+
+const SectionTitle = (props) => (
   <Typography
     color="secondary"
     variant="h5"
-    marginTop={4}
+    marginTop={8}
     marginBottom={1}
     textTransform="uppercase"
-    letterSpacing={1}
-    fontStyle="italic"
-  >
-    {text}
-  </Typography>
-)
-
-const SectionText = (props) => (
-  <Typography
-    color="text.white"
-    fontFamily="Ethereal"
     letterSpacing={1}
     {...props}
   />
 )
 
-const VideoTitle = ({ text }) => (
-  <Typography
-    color="secondary"
-    textTransform="uppercase"
+const Description = ({ content }) => (
+  <>
+    <SectionTitle>Quelques mots</SectionTitle>
+    <BodyText fontFamily="Ethereal" fontWeight="bold">
+      {content || ""}
+    </BodyText>
+  </>
+)
+
+const Pill = (props) => (
+  <Box
+    component="span"
+    className="bold inline-flex"
+    padding="0.1rem 1rem"
+    margin="0.25rem"
+    lineHeight="2rem"
     letterSpacing={1}
-    variant="h3"
-    marginRight={2}
+    sx={{
+      fontSize: { xs: "0.8rem", md: "1rem" },
+      backgroundColor: "#fff",
+      color: (theme) => theme.palette.text.primary,
+      borderRadius: "20px",
+    }}
+    {...props}
+  />
+)
+
+const PillsList = ({ title, list }) => (
+  <>
+    <SectionTitle>{title}</SectionTitle>
+    <Typography color="text.white" fontFamily="Ethereal" marginTop={1}>
+      {list?.length && list.map((role, key) => <Pill key={key}>{role}</Pill>)}
+    </Typography>
+  </>
+)
+
+const ScrollToTopBtn = (props) => (
+  <Stack
+    alignItems="center"
+    marginTop={4}
+    sx={{ cursor: "pointer" }}
+    {...props}
   >
-    {text}
-  </Typography>
+    <ScaleUpOnHoverStack>
+      <Typography color="secondary">Revenir en haut</Typography>
+    </ScaleUpOnHoverStack>
+  </Stack>
 )
 
 export default function VideoPlayer(props) {
@@ -50,7 +188,7 @@ export default function VideoPlayer(props) {
   const [player, setPlayer] = useState(null)
   const [videoId, setVideoId] = useState(null)
 
-  const VideoInfoRef = useRef()
+  const ProjectInfoRef = useRef()
   const TopRef = useRef()
   const scrollTo = (ref) => {
     ref.current.scrollIntoView({
@@ -60,262 +198,83 @@ export default function VideoPlayer(props) {
 
   useEffect(() => {
     let identifier = ""
-    if (video && video.url) {
-      const videoUrl = video.url
-      // First, we check if the provided video is from youtube or Vimeo. Otherwise, we cannot handle it
-      if (isYoutube(videoUrl)) {
-        if (
-          videoUrl.indexOf("https://www.youtube.com/watch?v=") === 0 ||
-          videoUrl.indexOf("www.youtube.com/watch?v=") === 0
-        ) {
-          identifier = videoUrl.split("watch?v=")[1].split("&")[0]
-        } else if (videoUrl.indexOf("https://youtu.be/") === 0) {
-          identifier = videoUrl
-            .split("https://youtu.be/")[1]
-            .split("&")[0]
-            .split("/")[0]
-        }
-        setPlayer("youtube")
-        setVideoId(identifier)
-      } else if (isVimeo(videoUrl)) {
-        identifier = videoUrl.split("vimeo.com/")[1]
-        setVideoId(identifier)
-        setPlayer("vimeo")
+
+    if (!video?.url) return setVideoId(null)
+    const videoUrl = video.url
+
+    // First, we check if the provided video is from youtube or Vimeo. Otherwise, we cannot handle it
+    if (isYoutube(videoUrl)) {
+      if (videoUrl.includes("watch?v=")) {
+        identifier = videoUrl.split("watch?v=")[1].split("&")[0]
+      } else if (videoUrl.includes("youtu.be/")) {
+        identifier = videoUrl.split("youtu.be/")[1].split("&")[0].split("/")[0]
       }
-    } else {
-      setVideoId(null)
+      setPlayer("youtube")
+    } else if (isVimeo(videoUrl)) {
+      identifier = videoUrl.split("vimeo.com/")[1]
+      setPlayer("vimeo")
     }
+
+    setVideoId(identifier)
   }, [video])
 
-  // if (!video) return <></>
-
-  const isYoutube = (path) => {
-    if (
-      path.indexOf("https://www.youtube.com") === 0 ||
-      path.indexOf("https://youtu.be") === 0 ||
-      path.indexOf("youtu.be") === 0 ||
-      path.indexOf("www.youtube.com") === 0 ||
-      path.indexOf("youtube.com") === 0
-    ) {
-      return true
-    }
-    return false
-  }
-  const isVimeo = (path) => {
-    if (
-      path.indexOf("https://vimeo.com") === 0 ||
-      path.indexOf("vimeo.com") === 0
-    ) {
-      return true
-    }
-    return false
-  }
-
-  const Transition = forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />
-  })
+  const isVertical = video && window.innerHeight > window.innerWidth
 
   return (
-    // <Dialog
-    //   fullScreen
-    //   open={open}
-    //   onClose={handleClose}
-    //   TransitionComponent={Transition}
-    //   sx={{
-    //     // backgroundColor: (theme) => theme.palette.background.main,
-    //     background:
-    //       "linear-gradient(180deg, rgb(0,0,0,0.5) 0%, transparent 100%)",
-    //   }}
-    //   PaperProps={{
-    //     sx: {
-    //       backgroundImage: "none",
-    //       background: (theme) =>
-    //         `linear-gradient(120deg, #000 30%, ${theme.palette.background.main} 100%)`,
-    //       boxShadow: "none",
-    //     },
-    //   }}
-    // >
-    <CustomModal fullscreen open={open} handleClose={handleClose}>
-      <Stack flexGrow={1}>
-        <Stack ref={TopRef} />
-        <Stack alignItems="center" minHeight="100vh">
-          {/* CLOSE BUTTON */}
-          <Stack
-            sx={{
-              position: "fixed",
-              right: "2rem",
-              top: "1rem",
-              cursor: "pointer",
-              zIndex: 100,
-            }}
-            flexDirection="row"
-            alignItems="center"
-            fontFamily="Helmet"
-            onClick={handleClose}
-          >
-            <ScaleUpOnHoverStack>
-              <Box color="text.secondary" sx={{ marginRight: ".5rem" }}>
-                Fermer
-              </Box>
-            </ScaleUpOnHoverStack>
-            <Boop>
-              <CloseIcon sx={{ color: theme.palette.secondary.main }} />
-            </Boop>
-          </Stack>
+    <CustomModal
+      fullscreen
+      open={open}
+      handleClose={handleClose}
+      background={(theme) =>
+        `linear-gradient(120deg, #000 30%, ${theme.palette.background.main} 100%)`
+      }
+    >
+      <Stack ref={TopRef} sx={{ scrollMarginTop: "20rem" }} />
 
-          {/* Video infos */}
+      <Stack flexGrow={1}>
+        {/* Sticky property to prevent the close button from displaying over the scrollbar */}
+        <Stack alignItems="center" minHeight="100vh" className="sticky">
+          <CloseBtn onClick={handleClose} />
+
+          {/****** FILM INFO ******/}
+
           <Box
-            width={
-              video && window.innerHeight > window.innerWidth ? "96%" : "70%"
-            }
+            width={isVertical ? "96%" : "70%"}
             textAlign="left"
             justifyContent="left"
             padding="1rem 0"
             sx={{ marginTop: { xs: "2rem", md: 0 } }}
           >
-            <Stack
-              alignItems="baseline"
-              sx={{
-                flexDirection: { xs: "column", md: "row" },
-                marginBottom: { xs: "1rem", md: 0 },
-              }}
-            >
-              <VideoTitle text={video?.title || ""} />
-              <Typography
-                color="text.white"
-                fontSize="1rem"
-                component="span"
-                fontWeight="100"
-                textTransform="Capitalize"
-              >
-                {video?.date || ""} – {video?.type || ""}
-              </Typography>
-            </Stack>
-            {video?.client ? (
-              <SectionText>Pour {video?.client || ""}</SectionText>
-            ) : null}
+            <Header video={video} />
           </Box>
 
-          <Stack
-            width={
-              video && window.innerHeight > window.innerWidth ? "100%" : "70%"
-            }
-            justifyContent="center"
-            alignItems="center"
-          >
-            {player === "vimeo" ? (
-              <VimeoPlayer
-                videoId={videoId}
-                bgColor={theme.palette.background.main}
-              />
-            ) : player === "youtube" ? (
-              <YoutubePlayer
-                videoId={videoId}
-                bgColor={theme.palette.background.main}
-              />
-            ) : (
-              <Stack>
-                <Typography color="text.light">
-                  Sorry, we cannot find the video.
-                </Typography>
-              </Stack>
-            )}
+          {/****** FILM PLAYER ******/}
+          <Stack width={isVertical ? "100%" : "70%"} className="flex-center">
+            <MemoPlayer player={player} videoId={videoId} />
           </Stack>
 
           <Stack alignItems="center" sx={{ transform: "translateY(40px)" }}>
-            <BouncingArrow
-              text=""
-              scrollTo={scrollTo}
-              refForScroll={VideoInfoRef}
-            />
+            <BouncingArrow scrollTo={scrollTo} refForScroll={ProjectInfoRef} />
           </Stack>
 
-          {/* Project infos */}
+          {/****** PROJECT INFO ******/}
           <Box
-            width={
-              video && window.innerHeight > window.innerWidth ? "96%" : "70%"
-            }
+            width={isVertical ? "96%" : "70%"}
             textAlign="left"
             justifyContent="left"
             padding="2rem 0 2rem"
-            ref={VideoInfoRef}
+            ref={ProjectInfoRef}
           >
-            {video?.description ? (
-              <>
-                <SectionTitle text="Quelques mots" />
-                <SectionText>{video?.description || ""}</SectionText>
-              </>
-            ) : null}
+            <Description content={video?.description} />
 
-            <DotSeparator marginTop={4} dots={3} />
+            <PillsList title="Sur ce projet, je suis..." list={video?.roles} />
 
-            {video?.roles && video?.roles?.length ? (
-              <>
-                <SectionTitle text="Sur ce projet, je suis..." />
-                <Typography
-                  color="text.white"
-                  fontFamily="Ethereal"
-                  marginTop={1}
-                >
-                  {video.roles.map((role, key) => (
-                    <Box
-                      component="span"
-                      key={key}
-                      padding="0.1rem 0.75rem"
-                      margin="0.25rem"
-                      display="inline-flex"
-                      lineHeight="2rem"
-                      letterSpacing={1}
-                      fontWeight="bold"
-                      sx={{
-                        fontSize: { xs: "0.9rem", md: "1.2rem" },
-                        fontWeight: "bold",
-                        backgroundColor: "#fff",
-                        color: (theme) => theme.palette.text.primary,
-                        border: (theme) =>
-                          `1px solid ${theme.palette.text.white}`,
-                        borderRadius: "5px",
-                      }}
-                    >
-                      {role}
-                    </Box>
-                  ))}
-                </Typography>
-              </>
-            ) : null}
+            <PillsList title="Matériel utilisé" list={video?.gear} />
 
-            <DotSeparator marginTop={4} dots={3} />
-
-            {video?.gear && video?.gear?.length ? (
-              <>
-                <SectionTitle text="Matériel utilisé" />
-                <SectionText>
-                  {video.gear.map((item, key) => (
-                    <Box component="span" key={key} marginRight={1}>
-                      {item} {video.gear.length === key + 1 ? "" : "–"}
-                    </Box>
-                  ))}
-                </SectionText>
-              </>
-            ) : null}
-
-            <DotSeparator marginTop={4} dots={3} />
-
-            <Stack
-              onClick={(e) => scrollTo(TopRef)}
-              alignItems="center"
-              marginTop={4}
-              sx={{ cursor: "pointer" }}
-            >
-              <ScaleUpOnHoverStack>
-                <Typography color="secondary">Revenir en haut</Typography>
-              </ScaleUpOnHoverStack>
-            </Stack>
+            <ScrollToTopBtn onClick={() => scrollTo(TopRef)} />
           </Box>
         </Stack>
       </Stack>
     </CustomModal>
-
-    // {/* </Dialog> */}
   )
 }

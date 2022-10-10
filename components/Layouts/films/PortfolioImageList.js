@@ -668,8 +668,7 @@ export default function MasonryImageList() {
                             textTransform: "uppercase",
                           }}
                         >
-                          <PlayCircleOutlineIcon sx={{ fontSize: "2rem" }} />
-                          Play
+                          <PlayCircleOutlineIcon sx={{ fontSize: "4rem" }} />
                         </Box>
                         <Typography
                           color="secondary"

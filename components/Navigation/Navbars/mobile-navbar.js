@@ -1,7 +1,6 @@
-import { Box, Button, Stack } from "@mui/material"
+import { Stack } from "@mui/material"
 import { useState } from "react"
 import Menu from "./menu"
-import DragHandleIcon from "@mui/icons-material/DragHandle"
 import { Cross as Hamburger } from "hamburger-react"
 
 export default function MobileNavbar(props) {

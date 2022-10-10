@@ -65,6 +65,12 @@ body {
 .flex {
   display: flex;
 }
+.inline-flex {
+  display: inline-flex !important;
+}
+.baseline {
+  align-items: baseline !important;
+}
 .flex-wrap {
   display: flex;
   flex-wrap: wrap;
@@ -114,13 +120,31 @@ body {
   margin: 0
 }
 .gap-10 {
-  gap: 10px
+  gap: 10px !important
 }
 .gap-2 {
-  gap: 2px
+  gap: 2px !important
 }
 .gap-4 {
-  gap: 4px
+  gap: 4px !important
+}
+.bold {
+  font-weight: bold !important;
+}
+.fixed {
+  position: fixed !important
+}
+.sticky {
+  position: sticky;
+}
+.top {
+  top: 0
+}
+.left {
+  left: 0
+}
+.right {
+  right: 0
 }
 
 .no-select {

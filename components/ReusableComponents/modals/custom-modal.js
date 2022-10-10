@@ -30,8 +30,10 @@ export default function CustomModal(props) {
           margin: "auto 0",
           height: props.fullscreen ? "auto" : { xs: "100vh", md: "" },
           flexGrow: props.fullscreen ? 1 : null,
-          background: (theme) =>
-            `linear-gradient(100deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`,
+          background:
+            props.background ||
+            ((theme) =>
+              `linear-gradient(100deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`),
         }}
         {...props}
       />

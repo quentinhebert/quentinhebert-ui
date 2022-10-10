@@ -47,7 +47,7 @@ export default function Menu(props) {
       TransitionComponent={Transition}
       keepMounted
       sx={{
-        zIndex: 999,
+        zIndex: 500,
         ".MuiPaper-root": {
           justifyContent: "center",
           alignItems: "center",

@@ -7,7 +7,6 @@ export default function VimeoPlayer(props) {
   return (
     <Stack
       width="100%"
-      bgcolor={bgColor}
       sx={{
         position: "relative",
         paddingBottom: "56.25%" /* ratio 16/9 */,
@@ -15,6 +14,7 @@ export default function VimeoPlayer(props) {
         overflow: "hidden",
         clear: "both",
         display: "flex",
+        backgroundColor: bgColor || "#000",
       }}
     >
       <iframe
