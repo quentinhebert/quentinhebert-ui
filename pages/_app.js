@@ -19,7 +19,6 @@ function MyApp({ Component, pageProps, router }) {
   const [appLoading, setAppLoading] = useState(false)
   const [isUserDataFetching, setIsUserDataFetching] = useState(false)
   const [isAppDataFetching, setIsAppDataFetching] = useState(false)
-  const [loadingAnimationFinished, setLoadingAnimationFinished] = useState(true)
   const [snackSeverity, setSnackSeverity] = useState("error")
   const [snackMessage, setSnackMessage] = useState("")
 
@@ -55,20 +54,17 @@ function MyApp({ Component, pageProps, router }) {
   }, [user, accessToken])
 
   useEffect(() => {
-    if (!loadingAnimationFinished)
+    if (appLoading)
       setTimeout(() => {
-        setLoadingAnimationFinished(true)
+        setAppLoading(false)
       }, 1000)
-  }, [loadingAnimationFinished])
+  }, [appLoading])
 
   useEffect(() => {
-    if (isAppDataFetching || isUserDataFetching) {
-      setLoadingAnimationFinished(false)
-      setAppLoading(false)
-    }
+    if (isAppDataFetching || isUserDataFetching) setAppLoading(true)
   }, [isAppDataFetching, isUserDataFetching])
 
-  if (!loadingAnimationFinished) return <AnimatedLogoLayout />
+  if (appLoading) return <AnimatedLogoLayout />
 
   return (
     <AppContext.Provider
