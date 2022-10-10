@@ -59,45 +59,41 @@ function MyApp({ Component, pageProps, router }) {
 
   // Let the loading animation finish if it started
   useEffect(() => {
+    if (isAppDataFetching || isUserDataFetching) setAppLoading(true)
     if (appLoading)
       setTimeout(() => {
-        setAppLoading(false)
+        setAppLoading(isAppDataFetching || isUserDataFetching)
       }, 1000)
-  }, [appLoading])
-
-  // Update loading state
-  useEffect(() => {
-    if (isAppDataFetching || isUserDataFetching) setAppLoading(true)
-  }, [isAppDataFetching, isUserDataFetching])
+  }, [appLoading, isAppDataFetching, isUserDataFetching])
 
   // Loading page
   if (appLoading) return <AnimatedLogoLayout />
 
   return (
-    <AppContext.Provider
-      value={{
-        appLoading,
-        setAppLoading,
-        setSnackSeverity,
-        setSnackMessage,
-      }}
-    >
-      <UserContext.Provider
-        value={{ user, setUser, setAccessToken, fetchUser }}
+    <AnimatePresence exitBeforeEnter>
+      <AppContext.Provider
+        value={{
+          appLoading,
+          setAppLoading,
+          setSnackSeverity,
+          setSnackMessage,
+        }}
       >
-        <ThemeProvider theme={theme}>
-          <Navbar />
-          <AnimatePresence exitBeforeEnter>
+        <UserContext.Provider
+          value={{ user, setUser, setAccessToken, fetchUser }}
+        >
+          <ThemeProvider theme={theme}>
+            <Navbar />
             <Component {...pageProps} key={router.route} />
-          </AnimatePresence>
-          <Snacks
-            severity={snackSeverity}
-            message={snackMessage}
-            setMessage={setSnackMessage}
-          />
-        </ThemeProvider>
-      </UserContext.Provider>
-    </AppContext.Provider>
+            <Snacks
+              severity={snackSeverity}
+              message={snackMessage}
+              setMessage={setSnackMessage}
+            />
+          </ThemeProvider>
+        </UserContext.Provider>
+      </AppContext.Provider>
+    </AnimatePresence>
   )
 }
 
