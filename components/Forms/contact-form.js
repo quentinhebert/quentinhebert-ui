@@ -170,7 +170,7 @@ export default function ContactForm(props) {
     (formData.email.trim() !== "" && !checkEmail(formData.email))
 
   return (
-    <Form width="100%">
+    <Form width="100%" gap={2}>
       <Stack
         width="100%"
         alignItems="center"
@@ -227,133 +227,137 @@ export default function ContactForm(props) {
         )}
       </Stack>
 
-      <DualInputLine direction={defaultDirection}>
-        <Input
-          required
-          type="input"
-          id="firstname"
-          label="Prénom"
-          placeholder={formData.services.film ? "Louis" : "Philippe"}
-          value={formData.firstname}
-          onChange={handleChange("firstname")}
-          error={errors.firstname}
-          helperText={errors.firstname && "Veuillez remplir ce champ"}
-        />
-        <Input
-          type="input"
-          id="lastname"
-          label="Nom"
-          placeholder={formData.services.film ? "Vuitton" : "Etchebest"}
-          value={formData.lastname}
-          onChange={handleChange("lastname")}
-          error={errors.lastname}
-          helperText={errors.lastname && "Veuillez remplir ce champ"}
-        />
-      </DualInputLine>
-
-      <DualInputLine direction={defaultDirection}>
-        <Input
-          required
-          type="email"
-          id="email"
-          label="E-mail"
-          placeholder={
-            formData.services.film ? "loulou@vuitton.com" : "philou@topchef.com"
-          }
-          value={formData.email}
-          onChange={handleChange("email")}
-          error={emailError || errors.email}
-          helperText={emailError && "This email is not valid"}
-        />
-        <Input
-          type="phone"
-          id="phone"
-          label="Téléphone"
-          placeholder="06XXXXXXXX"
-          value={formData.phone}
-          onChange={handleChange("phone")}
-        />
-      </DualInputLine>
-
-      <DualInputLine direction={defaultDirection}>
-        <Input
-          type="input"
-          id="company"
-          label="Entreprise"
-          placeholder={
-            formData.services.film ? "Louis Vuitton" : "Philippe Etchebest"
-          }
-          value={formData.company}
-          onChange={handleChange("company")}
-          error={errors.company}
-          helperText={errors.company && "Veuillez remplir ce champ"}
-        />
-        <Stack>
-          <Select
+      <Stack width="100%" sx={{ gap: { xs: 1, md: 2 } }}>
+        <DualInputLine direction={defaultDirection}>
+          <Input
             required
-            id="budget"
-            value={formData.budget}
-            onChange={handleChange("budget")}
-            renderValue={
-              // Trick for placeholder hiding
-              formData.budget !== ""
-                ? undefined
-                : () => (
-                    <Typography
-                      color={errors.budget ? "error.main" : "secondary"}
-                    >
-                      Mon budget *
-                    </Typography>
-                  )
+            type="input"
+            id="firstname"
+            label="Prénom"
+            placeholder={formData.services.film ? "Louis" : "Philippe"}
+            value={formData.firstname}
+            onChange={handleChange("firstname")}
+            error={errors.firstname}
+            helperText={errors.firstname && "Veuillez remplir ce champ"}
+          />
+          <Input
+            type="input"
+            id="lastname"
+            label="Nom"
+            placeholder={formData.services.film ? "Vuitton" : "Etchebest"}
+            value={formData.lastname}
+            onChange={handleChange("lastname")}
+            error={errors.lastname}
+            helperText={errors.lastname && "Veuillez remplir ce champ"}
+          />
+        </DualInputLine>
+
+        <DualInputLine direction={defaultDirection}>
+          <Input
+            required
+            type="email"
+            id="email"
+            label="E-mail"
+            placeholder={
+              formData.services.film
+                ? "loulou@vuitton.com"
+                : "philou@topchef.com"
             }
-          >
-            {BUDGET_OPTIONS.map((option, key) => (
-              <SelectOption value={option} key={key}>
-                {option}
-              </SelectOption>
-            ))}
-          </Select>
+            value={formData.email}
+            onChange={handleChange("email")}
+            error={emailError || errors.email}
+            helperText={emailError && "This email is not valid"}
+          />
+          <Input
+            type="phone"
+            id="phone"
+            label="Téléphone"
+            placeholder="06XXXXXXXX"
+            value={formData.phone}
+            onChange={handleChange("phone")}
+          />
+        </DualInputLine>
+
+        <DualInputLine direction={defaultDirection}>
+          <Input
+            type="input"
+            id="company"
+            label="Entreprise"
+            placeholder={
+              formData.services.film ? "Louis Vuitton" : "Philippe Etchebest"
+            }
+            value={formData.company}
+            onChange={handleChange("company")}
+            error={errors.company}
+            helperText={errors.company && "Veuillez remplir ce champ"}
+          />
+          <Stack width="100%">
+            <Select
+              required
+              id="budget"
+              value={formData.budget}
+              onChange={handleChange("budget")}
+              renderValue={
+                // Trick for placeholder hiding
+                formData.budget !== ""
+                  ? undefined
+                  : () => (
+                      <Typography
+                        color={errors.budget ? "error.main" : "secondary"}
+                      >
+                        Mon budget *
+                      </Typography>
+                    )
+              }
+            >
+              {BUDGET_OPTIONS.map((option, key) => (
+                <SelectOption value={option} key={key}>
+                  {option}
+                </SelectOption>
+              ))}
+            </Select>
+            {errors.budget && (
+              <FormHelperText
+                margin={0}
+                sx={{ color: (theme) => theme.palette.error.main }}
+              >
+                Veuillez sélectionner votre budget
+              </FormHelperText>
+            )}
+          </Stack>
+        </DualInputLine>
+
+        <Stack width="100%">
+          <TextArea
+            required
+            id="description"
+            label="À propos de mon projet..."
+            placeholder={
+              formData.services.film
+                ? formData.services.website
+                  ? "Film de 2 minutes sur un produit de notre nouvelle collection et landing page pour ce même produit."
+                  : "Film de 2 minutes sur un produit de notre nouvelle collection."
+                : "Site vitrine pour mettre en avant mon nouveau restaurant et ma carte du jour."
+            }
+            value={formData.description}
+            onChange={handleChange("description")}
+            sx={{
+              "& .MuiInputLabel-root": {
+                color: errors.description
+                  ? (theme) => theme.palette.error.main
+                  : (theme) => theme.palette.text.secondary,
+              },
+            }}
+          />
           {errors.budget && (
             <FormHelperText
               margin={0}
               sx={{ color: (theme) => theme.palette.error.main }}
             >
-              Veuillez sélectionner votre budget
+              Veuillez remplir ce champ
             </FormHelperText>
           )}
         </Stack>
-      </DualInputLine>
-
-      <Stack width="100%">
-        <TextArea
-          required
-          id="description"
-          label="À propos de mon projet..."
-          placeholder={
-            formData.services.film
-              ? formData.services.website
-                ? "Film de 2 minutes sur un produit de notre nouvelle collection et landing page pour ce même produit."
-                : "Film de 2 minutes sur un produit de notre nouvelle collection."
-              : "Site vitrine pour mettre en avant mon nouveau restaurant et ma carte du jour."
-          }
-          value={formData.description}
-          onChange={handleChange("description")}
-          sx={{
-            "& .MuiInputLabel-root": {
-              color: errors.description
-                ? (theme) => theme.palette.error.main
-                : (theme) => theme.palette.text.secondary,
-            },
-          }}
-        />
-        {errors.budget && (
-          <FormHelperText
-            margin={0}
-            sx={{ color: (theme) => theme.palette.error.main }}
-          >
-            Veuillez remplir ce champ
-          </FormHelperText>
-        )}
       </Stack>
 
       <RightSubmitButton onClick={handleSendRequest} disabled={isFetching}>

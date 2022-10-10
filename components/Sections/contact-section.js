@@ -37,6 +37,7 @@ export default function ContactSection(props) {
       alignItems="center"
       flexDirection="column"
       margin="4rem 0"
+      padding={2}
       zIndex={1}
       position="relative"
       sx={{
@@ -45,7 +46,7 @@ export default function ContactSection(props) {
       }}
       ref={ref}
     >
-      <CenteredMaxWidthContainer>
+      <CenteredMaxWidthContainer gap={2}>
         <GradientTitleCard inversed="true">
           <StrokeText
             color={(theme) => theme.palette.secondary.main}

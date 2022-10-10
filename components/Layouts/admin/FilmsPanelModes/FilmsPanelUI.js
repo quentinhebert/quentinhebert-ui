@@ -70,11 +70,13 @@ const SortableListItem = sortableElement(({ item, fetchFilms, showMenu }) => {
               item.thumbnail_url || "/medias/default.jpg"
             })`,
             backgroundSize: "cover",
+            backgroundPosition: "50% 50%",
             "&:hover": {
               background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${
                 item.thumbnail_url || "/medias/default.jpg"
               })`,
               backgroundSize: "cover",
+              backgroundPosition: "50% 50%",
             },
           }}
         >
