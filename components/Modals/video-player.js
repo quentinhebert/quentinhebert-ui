@@ -134,14 +134,17 @@ const SectionTitle = (props) => (
   />
 )
 
-const Description = ({ content }) => (
-  <>
-    <SectionTitle>Quelques mots</SectionTitle>
-    <BodyText fontFamily="Ethereal" fontWeight="bold">
-      {content || ""}
-    </BodyText>
-  </>
-)
+const Description = ({ content }) => {
+  if (!content) return <></>
+  return (
+    <>
+      <SectionTitle>Quelques mots</SectionTitle>
+      <BodyText fontFamily="Ethereal" fontWeight="bold">
+        {content}
+      </BodyText>
+    </>
+  )
+}
 
 const Pill = (props) => (
   <Box
@@ -161,14 +164,19 @@ const Pill = (props) => (
   />
 )
 
-const PillsList = ({ title, list }) => (
-  <>
-    <SectionTitle>{title}</SectionTitle>
-    <Typography color="text.white" fontFamily="Ethereal" marginTop={1}>
-      {list?.length && list.map((role, key) => <Pill key={key}>{role}</Pill>)}
-    </Typography>
-  </>
-)
+const PillsList = ({ title, list }) => {
+  if (!list?.length) return <></>
+  return (
+    <>
+      <SectionTitle>{title}</SectionTitle>
+      <Typography color="text.white" fontFamily="Ethereal" marginTop={1}>
+        {list.map((role, key) => (
+          <Pill key={key}>{role}</Pill>
+        ))}
+      </Typography>
+    </>
+  )
+}
 
 const ScrollToTopBtn = (props) => (
   <Stack
@@ -219,6 +227,8 @@ export default function VideoPlayer(props) {
   }, [video])
 
   const isVertical = video && window.innerHeight > window.innerWidth
+  const hasVideoInfo =
+    video?.description || video?.roles?.length || video?.gear?.length
 
   return (
     <CustomModal
@@ -253,9 +263,14 @@ export default function VideoPlayer(props) {
             <MemoPlayer player={player} videoId={videoId} />
           </Stack>
 
-          <Stack alignItems="center" sx={{ transform: "translateY(40px)" }}>
-            <BouncingArrow scrollTo={scrollTo} refForScroll={ProjectInfoRef} />
-          </Stack>
+          {hasVideoInfo && (
+            <Stack alignItems="center" sx={{ transform: "translateY(40px)" }}>
+              <BouncingArrow
+                scrollTo={scrollTo}
+                refForScroll={ProjectInfoRef}
+              />
+            </Stack>
+          )}
 
           {/****** PROJECT INFO ******/}
           <Box
@@ -271,7 +286,9 @@ export default function VideoPlayer(props) {
 
             <PillsList title="Matériel utilisé" list={video?.gear} />
 
-            <ScrollToTopBtn onClick={() => scrollTo(TopRef)} />
+            {hasVideoInfo && (
+              <ScrollToTopBtn onClick={() => scrollTo(TopRef)} />
+            )}
           </Box>
         </Stack>
       </Stack>

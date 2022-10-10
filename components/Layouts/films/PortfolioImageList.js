@@ -441,7 +441,7 @@ export default function MasonryImageList() {
   const showreel = {
     img: "/medias/cta-cover.jpg",
     title: "Bande démo",
-    type: "Quentin Hébert, vidéaste freelance : réalisateur, cadreur et monteur.",
+    type: "Bande démo",
     url: "https://www.youtube.com/watch?v=eAnDQRbDQ1c",
     date: "2022",
   }
