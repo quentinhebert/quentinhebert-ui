@@ -10,6 +10,7 @@ import GradientTitleCard from "../../ReusableComponents/cards/gradient-title-car
 import BodyText from "../../ReusableComponents/text/body-text"
 import StrokeText from "../../ReusableComponents/text/stroke-text"
 import CenteredLandingButton from "../../ReusableComponents/buttons/centered-landing-button"
+import ImageCard from "../../ReusableComponents/cards/image-card"
 
 const CLIENTS = [
   {
@@ -128,14 +129,10 @@ export default function WebsitesPortfolio(props) {
                     xs: "100%",
                     md: "49%",
                   },
-                  minHeight: "400px",
-                  display: { xs: "none", md: "flex" },
-                  backgroundImage: `url(${client.img})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "50% 50%",
-                  borderRadius: "20px",
                 }}
-              />
+              >
+                <ImageCard img={client.img} />
+              </Stack>
               <Stack
                 zIndex={3}
                 alignItems="center"
