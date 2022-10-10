@@ -13,11 +13,16 @@ import Snacks from "../components/Navigation/snacks"
 import Navbar from "../components/Navigation/Navbars/navbar"
 
 function MyApp({ Component, pageProps, router }) {
+  // User
   const [user, setUser] = useState(null)
   const [accessToken, setAccessToken] = useState(null)
+
+  // Loading
   const [appLoading, setAppLoading] = useState(false)
   const [isUserDataFetching, setIsUserDataFetching] = useState(false)
   const [isAppDataFetching, setIsAppDataFetching] = useState(false)
+
+  // Snacks
   const [snackSeverity, setSnackSeverity] = useState("error")
   const [snackMessage, setSnackMessage] = useState("")
 
@@ -43,7 +48,7 @@ function MyApp({ Component, pageProps, router }) {
     setIsAppDataFetching(false)
   }
 
-  // Everytime the app is restated, we look for a token stocked in cookies. If the user context has no user but cookies do, we fetch up-to-date user info to set the user from the context
+  // Everytime the app is restarted, we look for a token stocked in cookies. If the user context has no user but cookies do, we fetch up-to-date user info to set the user from the context
   useEffect(() => {
     // Get token from cookies
     if (window && getToken()) setAccessToken(getToken())
@@ -52,6 +57,7 @@ function MyApp({ Component, pageProps, router }) {
     if (!user && !!accessToken && accessToken !== "") fetchUser()
   }, [user, accessToken])
 
+  // Let the loading animation finish if it started
   useEffect(() => {
     if (appLoading)
       setTimeout(() => {
@@ -59,10 +65,12 @@ function MyApp({ Component, pageProps, router }) {
       }, 1000)
   }, [appLoading])
 
+  // Update loading state
   useEffect(() => {
     if (isAppDataFetching || isUserDataFetching) setAppLoading(true)
   }, [isAppDataFetching, isUserDataFetching])
 
+  // Loading page
   if (appLoading) return <AnimatedLogoLayout />
 
   return (
