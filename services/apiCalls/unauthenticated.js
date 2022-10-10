@@ -281,6 +281,18 @@ const unauthenticated = {
       console.error(error)
     }
   },
+  getAllFilms: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/films`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
 }
 
 export default unauthenticated
