@@ -165,7 +165,9 @@ export default function VideoPlayer(props) {
 
           {/* Video infos */}
           <Box
-            width={window.innerHeight > window.innerWidth ? "96%" : "70%"}
+            width={
+              video && window.innerHeight > window.innerWidth ? "96%" : "70%"
+            }
             textAlign="left"
             justifyContent="left"
             padding="1rem 0"
@@ -195,7 +197,9 @@ export default function VideoPlayer(props) {
           </Box>
 
           <Stack
-            width={window.innerHeight > window.innerWidth ? "100%" : "70%"}
+            width={
+              video && window.innerHeight > window.innerWidth ? "100%" : "70%"
+            }
             justifyContent="center"
             alignItems="center"
           >
@@ -228,7 +232,9 @@ export default function VideoPlayer(props) {
 
           {/* Project infos */}
           <Box
-            width={window.innerHeight > window.innerWidth ? "96%" : "70%"}
+            width={
+              video && window.innerHeight > window.innerWidth ? "96%" : "70%"
+            }
             textAlign="left"
             justifyContent="left"
             padding="2rem 0 2rem"
