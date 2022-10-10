@@ -1,7 +1,7 @@
 .scroller {
     height: 1.5em;
     line-height: 1.5em;
-    display: inline-flex;
+    display: inline-flex !important;
     overflow: hidden;
     text-align: left;
   }
