@@ -63,7 +63,7 @@ function MyApp({ Component, pageProps, router }) {
     if (appLoading)
       setTimeout(() => {
         setAppLoading(isAppDataFetching || isUserDataFetching)
-      }, 1000)
+      }, 600)
   }, [appLoading, isAppDataFetching, isUserDataFetching])
 
   // Loading page
