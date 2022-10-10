@@ -16,16 +16,16 @@ import Navbar from "../components/Navigation/Navbars/navbar"
 function MyApp({ Component, pageProps, router }) {
   const [user, setUser] = useState(null)
   const [accessToken, setAccessToken] = useState(null)
-  const [appLoading, setAppLoading] = useState(true)
+  const [appLoading, setAppLoading] = useState(false)
+  const [isUserDataFetching, setIsUserDataFetching] = useState(false)
+  const [isAppDataFetching, setIsAppDataFetching] = useState(false)
+  const [loadingAnimationFinished, setLoadingAnimationFinished] = useState(true)
   const [snackSeverity, setSnackSeverity] = useState("error")
   const [snackMessage, setSnackMessage] = useState("")
 
-  setTimeout(() => {
-    setAppLoading(false)
-  }, 2000)
-
-  // In case we have to convert access token into a user (i.e. when coming directly from URL)
+  // In case user is logged in and app is restarted
   const fetchUser = async () => {
+    setIsUserDataFetching(true)
     const userFromToken = getUser(accessToken)
     const res = await apiCall.users.get(userFromToken.id)
     if (res && res.ok) {
@@ -35,18 +35,40 @@ function MyApp({ Component, pageProps, router }) {
       removeToken() // Local storage
       setAccessToken(null) // Context
     }
+    setIsUserDataFetching(!!user)
   }
+
+  // In case app is restarted
+  const fetchAppInfos = async () => {
+    setIsAppDataFetching(true)
+    //
+    setIsAppDataFetching(false)
+  }
+
+  // Everytime the app is restated, we look for a token stocked in cookies. If the user context has no user but cookies do, we fetch up-to-date user info to set the user from the context
+  useEffect(() => {
+    // Get token from cookies
+    if (window && getToken()) setAccessToken(getToken())
+
+    // If user from context is null, but there is a token in cookies
+    if (!user && !!accessToken && accessToken !== "") fetchUser()
+  }, [user, accessToken])
 
   useEffect(() => {
-    if (window && getToken()) setAccessToken(getToken())
-    if (!user && !!accessToken && accessToken !== "") {
-      fetchUser()
-    }
-  }, [user, accessToken, appLoading])
+    if (!loadingAnimationFinished)
+      setTimeout(() => {
+        setLoadingAnimationFinished(true)
+      }, 1000)
+  }, [loadingAnimationFinished])
 
-  if ((!user && !!accessToken && accessToken !== "") || appLoading) {
-    return <AnimatedLogoLayout />
-  }
+  useEffect(() => {
+    if (isAppDataFetching || isUserDataFetching) {
+      setLoadingAnimationFinished(false)
+      setAppLoading(false)
+    }
+  }, [isAppDataFetching, isUserDataFetching])
+
+  if (!loadingAnimationFinished) return <AnimatedLogoLayout />
 
   return (
     <AppContext.Provider
