@@ -35,7 +35,7 @@ export default function ImageCard({
   }
 
   return (
-    <Stack ref={ref}>
+    <Stack ref={ref} flexGrow={1}>
       <motion.div
         initial="hidden"
         variants={variants}
@@ -45,6 +45,7 @@ export default function ImageCard({
         <Stack
           sx={{
             flexGrow: 1,
+            height: "100%",
             width: width || "100%",
             minHeight: minHeight || "400px",
             display: display || { xs: "none", md: "flex" },

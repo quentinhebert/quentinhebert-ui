@@ -5,14 +5,14 @@ import { UserContext } from "../../../../contexts/UserContext"
 import HtmlHead from "../../../../components/ReusableComponents/page-builder/html-head"
 import PageRoot from "../../../../components/ReusableComponents/page-builder/page-root"
 import LoginLayout from "../../../../components/Layouts/LoginLayout"
-import AdminBackOfficeFilms from "../../../../components/Layouts/admin/AdminBackOfficeFilms"
 import { useRouter } from "next/router"
+import AdminBackOfficeWebsites from "../../../../components/Layouts/admin/AdminBackOfficeWebsites"
 
 export default function ManageVideosPage() {
   // Main meta tags
-  const title = "Admin | Back-Office | Vidéo"
+  const title = "Admin | Back-Office | Web"
   const description =
-    "Back-Office : gérez tout ce qui concerne la vidéo sur votre site"
+    "Back-Office : gérez tout ce qui concerne le développement web sur votre site"
 
   // SEO helpers
   const follow = false
@@ -39,7 +39,7 @@ export default function ManageVideosPage() {
       />
 
       {!!user && user.type === USERTYPES.ADMIN ? (
-        <AdminBackOfficeFilms />
+        <AdminBackOfficeWebsites />
       ) : (
         <LoginLayout />
       )}

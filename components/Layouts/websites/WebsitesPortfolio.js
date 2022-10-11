@@ -121,13 +121,16 @@ export default function WebsitesPortfolio(props) {
                   ? { xs: "column", md: "row" }
                   : { xs: "column", md: "row-reverse" }
               }
+              sx={{
+                alignItems: "stretch",
+                flexWrap: "wrap",
+                justifyContent: "center",
+              }}
             >
               <Stack
                 sx={{
-                  width: {
-                    xs: "100%",
-                    md: "49%",
-                  },
+                  width: { xs: "100%", md: "49%" },
+                  justifyContent: "center",
                 }}
               >
                 <ImageCard img={client.img} />
@@ -140,7 +143,7 @@ export default function WebsitesPortfolio(props) {
                   width: { xs: "100%", md: "49%" },
                   marginRight: { xs: 0, md: key % 2 === 0 ? 0 : "2%" },
                   marginLeft: { xs: 0, md: key % 2 === 0 ? "2%" : 0 },
-                  paddingBottom: "2rem",
+                  // paddingBottom: "2rem",
                 }}
               >
                 <GradientTitleCard
