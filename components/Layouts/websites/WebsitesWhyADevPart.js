@@ -216,17 +216,13 @@ export default function WebsitesWhyADevPart(props) {
   const { topRef } = props
 
   return (
-    <Stack height="100vh" minHeight="800px">
-      <Stack
-        ref={topRef}
-        sx={{
-          scrollMarginTop: (theme) => ({
-            xs: "-65px",
-            md: theme.navbar.marginTop,
-          }),
-        }}
-      />
-      <Stack padding="10rem 1rem" gap="1rem">
+    <Stack
+      height="100vh"
+      minHeight="800px"
+      justifyContent="center"
+      ref={topRef}
+    >
+      <Stack padding="0rem 1rem" gap="1rem">
         <Caroussel />
       </Stack>
     </Stack>
