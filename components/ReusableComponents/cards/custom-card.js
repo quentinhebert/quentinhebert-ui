@@ -6,7 +6,7 @@ const Card = styled((props) => {
       textAlign="center"
       width="100%"
       height="100%"
-      borderRadius="10px"
+      borderRadius="30px"
       sx={{
         background:
           props.rightbgcolor && props.leftbgcolor && props.lineardeg

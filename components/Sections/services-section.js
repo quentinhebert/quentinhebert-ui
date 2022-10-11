@@ -38,10 +38,22 @@ const ListItem = (props) => (
 )
 
 const ListIcon = () => (
-  <TaskAltOutlinedIcon
-    color="secondary"
-    sx={{ marginRight: "0.5rem", fontSize: { xs: "1.2rem", md: "1.4rem" } }}
-  />
+  <>
+    <svg width={0} height={0}>
+      <linearGradient id="linearColors" x1={0} y1={1} x2={0.8} y2={0.2}>
+        <stop offset={0} stopColor={theme.palette.tersary.main} />
+        <stop offset={1} stopColor={theme.palette.secondary.main} />
+      </linearGradient>
+    </svg>
+    <TaskAltOutlinedIcon
+      // color="secondary"
+      sx={{
+        marginRight: "0.5rem",
+        fontSize: { xs: "1.2rem", md: "1.4rem" },
+        fill: "url(#linearColors)",
+      }}
+    />
+  </>
 )
 
 const List = ({ items }) =>
