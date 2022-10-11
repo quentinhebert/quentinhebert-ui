@@ -138,6 +138,7 @@ export default function WebsitesPortfolio(props) {
                       animDelay={key}
                       key={key}
                       preventTransitionOut={desktop}
+                      padding={{ xs: ".1rem 1rem", md: ".25rem 1.5rem" }}
                     >
                       <BodyText color="#000" preventTransitionOut={desktop}>
                         {keyword}
