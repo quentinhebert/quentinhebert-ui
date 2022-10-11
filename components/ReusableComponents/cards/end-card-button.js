@@ -20,8 +20,8 @@ export default function EndCardButton(props) {
   const { href, text, onClick } = props
 
   return (
-    <ScaleUpOnHoverStack>
-      <Box height="100%" justifyContent="end">
+    <ScaleUpOnHoverStack height="100%" justifyContent="end">
+      <Box>
         {href ? (
           <Link href={href} passHref>
             <CssButton>{text}</CssButton>
