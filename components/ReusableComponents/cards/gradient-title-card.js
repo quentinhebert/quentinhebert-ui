@@ -4,7 +4,7 @@ import { motion, useAnimation } from "framer-motion"
 import { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 
-const Title = styled((props) => {
+const Title = styled(({ preventTransitionOut, ...props }) => {
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
   const controls = useAnimation()
@@ -29,7 +29,7 @@ const Title = styled((props) => {
   useEffect(() => {
     if (inView) {
       controls.start("visible")
-    } else {
+    } else if (!preventTransitionOut) {
       controls.start("hidden")
     }
   }, [controls, inView])

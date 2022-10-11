@@ -12,7 +12,7 @@ const CustomButton = styled((props) => {
   const variants = {
     visible: {
       opacity: 1,
-      transition: { duration: 1 },
+      transition: { duration: 0.5, ease: [0.32, 0, 0.67, 0] },
     },
     hidden: { opacity: 0 },
   }

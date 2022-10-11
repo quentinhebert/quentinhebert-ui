@@ -1,10 +1,7 @@
 import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
 import MediumTitle from "../../ReusableComponents/titles/medium-title"
 import styles from "../../../styles/TextShine.module.css"
-import { Box, Stack } from "@mui/material"
-import { useEffect } from "react"
-import { motion, useAnimation } from "framer-motion"
-import { useInView } from "react-intersection-observer"
+import { Box, Stack, useMediaQuery } from "@mui/material"
 import GradientTitleCard from "../../ReusableComponents/cards/gradient-title-card"
 import BodyText from "../../ReusableComponents/text/body-text"
 import StrokeText from "../../ReusableComponents/text/stroke-text"
@@ -63,53 +60,20 @@ const CLIENTS = [
 ]
 
 export default function WebsitesPortfolio(props) {
-  /********** ANIMATION **********/
-  const [ref, inView] = useInView()
-  const controls = useAnimation()
-  const variants = (key) => {
-    return {
-      visible: {
-        opacity: 1,
-        y: 1,
-        transition: { duration: 1, delay: key / 10 },
-      },
-      hidden: { opacity: 0, y: -25 },
-    }
-  }
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible")
-    } else {
-      controls.start("hidden")
-    }
-  }, [controls, inView])
-  const motionDivStyle = {
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }
+  const desktop = useMediaQuery((theme) => theme.breakpoints.up("md"))
 
   return (
     <>
-      <Stack ref={ref}>
-        <motion.div
-          initial="hidden"
-          variants={variants(0)}
-          animate={controls}
-          style={motionDivStyle}
-        >
-          <MediumTitle
-            textAlign="center"
-            className={styles.shine}
-            fontFamily="Zacbel X"
-            letterSpacing={1}
-            lineHeight={{ xs: "15vw", sm: "10vw" }}
-          >
-            <StrokeText>Mes projets</StrokeText>
-          </MediumTitle>
-        </motion.div>
-      </Stack>
+      <MediumTitle
+        preventTransitionOut={desktop}
+        textAlign="center"
+        className={styles.shine}
+        fontFamily="Zacbel X"
+        letterSpacing={1}
+        lineHeight={{ xs: "15vw", sm: "10vw" }}
+      >
+        <StrokeText>Mes projets</StrokeText>
+      </MediumTitle>
 
       <Stack gap="10rem" margin="5rem 0 15rem">
         {CLIENTS.map((client, key) => (
@@ -133,7 +97,7 @@ export default function WebsitesPortfolio(props) {
                   justifyContent: "center",
                 }}
               >
-                <ImageCard img={client.img} />
+                <ImageCard img={client.img} preventTransitionOut />
               </Stack>
               <Stack
                 zIndex={3}
@@ -143,10 +107,10 @@ export default function WebsitesPortfolio(props) {
                   width: { xs: "100%", md: "49%" },
                   marginRight: { xs: 0, md: key % 2 === 0 ? 0 : "2%" },
                   marginLeft: { xs: 0, md: key % 2 === 0 ? "2%" : 0 },
-                  // paddingBottom: "2rem",
                 }}
               >
                 <GradientTitleCard
+                  preventTransitionOut={desktop}
                   bgcolor="transparent"
                   textTransform="uppercase"
                   fontFamily="Zacbel X"
@@ -156,7 +120,7 @@ export default function WebsitesPortfolio(props) {
                 >
                   {client.name}
                 </GradientTitleCard>
-                <BodyText>
+                <BodyText preventTransitionOut={desktop}>
                   {client.keywords.map((keyword, key) => (
                     <Box
                       key={key}
@@ -180,7 +144,9 @@ export default function WebsitesPortfolio(props) {
                     minHeight={{ xs: "200px", sm: "400px" }}
                   />
                 </Stack>
-                <BodyText textAlign="justify">{client.description}</BodyText>
+                <BodyText preventTransitionOut={desktop} textAlign="justify">
+                  {client.description}
+                </BodyText>
                 <CenteredLandingButton>
                   <Box component="a" target="_blank" href={client.link}>
                     Accéder au site

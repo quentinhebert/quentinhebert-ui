@@ -8,6 +8,7 @@ export default function ImageCard({
   width,
   display,
   minHeight,
+  preventTransitionOut,
   ...props
 }) {
   /********** ANIMATION **********/
@@ -24,7 +25,7 @@ export default function ImageCard({
   useEffect(() => {
     if (inView) {
       controls.start("visible")
-    } else {
+    } else if (!preventTransitionOut) {
       controls.start("hidden")
     }
   }, [controls, inView])

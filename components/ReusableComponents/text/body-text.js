@@ -5,7 +5,7 @@ import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 
 const Text = styled((props) => {
-  const { color, fontFamily } = props
+  const { color, fontFamily, preventTransitionOut } = props
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
@@ -20,7 +20,7 @@ const Text = styled((props) => {
   useEffect(() => {
     if (inView) {
       controls.start("visible")
-    } else {
+    } else if (!preventTransitionOut) {
       controls.start("hidden")
     }
   }, [controls, inView])
@@ -59,6 +59,8 @@ const Text = styled((props) => {
   )
 })(() => ({}))
 
-export default function BodyText(props = { fontFamily, color }) {
+export default function BodyText(
+  props = { fontFamily, color, preventTransitionOut }
+) {
   return <Text {...props} />
 }
