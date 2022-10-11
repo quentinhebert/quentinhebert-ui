@@ -27,7 +27,7 @@ export default function FilmsIndexLayout(props) {
       <Stack ref={topRef} />
 
       {/* Fixed Background for the page */}
-      <Stack
+      {/* <Stack
         position="fixed"
         width="100%"
         height="100vh"
@@ -37,7 +37,7 @@ export default function FilmsIndexLayout(props) {
           backgroundPosition: "25% 50%",
           backgroundSize: "cover",
         }}
-      />
+      /> */}
 
       {/* HERO screen */}
       <FilmsIndexHero refForScroll={refsForScroll.portfolio} />
@@ -48,7 +48,7 @@ export default function FilmsIndexLayout(props) {
       {/* INTRO */}
       <FilmsFocusPart refsForScroll={refsForScroll} />
 
-      <FilmProjectSteps />
+      {/* <FilmProjectSteps /> */}
 
       <ContactSection defaultService="film" />
 

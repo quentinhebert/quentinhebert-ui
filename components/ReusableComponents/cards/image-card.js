@@ -53,6 +53,7 @@ export default function ImageCard({
             backgroundSize: "cover",
             backgroundPosition: "50% 50%",
             borderRadius: "20px",
+            boxShadow: "5px 5px 19px 5px rgb(0,0,0,0.5)",
           }}
           {...props}
         />

@@ -16,6 +16,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline"
 import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
+import PillButton from "../../ReusableComponents/buttons/pill-button"
 
 async function fetchUpToDateFilms() {
   const res = await apiCall.unauthenticated.getAllFilms()
@@ -451,14 +452,6 @@ export default function MasonryImageList(props) {
   //   },
   // ]
 
-  const showreel = {
-    img: "/medias/cta-cover.jpg",
-    title: "Bande démo",
-    type: "Bande démo",
-    url: "https://www.youtube.com/watch?v=eAnDQRbDQ1c",
-    year: "2022",
-  }
-
   const TopRef = useRef(null)
   const scrollTo = (ref) => {
     ref.current.scrollIntoView({
@@ -489,93 +482,23 @@ export default function MasonryImageList(props) {
   }, [controls, inView, limit])
 
   if (!data || !data?.length) return <></>
+
+  const hasMoreFilms = data.length > 6
+
   return (
     <>
       <Stack
         ref={TopRef}
-        sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
+        sx={{
+          scrollMarginTop: (theme) => theme.navbar.marginTop,
+        }}
       />
-      <Box sx={{ width: "100%" }} ref={ref}>
-        <motion.div
-          initial="hidden"
-          variants={variants(3)}
-          animate={controls}
-          style={{ width: "100%" }}
-        >
-          <Link
-            onClick={() => {
-              setVideoClicked(showreel)
-              setOpenVideoPlayer(true)
-            }}
-          >
-            <ImageListItem
-              sx={{
-                width: "100%",
-                cursor: "pointer",
-                overflow: "hidden",
-                marginTop: { xs: "1rem", md: 0 },
-                "&:hover": {
-                  "& .MuiBox-root": {
-                    transform: "scale(1.1)",
-                    filter: "grayscale(1)",
-                  },
-                },
-              }}
-            >
-              <Box
-                component="img"
-                src={showreel.img}
-                srcSet={showreel.img}
-                alt="Bande Démo"
-                width="100%"
-                sx={{
-                  height: { xs: "200px", md: "300px" },
-                  zIndex: 0,
-                  objectFit: "cover",
-                  objectPosition: "50% 30%",
-                  WebkitTransition: "transform 0.4s ease-in-out",
-                  msTransition: "transform 0.4s ease-in-out",
-                  transition:
-                    "transform 0.4s ease-in-out, filter 0.4s ease-in-out",
-                }}
-              />
-              <Stack
-                justifyContent="center"
-                alignItems="center"
-                sx={{
-                  width: "100%",
-                  height: "100%",
-                  position: "absolute",
-                  top: 0,
-                  zIndex: 100,
-                  WebkitTransition: "background 200ms linear",
-                  msTransition: "background 200ms linear",
-                  transition: "background 200ms linear",
-                  padding: "1rem",
-                  background: "rgb(0, 0, 0, 0.2)",
-                  "&:hover": {
-                    background: "rgb(0, 0, 0, 0.4)",
-                  },
-                }}
-              >
-                <Typography
-                  color="secondary"
-                  fontWeight="bold"
-                  sx={{
-                    textAlign: "center",
-                    textTransform: "uppercase",
-                    fontSize: { xs: "1.5rem", sm: "2rem", md: "3rem" },
-                    lineHeight: { xs: "1.3rem", sm: "2rem", md: "3rem" },
-                    textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
-                  }}
-                >
-                  Bande Démo 2022
-                </Typography>
-              </Stack>
-            </ImageListItem>
-          </Link>
-        </motion.div>
-
+      <Box
+        sx={{
+          width: "100%",
+        }}
+        ref={ref}
+      >
         <ImageList
           rowHeight={sm ? 150 : 200}
           gap={0}
@@ -725,32 +648,33 @@ export default function MasonryImageList(props) {
           })}
         </ImageList>
 
-        <Stack width="100%">
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={(e) => {
-              if (limit === initialLimit) {
-                setLimit(1000)
-              } else {
-                setLimit(initialLimit)
-                setTimeout(() => {
-                  scrollTo(TopRef)
-                }, 200)
+        <Stack
+          width="100%"
+          className="flex-center"
+          display={hasMoreFilms ? "flex" : "none"}
+        >
+          <Box>
+            <PillButton
+              color="#000"
+              onClick={(e) => {
+                if (limit === initialLimit) {
+                  setLimit(1000)
+                } else {
+                  setLimit(initialLimit)
+                  setTimeout(() => {
+                    scrollTo(TopRef)
+                  }, 200)
+                }
+              }}
+              endIcon={
+                <KeyboardArrowDownIcon
+                  sx={{ rotate: limit === initialLimit ? "0deg" : "180deg" }}
+                />
               }
-            }}
-            endIcon={
-              <KeyboardArrowDownIcon
-                sx={{ rotate: limit === initialLimit ? "0deg" : "180deg" }}
-              />
-            }
-            sx={{
-              fontWeight: "bold",
-              fontSize: { xs: "1rem", md: "1.2rem" },
-            }}
-          >
-            {limit === initialLimit ? "Afficher plus" : "Afficher moins"}
-          </Button>
+            >
+              {limit === initialLimit ? "Afficher plus" : "Afficher moins"}
+            </PillButton>
+          </Box>
         </Stack>
       </Box>
 

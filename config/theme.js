@@ -7,6 +7,7 @@ const secondary = "#C6900E"
 const secondaryDark = "#825E09"
 const secondaryLight = "#F5BB5F"
 const tersary = "#AE1B1E"
+const forthery = "#245501"
 const link = "#06c"
 const errorColor = "#f44336"
 const grey = "#696969"
@@ -35,6 +36,9 @@ const mainTheme = createTheme({
     },
     tersary: {
       main: tersary,
+    },
+    forthery: {
+      main: forthery,
     },
     background: {
       main: primaryDark,

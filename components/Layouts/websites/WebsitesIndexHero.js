@@ -1,15 +1,9 @@
-import { useRef } from "react"
-import { Box, Slide, Stack, Typography, useMediaQuery } from "@mui/material"
+import { Box, Button, Slide, Stack, Typography } from "@mui/material"
 import BouncingArrow from "../../Navigation/BouncingArrow"
 
 export default function WebsitesIndexHero(props) {
-  const { refForScroll } = props
+  const { refsForScroll } = props
 
-  const topRef = useRef()
-  const categoriesRef = useRef()
-  const refsForScroll = {
-    portfolio: categoriesRef,
-  }
   const scrollTo = (ref) => {
     ref.current.scrollIntoView({
       behavior: "smooth",
@@ -21,17 +15,16 @@ export default function WebsitesIndexHero(props) {
       zIndex={1}
       position="relative"
       sx={{
-        backgroundImage: "url(/medias/folds-background.jpg)",
-        backgroundSize: "cover",
-        backgroundPosition: "50%",
-        backgroundRepeat: "no-repeat",
+        background: (theme) =>
+          `linear-gradient(220deg, ${theme.palette.tersary.main} 10%, ${theme.palette.background.secondary} 100%)`,
         width: "100%",
-        minHeight: "400px",
-        height: { xs: "50vh", md: "100vh" },
-        maxHeight: "900px",
+        minHeight: { xs: "500px", md: "600px" },
+        height: { xs: "70vh", sm: "70vh", md: "100vh" },
         alignItems: "end",
+        position: "relative",
       }}
     >
+      {/* Right Text */}
       <Slide direction="left" {...{ timeout: 1000 }} in>
         <Typography
           variant="h1"
@@ -40,18 +33,12 @@ export default function WebsitesIndexHero(props) {
           sx={{
             textAlign: "right",
             fontSize: {
-              xs: "3rem",
-              sm: "5.5rem",
-              md: "8.5rem",
-              lg: "10.5rem",
-              xl: "15rem",
+              xs: "13vw",
+              sm: "11vw",
             },
             lineHeight: {
-              xs: "3.5rem",
-              sm: "6rem",
-              md: "7rem",
-              lg: "10rem",
-              xl: "13rem",
+              xs: "13vw",
+              sm: "11vw",
             },
             position: "absolute",
             zIndex: 0,
@@ -81,27 +68,82 @@ export default function WebsitesIndexHero(props) {
             backgroundImage: "url(/medias/developper-alpha.png)",
             backgroundSize: {
               xs: "200%",
-              sm: "150%",
-              md: "200%",
+              sm: "200%",
+              md: "170%",
               lg: "150%",
               xl: "120%",
             },
             backgroundPosition: {
-              xs: "30% -45%",
-              sm: "30% 20% ",
-              md: "30% 20%",
+              xs: "30% 10rem",
+              sm: "50% -10vw",
+              md: "50% 20%",
               lg: "30% 30%",
               xl: "30% 10%",
             },
             backgroundRepeat: "no-repeat",
             width: "100%",
-            minHeight: "400px",
-            height: { xs: "50vh", md: "100vh" },
-            maxHeight: "900px",
+            minHeight: { xs: "500px", md: "600px" },
+            height: { xs: "70vh", sm: "70vh", md: "100vh" },
             zIndex: 1,
           }}
         />
       </Slide>
+
+      <Box
+        width="100%"
+        height="100%"
+        sx={{
+          zIndex: 11,
+        }}
+      >
+        <Stack
+          sx={{
+            fontFamily: "Helmet",
+            position: "absolute",
+            right: { xs: "2rem", md: "2rem" },
+            top: { xs: "60vw", sm: "25rem", md: "30rem" },
+            gap: { xs: 1, md: 2 },
+            flexDirection: "row",
+          }}
+        >
+          <Button
+            onClick={() => scrollTo(refsForScroll.portfolio)}
+            variant="outlined"
+            color="secondary"
+            sx={{
+              fontWeight: "bold",
+              fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+              padding: { xs: "0.2rem 1.5rem", md: "0.5rem 2rem" },
+              borderRadius: "50px",
+              border: { xs: "2px solid", md: "3px solid" },
+              transition: "transform 0.2s ease-in-out",
+              "&:hover": {
+                border: "3px solid",
+                transform: "scale(1.1)",
+              },
+            }}
+          >
+            Mes projets
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{
+              fontWeight: "bold",
+              fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+              padding: { xs: "0.2rem 1.5rem", md: "0.5rem 2rem" },
+              borderRadius: "50px",
+              // color: (theme) => theme.palette.secondary.main,
+              transition: "transform 0.2s ease-in-out",
+              "&:hover": {
+                transform: "scale(1.1)",
+              },
+            }}
+          >
+            Mon Cv
+          </Button>
+        </Stack>
+      </Box>
 
       <Stack
         zIndex={10}
@@ -109,14 +151,14 @@ export default function WebsitesIndexHero(props) {
         alignItems="center"
         sx={{
           width: "100%",
-          minHeight: "400px",
-          height: { xs: "50vh", md: "100vh" },
+          minHeight: { xs: "500px", md: "600px" },
+          height: { xs: "100vh", md: "100vh" },
         }}
       >
         <BouncingArrow
           text=""
           scrollTo={scrollTo}
-          refForScroll={refForScroll}
+          refForScroll={refsForScroll.whyADev}
         />
       </Stack>
     </Stack>

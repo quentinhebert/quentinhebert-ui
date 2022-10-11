@@ -5,7 +5,7 @@ import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 
 const Text = styled((props) => {
-  const { color, fontFamily, preventTransitionOut } = props
+  const { color, fontFamily, preventTransitionOut, animDelay } = props
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
@@ -13,7 +13,11 @@ const Text = styled((props) => {
   const variants = {
     visible: {
       opacity: 1,
-      transition: { duration: 0.75, delay: 0.25, ease: [0.32, 0, 0.67, 0] },
+      transition: {
+        duration: 0.5,
+        delay: animDelay || 0.25,
+        ease: [0.32, 0, 0.67, 0],
+      },
     },
     hidden: { opacity: 0 },
   }
@@ -43,12 +47,16 @@ const Text = styled((props) => {
           component={"span"}
           fontFamily={fontFamily || "Helmet"}
           sx={{
-            fontSize: props.fontSize || { xs: "1rem", md: "1.2rem" },
+            fontSize: props.fontSize || {
+              xs: "0.8rem",
+              sm: "0.95rem",
+              md: "1.1rem",
+            },
             letterSpacing: props.letterSpacing || 1,
             lineHeight: props.lineHeight || {
-              xs: "1.3rem",
-              sm: "1.5rem",
-              md: "2rem",
+              xs: "1.2rem",
+              sm: "1.4rem",
+              md: "1.6rem",
             },
             color: color || ((theme) => theme.palette.text.white),
           }}

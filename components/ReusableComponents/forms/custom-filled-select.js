@@ -10,7 +10,8 @@ const CustomSelect = styled((props) => (
     color="secondary"
     sx={{
       // backgroundColor: "#fff",
-      background: `linear-gradient(-90deg, transparent 0%, ${theme.palette.background.main} 10%)`, // Overrides the background-color of the select input
+      // background: `linear-gradient(-90deg, transparent 0%, ${theme.palette.background.main} 10%)`, // Overrides the background-color of the select input
+      background: theme.palette.background.main,
       "& .MuiOutlinedInput-notchedOutline": {
         border: "none",
       },

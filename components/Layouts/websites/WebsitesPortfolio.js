@@ -1,12 +1,15 @@
 import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
 import MediumTitle from "../../ReusableComponents/titles/medium-title"
 import styles from "../../../styles/TextShine.module.css"
-import { Box, Stack, useMediaQuery } from "@mui/material"
+import { Box, Stack, Typography, useMediaQuery } from "@mui/material"
 import GradientTitleCard from "../../ReusableComponents/cards/gradient-title-card"
 import BodyText from "../../ReusableComponents/text/body-text"
 import StrokeText from "../../ReusableComponents/text/stroke-text"
-import CenteredLandingButton from "../../ReusableComponents/buttons/centered-landing-button"
+import OpenInNewIcon from "@mui/icons-material/OpenInNew"
 import ImageCard from "../../ReusableComponents/cards/image-card"
+import Pill from "../../ReusableComponents/text/pill"
+import PillButton from "../../ReusableComponents/buttons/pill-button"
+import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on-hover-stack"
 
 const CLIENTS = [
   {
@@ -60,26 +63,36 @@ const CLIENTS = [
 ]
 
 export default function WebsitesPortfolio(props) {
+  const { topRef } = props
   const desktop = useMediaQuery((theme) => theme.breakpoints.up("md"))
 
   return (
-    <>
-      <MediumTitle
-        preventTransitionOut={desktop}
-        textAlign="center"
-        className={styles.shine}
-        fontFamily="Zacbel X"
-        letterSpacing={1}
-        lineHeight={{ xs: "15vw", sm: "10vw" }}
-      >
-        <StrokeText>Mes projets</StrokeText>
-      </MediumTitle>
+    <Stack
+      position="relative"
+      sx={{
+        background: (theme) =>
+          `linear-gradient(220deg, ${theme.palette.tersary.main} 10%, ${theme.palette.background.secondary} 100%)`,
+      }}
+    >
+      <Stack ref={topRef} />
 
-      <Stack gap="10rem" margin="5rem 0 15rem">
+      <Stack gap="5rem" margin="5rem 0">
+        <MediumTitle
+          preventTransitionOut={desktop}
+          textAlign="center"
+          // className={styles.shine}
+          fontFamily="Zacbel X"
+          letterSpacing={1}
+          lineHeight={{ xs: "15vw", sm: "10vw" }}
+        >
+          <StrokeText>Mes </StrokeText>projets
+        </MediumTitle>
+
         {CLIENTS.map((client, key) => (
           <CenteredMaxWidthContainer pixels="1200px" percents="80%" key={key}>
             <Stack
               zIndex={1}
+              gap="4rem"
               flexDirection={
                 key % 2 === 0
                   ? { xs: "column", md: "row" }
@@ -93,21 +106,18 @@ export default function WebsitesPortfolio(props) {
             >
               <Stack
                 sx={{
-                  width: { xs: "100%", md: "49%" },
+                  width: { xs: "100%", md: "calc(50% - 2rem)" },
                   justifyContent: "center",
                 }}
               >
                 <ImageCard img={client.img} preventTransitionOut />
               </Stack>
+
               <Stack
                 zIndex={3}
                 alignItems="center"
-                gap={3}
-                sx={{
-                  width: { xs: "100%", md: "49%" },
-                  marginRight: { xs: 0, md: key % 2 === 0 ? 0 : "2%" },
-                  marginLeft: { xs: 0, md: key % 2 === 0 ? "2%" : 0 },
-                }}
+                gap={2}
+                sx={{ width: { xs: "100%", md: "calc(50% - 2rem)" } }}
               >
                 <GradientTitleCard
                   preventTransitionOut={desktop}
@@ -117,24 +127,24 @@ export default function WebsitesPortfolio(props) {
                   letterSpacing={2}
                   fontSize="2rem"
                   className={styles.shine}
+                  color={(theme) => theme.palette.text.white}
                 >
                   {client.name}
                 </GradientTitleCard>
-                <BodyText preventTransitionOut={desktop}>
+
+                <Box component="span" textAlign="center">
                   {client.keywords.map((keyword, key) => (
-                    <Box
+                    <Pill
+                      animDelay={key}
                       key={key}
-                      component="span"
-                      fontSize="0.9rem"
-                      marginRight=".75rem"
-                      sx={{
-                        color: (theme) => theme.palette.text.secondary,
-                      }}
+                      preventTransitionOut={desktop}
                     >
-                      /{keyword}
-                    </Box>
+                      <BodyText color="#000" preventTransitionOut={desktop}>
+                        {keyword}
+                      </BodyText>
+                    </Pill>
                   ))}
-                </BodyText>
+                </Box>
 
                 <Stack sx={{ width: { xs: "100%", md: "49%" } }}>
                   <ImageCard
@@ -144,19 +154,30 @@ export default function WebsitesPortfolio(props) {
                     minHeight={{ xs: "200px", sm: "400px" }}
                   />
                 </Stack>
+
                 <BodyText preventTransitionOut={desktop} textAlign="justify">
                   {client.description}
                 </BodyText>
-                <CenteredLandingButton>
-                  <Box component="a" target="_blank" href={client.link}>
-                    Accéder au site
-                  </Box>
-                </CenteredLandingButton>
+
+                <ScaleUpOnHoverStack>
+                  <PillButton
+                    background={(theme) =>
+                      `linear-gradient(10deg, ${theme.palette.tersary.main} 0%, ${theme.palette.background.secondary} 100%)`
+                    }
+                  >
+                    <Stack className="row flex-center" gap={1}>
+                      <Box component="a" target="_blank" href={client.link}>
+                        Accéder au site
+                      </Box>
+                      <OpenInNewIcon sx={{ display: "flex" }} />
+                    </Stack>
+                  </PillButton>
+                </ScaleUpOnHoverStack>
               </Stack>
             </Stack>
           </CenteredMaxWidthContainer>
         ))}
       </Stack>
-    </>
+    </Stack>
   )
 }

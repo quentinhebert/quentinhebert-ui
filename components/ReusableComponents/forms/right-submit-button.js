@@ -10,7 +10,7 @@ const SubmitButton = styled((props) => (
       color: (theme) => theme.palette.secondary.main,
       backgroundColor: "transparent",
       border: (theme) => `2px solid ${theme.palette.secondary.main}`,
-      borderRadius: "10px",
+      borderRadius: "30px",
       letterSpacing: "1.5px",
       "&:hover": {
         border: (theme) => `2px solid ${theme.palette.secondary.main}`,

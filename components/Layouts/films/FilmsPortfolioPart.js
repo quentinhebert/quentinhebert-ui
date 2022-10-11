@@ -53,14 +53,22 @@ export default function FilmsPortfolioPart(props) {
   }
 
   return (
-    <Stack zIndex={1} position="relative" ref={ref} marginTop="0.1px">
+    <Stack
+      zIndex={1}
+      position="relative"
+      ref={ref}
+      marginTop="0.1px"
+      sx={{
+        background: (theme) => theme.palette.secondary.main,
+      }}
+    >
       {/* TOP Anchor */}
       <Stack ref={refForScroll} />
 
       <Stack
         sx={{
           background: (theme) =>
-            `linear-gradient(0deg, #000 20%, rgb(0,0,0,0.4) 100%)`,
+            `linear-gradient(-180deg, #000 20%, rgb(0,0,0,0.4) 100%)`,
           paddingBottom: { xs: "2rem", md: "6rem" },
         }}
       >
@@ -68,7 +76,7 @@ export default function FilmsPortfolioPart(props) {
           <Stack width="100%" alignItems="start">
             <Stack
               width="100%"
-              sx={{ padding: { xs: "2rem 0 0", md: "6rem 2rem 4rem 0" } }}
+              sx={{ padding: { xs: "2rem 0", md: "6rem 2rem 4rem" } }}
             >
               <motion.div
                 initial="hidden"
@@ -76,12 +84,14 @@ export default function FilmsPortfolioPart(props) {
                 animate={controls}
                 style={motionDivStyle}
               >
-                <BigTitle
-                  className={styles.shine}
-                  title="Mes réalisations"
+                <Typography
+                  color="secondary"
+                  variant="h3"
                   fontFamily="Ethereal"
-                  textAlign="center"
-                />
+                  fontWeight="bold"
+                >
+                  Mes réalisations
+                </Typography>
                 <BodyText
                   color="text.white"
                   textAlign="center"

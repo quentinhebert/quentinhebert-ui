@@ -49,10 +49,12 @@ const Title = styled(({ preventTransitionOut, ...props }) => {
     >
       <motion.div initial="hidden" variants={variants(1)} animate={controls}>
         <Typography
-          color="secondary"
           textAlign="center"
           variant="h2"
-          sx={{ fontSize: props.fontSize || { xs: "2rem", md: "4rem" } }}
+          sx={{
+            fontSize: props.fontSize || { xs: "2rem", md: "4rem" },
+            color: props.color || ((theme) => theme.palette.secondary.main),
+          }}
           {...props}
         />
       </motion.div>

@@ -77,7 +77,7 @@ export default function FilmsIndexHero(props) {
         backgroundRepeat: "no-repeat",
         width: "100%",
         height: { xs: "80vh", md: "100vh" },
-        maxHeight: "600px", // TODO: Change to 100vh when suscribed to vimeo plan
+        // maxHeight: "600px", // TODO: Remove that line when suscribed to vimeo plan
         overflow: "hidden",
         objectFit: "cover",
       }}

@@ -217,10 +217,11 @@ export default function WebsitesWhyADevPart(props) {
 
   return (
     <Stack
-      height="100vh"
-      minHeight="800px"
+      height="101vh"
+      minHeight="600px"
       justifyContent="center"
       ref={topRef}
+      sx={{ scrollMarginTop: -1 }}
     >
       <Stack padding="0rem 1rem" gap="1rem">
         <Caroussel />

@@ -36,7 +36,7 @@ export default function ContactSection(props) {
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
-      margin="4rem 0"
+      margin="5rem 0"
       zIndex={1}
       position="relative"
       sx={{

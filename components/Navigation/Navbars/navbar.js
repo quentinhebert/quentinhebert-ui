@@ -165,8 +165,9 @@ export default function Navbar(props) {
           height: "64px",
           background:
             "linear-gradient(0deg, transparent 0%, rgb(0,0,0,0.9) 90%)",
+          opacity: 0,
         }}
-      ></Stack>
+      />
     </>
   )
 }

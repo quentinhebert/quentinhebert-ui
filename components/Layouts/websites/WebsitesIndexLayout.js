@@ -12,10 +12,12 @@ export default function WebsitesIndexLayout(props) {
   const topRef = useRef()
   const whyADevRef = useRef()
   const focusRef = useRef()
+  const portfolioRef = useRef()
   const refsForScroll = {
     top: topRef,
     whyADev: whyADevRef,
     focus: focusRef,
+    portfolio: portfolioRef,
   }
 
   return (
@@ -36,11 +38,11 @@ export default function WebsitesIndexLayout(props) {
         }}
       />
 
-      <WebsitesIndexHero refForScroll={refsForScroll.whyADev} />
+      <WebsitesIndexHero refsForScroll={refsForScroll} />
 
       <WebsitesWhyADevPart topRef={refsForScroll.whyADev} />
 
-      <WebsitesPortfolio />
+      <WebsitesPortfolio topRef={refsForScroll.portfolio} />
 
       {/* <WebsiteFocusPart refsForScroll={refsForScroll} /> */}
 
