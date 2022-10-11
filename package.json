@@ -38,6 +38,7 @@
     "react-items-carousel": "^2.8.0",
     "react-lottie": "^1.2.3",
     "react-parallax": "^3.3.0",
+    "react-player": "^2.11.0",
     "react-sortable-hoc": "^2.0.0",
     "react-spring": "^9.4.5",
     "react-swipeable-views": "^0.14.0",

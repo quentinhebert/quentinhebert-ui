@@ -1,7 +1,32 @@
-import React, { useEffect, useRef, useState } from "react"
-import { Box, Slide, Stack, Typography, useMediaQuery } from "@mui/material"
-import theme from "../../../config/theme"
+import { Stack, Typography, useMediaQuery } from "@mui/material"
 import BouncingArrow from "../../Navigation/BouncingArrow"
+import PlayCircleFilledWhiteOutlinedIcon from "@mui/icons-material/PlayCircleFilledWhiteOutlined"
+import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline"
+import { motion } from "framer-motion"
+import BodyText from "../../ReusableComponents/text/body-text"
+import PillButton from "../../ReusableComponents/buttons/pill-button"
+import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on-hover-stack"
+import ReactPlayer from "react-player"
+import VolumeUpIcon from "@mui/icons-material/VolumeUp"
+import VolumeOffIcon from "@mui/icons-material/VolumeOff"
+import { useEffect, useState } from "react"
+
+const Title = (props) => (
+  <Typography
+    variant="h1"
+    color="secondary"
+    fontFamily="Ethereal"
+    fontWeight="bold"
+    sx={{
+      fontSize: { xs: "1.75rem", md: "3rem" },
+      zIndex: 0,
+      textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
+    }}
+    {...props}
+  />
+)
+
+const motionDivStyle = { display: "flex" }
 
 export default function FilmsIndexHero(props) {
   const { refForScroll } = props
@@ -12,93 +37,159 @@ export default function FilmsIndexHero(props) {
     })
   }
 
+  const landscape = useMediaQuery("@media (min-aspect-ratio: 16/9)")
+  const portrait = useMediaQuery("@media (max-aspect-ratio: 16/9)")
+
+  const [playing, setPlaying] = useState(false)
+  const [volume, setVolume] = useState(1)
+  const [showControls, setShowControls] = useState(true)
+
+  const handleClick = () => {
+    setPlaying(!playing)
+  }
+  const handleMute = () => {
+    if (volume === 1) setVolume(0)
+    else if (volume === 0) setVolume(1)
+  }
+
+  useEffect(() => {
+    let timeout = 0
+
+    const handleMouseMove = () => {
+      setShowControls(true)
+      clearTimeout(timeout)
+
+      timeout = setTimeout(() => {
+        setShowControls(false)
+      }, 2000)
+    }
+
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [])
+
   return (
     <Stack
       zIndex={1}
       position="relative"
       sx={{
-        backgroundImage: "url(/medias/circular-background.jpg)",
-        backgroundSize: "cover",
-        backgroundPosition: "50%",
+        background: "#000",
         backgroundRepeat: "no-repeat",
         width: "100%",
-        minHeight: "400px",
-        height: { xs: "50vh", md: "100vh" },
-        maxHeight: "900px",
+        height: { xs: "80vh", md: "100vh" },
+        maxHeight: "600px", // TODO: Change to 100vh when suscribed to vimeo plan
+        overflow: "hidden",
+        objectFit: "cover",
       }}
     >
-      <Slide
-        direction="right"
-        {...(true ? { timeout: 1000 } : {})}
-        in
-        mountOnEnter
-        unmountOnExit
+      <Stack
+        sx={{ position: "relative", height: "100%" }}
+        className="flex-center"
       >
-        <Typography
-          variant="h1"
-          color="secondary"
-          fontFamily="Ethereal"
-          sx={{
-            fontSize: {
-              xs: "4.5rem",
-              sm: "8rem",
-              md: "11.5rem",
-              lg: "15rem",
-              xl: "19rem",
-            },
-            lineHeight: {
-              xs: "4rem",
-              sm: "8rem",
-              md: "10rem",
-              lg: "13rem",
-              xl: "17rem",
-            },
+        <ReactPlayer
+          url="https://player.vimeo.com/video/759263656"
+          controls={false}
+          playing={playing}
+          volume={volume}
+          loop={true}
+          width={portrait ? "250.78vh" : "100vw"}
+          height={landscape ? "56.25vw" : "120vh"}
+          onPause={() => setPlaying(false)}
+          style={{
             position: "absolute",
-            zIndex: 0,
-            padding: {
-              xs: "7rem 0 0 1rem",
-              sm: "7rem 0 0 1rem",
-              md: "7rem 0 0 5rem",
-            },
-          }}
-        >
-          Vidéaste
-          <br />
-          Freelance
-        </Typography>
-      </Slide>
-
-      <Slide
-        direction="left"
-        {...(true ? { timeout: 1000 } : {})}
-        in
-        mountOnEnter
-        unmountOnExit
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            backgroundImage: "url(/medias/filmmaker-alpha.png)",
-            backgroundSize: { xs: "70%", sm: "50%", md: "70%", lg: "50%" },
-            backgroundPosition: "100% 100%",
-            backgroundRepeat: "no-repeat",
-            width: "100%",
-            minHeight: "400px",
-            height: { xs: "50vh", md: "100vh" },
-            maxHeight: "900px",
-            zIndex: 1,
+            display: "flex",
+            opacity: playing ? 1 : 0,
+            transition: "opacity 0.7s ease-in-out",
           }}
         />
-      </Slide>
+      </Stack>
 
       <Stack
-        zIndex={10}
+        className="absolute full-width flex-center gap-2 no-select top left"
+        height="100%"
+        zIndex={101}
+        flexGrow={1}
+      >
+        <Stack
+          className="full-width flex-center gap-2 no-select top left"
+          sx={{
+            opacity: playing ? 0 : 1,
+            transition: "opacity 0.2s ease-in-out",
+          }}
+        >
+          <BodyText>Je suis</BodyText>
+          <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1 }}
+            style={{ motionDivStyle }}
+          >
+            <Title textAlign="center">Vidéaste freelance</Title>
+          </motion.div>
+          <Stack
+            className="row gap-10"
+            sx={{
+              textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
+            }}
+          >
+            <BodyText animDelay={0.5}>Réalisateur</BodyText>
+            <BodyText animDelay={0.75}>Cadreur</BodyText>
+            <BodyText animDelay={1}>Monteur</BodyText>
+          </Stack>
+        </Stack>
+
+        <Stack
+          className="row flex-center"
+          sx={{
+            opacity: showControls || !playing ? 1 : 0,
+            transition: "opacity 0.2s ease-in-out",
+          }}
+        >
+          <ScaleUpOnHoverStack>
+            <PillButton
+              padding="0.15rem 2rem"
+              color="#000"
+              margin="1rem"
+              onClick={handleClick}
+              animDelay={playing ? 0 : 1.25}
+              gap={2}
+            >
+              {playing ? "Pause" : "Jouer"}
+              {playing ? (
+                <PauseCircleOutlineIcon sx={{ marginLeft: ".25rem" }} />
+              ) : (
+                <PlayCircleFilledWhiteOutlinedIcon
+                  sx={{ marginLeft: ".25rem" }}
+                />
+              )}
+            </PillButton>
+          </ScaleUpOnHoverStack>
+
+          {playing && (
+            <ScaleUpOnHoverStack>
+              <PillButton
+                padding="0.35rem 1rem"
+                color="#000"
+                onClick={handleMute}
+              >
+                {volume === 1 ? (
+                  <VolumeUpIcon sx={{ marginLeft: ".25rem" }} />
+                ) : (
+                  <VolumeOffIcon sx={{ marginLeft: ".25rem" }} />
+                )}
+              </PillButton>
+            </ScaleUpOnHoverStack>
+          )}
+        </Stack>
+      </Stack>
+
+      <Stack
+        zIndex={102}
         justifyContent="end"
         alignItems="center"
-        sx={{
-          minHeight: "400px",
-          height: { xs: "50vh", md: "100vh" },
-        }}
+        position="absolute"
+        bottom={10}
+        width="100%"
       >
         <BouncingArrow
           text=""
