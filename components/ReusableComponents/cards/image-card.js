@@ -3,7 +3,13 @@ import { useAnimation, motion } from "framer-motion"
 import { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 
-export default function ImageCard({ img, ...props }) {
+export default function ImageCard({
+  img,
+  width,
+  display,
+  minHeight,
+  ...props
+}) {
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
   const controls = useAnimation()
@@ -39,9 +45,9 @@ export default function ImageCard({ img, ...props }) {
         <Stack
           sx={{
             flexGrow: 1,
-            width: "100%",
-            minHeight: "400px",
-            display: { xs: "none", md: "flex" },
+            width: width || "100%",
+            minHeight: minHeight || "400px",
+            display: display || { xs: "none", md: "flex" },
             backgroundImage: `url(${img})`,
             backgroundSize: "cover",
             backgroundPosition: "50% 50%",

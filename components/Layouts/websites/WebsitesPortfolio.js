@@ -1,7 +1,6 @@
 import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
 import MediumTitle from "../../ReusableComponents/titles/medium-title"
 import styles from "../../../styles/TextShine.module.css"
-import stylesNeon from "../../../styles/NeonFlickerText.module.css"
 import { Box, Stack } from "@mui/material"
 import { useEffect } from "react"
 import { motion, useAnimation } from "framer-motion"
@@ -169,20 +168,15 @@ export default function WebsitesPortfolio(props) {
                     </Box>
                   ))}
                 </BodyText>
-                <Stack
-                  sx={{
-                    width: {
-                      xs: "100%",
-                      md: "49%",
-                    },
-                    minHeight: { xs: "200px", sm: "400px" },
-                    display: { xs: "block", md: "none" },
-                    backgroundImage: `url(${client.img})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "50% 50%",
-                    borderRadius: "20px",
-                  }}
-                />
+
+                <Stack sx={{ width: { xs: "100%", md: "49%" } }}>
+                  <ImageCard
+                    img={client.img}
+                    display={{ xs: "flex", md: "none" }}
+                    width={{ xs: "100%", md: "49%" }}
+                    minHeight={{ xs: "200px", sm: "400px" }}
+                  />
+                </Stack>
                 <BodyText textAlign="justify">{client.description}</BodyText>
                 <CenteredLandingButton>
                   <Box component="a" target="_blank" href={client.link}>
