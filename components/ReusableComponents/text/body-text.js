@@ -13,7 +13,7 @@ const Text = styled((props) => {
   const variants = {
     visible: {
       opacity: 1,
-      transition: { duration: 2, ease: [1, 0.5, 1, 1.5] },
+      transition: { duration: 0.75, delay: 0.25, ease: [0.32, 0, 0.67, 0] },
     },
     hidden: { opacity: 0 },
   }

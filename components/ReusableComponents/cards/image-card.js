@@ -17,8 +17,7 @@ export default function ImageCard({
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.5 },
-      ease: [0.5, 0.71, 1, 1.5],
+      transition: { duration: 0.5, delay: 0.25, ease: [0.32, 0, 0.67, 0] },
     },
     hidden: { opacity: 0, scale: 0.7 },
   }
