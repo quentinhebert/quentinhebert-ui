@@ -8,6 +8,9 @@ export default function Pill({
   preventTransitionOut,
   bgColor,
   color,
+  cursor,
+  scaleUpOnHover,
+  boxShadowOnHover,
   ...props
 }) {
   /********** ANIMATION **********/
@@ -41,17 +44,25 @@ export default function Pill({
         <Box
           component="span"
           className="bold inline-flex"
-          padding="0.3rem 1rem"
-          margin="0.25rem"
           lineHeight="2rem"
           letterSpacing={1}
           textTransform="capitalize"
           sx={{
+            cursor: cursor || "default",
+            padding: { xs: "0rem 1rem", md: "0.1rem 1rem" },
+            margin: { xs: "0.25rem", md: "0.5rem" },
             fontSize: { xs: "0.8rem", md: "1rem" },
             backgroundColor: bgColor || "#fff",
-            color: color || ((theme) => theme.palette.text.primary),
+            color: color || "#000",
             borderRadius: "20px",
             boxShadow: "5px 5px 20px 1px rgb(0,0,0,0.2)",
+            transition: "transform 0.2s ease-in-out",
+            "&:hover": {
+              transform: scaleUpOnHover ? "scale(1.1)" : "",
+              boxShadow: boxShadowOnHover
+                ? (theme) => `0px 0px 15px 1px ${theme.palette.secondary.main}`
+                : "",
+            },
           }}
           {...props}
         />
