@@ -64,24 +64,39 @@ const List = ({ items }) =>
     </ListItem>
   ))
 
-const ServiceCard = ({ service, href, animationElement, gradientBgDeg }) => {
+const ServiceCard = ({ service, href, animationElement, orientation }) => {
   if (!service?.service_items) return null
   return (
     <CustomCard
-      rightbgcolor="transparent"
-      leftbgcolor={theme.palette.background.main}
-      lineardeg={gradientBgDeg}
+      padding="2px"
+      background={(theme) =>
+        `linear-gradient(to ${orientation}, ${theme.palette.secondary.main}, ${theme.palette.tersary.main})`
+      }
     >
-      <CustomCardTitle className="no-select">
-        {service?.name || ""}
-        {animationElement}
-      </CustomCardTitle>
+      <Stack
+        textAlign="center"
+        height="100%"
+        borderRadius="30px"
+        sx={{
+          background: "#000",
+          padding: "2rem",
+          gap: { xs: 2, md: 4 },
+        }}
+      >
+        <CustomCardTitle
+          className="no-select"
+          color={(theme) => theme.palette.secondary.main}
+        >
+          {service?.name || ""}
+          {animationElement}
+        </CustomCardTitle>
 
-      <Box textAlign="left" flexGrow={1} letterSpacing={1}>
-        <List items={service.service_items} />
-      </Box>
+        <Box textAlign="left" flexGrow={1} letterSpacing={1}>
+          <List items={service.service_items} />
+        </Box>
 
-      <EndCardButton href={href} text="Découvrir +" />
+        <EndCardButton href={href} text="Découvrir +" />
+      </Stack>
     </CustomCard>
   )
 }
@@ -118,7 +133,7 @@ const Caroussel = ({ services }) => {
             service={services[0]}
             animationElement={<FlashingRec />}
             href="/films"
-            gradientBgDeg="140deg"
+            orientation="left"
           />
         </Stack>
         <Stack
@@ -133,8 +148,8 @@ const Caroussel = ({ services }) => {
           <ServiceCard
             service={services[1]}
             animationElement={<FlashingUnderscore />}
-            href="/films"
-            gradientBgDeg="140deg"
+            href="/websites"
+            orientation="right"
           />
         </Stack>
       </SwipeableViews>
@@ -207,10 +222,7 @@ export default function ServicesSection(props) {
 
   return (
     <>
-      <Stack
-        ref={refForScroll}
-        sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
-      />
+      <Stack ref={refForScroll} sx={{ scrollMarginTop: "60px" }} />
 
       <CenteredMaxWidthContainer zIndex={1}>
         <Stack
@@ -223,15 +235,6 @@ export default function ServicesSection(props) {
             gap: { xs: 1, md: 2 },
           }}
         >
-          <GradientTitleCard inversed="true" className="no-select">
-            <StrokeText color={(theme) => theme.palette.secondary.main}>
-              Quels
-            </StrokeText>{" "}
-            <Box component="span" className={styles.shine}>
-              services ?
-            </Box>
-          </GradientTitleCard>
-
           <Stack
             width="100%"
             justifyContent="center"
@@ -261,7 +264,7 @@ export default function ServicesSection(props) {
                     service={data[0]}
                     animationElement={<FlashingRec />}
                     href="/films"
-                    gradientBgDeg="140deg"
+                    orientation="left"
                   />
                 </motion.div>
 
@@ -275,7 +278,7 @@ export default function ServicesSection(props) {
                     service={data[1]}
                     animationElement={<FlashingUnderscore />}
                     href="/websites"
-                    gradientBgDeg="-140deg"
+                    orientation="right"
                   />
                 </motion.div>
               </>

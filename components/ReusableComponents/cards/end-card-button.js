@@ -1,12 +1,13 @@
-import { Box, Button, Stack } from "@mui/material"
+import { Box, Button } from "@mui/material"
 import Link from "next/link"
 import ScaleUpOnHoverStack from "../animations/scale-up-on-hover-stack"
 
 const CssButton = (props) => (
   <Button
     variant="contained"
-    // color="secondary"
     sx={{
+      fontWeight: "bold",
+      color: "#000",
       borderRadius: "30px",
       padding: "0.6rem 2rem",
       background: (theme) =>

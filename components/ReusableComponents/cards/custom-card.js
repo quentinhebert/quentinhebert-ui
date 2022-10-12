@@ -1,6 +1,6 @@
 import { Stack, styled } from "@mui/material"
 
-const Card = styled((props) => {
+const Card = styled(({ background, border, color, padding, ...props }) => {
   return (
     <Stack
       textAlign="center"
@@ -8,17 +8,10 @@ const Card = styled((props) => {
       height="100%"
       borderRadius="30px"
       sx={{
-        background:
-          props.rightbgcolor && props.leftbgcolor && props.lineardeg
-            ? `linear-gradient(${props.lineardeg}, ${props.rightbgcolor} 25%, ${props.leftbgcolor} 70%)`
-            : "",
-        backgroundColor:
-          props.backgroundColor ||
-          (!props.rightbgcolor && !props.leftbgcolor && !props.lineardeg)
-            ? (theme) => theme.palette.background.main
-            : "",
-        color: props.color || "#fff",
-        padding: { xs: "1rem", md: "2rem" },
+        background: background || ((theme) => theme.palette.background.main),
+        border: border || "",
+        color: color || "#fff",
+        padding: padding || "2rem",
         gap: { xs: 2, md: 4 },
       }}
       {...props}

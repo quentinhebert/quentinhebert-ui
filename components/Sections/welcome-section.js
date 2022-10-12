@@ -64,7 +64,7 @@ export default function WelcomeSection(props) {
               Bienvenue sur mon site
             </MediumTitle>
 
-            <CenteredMaxWidthContainer zIndex={1}>
+            <CenteredMaxWidthContainer percents="90%" zIndex={1}>
               <BodyText
                 color="text.white"
                 textAlign="center"

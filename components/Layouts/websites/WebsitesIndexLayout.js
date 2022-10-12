@@ -32,8 +32,10 @@ export default function WebsitesIndexLayout(props) {
         height="100vh"
         zIndex={0}
         sx={{
-          backgroundImage: "url(/medias/lines.jpg)",
-          backgroundPosition: "25% 50%",
+          // background: (theme) => theme.palette.background.secondary,
+          background: (theme) =>
+            `url(/medias/code.svg), radial-gradient(#101419 10%, #000 60%)`,
+          // backgroundImage: "url(/medias/lines.jpg)",
           backgroundSize: "cover",
         }}
       />

@@ -633,7 +633,7 @@ export default function MasonryImageList({ height, setHeight, ...props }) {
         }}
       />
 
-      <Stack width="100%" ref={ref} padding="2rem 0">
+      <Stack width="100%" ref={ref} padding="0 0 2rem">
         <FilterSection ref={heightRef} handleFilter={handleFilter} />
 
         <ImageList
