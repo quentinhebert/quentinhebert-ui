@@ -437,29 +437,57 @@ const CATEGORIES = [
 //   },
 // ]
 
-const Pill = (props) => (
-  <Box
-    component="span"
-    className="inline-flex"
-    lineHeight="2rem"
-    letterSpacing={1}
-    sx={{
-      margin: { xs: "0.35rem 0.15rem", md: "0.35rem" },
-      padding: { xs: "0rem 1rem", md: "0.1rem 1rem" },
-      fontSize: { xs: "0.8rem", md: "1rem" },
-      backgroundColor: (theme) => theme.palette.secondary.main,
-      color: "#000",
-      borderRadius: "20px",
-      cursor: "pointer",
-      boxShadow: "4px 4px 20px 4px rgba(0,0,0,0.8)",
-      transition: "transform 0.2s ease-in-out",
-      "&:hover": {
-        transform: "scale(1.03)",
+const Pill = ({ animDelay, ...props }) => {
+  /********** ANIMATION **********/
+  const [ref, inView] = useInView()
+  const variants = {
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 1,
+        delay: animDelay / 10,
+        ease: [0.32, 0, 0.67, 0],
       },
-    }}
-    {...props}
-  />
-)
+    },
+    hidden: { opacity: 0 },
+  }
+  const controls = useAnimation()
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible")
+    } else {
+      controls.start("hidden")
+    }
+  }, [controls, inView])
+
+  return (
+    <span ref={ref}>
+      <motion.span initial="hidden" variants={variants} animate={controls}>
+        <Box
+          component="span"
+          className="inline-flex"
+          lineHeight="2rem"
+          letterSpacing={1}
+          sx={{
+            margin: { xs: "0.35rem 0.15rem", md: "0.35rem" },
+            padding: { xs: "0rem 1rem", md: "0.1rem 1rem" },
+            fontSize: { xs: "0.8rem", md: "1rem" },
+            backgroundColor: (theme) => theme.palette.secondary.main,
+            color: "#000",
+            borderRadius: "20px",
+            cursor: "pointer",
+            boxShadow: "4px 4px 20px 4px rgba(0,0,0,0.8)",
+            transition: "transform 0.2s ease-in-out",
+            "&:hover": {
+              transform: "scale(1.03)",
+            },
+          }}
+          {...props}
+        />
+      </motion.span>
+    </span>
+  )
+}
 
 const FilterSection = ({ handleFilter }) => {
   return (
@@ -473,7 +501,11 @@ const FilterSection = ({ handleFilter }) => {
         }}
       >
         {CATEGORIES.map((category, key) => (
-          <Pill key={key} onClick={() => handleFilter(category)}>
+          <Pill
+            key={key}
+            animDelay={key}
+            onClick={() => handleFilter(category)}
+          >
             {category}
           </Pill>
         ))}
