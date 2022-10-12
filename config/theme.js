@@ -4,7 +4,7 @@ const primary = "#262525"
 const secondary = "#C6900E"
 const tersary = "#AE1B1E"
 const link = "#06c"
-const errorColor = "#f44336"
+const errorColor = "#AE1B1E"
 const grey = "#696969"
 
 const mainTheme = createTheme({
