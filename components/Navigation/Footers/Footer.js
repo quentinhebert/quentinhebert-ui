@@ -151,17 +151,24 @@ export default function Footer(props) {
   return (
     <MotionDivFadeInOnMount>
       <Box
+        component="img"
+        src="/medias/footer-wave.svg"
+        width="100%"
+        sx={{
+          position: "relative",
+          zIndex: 0,
+        }}
+      />
+      <Box
         ref={ref}
         component="footer"
-        className="full-width relative no-margin"
+        className="full-width relative"
         paddingTop={10}
         paddingBottom={4}
         zIndex={1}
         sx={{
-          backgroundColor: "transparent",
-          backgroundImage: "url(/medias/footer-wave.svg)",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
+          margin: { xs: "-3rem 0 0", md: "-6rem 0 0" },
+          backgroundColor: "#000",
         }}
       >
         <CenteredMaxWidthContainer>
