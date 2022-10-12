@@ -164,10 +164,10 @@ export default function Footer(props) {
         component="footer"
         className="full-width relative"
         paddingTop={10}
-        paddingBottom={4}
+        paddingBottom={8}
         zIndex={1}
         sx={{
-          margin: { xs: "-3rem 0 0", md: "-6rem 0 0" },
+          margin: { xs: "-1rem 0 0", md: "-3rem 0 0" },
           backgroundColor: "#000",
         }}
       >
