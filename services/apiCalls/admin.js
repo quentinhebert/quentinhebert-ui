@@ -304,27 +304,51 @@ const admin = {
     }
   },
   updateReference: async (reference) => {
-    const body = [
-      { key: "id", value: reference.id },
-      { key: "name", value: reference.name },
-      { key: "new_logo", value: reference.new_logo },
-    ]
+    const body = {
+      id: reference.id,
+      logo: { id: reference.logo.id },
+      label: reference.label,
+      type: reference.type.id,
+    }
     try {
-      let formData = new FormData()
-      body.map((item) => {
-        return formData.append(item.key, item.value)
-      })
-      for (var p of formData) {
-        console.log(p)
-      }
-
       return await fetch(
         `${defaultConfig.apiUrl}/admin/references/${reference.id}`,
         {
           method: "PUT",
-          body: formData,
+          body: JSON.stringify(body),
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  getAllReferences: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/references`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  getReference: async (referenceId) => {
+    console.debug("apiCall", referenceId)
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/admin/references/${referenceId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
           },
         }
       )
@@ -333,18 +357,32 @@ const admin = {
     }
   },
   addReference: async (reference) => {
-    const body = [
-      { key: "name", value: reference.name },
-      { key: "logo", value: reference.logo },
-    ]
+    const body = {
+      type: reference.type,
+      label: reference.label,
+      logo_id: reference.logo.id,
+    }
     try {
-      let formData = new FormData()
-      body.map((item) => {
-        return formData.append(item.key, item.value)
-      })
       return await fetch(`${defaultConfig.apiUrl}/admin/references`, {
         method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  addReferenceLogo: async (logo) => {
+    try {
+      let formData = new FormData()
+      formData.append("logo", logo)
+      return await fetch(`${defaultConfig.apiUrl}/admin/references/logo`, {
+        method: "POST",
         body: formData,
+        mode: "cors",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
         },

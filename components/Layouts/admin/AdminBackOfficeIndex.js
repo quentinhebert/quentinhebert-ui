@@ -26,6 +26,11 @@ const CARDS = [
     description: "Gérez tout ce qui concerne votre contenu de développeur.",
     button: { text: "Gérer", href: "/admin/back-office/websites" },
   },
+  {
+    title: "Références",
+    description: "Gérez toutes vos références.",
+    button: { text: "Gérer", href: "/admin/back-office/references" },
+  },
 ]
 
 export default function AdminBackOfficeIndex() {

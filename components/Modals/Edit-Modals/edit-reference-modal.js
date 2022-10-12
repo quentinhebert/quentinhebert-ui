@@ -1,230 +1,204 @@
-import {
-  FormControl,
-  Paper,
-  Stack,
-  TextField,
-  Box,
-  Typography,
-  Dialog,
-} from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { ModalTitle } from "../Modal-Components/modal-title"
 import withConfirmAction from "../../hocs/withConfirmAction"
-import { ActionButtons } from "../Modal-Components/modal-action-buttons"
-import theme from "../../../config/theme"
-import { useDropzone } from "react-dropzone"
+import CustomModal from "../../ReusableComponents/modals/custom-modal"
+import CustomForm from "../../ReusableComponents/forms/custom-form"
+import CustomOutlinedInput from "../../ReusableComponents/forms/custom-outlined-input"
+import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
+import CustomOutlinedSelect from "../../ReusableComponents/forms/custom-outlined-select"
+import SelectOption from "../../ReusableComponents/forms/custom-select-option"
+import DropzoneShowImage from "../../ReusableComponents/images/drop-zone-show-image"
+import compressImage from "../../../services/images"
+import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
 import { AppContext } from "../../../contexts/AppContext"
 
-function EditReferenceModal(props) {
-  const {
-    referenceId,
-    setOpenAddNewPhotosModal,
-    openEditModal,
-    handleCloseEditModal,
-  } = props
+const REFERENCE_TYPES = [
+  { id: "films", label: "Vidéo" },
+  { id: "websites", label: "Site web" },
+]
 
+function EditReferenceModal(props) {
+  const { referenceId, openEditModal, handleCloseEditModal } = props
+
+  // APP CONTEXT
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
-  const [reference, setReference] = useState({
+  const initialReference = {
     id: null,
-    new_logo: null,
-    logo_id: "",
-    logo_url: "",
-    name: "",
-  })
+    label: "",
+    logo: { id: "", url: "" },
+    type: { id: "", label: "" },
+  }
+  const [reference, setReference] = useState(initialReference)
+  const [errors, setErrors] = useState({})
+  const [file, setFile] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   // Fetch data
   const fetchData = async () => {
-    const res = await apiCall.unauthenticated.getReference(referenceId)
+    console.debug("referenceId", referenceId)
+    const res = await apiCall.admin.getReference(referenceId)
     const jsonRes = await res.json()
-    jsonRes.new_logo = null
     setReference(jsonRes)
   }
 
-  // We immediately fetch up-to-date categories data, and let's reset all categories on category change to prevent undesired changes to bes saved
+  // We immediately fetch up-to-date data
   useEffect(() => {
-    fetchData()
-  }, [])
+    if (referenceId) fetchData()
+  }, [referenceId, openEditModal])
 
-  const sizeLimit = 6 // 6MB
-
-  const onDrop = (files) => {
-    const filesArray = files.map((file) => {
-      file.URL = URL.createObjectURL(file)
-      return file
-    })
-    setReference({ ...reference, new_logo: filesArray[0] }) // We only save one photo (the first one)
-  }
-
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-  })
+  if (!referenceId) return <></>
 
   // HANDLERS
-  const handleChange = (e, attribute) => {
-    setReference({ ...reference, [attribute]: e.target.value })
+  const handleChange = (attribute, subAttribute) => (e) => {
+    if (subAttribute)
+      setReference({
+        ...reference,
+        [attribute]: {
+          ...reference[attribute],
+          [subAttribute]: e.target.value,
+        },
+      })
+    else setReference({ ...reference, [attribute]: e.target.value })
   }
   const handleCancel = () => {
-    setReference({
-      id: null,
-      new_logo: null,
-      logo_id: "",
-      logo_url: "",
-      name: "",
-    })
     handleCloseEditModal()
   }
   const handleSuccess = () => {
     setSnackSeverity("success")
-    setSnackMessage("The reference has been changed successfully !")
-    fetchData()
+    setSnackMessage("La référence a été mis à jour !")
+    setFile(null)
     handleCloseEditModal()
   }
   const handleError = () => {
     setSnackSeverity("error")
-    setSnackMessage("An error occurred while updating the category...")
+    setSnackMessage("Une erreur est survenue")
+  }
+  const processLogo = async () => {
+    if (file) {
+      const compressedImage = await compressImage(file)
+      if (!compressedImage) return handleError()
+      const uploadLogoRes = await apiCall.admin.addReferenceLogo(
+        compressedImage
+      )
+      if (uploadLogoRes && uploadLogoRes.ok) {
+        const logoResJson = await uploadLogoRes.json()
+        return logoResJson.id
+      } else {
+        handleError()
+        return null
+      }
+    }
+    // If the references already has a logo and user doesn't ask for change
+    else if (reference.logo.id) return reference.logo.id
+    // If the reference has no logo (or no more)
+    else return null
   }
   const handleUpdate = async () => {
-    // Check max size limit whether its an album or a galery
-    if (
-      reference.new_logo &&
-      reference.new_logo.size > sizeLimit * 1000 * 1000
-    ) {
-      setSnackMessage(
-        `The picture you have selected has a size greater than ${sizeLimit}Mo. Please select only a lower-than-${sizeLimit}Mo image.`
-      )
-      setSnackSeverity("error")
-      return
-    }
-    const res = await apiCall.admin.updateReference(reference)
+    setIsLoading(true)
+    // Compress the image before sending it to the API
+    const logoId = await processLogo()
+    const localReference = { ...reference, logo: { id: logoId } }
+    const res = await apiCall.admin.updateReference(localReference)
     if (res && res.ok) {
       handleSuccess()
     } else {
+      // TODO: if new logo uploaded but reference update fails, need to remove file just uploaded (DB and FTP)
       handleError()
     }
+    setIsLoading(false)
+  }
+  const detachBgImage = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setReference({ ...reference, logo: { id: "" } })
   }
 
-  return (
-    <Dialog open={openEditModal} onClose={handleCloseEditModal} fullWidth>
-      <Paper
-        variant="contained"
-        sx={{
-          justifyContent: "center",
-          alignItems: "center",
-          margin: "auto",
-          padding: "1rem",
-          width: "100%",
-        }}
-      >
-        <ModalTitle text="Edit a reference" />
-
-        <Stack
-          gap={2}
-          sx={{
-            width: "100%",
-            margin: "auto",
-            padding: { xs: "0.5rem", md: "2rem" },
-          }}
-        >
-          <FormControl
-            fullWidth
-            sx={{
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 2,
-              ".MuiOutlinedInput-root": {
-                color: "#fff",
-              },
-            }}
-          >
-            <Stack margin="1rem 0" sx={{ width: "100%" }}>
-              <TextField
-                label={`Name`}
-                value={reference.name}
-                onChange={(e) => handleChange(e, "name")}
-                sx={{
-                  width: "100%",
-                  margin: "0.5rem 0",
-                }}
-                fullWidth
-              />
-            </Stack>
-
-            <Stack flexDirection="row" width="100%">
-              <Typography marginTop="1rem" color="secondary" marginRight="1rem">
-                Logo – JPG or PNG ({sizeLimit}Mo maximum)
+  // SUB-COMPONENTS
+  const SelectZone = () => (
+    <CustomOutlinedSelect
+      required
+      id="type"
+      value={reference.type && reference.type.id}
+      onChange={handleChange("type", "id")}
+      renderValue={
+        // Trick for placeholder hiding
+        reference.type && reference.type.id !== ""
+          ? undefined
+          : () => (
+              <Typography color={errors.type ? "error.main" : "secondary"}>
+                Catégorie *
               </Typography>
-            </Stack>
-            <Stack
-              justifyContent="center"
-              alignItems="center"
-              flexDirection="row"
-              sx={{ width: "100%" }}
-            >
-              {reference.logo_url ? (
-                <Box
-                  component="img"
-                  src={reference.logo_url}
-                  width="40%"
-                  sx={{
-                    border: `solid 1px ${theme.palette.text.secondary}`,
-                    borderRadius: "5px",
-                    marginRight: "1rem",
-                  }}
-                />
-              ) : null}
-              <Stack
-                {...getRootProps()}
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-                sx={{
-                  minHeight: "100px",
-                  border: `solid 1px #fff`,
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                  padding: "1rem",
-                  width: "100%",
-                  height: "100%",
-                  textAlign: "center",
-                  opacity: 0.3,
-                  "&:hover": { opacity: 1 },
-                }}
-              >
-                <input {...getInputProps()} />
-                {reference.new_logo?.name ? (
-                  <>
-                    <Typography>Selected file:</Typography>
-                    <Typography
-                      component="span"
-                      variant="body1"
-                      sx={{ fontStyle: "italic" }}
-                    >
-                      {reference.new_logo.name}
-                    </Typography>
-                  </>
-                ) : reference.logo_url ? (
-                  <Typography component="span" variant="h6">
-                    Drop another picture or click here to upload...
-                  </Typography>
-                ) : (
-                  <Typography component="span" variant="h6">
-                    Drop a picture or click here to upload it...
-                  </Typography>
-                )}
-              </Stack>
-            </Stack>
-            <ActionButtons
-              middleButtonText="Cancel"
-              middleButtonOnClick={handleCancel}
-              rightButtonText="Save"
-              rightButtonOnClick={handleUpdate}
-            />
-          </FormControl>
+            )
+      }
+    >
+      {REFERENCE_TYPES &&
+        REFERENCE_TYPES.map((type, key) => (
+          <SelectOption value={type.id} key={key}>
+            {type.label}
+          </SelectOption>
+        ))}
+    </CustomOutlinedSelect>
+  )
+
+  const IdInput = () => (
+    <CustomOutlinedInput
+      disabled
+      type="input"
+      id="id"
+      label="ID"
+      value={reference.id || ""}
+    />
+  )
+
+  const LogoInput = () => (
+    <DropzoneShowImage
+      bgImage={reference.logo?.url || ""}
+      detachBgImage={detachBgImage}
+      file={file}
+      setFile={setFile}
+    />
+  )
+
+  return (
+    <CustomModal
+      open={openEditModal}
+      handleClose={handleCloseEditModal}
+      gap={4}
+    >
+      <ModalTitle>Modifier la référence</ModalTitle>
+
+      <CustomForm gap={3}>
+        <IdInput />
+
+        <LogoInput />
+
+        <SelectZone />
+
+        <CustomOutlinedInput
+          type="label"
+          id="label"
+          label="Client"
+          value={reference.label || ""}
+          onChange={handleChange("label")}
+        />
+
+        <Stack flexDirection="row" gap={2} justifyContent="end" width="100%">
+          <CustomSubmitButton onClick={handleCancel}>
+            Annuler
+          </CustomSubmitButton>
+          <CustomSubmitButton
+            secondary="true"
+            onClick={handleUpdate}
+            disabled={isLoading}
+          >
+            {isLoading ? <CustomCircularProgress /> : "Enregistrer"}
+          </CustomSubmitButton>
         </Stack>
-      </Paper>
-    </Dialog>
+      </CustomForm>
+    </CustomModal>
   )
 }
 
