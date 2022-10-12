@@ -8,6 +8,7 @@ export default function PillButton({
   padding,
   color,
   margin,
+  textTransform,
   onClick,
   animDelay,
   preventTransitionOut,
@@ -50,6 +51,7 @@ export default function PillButton({
             borderRadius: "30px",
             padding: padding || ".5rem 2rem",
             boxShadow: "5px 10px 30px 5px rgb(0,0,0,0.3)",
+            textTransform: textTransform || "uppercase",
             "&:hover": {
               background:
                 background || ((theme) => theme.palette.secondary.main),

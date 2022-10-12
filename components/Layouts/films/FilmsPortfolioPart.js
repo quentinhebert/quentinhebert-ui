@@ -1,15 +1,6 @@
-import React, { useEffect, useRef } from "react"
-import {
-  Box,
-  ImageListItem,
-  Slide,
-  Stack,
-  Typography,
-  useMediaQuery,
-} from "@mui/material"
-import theme from "../../../config/theme"
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import BigTitle from "../../ReusableComponents/titles/big-title"
+import React, { useEffect, useState } from "react"
+import { Stack, Typography, useMediaQuery } from "@mui/material"
+import AnimateHeight from "react-animate-height"
 import PortfolioImageList from "./PortfolioImageList"
 import BodyText from "../../ReusableComponents/text/body-text"
 import CenteredMaxWidthStack from "../../ReusableComponents/containers/centered-max-width-container"
@@ -19,6 +10,7 @@ import { useInView } from "react-intersection-observer"
 
 export default function FilmsPortfolioPart(props) {
   const { refForScroll } = props
+  const [height, setHeight] = useState(0)
 
   const sm = useMediaQuery((theme) => theme.breakpoints.up("sm"))
   const md = useMediaQuery((theme) => theme.breakpoints.up("md"))
@@ -105,7 +97,13 @@ export default function FilmsPortfolioPart(props) {
             </Stack>
           </Stack>
 
-          <PortfolioImageList />
+          <AnimateHeight
+            id="example-panel"
+            duration={500}
+            height={height} // see props documentation below
+          >
+            <PortfolioImageList setHeight={setHeight} />
+          </AnimateHeight>
         </CenteredMaxWidthStack>
       </Stack>
     </Stack>

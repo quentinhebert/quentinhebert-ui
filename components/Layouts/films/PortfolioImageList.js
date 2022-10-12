@@ -18,15 +18,70 @@ import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
 import PillButton from "../../ReusableComponents/buttons/pill-button"
 
+const CATEGORIES = [
+  "Tout",
+  "Événementiel",
+  "Court-métrage",
+  "Clip",
+  "Entreprise",
+  "Sport",
+]
+
+const Pill = (props) => (
+  <Box
+    component="span"
+    className="inline-flex"
+    padding="0.1rem 1rem"
+    margin="0.35rem"
+    lineHeight="2rem"
+    letterSpacing={1}
+    sx={{
+      fontSize: { xs: "0.8rem", md: "1rem" },
+      backgroundColor: (theme) => theme.palette.secondary.main,
+      color: "#000",
+      borderRadius: "20px",
+      cursor: "pointer",
+      boxShadow: "4px 4px 20px 4px rgba(0,0,0,0.8)",
+      transition: "transform 0.2s ease-in-out",
+      "&:hover": {
+        transform: "scale(1.03)",
+      },
+    }}
+    {...props}
+  />
+)
+
+const FilterSection = ({ handleFilter }) => {
+  return (
+    <Stack className="full-width flex-center">
+      <Typography
+        marginBottom={4}
+        sx={{
+          flexDirection: "",
+          whiteSpace: "break-spaces",
+          wordBreak: "break-word",
+        }}
+      >
+        {CATEGORIES.map((category, key) => (
+          <Pill key={key} onClick={() => handleFilter(category)}>
+            {category}
+          </Pill>
+        ))}
+      </Typography>
+    </Stack>
+  )
+}
+
 async function fetchUpToDateFilms() {
   const res = await apiCall.unauthenticated.getAllFilms()
   const jsonRes = await res.json()
   return jsonRes
 }
 
-export default function MasonryImageList(props) {
+export default function MasonryImageList({ setHeight, ...props }) {
   const [openVideoPlayer, setOpenVideoPlayer] = useState(false)
   const [videoClicked, setVideoClicked] = useState(null)
+  const [filteredData, setFilteredData] = useState(null)
   const initialLimit = 6
   const [limit, setLimit] = useState(initialLimit)
   const handleCloseVideoPlayer = () => {
@@ -452,6 +507,21 @@ export default function MasonryImageList(props) {
   //   },
   // ]
 
+  const handleFilter = (category) => {
+    setHeight(heightRef?.current?.clientHeight)
+    controls.start("hidden")
+    setTimeout(() => {
+      let localData = data
+      if (category === "Tout") {
+        setHeight("auto")
+        return setFilteredData(localData)
+      }
+      localData = localData.filter((item) => item.type === category)
+      setFilteredData(localData)
+      setHeight("auto")
+    }, 500)
+  }
+
   const TopRef = useRef(null)
   const scrollTo = (ref) => {
     ref.current.scrollIntoView({
@@ -479,11 +549,18 @@ export default function MasonryImageList(props) {
     } else {
       controls.start("hidden")
     }
-  }, [controls, inView, limit])
+  }, [controls, inView, limit, filteredData])
+
+  useEffect(() => {
+    if (data) setFilteredData(data)
+    setHeight("auto")
+  }, [data])
+
+  const heightRef = useRef(null)
 
   if (!data || !data?.length) return <></>
 
-  const hasMoreFilms = data.length > 6
+  const hasMoreFilms = filteredData?.length > 6
 
   return (
     <>
@@ -493,159 +570,157 @@ export default function MasonryImageList(props) {
           scrollMarginTop: (theme) => theme.navbar.marginTop,
         }}
       />
-      <Box
-        sx={{
-          width: "100%",
-        }}
-        ref={ref}
-      >
+
+      <Stack width="100%" ref={ref}>
+        <FilterSection ref={heightRef} handleFilter={handleFilter} />
+
         <ImageList
           rowHeight={sm ? 150 : 200}
           gap={0}
           cols={sm ? 1 : md ? 2 : 3}
           sx={{
-            marginTop: "-6px",
             marginBottom: "2rem",
             "& .MuiImageListItem-root": {
               marginBottom: "0 !important",
             },
           }}
         >
-          {data.map((item, key) => {
-            if (key < limit)
-              return (
-                <motion.div
-                  initial="hidden"
-                  variants={variants(key)}
-                  animate={controls}
-                  style={{ width: "100%" }}
-                  key={key}
-                >
-                  <Link
-                    onClick={() => {
-                      setVideoClicked(item)
-                      setOpenVideoPlayer(true)
-                    }}
-                    key={item.img}
+          {filteredData?.length &&
+            filteredData?.map((item, key) => {
+              if (key < limit)
+                return (
+                  <motion.div
+                    initial="hidden"
+                    variants={variants(key)}
+                    animate={controls}
+                    style={{ width: "100%" }}
+                    key={key}
                   >
-                    <ImageListItem
-                      sx={{
-                        width: "100%",
-                        height: "100%",
-                        cursor: "pointer",
-                        overflow: "hidden",
-                        "&:hover": {
-                          "& .MuiBox-root": {
-                            transform: "scale(1.1)",
-                            filter: "grayscale(1)",
-                          },
-                        },
+                    <Link
+                      onClick={() => {
+                        setVideoClicked(item)
+                        setOpenVideoPlayer(true)
                       }}
                       key={item.img}
                     >
-                      <Box
-                        component="img"
-                        src={item.img}
-                        srcSet={item.img}
-                        alt={item.title}
-                        width="100%"
-                        height="100%"
-                        sx={{
-                          zIndex: 0,
-                          objectFit: "cover",
-                          objectPosition: "50% 50%",
-                          WebkitTransition: "transform 0.4s ease-in-out",
-                          msTransition: "transform 0.4s ease-in-out",
-                          transition:
-                            "transform 0.4s ease-in-out, filter 0.4s ease-in-out",
-                        }}
-                      />
-                      <Stack
-                        justifyContent="center"
-                        alignItems="center"
+                      <ImageListItem
                         sx={{
                           width: "100%",
                           height: "100%",
-                          position: "absolute",
-                          top: 0,
-                          zIndex: 100,
-                          WebkitTransition: "background 200ms linear",
-                          msTransition: "background 200ms linear",
-                          transition: "background 200ms linear",
-                          padding: "1rem",
-                          background: "rgb(0, 0, 0, 0.2)",
+                          cursor: "pointer",
+                          overflow: "hidden",
                           "&:hover": {
-                            background: "rgb(0, 0, 0, 0.4)",
-                            "& .MuiTypography-root": {
-                              opacity: 0,
-                              textShadow: "none",
-                            },
                             "& .MuiBox-root": {
-                              textShadow: "none",
-                              filter: "none",
-                              opacity: 1,
-                              transition: "opacity 0.4s ease-in-out",
+                              transform: "scale(1.1)",
+                              filter: "grayscale(1)",
                             },
                           },
                         }}
+                        key={item.img}
                       >
                         <Box
+                          component="img"
+                          src={item.img}
+                          srcSet={item.img}
+                          alt={item.title}
+                          width="100%"
+                          height="100%"
                           sx={{
+                            zIndex: 0,
+                            objectFit: "cover",
+                            objectPosition: "50% 50%",
+                            WebkitTransition: "transform 0.4s ease-in-out",
+                            msTransition: "transform 0.4s ease-in-out",
+                            transition:
+                              "transform 0.4s ease-in-out, filter 0.4s ease-in-out",
+                          }}
+                        />
+                        <Stack
+                          justifyContent="center"
+                          alignItems="center"
+                          sx={{
+                            width: "100%",
+                            height: "100%",
                             position: "absolute",
-                            color: (theme) => theme.palette.text.secondary,
-                            opacity: 0,
-                            textAlign: "center",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            gap: 3,
-                            fontFamily: "Helmet",
-                            fontSize: "1.5rem",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          <PlayCircleOutlineIcon sx={{ fontSize: "4rem" }} />
-                        </Box>
-                        <Typography
-                          color="secondary"
-                          fontStyle="italic"
-                          fontFamily="Ethereal"
-                          letterSpacing={1}
-                          sx={{
-                            textAlign: "center",
-                            textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
-                          }}
-                        >
-                          {item.type}
-                        </Typography>
-                        <Typography
-                          color="secondary"
-                          fontWeight="bold"
-                          sx={{
-                            textAlign: "center",
-                            fontSize: {
-                              xs: "1rem",
-                              sm: "1.2rem",
-                              md: "1.7rem",
+                            top: 0,
+                            zIndex: 100,
+                            WebkitTransition: "background 200ms linear",
+                            msTransition: "background 200ms linear",
+                            transition: "background 200ms linear",
+                            padding: "1rem",
+                            background: "rgb(0, 0, 0, 0.2)",
+                            "&:hover": {
+                              background: "rgb(0, 0, 0, 0.4)",
+                              "& .MuiTypography-root": {
+                                opacity: 0,
+                                textShadow: "none",
+                              },
+                              "& .MuiBox-root": {
+                                textShadow: "none",
+                                filter: "none",
+                                opacity: 1,
+                                transition: "opacity 0.4s ease-in-out",
+                              },
                             },
-                            lineHeight: {
-                              xs: "1.3rem",
-                              sm: "1.5rem",
-                              md: "2rem",
-                            },
-                            textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
-                            textTransform: "uppercase",
                           }}
                         >
-                          {item.title}
-                        </Typography>
-                      </Stack>
-                    </ImageListItem>
-                  </Link>
-                </motion.div>
-              )
-          })}
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              color: (theme) => theme.palette.text.secondary,
+                              opacity: 0,
+                              textAlign: "center",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              flexDirection: "column",
+                              gap: 3,
+                              fontFamily: "Helmet",
+                              fontSize: "1.5rem",
+                              textTransform: "uppercase",
+                            }}
+                          >
+                            <PlayCircleOutlineIcon sx={{ fontSize: "4rem" }} />
+                          </Box>
+                          <Typography
+                            color="secondary"
+                            fontStyle="italic"
+                            fontFamily="Ethereal"
+                            letterSpacing={1}
+                            sx={{
+                              textAlign: "center",
+                              textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
+                            }}
+                          >
+                            {item.type}
+                          </Typography>
+                          <Typography
+                            color="secondary"
+                            fontWeight="bold"
+                            sx={{
+                              textAlign: "center",
+                              fontSize: {
+                                xs: "1rem",
+                                sm: "1.2rem",
+                                md: "1.7rem",
+                              },
+                              lineHeight: {
+                                xs: "1.3rem",
+                                sm: "1.5rem",
+                                md: "2rem",
+                              },
+                              textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
+                              textTransform: "uppercase",
+                            }}
+                          >
+                            {item.title}
+                          </Typography>
+                        </Stack>
+                      </ImageListItem>
+                    </Link>
+                  </motion.div>
+                )
+            })}
         </ImageList>
 
         <Stack
@@ -676,7 +751,7 @@ export default function MasonryImageList(props) {
             </PillButton>
           </Box>
         </Stack>
-      </Box>
+      </Stack>
 
       <VideoPlayer
         video={videoClicked}
