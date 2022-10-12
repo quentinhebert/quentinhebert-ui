@@ -15,12 +15,27 @@ export default function ScrollToTopBtn(props) {
     })
   }
 
-  const [showButton, setShowButton] = useState(false)
-  useScrollPosition(({ prevPos, currPos }) => {
-    if (window.pageYOffset === 0 || currPos.y < prevPos.y) setShowButton(false)
-    if (!showButton && window.pageYOffset > 0 && currPos.y > prevPos.y)
+  useEffect(() => {
+    let timeout = 0
+
+    const handleScroll = () => {
       setShowButton(true)
+      clearTimeout(timeout)
+
+      timeout = setTimeout(() => {
+        setShowButton(false)
+      }, 2000)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  useScrollPosition(({ prevPos, currPos }) => {
+    if (window.pageYOffset === 0) setShowButton(false)
   })
+
+  const [showButton, setShowButton] = useState(false)
 
   return (
     <Slide direction="left" in={showButton} mountOnEnter unmountOnExit>
