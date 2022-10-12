@@ -42,7 +42,10 @@ function LoginOrMenuButton(props) {
   if (user)
     return (
       <>
-        <Button onClick={toggleDrawer(true)}>
+        <Button
+          onClick={toggleDrawer(true)}
+          sx={{ "&:hover": { background: "transparent" } }}
+        >
           {user.avatar_path ? (
             <Avatar alt="Avatar" src={user.avatar_path} />
           ) : (
