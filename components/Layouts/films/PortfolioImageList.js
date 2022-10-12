@@ -24,7 +24,6 @@ const CATEGORIES = [
   "Clip",
   "Entreprise",
   "Sport",
-  "prout",
 ]
 
 // const DATA = [
