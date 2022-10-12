@@ -34,7 +34,7 @@ export default function WebsitesIndexLayout(props) {
         sx={{
           // background: (theme) => theme.palette.background.secondary,
           background: (theme) =>
-            `url(/medias/code.svg), radial-gradient(#101419 10%, #000 60%)`,
+            `url(/medias/code.svg), radial-gradient(${theme.palette.background.main} 0%, #000 50%)`,
           // backgroundImage: "url(/medias/lines.jpg)",
           backgroundSize: "cover",
         }}
