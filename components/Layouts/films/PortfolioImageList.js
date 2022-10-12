@@ -541,7 +541,7 @@ export default function MasonryImageList({ height, setHeight, ...props }) {
 
   /********** THEME **********/
   const md = useMediaQuery((theme) => theme.breakpoints.down("md"))
-  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
+  const xs = useMediaQuery((theme) => theme.breakpoints.down("xs"))
 
   /********** HANDLERS **********/
   const handleCloseVideoPlayer = () => {
@@ -608,7 +608,7 @@ export default function MasonryImageList({ height, setHeight, ...props }) {
       opacity: 1,
       transition: {
         duration: 0.5,
-        delay: sm ? key / (data.length * 3) : key / 10,
+        delay: xs ? key / (data.length * 3) : key / 10,
       },
     },
     hidden: { opacity: 0 },
@@ -637,9 +637,9 @@ export default function MasonryImageList({ height, setHeight, ...props }) {
         <FilterSection ref={heightRef} handleFilter={handleFilter} />
 
         <ImageList
-          rowHeight={sm ? 150 : 200}
+          rowHeight={xs ? 150 : 200}
           gap={0}
-          cols={sm ? 1 : md ? 2 : 3}
+          cols={xs ? 1 : md ? 2 : 3}
           sx={{
             marginBottom: "2rem",
             "& .MuiImageListItem-root": {

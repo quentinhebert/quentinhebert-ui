@@ -64,7 +64,7 @@ export default function FilmsPortfolioPart(props) {
           paddingBottom: { xs: "2rem", md: "6rem" },
         }}
       >
-        <CenteredMaxWidthStack pixels="1200px">
+        <CenteredMaxWidthStack pixels="1200px" percents="90%">
           <Stack width="100%" alignItems="start">
             <Stack
               width="100%"
