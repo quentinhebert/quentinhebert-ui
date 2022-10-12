@@ -97,11 +97,7 @@ export default function FilmsPortfolioPart(props) {
             </Stack>
           </Stack>
 
-          <AnimateHeight
-            id="example-panel"
-            duration={500}
-            height={height} // see props documentation below
-          >
+          <AnimateHeight duration={500} height={height}>
             <PortfolioImageList setHeight={setHeight} height={height} />
           </AnimateHeight>
         </CenteredMaxWidthStack>
