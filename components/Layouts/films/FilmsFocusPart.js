@@ -1,25 +1,21 @@
 import { useEffect, useState } from "react"
-import { Box, Button, Slide, Stack } from "@mui/material"
-import BigTitle from "../../ReusableComponents/titles/big-title"
+import { Box, Slide, Stack, Typography, useMediaQuery } from "@mui/material"
 import BodyText from "../../ReusableComponents/text/body-text"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import styles from "../../../styles/TextShine.module.css"
+import PillButton from "../../ReusableComponents/buttons/pill-button"
 
 const Keyword = ({ text }) => (
   <Box
     component="span"
     sx={{
       color: (theme) => theme.palette.text.secondary,
-      fontSize: { xs: "1.2rem", md: "1.75rem" },
-      margin: "0 .25rem",
+      fontSize: { xs: "1rem", md: "1.75rem" },
+      margin: { md: "0 .1rem", md: "0 .25rem" },
       fontWeight: "bold",
-      // fontStyle: "italic",
       textTransform: "uppercase",
-      background: (theme) =>
-        `linear-gradient(50deg, ${theme.palette.text.secondary} 0%, ${theme.palette.text.primaryLight} 100%)`,
-      WebkitBackgroundClip: "text",
-      WebkitTextFillColor: "transparent",
+      color: (theme) => theme.palette.secondary.main,
+      textShadow: "rgb(0,0,0,0.3) 2px 2px 10px",
     }}
   >
     {text}
@@ -59,8 +55,16 @@ export default function FilmsFocusPart(props) {
 
   const expNbYears = new Date().getFullYear() - 2011 // J'ai réalisé mes premiers clips de musique en 5ème (collège) à l'âge de 13 ans
 
+  const md = useMediaQuery((theme) => theme.breakpoints.up("md"))
+
   return (
-    <Stack zIndex={1} position="relative">
+    <Stack
+      zIndex={1}
+      position="relative"
+      sx={{
+        background: (theme) => theme.palette.secondary.main,
+      }}
+    >
       {/* Section Anchor */}
       <Stack
         ref={refsForScroll.focus}
@@ -68,76 +72,57 @@ export default function FilmsFocusPart(props) {
       />
 
       <Stack
+        ref={ref}
+        justifyContent="center"
         sx={{
           background: (theme) =>
-            `url(/medias/focus-film-bg.svg), linear-gradient(-50deg, ${theme.palette.background.main} 20%, transparent 60%)`,
-          backgroundSize: "cover",
-          backgroundPosition: "50% 10%",
-          height: { xs: "500px", sm: "550px", md: "600px" },
+            `linear-gradient(-180deg, rgb(0,0,0,0.4) 40%, #000 100%)`,
+          height: { xs: "600px", sm: "550px", md: "600px" },
           marginTop: "0.01px",
         }}
-        ref={ref}
       >
-        <motion.div initial="hidden" variants={variants} animate={controls}>
-          <Stack width="100%" alignItems="end">
-            <Stack
-              sx={{
-                padding: {
-                  xs: "6rem 1rem 0",
-                  sm: "4rem 1rem 0",
-                  md: "4rem 1rem 2rem",
-                },
-                width: { xs: "65%", sm: "62%", md: "55%" },
-                alignSelf: "end",
-              }}
+        <Stack
+          width="100%"
+          alignItems="end"
+          sx={{ padding: { xs: "2rem", md: "4rem" } }}
+        >
+          <motion.div
+            initial="hidden"
+            variants={variants}
+            animate={controls}
+            style={{
+              width: md ? "60%" : "70%",
+              display: "flex",
+              flexDirection: "column",
+              gap: "1.5rem",
+            }}
+          >
+            <Typography
+              fontFamily="Ethereal"
+              fontWeight="bold"
+              textAlign="center"
+              sx={{ fontSize: { xs: "2rem", md: "3rem" }, color: "#000" }}
             >
-              <BigTitle
-                title="Focus"
-                className={styles.shine}
-                fontFamily="Ethereal"
-                textAlign="center"
-              />
-              <BodyText
-                // fontFamily="Ethereal"
-                // fontWeight="bold"
-                // textTransform="uppercase"
-                textAlign="center"
-                // color={(theme) => theme.palette.text.primaryLight}
-                color="text.white"
-                sx={{
-                  marginTop: { xs: "1rem", md: 0 },
-                  marginBottom: "2rem",
-                }}
-              >
-                <Keyword text="Passionné" /> depuis {expNbYears} années, j'ai
-                fait de la vidéo mon métier car c'est grâce au son et à l'image
-                que je parviens à m'exprimer avec le plus de{" "}
-                <Keyword text="sincérité" />.
-                <p />
-                J'ai appris en <Keyword text="autodidacte" />, poussé par
-                l'envie de créer.
-              </BodyText>
+              Focus
+            </Typography>
 
-              <Box sx={{ textAlign: "center" }}>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  sx={{
-                    fontSize: { xs: "1rem", md: "1.1rem" },
-                    // fontFamily: "Ethereal",
-                    // fontWeight: "bold",
-                    // letterSpacing: "1.5px",
-                    border: (theme) =>
-                      `1px solid ${theme.palette.secondary.main}`,
-                  }}
-                  onClick={(e) => scrollTo(refsForScroll.portfolio)}
-                >
-                  Voir mes réalisations
-                </Button>
-              </Box>
-            </Stack>
-          </Stack>
-        </motion.div>
+            <BodyText textAlign="center" color="#000" fontWeight="bold">
+              <Keyword text="Passionné" /> depuis {expNbYears} années, j'ai fait
+              de la vidéo mon métier car c'est grâce au son et à l'image que je
+              parviens à m'exprimer avec le plus de <Keyword text="sincérité" />
+              .
+              <p />
+              J'ai appris en <Keyword text="autodidacte" />, poussé par l'envie
+              de créer.
+            </BodyText>
+
+            <Box sx={{ textAlign: "center" }}>
+              <PillButton onClick={(e) => scrollTo(refsForScroll.portfolio)}>
+                Voir mes réalisations
+              </PillButton>
+            </Box>
+          </motion.div>
+        </Stack>
 
         <Slide direction="right" {...{ timeout: 2000 }} in={show}>
           <Box
@@ -148,7 +133,7 @@ export default function FilmsFocusPart(props) {
               backgroundPosition: "50% 50%",
               position: "absolute",
               width: { xs: "35%", md: "50%" },
-              height: { xs: "500px", sm: "550px", md: "600px" },
+              height: { xs: "600px", sm: "550px", md: "600px" },
               mixBlendMode: "multiply",
             }}
           />

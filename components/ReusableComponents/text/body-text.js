@@ -43,14 +43,13 @@ const Text = styled(
             fontFamily={fontFamily || "Helmet"}
             sx={{
               fontSize: props.fontSize || {
-                xs: "0.8rem",
-                sm: "0.95rem",
+                xs: "0.9rem",
                 md: "1.1rem",
               },
               letterSpacing: props.letterSpacing || 1,
               lineHeight: props.lineHeight || {
-                xs: "1.2rem",
-                sm: "1.4rem",
+                xs: "0",
+                sm: "1.2rem",
                 md: "1.6rem",
               },
               color: color || ((theme) => theme.palette.text.white),

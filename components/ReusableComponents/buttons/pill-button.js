@@ -46,10 +46,11 @@ export default function PillButton({
           variant="contained"
           sx={{
             background: background || ((theme) => theme.palette.secondary.main),
-            color: color || "#fff",
-            fontSize: { xs: "1rem", md: "1.1rem" },
+            color: color || "#000",
+            fontWeight: "bold",
+            fontSize: { xs: "0.9rem", md: "1.1rem" },
             borderRadius: "30px",
-            padding: padding || ".5rem 2rem",
+            padding: padding || { xs: ".5rem 1.25rem", md: ".5rem 2rem" },
             boxShadow: "5px 10px 30px 5px rgb(0,0,0,0.3)",
             textTransform: textTransform || "uppercase",
             "&:hover": {

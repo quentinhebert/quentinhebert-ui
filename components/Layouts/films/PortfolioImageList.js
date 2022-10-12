@@ -441,11 +441,11 @@ const Pill = (props) => (
   <Box
     component="span"
     className="inline-flex"
-    padding="0.1rem 1rem"
-    margin="0.35rem"
     lineHeight="2rem"
     letterSpacing={1}
     sx={{
+      margin: { xs: "0.35rem 0.15rem", md: "0.35rem" },
+      padding: { xs: "0rem 1rem", md: "0.1rem 1rem" },
       fontSize: { xs: "0.8rem", md: "1rem" },
       backgroundColor: (theme) => theme.palette.secondary.main,
       color: "#000",
@@ -467,7 +467,7 @@ const FilterSection = ({ handleFilter }) => {
       <Typography
         marginBottom={4}
         sx={{
-          flexDirection: "",
+          textAlign: "center",
           whiteSpace: "break-spaces",
           wordBreak: "break-word",
         }}
@@ -602,7 +602,7 @@ export default function MasonryImageList({ height, setHeight, ...props }) {
         }}
       />
 
-      <Stack width="100%" ref={ref}>
+      <Stack width="100%" ref={ref} padding="2rem 0">
         <FilterSection ref={heightRef} handleFilter={handleFilter} />
 
         <ImageList
@@ -624,7 +624,9 @@ export default function MasonryImageList({ height, setHeight, ...props }) {
                       initial="hidden"
                       variants={variants(key)}
                       animate={controls}
-                      style={{ width: "100%" }}
+                      style={{
+                        width: "100%",
+                      }}
                       key={key}
                     >
                       <Link

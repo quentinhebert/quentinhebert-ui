@@ -60,7 +60,7 @@ export default function FilmsPortfolioPart(props) {
       <Stack
         sx={{
           background: (theme) =>
-            `linear-gradient(-180deg, #000 20%, rgb(0,0,0,0.4) 100%)`,
+            `linear-gradient(-180deg, #000 30%, rgb(0,0,0,0.4) 100%)`,
           paddingBottom: { xs: "2rem", md: "6rem" },
         }}
       >
@@ -68,7 +68,7 @@ export default function FilmsPortfolioPart(props) {
           <Stack width="100%" alignItems="start">
             <Stack
               width="100%"
-              sx={{ padding: { xs: "2rem 0", md: "6rem 2rem 4rem" } }}
+              sx={{ padding: { xs: "2rem 1rem", md: "6rem 2rem 4rem" } }}
             >
               <motion.div
                 initial="hidden"
@@ -78,21 +78,30 @@ export default function FilmsPortfolioPart(props) {
               >
                 <Typography
                   color="secondary"
-                  variant="h3"
                   fontFamily="Ethereal"
                   fontWeight="bold"
+                  sx={{ fontSize: { xs: "2rem", md: "3rem" } }}
                 >
                   Mes réalisations
                 </Typography>
-                <BodyText
-                  color="text.white"
-                  textAlign="center"
-                  className={styles.shine}
-                >
-                  Pas de place pour le bla-bla !
-                  <br />
-                  Ici, nous savons exactement ce que vous venez voir. Pas lire.
-                </BodyText>
+
+                <Stack>
+                  <BodyText
+                    color="text.white"
+                    textAlign="center"
+                    className={styles.shine}
+                  >
+                    Pas de place pour le bla-bla !
+                  </BodyText>
+                  <BodyText
+                    color="text.white"
+                    textAlign="center"
+                    className={styles.shine}
+                  >
+                    Ici, nous savons exactement ce que vous venez voir. Pas
+                    lire.
+                  </BodyText>
+                </Stack>
               </motion.div>
             </Stack>
           </Stack>

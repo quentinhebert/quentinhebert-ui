@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react"
 import { Button } from "@mui/material"
-import { Stack, useMediaQuery } from "@mui/material"
-import theme from "../../config/theme"
+import { Stack } from "@mui/material"
 import { useScrollPosition } from "@n8tb1t/use-scroll-position"
 import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive"
 import Slide from "@mui/material/Slide"
 
 export default function ScrollToTopBtn(props) {
   const { refForScroll } = props
-  const md = useMediaQuery(theme.breakpoints.down("md"))
   const scrollTo = (ref) => {
     ref.current.scrollIntoView({
       behavior: "smooth",
@@ -19,7 +17,7 @@ export default function ScrollToTopBtn(props) {
     let timeout = 0
 
     const handleScroll = () => {
-      setShowButton(true)
+      if (window.pageYOffset !== 0) setShowButton(true)
       clearTimeout(timeout)
 
       timeout = setTimeout(() => {
@@ -57,13 +55,14 @@ export default function ScrollToTopBtn(props) {
             margin: "1rem auto",
             padding: ".75rem 1.5rem",
             backgroundColor: "rgb(198, 144, 14, 0.8)",
-            color: "#fff",
+            color: "#000",
             transition: "opacity .25s ease-in-out",
-            letterSpacing: "2px",
+            letterSpacing: "1px",
             fontSize: "0.8rem",
             fontWeight: "bold",
+            boxShadow: "5px 10px 30px 5px rgb(0,0,0,0.3)",
             "&:hover": {
-              color: "#fff",
+              color: "#000",
               backgroundColor: (theme) => theme.palette.background.secondary,
               opacity: 1,
             },
