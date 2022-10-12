@@ -32,7 +32,8 @@ export default function IndexLayout(props) {
         height="100vh"
         zIndex={0}
         sx={{
-          backgroundImage: "url(/medias/lines.jpg)",
+          background:
+            "linear-gradient(180deg, #000, rgb(0,0,0,0.5)), url(/medias/lines.jpg)",
           backgroundPosition: "25% 50%",
           backgroundSize: "cover",
         }}
