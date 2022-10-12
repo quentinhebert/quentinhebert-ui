@@ -12,10 +12,12 @@ const SubmitButton = styled((props) => (
       border: (theme) => `2px solid ${theme.palette.secondary.main}`,
       borderRadius: "30px",
       letterSpacing: "1.5px",
+      boxShadow: (theme) => `0px 0px 20px 2px ${theme.palette.secondary.main}`,
       "&:hover": {
         border: (theme) => `2px solid ${theme.palette.secondary.main}`,
         backgroundColor: (theme) => theme.palette.secondary.main,
-        color: (theme) => theme.palette.primary.main,
+        color: "#000",
+        fontWeight: "bold",
       },
     }}
     {...props}

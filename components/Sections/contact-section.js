@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { Box, Stack } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import ContactForm from "../Forms/contact-form"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
@@ -46,17 +46,19 @@ export default function ContactSection(props) {
       ref={ref}
     >
       <CenteredMaxWidthContainer pixels="800px" percents="80%" gap={2}>
-        <GradientTitleCard inversed="true">
+        <Typography
+          className={styles.shine}
+          color="secondary"
+          sx={{ fontSize: { xs: "2rem", md: "3rem" } }}
+        >
           <StrokeText
             color={(theme) => theme.palette.secondary.main}
             className="no-select"
           >
-            Me
+            ME
           </StrokeText>{" "}
-          <Box component="span" className={styles.shine}>
-            contacter
-          </Box>
-        </GradientTitleCard>
+          <Box component="span">CONTACTER</Box>
+        </Typography>
 
         <motion.div
           initial="hidden"

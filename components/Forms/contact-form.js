@@ -36,7 +36,7 @@ const WordCaroussel = ({ defaultService }) => (
   <Typography
     color="#fff"
     flexGrow={1}
-    textAlign="right"
+    textAlign="left"
     sx={{
       fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" },
       letterSpacing: { xs: 1.5, sm: 2, md: 2 },
@@ -170,17 +170,13 @@ export default function ContactForm(props) {
     (formData.email.trim() !== "" && !checkEmail(formData.email))
 
   return (
-    <Form width="100%" gap={2}>
+    <Form width="100%" gap={2} paddingBottom="1.5rem">
       <Stack
         width="100%"
         alignItems="center"
         padding="1rem 1rem 1rem 0"
         borderRadius="5px"
         flexDirection="row"
-        sx={{
-          background: (theme) =>
-            `linear-gradient(100deg, transparent 20%, ${theme.palette.background.main} 100%)`,
-        }}
       >
         {!defaultService ||
         (defaultService !== "film" && defaultService !== "website") ? (

@@ -15,15 +15,20 @@ const CssFilledInput = styled((props) => (
   "& .MuiFilledInput-root": {
     overflow: "hidden",
     borderRadius: 4,
+    border: `1px solid ${theme.palette.secondary.main}`,
     // background: `linear-gradient(-90deg, transparent 0%, ${theme.palette.background.main} 10%)`,
-    background: theme.palette.background.main,
+    // background: theme.palette.background.main,
+    background: "#000",
     color: theme.palette.text.white, // input value
+    borderRadius: "10px",
     "&:hover": {
       // background: `linear-gradient(-90deg, transparent 0%, ${theme.palette.background.main} 10%)`,
-      background: theme.palette.background.main,
+      // background: theme.palette.background.main,
+      background: "#000",
     },
     "&.Mui-focused": {
-      backgroundColor: theme.palette.background.main,
+      // backgroundColor: theme.palette.background.main,
+      background: "#000",
     },
   },
   "& .MuiFilledInput-input.Mui-disabled": {

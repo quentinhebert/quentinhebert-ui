@@ -9,17 +9,26 @@ const CustomSelect = styled((props) => (
     variant="outlined"
     color="secondary"
     sx={{
-      // backgroundColor: "#fff",
-      // background: `linear-gradient(-90deg, transparent 0%, ${theme.palette.background.main} 10%)`, // Overrides the background-color of the select input
-      background: theme.palette.background.main,
+      background: "#000",
+      border: (theme) => `1px solid ${theme.palette.secondary.main}`,
+      borderRadius: "10px",
       "& .MuiOutlinedInput-notchedOutline": {
         border: "none",
       },
     }}
     MenuProps={{
       sx: {
+        // Backdrop
+        background: "rgb(0,0,0,0.5)",
+        // Background of selection options
+        "& .MuiPopover-paper": {
+          background: "#000",
+          border: (theme) => `1px solid ${theme.palette.secondary.main}`,
+          boxShadow: (theme) =>
+            `1px 1px 20px 2px ${theme.palette.secondary.main}`,
+        },
+        // overrides the color and background-color of the selected option of the select
         "&& .Mui-selected": {
-          // overrides the color and background-color of the selected option of the select
           color: (theme) => theme.palette.text.primary,
           backgroundColor: (theme) => theme.palette.text.secondary,
           "&:hover": {
