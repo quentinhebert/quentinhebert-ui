@@ -204,7 +204,7 @@ export default function CustomTable(props) {
                           "&.Mui-selected": {
                             // Overrides bg color of a selected row
                             backgroundColor: (theme) =>
-                              `${theme.palette.background.primaryLight} !important`,
+                              `${theme.palette.background.primary} !important`,
                           },
                         }}
                       >

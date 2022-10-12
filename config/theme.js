@@ -1,36 +1,17 @@
 import { createTheme } from "@mui/material/styles"
 
-const primary = "#1B3957"
-const primaryLight = "#2b5b8a"
-// const primaryDark = "#111a23"
-const primaryDark = "#262525"
-// const primaryDark = "#16291A"
+const primary = "#262525"
 const secondary = "#C6900E"
-const secondaryDark = "#825E09"
-const secondaryLight = "#F5BB5F"
 const tersary = "#AE1B1E"
 const link = "#06c"
 const errorColor = "#f44336"
 const grey = "#696969"
-
-/*
-
-TITLE
-  fontSize: 
-TEXT (normal)
-  fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
-  letterSpacing: { xs: 0.25, sm: 1, md: 2 },
-  lineHeight: { xs: "1.3rem", sm: '1.5rem', md: "2rem" },
-TEXT (small)
-
-*/
 
 const mainTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
       main: primary,
-      light: primaryLight,
     },
     secondary: {
       main: secondary,
@@ -39,23 +20,17 @@ const mainTheme = createTheme({
       main: tersary,
     },
     background: {
-      main: primaryDark,
+      main: primary,
       primary: primary,
-      primaryLight: primaryLight,
       secondary: secondary,
-      secondaryLight: secondaryLight,
-      paper: primaryDark,
+      paper: primary,
       alert: "rgb(255, 226, 183)",
       white: "#dddddd",
       grey: grey,
     },
     text: {
       primary: primary,
-      primaryLight: primaryLight,
-      primaryDark: primaryDark,
       secondary: secondary,
-      secondaryDark: secondaryDark,
-      secondaryLight: secondaryLight,
       white: "#fff",
       grey: grey,
       link: link,

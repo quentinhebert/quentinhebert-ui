@@ -106,7 +106,7 @@ const Container = ({ btnColor, bgImg, href }) => {
             sx={{
               backgroundColor: btnColor,
               fontWeight: "bold",
-              color: (theme) => theme.palette.text.primaryDark,
+              color: (theme) => theme.palette.text.primary,
               padding: ".25rem 1.5rem",
               zIndex: 4,
               marginTop: 2,

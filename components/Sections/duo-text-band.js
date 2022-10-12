@@ -1,15 +1,15 @@
-import { Box, Button, Stack, Typography, useMediaQuery } from "@mui/material";
-import theme from "../../config/theme";
-import { useAnimation, motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
-import Link from "next/link";
+import { Box, Button, Stack, Typography, useMediaQuery } from "@mui/material"
+import theme from "../../config/theme"
+import { useAnimation, motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
+import { useEffect } from "react"
+import Link from "next/link"
 
 export default function DuoTextBand(props) {
-  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
 
   /********** ANIMATION **********/
-  const [ref, inView] = useInView();
+  const [ref, inView] = useInView()
   const variants = (key) => {
     return {
       visible: {
@@ -18,17 +18,17 @@ export default function DuoTextBand(props) {
         transition: { duration: 0.5, delay: key / 2 },
       },
       hidden: { opacity: 0, x: 200 },
-    };
-  };
-  const controls = useAnimation();
+    }
+  }
+  const controls = useAnimation()
 
   useEffect(() => {
     if (inView) {
-      controls.start("visible");
+      controls.start("visible")
     } else {
-      controls.start("hidden");
+      controls.start("hidden")
     }
-  }, [controls, inView]);
+  }, [controls, inView])
 
   return (
     <Stack
@@ -70,7 +70,7 @@ export default function DuoTextBand(props) {
               <Typography
                 component="h5"
                 variant="h6"
-                color={theme.palette.text.secondaryDark}
+                color={theme.palette.text.secondary}
                 sx={{
                   textTransform: "uppercase",
                   letterSpacing: 1,
@@ -89,7 +89,7 @@ export default function DuoTextBand(props) {
                     marginTop: 2,
                     padding: "0.2rem 1.5rem",
                     backgroundColor: (theme) =>
-                      theme.palette.background.secondaryDark,
+                      theme.palette.background.secondary,
                     color: (theme) => theme.palette.text.light,
                     "&:hover": {
                       transform: "scale(1.2)",
@@ -131,7 +131,7 @@ export default function DuoTextBand(props) {
               <Typography
                 component="h5"
                 variant="h6"
-                color={theme.palette.text.secondaryDark}
+                color={theme.palette.text.secondary}
                 sx={{
                   textTransform: "uppercase",
                   letterSpacing: 1,
@@ -150,7 +150,7 @@ export default function DuoTextBand(props) {
                     marginTop: 2,
                     padding: "0.2rem 1.5rem",
                     backgroundColor: (theme) =>
-                      theme.palette.background.secondaryDark,
+                      theme.palette.background.secondary,
                     color: (theme) => theme.palette.text.light,
                     "&:hover": {
                       transform: "scale(1.2)",
@@ -166,5 +166,5 @@ export default function DuoTextBand(props) {
         </motion.div>
       </Stack>
     </Stack>
-  );
+  )
 }

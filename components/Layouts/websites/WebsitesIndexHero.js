@@ -1,5 +1,6 @@
-import { Box, Button, Slide, Stack, Typography } from "@mui/material"
+import { Box, Slide, Stack, Typography } from "@mui/material"
 import BouncingArrow from "../../Navigation/BouncingArrow"
+import PillButton from "../../ReusableComponents/buttons/pill-button"
 
 export default function WebsitesIndexHero(props) {
   const { refsForScroll } = props
@@ -106,42 +107,30 @@ export default function WebsitesIndexHero(props) {
             flexDirection: "row",
           }}
         >
-          <Button
+          <PillButton
+            animDelay={0.2}
+            background="transparent"
+            boxShadow="!important"
+            scaleUpOnHover
+            color={(theme) => theme.palette.secondary.main}
+            border={(theme) => `3px solid ${theme.palette.secondary.main}`}
+            fontSize={{ xs: "1rem", sm: "1.2rem", md: "1.5rem" }}
+            padding={{ xs: "0.2rem 1.5rem", md: "0.5rem 2rem" }}
             onClick={() => scrollTo(refsForScroll.portfolio)}
-            variant="outlined"
-            color="secondary"
-            sx={{
-              fontWeight: "bold",
-              fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
-              padding: { xs: "0.2rem 1.5rem", md: "0.5rem 2rem" },
-              borderRadius: "50px",
-              border: { xs: "2px solid", md: "3px solid" },
-              transition: "transform 0.2s ease-in-out",
-              "&:hover": {
-                border: "3px solid",
-                transform: "scale(1.1)",
-              },
-            }}
           >
             Mes projets
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={{
-              fontWeight: "bold",
-              fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
-              padding: { xs: "0.2rem 1.5rem", md: "0.5rem 2rem" },
-              borderRadius: "50px",
-              // color: (theme) => theme.palette.secondary.main,
-              transition: "transform 0.2s ease-in-out",
-              "&:hover": {
-                transform: "scale(1.1)",
-              },
-            }}
+          </PillButton>
+          <PillButton
+            animDelay={0.5}
+            boxShadow="!important"
+            scaleUpOnHover
+            fontSize={{ xs: "1rem", sm: "1.2rem", md: "1.5rem" }}
+            border={(theme) => `3px solid ${theme.palette.secondary.main}`}
+            padding={{ xs: "0.2rem 1.5rem", md: "0.5rem 2rem" }}
+            onClick={() => scrollTo(refsForScroll.portfolio)}
           >
             Mon Cv
-          </Button>
+          </PillButton>
         </Stack>
       </Box>
 

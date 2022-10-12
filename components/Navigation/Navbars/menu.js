@@ -89,10 +89,10 @@ export default function Menu(props) {
                         cursor: page === item.href ? "default" : "pointer",
                         color:
                           page === item.href
-                            ? (theme) => theme.palette.text.primary
+                            ? "#000"
                             : (theme) => theme.palette.text.white,
                         "&:hover": {
-                          color: (theme) => theme.palette.text.primary,
+                          color: "#000",
                         },
                       }}
                     >

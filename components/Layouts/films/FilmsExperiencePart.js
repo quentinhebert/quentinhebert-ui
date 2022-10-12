@@ -71,7 +71,7 @@ export default function FilmsExperiencePart(props) {
             >
               <BodyText
                 fontFamily="Ethereal"
-                color={(theme) => theme.palette.text.secondaryDark}
+                color={(theme) => theme.palette.text.secondary}
                 fontWeight="bold"
               >
                 D'abord pris de passion pour la réalisation de courts-métrages,
@@ -89,13 +89,13 @@ export default function FilmsExperiencePart(props) {
                 <Button
                   variant="outlined"
                   sx={{
-                    color: theme.palette.text.primaryLight,
+                    color: theme.palette.text.primary,
                     fontFamily: "Ethereal",
                     textTransform: "initial",
                     fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
                     fontWeight: "bold",
                     letterSpacing: { xs: "0.5px", md: "1.5px" },
-                    border: `2px solid ${theme.palette.text.primaryLight}`,
+                    border: `2px solid ${theme.palette.text.primary}`,
                     marginTop: { xs: "1.5rem", md: "3rem" },
                   }}
                   startIcon={<SaveAltIcon />}

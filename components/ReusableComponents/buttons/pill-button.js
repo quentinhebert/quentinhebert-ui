@@ -11,7 +11,11 @@ export default function PillButton({
   textTransform,
   onClick,
   animDelay,
+  fontSize,
   preventTransitionOut,
+  border,
+  boxShadow,
+  scaleUpOnHover,
   ...props
 }) {
   /********** ANIMATION **********/
@@ -48,15 +52,18 @@ export default function PillButton({
             background: background || ((theme) => theme.palette.secondary.main),
             color: color || "#000",
             fontWeight: "bold",
-            fontSize: { xs: "0.9rem", md: "1.1rem" },
+            fontSize: fontSize || { xs: "0.9rem", md: "1rem" },
             borderRadius: "30px",
+            border: border || "",
             padding: padding || { xs: ".5rem 1.25rem", md: ".5rem 2rem" },
-            boxShadow: "5px 10px 30px 5px rgb(0,0,0,0.3)",
+            boxShadow: boxShadow || "5px 10px 30px 5px rgb(0,0,0,0.3)",
             textTransform: textTransform || "uppercase",
+            transition: "transform 0.2s ease-in-out",
             "&:hover": {
               background:
                 background || ((theme) => theme.palette.secondary.main),
               opacity: 0.8,
+              transform: scaleUpOnHover ? "scale(1.1)" : "",
             },
           }}
           onClick={onClick || (() => {})}

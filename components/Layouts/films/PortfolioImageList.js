@@ -455,6 +455,7 @@ const FilterSection = ({ handleFilter }) => {
             cursor="pointer"
             scaleUpOnHover
             boxShadowOnHover
+            margin={{ xs: "0.25rem", md: "0.5rem" }}
             bgColor={(theme) => theme.palette.secondary.main}
             onClick={() => handleFilter(category)}
           >
@@ -590,7 +591,7 @@ export default function MasonryImageList({ height, setHeight, ...props }) {
         <FilterSection ref={heightRef} handleFilter={handleFilter} />
 
         <ImageList
-          rowHeight={xs ? 150 : 200}
+          rowHeight={xs ? 150 : md ? 150 : 200}
           gap={0}
           cols={xs ? 1 : md ? 2 : 3}
           sx={{

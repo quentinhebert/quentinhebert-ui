@@ -88,7 +88,7 @@ export default function WebsiteFocusPart(props) {
             <CenteredMaxWidthContainer>
               <BodyText
                 textAlign="center"
-                color={(theme) => theme.palette.text.primaryLight}
+                color={(theme) => theme.palette.text.primary}
                 sx={{
                   margin: "2rem auto",
                 }}

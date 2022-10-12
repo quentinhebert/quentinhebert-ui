@@ -11,6 +11,7 @@ export default function Pill({
   cursor,
   scaleUpOnHover,
   boxShadowOnHover,
+  margin,
   ...props
 }) {
   /********** ANIMATION **********/
@@ -18,10 +19,10 @@ export default function Pill({
   const variants = {
     visible: {
       opacity: 1,
-      y: 5,
+      y: 0,
       transition: { duration: 0.75, delay: animDelay ? animDelay / 10 : 0 },
     },
-    hidden: { opacity: 0, y: 0 },
+    hidden: { opacity: 0, y: -10 },
   }
   const controls = useAnimation()
 
@@ -43,14 +44,13 @@ export default function Pill({
       >
         <Box
           component="span"
-          className="bold inline-flex"
+          className="inline-flex"
           lineHeight="2rem"
-          letterSpacing={1}
           textTransform="capitalize"
           sx={{
             cursor: cursor || "default",
             padding: { xs: "0rem 1rem", md: "0.1rem 1rem" },
-            margin: { xs: "0.25rem", md: "0.5rem" },
+            margin: margin || { xs: "0.25rem", md: "0.25rem" },
             fontSize: { xs: "0.8rem", md: "1rem" },
             backgroundColor: bgColor || "#fff",
             color: color || "#000",
