@@ -67,36 +67,20 @@ const List = ({ items }) =>
 const ServiceCard = ({ service, href, animationElement, orientation }) => {
   if (!service?.service_items) return null
   return (
-    <CustomCard
-      padding="2px"
-      background={(theme) =>
-        `linear-gradient(to ${orientation}, ${theme.palette.secondary.main}, ${theme.palette.tersary.main})`
-      }
-    >
-      <Stack
-        textAlign="center"
-        height="100%"
-        borderRadius="30px"
-        sx={{
-          background: "#000",
-          padding: "2rem",
-          gap: { xs: 2, md: 4 },
-        }}
+    <CustomCard gradientOrientation={orientation}>
+      <CustomCardTitle
+        className="no-select"
+        color={(theme) => theme.palette.secondary.main}
       >
-        <CustomCardTitle
-          className="no-select"
-          color={(theme) => theme.palette.secondary.main}
-        >
-          {service?.name || ""}
-          {animationElement}
-        </CustomCardTitle>
+        {service?.name || ""}
+        {animationElement}
+      </CustomCardTitle>
 
-        <Box textAlign="left" flexGrow={1} letterSpacing={1}>
-          <List items={service.service_items} />
-        </Box>
+      <Box textAlign="left" flexGrow={1} letterSpacing={1}>
+        <List items={service.service_items} />
+      </Box>
 
-        <EndCardButton href={href} text="Découvrir +" />
-      </Stack>
+      <EndCardButton href={href} text="Découvrir +" />
     </CustomCard>
   )
 }

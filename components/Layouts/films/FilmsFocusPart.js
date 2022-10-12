@@ -14,7 +14,6 @@ const Keyword = ({ text }) => (
       margin: { md: "0 .1rem", md: "0 .25rem" },
       fontWeight: "bold",
       textTransform: "uppercase",
-      color: (theme) => theme.palette.secondary.main,
       textShadow: "rgb(0,0,0,0.3) 2px 2px 10px",
     }}
   >

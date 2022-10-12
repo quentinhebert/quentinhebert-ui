@@ -78,7 +78,15 @@ export default function WelcomeSection(props) {
               </BodyText>
             </CenteredMaxWidthContainer>
 
-            <CenteredLandingButton onClick={(e) => scrollTo(refForScroll)}>
+            <CenteredLandingButton
+              onClick={(e) => scrollTo(refForScroll)}
+              sx={{
+                background: (theme) =>
+                  `linear-gradient(-80deg, ${theme.palette.secondary.main}, ${theme.palette.tersary.main}) !important`,
+                WebkitBackgroundClip: "text !important",
+                WebkitTextFillColor: "transparent !important",
+              }}
+            >
               Les services que je propose
             </CenteredLandingButton>
           </motion.div>
