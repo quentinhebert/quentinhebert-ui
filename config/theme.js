@@ -67,6 +67,13 @@ const mainTheme = createTheme({
       fontFamily: "Helmet",
     },
   },
+  alert: {
+    title: {
+      info: "#4fc3f7",
+      warning: "#ffb74d",
+      success: "#81c784",
+    },
+  },
   components: {
     MuiButton: {
       variants: [
