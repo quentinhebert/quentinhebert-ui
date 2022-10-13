@@ -49,10 +49,10 @@ export default class AutoPlayCarousel extends React.Component {
             <Tooltip title={ref.label}>
               <Box
                 component="img"
-                width={"5rem"}
                 src={ref.logo_url}
                 alt={ref.label}
                 sx={{
+                  width: { xs: "5rem", md: "7rem", lg: "10rem" },
                   filter: "grayscale(100%)",
                   "&:hover": { filter: "grayscale(0)" },
                 }}

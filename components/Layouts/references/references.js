@@ -3,6 +3,8 @@ import theme from "../../../config/theme"
 import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AutoPlayCarousel from "./AutoPlayCarousel"
+import MediumTitle from "../../ReusableComponents/titles/medium-title"
+import styles from "../../../styles/TextShine.module.css"
 
 async function fetchUpToDateReferences() {
   const res = await apiCall.unauthenticated.getReferences()
@@ -26,7 +28,7 @@ export default function References(props) {
   const md = useMediaQuery(theme.breakpoints.down("md"))
   const sm = useMediaQuery(theme.breakpoints.down("sm"))
 
-  const noOfCards = md ? (sm ? 3 : 4) : 8
+  const noOfCards = md ? (sm ? 3 : 4) : 6
 
   const ReferencesImgList = () => {
     if (!references.length) return <></>
@@ -38,14 +40,13 @@ export default function References(props) {
       className="full-width flex-center"
       sx={{ backgroundColor: "red", height: "100vh" }}
     >
-      <Typography
-        color="secondary"
-        fontSize="3rem"
-        zIndex={10}
+      <MediumTitle
         textAlign="center"
+        className={styles.shine}
+        marginBottom="2rem"
       >
         Ils m'ont fait confiance
-      </Typography>
+      </MediumTitle>
       <Stack
         paddingBottom="2rem"
         width="100%"
