@@ -407,6 +407,22 @@ const admin = {
       console.error(err)
     }
   },
+  sortReferences: async (sortedReferenceIds) => {
+    try {
+      const body = JSON.stringify({ sortedReferenceIds })
+
+      return await fetch(`${defaultConfig.apiUrl}/admin/references/sort`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: body,
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
   sortFilms: async (sortedFilmIds) => {
     try {
       const body = JSON.stringify({ sortedFilmIds })

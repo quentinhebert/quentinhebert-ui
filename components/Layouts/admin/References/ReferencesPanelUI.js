@@ -203,12 +203,12 @@ export default function ReferencesPanelUI(props) {
   }
   const handleSaveSortedVideos = async () => {
     // We only send the sorted ids
-    let sortedFilmIds = []
-    references.map((film) => {
-      sortedFilmIds.push(film.id)
+    let sortedReferenceIds = []
+    references.map((reference) => {
+      sortedReferenceIds.push(reference.id)
     })
-    const res = await apiCall.admin.sortReferences(sortedFilmIds)
-    if (res) handleSuccess()
+    const res = await apiCall.admin.sortReferences(sortedReferenceIds)
+    if (res && res.ok) handleSuccess()
     else handleError()
   }
   const handleOpenAddFilmModal = () => setOpenAddFilmModal(true)
