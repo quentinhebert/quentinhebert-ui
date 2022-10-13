@@ -207,32 +207,6 @@ const unauthenticated = {
       console.error(error)
     }
   },
-  /* Get public category videos for a given category */
-  getReferences: async () => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/references`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
-  /* Get reference with given id */
-  getReference: async (referenceId) => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/references/${referenceId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
   getNavbar: async () => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/navbar`, {
@@ -284,6 +258,19 @@ const unauthenticated = {
   getAllFilms: async () => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/films`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
+  /* Get public category videos for a given category */
+  getReferences: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/references`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -1,9 +1,5 @@
-import { Stack, useMediaQuery } from "@mui/material"
+import { Stack, Typography, useMediaQuery } from "@mui/material"
 import theme from "../../../config/theme"
-import { useAnimation, motion } from "framer-motion"
-import { useInView } from "react-intersection-observer"
-import { useEffect } from "react"
-import BicolorTitle from "../../ReusableComponents/titles/bicolor-title"
 import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AutoPlayCarousel from "./AutoPlayCarousel"
@@ -15,29 +11,7 @@ async function fetchUpToDateReferences() {
 }
 
 export default function References(props) {
-  /********** ANIMATION **********/
-  const [ref, inView] = useInView()
-  const variants = (key) => {
-    return {
-      visible: {
-        opacity: 1,
-        scaleX: 1,
-        transition: { duration: 0.5, delay: key / 10 },
-      },
-      hidden: { opacity: 0, scaleX: 0 },
-    }
-  }
-  const controls = useAnimation()
-
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible")
-    } else {
-      controls.start("hidden")
-    }
-  }, [controls, inView])
-
-  const { data, error, mutate } = useSWR(
+  const { data } = useSWR(
     `/references`,
     async () => fetchUpToDateReferences(),
     {
@@ -46,7 +20,6 @@ export default function References(props) {
     }
   )
 
-  if (!data) return <Loading />
   const references = data
 
   /********** STYLE **********/
@@ -62,19 +35,17 @@ export default function References(props) {
 
   return (
     <Stack
-      width="100%"
-      bgcolor={theme.palette.background.main}
-      alignItems="center"
-      ref={ref}
+      className="full-width flex-center"
+      sx={{ backgroundColor: "red", height: "100vh" }}
     >
-      <BicolorTitle
-        secondaryText="My"
-        secondaryColor={theme.palette.text.secondary}
-        mainText="References"
-        mainColor={theme.palette.text.light}
-        bgColor={theme.palette.background.main}
-        padding="2rem"
-      />
+      <Typography
+        color="secondary"
+        fontSize="3rem"
+        zIndex={10}
+        textAlign="center"
+      >
+        Ils m'ont fait confiance
+      </Typography>
       <Stack
         paddingBottom="2rem"
         width="100%"

@@ -4,6 +4,7 @@ import ScrollToTopBtn from "../Navigation/scroll-to-top"
 import IndexHeroScreen from "../Sections/index-hero-screen"
 import ServicesSection from "../Sections/services-section"
 import WelcomeSection from "../Sections/welcome-section"
+import References from "./references/references"
 
 export default function IndexLayout(props) {
   const {} = props
@@ -54,10 +55,7 @@ export default function IndexLayout(props) {
       {/* SERVICES */}
       <ServicesSection refForScroll={refsForScroll.services} />
 
-      {/* <DotSeparator /> */}
-
-      {/* CONTACT Section */}
-      {/* <ContactSection /> */}
+      <References />
 
       <ScrollToTopBtn refForScroll={topRef} />
     </Stack>
