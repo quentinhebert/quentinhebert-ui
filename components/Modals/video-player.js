@@ -42,7 +42,7 @@ const CloseBtn = (props) => (
 
 const VideoTitle = (props) => (
   <Typography
-    className="baseline uppercase gap-10"
+    className="baseline uppercase"
     color="secondary"
     letterSpacing={1}
     sx={{
@@ -64,7 +64,9 @@ const Header = ({ video }) => (
       }}
     >
       <VideoTitle>
-        {video?.title && `${video.title} `}
+        <Box component="span" marginRight=".5rem">
+          {video?.title && `${video.title}`}
+        </Box>
         <BodyText
           whiteSpace="nowrap"
           fontSize={{ xs: "0.8rem", md: "1rem" }}
