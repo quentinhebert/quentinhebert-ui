@@ -12,7 +12,7 @@ const YoutubePlayer = memo((props) => <Youtube {...props} />, arePropsEqual)
 export default YoutubePlayer
 
 function Youtube(props) {
-  const { videoId, bgColor } = props
+  const { videoId } = props
 
   const [playing, setPlaying] = useState(false)
   const [volume, setVolume] = useState(1)
@@ -84,6 +84,8 @@ function Youtube(props) {
       }}
     >
       <ReactPlayer
+        playsInline
+        playsinline
         url={`https://youtu.be/${videoId}`}
         controls={false}
         playing={playing}
@@ -97,12 +99,12 @@ function Youtube(props) {
         height="100%"
         style={{
           position: "absolute",
-          display: "flex",
           flexGrow: 1,
           height: "100%",
           // position: "absolute",
-          // opacity: playing ? 1 : 0,
-          // transition: "opacity 0.7s ease-in-out",
+          visibility: playing ? "visible" : "hidden",
+          opacity: playing ? 1 : 0,
+          transition: "opacity 0.7s ease-in-out",
         }}
       />
       <Stack
