@@ -76,7 +76,8 @@ export default function FilmsFocusPart(props) {
         sx={{
           background: (theme) =>
             `linear-gradient(-180deg, rgb(0,0,0,0.4) 40%, #000 100%)`,
-          height: { xs: "600px", sm: "550px", md: "600px" },
+          minHeight: { xs: "600px", sm: "550px", md: "600px" },
+          height: "80vh",
           marginTop: "0.01px",
         }}
       >
@@ -129,10 +130,11 @@ export default function FilmsFocusPart(props) {
               backgroundImage: "url(/medias/filmmaker-shadow-alpha.png)",
               backgroundImage: "url(/medias/back-profile.png)",
               backgroundSize: "cover",
-              backgroundPosition: "50% 50%",
+              backgroundPosition: "50% 30%",
               position: "absolute",
               width: { xs: "35%", md: "50%" },
-              height: { xs: "600px", sm: "550px", md: "600px" },
+              minHeight: { xs: "600px", sm: "550px", md: "600px" },
+              height: "80vh",
               mixBlendMode: "multiply",
             }}
           />
