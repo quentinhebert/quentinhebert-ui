@@ -102,7 +102,7 @@ export default function WebsitesIndexHero(props) {
             fontFamily: "Helmet",
             position: "absolute",
             right: { xs: "2rem", md: "2rem" },
-            top: { xs: "60vw", sm: "25rem", md: "30rem" },
+            top: { xs: "60vw", sm: "25rem", md: "30rem", lg: "60vh" },
             gap: { xs: 1, md: 2 },
             flexDirection: "row",
           }}
@@ -114,8 +114,9 @@ export default function WebsitesIndexHero(props) {
             scaleUpOnHover
             color={(theme) => theme.palette.secondary.main}
             border={(theme) => `3px solid ${theme.palette.secondary.main}`}
-            fontSize={{ xs: "1rem", sm: "1.2rem", md: "1.5rem" }}
-            padding={{ xs: "0.2rem 1.5rem", md: "0.5rem 2rem" }}
+            fontSize={{ xs: "1rem", sm: "1.2rem", md: "1.25vw" }}
+            padding={{ xs: "0.2rem 1.5rem", md: "0.5vw 2vw" }}
+            borderRadius="30vw"
             onClick={() => scrollTo(refsForScroll.portfolio)}
           >
             Mes projets
@@ -124,9 +125,10 @@ export default function WebsitesIndexHero(props) {
             animDelay={0.5}
             boxShadow="!important"
             scaleUpOnHover
-            fontSize={{ xs: "1rem", sm: "1.2rem", md: "1.5rem" }}
             border={(theme) => `3px solid ${theme.palette.secondary.main}`}
-            padding={{ xs: "0.2rem 1.5rem", md: "0.5rem 2rem" }}
+            fontSize={{ xs: "1rem", sm: "1.2rem", md: "1.25vw" }}
+            padding={{ xs: "0.2rem 1.5rem", md: "0.5vw 2vw" }}
+            borderRadius="30vw"
             onClick={() => scrollTo(refsForScroll.portfolio)}
           >
             Mon Cv

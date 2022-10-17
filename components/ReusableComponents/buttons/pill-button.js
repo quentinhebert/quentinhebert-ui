@@ -16,6 +16,7 @@ export default function PillButton({
   border,
   boxShadow,
   scaleUpOnHover,
+  borderRadius,
   ...props
 }) {
   /********** ANIMATION **********/
@@ -53,7 +54,7 @@ export default function PillButton({
             color: color || "#000",
             fontWeight: "bold",
             fontSize: fontSize || { xs: "0.9rem", md: "1rem" },
-            borderRadius: "30px",
+            borderRadius: borderRadius || "30px",
             border: border || "",
             padding: padding || { xs: ".5rem 1.25rem", md: ".5rem 2rem" },
             boxShadow: boxShadow || "5px 10px 30px 5px rgb(0,0,0,0.3)",
