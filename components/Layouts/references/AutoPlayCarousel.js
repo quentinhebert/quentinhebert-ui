@@ -1,24 +1,19 @@
 import React from "react"
-import styled from "styled-components"
 import ItemsCarousel from "react-items-carousel"
-import { Box, Tooltip, useMediaQuery } from "@mui/material"
+import { Box, Stack, Tooltip } from "@mui/material"
 
 const autoPlayDelay = 3000
 
-const Wrapper = styled.div`
-  max-width: 90%;
-  margin: 0 auto;
-`
+const Wrapper = (props) => <Stack maxWidth="90%" margin="0 auto" {...props} />
 
-const SlideItem = styled.div`
-  height: 200px;
-  background: #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  font-weight: bold;
-`
+const SlideItem = (props) => (
+  <Stack
+    className="flex-center"
+    height="200px"
+    sx={{ backgroundColor: "transparent" }}
+    {...props}
+  />
+)
 
 export default class AutoPlayCarousel extends React.Component {
   state = {
@@ -45,7 +40,7 @@ export default class AutoPlayCarousel extends React.Component {
   render() {
     const carouselItems = this.props.references
       ? this.props.references.map((ref, index) => (
-          <SlideItem key={index} style={{ backgroundColor: "transparent" }}>
+          <SlideItem key={index}>
             <Tooltip title={ref.label}>
               <Box
                 component="img"
