@@ -1,6 +1,9 @@
 import { Stack } from "@mui/material"
-import { memo, useState } from "react"
+import { memo, useEffect, useState } from "react"
 import ReactPlayer from "react-player"
+import PillButton from "../ReusableComponents/buttons/pill-button"
+import VolumeUpIcon from "@mui/icons-material/VolumeUp"
+import VolumeOffIcon from "@mui/icons-material/VolumeOff"
 
 function arePropsEqual(prevProps, nextProps) {
   return prevProps.videoId === nextProps.videoId
@@ -13,11 +16,30 @@ function Youtube(props) {
 
   const [playing, setPlaying] = useState(false)
   const [volume, setVolume] = useState(1)
+  const [showControls, setShowControls] = useState(true)
 
   const toggleMute = () => {
     if (volume === 0) setVolume(1)
     else setVolume(0)
   }
+
+  const togglePlay = () => setPlaying(!playing)
+
+  useEffect(() => {
+    let timeout = 0
+
+    const handleMouseMove = () => {
+      setShowControls(true)
+      clearTimeout(timeout)
+
+      timeout = setTimeout(() => {
+        setShowControls(false)
+      }, 2000)
+    }
+
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [])
 
   return (
     // <Stack
@@ -62,14 +84,14 @@ function Youtube(props) {
       }}
     >
       <ReactPlayer
-        url={`https://www.youtube.com/embed/${videoId}`}
+        url={`https://youtu.be/${videoId}`}
         controls={false}
         playing={playing}
         volume={volume}
         loop={true}
         onReady={() => setPlaying(true)}
         onStart={() => setPlaying(true)}
-        onProgress={() => setPlaying(true)}
+        // onProgress={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         width="100%"
         height="100%"
@@ -83,6 +105,25 @@ function Youtube(props) {
           // transition: "opacity 0.7s ease-in-out",
         }}
       />
+      <Stack
+        className="absolute top full-width flex-center row gap-10"
+        sx={{
+          height: "100%",
+          opacity: showControls ? 1 : 0,
+          transition: "opacity 0.7s ease-in-out",
+        }}
+      >
+        <PillButton onClick={togglePlay}>
+          {playing ? "Pause" : "Jouer"}
+        </PillButton>
+        <PillButton onClick={toggleMute}>
+          {volume === 1 ? (
+            <VolumeUpIcon sx={{ marginLeft: ".25rem" }} />
+          ) : (
+            <VolumeOffIcon sx={{ marginLeft: ".25rem" }} />
+          )}
+        </PillButton>
+      </Stack>
     </Stack>
   )
 }
