@@ -105,6 +105,10 @@ export default function Navbar(props) {
                     <Stack
                       width={isReduced ? "45px" : "65px"}
                       height={isReduced ? "35px" : "50px"}
+                      sx={{
+                        transition:
+                          "width 0.1s ease-in-out, height 0.1s ease-in-out",
+                      }}
                     >
                       <Image
                         src={logoQH}
