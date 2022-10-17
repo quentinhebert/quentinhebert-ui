@@ -86,6 +86,7 @@ const Email = ({ email }) => (
 )
 
 const SocialMedias = ({ items }) => {
+  if (!items?.length) return <></>
   return (
     <Stack direction="row" width={"100%"} justifyContent="center" gap={2}>
       {items.map((social, key) => (
@@ -144,7 +145,7 @@ export default function Footer(props) {
     }
   }, [controls, inView])
 
-  if (!data || !data.email || !data.credits || !data.social_medias) return <></>
+  // if (!data || !data.email || !data.credits || !data.social_medias) return <></>
   return (
     <MotionDivFadeInOnMount>
       <Box
@@ -194,7 +195,7 @@ export default function Footer(props) {
               animate={controls}
               style={motionDivStyle}
             >
-              <Email email={data.email} />
+              <Email email={staticData?.email} />
             </motion.div>
 
             {/* SOCIAL MEDIAS */}
@@ -204,7 +205,7 @@ export default function Footer(props) {
               animate={controls}
               style={motionDivStyle}
             >
-              <SocialMedias items={data.social_medias} />
+              <SocialMedias items={staticData?.social_medias} />
             </motion.div>
           </Stack>
 
@@ -215,7 +216,7 @@ export default function Footer(props) {
             animate={controls}
             style={motionDivStyle}
           >
-            <Credits text={data.credits} />
+            <Credits text={staticData?.credits} />
           </motion.div>
         </CenteredMaxWidthContainer>
       </Box>

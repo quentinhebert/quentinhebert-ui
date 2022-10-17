@@ -7,7 +7,7 @@ import { Box } from "@mui/material"
 import prepareProps from "../services/fetchers"
 
 function ContactPage(props) {
-  const { footer } = props
+  const { footer, contact } = props
 
   // Main meta tags
   const title = "Contact"
@@ -60,5 +60,5 @@ function ContactPage(props) {
 export default ContactPage
 
 export async function getStaticProps() {
-  return await prepareProps(["footer"])
+  return await prepareProps(["footer", "contact"])
 }

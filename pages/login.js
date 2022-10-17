@@ -7,8 +7,9 @@ import { UserContext } from "../contexts/UserContext"
 import PleaseWait from "../components/ReusableComponents/helpers/please-wait"
 import { Stack } from "@mui/material"
 import { motion } from "framer-motion"
+import prepareProps from "../services/fetchers"
 
-export default function LoginPage() {
+export default function LoginPage({ footer }) {
   // Main meta tags
   const title = "Se connecter"
   const description = "Page de connexion"
@@ -46,8 +47,12 @@ export default function LoginPage() {
           </Stack>
         )}
 
-        <Footer />
+        <Footer staticData={footer} />
       </PageRoot>
     </motion.div>
   )
+}
+
+export async function getStaticProps() {
+  return await prepareProps(["footer"])
 }

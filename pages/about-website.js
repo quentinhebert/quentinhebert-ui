@@ -3,8 +3,9 @@ import AboutWebsiteLayout from "../components/Layouts/AboutWebsiteLayout"
 import PageRoot from "../components/ReusableComponents/page-builder/page-root"
 import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
 import { motion } from "framer-motion"
+import prepareProps from "../services/fetchers"
 
-export default function AboutWebsitePage() {
+export default function AboutWebsitePage({ footer }) {
   // Main meta tags
   const title = "À propos du site"
   const description = "Découvrez tout ce qu'il faut savoir sur ce site web !"
@@ -36,8 +37,12 @@ export default function AboutWebsitePage() {
 
         <AboutWebsiteLayout />
 
-        <Footer />
+        <Footer staticData={footer} />
       </PageRoot>
     </motion.div>
   )
+}
+
+export async function getStaticProps() {
+  return await prepareProps(["footer"])
 }

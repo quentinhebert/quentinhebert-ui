@@ -3,8 +3,10 @@ import PageRoot from "../components/ReusableComponents/page-builder/page-root"
 import Footer from "../components/Navigation/Footers/Footer"
 import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
 import { motion } from "framer-motion"
+import prepareProps from "../services/fetchers"
 
-export default function HomePage() {
+export default function HomePage(props) {
+  const { footer } = props
   // Main meta tags
   const title = "Freelance"
   const description =
@@ -37,8 +39,12 @@ export default function HomePage() {
 
         <IndexLayout />
 
-        <Footer />
+        <Footer staticData={footer} />
       </PageRoot>
     </motion.div>
   )
+}
+
+export async function getStaticProps() {
+  return await prepareProps(["footer"])
 }

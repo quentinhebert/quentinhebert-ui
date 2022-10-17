@@ -53,7 +53,7 @@ export default function EmailConfirmationLayout(props) {
   if (!token) return <Custom401 />
 
   return (
-    <Stack minHeight="100vh">
+    <Stack flexGrow={1}>
       {login ? (
         <LoginLayout redirect="/" />
       ) : (
@@ -107,8 +107,6 @@ export default function EmailConfirmationLayout(props) {
           </Stack>
         </Stack>
       )}
-
-      <Footer />
     </Stack>
   )
 }

@@ -7,8 +7,9 @@ import LoginLayout from "../../components/Layouts/LoginLayout"
 import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
 import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
 import { useRouter } from "next/router"
+import prepareProps from "../../services/fetchers"
 
-export default function AdminLoginPage() {
+export default function AdminLoginPage({ footer }) {
   // Main meta tags
   const title = "Admin"
   const description = "Page d'administration du site"
@@ -43,7 +44,11 @@ export default function AdminLoginPage() {
         <LoginLayout />
       )}
 
-      <Footer />
+      <Footer staticData={footer} />
     </PageRoot>
   )
+}
+
+export async function getStaticProps() {
+  return await prepareProps(["footer"])
 }
