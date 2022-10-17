@@ -15,12 +15,7 @@ import getSocialIcon from "../../Other/get-social-icon"
 import { motion } from "framer-motion"
 import StaggerParent from "../../ReusableComponents/animations/stagger-parent"
 import { moveLeftVariants } from "../../ReusableComponents/animations/variants"
-
-const fetchUpToDateContact = async () => {
-  const res = await apiCall.unauthenticated.getWebsiteContact()
-  const jsonRes = await res.json()
-  return jsonRes
-}
+import { fetchers } from "../../../services/fetchers"
 
 const SocialButton = ({ item }) => {
   return (
@@ -156,17 +151,16 @@ const AddressSection = ({ addressItems }) => {
 }
 
 export default function LeftPartContact(props) {
-  const { data } = useSWR(
-    `/website-contact`,
-    async () => fetchUpToDateContact(),
-    {
-      fallbackData: props,
-      revalidateOnMount: true,
-    }
-  )
+  const { staticData } = props
+  const swr = useSWR(`/websiteContact`, async () => fetchers.websiteContact(), {
+    fallbackData: props.staticData,
+    revalidateOnMount: true,
+  })
+  let data = staticData
+  if (!!swr.data) data = swr.data
 
-  if (!data || !data.social_medias || !data.contact || !data.address)
-    return <></>
+  // if (!data || !data.social_medias || !data.contact || !data.address)
+  //   return <></>
 
   return (
     <Stack
@@ -184,7 +178,7 @@ export default function LeftPartContact(props) {
       />
 
       <SmallTitle>Suis-moi, je te fuis !</SmallTitle>
-      <SocialButtons socialMedias={data.social_medias} />
+      <SocialButtons socialMedias={data?.social_medias} />
 
       <SmallTitle>Informations utiles</SmallTitle>
 
@@ -196,20 +190,10 @@ export default function LeftPartContact(props) {
           gap: "0.7rem",
         }}
       >
-        <ContactLinks contact={data.contact} />
+        <ContactLinks contact={data?.contact} />
 
-        <AddressSection addressItems={data.address} />
+        <AddressSection addressItems={data?.address} />
       </StaggerParent>
     </Stack>
   )
-}
-
-export async function getStaticProps({ params }) {
-  const {} = params
-  const data = await fetchUpToDateContact()
-  let notFound = false
-
-  if (data.statusCode === 400 || data.statusCode === 404) notFound = true
-
-  return { props: data, notFound, revalidate: 60 }
 }

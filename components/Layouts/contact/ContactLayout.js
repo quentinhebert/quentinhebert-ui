@@ -7,7 +7,7 @@ import CenteredMaxWidthContainer from "../../ReusableComponents/containers/cente
 import { useEffect } from "react"
 
 export default function ContactLayout(props) {
-  const {} = props
+  const { staticData } = props
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
@@ -52,7 +52,7 @@ export default function ContactLayout(props) {
             animate={controls}
             style={motionDivStyle}
           >
-            <LeftPartContact />
+            <LeftPartContact staticData={staticData} />
           </motion.div>
 
           <motion.div

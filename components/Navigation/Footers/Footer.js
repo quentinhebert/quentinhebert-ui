@@ -113,11 +113,11 @@ const LogoQH = () => (
 export default function Footer(props) {
   const { staticData } = props
   const swr = useSWR(`/footer`, async () => fetchers.footer(), {
-    fallbackData: props,
+    fallbackData: props.staticData,
     revalidateOnMount: true,
   })
   let data = staticData
-  if (swr.data) data = swr.data
+  if (!!swr.data) data = swr.data
 
   /********** STYLE **********/
   const motionDivStyle = {
@@ -195,7 +195,7 @@ export default function Footer(props) {
               animate={controls}
               style={motionDivStyle}
             >
-              <Email email={staticData?.email} />
+              <Email email={data?.email} />
             </motion.div>
 
             {/* SOCIAL MEDIAS */}
@@ -205,7 +205,7 @@ export default function Footer(props) {
               animate={controls}
               style={motionDivStyle}
             >
-              <SocialMedias items={staticData?.social_medias} />
+              <SocialMedias items={data?.social_medias} />
             </motion.div>
           </Stack>
 
@@ -216,7 +216,7 @@ export default function Footer(props) {
             animate={controls}
             style={motionDivStyle}
           >
-            <Credits text={staticData?.credits} />
+            <Credits text={data?.credits} />
           </motion.div>
         </CenteredMaxWidthContainer>
       </Box>

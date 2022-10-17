@@ -6,6 +6,11 @@ export const fetchers = {
     const jsonRes = await res.json()
     return jsonRes
   },
+  websiteContact: async () => {
+    const res = await apiCall.unauthenticated.getWebsiteContact()
+    const jsonRes = await res.json()
+    return jsonRes
+  },
 }
 
 const prepareProps = async (componentNames) => {
@@ -16,7 +21,7 @@ const prepareProps = async (componentNames) => {
       const result = await fetchers[componentName]()
       if (result.statusCode === 400 || result.statusCode === 404)
         notFound = true
-      data.footer = result
+      data[componentName] = result
     })
   )
   return { props: data, notFound, revalidate: 60 }
