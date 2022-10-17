@@ -106,7 +106,12 @@ export default function Navbar(props) {
                       width={isReduced ? "45px" : "65px"}
                       height={isReduced ? "35px" : "50px"}
                     >
-                      <Image src={logoQH} width="100%" height="100%" />
+                      <Image
+                        src={logoQH}
+                        width="100%"
+                        height="100%"
+                        priority={true}
+                      />
                     </Stack>
                     <Stack ref={ContainerRef} overflow="hidden">
                       <Slide
