@@ -259,7 +259,10 @@ export default function VideoPlayer(props) {
           </Box>
 
           {/****** FILM PLAYER ******/}
-          <Stack width={isVertical ? "100%" : "70%"} className="flex-center">
+          <Stack
+            width={isVertical ? "100%" : "70%"}
+            className="flex-center relative"
+          >
             <MemoPlayer player={player} videoId={videoId} />
           </Stack>
 
