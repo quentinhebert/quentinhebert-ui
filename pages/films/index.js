@@ -6,7 +6,7 @@ import Footer from "../../components/Navigation/Footers/Footer"
 import { motion } from "framer-motion"
 import prepareProps from "../../services/fetchers"
 
-export default function FilmsHomePage({ footer }) {
+export default function FilmsHomePage({ footer, films }) {
   // Main meta tags
   const title = "Vidéaste Freelance"
   const description =
@@ -37,7 +37,7 @@ export default function FilmsHomePage({ footer }) {
           ogImg={ogImg}
         />
 
-        <FilmsIndexLayout />
+        <FilmsIndexLayout staticData={films} />
 
         <Footer staticData={footer} />
       </PageRoot>
@@ -46,5 +46,5 @@ export default function FilmsHomePage({ footer }) {
 }
 
 export async function getStaticProps() {
-  return await prepareProps(["footer"])
+  return await prepareProps(["footer", "films"])
 }

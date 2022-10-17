@@ -17,6 +17,7 @@ import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
 import PillButton from "../../ReusableComponents/buttons/pill-button"
 import Pill from "../../ReusableComponents/text/pill"
+import { fetchers } from "../../../services/fetchers"
 
 const CATEGORIES = [
   "Tout",
@@ -467,18 +468,14 @@ const FilterSection = ({ handleFilter }) => {
   )
 }
 
-async function fetchUpToDateFilms() {
-  const res = await apiCall.unauthenticated.getAllFilms()
-  const jsonRes = await res.json()
-  return jsonRes
-}
-
-export default function MasonryImageList({ height, setHeight, ...props }) {
+export default function MasonryImageList({ staticData, height, setHeight, ...props }) {
   /********** SWR **********/
-  const { data } = useSWR(`/films`, async () => fetchUpToDateFilms(), {
-    fallbackData: props,
+  const swr = useSWR(`/films`, async () => fetchers.films(), {
+    fallbackData: props.staticData,
     revalidateOnMount: true,
   })
+  let data = staticData
+  if (!!swr.data) data = swr.data
 
   /********** CONSTANTS **********/
   const initialLimit = 6
@@ -772,14 +769,4 @@ export default function MasonryImageList({ height, setHeight, ...props }) {
       />
     </>
   )
-}
-
-export async function getStaticProps({ params }) {
-  const {} = params
-  const data = await fetchUpToDateFilms()
-  let notFound = false
-
-  if (data.statusCode === 400 || data.statusCode === 404) notFound = true
-
-  return { props: data, notFound, revalidate: 60 }
 }

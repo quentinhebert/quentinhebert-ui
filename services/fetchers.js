@@ -11,6 +11,11 @@ export const fetchers = {
     const jsonRes = await res.json()
     return jsonRes
   },
+  films: async () => {
+    const res = await apiCall.unauthenticated.getAllFilms()
+    const jsonRes = await res.json()
+    return jsonRes
+  },
 }
 
 const prepareProps = async (componentNames) => {
