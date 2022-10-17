@@ -134,7 +134,7 @@ export default function FilmsFocusPart(props) {
               position: "absolute",
               width: { xs: "35%", md: "50%" },
               minHeight: { xs: "600px", sm: "550px", md: "600px" },
-              height: "80vh",
+              height: "70vh",
               mixBlendMode: "multiply",
             }}
           />
