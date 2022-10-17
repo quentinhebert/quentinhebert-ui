@@ -468,7 +468,12 @@ const FilterSection = ({ handleFilter }) => {
   )
 }
 
-export default function MasonryImageList({ staticData, height, setHeight, ...props }) {
+export default function MasonryImageList({
+  staticData,
+  height,
+  setHeight,
+  ...props
+}) {
   /********** SWR **********/
   const swr = useSWR(`/films`, async () => fetchers.films(), {
     fallbackData: props.staticData,
@@ -483,7 +488,7 @@ export default function MasonryImageList({ staticData, height, setHeight, ...pro
   /********** USE STATES **********/
   const [openVideoPlayer, setOpenVideoPlayer] = useState(false)
   const [videoClicked, setVideoClicked] = useState(null)
-  const [filteredData, setFilteredData] = useState(null)
+  const [filteredData, setFilteredData] = useState(data)
   const [hasMoreFilms, setHasMoreFilms] = useState(false)
   const [limit, setLimit] = useState(initialLimit)
 
