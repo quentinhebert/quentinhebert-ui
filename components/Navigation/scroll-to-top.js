@@ -50,21 +50,16 @@ export default function ScrollToTopBtn(props) {
           startIcon={<AirplanemodeActiveIcon sx={{ margin: "0 .25rem" }} />}
           sx={{
             borderRadius: "30px",
-            opacity: showButton ? 1 : 0,
-            padding: ".5rem 1rem",
             margin: "1rem auto",
-            padding: ".75rem 1.5rem",
+            padding: { xs: "0.5rem 1rem", md: ".75rem 1.5rem" },
             backgroundColor: "rgb(198, 144, 14, 0.8)",
             color: "#000",
-            transition: "opacity .25s ease-in-out",
             letterSpacing: "1px",
             fontSize: "0.8rem",
             fontWeight: "bold",
             boxShadow: "5px 10px 30px 5px rgb(0,0,0,0.3)",
             "&:hover": {
-              color: "#000",
               backgroundColor: (theme) => theme.palette.background.secondary,
-              opacity: 1,
             },
           }}
         >
