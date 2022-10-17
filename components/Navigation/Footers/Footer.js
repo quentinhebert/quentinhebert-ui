@@ -18,16 +18,10 @@ import InTextLink from "../../ReusableComponents/text/in-text-link"
 import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
 import CustomLink from "../../ReusableComponents/custom-link"
 import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on-hover-stack"
-import apiCall from "../../../services/apiCalls/apiCall"
 import useSWR from "swr"
 import MotionDivFadeInOnMount from "../../ReusableComponents/animations/motion-div-fade-in-on-mount"
 import getSocialIcon from "../../Other/get-social-icon"
-
-async function fetchUpToDateFooter() {
-  const res = await apiCall.unauthenticated.getFooter()
-  const jsonRes = await res.json()
-  return jsonRes
-}
+import { fetchers } from "../../../services/fetchers"
 
 /********** CONSTANTES **********/
 const logoQH = "/logos/logo-qh.png"
@@ -116,10 +110,13 @@ const LogoQH = () => (
 )
 
 export default function Footer(props) {
-  const { data } = useSWR(`/footer`, async () => fetchUpToDateFooter(), {
+  const { staticData } = props
+  const swr = useSWR(`/footer`, async () => fetchers.footer(), {
     fallbackData: props,
     revalidateOnMount: true,
   })
+  let data = staticData
+  if (swr.data) data = swr.data
 
   /********** STYLE **********/
   const motionDivStyle = {
@@ -224,14 +221,4 @@ export default function Footer(props) {
       </Box>
     </MotionDivFadeInOnMount>
   )
-}
-
-export async function getStaticProps({ params }) {
-  const {} = params
-  const data = await fetchUpToDateFooter()
-  let notFound = false
-
-  if (data.statusCode === 400 || data.statusCode === 404) notFound = true
-
-  return { props: data, notFound, revalidate: 60 }
 }

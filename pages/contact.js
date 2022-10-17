@@ -4,8 +4,11 @@ import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
 import Footer from "../components/Navigation/Footers/Footer"
 import { motion } from "framer-motion"
 import { Box } from "@mui/material"
+import prepareProps from "../services/fetchers"
 
-function ContactPage() {
+function ContactPage(props) {
+  const { footer } = props
+
   // Main meta tags
   const title = "Contact"
   const description =
@@ -48,10 +51,14 @@ function ContactPage() {
 
         <ContactLayout />
 
-        <Footer />
+        <Footer staticData={footer} />
       </PageRoot>
     </motion.div>
   )
 }
 
 export default ContactPage
+
+export async function getStaticProps() {
+  return await prepareProps(["footer"])
+}
