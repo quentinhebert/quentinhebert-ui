@@ -1,29 +1,22 @@
 import { Box, Stack, Typography, useMediaQuery } from "@mui/material"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import CenteredMaxWidthContainer from "../ReusableComponents/containers/centered-max-width-container"
-import GradientTitleCard from "../ReusableComponents/cards/gradient-title-card"
 import theme from "../../config/theme"
 import CustomCard from "../ReusableComponents/cards/custom-card"
 import CustomCardTitle from "../ReusableComponents/cards/custom-card-title"
 import EndCardButton from "../ReusableComponents/cards/end-card-button"
 import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined"
-import StrokeText from "../ReusableComponents/text/stroke-text"
 import styles from "../../styles/TextShine.module.css"
 import SwipeableViews from "react-swipeable-views/lib/SwipeableViews"
 import Stepper from "../Navigation/stepper"
 import SwipeIcon from "@mui/icons-material/Swipe"
 import useSWR from "swr"
-import apiCall from "../../services/apiCalls/apiCall"
 import FlashingUnderscore from "../Animation/flashing-underscore"
 import FlashingRec from "../Animation/FlashingRec"
-
-async function fetchUpToDateServices() {
-  const res = await apiCall.unauthenticated.getMyServices()
-  const jsonRes = await res.json()
-  return jsonRes
-}
+import { fetchers } from "../../services/fetchers"
+import { HomePageContext } from "../../contexts/PagesContexts"
 
 const ListItem = (props) => (
   <Typography
@@ -160,16 +153,16 @@ const Caroussel = ({ services }) => {
 export default function ServicesSection(props) {
   const { refForScroll } = props
 
-  const { data, error, mutate } = useSWR(
-    `/my-services`,
-    async () => fetchUpToDateServices(),
-    {
-      fallbackData: props,
-      revalidateOnMount: true,
-    }
-  )
+  /********* StaticProps cached at build time **********/
+  const { staticData } = useContext(HomePageContext)
+  let data = staticData.services
 
-  if (!data) return null
+  /********** SWR revalidation while first returning cached static data **********/
+  const swr = useSWR(`services`, async () => fetchers.services(), {
+    fallbackData: data, // cached data initially returned by SWR
+    revalidateOnMount: true,
+  })
+  if (!!swr.data) data = swr.data // When user loads the page, data is updated by fallbackData (cached === static data), then updated by fetched up-to-date data
 
   const sm = useMediaQuery(theme.breakpoints.down("sm"))
 
@@ -272,14 +265,4 @@ export default function ServicesSection(props) {
       </CenteredMaxWidthContainer>
     </>
   )
-}
-
-export async function getStaticProps({ params }) {
-  const {} = params
-  const data = await fetchUpToDateServices()
-  let notFound = false
-
-  if (data.statusCode === 400 || data.statusCode === 404) notFound = true
-
-  return { props: data, notFound, revalidate: 60 }
 }

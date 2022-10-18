@@ -14,11 +14,10 @@ import { useInView } from "react-intersection-observer"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline"
 import useSWR from "swr"
-import apiCall from "../../../services/apiCalls/apiCall"
 import PillButton from "../../ReusableComponents/buttons/pill-button"
 import Pill from "../../ReusableComponents/text/pill"
 import { fetchers } from "../../../services/fetchers"
-import { FilmsHomePageContext } from "../../../contexts/FilmsHomePageContext"
+import { FilmsHomePageContext } from "../../../contexts/PagesContexts"
 
 const CATEGORIES = [
   "Tout",
@@ -477,7 +476,7 @@ export default function MasonryImageList({ height, setHeight, ...props }) {
   let data = staticData.films
 
   /********** SWR revalidation while first returning cached static data **********/
-  const swr = useSWR(`/films`, async () => fetchers.films(), {
+  const swr = useSWR(`films`, async () => fetchers.films(), {
     fallbackData: data, // cached data initially returned by SWR
     revalidateOnMount: true,
   })

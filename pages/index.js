@@ -4,9 +4,10 @@ import Footer from "../components/Navigation/Footers/Footer"
 import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
 import { motion } from "framer-motion"
 import prepareProps from "../services/fetchers"
+import { HomePageContext } from "../contexts/PagesContexts"
 
 export default function HomePage(props) {
-  const { footer } = props
+  const { footer, services } = props
   // Main meta tags
   const title = "Freelance"
   const description =
@@ -27,24 +28,26 @@ export default function HomePage(props) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <PageRoot>
-        <HtmlHead
-          title={title}
-          description={description}
-          keywords={keywords}
-          follow={follow}
-          type={type}
-          ogImg={ogImg}
-        />
+      <HomePageContext.Provider value={{ staticData: { services } }}>
+        <PageRoot>
+          <HtmlHead
+            title={title}
+            description={description}
+            keywords={keywords}
+            follow={follow}
+            type={type}
+            ogImg={ogImg}
+          />
 
-        <IndexLayout />
+          <IndexLayout />
 
-        <Footer staticData={footer} />
-      </PageRoot>
+          <Footer staticData={footer} />
+        </PageRoot>
+      </HomePageContext.Provider>
     </motion.div>
   )
 }
 
 export async function getStaticProps() {
-  return await prepareProps(["footer"])
+  return await prepareProps(["footer", "services"])
 }

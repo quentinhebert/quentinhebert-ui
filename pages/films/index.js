@@ -4,8 +4,7 @@ import PageRoot from "../../components/ReusableComponents/page-builder/page-root
 import Footer from "../../components/Navigation/Footers/Footer"
 import { motion } from "framer-motion"
 import prepareProps from "../../services/fetchers"
-import { useState } from "react"
-import { FilmsHomePageContext } from "../../contexts/FilmsHomePageContext"
+import { FilmsHomePageContext } from "../../contexts/PagesContexts"
 
 export default function FilmsHomePage({ footer, films }) {
   // Main meta tags
@@ -22,15 +21,13 @@ export default function FilmsHomePage({ footer, films }) {
   const type = "website"
   const ogImg = "/medias/ogimg.png"
 
-  const [staticData, setStaticData] = useState({ films })
-
   return (
     <motion.div
       exit={{ opacity: 0 }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <FilmsHomePageContext.Provider value={{ staticData }}>
+      <FilmsHomePageContext.Provider value={{ staticData: { films } }}>
         <PageRoot>
           <HtmlHead
             title={title}
@@ -41,7 +38,7 @@ export default function FilmsHomePage({ footer, films }) {
             ogImg={ogImg}
           />
 
-          <FilmsIndexLayout staticData={films} />
+          <FilmsIndexLayout />
 
           <Footer staticData={footer} />
         </PageRoot>
