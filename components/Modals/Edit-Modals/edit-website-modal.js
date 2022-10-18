@@ -10,7 +10,6 @@ import CustomOutlinedInput from "../../ReusableComponents/forms/custom-outlined-
 import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
 import CustomOutlinedSelect from "../../ReusableComponents/forms/custom-outlined-select"
 import SelectOption from "../../ReusableComponents/forms/custom-select-option"
-import DualInputLine from "../../ReusableComponents/forms/responsive-dual-input-container"
 import CustomCheckbox from "../../ReusableComponents/forms/custom-checkbox"
 import CustomAccordion from "../../ReusableComponents/containers/custom-accordion"
 import DropzoneShowImage from "../../ReusableComponents/images/drop-zone-show-image"

@@ -4,9 +4,15 @@ import PageTitle from "../../ReusableComponents/titles/page-title"
 import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
 import AppsIcon from "@mui/icons-material/Apps"
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
-import WebsitesPanel from "./WebsitesPanelModes/WebsitesPanel"
-import FilmsPanelUI from "./FilmsPanelModes/FilmsPanelUI"
 import CustomOutlinedButton from "../../ReusableComponents/buttons/custom-outlined-button"
+import dynamic from "next/dynamic"
+
+const WebsitesPanel = dynamic(() =>
+  import("./WebsitesPanelModes/WebsitesPanel")
+)
+const WebsitesPanelUI = dynamic(() =>
+  import("./WebsitesPanelModes/WebsitesPanelUI")
+)
 
 export default function AdminFilmsPanel(props) {
   const {} = props
@@ -66,7 +72,7 @@ export default function AdminFilmsPanel(props) {
         </Stack>
 
         {mode === MODES.PANEL && <WebsitesPanel />}
-        {mode === MODES.UI && <FilmsPanelUI />}
+        {mode === MODES.UI && <WebsitesPanelUI />}
       </Stack>
     </Stack>
   )
