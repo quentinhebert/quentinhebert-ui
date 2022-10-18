@@ -280,6 +280,18 @@ const unauthenticated = {
       console.error(error)
     }
   },
+  getWebsiteTags: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/website-tags`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
 }
 
 export default unauthenticated

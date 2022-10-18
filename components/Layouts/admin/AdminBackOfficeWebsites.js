@@ -2,22 +2,27 @@ import { Box, Stack } from "@mui/material"
 import PageTitle from "../../ReusableComponents/titles/page-title"
 import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
 import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
-import { Multimedia } from "grommet-icons"
 import { Icon } from "react-icons-kit"
+import { browser } from "react-icons-kit/ikons/browser"
 import { videoCamera } from "react-icons-kit/icomoon/videoCamera"
+import { slideshow } from "react-icons-kit/ikons/slideshow"
 
 const CARDS = [
   {
     title: "Mes sites web",
-    icon: <Multimedia color="#fff" size="large" />,
-    description: "Ajoutez, modifiez et supprimez des films de votre site.",
-    button: { text: "Gérer", href: "/admin/back-office/films/manage-films" },
+    icon: <Icon icon={browser} size={50} />,
+    description:
+      "Ajoutez, modifiez et supprimez des sites web de votre portfolio web.",
+    button: {
+      text: "Gérer",
+      href: "/admin/back-office/websites/manage-websites",
+    },
   },
   {
-    title: "Mes références",
-    icon: <Icon icon={videoCamera} size={50} />,
+    title: "Diapositives",
+    icon: <Icon icon={slideshow} size={50} />,
     description:
-      "Ajoutez, modifiez et supprimez des items de votre matériel vidéo.",
+      "Captez l'attention de vos visiteurs grâce à vos diapositives textuelles !",
     button: { text: "Gérer", href: "/admin/back-office/websites" },
   },
 ]

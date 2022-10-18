@@ -70,6 +70,7 @@ export default function CustomTable(props) {
             cursor: "default",
             color: (theme) => theme.palette.text.white,
             paddingRight: headCell.centered ? "2rem" : 0,
+            width: headCell.width || null,
           }}
         >
           {data}
@@ -231,7 +232,7 @@ export default function CustomTable(props) {
                           sx={{
                             color: (theme) => theme.palette.text.white,
                             cursor: "default",
-                            maxWidth: "10rem",
+                            maxWidth: "5rem",
                             wordBreak: "break-all",
                           }}
                         >

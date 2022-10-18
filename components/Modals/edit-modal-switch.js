@@ -1,5 +1,8 @@
 import dynamic from "next/dynamic"
 const EditFilmModal = dynamic(() => import("./Edit-Modals/edit-film-modal"))
+const EditWebsiteModal = dynamic(() =>
+  import("./Edit-Modals/edit-website-modal")
+)
 const EditUserModal = dynamic(() => import("./Edit-Modals/edit-user-modal"))
 const EditReferenceModal = dynamic(() =>
   import("./Edit-Modals/edit-reference-modal")
@@ -23,6 +26,14 @@ export default function EditModalSwitch(props) {
       return (
         <EditFilmModal
           filmId={dataId}
+          openEditModal={openEditModal}
+          handleCloseEditModal={handleCloseEditModal}
+        />
+      )
+    case "edit-website":
+      return (
+        <EditWebsiteModal
+          websiteId={dataId}
           openEditModal={openEditModal}
           handleCloseEditModal={handleCloseEditModal}
         />

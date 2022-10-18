@@ -1,8 +1,8 @@
 import { defaultConfig } from "../../config/defaultConfig"
-import { getRefreshToken } from "../auth"
-import { getFreshToken, getUser } from "../utils"
+import { getFreshToken } from "../utils"
 
 const admin = {
+  /************* USERS *************/
   create: async ({ userData }) => {
     try {
       const encodedPassword = new Buffer.from(userData.password).toString(
@@ -100,6 +100,7 @@ const admin = {
       console.error(err)
     }
   },
+  /************* FILES *************/
   getFiles: async () => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/admin/files`, {
@@ -127,9 +128,10 @@ const admin = {
       console.error(err)
     }
   },
-  getAllFilms: async () => {
+  /************* WEBSITE *************/
+  getNavbar: async () => {
     try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/films`, {
+      return await fetch(`${defaultConfig.apiUrl}/admin/navbar`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
@@ -140,36 +142,69 @@ const admin = {
       console.error(err)
     }
   },
-  getFilm: async (filmId) => {
+  updateNavbar: async (menuItems, idsToDelete) => {
+    const body = { menu_items: menuItems, ids_to_delete: idsToDelete }
     try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/films/${filmId}`, {
+      return await fetch(`${defaultConfig.apiUrl}/admin/navbar`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  updateFooter: async (credits) => {
+    const body = { credits }
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/footer`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  getWebsiteContact: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/website-contact`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
           "Content-Type": "application/json",
         },
       })
-    } catch (err) {
-      console.error(err)
+    } catch (error) {
+      console.error(error)
     }
   },
-  uploadCategoryThumbnail: async (payload) => {
-    const { formData, category } = payload
+  updateWebsiteContact: async (contactItems) => {
+    const body = {
+      address: contactItems.address,
+      contact: contactItems.contact,
+      social_medias: contactItems.social_medias,
+    }
     try {
-      return await fetch(
-        `${defaultConfig.apiUrl}/admin/categories/${category.id}/thumbnail`,
-        {
-          method: "POST",
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${await getFreshToken()}`,
-          },
-        }
-      )
-    } catch (err) {
-      console.error(err)
+      return await fetch(`${defaultConfig.apiUrl}/admin/website-contact`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      })
+    } catch (error) {
+      console.error(error)
     }
   },
+  /************* DEPRECATED *************/
   updateCategory: async (category) => {
     const body = JSON.stringify({
       bg_video_url: category.bg_video_url,
@@ -219,6 +254,50 @@ const admin = {
           },
         }
       )
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  uploadCategoryThumbnail: async (payload) => {
+    const { formData, category } = payload
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/admin/categories/${category.id}/thumbnail`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+          },
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  /************* FILMS *************/
+  getAllFilms: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/films`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  getFilm: async (filmId) => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/films/${filmId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
     } catch (err) {
       console.error(err)
     }
@@ -303,29 +382,23 @@ const admin = {
       console.error(err)
     }
   },
-  updateReference: async (reference) => {
-    const body = {
-      id: reference.id,
-      logo: { id: reference.logo.id },
-      label: reference.label,
-      type: reference.type.id,
-    }
+  sortFilms: async (sortedFilmIds) => {
     try {
-      return await fetch(
-        `${defaultConfig.apiUrl}/admin/references/${reference.id}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(body),
-          headers: {
-            Authorization: `Bearer ${await getFreshToken()}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      const body = JSON.stringify({ sortedFilmIds })
+
+      return await fetch(`${defaultConfig.apiUrl}/admin/films/sort`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: body,
+      })
     } catch (err) {
       console.error(err)
     }
   },
+  /************* REFERENCES *************/
   getAllReferences: async () => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/admin/references`, {
@@ -356,6 +429,22 @@ const admin = {
       console.error(err)
     }
   },
+  addReferenceLogo: async (logo) => {
+    try {
+      let formData = new FormData()
+      formData.append("logo", logo)
+      return await fetch(`${defaultConfig.apiUrl}/admin/references/logo`, {
+        method: "POST",
+        body: formData,
+        mode: "cors",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
   addReference: async (reference) => {
     const body = {
       type: reference.type,
@@ -375,18 +464,25 @@ const admin = {
       console.error(err)
     }
   },
-  addReferenceLogo: async (logo) => {
+  updateReference: async (reference) => {
+    const body = {
+      id: reference.id,
+      logo: { id: reference.logo.id },
+      label: reference.label,
+      type: reference.type.id,
+    }
     try {
-      let formData = new FormData()
-      formData.append("logo", logo)
-      return await fetch(`${defaultConfig.apiUrl}/admin/references/logo`, {
-        method: "POST",
-        body: formData,
-        mode: "cors",
-        headers: {
-          Authorization: `Bearer ${await getFreshToken()}`,
-        },
-      })
+      return await fetch(
+        `${defaultConfig.apiUrl}/admin/references/${reference.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(body),
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
     } catch (err) {
       console.error(err)
     }
@@ -423,25 +519,10 @@ const admin = {
       console.error(err)
     }
   },
-  sortFilms: async (sortedFilmIds) => {
+  /************* WEBSITES *************/
+  getAllWebsites: async () => {
     try {
-      const body = JSON.stringify({ sortedFilmIds })
-
-      return await fetch(`${defaultConfig.apiUrl}/admin/films/sort`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${await getFreshToken()}`,
-          "Content-Type": "application/json",
-        },
-        body: body,
-      })
-    } catch (err) {
-      console.error(err)
-    }
-  },
-  getNavbar: async () => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/navbar`, {
+      return await fetch(`${defaultConfig.apiUrl}/admin/websites`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
@@ -452,66 +533,97 @@ const admin = {
       console.error(err)
     }
   },
-  updateNavbar: async (menuItems, idsToDelete) => {
-    const body = { menu_items: menuItems, ids_to_delete: idsToDelete }
+  getWebsite: async (websiteId) => {
     try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/navbar`, {
-        method: "PUT",
+      return await fetch(
+        `${defaultConfig.apiUrl}/admin/websites/${websiteId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  addWebsiteThumbnail: async (thumbnail) => {
+    try {
+      let formData = new FormData()
+      formData.append("thumbnail", thumbnail)
+      return await fetch(`${defaultConfig.apiUrl}/admin/websites/thumbnail`, {
+        method: "POST",
+        body: formData,
+        mode: "cors",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
-          "Content-Type": "application/json",
         },
-        body: JSON.stringify(body),
       })
     } catch (err) {
       console.error(err)
     }
   },
-  updateFooter: async (credits) => {
-    const body = { credits }
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/footer`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${await getFreshToken()}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      })
-    } catch (err) {
-      console.error(err)
-    }
-  },
-  getWebsiteContact: async () => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/website-contact`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${await getFreshToken()}`,
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
-  updateWebsiteContact: async (contactItems) => {
+  addWebsite: async (website) => {
     const body = {
-      address: contactItems.address,
-      contact: contactItems.contact,
-      social_medias: contactItems.social_medias,
+      description: website.description,
+      url: website.url,
+      client: website.client,
+      year: website.year,
+      tags: website.tags,
+      thumbnail: website.thumbnail,
     }
     try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/website-contact`, {
-        method: "PUT",
+      return await fetch(`${defaultConfig.apiUrl}/admin/websites`, {
+        method: "POST",
+        body: JSON.stringify(body),
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(body),
       })
-    } catch (error) {
-      console.error(error)
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  updateWebsite: async (website) => {
+    const body = {
+      id: website.id,
+      description: website.description,
+      url: website.url,
+      client: website.client,
+      year: website.year,
+      tags: website.tags,
+      thumbnail: website.thumbnail,
+    }
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/websites/${body.id}`, {
+        method: "PUT",
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  deleteWebsite: async (website) => {
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/admin/websites/${website.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+    } catch (err) {
+      console.error(err)
     }
   },
 }

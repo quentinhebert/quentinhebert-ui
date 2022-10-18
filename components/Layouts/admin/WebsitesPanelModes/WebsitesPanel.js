@@ -5,7 +5,7 @@ import withConfirmAction from "../../../hocs/withConfirmAction"
 import SortVideos from "../../../Modals/sort-videos"
 import CustomTable from "../../../Sections/custom-table"
 import BodyText from "../../../ReusableComponents/text/body-text"
-import AddFilmModal from "../../../Modals/Create-Modals/add-film-modal"
+import AddWebsiteModal from "../../../Modals/Create-Modals/add-website-modal"
 import CustomOutlinedButton from "../../../ReusableComponents/buttons/custom-outlined-button"
 import SortIcon from "@mui/icons-material/Sort"
 import { AppContext } from "../../../../contexts/AppContext"
@@ -25,9 +25,9 @@ const headCells = [
     },
   },
   {
-    id: "title",
+    id: "url",
     numeric: false,
-    label: "Titre",
+    label: "Lien du site",
   },
   {
     id: "client",
@@ -35,9 +35,10 @@ const headCells = [
     label: "Client",
   },
   {
-    id: "type",
+    id: "description",
     numeric: false,
-    label: "Catégorie",
+    label: "Description",
+    width: "40%",
   },
   {
     id: "year",
@@ -46,7 +47,7 @@ const headCells = [
   },
 ]
 
-function FilmsPanel(props) {
+function WebsitesPanel(props) {
   const {
     setActionToFire,
     setOpenConfirmModal,
@@ -58,29 +59,29 @@ function FilmsPanel(props) {
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   const [rows, setRows] = useState(null)
-  const [openAddFilmModal, setOpenAddFilmModal] = useState(false)
-  const [openSortVideosModal, setOpenSortVideosModal] = useState(false)
+  const [openAddWebsiteModal, setOpenAddWebsiteModal] = useState(false)
+  const [openSortWebsitesModal, setOpenSortWebsitesModal] = useState(false)
 
   /***************** FETCH DATA ****************/
-  const fetchFilms = async () => {
-    const res = await apiCall.admin.getAllFilms()
+  const fetchWebsites = async () => {
+    const res = await apiCall.admin.getAllWebsites()
     if (res && res.ok) {
-      const films = await res.json()
-      setRows(films)
+      const websites = await res.json()
+      setRows(websites)
     }
   }
   // Initial fetch
   useEffect(() => {
-    fetchFilms()
+    fetchWebsites()
   }, [])
 
   /***************** FUNCTIONS *****************/
-  const deleteFilms = async (filmsToDelete) => {
-    // filmsToDelete must be an array of videos ids (we get it from handleDeleteFilms())
-    const errorsCount = filmsToDelete.length
+  const deleteWebsites = async (websitesToDelete) => {
+    // websitesToDelete must be an array of website ids (we get it from handleDeleteWebsites())
+    const errorsCount = websitesToDelete.length
     const [errors] = await Promise.all(
-      filmsToDelete.map(async (videoId) => {
-        const res = await apiCall.admin.deleteFilm({ id: videoId })
+      websitesToDelete.map(async (websiteId) => {
+        const res = await apiCall.admin.deleteWebsite({ id: websiteId })
         if (res && res.ok) {
           errorsCount -= 1
         }
@@ -90,54 +91,54 @@ function FilmsPanel(props) {
 
     if (errors === 0) {
       setSnackSeverity("success")
-      setSnackMessage("Film(s) supprimé(s)")
+      setSnackMessage("Site(s) web supprimé(s)")
     } else {
       setSnackSeverity("error")
       setSnackMessage(
-        `Une erreur est survenur lors de la suppression de ${errors} des films sélectionné(s).`
+        `Une erreur est survenur lors de la suppression de ${errors} des sites web sélectionné(s).`
       )
     }
 
-    await fetchFilms() // Refresh data
+    await fetchWebsites() // Refresh data
   }
 
   /***************** HANDLERS *****************/
-  const handleDeleteFilms = async (filmsToDelete) => {
-    // filmsToDelete must be an array of video ids (we get it from table-helper.js)
-    if (!filmsToDelete.length) {
+  const handleDeleteWebsites = async (websitesToDelete) => {
+    // websitesToDelete must be an array of website ids (we get it from table-helper.js)
+    if (!websitesToDelete.length) {
       setSnackSeverity("error")
       return setSnackMessage(
-        "Une erreur est survenue lors de la suppression d'un des films"
+        "Une erreur est survenue lors de la suppression d'un des sites web"
       )
     }
     // Open confirm modal
-    setConfirmTitle(`Supprimer ${filmsToDelete.length} film(s)`)
-    setActionToFire(() => async () => await deleteFilms(filmsToDelete))
+    setConfirmTitle(`Supprimer ${websitesToDelete.length} site(s) web`)
+    setActionToFire(() => async () => await deleteWebsites(websitesToDelete))
     setConfirmContent({
-      text: `Voulez-vous vraiment supprimer ${filmsToDelete.length} film(s) ?`,
+      text: `Voulez-vous vraiment supprimer ${websitesToDelete.length} site(s) web ?`,
     })
     setNextButtonText("Supprimer")
     setOpenConfirmModal(true)
   }
-  const handleCreate = () => setOpenAddFilmModal(true)
-  const handleCloseSortVideosModal = async () => {
-    fetchFilms()
-    setOpenSortVideosModal(false)
+  const handleCreate = () => setOpenAddWebsiteModal(true)
+  const handleCloseSortWebsitesModal = async () => {
+    fetchWebsites()
+    setOpenSortWebsitesModal(false)
   }
 
   return (
     <Stack justifyContent="center" direction="column" gap={2}>
       <BodyText fontSize="1rem">
         Ci-dessous, vous pouvez ajouter, modifier ou supprimer une ou plusieurs
-        films de votre site.
+        sites web de votre portfolio web.
       </BodyText>
 
       <Box>
         <CustomOutlinedButton
-          onClick={() => setOpenSortVideosModal(true)}
+          onClick={() => setOpenSortWebsitesModal(true)}
           startIcon={<SortIcon />}
         >
-          Modifier l'ordre des films
+          Modifier l'ordre des sites web
         </CustomOutlinedButton>
       </Box>
 
@@ -151,29 +152,31 @@ function FilmsPanel(props) {
             allRows={rows}
             setRows={setRows}
             headCells={headCells}
-            arrayTitle={rows ? `Films - ${rows.length} résultat(s)` : "Films"}
-            handleDelete={handleDeleteFilms}
+            arrayTitle={
+              rows ? `Sites web - ${rows.length} résultat(s)` : "Sites web"
+            }
+            handleDelete={handleDeleteWebsites}
             handleCreate={handleCreate}
-            refreshData={() => fetchFilms()}
-            editDataModel="edit-film"
+            refreshData={() => fetchWebsites()}
+            editDataModel="edit-website"
           />
         </Paper>
       </Stack>
 
-      <AddFilmModal
-        open={openAddFilmModal}
-        handleClose={() => setOpenAddFilmModal(false)}
-        refreshData={() => fetchFilms()}
+      <AddWebsiteModal
+        open={openAddWebsiteModal}
+        handleClose={() => setOpenAddWebsiteModal(false)}
+        refreshData={() => fetchWebsites()}
       />
       {rows && rows.length ? (
         <SortVideos
           videos={rows}
-          open={openSortVideosModal}
-          handleClose={handleCloseSortVideosModal}
+          open={openSortWebsitesModal}
+          handleClose={handleCloseSortWebsitesModal}
         />
       ) : null}
     </Stack>
   )
 }
 
-export default withConfirmAction(FilmsPanel)
+export default withConfirmAction(WebsitesPanel)
