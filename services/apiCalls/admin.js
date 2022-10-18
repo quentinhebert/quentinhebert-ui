@@ -626,6 +626,22 @@ const admin = {
       console.error(err)
     }
   },
+  sortWebsites: async (sortedWebsiteIds) => {
+    try {
+      const body = JSON.stringify({ sortedWebsiteIds })
+
+      return await fetch(`${defaultConfig.apiUrl}/admin/websites/sort`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: body,
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
 }
 
 export default admin

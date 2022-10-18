@@ -2,7 +2,7 @@ import { Box, Paper, Stack } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../../hocs/withConfirmAction"
-import SortVideos from "../../../Modals/sort-videos"
+import SortWebsites from "../../../Modals/sort-websites"
 import CustomTable from "../../../Sections/custom-table"
 import BodyText from "../../../ReusableComponents/text/body-text"
 import AddWebsiteModal from "../../../Modals/Create-Modals/add-website-modal"
@@ -169,8 +169,8 @@ function WebsitesPanel(props) {
         refreshData={() => fetchWebsites()}
       />
       {rows && rows.length ? (
-        <SortVideos
-          videos={rows}
+        <SortWebsites
+          websites={rows}
           open={openSortWebsitesModal}
           handleClose={handleCloseSortWebsitesModal}
         />
