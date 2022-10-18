@@ -6,12 +6,11 @@ const CssFilledInput = styled((props) => (
     size="small"
     sx={{
       width: "100%",
-      background: (theme) =>
-        `linear-gradient(-90deg, transparent 0%, ${theme.palette.background.main} 10%)`,
-      borderRadius: "5px",
+      borderRadius: "10px",
       padding: "12px",
       textDecoration: "none",
       color: (theme) => theme.palette.text.white,
+      border: (theme) => `1px solid ${theme.palette.secondary.main}`,
     }}
     {...props}
   />
