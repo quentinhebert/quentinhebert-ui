@@ -9,6 +9,7 @@ const adminTree = {
   "manage-film-gear": "Mon matériel",
   websites: "Sites web",
   references: "Mes références",
+  "manage-websites": "Mes sites web",
 }
 
 export default adminTree
