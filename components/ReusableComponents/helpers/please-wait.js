@@ -12,7 +12,7 @@ export default function PleaseWait() {
         gap={4}
       >
         <CustomCircularProgress />
-        <BodyText>Veuillez patienter...</BodyText>
+        <BodyText preventTransition={true}>Veuillez patienter...</BodyText>
       </Stack>
     </Stack>
   )

@@ -8,6 +8,7 @@ const Text = styled(
   ({
     color,
     fontFamily,
+    preventTransition,
     preventTransitionOut,
     animDelay,
     textAlign,
@@ -28,6 +29,7 @@ const Text = styled(
       hidden: { opacity: 0 },
     }
     useEffect(() => {
+      if (preventTransition) return
       if (inView) {
         controls.start("visible")
       } else if (!preventTransitionOut) {
@@ -37,7 +39,11 @@ const Text = styled(
 
     return (
       <Box component={"span"} ref={ref} textAlign={textAlign || "left"}>
-        <motion.span initial="hidden" variants={variants} animate={controls}>
+        <motion.span
+          initial={preventTransition ? "visible" : "hidden"}
+          variants={variants}
+          animate={controls}
+        >
           <Typography
             component={"span"}
             fontFamily={fontFamily || "Helmet"}
