@@ -9,7 +9,7 @@ import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 
 export default function FilmsPortfolioPart(props) {
-  const { refForScroll, staticData } = props
+  const { refForScroll } = props
   const [height, setHeight] = useState(0)
 
   const sm = useMediaQuery((theme) => theme.breakpoints.up("sm"))
@@ -107,11 +107,7 @@ export default function FilmsPortfolioPart(props) {
           </Stack>
 
           <AnimateHeight duration={500} height={height}>
-            <PortfolioImageList
-              setHeight={setHeight}
-              height={height}
-              staticData={staticData}
-            />
+            <PortfolioImageList setHeight={setHeight} height={height} />
           </AnimateHeight>
         </CenteredMaxWidthStack>
       </Stack>

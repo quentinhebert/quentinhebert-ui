@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import {
   Box,
   ImageList,
@@ -18,6 +18,7 @@ import apiCall from "../../../services/apiCalls/apiCall"
 import PillButton from "../../ReusableComponents/buttons/pill-button"
 import Pill from "../../ReusableComponents/text/pill"
 import { fetchers } from "../../../services/fetchers"
+import { FilmsHomePageContext } from "../../../contexts/FilmsHomePageContext"
 
 const CATEGORIES = [
   "Tout",
@@ -468,19 +469,19 @@ const FilterSection = ({ handleFilter }) => {
   )
 }
 
-export default function MasonryImageList({
-  staticData,
-  height,
-  setHeight,
-  ...props
-}) {
-  /********** SWR **********/
+export default function MasonryImageList({ height, setHeight, ...props }) {
+  const {} = props
+
+  /********* StaticProps cached at build time **********/
+  const { staticData } = useContext(FilmsHomePageContext)
+  let data = staticData.films
+
+  /********** SWR revalidation while first returning cached static data **********/
   const swr = useSWR(`/films`, async () => fetchers.films(), {
-    fallbackData: props.staticData,
+    fallbackData: data, // cached data initially returned by SWR
     revalidateOnMount: true,
   })
-  let data = staticData
-  if (!!swr.data) data = swr.data
+  if (!!swr.data) data = swr.data // When user loads the page, data is updated by fallbackData (cached === static data), then updated by fetched up-to-date data
 
   /********** CONSTANTS **********/
   const initialLimit = 6
@@ -493,7 +494,7 @@ export default function MasonryImageList({
   const [limit, setLimit] = useState(initialLimit)
 
   /********** REFS **********/
-  const heightRef = useRef(null)
+  const heightRef = useRef()
 
   /********** THEME **********/
   const md = useMediaQuery((theme) => theme.breakpoints.down("md"))

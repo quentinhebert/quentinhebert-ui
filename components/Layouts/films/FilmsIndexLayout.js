@@ -9,7 +9,7 @@ import FilmProjectSteps from "./FilmProjectSteps"
 import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
 
 export default function FilmsIndexLayout(props) {
-  const { staticData } = props
+  const {} = props
 
   const topRef = useRef()
   const quoteRef = useRef()
@@ -43,10 +43,7 @@ export default function FilmsIndexLayout(props) {
       <FilmsIndexHero refForScroll={refsForScroll.portfolio} />
 
       {/* PORTFOLIO */}
-      <FilmsPortfolioPart
-        refForScroll={refsForScroll.portfolio}
-        staticData={staticData}
-      />
+      <FilmsPortfolioPart refForScroll={refsForScroll.portfolio} />
 
       {/* INTRO */}
       <FilmsFocusPart refsForScroll={refsForScroll} />

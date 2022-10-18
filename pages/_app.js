@@ -41,13 +41,6 @@ function MyApp({ Component, pageProps, router }) {
     setIsUserDataFetching(!!user)
   }
 
-  // In case app is restarted
-  const fetchAppInfos = async () => {
-    setIsAppDataFetching(true)
-    //
-    setIsAppDataFetching(false)
-  }
-
   // Everytime the app is restarted, we look for a token stocked in cookies. If the user context has no user but cookies do, we fetch up-to-date user info to set the user from the context
   useEffect(() => {
     // Get token from cookies

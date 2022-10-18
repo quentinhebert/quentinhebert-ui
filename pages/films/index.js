@@ -1,10 +1,11 @@
 import FilmsIndexLayout from "../../components/Layouts/films/FilmsIndexLayout"
-import { defaultConfig } from "../../config/defaultConfig"
 import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
 import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
 import Footer from "../../components/Navigation/Footers/Footer"
 import { motion } from "framer-motion"
 import prepareProps from "../../services/fetchers"
+import { useState } from "react"
+import { FilmsHomePageContext } from "../../contexts/FilmsHomePageContext"
 
 export default function FilmsHomePage({ footer, films }) {
   // Main meta tags
@@ -21,26 +22,30 @@ export default function FilmsHomePage({ footer, films }) {
   const type = "website"
   const ogImg = "/medias/ogimg.png"
 
+  const [staticData, setStaticData] = useState({ films })
+
   return (
     <motion.div
       exit={{ opacity: 0 }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <PageRoot>
-        <HtmlHead
-          title={title}
-          description={description}
-          keywords={keywords}
-          follow={follow}
-          type={type}
-          ogImg={ogImg}
-        />
+      <FilmsHomePageContext.Provider value={{ staticData }}>
+        <PageRoot>
+          <HtmlHead
+            title={title}
+            description={description}
+            keywords={keywords}
+            follow={follow}
+            type={type}
+            ogImg={ogImg}
+          />
 
-        <FilmsIndexLayout staticData={films} />
+          <FilmsIndexLayout staticData={films} />
 
-        <Footer staticData={footer} />
-      </PageRoot>
+          <Footer staticData={footer} />
+        </PageRoot>
+      </FilmsHomePageContext.Provider>
     </motion.div>
   )
 }
