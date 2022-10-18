@@ -14,8 +14,14 @@ import AddIcon from "@mui/icons-material/Add"
 import BodyText from "../../../ReusableComponents/text/body-text"
 import { AppContext } from "../../../../contexts/AppContext"
 import AddWebsiteModal from "../../../Modals/Create-Modals/add-website-modal"
-import EditWebsiteModal from "../../../Modals/Edit-Modals/edit-website-modal"
-import DeleteWebsiteModal from "../../../Modals/Delete-Modals/delete-website-modal"
+import dynamic from "next/dynamic"
+
+const EditWebsiteModal = dynamic(() =>
+  import("../../../Modals/Edit-Modals/edit-website-modal")
+)
+const DeleteWebsiteModal = dynamic(() =>
+  import("../../../Modals/Delete-Modals/delete-website-modal")
+)
 
 const SortableListItem = sortableElement(
   ({ item, fetchWebsites, showMenu }) => {
