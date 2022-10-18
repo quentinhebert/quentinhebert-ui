@@ -44,7 +44,7 @@ export default function AdminBackOfficeFilms(props) {
           backgroundSize: "cover",
         }}
       />
-      <PageTitle zIndex={1} text="Back-Office" />
+      <PageTitle zIndex={1} text="Vidéo" />
       <Breadcrumbs panel="admin" />
 
       <Stack zIndex={0}>

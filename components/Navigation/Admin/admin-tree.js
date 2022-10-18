@@ -4,7 +4,7 @@ const adminTree = {
   "manage-users": "Gérer les utilisateurs",
   "manage-files": "Gérer les fichiers",
   "back-office": "Back-Office (gérer le contenu)",
-  films: "Films",
+  films: "Vidéo",
   "manage-films": "Mes films",
   "manage-film-gear": "Mon matériel",
   websites: "Sites web",

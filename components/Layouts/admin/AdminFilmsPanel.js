@@ -23,7 +23,7 @@ export default function AdminFilmsPanel(props) {
         padding="1rem"
         margin="100px 0"
       >
-        <PageTitle zIndex={1} text="Gérer les films" />
+        <PageTitle zIndex={1} text="Mes films" />
         <Breadcrumbs panel="admin" />
 
         <Stack gap={2} flexDirection="row">
