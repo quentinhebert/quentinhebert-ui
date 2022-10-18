@@ -48,7 +48,7 @@ export default function DeleteWebsiteModal(props) {
       <ModalTitle>Supprimer le site web</ModalTitle>
 
       <BodyText>
-        Voulez-vous vraiment supprimer le site web "{website.title}"
+        Voulez-vous vraiment supprimer le site web "{website.client}"
       </BodyText>
 
       <CustomForm gap={3}>
