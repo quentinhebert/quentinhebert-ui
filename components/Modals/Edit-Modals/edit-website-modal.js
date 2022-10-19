@@ -17,11 +17,20 @@ import compressImage from "../../../services/images"
 import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
 import { AppContext } from "../../../contexts/AppContext"
 import PillButton from "../../ReusableComponents/buttons/pill-button"
+import DeleteIcon from "@mui/icons-material/Delete"
 
 const currentYear = new Date().getFullYear()
 
 function EditWebsiteModal(props) {
-  const { websiteId, openEditModal, handleCloseEditModal } = props
+  const {
+    websiteId,
+    openEditModal,
+    handleCloseEditModal,
+    setActionToFire,
+    setOpenConfirmModal,
+    setConfirmTitle,
+    setConfirmContent,
+  } = props
 
   // APP CONTEXT
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
@@ -149,6 +158,18 @@ function EditWebsiteModal(props) {
       setNewTag(null)
     }
   }
+  const deleteWebsiteTag = async (tagId) => {
+    const res = await apiCall.admin.deleteWebsiteTag(tagId)
+    if (res && res.ok) return fetchWebsiteTags()
+  }
+  const handleDeleteWebsiteTag = (tagId) => {
+    setActionToFire(() => async () => deleteWebsiteTag(tagId))
+    setOpenConfirmModal(true)
+    setConfirmTitle("Voulez vous vraiment supprimer définitivement ce tag ?")
+    setConfirmContent({
+      text: "La suppression est définitive et affectera tous les sites web reliés à ce tag.",
+    })
+  }
 
   // SUB-COMPONENTS
   const SelectZone = () => (
@@ -259,19 +280,29 @@ function EditWebsiteModal(props) {
             </Stack>
             {websiteTags &&
               websiteTags.map((item, key) => (
-                <CustomCheckbox
-                  key={key}
-                  checked={
-                    (website.tags &&
-                      website.tags.filter((tagsItem) => tagsItem.id === item.id)
-                        .length === 1) ||
-                    false
-                  }
-                  label={item.label}
-                  labelcolor="#fff"
-                  fontSize="0.9rem"
-                  onChange={handleChangeMultipleCheckbox("tags", item)}
-                />
+                <Stack className="row full-width" alignItems="center">
+                  <Stack flexGrow={1}>
+                    <CustomCheckbox
+                      key={key}
+                      checked={
+                        (website.tags &&
+                          website.tags.filter(
+                            (tagsItem) => tagsItem.id === item.id
+                          ).length === 1) ||
+                        false
+                      }
+                      label={item.label}
+                      labelcolor="#fff"
+                      fontSize="0.9rem"
+                      onChange={handleChangeMultipleCheckbox("tags", item)}
+                    />
+                  </Stack>
+                  <DeleteIcon
+                    color="secondary"
+                    onClick={() => handleDeleteWebsiteTag(item.id)}
+                    sx={{ cursor: "pointer", "&:hover": { opacity: 0.5 } }}
+                  />
+                </Stack>
               ))}
           </CustomAccordion>
         </Stack>

@@ -658,6 +658,22 @@ const admin = {
       console.error(err)
     }
   },
+  deleteWebsiteTag: async (newTagId) => {
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/admin/websites/tags/${newTagId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
 }
 
 export default admin

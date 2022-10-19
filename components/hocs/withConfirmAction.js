@@ -19,7 +19,7 @@ function withConfirmAction(WrappedComponent) {
     const closeAndcleanState = () => {
       setActionToFire(null)
       setConfirmTitle("Confirmation")
-      setNextButtonText("Continue")
+      setNextButtonText("Continuer")
       setConfirmContent({ text: null, js: null })
       setOpenModal(false)
     }
