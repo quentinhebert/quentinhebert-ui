@@ -10,6 +10,7 @@ const adminTree = {
   websites: "Sites web",
   references: "Mes références",
   "manage-websites": "Mes sites web",
+  "manage-slides": "Gérer les diapositives textuelles",
 }
 
 export default adminTree

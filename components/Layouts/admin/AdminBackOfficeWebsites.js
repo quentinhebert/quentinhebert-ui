@@ -23,7 +23,10 @@ const CARDS = [
     icon: <Icon icon={slideshow} size={50} />,
     description:
       "Captez l'attention de vos visiteurs grâce à vos diapositives textuelles !",
-    button: { text: "Gérer", href: "/admin/back-office/websites" },
+    button: {
+      text: "Gérer",
+      href: "/admin/back-office/websites/manage-slides",
+    },
   },
 ]
 
@@ -49,7 +52,7 @@ export default function AdminBackOfficeWebsites(props) {
           backgroundSize: "cover",
         }}
       />
-      <PageTitle zIndex={1} text="Back-Office" />
+      <PageTitle zIndex={1} text="WEB" />
       <Breadcrumbs panel="admin" />
 
       <Stack zIndex={0}>

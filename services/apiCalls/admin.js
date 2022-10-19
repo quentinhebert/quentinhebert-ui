@@ -674,6 +674,106 @@ const admin = {
       console.error(err)
     }
   },
+  addWebsiteSlide: async (slide) => {
+    const body = {
+      title: slide.title,
+      description: slide.description,
+    }
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/websites/slides`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  getAllWebsiteSlides: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/admin/websites/slides`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  getWebsiteSlide: async (slideId) => {
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/admin/websites/slides/${slideId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  updateWebsiteSlide: async (slide) => {
+    try {
+      const body = {
+        title: slide.title,
+        description: slide.description,
+      }
+      return await fetch(
+        `${defaultConfig.apiUrl}/admin/websites/slides/${slide.id}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  deleteWebsiteSlide: async (slide) => {
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/admin/websites/slides/${slide.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  sortWebsiteSlides: async (sortedSlideIds) => {
+    try {
+      const body = JSON.stringify({ sortedSlideIds })
+
+      return await fetch(`${defaultConfig.apiUrl}/admin/websites/slides/sort`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: body,
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
 }
 
 export default admin

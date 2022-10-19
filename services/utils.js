@@ -83,3 +83,8 @@ export function generateUuidV4() {
   )
   return uuid
 }
+
+export function removeHtmlTags(htmlString) {
+  if (!htmlString) return ""
+  return htmlString.replace(/(<([^>]+)>)/gi, "")
+}

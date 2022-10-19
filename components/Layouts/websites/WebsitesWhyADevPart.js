@@ -1,132 +1,50 @@
-import { Box, Stack, Typography, Image } from "@mui/material"
-import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
+import { Stack, Typography } from "@mui/material"
 import styles from "../../../styles/TextShine.module.css"
-import MediumTitle from "../../ReusableComponents/titles/medium-title"
-import StrokeText from "../../ReusableComponents/text/stroke-text"
-import BodyText from "../../ReusableComponents/text/body-text"
 import SwipeableViews from "../../Other/SwipeableViews"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Stepper from "../../Navigation/stepper"
 import SwipeIcon from "@mui/icons-material/Swipe"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import { WebsitesHomePageContext } from "../../../contexts/PagesContexts"
+import { fetchers } from "../../../services/fetchers"
+import useSWR from "swr"
+import {
+  formatDescription,
+  formatTitle,
+  ParseJsx,
+} from "./WebsiteWhyADev--style"
 
-const KeyWord = ({ text }) => (
-  <Box
-    component="span"
-    sx={{
-      color: (theme) => theme.palette.text.secondary,
-      fontStyle: "italic",
-      fontSize: { xs: "1.2rem", md: "1.4rem" },
-    }}
-  >
-    {text}
-  </Box>
-)
-
-const WhyWebsite = () => (
+const Step = ({ slide }) => (
   <Stack alignItems="center" justifyContent="center">
-    <MediumTitle
-      textAlign="center"
-      className={styles.shine}
-      fontFamily="Zacbel X"
-      lineHeight={{ xs: "15vw", sm: "10vw" }}
-    >
-      <StrokeText>Pourquoi un</StrokeText> site web ?
-    </MediumTitle>
+    <ParseJsx jsx={formatTitle(slide.title)} />
 
-    <CenteredMaxWidthContainer marginTop="1rem">
-      <BodyText textAlign="center" className="no-select">
-        À l'ère du numérique, difficile de se passer d'un site web pour
-        présenter sa marque, son entreprise ou ses créations. Vos réseaux
-        sociaux permettent d'attirer votre cible, mais votre site web
-        professionnel marque un point d'honneur à votre{" "}
-        <KeyWord text="crédibilité" />.
-      </BodyText>
-    </CenteredMaxWidthContainer>
+    <ParseJsx jsx={formatDescription(slide.description)} />
   </Stack>
 )
-
-const WhyDevelopper = () => (
-  <Stack alignItems="center" justifyContent="center">
-    <MediumTitle
-      textAlign="center"
-      className={styles.shine}
-      fontFamily="Zacbel X"
-      lineHeight={{ xs: "15vw", sm: "10vw" }}
-    >
-      <StrokeText>Pourquoi un</StrokeText> développeur ?
-    </MediumTitle>
-
-    <CenteredMaxWidthContainer marginTop="1rem">
-      <BodyText textAlign="center" className="no-select">
-        WordPress, Wix, Odoo... Tant d'outils clés en main et à la portée de
-        tous !
-        <br />
-        C'est ce que vous <KeyWord text="ne trouverez pas ici" />.
-        <p />
-        Avec un dévelopeur professionnel, vous pourrez discuter, de ce qui est
-        faisable techniquement, mais son expérience saura également vous éviter
-        certains eccueils.
-      </BodyText>
-    </CenteredMaxWidthContainer>
-  </Stack>
-)
-
-const WhyMe = () => (
-  <Stack alignItems="center" justifyContent="center">
-    <MediumTitle
-      textAlign="center"
-      className={styles.shine}
-      fontFamily="Zacbel X"
-      lineHeight={{ xs: "15vw", sm: "10vw" }}
-    >
-      <StrokeText>Pourquoi </StrokeText> moi ?
-    </MediumTitle>
-
-    <CenteredMaxWidthContainer marginTop="1rem">
-      <BodyText textAlign="center" className="no-select">
-        Je me présente avant tout comme un <KeyWord text="artisan" />, fier de
-        son travail, et <KeyWord text="amoureux" /> de son matériau :{" "}
-        <KeyWord text="le code" />.
-        <p />
-        Je peux passer des heures à programmer un <KeyWord text="détail" />,
-        mais qui fera toute la <KeyWord text="différence" />.
-      </BodyText>
-    </CenteredMaxWidthContainer>
-  </Stack>
-)
-
-const WhyUs = () => (
-  <Stack alignItems="center" justifyContent="center">
-    <MediumTitle
-      textAlign="center"
-      className={styles.shine}
-      fontFamily="Zacbel X"
-      lineHeight={{ xs: "15vw", sm: "10vw" }}
-    >
-      <StrokeText>Pourquoi </StrokeText> nous ?
-    </MediumTitle>
-
-    <CenteredMaxWidthContainer marginTop="1rem">
-      <BodyText textAlign="center" className="no-select">
-        J'ai des idées et je sais trouver les moyens pour leur donner vie.
-        <br />
-        Mais ce que mon parcours atypique m'a appris, c'est que je ne
-        travaillerai jamais <KeyWord text="pour vous" />. Je travaillerai{" "}
-        <KeyWord text="avec vous" />.
-      </BodyText>
-    </CenteredMaxWidthContainer>
-  </Stack>
-)
-
-const WhyStep = [WhyWebsite(), WhyDevelopper(), WhyMe(), WhyUs()]
 
 const Caroussel = () => {
+  /********* StaticProps cached at build time **********/
+  const { staticData } = useContext(WebsitesHomePageContext)
+  let data = staticData.websiteSlides
+
+  /********** SWR revalidation while first returning cached static data **********/
+  const swr = useSWR(`websiteSlides`, async () => fetchers.websiteSlides(), {
+    fallbackData: data, // cached data initially returned by SWR
+    revalidateOnMount: true,
+  })
+  if (!!swr.data) data = swr.data // When user loads the page, data is updated by fallbackData (cached === static data), then updated by fetched up-to-date data
+
   const [index, setIndex] = useState(0)
   const handleChangeIndex = (index) => {
     setIndex(index)
   }
+
+  const WhySteps = []
+
+  data.map((slide) => {
+    WhySteps.push(<Step slide={slide} />)
+  })
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
@@ -169,7 +87,7 @@ const Caroussel = () => {
           delay: "0s",
         }}
       >
-        {WhyStep.map((step, key) => (
+        {WhySteps.map((step, key) => (
           <motion.div
             initial="hidden"
             variants={variants(0)}

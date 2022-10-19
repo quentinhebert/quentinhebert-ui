@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 import prepareProps from "../../services/fetchers"
 import { WebsitesHomePageContext } from "../../contexts/PagesContexts"
 
-export default function WebsitesHomePage({ footer, websites }) {
+export default function WebsitesHomePage({ footer, websites, websiteSlides }) {
   // Main meta tags
   const title = "Développeur Freelance"
   const description =
@@ -27,7 +27,9 @@ export default function WebsitesHomePage({ footer, websites }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <WebsitesHomePageContext.Provider value={{ staticData: { websites } }}>
+      <WebsitesHomePageContext.Provider
+        value={{ staticData: { websites, websiteSlides } }}
+      >
         <PageRoot>
           <HtmlHead
             title={title}
@@ -48,5 +50,5 @@ export default function WebsitesHomePage({ footer, websites }) {
 }
 
 export async function getStaticProps() {
-  return await prepareProps(["footer", "websites"])
+  return await prepareProps(["footer", "websites", "websiteSlides"])
 }

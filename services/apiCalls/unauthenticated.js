@@ -304,6 +304,18 @@ const unauthenticated = {
       console.error(error)
     }
   },
+  getWebsiteSlides: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/websites/slides`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
 }
 
 export default unauthenticated
