@@ -16,11 +16,21 @@ import DropzoneShowImage from "../../ReusableComponents/images/drop-zone-show-im
 import compressImage from "../../../services/images"
 import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
 import { AppContext } from "../../../contexts/AppContext"
+import DeleteIcon from "@mui/icons-material/Delete"
+import PillButton from "../../ReusableComponents/buttons/pill-button"
 
 const currentYear = new Date().getFullYear()
 
 function AddWebsiteModal(props) {
-  const { refreshData, open, handleClose } = props
+  const {
+    refreshData,
+    open,
+    handleClose,
+    setActionToFire,
+    setOpenConfirmModal,
+    setConfirmTitle,
+    setConfirmContent,
+  } = props
 
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
@@ -37,6 +47,7 @@ function AddWebsiteModal(props) {
   const [website, setWebsite] = useState(initialWebsite)
   const [errors, setErrors] = useState({})
   const [isLoading, setIsLoading] = useState(false)
+  const [newTag, setNewTag] = useState(null)
 
   // Fetch website tags
   const fetchWebsiteTags = async () => {
@@ -126,6 +137,28 @@ function AddWebsiteModal(props) {
     }
     setIsLoading(false)
   }
+  const handleChangeNewTag = (e) => {
+    setNewTag(e.target.value)
+  }
+  const handleAddWebsiteTag = async () => {
+    const res = await apiCall.admin.addWebsiteTag(newTag)
+    if (res && res.ok) {
+      fetchWebsiteTags()
+      setNewTag(null)
+    }
+  }
+  const deleteWebsiteTag = async (tagId) => {
+    const res = await apiCall.admin.deleteWebsiteTag(tagId)
+    if (res && res.ok) return fetchWebsiteTags()
+  }
+  const handleDeleteWebsiteTag = (tagId) => {
+    setActionToFire(() => async () => deleteWebsiteTag(tagId))
+    setOpenConfirmModal(true)
+    setConfirmTitle("Voulez vous vraiment supprimer définitivement ce tag ?")
+    setConfirmContent({
+      text: "La suppression est définitive et affectera tous les sites web reliés à ce tag.",
+    })
+  }
 
   // SUB-COMPONENTS
   const SelectZone = () => (
@@ -205,21 +238,43 @@ function AddWebsiteModal(props) {
 
         <Stack width="100%">
           <CustomAccordion title="Ajoutez des tags à ce projet">
+            <Stack className="row gap-10">
+              <CustomOutlinedInput
+                type="input"
+                label="Ajouter un tag"
+                value={newTag || ""}
+                onChange={handleChangeNewTag}
+                sx={{ marginBottom: "1rem" }}
+              />
+              <PillButton fontSize="0.8rem" onClick={handleAddWebsiteTag}>
+                Ajouter
+              </PillButton>
+            </Stack>
             {websiteTags &&
               websiteTags.map((item, key) => (
-                <CustomCheckbox
-                  key={key}
-                  checked={
-                    (website.tags &&
-                      website.tags.filter((tagsItem) => tagsItem.id === item.id)
-                        .length === 1) ||
-                    false
-                  }
-                  label={item.label}
-                  labelcolor="#fff"
-                  fontSize="0.9rem"
-                  onChange={handleChangeMultipleCheckbox("tags", item)}
-                />
+                <Stack className="row full-width" alignItems="center">
+                  <Stack flexGrow={1}>
+                    <CustomCheckbox
+                      key={key}
+                      checked={
+                        (website.tags &&
+                          website.tags.filter(
+                            (tagsItem) => tagsItem.id === item.id
+                          ).length === 1) ||
+                        false
+                      }
+                      label={item.label}
+                      labelcolor="#fff"
+                      fontSize="0.9rem"
+                      onChange={handleChangeMultipleCheckbox("tags", item)}
+                    />
+                  </Stack>
+                  <DeleteIcon
+                    color="secondary"
+                    onClick={() => handleDeleteWebsiteTag(item.id)}
+                    sx={{ cursor: "pointer", "&:hover": { opacity: 0.5 } }}
+                  />
+                </Stack>
               ))}
           </CustomAccordion>
         </Stack>
