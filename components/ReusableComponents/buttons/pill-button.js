@@ -24,10 +24,10 @@ export default function PillButton({
   const variants = {
     visible: {
       opacity: 1,
-      y: 5,
+      y: 0,
       transition: { duration: 0.75, delay: animDelay || 0 },
     },
-    hidden: { opacity: 0, y: 0 },
+    hidden: { opacity: 0, y: -5 },
   }
   const controls = useAnimation()
 

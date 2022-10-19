@@ -16,6 +16,7 @@ import DropzoneShowImage from "../../ReusableComponents/images/drop-zone-show-im
 import compressImage from "../../../services/images"
 import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
 import { AppContext } from "../../../contexts/AppContext"
+import PillButton from "../../ReusableComponents/buttons/pill-button"
 
 const currentYear = new Date().getFullYear()
 
@@ -39,6 +40,7 @@ function EditWebsiteModal(props) {
   const [errors, setErrors] = useState({})
   const [file, setFile] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [newTag, setNewTag] = useState(null)
 
   // Fetch data
   const fetchData = async () => {
@@ -137,6 +139,16 @@ function EditWebsiteModal(props) {
     e.stopPropagation()
     setWebsite({ ...website, thumbnail: { id: "" } })
   }
+  const handleChangeNewTag = (e) => {
+    setNewTag(e.target.value)
+  }
+  const handleAddWebsiteTag = async () => {
+    const res = await apiCall.admin.addWebsiteTag(newTag)
+    if (res && res.ok) {
+      fetchWebsiteTags()
+      setNewTag(null)
+    }
+  }
 
   // SUB-COMPONENTS
   const SelectZone = () => (
@@ -233,6 +245,18 @@ function EditWebsiteModal(props) {
 
         <Stack width="100%">
           <CustomAccordion title="Tags liés au projet">
+            <Stack className="row gap-10">
+              <CustomOutlinedInput
+                type="input"
+                label="Ajouter un tag"
+                value={newTag || ""}
+                onChange={handleChangeNewTag}
+                sx={{ marginBottom: "1rem" }}
+              />
+              <PillButton fontSize="0.8rem" onClick={handleAddWebsiteTag}>
+                Ajouter
+              </PillButton>
+            </Stack>
             {websiteTags &&
               websiteTags.map((item, key) => (
                 <CustomCheckbox

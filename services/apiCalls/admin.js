@@ -642,6 +642,22 @@ const admin = {
       console.error(err)
     }
   },
+  addWebsiteTag: async (newTag) => {
+    try {
+      const body = JSON.stringify({ website_tag: newTag })
+
+      return await fetch(`${defaultConfig.apiUrl}/admin/websites/tags`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: body,
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
 }
 
 export default admin
