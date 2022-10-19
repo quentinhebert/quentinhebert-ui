@@ -4,8 +4,9 @@ import HtmlHead from "../../components/ReusableComponents/page-builder/html-head
 import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
 import { motion } from "framer-motion"
 import prepareProps from "../../services/fetchers"
+import { WebsitesHomePageContext } from "../../contexts/PagesContexts"
 
-export default function WebsitesHomePage({ footer }) {
+export default function WebsitesHomePage({ footer, websites }) {
   // Main meta tags
   const title = "Développeur Freelance"
   const description =
@@ -26,24 +27,26 @@ export default function WebsitesHomePage({ footer }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <PageRoot>
-        <HtmlHead
-          title={title}
-          description={description}
-          keywords={keywords}
-          follow={follow}
-          type={type}
-          ogImg={ogImg}
-        />
+      <WebsitesHomePageContext.Provider value={{ staticData: { websites } }}>
+        <PageRoot>
+          <HtmlHead
+            title={title}
+            description={description}
+            keywords={keywords}
+            follow={follow}
+            type={type}
+            ogImg={ogImg}
+          />
 
-        <WebsitesIndexLayout />
+          <WebsitesIndexLayout />
 
-        <Footer staticData={footer} />
-      </PageRoot>
+          <Footer staticData={footer} />
+        </PageRoot>
+      </WebsitesHomePageContext.Provider>
     </motion.div>
   )
 }
 
 export async function getStaticProps() {
-  return await prepareProps(["footer"])
+  return await prepareProps(["footer", "websites"])
 }

@@ -267,6 +267,18 @@ const unauthenticated = {
       console.error(error)
     }
   },
+  getAllWebsites: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/websites`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
   /* Get public category videos for a given category */
   getReferences: async () => {
     try {
