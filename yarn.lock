@@ -770,7 +770,7 @@
     "@radix-ui/react-scroll-area" "1.0.0"
     "react-textarea-autosize" "8.3.4"
 
-"@mantine/hooks@5.5.6":
+"@mantine/hooks@^5.5.6", "@mantine/hooks@5.5.6":
   "integrity" "sha512-AecrtNxg1QsTekxHj3OOH3HM+L9Iu/ix8OsfXt1mhLgSvUMhpAGnO/ouQ5KVn1vzaQkzQ2k4XZXULjBIxfOWGw=="
   "resolved" "https://registry.npmjs.org/@mantine/hooks/-/hooks-5.5.6.tgz"
   "version" "5.5.6"
