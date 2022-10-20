@@ -316,6 +316,18 @@ const unauthenticated = {
       console.error(error)
     }
   },
+  getApplicationLogo: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/application/logo`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
 }
 
 export default unauthenticated

@@ -774,6 +774,22 @@ const admin = {
       console.error(err)
     }
   },
+  updateLogo: async (file) => {
+    try {
+      let formData = new FormData()
+      formData.append("logo", file)
+      return await fetch(`${defaultConfig.apiUrl}/admin/application/logo`, {
+        method: "POST",
+        body: formData,
+        mode: "cors",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
 }
 
 export default admin

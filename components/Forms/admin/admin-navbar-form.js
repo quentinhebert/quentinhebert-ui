@@ -77,7 +77,7 @@ function AdminNavbarForm(props) {
   }, [])
 
   // Mutate function will be used to force refresh static prop data of the navabar
-  const { mutate } = useSWR("/navbar")
+  const { mutate } = useSWR("navbar")
 
   const handleChange = (attribute, value, row) => {
     // Get a copy

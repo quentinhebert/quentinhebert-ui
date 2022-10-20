@@ -102,7 +102,7 @@ export default function Navbar(props) {
                       }}
                     >
                       <Image
-                        src={logoQH}
+                        src={data.logo.URL}
                         width="100%"
                         height="100%"
                         priority={true}

@@ -152,7 +152,7 @@ const AddressSection = ({ addressItems }) => {
 
 export default function LeftPartContact(props) {
   const { staticData } = props
-  const swr = useSWR(`/websiteContact`, async () => fetchers.websiteContact(), {
+  const swr = useSWR(`websiteContact`, async () => fetchers.websiteContact(), {
     fallbackData: props.staticData,
     revalidateOnMount: true,
   })

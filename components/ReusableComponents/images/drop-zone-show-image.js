@@ -4,9 +4,14 @@ import { useDropzone } from "react-dropzone"
 import BodyText from "../text/body-text"
 import FileUploadIcon from "@mui/icons-material/FileUpload"
 
-export default function DropzoneShowImage(props) {
-  const { bgImage, detachBgImage, file, setFile } = props
-
+export default function DropzoneShowImage({
+  bgImage,
+  detachBgImage,
+  file,
+  setFile,
+  hidden,
+  ...props
+}) {
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the file
     const filesArray = acceptedFiles.map((oneFile) => {
@@ -51,6 +56,7 @@ export default function DropzoneShowImage(props) {
 
       <Box
         sx={{
+          visibility: hidden ? "hidden" : "visible",
           width: "100%",
           height: "100%",
           position: "absolute",

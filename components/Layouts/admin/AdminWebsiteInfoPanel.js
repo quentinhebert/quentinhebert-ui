@@ -1,14 +1,13 @@
-import { Box, Stack } from "@mui/material"
-import PageTitle from "../../ReusableComponents/titles/page-title"
+import { Stack } from "@mui/material"
 import CustomModal from "../../ReusableComponents/modals/custom-modal"
 import { useState } from "react"
 import AdminFooterForm from "../../Forms/admin/admin-footer-form"
 import AdminNavbarForm from "../../Forms/admin/admin-navbar-form"
 import AdminContactForm from "../../Forms/admin/admin-contact-form"
-import AdminBreadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
 import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
 import AdminPagesLayout from "../AdminPagesLayout"
 import FixedBackground from "../../ReusableComponents/backgrounds/fixed-background"
+import AdminLogoForm from "../../Forms/admin/admin-logo-form"
 
 export default function AdminWebsiteInfoPanel() {
   const [openModal, setOpenModal] = useState(false)
@@ -50,6 +49,18 @@ export default function AdminWebsiteInfoPanel() {
         },
       },
     },
+    {
+      id: "logo",
+      title: "Logo",
+      description: "Modifiez votre logo.",
+      button: {
+        text: "Modifier",
+        onClick: () => {
+          setOpenModal(true)
+          setDialogContent("logo")
+        },
+      },
+    },
   ]
 
   return (
@@ -68,6 +79,9 @@ export default function AdminWebsiteInfoPanel() {
         )}
         {dialogContent === "contact" && (
           <AdminContactForm handleClose={() => setOpenModal(false)} />
+        )}
+        {dialogContent === "logo" && (
+          <AdminLogoForm handleClose={() => setOpenModal(false)} />
         )}
       </CustomModal>
     </AdminPagesLayout>

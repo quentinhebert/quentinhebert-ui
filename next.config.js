@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ["creaqor.com"],
+  },
   headers: async () => [
     {
       source: "/:all*(svg|jpg|png|jpeg)",

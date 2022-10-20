@@ -17,7 +17,7 @@ export default function AdminFooterForm(props) {
 
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
-  const { mutate } = useSWR("/footer")
+  const { mutate } = useSWR("footer")
 
   /********** USE-STATES **********/
   const [credits, setCredits] = useState("")

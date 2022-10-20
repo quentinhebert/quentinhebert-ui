@@ -235,7 +235,7 @@ export default function AdminContactForm(props) {
   // App context
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
-  const { mutate } = useSWR("/footer")
+  const { mutate } = useSWR("footer")
 
   /********** USE-STATES **********/
   const [isFetching, setIsFetching] = useState(false)

@@ -13,14 +13,10 @@ async function fetchUpToDateReferences() {
 }
 
 export default function References(props) {
-  const { data } = useSWR(
-    `/references`,
-    async () => fetchUpToDateReferences(),
-    {
-      fallbackData: props,
-      revalidateOnMount: true,
-    }
-  )
+  const { data } = useSWR(`references`, async () => fetchUpToDateReferences(), {
+    fallbackData: props,
+    revalidateOnMount: true,
+  })
 
   const references = data
 

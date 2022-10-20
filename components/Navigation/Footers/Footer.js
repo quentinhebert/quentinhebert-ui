@@ -100,11 +100,11 @@ const SocialMedias = ({ items }) => {
   )
 }
 
-const LogoQH = () => (
+const LogoQH = ({ logo }) => (
   <ScaleUpOnHoverStack direction="row" justifyContent="center">
     <Link href="/" passHref>
       <Box component="a">
-        <Image src={logoQH} width="100%" height="80%" />
+        {logo && <Image src={logo.URL} width="100%" height="80%" />}
       </Box>
     </Link>
   </ScaleUpOnHoverStack>
@@ -112,7 +112,7 @@ const LogoQH = () => (
 
 export default function Footer(props) {
   const { staticData } = props
-  const swr = useSWR(`/footer`, async () => fetchers.footer(), {
+  const swr = useSWR(`footer`, async () => fetchers.footer(), {
     fallbackData: props.staticData,
     revalidateOnMount: true,
   })
@@ -185,7 +185,7 @@ export default function Footer(props) {
               animate={controls}
               style={motionDivStyle}
             >
-              <LogoQH />
+              <LogoQH logo={data?.logo} />
             </motion.div>
 
             {/* EMAIL */}
