@@ -1,9 +1,9 @@
-import Footer from "../components/Navigation/Footers/Footer"
-import AboutWebsiteLayout from "../components/Layouts/AboutWebsiteLayout"
-import PageRoot from "../components/ReusableComponents/page-builder/page-root"
-import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
+import Footer from "../../components/Navigation/Footers/Footer"
+import AboutWebsiteLayout from "../../components/Layouts/AboutWebsiteLayout"
+import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
+import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
 import { motion } from "framer-motion"
-import prepareProps from "../services/fetchers"
+import prepareProps from "../../services/fetchers"
 
 export default function AboutWebsitePage({ footer }) {
   // Main meta tags
