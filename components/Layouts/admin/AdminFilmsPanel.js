@@ -7,6 +7,7 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
 import FilmsPanel from "./FilmsPanelModes/FilmsPanel"
 import FilmsPanelUI from "./FilmsPanelModes/FilmsPanelUI"
 import CustomOutlinedButton from "../../ReusableComponents/buttons/custom-outlined-button"
+import AdminPagesLayout from "../AdminPagesLayout"
 
 export default function AdminFilmsPanel(props) {
   const {} = props
@@ -15,17 +16,8 @@ export default function AdminFilmsPanel(props) {
   const [mode, setMode] = useState(MODES.UI)
 
   return (
-    <Stack flexGrow={1}>
-      <Stack
-        justifyContent="center"
-        direction="column"
-        gap={2}
-        padding="1rem"
-        margin="100px 0"
-      >
-        <PageTitle zIndex={1} text="Mes films" />
-        <Breadcrumbs panel="admin" />
-
+    <AdminPagesLayout title="Mes films">
+      <Stack gap={2}>
         <Stack gap={2} flexDirection="row">
           <Box>
             <CustomOutlinedButton
@@ -68,6 +60,6 @@ export default function AdminFilmsPanel(props) {
         {mode === MODES.PANEL && <FilmsPanel />}
         {mode === MODES.UI && <FilmsPanelUI />}
       </Stack>
-    </Stack>
+    </AdminPagesLayout>
   )
 }

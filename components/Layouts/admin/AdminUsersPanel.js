@@ -9,6 +9,7 @@ import SignUpForm from "../../Forms/signup-form"
 import CustomModal from "../../ReusableComponents/modals/custom-modal"
 import BodyText from "../../ReusableComponents/text/body-text"
 import { AppContext } from "../../../contexts/AppContext"
+import AdminPagesLayout from "../AdminPagesLayout"
 
 function getBoolValue(param) {
   if (!param)
@@ -201,18 +202,9 @@ function AdminUsersPanel(props) {
   }
 
   return (
-    <Stack flexGrow={1}>
-      <Stack
-        justifyContent="center"
-        direction="column"
-        gap={2}
-        padding="1rem"
-        margin="100px 0"
-      >
-        <PageTitle zIndex={1} text="Gérer les utilisateurs" />
-        <Breadcrumbs panel="admin" />
-
-        <BodyText fontSize="1rem">
+    <AdminPagesLayout title="Gérer les utilisateurs">
+      <Stack gap={2}>
+        <BodyText preventTransitionOut>
           Ci-dessous, vous trouverez tous les utilisateurs de votre site.
         </BodyText>
         <CustomTable
@@ -233,7 +225,7 @@ function AdminUsersPanel(props) {
       <CustomModal open={openSignUp} handleClose={handleCloseSignUp}>
         <SignUpForm handleClose={handleCloseSignUp} />
       </CustomModal>
-    </Stack>
+    </AdminPagesLayout>
   )
 }
 

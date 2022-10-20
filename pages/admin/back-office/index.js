@@ -1,25 +1,23 @@
 import React, { useContext } from "react"
-import Footer from "../../../components/Navigation/Footers/Footer"
 import { USERTYPES } from "../../../enums/userTypes"
 import { UserContext } from "../../../contexts/UserContext"
 import AdminBackOfficeIndex from "../../../components/Layouts/admin/AdminBackOfficeIndex"
 import LoginLayout from "../../../components/Layouts/LoginLayout"
-import HtmlHead from "../../../components/ReusableComponents/page-builder/html-head"
-import PageRoot from "../../../components/ReusableComponents/page-builder/page-root"
 import { useRouter } from "next/router"
+import PagesLayout from "../../../components/Layouts/PagesLayout"
+
+const head = {
+  // Main meta tags
+  title: "Admin | Back-Office",
+  description: "Back-Office : gérez le contenu de votre site",
+  // SEO helpers
+  follow: false,
+  // OpenGraph additional tags (sharing)
+  type: "website",
+  ogImg: "/medias/ogimg.png",
+}
 
 export default function AdminManageContentIndexPage() {
-  // Main meta tags
-  const title = "Admin | Back-Office"
-  const description = "Back-Office : gérez le contenu de votre site"
-
-  // SEO helpers
-  const follow = false
-
-  // OpenGraph additional tags (sharing)
-  const type = "website"
-  const ogImg = "/medias/ogimg.png"
-
   // Check if user has grant to access that page
   const { user } = useContext(UserContext)
 
@@ -28,22 +26,12 @@ export default function AdminManageContentIndexPage() {
   if (!!user && user.type !== USERTYPES.ADMIN) router.push("/account")
 
   return (
-    <PageRoot>
-      <HtmlHead
-        title={title}
-        description={description}
-        follow={follow}
-        type={type}
-        ogImg={ogImg}
-      />
-
+    <PagesLayout head={head}>
       {!!user && user.type === USERTYPES.ADMIN ? (
         <AdminBackOfficeIndex />
       ) : (
         <LoginLayout />
       )}
-
-      <Footer />
-    </PageRoot>
+    </PagesLayout>
   )
 }

@@ -219,7 +219,7 @@ export default function FilmsPanelUI(props) {
   return (
     <>
       <Stack justifyContent="center" direction="column" gap={2}>
-        <BodyText fontSize="1rem">
+        <BodyText preventTransitionOut>
           Cliquez sur une vignette pour voir et modifier les informations d'un
           film. Ajoutez un nouveau film avec le bouton ci-dessous. Supprimez un
           film en survolant une vignette puis en cliquant sur l'icône Poubelle.

@@ -10,7 +10,6 @@ import { AnimatePresence } from "framer-motion"
 import AnimatedLogoLayout from "../components/ReusableComponents/animations/animated-logo"
 import { AppContext } from "../contexts/AppContext"
 import Snacks from "../components/Navigation/snacks"
-import Navbar from "../components/Navigation/Navbars/navbar"
 
 function MyApp({ Component, pageProps, router }) {
   // User
@@ -76,7 +75,6 @@ function MyApp({ Component, pageProps, router }) {
           value={{ user, setUser, setAccessToken, fetchUser }}
         >
           <ThemeProvider theme={theme}>
-            <Navbar />
             <Component {...pageProps} key={router.route} />
             <Snacks
               severity={snackSeverity}

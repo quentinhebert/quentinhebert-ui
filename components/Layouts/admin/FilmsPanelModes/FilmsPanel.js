@@ -127,7 +127,7 @@ function FilmsPanel(props) {
 
   return (
     <Stack justifyContent="center" direction="column" gap={2}>
-      <BodyText fontSize="1rem">
+      <BodyText preventTransitionOut>
         Ci-dessous, vous pouvez ajouter, modifier ou supprimer une ou plusieurs
         films de votre site.
       </BodyText>

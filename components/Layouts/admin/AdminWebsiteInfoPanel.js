@@ -1,9 +1,4 @@
-import { Box, Grid, Stack } from "@mui/material"
-import CustomCard from "../../ReusableComponents/cards/custom-card"
-import CustomCardTitle from "../../ReusableComponents/cards/custom-card-title"
-import EndCardButton from "../../ReusableComponents/cards/end-card-button"
-import styles from "../../../styles/TextShine.module.css"
-import BodyText from "../../ReusableComponents/text/body-text"
+import { Box, Stack } from "@mui/material"
 import PageTitle from "../../ReusableComponents/titles/page-title"
 import CustomModal from "../../ReusableComponents/modals/custom-modal"
 import { useState } from "react"
@@ -12,6 +7,8 @@ import AdminNavbarForm from "../../Forms/admin/admin-navbar-form"
 import AdminContactForm from "../../Forms/admin/admin-contact-form"
 import AdminBreadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
 import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
+import AdminPagesLayout from "../AdminPagesLayout"
+import FixedBackground from "../../ReusableComponents/backgrounds/fixed-background"
 
 export default function AdminWebsiteInfoPanel() {
   const [openModal, setOpenModal] = useState(false)
@@ -56,23 +53,10 @@ export default function AdminWebsiteInfoPanel() {
   ]
 
   return (
-    <>
-      <Stack direction="column" gap={2} padding="7rem 2rem">
-        <Box
-          position="fixed"
-          width="100%"
-          height="100%"
-          zIndex={0}
-          sx={{
-            backgroundImage: "url(/medias/lines.jpg)",
-            backgroundSize: "cover",
-          }}
-        />
-        <PageTitle zIndex={1} text="Gérer les informations du site" />
-        <AdminBreadcrumbs panel="admin" />
-        <Stack zIndex={0}>
-          <OneActionCardsGrid cards={CARDS} />
-        </Stack>
+    <AdminPagesLayout title="Gérer les informations du site">
+      <FixedBackground url="url(/medias/lines.jpg)" />
+      <Stack zIndex={0}>
+        <OneActionCardsGrid cards={CARDS} />
       </Stack>
 
       <CustomModal open={openModal} handleClose={() => setOpenModal(false)}>
@@ -86,6 +70,6 @@ export default function AdminWebsiteInfoPanel() {
           <AdminContactForm handleClose={() => setOpenModal(false)} />
         )}
       </CustomModal>
-    </>
+    </AdminPagesLayout>
   )
 }

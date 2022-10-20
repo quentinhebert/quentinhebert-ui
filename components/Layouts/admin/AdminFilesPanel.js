@@ -7,6 +7,7 @@ import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
 import BodyText from "../../ReusableComponents/text/body-text"
 import PageTitle from "../../ReusableComponents/titles/page-title"
 import CustomTable from "../../Sections/custom-table"
+import AdminPagesLayout from "../AdminPagesLayout"
 
 // Function to round param at closest decimal
 const formatter = new Intl.NumberFormat("en-US", {
@@ -162,35 +163,27 @@ function AdminFilesPanel(props) {
   }
 
   return (
-    <Stack
-      flexGrow={1}
-      justifyContent="center"
-      direction="column"
-      gap={2}
-      padding="1rem"
-      margin="100px 0"
-    >
-      <PageTitle zIndex={1} text="Gérer les fichiers" />
-      <Breadcrumbs panel="admin" />
-
-      <BodyText fontSize="1rem">
-        Ci-dessous, vous trouverez tous les fichiers de votre site.
-      </BodyText>
-      <CustomTable
-        rows={rows}
-        allRows={allRows}
-        setRows={setRows}
-        headCells={headCells}
-        arrayTitle={
-          rows
-            ? `Fichiers – ${rows.length} résultats (${totalSize} Mo)`
-            : "Fichiers"
-        }
-        handleDelete={handleDeleteFile}
-        refreshData={fetchFiles}
-        noEdit
-      />
-    </Stack>
+    <AdminPagesLayout title="Gérer les fichiers">
+      <Stack gap={2}>
+        <BodyText preventTransitionOut>
+          Ci-dessous, vous trouverez tous les fichiers de votre site.
+        </BodyText>
+        <CustomTable
+          rows={rows}
+          allRows={allRows}
+          setRows={setRows}
+          headCells={headCells}
+          arrayTitle={
+            rows
+              ? `Fichiers – ${rows.length} résultats (${totalSize} Mo)`
+              : "Fichiers"
+          }
+          handleDelete={handleDeleteFile}
+          refreshData={fetchFiles}
+          noEdit
+        />
+      </Stack>
+    </AdminPagesLayout>
   )
 }
 

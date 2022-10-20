@@ -1,6 +1,5 @@
-import { Stack } from "@mui/material"
-import PageTitle from "../../ReusableComponents/titles/page-title"
 import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
+import AccountPagesLayout from "../AccountPagesLayout"
 
 const CARDS = [
   {
@@ -21,17 +20,8 @@ export default function AccountIndex(props) {
   const {} = props
 
   return (
-    <Stack
-      flexGrow={1}
-      direction="column"
-      gap={4}
-      padding={4}
-      paddingTop={"7rem"}
-      paddingBottom={"7rem"}
-    >
-      <PageTitle zIndex={1} text="Mon compte" />
-
+    <AccountPagesLayout title="Mon compte" noBreadcrumbs>
       <OneActionCardsGrid cards={CARDS} />
-    </Stack>
+    </AccountPagesLayout>
   )
 }

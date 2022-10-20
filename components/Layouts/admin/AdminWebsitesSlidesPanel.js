@@ -2,7 +2,6 @@ import { Box, Paper, Stack } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../hocs/withConfirmAction"
-import SortWebsites from "../../Modals/sort-websites"
 import CustomTable from "../../Sections/custom-table"
 import BodyText from "../../ReusableComponents/text/body-text"
 import AddWebsiteSlideModal from "../../Modals/Create-Modals/add-website-slide-modal"
@@ -13,6 +12,7 @@ import PageTitle from "../../ReusableComponents/titles/page-title"
 import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
 import { removeHtmlTags } from "../../../services/utils"
 import SortWebsiteSlides from "../../Modals/sort-websites-slides"
+import AdminPagesLayout from "../AdminPagesLayout"
 
 const headCells = [
   {
@@ -120,18 +120,9 @@ function WebsitesSlidesPanel(props) {
   }
 
   return (
-    <Stack flexGrow={1}>
-      <Stack
-        justifyContent="center"
-        direction="column"
-        gap={2}
-        padding="1rem"
-        margin="100px 0"
-      >
-        <PageTitle zIndex={1} text="Gérer les diapositives textuelles" />
-        <Breadcrumbs panel="admin" />
-
-        <BodyText fontSize="1rem">
+    <AdminPagesLayout title="Gérer les diapositives textuelles">
+      <Stack gap={2}>
+        <BodyText preventTransitionOut>
           Ci-dessous, vous pouvez ajouter, modifier ou supprimer une ou
           plusieurs diapositives textuelles de votre page de développeur.
         </BodyText>
@@ -167,21 +158,21 @@ function WebsitesSlidesPanel(props) {
             />
           </Paper>
         </Stack>
-
-        <AddWebsiteSlideModal
-          open={openAddWebsiteSlideModal}
-          handleClose={() => setOpenAddWebsiteSlideModal(false)}
-          refreshData={() => fetchWebsiteSLides()}
-        />
-        {rows && rows.length ? (
-          <SortWebsiteSlides
-            slides={rows}
-            open={openSortWebsitesModal}
-            handleClose={handleCloseSortWebsitesModal}
-          />
-        ) : null}
       </Stack>
-    </Stack>
+
+      <AddWebsiteSlideModal
+        open={openAddWebsiteSlideModal}
+        handleClose={() => setOpenAddWebsiteSlideModal(false)}
+        refreshData={() => fetchWebsiteSLides()}
+      />
+      {rows && rows.length ? (
+        <SortWebsiteSlides
+          slides={rows}
+          open={openSortWebsitesModal}
+          handleClose={handleCloseSortWebsitesModal}
+        />
+      ) : null}
+    </AdminPagesLayout>
   )
 }
 

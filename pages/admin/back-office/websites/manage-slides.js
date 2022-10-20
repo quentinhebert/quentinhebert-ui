@@ -7,20 +7,21 @@ import PageRoot from "../../../../components/ReusableComponents/page-builder/pag
 import LoginLayout from "../../../../components/Layouts/LoginLayout"
 import AdminWebsitesSlidesPanel from "../../../../components/Layouts/admin/AdminWebsitesSlidesPanel"
 import { useRouter } from "next/router"
+import PagesLayout from "../../../../components/Layouts/PagesLayout"
+
+const head = {
+  // Main meta tags
+  title: "Admin | Back-Office | Web | Gérer les diapositives textuelles",
+  description:
+    "Back-Office : gérez les diapositives textuelles de votre page de développeur",
+  // SEO helpers
+  follow: false,
+  // OpenGraph additional tags (sharing)
+  type: "website",
+  ogImg: "/medias/ogimg.png",
+}
 
 export default function ManageWebsitesPage() {
-  // Main meta tags
-  const title = "Admin | Back-Office | Web | Gérer les diapositives textuelles"
-  const description =
-    "Back-Office : gérez les diapositives textuelles de votre page de développeur"
-
-  // SEO helpers
-  const follow = false
-
-  // OpenGraph additional tags (sharing)
-  const type = "website"
-  const ogImg = "/medias/ogimg.png"
-
   // Check if user has grant to access that page
   const { user } = useContext(UserContext)
 
@@ -29,22 +30,12 @@ export default function ManageWebsitesPage() {
   if (!!user && user.type !== USERTYPES.ADMIN) router.push("/account")
 
   return (
-    <PageRoot>
-      <HtmlHead
-        title={title}
-        description={description}
-        follow={follow}
-        type={type}
-        ogImg={ogImg}
-      />
-
+    <PagesLayout head={head}>
       {!!user && user.type === USERTYPES.ADMIN ? (
         <AdminWebsitesSlidesPanel />
       ) : (
         <LoginLayout />
       )}
-
-      <Footer />
-    </PageRoot>
+    </PagesLayout>
   )
 }

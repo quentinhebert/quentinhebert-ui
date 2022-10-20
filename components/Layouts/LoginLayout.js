@@ -1,21 +1,8 @@
-import { Box, Stack } from "@mui/material"
+import { Stack } from "@mui/material"
 import { useState } from "react"
 import LoginForm from "../Forms/login-form"
 import PasswordForgottenForm from "../Forms/password-forgotten-form"
-
-const FixedBackground = () => (
-  <Box
-    sx={{
-      position: "fixed",
-      width: "100%",
-      height: "100vh",
-      background: "url(/medias/lines.jpg)",
-      backgroundSize: "cover",
-      backgroundPosition: "fixed",
-      zIndex: 0,
-    }}
-  />
-)
+import FixedBackground from "../ReusableComponents/backgrounds/fixed-background"
 
 export default function LoginLayout({ redirect }) {
   const [passwordForgotten, setPasswordForgotten] = useState(false)
@@ -31,7 +18,7 @@ export default function LoginLayout({ redirect }) {
       height="calc(100vh - 65px)"
       minHeight="600px"
     >
-      <FixedBackground />
+      <FixedBackground url="url(/medias/lines.jpg)" />
       <Stack
         zIndex={1}
         gap={4}

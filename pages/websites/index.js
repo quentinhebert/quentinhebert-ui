@@ -1,54 +1,38 @@
 import WebsitesIndexLayout from "../../components/Layouts/websites/WebsitesIndexLayout"
-import Footer from "../../components/Navigation/Footers/Footer"
-import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
-import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
-import { motion } from "framer-motion"
 import prepareProps from "../../services/fetchers"
 import { WebsitesHomePageContext } from "../../contexts/PagesContexts"
+import PagesLayout from "../../components/Layouts/PagesLayout"
 
-export default function WebsitesHomePage({ footer, websites, websiteSlides }) {
+const head = {
   // Main meta tags
-  const title = "Développeur Freelance"
-  const description =
-    "Développeur Web Freelance : disponible dans toute la France."
-
+  title: "Développeur Freelance",
+  description: "Développeur Web Freelance : disponible dans toute la France.",
   // SEO helpers
-  const follow = true
-  const keywords =
-    "Web, Developper, JavaScript, Full-Stack, Website, Creator, Digital, Internet, Site, Sites, Site vitrine, Front-End, Frontend, Back-End, Backend"
-
+  follow: true,
+  keywords:
+    "Web, Developper, JavaScript, Full-Stack, Website, Creator, Digital, Internet, Site, Sites, Site vitrine, Front-End, Frontend, Back-End, Backend",
   // OpenGraph additional tags (sharing)
-  const type = "website"
-  const ogImg = "/medias/ogimg.png"
+  type: "website",
+  ogImg: "/medias/ogimg.png",
+}
 
+export default function WebsitesHomePage({
+  navbar,
+  footer,
+  websites,
+  websiteSlides,
+}) {
   return (
-    <motion.div
-      exit={{ opacity: 0 }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
+    <PagesLayout head={head} navbarData={navbar} footerData={footer}>
       <WebsitesHomePageContext.Provider
         value={{ staticData: { websites, websiteSlides } }}
       >
-        <PageRoot>
-          <HtmlHead
-            title={title}
-            description={description}
-            keywords={keywords}
-            follow={follow}
-            type={type}
-            ogImg={ogImg}
-          />
-
-          <WebsitesIndexLayout />
-
-          <Footer staticData={footer} />
-        </PageRoot>
+        <WebsitesIndexLayout />
       </WebsitesHomePageContext.Provider>
-    </motion.div>
+    </PagesLayout>
   )
 }
 
 export async function getStaticProps() {
-  return await prepareProps(["footer", "websites", "websiteSlides"])
+  return await prepareProps(["navbar", "footer", "websites", "websiteSlides"])
 }

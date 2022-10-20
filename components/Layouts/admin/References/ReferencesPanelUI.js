@@ -223,7 +223,7 @@ export default function ReferencesPanelUI(props) {
   return (
     <>
       <Stack justifyContent="center" direction="column" gap={2}>
-        <BodyText fontSize="1rem">
+        <BodyText preventTransitionOut>
           Cliquez sur un logo pour voir et modifier les informations d'une
           référence. Ajoutez une nouvelle référence avec le bouton ci-dessous.
           Supprimez une référence en survolant un logo puis en cliquant sur

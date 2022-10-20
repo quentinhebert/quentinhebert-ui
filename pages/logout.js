@@ -1,24 +1,25 @@
 import { Stack } from "@mui/material"
 import { useContext, useEffect } from "react"
+import PagesLayout from "../components/Layouts/PagesLayout"
 import CustomCircularProgress from "../components/ReusableComponents/custom-circular-progress"
-import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
-import PageRoot from "../components/ReusableComponents/page-builder/page-root"
 import BodyText from "../components/ReusableComponents/text/body-text"
 import { UserContext } from "../contexts/UserContext"
 import { logout } from "../services/utils"
 
-export default function LogoutPage() {
+const head = {
   // Main meta tags
-  const title = "Déconnexion"
-  const description = "Page de déconnexion"
-
+  title: "Déconnexion",
+  description: "Page de déconnexion",
   // SEO helpers
-  const follow = false
-
+  follow: false,
+  keywords:
+    "Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, belgium, advertising, corporate videos, corporate filmmaking",
   // OpenGraph additional tags (sharing)
-  const type = "website"
-  const ogImg = "/medias/ogimg.png"
+  type: "website",
+  ogImg: "/medias/ogimg.png",
+}
 
+export default function LogoutPage() {
   // USER CONTEXT
   const { user, setUser, setAccessToken } = useContext(UserContext)
 
@@ -39,14 +40,7 @@ export default function LogoutPage() {
   }, [user])
 
   return (
-    <PageRoot>
-      <HtmlHead
-        title={title}
-        description={description}
-        follow={follow}
-        type={type}
-        ogImg={ogImg}
-      />
+    <PagesLayout head={head}>
       <Stack
         alignItems="center"
         justifyContent="center"
@@ -57,6 +51,6 @@ export default function LogoutPage() {
         <CustomCircularProgress />
         <BodyText fontSize="1rem">Déconnexion...</BodyText>
       </Stack>
-    </PageRoot>
+    </PagesLayout>
   )
 }

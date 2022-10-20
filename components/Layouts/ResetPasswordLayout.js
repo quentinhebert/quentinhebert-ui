@@ -1,20 +1,7 @@
 import { useRouter } from "next/router"
-import { Box, Stack } from "@mui/material"
+import { Stack } from "@mui/material"
 import ResetPasswordForm from "../Forms/reset-password-form"
-
-const FixedBackground = () => (
-  <Box
-    sx={{
-      position: "fixed",
-      width: "100%",
-      height: "100vh",
-      background: "url(/medias/lines.jpg)",
-      backgroundSize: "cover",
-      backgroundPosition: "fixed",
-      zIndex: 0,
-    }}
-  />
-)
+import FixedBackground from "../ReusableComponents/backgrounds/fixed-background"
 
 export default function ResetPassordLayout(props) {
   /********** PROPS **********/
@@ -26,7 +13,7 @@ export default function ResetPassordLayout(props) {
 
   return (
     <Stack alignItems="center" justifyContent="center" flexGrow={1}>
-      <FixedBackground />
+      <FixedBackground url="url(/medias/lines.jpg)" />
       <Stack
         zIndex={1}
         gap={4}

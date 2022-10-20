@@ -8,7 +8,7 @@ export default function Custom401Layout() {
   return (
     <Stack
       flexGrow={1}
-      minHeight="400px"
+      minHeight="500px"
       justifyContent="center"
       alignItems="center"
       gap={4}

@@ -6,40 +6,30 @@ import PageRoot from "../../../components/ReusableComponents/page-builder/page-r
 import HtmlHead from "../../../components/ReusableComponents/page-builder/html-head"
 import AdminBackOfficeReferences from "../../../components/Layouts/admin/AdminBackOfficeReferences"
 import LoginLayout from "../../../components/Layouts/LoginLayout"
+import PagesLayout from "../../../components/Layouts/PagesLayout"
+
+const head = {
+  // Main meta tags
+  title: "Admin | Back-Office | Références",
+  description: "Back-Office : gérez vos références",
+  // SEO helpers
+  follow: false,
+  // OpenGraph additional tags (sharing)
+  type: "website",
+  ogImg: "/medias/ogimg.png",
+}
 
 export default function References() {
-  // Main meta tags
-  const title = "Admin | Back-Office | Vidéo"
-  const description =
-    "Back-Office : gérez tout ce qui concerne la vidéo sur votre site"
-
-  // SEO helpers
-  const follow = false
-
-  // OpenGraph additional tags (sharing)
-  const type = "website"
-  const ogImg = "/medias/ogimg.png"
-
   // Check if user has grant to access that page
   const { user } = useContext(UserContext)
 
   return (
-    <PageRoot>
-      <HtmlHead
-        title={title}
-        description={description}
-        follow={follow}
-        type={type}
-        ogImg={ogImg}
-      />
-
+    <PagesLayout head={head}>
       {!!user && user.type === USERTYPES.ADMIN ? (
         <AdminBackOfficeReferences />
       ) : (
         <LoginLayout />
       )}
-
-      <Footer />
-    </PageRoot>
+    </PagesLayout>
   )
 }

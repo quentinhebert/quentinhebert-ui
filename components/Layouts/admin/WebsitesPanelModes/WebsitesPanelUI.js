@@ -227,7 +227,7 @@ export default function WebsitesPanelUI(props) {
   return (
     <>
       <Stack justifyContent="center" direction="column" gap={2}>
-        <BodyText fontSize="1rem">
+        <BodyText preventTransitionOut>
           Cliquez sur une vignette pour voir et modifier les informations d'un
           site web. Ajoutez un nouveau site web avec le bouton ci-dessous.
           Supprimez un site web en survolant une vignette puis en cliquant sur

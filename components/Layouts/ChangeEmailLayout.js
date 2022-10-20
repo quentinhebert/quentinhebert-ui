@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react"
-import { Stack, Typography, Paper, Button } from "@mui/material"
+import { Stack } from "@mui/material"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
-import AlertInfo from "../../components/Other/alert-info"
-import { errorCodes } from "../../config/errorCodes"
 import apiCall from "../../services/apiCalls/apiCall"
 import PleaseWait from "../ReusableComponents/helpers/please-wait"
 import BodyText from "../ReusableComponents/text/body-text"
@@ -23,12 +21,7 @@ export default function ChangeEmailLayout(props) {
   /********** USE-STATES **********/
   const [isFetching, setIsFetching] = useState(true)
   const [emailChanged, setEmailChanged] = useState(false)
-  const [error, setError] = useState({
-    show: false,
-    severity: "warning",
-    text: "The access is denied.",
-    title: "Invalid token",
-  })
+  const [error, setError] = useState(false)
 
   /********** INITIAL CHECK **********/
   // Before all, let's check if user has clicked on the link from email-confirmation email
@@ -36,13 +29,13 @@ export default function ChangeEmailLayout(props) {
     const initialCheck = async () => {
       if (token) {
         const res = await apiCall.unauthenticated.changeEmail(token)
-        if (!res) setError({ ...error, show: true })
+        if (!res || !res.ok) setError(true)
 
         if (res.status && res.status === 204) setEmailChanged(true)
         else {
           const jsonRes = await res.json()
           if (jsonRes.code === errorCodes.EMAIL_CHANGE_INVALID_TOKEN)
-            setError({ ...error, show: true })
+            setError(true)
         }
         setIsFetching(false)
       }
@@ -50,7 +43,7 @@ export default function ChangeEmailLayout(props) {
     initialCheck()
   }, [token])
 
-  if (!token) return <Custom401Layout />
+  if (!token || (!emailChanged && error)) return <Custom401Layout />
 
   return (
     <Stack
@@ -95,8 +88,6 @@ export default function ChangeEmailLayout(props) {
               </Stack>
             </>
           )}
-
-          {error.show && <AlertInfo content={error} />}
         </Stack>
       )}
     </Stack>

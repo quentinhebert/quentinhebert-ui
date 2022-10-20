@@ -128,7 +128,7 @@ function WebsitesPanel(props) {
 
   return (
     <Stack justifyContent="center" direction="column" gap={2}>
-      <BodyText fontSize="1rem">
+      <BodyText preventTransitionOut>
         Ci-dessous, vous pouvez ajouter, modifier ou supprimer une ou plusieurs
         sites web de votre portfolio web.
       </BodyText>

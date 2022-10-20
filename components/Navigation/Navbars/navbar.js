@@ -14,35 +14,26 @@ import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on
 import { useScrollPosition } from "@n8tb1t/use-scroll-position"
 import Link from "next/link"
 import useSWR from "swr"
-import apiCall from "../../../services/apiCalls/apiCall"
+import { fetchers } from "../../../services/fetchers"
 
 const MobileNavbar = dynamic(() => import("./mobile-navbar"))
 const DesktopNavbar = dynamic(() => import("./desktop-navbar"))
 
-async function fetchUpToDateNavbar() {
-  const res = await apiCall.unauthenticated.getNavbar()
-  const jsonRes = await res.json()
-  return jsonRes
-}
-
 export default function Navbar(props) {
-  const { bgColor } = props
+  const { staticData } = props
+
+  const swr = useSWR(`navbar`, async () => fetchers.navbar(), {
+    fallbackData: props.staticData,
+    revalidateOnMount: true,
+  })
+  let data = staticData
+  if (!!swr.data) data = swr.data
+
   // Define main color of navbar
-  let mainColor = bgColor || theme.palette.background.main
+  let mainColor = theme.palette.background.main
 
   // Define logo of navbar
   let logoQH = "/logos/logo-qh.png"
-
-  const { data, error, mutate } = useSWR(
-    `/navbar`,
-    async () => fetchUpToDateNavbar(),
-    {
-      fallbackData: props,
-      revalidateOnMount: true,
-    }
-  )
-
-  if (!data) return null
 
   // Check if user has grant to access that page
   const { user } = useContext(UserContext)
@@ -62,6 +53,7 @@ export default function Navbar(props) {
     }
   })
 
+  if (!data) return <></>
   return (
     <>
       <AppBar
@@ -178,14 +170,4 @@ export default function Navbar(props) {
       />
     </>
   )
-}
-
-export async function getStaticProps({ params }) {
-  const {} = params
-  const data = await fetchUpToDateNavbar()
-  let notFound = false
-
-  if (data.statusCode === 400 || data.statusCode === 404) notFound = true
-
-  return { props: data, notFound, revalidate: 60 }
 }

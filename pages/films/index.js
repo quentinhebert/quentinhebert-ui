@@ -1,52 +1,32 @@
 import FilmsIndexLayout from "../../components/Layouts/films/FilmsIndexLayout"
-import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
-import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
-import Footer from "../../components/Navigation/Footers/Footer"
-import { motion } from "framer-motion"
 import prepareProps from "../../services/fetchers"
 import { FilmsHomePageContext } from "../../contexts/PagesContexts"
+import PagesLayout from "../../components/Layouts/PagesLayout"
 
-export default function FilmsHomePage({ footer, films }) {
+const head = {
   // Main meta tags
-  const title = "Vidéaste Freelance"
-  const description =
-    "Réalisateur – Cadreur – Monteur : disponible dans toute la France."
-
+  title: "Vidéaste Freelance",
+  description:
+    "Réalisateur – Cadreur – Monteur : disponible dans toute la France.",
   // SEO helpers
-  const follow = true
-  const keywords =
-    "Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, belgium, advertising, corporate videos, corporate filmmaking"
-
+  follow: true,
+  keywords:
+    "Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, belgium, advertising, corporate videos, corporate filmmaking",
   // OpenGraph additional tags (sharing)
-  const type = "website"
-  const ogImg = "/medias/ogimg.png"
+  type: "website",
+  ogImg: "/medias/ogimg.png",
+}
 
+export default function FilmsHomePage({ navbar, footer, films }) {
   return (
-    <motion.div
-      exit={{ opacity: 0 }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
-      <FilmsHomePageContext.Provider value={{ staticData: { films } }}>
-        <PageRoot>
-          <HtmlHead
-            title={title}
-            description={description}
-            keywords={keywords}
-            follow={follow}
-            type={type}
-            ogImg={ogImg}
-          />
-
-          <FilmsIndexLayout />
-
-          <Footer staticData={footer} />
-        </PageRoot>
-      </FilmsHomePageContext.Provider>
-    </motion.div>
+    <FilmsHomePageContext.Provider value={{ staticData: { films } }}>
+      <PagesLayout head={head} navbarData={navbar} footerData={footer}>
+        <FilmsIndexLayout />
+      </PagesLayout>
+    </FilmsHomePageContext.Provider>
   )
 }
 
 export async function getStaticProps() {
-  return await prepareProps(["footer", "films"])
+  return await prepareProps(["navbar", "footer", "films"])
 }

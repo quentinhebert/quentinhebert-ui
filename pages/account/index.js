@@ -1,41 +1,26 @@
 import React, { useContext } from "react"
-import Footer from "../../components/Navigation/Footers/Footer"
 import { UserContext } from "../../contexts/UserContext"
 import AccountIndex from "../../components/Layouts/account/AccountIndex"
 import LoginLayout from "../../components/Layouts/LoginLayout"
-import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
-import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
+import PagesLayout from "../../components/Layouts/PagesLayout"
 
-function AccountIndexPage() {
+const head = {
   // Main meta tags
-  const title = "Mon compte"
-  const description = "Gérez votre compte"
-
+  title: "Mon compte",
+  description: "Gérez votre compte",
   // SEO helpers
-  const follow = false
+  follow: false, // OpenGraph additional tags (sharing)
+  type: "website",
+  ogImg: "/medias/ogimg.png",
+}
 
-  // OpenGraph additional tags (sharing)
-  const type = "website"
-  const ogImg = "/medias/ogimg.png"
-
+export default function AccountIndexPage() {
   // Check if user has grant to access that page
   const { user } = useContext(UserContext)
 
   return (
-    <PageRoot>
-      <HtmlHead
-        title={title}
-        description={description}
-        follow={follow}
-        type={type}
-        ogImg={ogImg}
-      />
-
+    <PagesLayout head={head}>
       {!user ? <LoginLayout /> : <AccountIndex user={user} />}
-
-      <Footer />
-    </PageRoot>
+    </PagesLayout>
   )
 }
-
-export default AccountIndexPage

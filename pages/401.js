@@ -1,40 +1,21 @@
 import Custom401Layout from "../components/Layouts/error/Custom401Layout"
-import Footer from "../components/Navigation/Footers/Footer"
-import HtmlHead from "../components/ReusableComponents/page-builder/html-head"
-import PageRoot from "../components/ReusableComponents/page-builder/page-root"
-import { motion } from "framer-motion"
+import PagesLayout from "../components/Layouts/PagesLayout"
+
+const head = {
+  // Main meta tags
+  title: "401 | Accès non autorisé",
+  description: "Erreur 401 : l'accès n'est pas autorisé",
+  // SEO helpers
+  follow: false,
+  // OpenGraph additional tags (sharing)
+  type: "website",
+  ogImg: "/medias/ogimg.png",
+}
 
 export default function Custom401Page() {
-  // Main meta tags
-  const title = "401 | Accès non autorisé"
-  const description = "Erreur 401 : l'accès n'est pas autorisé"
-
-  // SEO helpers
-  const follow = false
-
-  // OpenGraph additional tags (sharing)
-  const type = "website"
-  const ogImg = "/medias/ogimg.png"
-
   return (
-    <motion.div
-      exit={{ opacity: 0 }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
-      <PageRoot>
-        <HtmlHead
-          title={title}
-          description={description}
-          follow={follow}
-          type={type}
-          ogImg={ogImg}
-        />
-
-        <Custom401Layout />
-
-        <Footer />
-      </PageRoot>
-    </motion.div>
+    <PagesLayout head={head}>
+      <Custom401Layout />
+    </PagesLayout>
   )
 }

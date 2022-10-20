@@ -6,6 +6,7 @@ import AppsIcon from "@mui/icons-material/Apps"
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
 import CustomOutlinedButton from "../../ReusableComponents/buttons/custom-outlined-button"
 import dynamic from "next/dynamic"
+import AdminPagesLayout from "../AdminPagesLayout"
 
 const WebsitesPanel = dynamic(() =>
   import("./WebsitesPanelModes/WebsitesPanel")
@@ -21,17 +22,8 @@ export default function AdminFilmsPanel(props) {
   const [mode, setMode] = useState(MODES.UI)
 
   return (
-    <Stack flexGrow={1}>
-      <Stack
-        justifyContent="center"
-        direction="column"
-        gap={2}
-        padding="1rem"
-        margin="100px 0"
-      >
-        <PageTitle zIndex={1} text="Mes sites web" />
-        <Breadcrumbs panel="admin" />
-
+    <AdminPagesLayout title="Mes sites web">
+      <Stack gap={2}>
         <Stack gap={2} flexDirection="row">
           <Box>
             <CustomOutlinedButton
@@ -74,6 +66,6 @@ export default function AdminFilmsPanel(props) {
         {mode === MODES.PANEL && <WebsitesPanel />}
         {mode === MODES.UI && <WebsitesPanelUI />}
       </Stack>
-    </Stack>
+    </AdminPagesLayout>
   )
 }

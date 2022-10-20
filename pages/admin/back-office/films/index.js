@@ -1,26 +1,24 @@
 import React, { useContext } from "react"
-import Footer from "../../../../components/Navigation/Footers/Footer"
 import { USERTYPES } from "../../../../enums/userTypes"
 import { UserContext } from "../../../../contexts/UserContext"
-import HtmlHead from "../../../../components/ReusableComponents/page-builder/html-head"
-import PageRoot from "../../../../components/ReusableComponents/page-builder/page-root"
 import LoginLayout from "../../../../components/Layouts/LoginLayout"
 import AdminBackOfficeFilms from "../../../../components/Layouts/admin/AdminBackOfficeFilms"
 import { useRouter } from "next/router"
+import PagesLayout from "../../../../components/Layouts/PagesLayout"
+
+const head = {
+  // Main meta tags
+  title: "Admin | Back-Office | Vidéo",
+  description:
+    "Back-Office : gérez tout ce qui concerne la vidéo sur votre site",
+  // SEO helpers
+  follow: false,
+  // OpenGraph additional tags (sharing)
+  type: "website",
+  ogImg: "/medias/ogimg.png",
+}
 
 export default function ManageVideosPage() {
-  // Main meta tags
-  const title = "Admin | Back-Office | Vidéo"
-  const description =
-    "Back-Office : gérez tout ce qui concerne la vidéo sur votre site"
-
-  // SEO helpers
-  const follow = false
-
-  // OpenGraph additional tags (sharing)
-  const type = "website"
-  const ogImg = "/medias/ogimg.png"
-
   // Check if user has grant to access that page
   const { user } = useContext(UserContext)
 
@@ -29,22 +27,12 @@ export default function ManageVideosPage() {
   if (!!user && user.type !== USERTYPES.ADMIN) router.push("/account")
 
   return (
-    <PageRoot>
-      <HtmlHead
-        title={title}
-        description={description}
-        follow={follow}
-        type={type}
-        ogImg={ogImg}
-      />
-
+    <PagesLayout head={head}>
       {!!user && user.type === USERTYPES.ADMIN ? (
         <AdminBackOfficeFilms />
       ) : (
         <LoginLayout />
       )}
-
-      <Footer />
-    </PageRoot>
+    </PagesLayout>
   )
 }

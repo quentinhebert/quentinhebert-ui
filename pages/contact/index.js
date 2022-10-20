@@ -1,64 +1,42 @@
 import ContactLayout from "../../components/Layouts/contact/ContactLayout"
-import PageRoot from "../../components/ReusableComponents/page-builder/page-root"
-import HtmlHead from "../../components/ReusableComponents/page-builder/html-head"
-import Footer from "../../components/Navigation/Footers/Footer"
-import { motion } from "framer-motion"
 import { Box } from "@mui/material"
 import prepareProps from "../../services/fetchers"
+import PagesLayout from "../../components/Layouts/PagesLayout"
 
-// Main meta tags
-const title = "Contact"
-const description =
-  "Contactez-moi si vous avez un projet et que vous souhaitez collaborer !"
+const head = {
+  // Main meta tags
+  title: "Contact",
+  description:
+    "Contactez-moi si vous avez un projet et que vous souhaitez collaborer !",
+  // SEO helpers
+  follow: true,
+  keywords:
+    "Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, belgium, advertising, corporate videos, corporate filmmaking",
+  // OpenGraph additional tags (sharing)
+  type: "website",
+  ogImg: "/medias/ogimg.png",
+}
 
-// SEO helpers
-const follow = true
-const keywords =
-  "Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, belgium, advertising, corporate videos, corporate filmmaking"
-
-// OpenGraph additional tags (sharing)
-const type = "website"
-const ogImg = "/medias/ogimg.png"
-
-function ContactPage(props) {
-  const { footer, websiteContact } = props
+export default function ContactPage(props) {
+  const { navbar, footer, websiteContact } = props
 
   return (
-    <motion.div
-      exit={{ opacity: 0 }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
-      <PageRoot>
-        <HtmlHead
-          title={title}
-          description={description}
-          keywords={keywords}
-          follow={follow}
-          type={type}
-          ogImg={ogImg}
-        />
+    <PagesLayout head={head} navbarData={navbar} footerData={footer}>
+      <Box
+        sx={{
+          position: "fixed",
+          width: "100%",
+          height: "100%",
+          background: (theme) =>
+            `linear-gradient(150deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`,
+        }}
+      />
 
-        <Box
-          sx={{
-            position: "fixed",
-            width: "100%",
-            height: "100%",
-            background: (theme) =>
-              `linear-gradient(150deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`,
-          }}
-        />
-
-        <ContactLayout staticData={websiteContact} />
-
-        <Footer staticData={footer} />
-      </PageRoot>
-    </motion.div>
+      <ContactLayout staticData={websiteContact} />
+    </PagesLayout>
   )
 }
 
-export default ContactPage
-
 export async function getStaticProps() {
-  return await prepareProps(["footer", "websiteContact"])
+  return await prepareProps(["navbar", "footer", "websiteContact"])
 }

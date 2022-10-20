@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react"
-import Footer from "../../components/Navigation/Footers/Footer"
-import AlertInfo from "../../components/Other/alert-info"
 import { errorCodes } from "../../config/errorCodes"
 import apiCall from "../../services/apiCalls/apiCall"
-import { Stack, Typography, Button } from "@mui/material"
+import { Stack } from "@mui/material"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 import BodyText from "../ReusableComponents/text/body-text"
 import SmallTitle from "../ReusableComponents/titles/small-title"
 import OutlinedButton from "../ReusableComponents/buttons/outlined-button"
 import LoginLayout from "../Layouts/LoginLayout"
+import Custom401Layout from "./error/Custom401Layout"
 
 const Custom401 = dynamic(() => import("../../pages/401"))
 
@@ -24,12 +23,7 @@ export default function EmailConfirmationLayout(props) {
   /********** USE-STATES **********/
   const [login, setLogin] = useState(false)
   const [emailConfirmed, setEmailConfirmed] = useState(false)
-  const [error, setError] = useState({
-    show: false,
-    severity: "warning",
-    text: "L'accès demandé n'est pas autorisé.",
-    title: "Token invalide",
-  })
+  const [error, setError] = useState(false)
 
   /********** INITIAL CHECK **********/
   // Before all, let's check if user has clicked on the link from email-confirmation email
@@ -37,20 +31,20 @@ export default function EmailConfirmationLayout(props) {
     const checkEmail = async () => {
       if (token) {
         const res = await apiCall.unauthenticated.emailConfirm(token)
-        if (!res) setError({ ...error, show: true })
+        if (!res || !res.ok) setError(true)
 
         if (res.status && res.status === 204) setEmailConfirmed(true)
         else {
           const jsonRes = await res.json()
           if (jsonRes.code === errorCodes.EMAIL_CONFIRM_INVALID_TOKEN)
-            return setError({ ...error, show: true })
+            return setError(true)
         }
       }
     }
     checkEmail()
   }, [token])
 
-  if (!token) return <Custom401 />
+  if (!token || (!emailConfirmed && error)) return <Custom401Layout />
 
   return (
     <Stack flexGrow={1}>
@@ -77,8 +71,6 @@ export default function EmailConfirmationLayout(props) {
             ) : (
               <SmallTitle>Veuillez patienter un instant...</SmallTitle>
             )}
-
-            {error.show && <AlertInfo content={error} />}
 
             {emailConfirmed && (
               <>

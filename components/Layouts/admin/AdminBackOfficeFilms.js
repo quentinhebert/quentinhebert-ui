@@ -5,6 +5,8 @@ import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-
 import { Multimedia } from "grommet-icons"
 import { Icon } from "react-icons-kit"
 import { videoCamera } from "react-icons-kit/icomoon/videoCamera"
+import FixedBackground from "../../ReusableComponents/backgrounds/fixed-background"
+import AdminPagesLayout from "../AdminPagesLayout"
 
 const CARDS = [
   {
@@ -26,30 +28,12 @@ export default function AdminBackOfficeFilms(props) {
   const {} = props
 
   return (
-    <Stack
-      flexGrow={1}
-      direction="column"
-      gap={2}
-      padding={4}
-      paddingTop={"7rem"}
-      paddingBottom={"7rem"}
-    >
-      <Box
-        position="fixed"
-        width="100%"
-        height="100%"
-        zIndex={0}
-        sx={{
-          backgroundImage: "url(/medias/lines.jpg)",
-          backgroundSize: "cover",
-        }}
-      />
-      <PageTitle zIndex={1} text="Vidéo" />
-      <Breadcrumbs panel="admin" />
+    <AdminPagesLayout title="Vidéo">
+      <FixedBackground url="url(/medias/lines.jpg)" />
 
       <Stack zIndex={0}>
         <OneActionCardsGrid cards={CARDS} />
       </Stack>
-    </Stack>
+    </AdminPagesLayout>
   )
 }

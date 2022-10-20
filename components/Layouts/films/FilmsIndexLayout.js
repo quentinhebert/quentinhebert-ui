@@ -26,19 +26,6 @@ export default function FilmsIndexLayout(props) {
       {/* TOP Anchor */}
       <Stack ref={topRef} />
 
-      {/* Fixed Background for the page */}
-      {/* <Stack
-        position="fixed"
-        width="100%"
-        height="100vh"
-        zIndex={0}
-        sx={{
-          backgroundImage: "url(/medias/lines.jpg)",
-          backgroundPosition: "25% 50%",
-          backgroundSize: "cover",
-        }}
-      /> */}
-
       {/* HERO screen */}
       <FilmsIndexHero refForScroll={refsForScroll.portfolio} />
 
