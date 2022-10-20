@@ -22,6 +22,7 @@ const CssFilledInput = styled((props) => (
   "& .MuiInput-input::placeholder": {
     padding: 0,
     opacity: 1,
+    color: theme.palette.text.secondary,
   },
 }))
 
