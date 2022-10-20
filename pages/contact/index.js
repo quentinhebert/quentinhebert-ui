@@ -6,22 +6,22 @@ import { motion } from "framer-motion"
 import { Box } from "@mui/material"
 import prepareProps from "../../services/fetchers"
 
+// Main meta tags
+const title = "Contact"
+const description =
+  "Contactez-moi si vous avez un projet et que vous souhaitez collaborer !"
+
+// SEO helpers
+const follow = true
+const keywords =
+  "Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, belgium, advertising, corporate videos, corporate filmmaking"
+
+// OpenGraph additional tags (sharing)
+const type = "website"
+const ogImg = "/medias/ogimg.png"
+
 function ContactPage(props) {
   const { footer, websiteContact } = props
-
-  // Main meta tags
-  const title = "Contact"
-  const description =
-    "Contactez-moi si vous avez un projet et que vous souhaitez collaborer !"
-
-  // SEO helpers
-  const follow = true
-  const keywords =
-    "Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, belgium, advertising, corporate videos, corporate filmmaking"
-
-  // OpenGraph additional tags (sharing)
-  const type = "website"
-  const ogImg = "/medias/ogimg.png"
 
   return (
     <motion.div
