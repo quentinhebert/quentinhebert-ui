@@ -20,6 +20,7 @@ export default function AdminLogoForm(props) {
 
   /********** USE-STATES **********/
   const [file, setFile] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   /********** FUNCTIONS **********/
   const fetchLogo = async () => {
@@ -48,9 +49,11 @@ export default function AdminLogoForm(props) {
     setSnackMessage("Footer non mis à jour")
   }
   const handleSaveLogo = async () => {
+    setLoading(true)
     const res = await apiCall.admin.updateLogo(file)
     if (res && res.ok) handleSuccess()
     else handleError()
+    setLoading(false)
   }
   const handleCancel = async () => {
     if (handleClose) handleClose()
@@ -90,9 +93,9 @@ export default function AdminLogoForm(props) {
             <CustomSubmitButton
               secondary="true"
               onClick={handleSaveLogo}
-              disabled={!file?.size}
+              disabled={!file?.size || loading}
             >
-              Enregistrer
+              {loading ? "Patientez..." : "Enregistrer"}
             </CustomSubmitButton>
           </Stack>
         </CustomForm>
