@@ -104,7 +104,7 @@ const LogoQH = ({ logoUrl }) => (
   <ScaleUpOnHoverStack direction="row" justifyContent="center">
     <Link href="/" passHref>
       <Box component="a">
-        {logo && <Image src={logoUrl} width="100%" height="80%" />}
+        {logoUrl && <Image src={logoUrl} width="100%" height="80%" />}
       </Box>
     </Link>
   </ScaleUpOnHoverStack>
