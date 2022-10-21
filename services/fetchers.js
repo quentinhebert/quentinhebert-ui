@@ -2,12 +2,12 @@ import apiCall from "./apiCalls/apiCall"
 
 export const fetchers = {
   navbar: async () => {
-    const res = await apiCall.unauthenticated.getNavbar()
+    const res = await apiCall.application.navbar.get()
     const jsonRes = await res.json()
     return jsonRes
   },
   footer: async () => {
-    const res = await apiCall.unauthenticated.getFooter()
+    const res = await apiCall.application.footer.get()
     const jsonRes = await res.json()
     return jsonRes
   },

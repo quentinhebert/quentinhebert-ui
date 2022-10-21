@@ -3,6 +3,18 @@ import { getFreshToken } from "../utils"
 
 const application = {
   logo: {
+    get: async () => {
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/application/logo`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
     update: async (file) => {
       try {
         let formData = new FormData()
@@ -22,6 +34,18 @@ const application = {
   },
   navbar: {
     get: async () => {
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/navbar`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    getAdmin: async () => {
       try {
         return await fetch(`${defaultConfig.apiUrl}/admin/navbar`, {
           method: "GET",
@@ -51,6 +75,18 @@ const application = {
     },
   },
   footer: {
+    get: async () => {
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/footer`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
     update: async (credits) => {
       const body = { credits }
       try {

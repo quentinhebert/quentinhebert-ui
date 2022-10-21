@@ -24,7 +24,7 @@ export default function AdminLogoForm(props) {
 
   /********** FUNCTIONS **********/
   const fetchLogo = async () => {
-    const res = await apiCall.unauthenticated.getApplicationLogo()
+    const res = await apiCall.application.logo.get()
     if (res && res.ok) {
       const jsonRes = await res.json()
       setFile(jsonRes)

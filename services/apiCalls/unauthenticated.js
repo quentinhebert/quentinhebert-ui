@@ -99,95 +99,12 @@ const unauthenticated = {
       console.error(error)
     }
   },
-  /* Get public categories for website homepage */
-  getWorkPageData: async () => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/workpage`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
-  /* Get public categories for website homepage */
   sendContactForm: async (clientData) => {
     try {
       const body = JSON.stringify(clientData)
       return await fetch(`${defaultConfig.apiUrl}/contact-form`, {
         method: "POST",
         body: body,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
-  /* Get public category videos for a given category */
-  getCategoryVideos: async (categoryId) => {
-    try {
-      return await fetch(
-        `${defaultConfig.apiUrl}/categories/${categoryId}/videos`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-    } catch (error) {
-      console.error(error)
-    }
-  },
-  /* Get all public categories' videos */
-  getCategoriesVideos: async () => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/categories/videos`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
-  /* Get public category with given id */
-  getCategoryVideo: async (videoId) => {
-    try {
-      return await fetch(
-        `${defaultConfig.apiUrl}/categories/videos/${videoId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-    } catch (error) {
-      console.error(error)
-    }
-  },
-  getNavbar: async () => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/navbar`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
-  getFooter: async () => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/footer`, {
-        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
@@ -272,18 +189,6 @@ const unauthenticated = {
   getWebsiteSlides: async () => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/websites/slides`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
-  getApplicationLogo: async () => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/application/logo`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
