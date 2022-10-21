@@ -46,21 +46,21 @@ function AddFilmModal(props) {
 
   // Fetch data
   const fetchFilmTypes = async () => {
-    const res = await apiCall.unauthenticated.getFilmTypes()
+    const res = await apiCall.films.types.get()
     if (res && res.ok) {
       const jsonRes = await res.json()
       setFilmTypes(jsonRes)
     }
   }
   const fetchFilmGear = async () => {
-    const res = await apiCall.unauthenticated.getFilmGear()
+    const res = await apiCall.films.gear.get()
     if (res && res.ok) {
       const jsonRes = await res.json()
       setFilmGear(jsonRes)
     }
   }
   const fetchFilmRoles = async () => {
-    const res = await apiCall.unauthenticated.getFilmRoles()
+    const res = await apiCall.films.roles.get()
     if (res && res.ok) {
       const jsonRes = await res.json()
       setFilmRoles(jsonRes)

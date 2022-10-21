@@ -60,45 +60,6 @@ const unauthenticated = {
       console.error(error)
     }
   },
-  /* Get public film types */
-  getFilmTypes: async () => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/film-types`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
-  /* Get public film gear */
-  getFilmGear: async () => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/film-gear`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
-  /* Get public film gear */
-  getFilmRoles: async () => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/film-roles`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
   sendContactForm: async (clientData) => {
     try {
       const body = JSON.stringify(clientData)

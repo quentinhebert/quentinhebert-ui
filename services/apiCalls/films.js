@@ -144,6 +144,51 @@ const films = {
       console.error(err)
     }
   },
+  types: {
+    // Public
+    get: async () => {
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/films/types`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  },
+  gear: {
+    // Public
+    get: async () => {
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/films/gear`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  },
+  roles: {
+    // Public
+    get: async () => {
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/films/roles`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  },
 }
 
 export default films
