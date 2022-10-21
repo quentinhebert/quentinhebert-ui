@@ -12,10 +12,11 @@ export default function WaitForLogout(props) {
         alignItems="center"
         justifyContent="center"
         flexDirection="row"
+        minHeight={300}
         gap={4}
       >
         <CustomCircularProgress />
-        <BodyText fontSize="1rem">Déconnexion...</BodyText>
+        <BodyText preventTransition>Déconnexion...</BodyText>
       </Stack>
     </CustomModal>
   )

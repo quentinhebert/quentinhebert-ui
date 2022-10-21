@@ -100,11 +100,11 @@ const SocialMedias = ({ items }) => {
   )
 }
 
-const LogoQH = ({ logo }) => (
+const LogoQH = ({ logoUrl }) => (
   <ScaleUpOnHoverStack direction="row" justifyContent="center">
     <Link href="/" passHref>
       <Box component="a">
-        {logo && <Image src={logo.URL} width="100%" height="80%" />}
+        {logo && <Image src={logoUrl} width="100%" height="80%" />}
       </Box>
     </Link>
   </ScaleUpOnHoverStack>
@@ -185,7 +185,7 @@ export default function Footer(props) {
               animate={controls}
               style={motionDivStyle}
             >
-              <LogoQH logo={data?.logo} />
+              {data?.logo?.URL && <LogoQH logo={data.logo.URL} />}
             </motion.div>
 
             {/* EMAIL */}

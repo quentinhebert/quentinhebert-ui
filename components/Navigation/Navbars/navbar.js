@@ -101,12 +101,14 @@ export default function Navbar(props) {
                           "width 0.1s ease-in-out, height 0.1s ease-in-out",
                       }}
                     >
-                      <Image
-                        src={data.logo.URL}
-                        width="100%"
-                        height="100%"
-                        priority={true}
-                      />
+                      {data?.logo?.URL && (
+                        <Image
+                          src={data.logo.URL}
+                          width="100%"
+                          height="100%"
+                          priority={true}
+                        />
+                      )}
                     </Stack>
                     <Stack ref={ContainerRef} overflow="hidden">
                       <Slide

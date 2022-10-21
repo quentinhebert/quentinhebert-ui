@@ -69,7 +69,7 @@ const Text = styled(
 )(() => ({}))
 
 export default function BodyText(
-  props = { fontFamily, color, preventTransitionOut }
+  props = { fontFamily, color, preventTransitionOut, preventTransition }
 ) {
   return <Text {...props} />
 }
