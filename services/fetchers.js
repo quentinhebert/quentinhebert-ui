@@ -22,7 +22,7 @@ export const fetchers = {
     return jsonRes
   },
   websites: async () => {
-    const res = await apiCall.unauthenticated.getAllWebsites()
+    const res = await apiCall.websites.getAllPublic()
     const jsonRes = await res.json()
     return jsonRes
   },
