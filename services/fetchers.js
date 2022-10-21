@@ -17,7 +17,7 @@ export const fetchers = {
     return jsonRes
   },
   films: async () => {
-    const res = await apiCall.unauthenticated.getAllFilms()
+    const res = await apiCall.films.getAllPublic()
     const jsonRes = await res.json()
     return jsonRes
   },

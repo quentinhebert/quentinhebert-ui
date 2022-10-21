@@ -2,10 +2,23 @@ import { defaultConfig } from "../../config/defaultConfig"
 import { getFreshToken } from "../utils"
 
 const films = {
+  // Public
+  getAllPublic: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/films/public`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
   // Admin only
   getAll: async () => {
     try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/films`, {
+      return await fetch(`${defaultConfig.apiUrl}/films`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
