@@ -33,9 +33,9 @@ const application = {
     },
   },
   navbar: {
-    get: async () => {
+    getPublic: async () => {
       try {
-        return await fetch(`${defaultConfig.apiUrl}/navbar`, {
+        return await fetch(`${defaultConfig.apiUrl}/public-navbar`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -45,9 +45,9 @@ const application = {
         console.error(error)
       }
     },
-    getAdmin: async () => {
+    get: async () => {
       try {
-        return await fetch(`${defaultConfig.apiUrl}/admin/navbar`, {
+        return await fetch(`${defaultConfig.apiUrl}/navbar`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,

@@ -64,7 +64,7 @@ function AdminNavbarForm(props) {
   /********** FUNCTIONS **********/
   const fetchNavbar = async () => {
     setIsFetching(true)
-    const res = await apiCall.application.navbar.getAdmin()
+    const res = await apiCall.application.navbar.get()
     if (res && res.ok) {
       const jsonRes = await res.json()
       setNavbarItems(jsonRes.menu_items)

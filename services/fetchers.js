@@ -2,7 +2,7 @@ import apiCall from "./apiCalls/apiCall"
 
 export const fetchers = {
   navbar: async () => {
-    const res = await apiCall.application.navbar.get()
+    const res = await apiCall.application.navbar.getPublic()
     const jsonRes = await res.json()
     return jsonRes
   },
