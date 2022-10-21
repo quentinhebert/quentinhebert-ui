@@ -82,7 +82,7 @@ export default function SortVideos(props) {
     state.map((video) => {
       sortedVideoIds.push(video.id)
     })
-    const res = await apiCall.admin.sortFilms(sortedVideoIds)
+    const res = await apiCall.films.sort(sortedVideoIds)
     if (res) handleClose()
   }
 

@@ -73,7 +73,7 @@ export default function AdminFooterForm(props) {
     setSnackMessage("Footer non mis à jour")
   }
   const handleSaveFooter = async () => {
-    const res = await apiCall.admin.updateFooter(credits)
+    const res = await apiCall.application.footer.update(credits)
     if (res && res.ok) handleSuccess()
     else handleError()
   }

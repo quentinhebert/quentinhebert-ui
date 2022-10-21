@@ -48,7 +48,7 @@ function EditFilmModal(props) {
 
   // Fetch data
   const fetchData = async () => {
-    const res = await apiCall.admin.getFilm(filmId)
+    const res = await apiCall.films.get(filmId)
     const jsonRes = await res.json()
     setFilm(jsonRes)
   }
@@ -124,7 +124,7 @@ function EditFilmModal(props) {
     if (file) {
       const compressedImage = await compressImage(file)
       if (!compressedImage) return handleError()
-      const uploadThumbnailRes = await apiCall.admin.addFilmThumbnail(
+      const uploadThumbnailRes = await apiCall.films.addThumbnail(
         compressedImage
       )
       if (uploadThumbnailRes && uploadThumbnailRes.ok) {
@@ -145,7 +145,7 @@ function EditFilmModal(props) {
     // Compress the image before sending it to the API
     const thumbnailId = await processThumbnail()
     const localFilm = { ...film, thumbnail: { id: thumbnailId } }
-    const res = await apiCall.admin.updateFilm(localFilm)
+    const res = await apiCall.films.update(localFilm)
     if (res && res.ok) {
       handleSuccess()
     } else {

@@ -255,7 +255,7 @@ export default function AdminContactForm(props) {
   /********** FETCH DATA **********/
   const fetchContact = async () => {
     setIsFetching(true)
-    const res = await apiCall.admin.getWebsiteContact()
+    const res = await apiCall.application.contact.get()
     if (res && res.ok) {
       const jsonRes = await res.json()
       setContactItems(jsonRes)
@@ -289,7 +289,7 @@ export default function AdminContactForm(props) {
     )
   }
   const handleSaveContact = async () => {
-    const res = await apiCall.admin.updateWebsiteContact(contactItems)
+    const res = await apiCall.application.contact.update(contactItems)
     if (res && res.ok) return handleSuccess()
     return handleError()
   }

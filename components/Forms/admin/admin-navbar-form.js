@@ -64,7 +64,7 @@ function AdminNavbarForm(props) {
   /********** FUNCTIONS **********/
   const fetchNavbar = async () => {
     setIsFetching(true)
-    const res = await apiCall.admin.getNavbar()
+    const res = await apiCall.application.navbar.get()
     if (res && res.ok) {
       const jsonRes = await res.json()
       setNavbarItems(jsonRes.menu_items)
@@ -127,7 +127,7 @@ function AdminNavbarForm(props) {
       return (localItems[key].order = key + 1)
     })
 
-    const res = await apiCall.admin.updateNavbar(localItems, idsToDelete)
+    const res = await apiCall.application.navbar.update(localItems, idsToDelete)
     if (res && res.ok) handleSuccess()
     else handleError()
   }

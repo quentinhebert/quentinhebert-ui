@@ -49,7 +49,7 @@ export default function EditWebsiteSlideModal(props) {
 
   // Fetch data
   const fetchData = async () => {
-    const res = await apiCall.admin.getWebsiteSlide(slideId)
+    const res = await apiCall.websites.slides.get(slideId)
     const jsonRes = await res.json()
     setSlide(jsonRes)
     setRichTextDescription(jsonRes.description)
@@ -79,7 +79,7 @@ export default function EditWebsiteSlideModal(props) {
   }
   const handleUpdate = async () => {
     setIsLoading(true)
-    const res = await apiCall.admin.updateWebsiteSlide(slide)
+    const res = await apiCall.websites.slides.update(slide)
     if (res && res.ok) handleSuccess()
     else handleError()
     setIsLoading(false)

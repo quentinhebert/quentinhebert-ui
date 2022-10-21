@@ -82,7 +82,7 @@ export default function SortWebsiteSlides(props) {
     state.map((slide) => {
       sortedWebsiteSlideIds.push(slide.id)
     })
-    const res = await apiCall.admin.sortWebsiteSlides(sortedWebsiteSlideIds)
+    const res = await apiCall.websites.slides.sort(sortedWebsiteSlideIds)
     if (res) handleClose()
   }
 

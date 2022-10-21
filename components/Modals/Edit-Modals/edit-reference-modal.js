@@ -39,7 +39,7 @@ function EditReferenceModal(props) {
   // Fetch data
   const fetchData = async () => {
     console.debug("referenceId", referenceId)
-    const res = await apiCall.admin.getReference(referenceId)
+    const res = await apiCall.references.get(referenceId)
     const jsonRes = await res.json()
     setReference(jsonRes)
   }
@@ -80,9 +80,7 @@ function EditReferenceModal(props) {
     if (file) {
       const compressedImage = await compressImage(file)
       if (!compressedImage) return handleError()
-      const uploadLogoRes = await apiCall.admin.addReferenceLogo(
-        compressedImage
-      )
+      const uploadLogoRes = await apiCall.references.addLogo(compressedImage)
       if (uploadLogoRes && uploadLogoRes.ok) {
         const logoResJson = await uploadLogoRes.json()
         return logoResJson.id
@@ -101,7 +99,7 @@ function EditReferenceModal(props) {
     // Compress the image before sending it to the API
     const logoId = await processLogo()
     const localReference = { ...reference, logo: { id: logoId } }
-    const res = await apiCall.admin.updateReference(localReference)
+    const res = await apiCall.references.update(localReference)
     if (res && res.ok) {
       handleSuccess()
     } else {

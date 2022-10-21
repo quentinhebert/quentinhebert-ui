@@ -33,7 +33,7 @@ export default function DeleteWebsiteModal(props) {
   }
   const handleDelete = async () => {
     setIsLoading(true)
-    const res = await apiCall.admin.deleteWebsite(website)
+    const res = await apiCall.websites.delete(website)
     if (res && res.ok) {
       handleSuccess()
     } else {

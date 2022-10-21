@@ -33,7 +33,7 @@ export default function DeleteReferenceModal(props) {
   }
   const handleDelete = async () => {
     setIsLoading(true)
-    const res = await apiCall.admin.deleteReference(reference)
+    const res = await apiCall.references.delete(reference)
     if (res && res.ok) {
       handleSuccess()
     } else {

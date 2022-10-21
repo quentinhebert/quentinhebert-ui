@@ -50,7 +50,7 @@ export default function AdminLogoForm(props) {
   }
   const handleSaveLogo = async () => {
     setLoading(true)
-    const res = await apiCall.admin.updateLogo(file)
+    const res = await apiCall.application.logo.update(file)
     if (res && res.ok) handleSuccess()
     else handleError()
     setLoading(false)

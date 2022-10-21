@@ -110,7 +110,7 @@ function AddWebsiteModal(props) {
     if (file) {
       const compressedImage = await compressImage(file)
       if (!compressedImage) return handleError()
-      const uploadThumbnailRes = await apiCall.admin.addWebsiteThumbnail(
+      const uploadThumbnailRes = await apiCall.websites.addThumbnail(
         compressedImage
       )
       if (uploadThumbnailRes && uploadThumbnailRes.ok) {
@@ -127,7 +127,7 @@ function AddWebsiteModal(props) {
     // Compress the image before sending it to the API
     const thumbnailId = await processThumbnail()
     const localWebsite = { ...website, thumbnail: { id: thumbnailId } }
-    const res = await apiCall.admin.addWebsite(localWebsite)
+    const res = await apiCall.websites.add(localWebsite)
     if (res && res.ok) {
       handleSuccess()
       refreshData() // Refresh all rows of custom table
@@ -141,14 +141,14 @@ function AddWebsiteModal(props) {
     setNewTag(e.target.value)
   }
   const handleAddWebsiteTag = async () => {
-    const res = await apiCall.admin.addWebsiteTag(newTag)
+    const res = await apiCall.websites.tags.add(newTag)
     if (res && res.ok) {
       fetchWebsiteTags()
       setNewTag(null)
     }
   }
   const deleteWebsiteTag = async (tagId) => {
-    const res = await apiCall.admin.deleteWebsiteTag(tagId)
+    const res = await apiCall.websites.tags.delete(tagId)
     if (res && res.ok) return fetchWebsiteTags()
   }
   const handleDeleteWebsiteTag = (tagId) => {

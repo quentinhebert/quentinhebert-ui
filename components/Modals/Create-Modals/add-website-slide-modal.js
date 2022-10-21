@@ -72,7 +72,7 @@ function AddWebsiteSlideModal(props) {
   }
   const handleCreate = async () => {
     setIsLoading(true)
-    const res = await apiCall.admin.addWebsiteSlide(slide)
+    const res = await apiCall.websites.slides.add(slide)
     if (res && res.ok) {
       handleSuccess()
       refreshData() // Refresh all rows of custom table

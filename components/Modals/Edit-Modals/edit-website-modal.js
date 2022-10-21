@@ -53,7 +53,7 @@ function EditWebsiteModal(props) {
 
   // Fetch data
   const fetchData = async () => {
-    const res = await apiCall.admin.getWebsite(websiteId)
+    const res = await apiCall.websites.get(websiteId)
     const jsonRes = await res.json()
     setWebsite(jsonRes)
   }
@@ -113,7 +113,7 @@ function EditWebsiteModal(props) {
     if (file) {
       const compressedImage = await compressImage(file)
       if (!compressedImage) return handleError()
-      const uploadThumbnailRes = await apiCall.admin.addWebsiteThumbnail(
+      const uploadThumbnailRes = await apiCall.websites.addThumbnail(
         compressedImage
       )
       if (uploadThumbnailRes && uploadThumbnailRes.ok) {
@@ -134,7 +134,7 @@ function EditWebsiteModal(props) {
     // Compress the image before sending it to the API
     const thumbnailId = await processThumbnail()
     const localWebsite = { ...website, thumbnail: { id: thumbnailId } }
-    const res = await apiCall.admin.updateWebsite(localWebsite)
+    const res = await apiCall.websites.update(localWebsite)
     if (res && res.ok) {
       handleSuccess()
     } else {
@@ -152,14 +152,14 @@ function EditWebsiteModal(props) {
     setNewTag(e.target.value)
   }
   const handleAddWebsiteTag = async () => {
-    const res = await apiCall.admin.addWebsiteTag(newTag)
+    const res = await apiCall.websites.tags.add(newTag)
     if (res && res.ok) {
       fetchWebsiteTags()
       setNewTag(null)
     }
   }
   const deleteWebsiteTag = async (tagId) => {
-    const res = await apiCall.admin.deleteWebsiteTag(tagId)
+    const res = await apiCall.websites.tags.delete(tagId)
     if (res && res.ok) return fetchWebsiteTags()
   }
   const handleDeleteWebsiteTag = (tagId) => {

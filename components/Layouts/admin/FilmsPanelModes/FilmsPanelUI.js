@@ -174,7 +174,7 @@ export default function FilmsPanelUI(props) {
   /***************** FETCH DATA ****************/
   const fetchFilms = async () => {
     setIsLoading(true)
-    const res = await apiCall.admin.getAllFilms()
+    const res = await apiCall.films.getAll()
     if (res && res.ok) {
       const films = await res.json()
       setFilms(films)
@@ -203,7 +203,7 @@ export default function FilmsPanelUI(props) {
     films.map((film) => {
       sortedFilmIds.push(film.id)
     })
-    const res = await apiCall.admin.sortFilms(sortedFilmIds)
+    const res = await apiCall.films.sort(sortedFilmIds)
     if (res) handleSuccess()
     else handleError()
   }

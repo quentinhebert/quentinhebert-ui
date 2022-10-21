@@ -33,7 +33,7 @@ export default function DeleteFilmModal(props) {
   }
   const handleDelete = async () => {
     setIsLoading(true)
-    const res = await apiCall.admin.deleteFilm(film)
+    const res = await apiCall.films.delete(film)
     if (res && res.ok) {
       handleSuccess()
     } else {

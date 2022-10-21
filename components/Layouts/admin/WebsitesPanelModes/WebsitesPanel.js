@@ -64,7 +64,7 @@ function WebsitesPanel(props) {
 
   /***************** FETCH DATA ****************/
   const fetchWebsites = async () => {
-    const res = await apiCall.admin.getAllWebsites()
+    const res = await apiCall.websites.getAll()
     if (res && res.ok) {
       const websites = await res.json()
       setRows(websites)
@@ -81,7 +81,7 @@ function WebsitesPanel(props) {
     const errorsCount = websitesToDelete.length
     const [errors] = await Promise.all(
       websitesToDelete.map(async (websiteId) => {
-        const res = await apiCall.admin.deleteWebsite({ id: websiteId })
+        const res = await apiCall.websites.delete({ id: websiteId })
         if (res && res.ok) {
           errorsCount -= 1
         }

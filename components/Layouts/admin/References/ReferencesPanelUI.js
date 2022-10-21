@@ -178,7 +178,7 @@ export default function ReferencesPanelUI(props) {
   /***************** FETCH DATA ****************/
   const fetchReferences = async () => {
     setIsLoading(true)
-    const res = await apiCall.admin.getAllReferences()
+    const res = await apiCall.references.getAll()
     if (res && res.ok) {
       const localRefernces = await res.json()
       setReferences(localRefernces)
@@ -207,7 +207,7 @@ export default function ReferencesPanelUI(props) {
     references.map((reference) => {
       sortedReferenceIds.push(reference.id)
     })
-    const res = await apiCall.admin.sortReferences(sortedReferenceIds)
+    const res = await apiCall.references.sort(sortedReferenceIds)
     if (res && res.ok) handleSuccess()
     else handleError()
   }

@@ -57,7 +57,7 @@ function WebsitesSlidesPanel(props) {
 
   /***************** FETCH DATA ****************/
   const fetchWebsiteSLides = async () => {
-    const res = await apiCall.admin.getAllWebsiteSlides()
+    const res = await apiCall.websites.slides.getAll()
     if (res && res.ok) {
       const websiteSlides = await res.json()
       setRows(websiteSlides)
@@ -74,7 +74,7 @@ function WebsitesSlidesPanel(props) {
     const errorsCount = slidesToDelete.length
     const [errors] = await Promise.all(
       slidesToDelete.map(async (slideId) => {
-        const res = await apiCall.admin.deleteWebsiteSlide({ id: slideId })
+        const res = await apiCall.websites.slides.delete({ id: slideId })
         if (res && res.ok) {
           errorsCount -= 1
         }

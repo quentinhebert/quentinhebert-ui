@@ -63,7 +63,7 @@ function FilmsPanel(props) {
 
   /***************** FETCH DATA ****************/
   const fetchFilms = async () => {
-    const res = await apiCall.admin.getAllFilms()
+    const res = await apiCall.films.getAll()
     if (res && res.ok) {
       const films = await res.json()
       setRows(films)
@@ -80,7 +80,7 @@ function FilmsPanel(props) {
     const errorsCount = filmsToDelete.length
     const [errors] = await Promise.all(
       filmsToDelete.map(async (videoId) => {
-        const res = await apiCall.admin.deleteFilm({ id: videoId })
+        const res = await apiCall.films.delete({ id: videoId })
         if (res && res.ok) {
           errorsCount -= 1
         }

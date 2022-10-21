@@ -68,9 +68,7 @@ function AddReferenceModal(props) {
     if (file) {
       const compressedImage = await compressImage(file)
       if (!compressedImage) return handleError()
-      const uploadLogoRes = await apiCall.admin.addReferenceLogo(
-        compressedImage
-      )
+      const uploadLogoRes = await apiCall.references.addLogo(compressedImage)
       if (uploadLogoRes && uploadLogoRes.ok) {
         const logoJson = await uploadLogoRes.json()
         return logoJson.id
@@ -85,7 +83,7 @@ function AddReferenceModal(props) {
     // Compress the image before sending it to the API
     const logoId = await processLogo()
     const localReference = { ...reference, logo: { id: logoId } }
-    const res = await apiCall.admin.addReference(localReference)
+    const res = await apiCall.references.add(localReference)
     if (res && res.ok) {
       handleSuccess()
       refreshData() // Refresh all rows of custom table

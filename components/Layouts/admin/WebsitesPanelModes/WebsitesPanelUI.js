@@ -182,7 +182,7 @@ export default function WebsitesPanelUI(props) {
   /***************** FETCH DATA ****************/
   const fetchWebsites = async () => {
     setIsLoading(true)
-    const res = await apiCall.admin.getAllWebsites()
+    const res = await apiCall.websites.getAll()
     if (res && res.ok) {
       const websites = await res.json()
       setWebsites(websites)
@@ -211,7 +211,7 @@ export default function WebsitesPanelUI(props) {
     websites.map((website) => {
       sortedWebsiteIds.push(website.id)
     })
-    const res = await apiCall.admin.sortWebsites(sortedWebsiteIds)
+    const res = await apiCall.websites.sort(sortedWebsiteIds)
     if (res) handleSuccess()
     else handleError()
   }
