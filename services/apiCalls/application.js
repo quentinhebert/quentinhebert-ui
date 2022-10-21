@@ -35,7 +35,7 @@ const application = {
   navbar: {
     getPublic: async () => {
       try {
-        return await fetch(`${defaultConfig.apiUrl}/public-navbar`, {
+        return await fetch(`${defaultConfig.apiUrl}/navbar/public`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
