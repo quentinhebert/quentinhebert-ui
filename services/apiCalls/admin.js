@@ -3,22 +3,6 @@ import { getFreshToken } from "../utils"
 
 const admin = {
   /************* USERS *************/
-  resendUserConfirmEmail: async (user) => {
-    try {
-      return await fetch(
-        `${defaultConfig.apiUrl}/admin/users/${user.id}/resend-confirm-email`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${await getFreshToken()}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-    } catch (err) {
-      console.error(err)
-    }
-  },
   sendUserPasswordForgotten: async (user) => {
     try {
       return await fetch(

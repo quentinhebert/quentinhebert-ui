@@ -134,6 +134,22 @@ const users = {
       console.error(err)
     }
   },
+  resendConfirmEmailByAdmin: async (user) => {
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/admin/users/${user.id}/resend-confirm-email`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
   sessions: {
     get: async (userId) => {
       try {
