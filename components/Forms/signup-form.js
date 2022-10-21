@@ -44,6 +44,14 @@ export default function SignUpForm(props) {
   const clearData = () => {
     setUserData(initialUserData)
     setSignupErrors(initialSignUpErrors)
+    setAccept({ policy: false })
+    setSignupCompleted(false)
+    setShowAlert({
+      show: false,
+      severity: null,
+      text: null,
+      title: null,
+    })
   }
 
   /********** USE-STATES **********/
@@ -261,6 +269,7 @@ export default function SignUpForm(props) {
         <CustomCheckbox
           label="J'accepte la politique du site *"
           onChange={handleCheck("policy")}
+          value={accept.policy}
           labelcolor={(theme) => theme.palette.text.white}
           fontSize="1rem"
         />
@@ -269,12 +278,12 @@ export default function SignUpForm(props) {
 
       <Stack flexDirection="row" gap={2} justifyContent="end">
         <CustomSubmitButton onClick={handleCloseAndClear}>
-          Annuler
+          {signupCompleted ? "Fermer" : "Annuler"}
         </CustomSubmitButton>
         <CustomSubmitButton
           secondary="true"
           onClick={signUp}
-          disabled={!accept.policy}
+          disabled={!accept.policy || signupCompleted}
         >
           Enregistrer
         </CustomSubmitButton>

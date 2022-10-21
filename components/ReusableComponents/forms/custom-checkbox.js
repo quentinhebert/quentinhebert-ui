@@ -11,6 +11,7 @@ const CssCheckbox = styled((props) => (
         color: props.checkedcolor || ((theme) => theme.palette.text.secondary),
       },
     }}
+    value={props.value}
     {...props}
   />
 ))(() => ({}))
@@ -40,7 +41,6 @@ const CssFormGroup = styled((props) => (
         },
       }}
       label={props.label}
-      {...props}
     />
   </FormGroup>
 ))(() => ({}))
