@@ -1,21 +1,6 @@
 import { defaultConfig } from "../../config/defaultConfig"
 
 const unauthenticated = {
-  /* Send password forgotten request to given email address */
-  passwordForgotten: async ({ userData }) => {
-    const body = { email: userData.email }
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/password-forgotten`, {
-        method: "PUT",
-        body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
   /* Try to access password forgotten page with link */
   passwordResetAccess: async (token) => {
     try {

@@ -103,7 +103,9 @@ export default function EditUserForm(props) {
     else handleEmailNotSent()
   }
   const sendPasswordForgottenEmail = async () => {
-    const res = await apiCall.admin.sendUserPasswordForgotten(user)
+    const res = await apiCall.users.auth.passwordForgotten({
+      email: user.email,
+    })
     if (res && res.ok) handleEmailSent()
     else handleEmailNotSent()
   }

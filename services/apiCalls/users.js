@@ -119,6 +119,7 @@ const users = {
       console.error(err)
     }
   },
+  // User and Admin
   resendConfirmEmail: async ({ email, token }) => {
     try {
       const payload = { email }
@@ -164,6 +165,7 @@ const users = {
     },
   },
   auth: {
+    // Unauthenticated
     login: async ({ email, password }) => {
       try {
         const encodedPassword = new Buffer.from(password).toString("base64")
@@ -224,6 +226,21 @@ const users = {
         })
       } catch (err) {
         console.error(err)
+      }
+    },
+    // Unauthenticated
+    passwordForgotten: async ({ email }) => {
+      const body = { email }
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/password-forgotten`, {
+          method: "PUT",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (error) {
+        console.error(error)
       }
     },
     logout: async () => {

@@ -44,7 +44,9 @@ export default function PasswordForgottenForm(props) {
 
   const handleSendPasswordForgotten = async () => {
     const userData = { email: emailInput }
-    const res = await apiCall.unauthenticated.passwordForgotten({ userData })
+    const res = await apiCall.users.auth.passwordForgotten({
+      email: userData.email,
+    })
     if (res && res.ok) {
       setShowAlert({
         show: true,
