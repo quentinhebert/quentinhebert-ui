@@ -32,7 +32,7 @@ export const fetchers = {
     return jsonRes
   },
   services: async () => {
-    const res = await apiCall.unauthenticated.getMyServices()
+    const res = await apiCall.services.getAllPublic()
     const jsonRes = await res.json()
     return jsonRes
   },

@@ -1,6 +1,6 @@
 import files from "./files"
 import users from "../apiCalls/users"
-import unauthenticated from "../apiCalls/unauthenticated"
+import services from "./services"
 import films from "../apiCalls/films"
 import websites from "../apiCalls/websites"
 import application from "../apiCalls/application"
@@ -12,7 +12,7 @@ const apiCall = {
   websites,
   files,
   users,
-  unauthenticated,
+  services,
   references,
 }
 

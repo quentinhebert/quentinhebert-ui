@@ -1,7 +1,7 @@
 import { defaultConfig } from "../../config/defaultConfig"
 
-const unauthenticated = {
-  getMyServices: async () => {
+const services = {
+  getAllPublic: async () => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/my-services`, {
         method: "GET",
@@ -15,4 +15,4 @@ const unauthenticated = {
   },
 }
 
-export default unauthenticated
+export default services
