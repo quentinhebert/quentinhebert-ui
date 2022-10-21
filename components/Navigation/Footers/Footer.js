@@ -185,7 +185,7 @@ export default function Footer(props) {
               animate={controls}
               style={motionDivStyle}
             >
-              {data?.logo?.URL && <LogoQH logo={data.logo.URL} />}
+              {data?.logo?.URL && <LogoQH logoUrl={data.logo.URL} />}
             </motion.div>
 
             {/* EMAIL */}
