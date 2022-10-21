@@ -7,7 +7,7 @@ import MediumTitle from "../../ReusableComponents/titles/medium-title"
 import styles from "../../../styles/TextShine.module.css"
 
 async function fetchUpToDateReferences() {
-  const res = await apiCall.unauthenticated.getReferences()
+  const res = await apiCall.references.getAllPublic()
   const jsonRes = await res.json()
   return jsonRes
 }

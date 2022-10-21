@@ -164,6 +164,33 @@ const users = {
       }
     },
   },
+  /* Try to access change-email page with link */
+  changeEmail: async (token) => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/change-email/${token}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
+  /* Try to access email-confirmation page with link and updates DB email_confirmed=true */
+  emailConfirm: async (token) => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/email-confirmation`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
   auth: {
     // Unauthenticated
     login: async ({ email, password }) => {

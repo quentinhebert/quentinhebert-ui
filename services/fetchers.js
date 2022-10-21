@@ -27,7 +27,7 @@ export const fetchers = {
     return jsonRes
   },
   websiteSlides: async () => {
-    const res = await apiCall.unauthenticated.getWebsiteSlides()
+    const res = await apiCall.websites.slides.getAllPublic()
     const jsonRes = await res.json()
     return jsonRes
   },

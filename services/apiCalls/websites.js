@@ -145,6 +145,19 @@ const websites = {
     }
   },
   tags: {
+    // Public
+    getAll: async () => {
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/website-tags`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
     // Admin only
     add: async (newTag) => {
       try {
@@ -198,6 +211,19 @@ const websites = {
         })
       } catch (err) {
         console.error(err)
+      }
+    },
+    // Public
+    getAllPublic: async () => {
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/websites/slides`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (error) {
+        console.error(error)
       }
     },
     // Admin only

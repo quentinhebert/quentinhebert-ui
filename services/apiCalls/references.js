@@ -2,6 +2,19 @@ import { defaultConfig } from "../../config/defaultConfig"
 import { getFreshToken } from "../utils"
 
 const references = {
+  /* Get public category videos for a given category */
+  getAllPublic: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/references`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
   getAll: async () => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/admin/references`, {
@@ -16,7 +29,6 @@ const references = {
     }
   },
   get: async (referenceId) => {
-    console.debug("apiCall", referenceId)
     try {
       return await fetch(
         `${defaultConfig.apiUrl}/admin/references/${referenceId}`,

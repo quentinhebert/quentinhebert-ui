@@ -51,7 +51,7 @@ function AddWebsiteModal(props) {
 
   // Fetch website tags
   const fetchWebsiteTags = async () => {
-    const res = await apiCall.unauthenticated.getWebsiteTags()
+    const res = await apiCall.websites.tags.getAll()
     if (res && res.ok) {
       const jsonRes = await res.json()
       setWebsiteTags(jsonRes)
