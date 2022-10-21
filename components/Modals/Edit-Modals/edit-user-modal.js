@@ -96,7 +96,9 @@ export default function EditUserForm(props) {
     setSnackMessage("Un problème est survenu lors de l'envoi de l'email")
   }
   const resendConfirmEmail = async () => {
-    const res = await apiCall.users.resendConfirmEmailByAdmin(user)
+    const res = await apiCall.users.resendConfirmEmail({
+      email: user.email,
+    })
     if (res && res.ok) handleEmailSent()
     else handleEmailNotSent()
   }

@@ -77,7 +77,10 @@ export default function LoginForm(props) {
   /********** FUNCTIONS **********/
   const resendConfirmEmail = async (confirmEmailToken) => {
     if (confirmEmailToken) {
-      const res = await apiCall.users.resendConfirmEmail(confirmEmailToken)
+      const res = await apiCall.users.resendConfirmEmail({
+        email: emailInput,
+        token: confirmEmailToken,
+      })
       if (res && res.ok)
         setShowAlert({
           show: true,

@@ -119,33 +119,17 @@ const users = {
       console.error(err)
     }
   },
-  resendConfirmEmail: async (token) => {
+  resendConfirmEmail: async ({ email, token }) => {
     try {
-      const payload = { token }
+      const payload = { email }
       return await fetch(`${defaultConfig.apiUrl}/users/resend-confirm-email`, {
         method: "PATCH",
         body: JSON.stringify(payload),
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token || (await getFreshToken())}`,
           "Content-Type": "application/json",
         },
       })
-    } catch (err) {
-      console.error(err)
-    }
-  },
-  resendConfirmEmailByAdmin: async (user) => {
-    try {
-      return await fetch(
-        `${defaultConfig.apiUrl}/admin/users/${user.id}/resend-confirm-email`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${await getFreshToken()}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
     } catch (err) {
       console.error(err)
     }
