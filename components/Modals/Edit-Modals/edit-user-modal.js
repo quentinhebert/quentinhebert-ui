@@ -41,7 +41,7 @@ export default function EditUserForm(props) {
 
   // FUNCTIONS
   async function fetchUser() {
-    const res = await apiCall.admin.getUser(userId)
+    const res = await apiCall.users.get(userId)
     if (res && res.ok) {
       const jsonRes = await res.json()
       setUser(jsonRes)
@@ -71,7 +71,7 @@ export default function EditUserForm(props) {
   }
   const handleSaveUser = async () => {
     setLoadingButton(true)
-    const res = await apiCall.admin.updateUser(user)
+    const res = await apiCall.users.update(user)
     if (res && res.ok) {
       handleCloseEditModal()
       handleSuccess()

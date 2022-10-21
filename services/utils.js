@@ -4,7 +4,7 @@ import apiCall from "./apiCalls/apiCall"
 import { getToken, removeToken, setRefreshToken, setToken } from "./auth"
 
 export async function logout() {
-  const res = await apiCall.users.logout()
+  const res = await apiCall.users.auth.logout()
   if (res && res.ok) {
     removeToken()
     return true
@@ -29,7 +29,7 @@ export async function getFreshToken() {
     return getToken()
   }
   console.info("Token is expired")
-  const res = await apiCall.users.getAccessToken()
+  const res = await apiCall.users.auth.getAccessToken()
 
   if (res && res.ok) {
     const tokens = await res.json()

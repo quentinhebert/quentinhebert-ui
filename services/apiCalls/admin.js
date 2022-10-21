@@ -3,47 +3,9 @@ import { getFreshToken } from "../utils"
 
 const admin = {
   /************* USERS *************/
-  create: async ({ userData }) => {
-    try {
-      const encodedPassword = new Buffer.from(userData.password).toString(
-        "base64"
-      )
-      const payload = {
-        email: userData.email,
-        password: encodedPassword,
-        firstname: userData.firstname,
-        lastname: userData.lastname,
-        phone: userData.phone,
-        type: userData.type,
-      }
-      return await fetch(`${defaultConfig.apiUrl}/users`, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: {
-          Authorization: `Bearer ${await getFreshToken()}`,
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (err) {
-      console.error(err)
-    }
-  },
   getAllUsers: async () => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/admin/users`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${await getFreshToken()}`,
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (err) {
-      console.error(err)
-    }
-  },
-  getUser: async (id) => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/users/${id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,

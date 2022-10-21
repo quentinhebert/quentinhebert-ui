@@ -75,7 +75,7 @@ const RenderSessions = (props) => {
 
   const fetchSessions = async () => {
     setIsFetching(true)
-    const res = await apiCall.users.getSessions(user.id)
+    const res = await apiCall.users.sessions.get(user.id)
     if (res && res.ok) {
       const jsonRes = await res.json()
       setSessions(jsonRes)
@@ -101,7 +101,7 @@ const RenderSessions = (props) => {
     )
   }
   const deleteSession = async (sessionId) => {
-    const res = await apiCall.users.deleteSession(user.id, sessionId)
+    const res = await apiCall.users.sessions.delete(user.id, sessionId)
     if (res && res.ok) await handleSuccess()
     else handleError()
   }
