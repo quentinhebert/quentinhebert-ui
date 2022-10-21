@@ -172,7 +172,7 @@ export default function LoginForm(props) {
     e.preventDefault()
     e.stopPropagation()
     setLoading(true)
-    const res = await apiCall.unauthenticated.login({
+    const res = await apiCall.users.auth.login({
       email: emailInput,
       password: passwordInput,
     })

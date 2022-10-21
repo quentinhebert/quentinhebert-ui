@@ -180,6 +180,24 @@ const users = {
     },
   },
   auth: {
+    login: async ({ email, password }) => {
+      try {
+        const encodedPassword = new Buffer.from(password).toString("base64")
+        const body = {
+          email,
+          password: encodedPassword,
+        }
+        return await fetch(`${defaultConfig.apiUrl}/users/auth/login`, {
+          method: "PUT",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
     updatePassword: async (user) => {
       try {
         const encodedPassword = new Buffer.from(user.password).toString(
