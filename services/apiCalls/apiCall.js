@@ -1,4 +1,4 @@
-import admin from "../apiCalls/admin"
+import files from "./files"
 import users from "../apiCalls/users"
 import unauthenticated from "../apiCalls/unauthenticated"
 import films from "../apiCalls/films"
@@ -10,7 +10,7 @@ const apiCall = {
   application,
   films,
   websites,
-  admin,
+  files,
   users,
   unauthenticated,
   references,

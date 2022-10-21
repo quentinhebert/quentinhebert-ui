@@ -1,7 +1,7 @@
 import { defaultConfig } from "../../config/defaultConfig"
 import { getFreshToken } from "../utils"
 
-const admin = {
+const files = {
   /************* FILES *************/
   getFiles: async () => {
     try {
@@ -32,4 +32,4 @@ const admin = {
   },
 }
 
-export default admin
+export default files
