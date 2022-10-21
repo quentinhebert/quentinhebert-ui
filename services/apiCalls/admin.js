@@ -3,33 +3,6 @@ import { getFreshToken } from "../utils"
 
 const admin = {
   /************* USERS *************/
-  getAllUsers: async () => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/users`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${await getFreshToken()}`,
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (err) {
-      console.error(err)
-    }
-  },
-  updateUser: async (user) => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/users/${user.id}`, {
-        method: "PUT",
-        body: JSON.stringify(user),
-        headers: {
-          Authorization: `Bearer ${await getFreshToken()}`,
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (err) {
-      console.error(err)
-    }
-  },
   resendUserConfirmEmail: async (user) => {
     try {
       return await fetch(

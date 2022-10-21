@@ -3,6 +3,21 @@ import { getRefreshToken } from "../auth"
 import { getFreshToken, getUser } from "../utils"
 
 const users = {
+  // Admin only
+  getAll: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/users`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  // Admin allowed
   create: async ({ userData }) => {
     try {
       const encodedPassword = new Buffer.from(userData.password).toString(
@@ -28,6 +43,7 @@ const users = {
       console.error(err)
     }
   },
+  // Admin allowed
   get: async (id) => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/users/${id}`, {
@@ -41,6 +57,7 @@ const users = {
       console.error(err)
     }
   },
+  // Admin allowed
   update: async (user) => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/users/${user.id}`, {
@@ -55,6 +72,7 @@ const users = {
       console.error(err)
     }
   },
+  // Admin allowed
   delete: async (id) => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/users/${id}`, {

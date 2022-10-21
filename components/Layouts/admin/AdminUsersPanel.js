@@ -131,7 +131,7 @@ function AdminUsersPanel(props) {
   const [openSignUp, setOpenSignUp] = useState(false)
 
   const fetchUsers = async () => {
-    const res = await apiCall.admin.getAllUsers()
+    const res = await apiCall.users.getAll()
     if (res && res.ok) {
       const result = await res.json()
       // setRows(result);
