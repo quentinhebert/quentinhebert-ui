@@ -2,7 +2,6 @@ import { defaultConfig } from "../../config/defaultConfig"
 import { getFreshToken } from "../utils"
 
 const files = {
-  /************* FILES *************/
   getFiles: async () => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/admin/files`, {
