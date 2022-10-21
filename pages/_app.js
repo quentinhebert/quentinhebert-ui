@@ -19,7 +19,6 @@ function MyApp({ Component, pageProps, router }) {
   // Loading
   const [appLoading, setAppLoading] = useState(false)
   const [isUserDataFetching, setIsUserDataFetching] = useState(false)
-  const [isAppDataFetching, setIsAppDataFetching] = useState(false)
 
   // Snacks
   const [snackSeverity, setSnackSeverity] = useState("error")
@@ -51,12 +50,12 @@ function MyApp({ Component, pageProps, router }) {
 
   // Let the loading animation finish if it started
   useEffect(() => {
-    if (isAppDataFetching || isUserDataFetching) setAppLoading(true)
+    if (isUserDataFetching) setAppLoading(true)
     if (appLoading)
       setTimeout(() => {
-        setAppLoading(isAppDataFetching || isUserDataFetching)
+        setAppLoading(isUserDataFetching)
       }, 600)
-  }, [appLoading, isAppDataFetching, isUserDataFetching])
+  }, [appLoading, isUserDataFetching])
 
   // Loading page
   if (appLoading) return <AnimatedLogoLayout />
