@@ -113,18 +113,6 @@ const unauthenticated = {
       console.error(error)
     }
   },
-  getWebsiteContact: async () => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/website-contact`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
   getMyServices: async () => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/my-services`, {

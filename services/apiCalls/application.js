@@ -104,9 +104,24 @@ const application = {
     },
   },
   contact: {
+    getPublic: async () => {
+      try {
+        return await fetch(
+          `${defaultConfig.apiUrl}/application/contact/public`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+      } catch (error) {
+        console.error(error)
+      }
+    },
     get: async () => {
       try {
-        return await fetch(`${defaultConfig.apiUrl}/admin/website-contact`, {
+        return await fetch(`${defaultConfig.apiUrl}/application/contact`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,

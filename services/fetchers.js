@@ -12,7 +12,7 @@ export const fetchers = {
     return jsonRes
   },
   websiteContact: async () => {
-    const res = await apiCall.unauthenticated.getWebsiteContact()
+    const res = await apiCall.application.contact.getPublic()
     const jsonRes = await res.json()
     return jsonRes
   },
