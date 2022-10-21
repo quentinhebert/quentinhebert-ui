@@ -44,7 +44,7 @@ export default function PasswordForgottenForm(props) {
 
   const handleSendPasswordForgotten = async () => {
     const userData = { email: emailInput }
-    const res = await apiCall.users.auth.passwordForgotten({
+    const res = await apiCall.users.auth.password.forgotten({
       email: userData.email,
     })
     if (res && res.ok) {

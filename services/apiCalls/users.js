@@ -184,23 +184,16 @@ const users = {
         console.error(error)
       }
     },
-    updatePassword: async (user) => {
+    logout: async () => {
       try {
-        const encodedPassword = new Buffer.from(user.password).toString(
-          "base64"
-        )
-        const encodedNewPassword = new Buffer.from(user.newPassword).toString(
-          "base64"
-        )
-        const payload = {
-          password: encodedPassword,
-          new_password: encodedNewPassword,
+        const body = {
+          refresh_token: getRefreshToken(),
         }
         return await fetch(
-          `${defaultConfig.apiUrl}/users/${user.id}/update-password`,
+          `${defaultConfig.apiUrl}/users/${getUser().id}/logout`,
           {
-            method: "PATCH",
-            body: JSON.stringify(payload),
+            method: "PUT",
+            body: JSON.stringify(body),
             headers: {
               Authorization: `Bearer ${await getFreshToken()}`,
               "Content-Type": "application/json",
@@ -228,40 +221,84 @@ const users = {
         console.error(err)
       }
     },
-    // Unauthenticated
-    passwordForgotten: async ({ email }) => {
-      const body = { email }
-      try {
-        return await fetch(`${defaultConfig.apiUrl}/password-forgotten`, {
-          method: "PUT",
-          body: JSON.stringify(body),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-      } catch (error) {
-        console.error(error)
-      }
-    },
-    logout: async () => {
-      try {
-        const body = {
-          refresh_token: getRefreshToken(),
+    password: {
+      update: async (user) => {
+        try {
+          const encodedPassword = new Buffer.from(user.password).toString(
+            "base64"
+          )
+          const encodedNewPassword = new Buffer.from(user.newPassword).toString(
+            "base64"
+          )
+          const payload = {
+            password: encodedPassword,
+            new_password: encodedNewPassword,
+          }
+          return await fetch(
+            `${defaultConfig.apiUrl}/users/${user.id}/update-password`,
+            {
+              method: "PATCH",
+              body: JSON.stringify(payload),
+              headers: {
+                Authorization: `Bearer ${await getFreshToken()}`,
+                "Content-Type": "application/json",
+              },
+            }
+          )
+        } catch (err) {
+          console.error(err)
         }
-        return await fetch(
-          `${defaultConfig.apiUrl}/users/${getUser().id}/logout`,
-          {
+      },
+      // Unauthenticated
+      forgotten: async ({ email }) => {
+        const body = { email }
+        try {
+          return await fetch(`${defaultConfig.apiUrl}/password-forgotten`, {
             method: "PUT",
             body: JSON.stringify(body),
             headers: {
-              Authorization: `Bearer ${await getFreshToken()}`,
               "Content-Type": "application/json",
             },
-          }
-        )
-      } catch (err) {
-        console.error(err)
-      }
+          })
+        } catch (error) {
+          console.error(error)
+        }
+      },
+      /* Try to access password forgotten page with link */
+      resetAccess: async (token) => {
+        try {
+          return await fetch(
+            `${defaultConfig.apiUrl}/reset-password-access/${token}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+        } catch (error) {
+          console.error(error)
+        }
+      },
+      /* Reset password */
+      reset: async ({ password, id, token }) => {
+        try {
+          const encodedPassword = new Buffer.from(password).toString("base64")
+          const body = { password: encodedPassword, token }
+          return await fetch(
+            `${defaultConfig.apiUrl}/users/${id}/password-reset`,
+            {
+              method: "PATCH",
+              body: JSON.stringify(body),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+        } catch (error) {
+          console.error(error)
+        }
+      },
     },
   },
 }
