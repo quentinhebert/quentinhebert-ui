@@ -151,6 +151,23 @@ const application = {
         console.error(error)
       }
     },
+    sendForm: async (clientData) => {
+      try {
+        const body = JSON.stringify(clientData)
+        return await fetch(
+          `${defaultConfig.apiUrl}/application/contact/send-form`,
+          {
+            method: "POST",
+            body: body,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+      } catch (error) {
+        console.error(error)
+      }
+    },
   },
 }
 

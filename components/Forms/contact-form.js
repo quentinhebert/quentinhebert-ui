@@ -158,7 +158,7 @@ export default function ContactForm(props) {
     const { errorsCount } = checkRequiredFields()
     if (errorsCount > 0) return // We don't send the request if missing fields
     setIsFetching(true)
-    const res = await apiCall.unauthenticated.sendContactForm(formData)
+    const res = await apiCall.application.contact.sendForm(formData)
     if (res && res.ok) handleSuccess()
     else handleError()
     setIsFetching(false)

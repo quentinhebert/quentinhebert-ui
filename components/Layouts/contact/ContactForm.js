@@ -103,7 +103,7 @@ export default function ContactForm(props) {
     })
   }
   const handleSendRequest = async () => {
-    const res = await apiCall.unauthenticated.sendContactForm(clientData)
+    const res = await apiCall.application.contact.sendForm(clientData)
     if (res && res.ok) {
       handleSuccess()
       handleResetForm()
