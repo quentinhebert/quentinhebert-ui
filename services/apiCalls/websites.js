@@ -32,16 +32,13 @@ const websites = {
   // Admin only
   get: async (websiteId) => {
     try {
-      return await fetch(
-        `${defaultConfig.apiUrl}/admin/websites/${websiteId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${await getFreshToken()}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      return await fetch(`${defaultConfig.apiUrl}/websites/${websiteId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
     } catch (err) {
       console.error(err)
     }
@@ -51,7 +48,7 @@ const websites = {
     try {
       let formData = new FormData()
       formData.append("thumbnail", thumbnail)
-      return await fetch(`${defaultConfig.apiUrl}/admin/websites/thumbnail`, {
+      return await fetch(`${defaultConfig.apiUrl}/websites/thumbnail`, {
         method: "POST",
         body: formData,
         mode: "cors",
@@ -74,7 +71,7 @@ const websites = {
       thumbnail: website.thumbnail,
     }
     try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/websites`, {
+      return await fetch(`${defaultConfig.apiUrl}/websites`, {
         method: "POST",
         body: JSON.stringify(body),
         headers: {
@@ -98,7 +95,7 @@ const websites = {
       thumbnail: website.thumbnail,
     }
     try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/websites/${body.id}`, {
+      return await fetch(`${defaultConfig.apiUrl}/websites/${body.id}`, {
         method: "PUT",
         body: JSON.stringify(body),
         headers: {
@@ -113,16 +110,13 @@ const websites = {
   // Admin only
   delete: async (website) => {
     try {
-      return await fetch(
-        `${defaultConfig.apiUrl}/admin/websites/${website.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${await getFreshToken()}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      return await fetch(`${defaultConfig.apiUrl}/websites/${website.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
     } catch (err) {
       console.error(err)
     }
@@ -132,7 +126,7 @@ const websites = {
     try {
       const body = JSON.stringify({ sortedWebsiteIds })
 
-      return await fetch(`${defaultConfig.apiUrl}/admin/websites/sort`, {
+      return await fetch(`${defaultConfig.apiUrl}/websites/sort`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
@@ -148,7 +142,7 @@ const websites = {
     // Public
     getAll: async () => {
       try {
-        return await fetch(`${defaultConfig.apiUrl}/website-tags`, {
+        return await fetch(`${defaultConfig.apiUrl}/websites/tags`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -163,7 +157,7 @@ const websites = {
       try {
         const body = JSON.stringify({ website_tag: newTag })
 
-        return await fetch(`${defaultConfig.apiUrl}/admin/websites/tags`, {
+        return await fetch(`${defaultConfig.apiUrl}/websites/tags`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,
@@ -179,7 +173,7 @@ const websites = {
     delete: async (newTagId) => {
       try {
         return await fetch(
-          `${defaultConfig.apiUrl}/admin/websites/tags/${newTagId}`,
+          `${defaultConfig.apiUrl}/websites/tags/${newTagId}`,
           {
             method: "DELETE",
             headers: {
@@ -201,7 +195,7 @@ const websites = {
         description: slide.description,
       }
       try {
-        return await fetch(`${defaultConfig.apiUrl}/admin/websites/slides`, {
+        return await fetch(`${defaultConfig.apiUrl}/websites/slides`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,
@@ -216,7 +210,7 @@ const websites = {
     // Public
     getAllPublic: async () => {
       try {
-        return await fetch(`${defaultConfig.apiUrl}/websites/slides`, {
+        return await fetch(`${defaultConfig.apiUrl}/websites/slides/public`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -229,7 +223,7 @@ const websites = {
     // Admin only
     getAll: async () => {
       try {
-        return await fetch(`${defaultConfig.apiUrl}/admin/websites/slides`, {
+        return await fetch(`${defaultConfig.apiUrl}/websites/slides`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,
@@ -244,7 +238,7 @@ const websites = {
     get: async (slideId) => {
       try {
         return await fetch(
-          `${defaultConfig.apiUrl}/admin/websites/slides/${slideId}`,
+          `${defaultConfig.apiUrl}/websites/slides/${slideId}`,
           {
             method: "GET",
             headers: {
@@ -265,7 +259,7 @@ const websites = {
           description: slide.description,
         }
         return await fetch(
-          `${defaultConfig.apiUrl}/admin/websites/slides/${slide.id}`,
+          `${defaultConfig.apiUrl}/websites/slides/${slide.id}`,
           {
             method: "PUT",
             headers: {
@@ -283,7 +277,7 @@ const websites = {
     delete: async (slide) => {
       try {
         return await fetch(
-          `${defaultConfig.apiUrl}/admin/websites/slides/${slide.id}`,
+          `${defaultConfig.apiUrl}/websites/slides/${slide.id}`,
           {
             method: "DELETE",
             headers: {
@@ -301,17 +295,14 @@ const websites = {
       try {
         const body = JSON.stringify({ sortedSlideIds })
 
-        return await fetch(
-          `${defaultConfig.apiUrl}/admin/websites/slides/sort`,
-          {
-            method: "PATCH",
-            headers: {
-              Authorization: `Bearer ${await getFreshToken()}`,
-              "Content-Type": "application/json",
-            },
-            body: body,
-          }
-        )
+        return await fetch(`${defaultConfig.apiUrl}/websites/slides/sort`, {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+          body: body,
+        })
       } catch (err) {
         console.error(err)
       }
