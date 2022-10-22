@@ -1,224 +1,119 @@
-import { Box, Stack } from "@mui/material"
+import { Stack } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import AdminPagesLayout from "../AdminPagesLayout"
 import BodyText from "../../ReusableComponents/text/body-text"
 import { AppContext } from "../../../contexts/AppContext"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import apiCall from "../../../services/apiCalls/apiCall"
-import { sortableContainer, sortableElement } from "react-sortable-hoc"
-import DeleteIcon from "@mui/icons-material/Delete"
-import SwitchButton from "../../ReusableComponents/buttons/switch-button"
-import OutlinedButton from "../../ReusableComponents/buttons/outlined-button"
-import AddIcon from "@mui/icons-material/Add"
-import AddFilmGearModal from "../../Modals/Create-Modals/add-film-gear-modal"
-import EditFilmGearModal from "../../Modals/Edit-Modals/edit-film-gear-modal"
-import DeleteFilmGearModal from "../../Modals/Delete-Modals/delete-film-gear-modal"
-import ECommerceCard from "../../ReusableComponents/cards/e-commerce-card"
-import PillButton from "../../ReusableComponents/buttons/pill-button"
-import EditIcon from "@mui/icons-material/Edit"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
-import AlertInfo from "../../Other/alert-info"
-import { arrayMoveImmutable } from "array-move"
-import RefreshIcon from "@mui/icons-material/Refresh"
+import SortableGrid from "../../ReusableComponents/grids/sortable-cards-grid"
+import SortableCard from "../../ReusableComponents/cards/sortable-card"
+import PleaseWait from "../../ReusableComponents/helpers/please-wait"
+import EditDeleteButtons from "../../ReusableComponents/buttons/edit-delete-buttons"
+import dynamic from "next/dynamic"
 
-const SortableListItem = sortableElement(({ item, fetchGear, showMenu }) => {
+const AddFilmGearModal = dynamic(() =>
+  import("../../Modals/Create-Modals/add-film-gear-modal")
+)
+const EditFilmGearModal = dynamic(() =>
+  import("../../Modals/Edit-Modals/edit-film-gear-modal")
+)
+const DeleteFilmGearModal = dynamic(() =>
+  import("../../Modals/Delete-Modals/delete-film-gear-modal")
+)
+
+const SortableItem = ({ disabled, item, index, fetchData }) => {
   const [openEditModal, setOpenEditModal] = useState(false)
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
-  const [clickedGear, setClickedGear] = useState(null)
-  const [destroyedEdit, triggerDestroyEdit] = useState(true)
-  const [destroyedDelete, triggerDestroyDelete] = useState(true)
+  const [clickedItem, setClickedItem] = useState(null)
 
   const handleOpenEditModal = () => {
-    setClickedGear(item)
+    setClickedItem(item)
     setOpenEditModal(true)
-    triggerDestroyEdit(false)
-  }
-  const handleCloseEditModal = () => {
-    setOpenEditModal(false)
-    fetchGear()
-    setTimeout(() => {
-      setClickedGear(null)
-      triggerDestroyEdit(true)
-    }, "500")
   }
   const handleOpenDeleteModal = (e) => {
     e.stopPropagation() // Prevent from open edit modal
-    setClickedGear(item)
+    setClickedItem(item)
     setOpenDeleteModal(true)
-    triggerDestroyDelete(false)
   }
-  const handleCloseDeleteModal = () => {
-    setOpenDeleteModal(false)
-    fetchGear()
-    setTimeout(() => {
-      triggerDestroyDelete(true)
-    }, "500")
-  }
+  const handleCloseEditModal = () => setOpenEditModal(false)
+  const handleCloseDeleteModal = () => setOpenDeleteModal(false)
 
   return (
     <>
-      <Box
-        component="li"
-        className="list-style-none no-select"
-        display="flex"
-        sx={{
-          position: "relative",
-          background: "transparent",
-          width: {
-            xs: "100%",
-            sm: "calc(50% - .5rem)",
-            md: "calc(33.3% - .5rem)",
-            lg: "calc(25% - .5rem)",
-            xl: "calc(20% - .5rem)",
-          },
-        }}
-      >
-        <ECommerceCard
-          img={item.image}
-          title={item.label}
-          description={item.description}
-          imgCover
-        >
-          <Stack gap={2} direction="row" justifyContent="center">
-            <PillButton
-              onClick={handleOpenDeleteModal}
-              fullWidth
-              padding=".5rem 0"
-              background={(theme) => theme.palette.tersary.main}
-              color={(theme) => theme.palette.text.white}
-            >
-              <DeleteIcon />
-            </PillButton>
-            <PillButton
-              onClick={handleOpenEditModal}
-              fullWidth
-              padding=".5rem 0"
-              color={(theme) => theme.palette.text.white}
-            >
-              <EditIcon />
-            </PillButton>
-          </Stack>
-        </ECommerceCard>
-
-        {!showMenu && (
-          <Box
-            height="100%"
-            width="100%"
-            sx={{
-              background: "#000",
-              opacity: 0.5,
-              cursor: "move",
-              position: "absolute",
-              borderRadius: "15px",
-              "&:hover": {
-                opacity: 0.2,
-              },
-            }}
-          />
-        )}
-      </Box>
-
-      {!destroyedEdit && (
-        <EditFilmGearModal
-          gearId={clickedGear?.id}
-          openEditModal={openEditModal}
-          handleCloseEditModal={handleCloseEditModal}
+      <SortableCard disabled={disabled} item={item} index={index}>
+        <EditDeleteButtons
+          handleDelete={handleOpenDeleteModal}
+          handleEdit={handleOpenEditModal}
         />
-      )}
+      </SortableCard>
 
-      {!destroyedDelete && (
-        <DeleteFilmGearModal
-          item={clickedGear}
-          open={openDeleteModal}
-          handleClose={handleCloseDeleteModal}
-        />
-      )}
+      <EditFilmGearModal
+        gearId={clickedItem?.id}
+        openEditModal={openEditModal}
+        handleCloseEditModal={handleCloseEditModal}
+        fetch={fetchData}
+      />
+      <DeleteFilmGearModal
+        item={clickedItem}
+        open={openDeleteModal}
+        handleClose={handleCloseDeleteModal}
+        fetch={fetchData}
+      />
     </>
   )
-})
-
-const SortableList = sortableContainer(({ items, disabled, fetchGear }) => (
-  <Box
-    component="ul"
-    className="list-style-none no-padding full-width flex-wrap"
-    gap=".5rem"
-  >
-    {items.map((item, index) => (
-      <SortableListItem
-        disabled={disabled}
-        showMenu={disabled}
-        axis="xy"
-        key={index}
-        index={index}
-        item={item}
-        fetchGear={fetchGear}
-      />
-    ))}
-  </Box>
-))
-
-const SortHelper = () => (
-  <AlertInfo
-    content={{
-      show: true,
-      severity: "info",
-      title: "Modifiez l'ordre des items",
-      text: "Il vous suffit de glisser-déposer les éléments sur la grille puis de sauvegarder !",
-    }}
-  />
-)
+}
 
 function AdminGearPanel(props) {
   const {} = props
 
   const [isLoading, setIsLoading] = useState(false)
   const [gear, setGear] = useState(null)
-  const [disableSort, setDisableSort] = useState(true)
+  const [sortable, setSortable] = useState(false)
   const [openAddModal, setOpenAddModal] = useState(false)
 
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   /***************** FETCH DATA ****************/
-  const fetchGear = async () => {
+  const fetchData = async () => {
+    setIsLoading(true)
     const res = await apiCall.films.gear.getAll()
     if (res && res.ok) {
       const gear = await res.json()
       setGear(gear)
     }
+    setIsLoading(false)
   }
   // Initial fetch
   useEffect(() => {
-    fetchGear()
+    fetchData()
   }, [])
 
   /***************** HANDLERS ****************/
+  const handleOpenAddModal = () => setOpenAddModal(true)
+  const handleCloseAddModal = () => setOpenAddModal(false)
   const handleSuccess = () => {
-    setDisableSort(true)
     setSnackSeverity("success")
     setSnackMessage("Ordre des items mis à jour")
-    fetchGear()
+    setSortable(false)
+    fetchData()
   }
   const handleError = () => {
     setSnackSeverity("error")
     setSnackMessage("Une erreur est survenue...")
   }
   const handleSaveSortedItems = async () => {
-    // We only send the sorted ids
+    setIsLoading(true)
+
+    // Format data (we only send the sorted ids)
     let sortedIds = []
-    gear.map((item) => {
-      sortedIds.push(item.id)
-    })
+    gear.map((item) => sortedIds.push(item.id))
+    // ApiCall
     const res = await apiCall.films.gear.sort(sortedIds)
-    if (res) handleSuccess()
+    // Handle response
+    if (res && res.ok) handleSuccess()
     else handleError()
-  }
-  const handleopenAddModal = () => setOpenAddModal(true)
-  const handleCloseAddModal = () => setOpenAddModal(false)
-  // Sort drag and drop handler
-  const onSortEnd = (e) => {
-    const newState = arrayMoveImmutable(gear, e.oldIndex, e.newIndex)
-    setGear(newState)
-    document.body.style.cursor = "default"
+
+    setIsLoading(false)
   }
 
   return (
@@ -226,85 +121,42 @@ function AdminGearPanel(props) {
       <Stack justifyContent="center" direction="column" gap={2}>
         <BodyText preventTransitionOut>
           Cliquez sur une vignette pour voir et modifier les informations d'un
-          matériel. Ajoutez un nouveau matériel avec le bouton ci-dessous.
+          matériel. Ajoutez du nouveau matériel avec le bouton ci-dessous.
           Supprimez un matériel en survolant une vignette puis en cliquant sur
           l'icône Poubelle.
         </BodyText>
 
-        <Stack width="100%" alignItems="end">
-          <Stack className="row flex-center" gap={4}>
-            <SwitchButton
-              label="Modifier l'ordre"
-              checked={!disableSort}
-              handleCheck={() => setDisableSort(!disableSort)}
-            />
-            <RefreshIcon
-              color="secondary"
-              onClick={() => fetchGear()}
-              sx={{
-                display: "flex",
-                cursor: "pointer",
-                "&:hover": { opacity: 0.5 },
-              }}
-            />
-            <Box>
-              <OutlinedButton
-                startIcon={<AddIcon />}
-                onClick={handleopenAddModal}
-              >
-                Ajouter
-              </OutlinedButton>
-            </Box>
-          </Stack>
-          {!disableSort && <SortHelper />}
-        </Stack>
-
-        {isLoading ? (
-          <PleaseWait />
-        ) : !!gear ? (
-          <SortableList
-            axis="xy"
-            items={gear}
-            fetchGear={fetchGear}
-            disabled={disableSort}
-            onSortEnd={onSortEnd}
-            onSortStart={() => (document.body.style.cursor = "grabbing")}
-          />
-        ) : null}
-
-        {!disableSort && (
-          <Stack
-            position="sticky"
-            bottom={0}
-            padding={2}
-            borderRadius="5px"
-            alignItems="end"
-            sx={{
-              backgroundColor: (theme) => theme.palette.background.main,
-              border: (theme) => `1px solid ${theme.palette.secondary.main}`,
-            }}
-          >
-            <Stack flexDirection="row" gap={2}>
-              <CustomSubmitButton
-                onClick={() => {
-                  setDisableSort(true)
-                }}
-              >
-                Annuler
-              </CustomSubmitButton>
-              <CustomSubmitButton
-                secondary="true"
-                onClick={handleSaveSortedItems}
-              >
-                Enregistrer
-              </CustomSubmitButton>
+        <SortableGrid
+          items={gear}
+          setItems={setGear}
+          fetch={fetchData}
+          handleCreate={handleOpenAddModal}
+          handleSave={handleSaveSortedItems}
+          setSortable={setSortable}
+          sortable={sortable}
+        >
+          {isLoading && (
+            <Stack width="100%">
+              <PleaseWait />
             </Stack>
-          </Stack>
-        )}
+          )}
+
+          {!isLoading &&
+            gear?.length &&
+            gear.map((item, index) => (
+              <SortableItem
+                disabled={!sortable}
+                item={item}
+                key={index}
+                index={index}
+                fetchData={fetchData}
+              />
+            ))}
+        </SortableGrid>
       </Stack>
 
       <AddFilmGearModal
-        refreshData={fetchGear}
+        refreshData={fetchData}
         open={openAddModal}
         handleClose={handleCloseAddModal}
       />

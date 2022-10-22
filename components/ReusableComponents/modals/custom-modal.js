@@ -15,7 +15,7 @@ export default function CustomModal(props) {
       open={props.open}
       onClose={props.handleClose}
       TransitionComponent={Transition}
-      keepMounted
+      // keepMounted
       sx={{
         backgroundColor: "rgb(0,0,0, 0.9)",
         "& .MuiDialog-paper": {

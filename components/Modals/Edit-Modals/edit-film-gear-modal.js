@@ -14,7 +14,7 @@ import CustomCircularProgress from "../../ReusableComponents/custom-circular-pro
 import { AppContext } from "../../../contexts/AppContext"
 
 function EditFilmModal(props) {
-  const { gearId, openEditModal, handleCloseEditModal } = props
+  const { gearId, openEditModal, handleCloseEditModal, fetch } = props
 
   // APP CONTEXT
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
@@ -67,6 +67,7 @@ function EditFilmModal(props) {
     setSnackMessage("Le gear a été mis à jour !")
     setFile(null)
     handleCloseEditModal()
+    fetch() // fetch parent component data
   }
   const handleError = () => {
     setSnackSeverity("error")

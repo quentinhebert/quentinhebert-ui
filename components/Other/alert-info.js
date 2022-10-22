@@ -26,12 +26,15 @@ function AlertInfo(props) {
             },
           }}
         >
-          {content?.title ? (
-            <AlertTitle color={theme.alert.title[content.severity]}>
-              {content.title}
-            </AlertTitle>
-          ) : null}
-          {content.text}
+          <Stack gap={content.js ? 2 : 0}>
+            {content?.title ? (
+              <AlertTitle color={theme.alert.title[content.severity]}>
+                {content.title}
+              </AlertTitle>
+            ) : null}
+            {content.text}
+            {content.js}
+          </Stack>
         </Alert>
       </Stack>
     </motion.div>

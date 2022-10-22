@@ -10,7 +10,7 @@ import BodyText from "../../ReusableComponents/text/body-text"
 import { AppContext } from "../../../contexts/AppContext"
 
 export default function DeleteFilmGearModal(props) {
-  const { item, open, handleClose } = props
+  const { item, open, handleClose, fetch } = props
 
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
@@ -26,6 +26,7 @@ export default function DeleteFilmGearModal(props) {
     setSnackSeverity("success")
     setSnackMessage("L'item a été supprimé !")
     handleClose()
+    fetch()
   }
   const handleError = () => {
     setSnackSeverity("error")
