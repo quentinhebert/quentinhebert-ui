@@ -19,6 +19,7 @@ import EditIcon from "@mui/icons-material/Edit"
 import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
 import AlertInfo from "../../Other/alert-info"
 import { arrayMoveImmutable } from "array-move"
+import RefreshIcon from "@mui/icons-material/Refresh"
 
 const SortableListItem = sortableElement(({ item, fetchGear, showMenu }) => {
   const [openEditModal, setOpenEditModal] = useState(false)
@@ -231,11 +232,20 @@ function AdminGearPanel(props) {
         </BodyText>
 
         <Stack width="100%" alignItems="end">
-          <Stack className="row" gap={4}>
+          <Stack className="row flex-center" gap={4}>
             <SwitchButton
               label="Modifier l'ordre"
               checked={!disableSort}
               handleCheck={() => setDisableSort(!disableSort)}
+            />
+            <RefreshIcon
+              color="secondary"
+              onClick={() => fetchGear()}
+              sx={{
+                display: "flex",
+                cursor: "pointer",
+                "&:hover": { opacity: 0.5 },
+              }}
             />
             <Box>
               <OutlinedButton
