@@ -50,7 +50,7 @@ export default function AdminFooterForm(props) {
 
   /********** FUNCTIONS **********/
   const fetchFooter = async () => {
-    const res = await apiCall.application.footer.get()
+    const res = await apiCall.application.footer.getPublic()
     if (res && res.ok) {
       const jsonRes = await res.json()
       setCredits(jsonRes.credits)

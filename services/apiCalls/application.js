@@ -84,14 +84,17 @@ const application = {
   },
   footer: {
     // Public
-    get: async () => {
+    getPublic: async () => {
       try {
-        return await fetch(`${defaultConfig.apiUrl}/application/footer`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
+        return await fetch(
+          `${defaultConfig.apiUrl}/application/footer/public`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
       } catch (error) {
         console.error(error)
       }

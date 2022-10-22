@@ -7,7 +7,7 @@ export const fetchers = {
     return jsonRes
   },
   footer: async () => {
-    const res = await apiCall.application.footer.get()
+    const res = await apiCall.application.footer.getPublic()
     const jsonRes = await res.json()
     return jsonRes
   },
