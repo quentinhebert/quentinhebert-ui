@@ -5,7 +5,7 @@ const references = {
   /* Get public category videos for a given category */
   getAllPublic: async () => {
     try {
-      return await fetch(`${defaultConfig.apiUrl}/references`, {
+      return await fetch(`${defaultConfig.apiUrl}/references/public`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
