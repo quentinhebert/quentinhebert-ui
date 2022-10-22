@@ -40,7 +40,13 @@ const SortableItem = ({ disabled, item, index, fetchData }) => {
 
   return (
     <>
-      <SortableCard disabled={disabled} item={item} index={index}>
+      <SortableCard
+        disabled={disabled}
+        item={item}
+        img={item.image} // FIXME: need to change that attribute each time i copy paste that code
+        index={index}
+        imgCover
+      >
         <EditDeleteButtons
           handleDelete={handleOpenDeleteModal}
           handleEdit={handleOpenEditModal}
@@ -147,6 +153,7 @@ function AdminGearPanel(props) {
               <SortableItem
                 disabled={!sortable}
                 item={item}
+                img
                 key={index}
                 index={index}
                 fetchData={fetchData}

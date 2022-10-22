@@ -20,7 +20,7 @@ const REFERENCE_TYPES = [
 ]
 
 function EditReferenceModal(props) {
-  const { referenceId, openEditModal, handleCloseEditModal } = props
+  const { referenceId, openEditModal, handleCloseEditModal, fetch } = props
 
   // APP CONTEXT
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
@@ -71,6 +71,7 @@ function EditReferenceModal(props) {
     setSnackMessage("La référence a été mis à jour !")
     setFile(null)
     handleCloseEditModal()
+    fetch()
   }
   const handleError = () => {
     setSnackSeverity("error")

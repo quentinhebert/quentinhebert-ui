@@ -10,7 +10,7 @@ import BodyText from "../../ReusableComponents/text/body-text"
 import { AppContext } from "../../../contexts/AppContext"
 
 export default function DeleteReferenceModal(props) {
-  const { reference, open, handleClose } = props
+  const { reference, open, handleClose, fetch } = props
 
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
@@ -26,6 +26,7 @@ export default function DeleteReferenceModal(props) {
     setSnackSeverity("success")
     setSnackMessage("La référence a été supprimé !")
     handleClose()
+    fetch()
   }
   const handleError = () => {
     setSnackSeverity("error")
