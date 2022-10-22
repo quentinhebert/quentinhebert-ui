@@ -11,6 +11,7 @@ const adminTree = {
   references: "Mes références",
   "manage-websites": "Mes sites web",
   "manage-slides": "Gérer les diapositives textuelles",
+  "manage-gear": "Gérer votre matériel vidéo",
 }
 
 export default adminTree

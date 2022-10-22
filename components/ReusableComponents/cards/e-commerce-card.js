@@ -10,6 +10,7 @@ export default function ECommerceCard({
   description,
   onClick,
   btnText,
+  imgCover,
   ...props
 }) {
   return (
@@ -25,13 +26,17 @@ export default function ECommerceCard({
       }}
     >
       <Card.Section sx={{ background: "grey" }}>
-        <Box height={200} padding={4}>
+        <Box height={200}>
           <Box
             component="img"
             draggable="false"
-            src={img || "medias/default.jpg"}
+            src={img || "/medias/default.jpg"}
             alt="image"
-            sx={{ height: "100%", width: "100%", objectFit: "contain" }}
+            sx={{
+              height: "100%",
+              width: "100%",
+              objectFit: imgCover ? "cover" : "contain",
+            }}
             className="no-select"
           />
         </Box>

@@ -20,7 +20,7 @@ const CARDS = [
     icon: <Icon icon={videoCamera} size={50} />,
     description:
       "Ajoutez, modifiez et supprimez des items de votre matériel vidéo.",
-    button: { text: "Gérer", href: "/admin/back-office/websites" },
+    button: { text: "Gérer", href: "/admin/back-office/films/manage-gear" },
   },
 ]
 

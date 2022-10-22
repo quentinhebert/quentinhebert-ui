@@ -3,6 +3,9 @@ const EditWebsiteSlideModal = dynamic(() =>
   import("./Edit-Modals/edit-website-slide-modal")
 )
 const EditFilmModal = dynamic(() => import("./Edit-Modals/edit-film-modal"))
+const EditFilmGearModal = dynamic(() =>
+  import("./Edit-Modals/edit-film-gear-modal")
+)
 const EditWebsiteModal = dynamic(() =>
   import("./Edit-Modals/edit-website-modal")
 )
@@ -29,6 +32,14 @@ export default function EditModalSwitch(props) {
       return (
         <EditFilmModal
           filmId={dataId}
+          openEditModal={openEditModal}
+          handleCloseEditModal={handleCloseEditModal}
+        />
+      )
+    case "edit-film-gear":
+      return (
+        <EditFilmGearModal
+          gearId={dataId}
           openEditModal={openEditModal}
           handleCloseEditModal={handleCloseEditModal}
         />

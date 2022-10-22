@@ -53,7 +53,7 @@ function AddFilmModal(props) {
     }
   }
   const fetchFilmGear = async () => {
-    const res = await apiCall.films.gear.get()
+    const res = await apiCall.films.gear.getAll()
     if (res && res.ok) {
       const jsonRes = await res.json()
       setFilmGear(jsonRes)
