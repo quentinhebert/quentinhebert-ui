@@ -4,7 +4,7 @@ import { UserContext } from "../../contexts/UserContext"
 import AdminIndex from "../../components/Layouts/admin/AdminIndex"
 import LoginLayout from "../../components/Layouts/LoginLayout"
 import { useRouter } from "next/router"
-import prepareProps from "../../services/fetchers"
+import prepareProps from "../../services/public-fetchers"
 import PagesLayout from "../../components/Layouts/PagesLayout"
 
 const head = {

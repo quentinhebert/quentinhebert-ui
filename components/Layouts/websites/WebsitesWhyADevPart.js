@@ -7,7 +7,7 @@ import SwipeIcon from "@mui/icons-material/Swipe"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { WebsitesHomePageContext } from "../../../contexts/PagesContexts"
-import { fetchers } from "../../../services/fetchers"
+import { fetchers } from "../../../services/public-fetchers"
 import useSWR from "swr"
 import {
   formatDescription,

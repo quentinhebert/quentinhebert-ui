@@ -15,7 +15,7 @@ import SwipeIcon from "@mui/icons-material/Swipe"
 import useSWR from "swr"
 import FlashingUnderscore from "../Animation/flashing-underscore"
 import FlashingRec from "../Animation/FlashingRec"
-import { fetchers } from "../../services/fetchers"
+import { fetchers } from "../../services/public-fetchers"
 import { HomePageContext } from "../../contexts/PagesContexts"
 
 const ListItem = (props) => (

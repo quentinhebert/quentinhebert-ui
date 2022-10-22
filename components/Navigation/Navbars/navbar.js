@@ -14,7 +14,7 @@ import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on
 import { useScrollPosition } from "@n8tb1t/use-scroll-position"
 import Link from "next/link"
 import useSWR from "swr"
-import { fetchers } from "../../../services/fetchers"
+import { fetchers } from "../../../services/public-fetchers"
 
 const MobileNavbar = dynamic(() => import("./mobile-navbar"))
 const DesktopNavbar = dynamic(() => import("./desktop-navbar"))

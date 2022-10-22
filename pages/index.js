@@ -1,5 +1,5 @@
 import IndexLayout from "../components/Layouts/IndexLayout"
-import prepareProps from "../services/fetchers"
+import prepareProps from "../services/public-fetchers"
 import { HomePageContext } from "../contexts/PagesContexts"
 import PagesLayout from "../components/Layouts/PagesLayout"
 

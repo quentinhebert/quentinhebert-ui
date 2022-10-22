@@ -1,5 +1,5 @@
 import FilmsIndexLayout from "../../components/Layouts/films/FilmsIndexLayout"
-import prepareProps from "../../services/fetchers"
+import prepareProps from "../../services/public-fetchers"
 import { FilmsHomePageContext } from "../../contexts/PagesContexts"
 import PagesLayout from "../../components/Layouts/PagesLayout"
 

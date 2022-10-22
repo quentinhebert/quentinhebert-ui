@@ -1,6 +1,6 @@
 import ContactLayout from "../../components/Layouts/contact/ContactLayout"
 import { Box } from "@mui/material"
-import prepareProps from "../../services/fetchers"
+import prepareProps from "../../services/public-fetchers"
 import PagesLayout from "../../components/Layouts/PagesLayout"
 
 const head = {

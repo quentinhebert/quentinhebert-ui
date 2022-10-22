@@ -16,7 +16,7 @@ import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline"
 import useSWR from "swr"
 import PillButton from "../../ReusableComponents/buttons/pill-button"
 import Pill from "../../ReusableComponents/text/pill"
-import { fetchers } from "../../../services/fetchers"
+import { fetchers } from "../../../services/public-fetchers"
 import { FilmsHomePageContext } from "../../../contexts/PagesContexts"
 
 const CATEGORIES = [

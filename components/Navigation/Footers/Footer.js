@@ -21,7 +21,7 @@ import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on
 import useSWR from "swr"
 import MotionDivFadeInOnMount from "../../ReusableComponents/animations/motion-div-fade-in-on-mount"
 import getSocialIcon from "../../Other/get-social-icon"
-import { fetchers } from "../../../services/fetchers"
+import { fetchers } from "../../../services/public-fetchers"
 
 /********** CONSTANTES **********/
 const logoQH = "/logos/logo-qh.png"

@@ -15,7 +15,7 @@ import getSocialIcon from "../../Other/get-social-icon"
 import { motion } from "framer-motion"
 import StaggerParent from "../../ReusableComponents/animations/stagger-parent"
 import { moveLeftVariants } from "../../ReusableComponents/animations/variants"
-import { fetchers } from "../../../services/fetchers"
+import { fetchers } from "../../../services/public-fetchers"
 
 const SocialButton = ({ item }) => {
   return (

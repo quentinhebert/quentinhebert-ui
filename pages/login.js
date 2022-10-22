@@ -3,7 +3,7 @@ import LoginLayout from "../components/Layouts/LoginLayout"
 import { UserContext } from "../contexts/UserContext"
 import PleaseWait from "../components/ReusableComponents/helpers/please-wait"
 import { Stack } from "@mui/material"
-import prepareProps from "../services/fetchers"
+import prepareProps from "../services/public-fetchers"
 import PagesLayout from "../components/Layouts/PagesLayout"
 
 const head = {

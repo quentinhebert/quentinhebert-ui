@@ -13,7 +13,7 @@ import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on
 import { useContext } from "react"
 import { WebsitesHomePageContext } from "../../../contexts/PagesContexts"
 import useSWR from "swr"
-import { fetchers } from "../../../services/fetchers"
+import { fetchers } from "../../../services/public-fetchers"
 
 export default function WebsitesPortfolio(props) {
   const { topRef } = props
