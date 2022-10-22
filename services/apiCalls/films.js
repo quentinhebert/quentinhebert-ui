@@ -32,7 +32,7 @@ const films = {
   // Admin only
   get: async (filmId) => {
     try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/films/${filmId}`, {
+      return await fetch(`${defaultConfig.apiUrl}/films/${filmId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
@@ -48,7 +48,7 @@ const films = {
     try {
       let formData = new FormData()
       formData.append("thumbnail", thumbnail)
-      return await fetch(`${defaultConfig.apiUrl}/admin/films/thumbnail`, {
+      return await fetch(`${defaultConfig.apiUrl}/films/thumbnail`, {
         method: "POST",
         body: formData,
         mode: "cors",
@@ -74,7 +74,7 @@ const films = {
       thumbnail: film.thumbnail,
     }
     try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/films`, {
+      return await fetch(`${defaultConfig.apiUrl}/films`, {
         method: "POST",
         body: JSON.stringify(body),
         headers: {
@@ -89,7 +89,7 @@ const films = {
   // Admin only
   delete: async (film) => {
     try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/films/${film.id}`, {
+      return await fetch(`${defaultConfig.apiUrl}/films/${film.id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
@@ -115,7 +115,7 @@ const films = {
       thumbnail: film.thumbnail,
     }
     try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/films/${body.id}`, {
+      return await fetch(`${defaultConfig.apiUrl}/films/${body.id}`, {
         method: "PUT",
         body: JSON.stringify(body),
         headers: {
@@ -132,7 +132,7 @@ const films = {
     try {
       const body = JSON.stringify({ sortedFilmIds })
 
-      return await fetch(`${defaultConfig.apiUrl}/admin/films/sort`, {
+      return await fetch(`${defaultConfig.apiUrl}/films/sort`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
