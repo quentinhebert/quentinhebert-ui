@@ -3,7 +3,8 @@ import { getFreshToken } from "../utils"
 
 const application = {
   logo: {
-    get: async () => {
+    // Public
+    getPublic: async () => {
       try {
         return await fetch(`${defaultConfig.apiUrl}/application/logo`, {
           method: "GET",
@@ -15,11 +16,12 @@ const application = {
         console.error(error)
       }
     },
+    // Admin only
     update: async (file) => {
       try {
         let formData = new FormData()
         formData.append("logo", file)
-        return await fetch(`${defaultConfig.apiUrl}/admin/application/logo`, {
+        return await fetch(`${defaultConfig.apiUrl}/application/logo`, {
           method: "POST",
           body: formData,
           mode: "cors",
@@ -33,21 +35,26 @@ const application = {
     },
   },
   navbar: {
+    // Public
     getPublic: async () => {
       try {
-        return await fetch(`${defaultConfig.apiUrl}/navbar/public`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
+        return await fetch(
+          `${defaultConfig.apiUrl}/application/navbar/public`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
       } catch (error) {
         console.error(error)
       }
     },
+    // Admin only
     get: async () => {
       try {
-        return await fetch(`${defaultConfig.apiUrl}/navbar`, {
+        return await fetch(`${defaultConfig.apiUrl}/application/navbar`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,
@@ -58,10 +65,11 @@ const application = {
         console.error(err)
       }
     },
+    // Admin only
     update: async (menuItems, idsToDelete) => {
       const body = { menu_items: menuItems, ids_to_delete: idsToDelete }
       try {
-        return await fetch(`${defaultConfig.apiUrl}/admin/navbar`, {
+        return await fetch(`${defaultConfig.apiUrl}/application/navbar`, {
           method: "PUT",
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,
@@ -75,9 +83,10 @@ const application = {
     },
   },
   footer: {
+    // Public
     get: async () => {
       try {
-        return await fetch(`${defaultConfig.apiUrl}/footer`, {
+        return await fetch(`${defaultConfig.apiUrl}/application/footer`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -87,10 +96,11 @@ const application = {
         console.error(error)
       }
     },
+    // Admin only
     update: async (credits) => {
       const body = { credits }
       try {
-        return await fetch(`${defaultConfig.apiUrl}/admin/footer`, {
+        return await fetch(`${defaultConfig.apiUrl}/footer`, {
           method: "PUT",
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,
@@ -104,6 +114,7 @@ const application = {
     },
   },
   contact: {
+    // Public
     getPublic: async () => {
       try {
         return await fetch(
@@ -119,6 +130,7 @@ const application = {
         console.error(error)
       }
     },
+    // Admin only
     get: async () => {
       try {
         return await fetch(`${defaultConfig.apiUrl}/application/contact`, {
@@ -132,6 +144,7 @@ const application = {
         console.error(error)
       }
     },
+    // Admin only
     update: async (contactItems) => {
       const body = {
         address: contactItems.address,
@@ -139,7 +152,7 @@ const application = {
         social_medias: contactItems.social_medias,
       }
       try {
-        return await fetch(`${defaultConfig.apiUrl}/admin/website-contact`, {
+        return await fetch(`${defaultConfig.apiUrl}/application/contact`, {
           method: "PUT",
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,
@@ -151,6 +164,7 @@ const application = {
         console.error(error)
       }
     },
+    // Public
     sendForm: async (clientData) => {
       try {
         const body = JSON.stringify(clientData)
