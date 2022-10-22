@@ -58,10 +58,13 @@ const SortableListItem = sortableElement(
 
     return (
       <>
-        <Stack
+        <Box
           component="li"
-          className="list-style-none"
+          className="list-style-none no-select"
+          display="flex"
           sx={{
+            position: "relative",
+            background: "transparent",
             width: {
               xs: "100%",
               sm: "calc(50% - .5rem)",
@@ -92,7 +95,24 @@ const SortableListItem = sortableElement(
               </PillButton>
             </Stack>
           </ECommerceCard>
-        </Stack>
+
+          {!showMenu && (
+            <Box
+              height="100%"
+              width="100%"
+              sx={{
+                background: "#000",
+                opacity: 0.5,
+                cursor: "move",
+                position: "absolute",
+                borderRadius: "15px",
+                "&:hover": {
+                  opacity: 0.2,
+                },
+              }}
+            />
+          )}
+        </Box>
 
         {!destroyedEdit && (
           <EditReferenceModal

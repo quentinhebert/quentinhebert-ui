@@ -28,9 +28,11 @@ export default function ECommerceCard({
         <Box height={200} padding={4}>
           <Box
             component="img"
+            draggable="false"
             src={img || "medias/default.jpg"}
             alt="image"
             sx={{ height: "100%", width: "100%", objectFit: "contain" }}
+            className="no-select"
           />
         </Box>
       </Card.Section>
