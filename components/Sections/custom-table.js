@@ -165,11 +165,18 @@ export default function CustomTable(props) {
             handleCreate={handleCreate}
             refreshData={refreshData}
           />
-          <TableContainer>
+          <TableContainer
+            sx={{
+              height: "calc(100vh - 300px)",
+              minHeight: "300px",
+            }}
+          >
             <Table
               stickyHeader
               aria-labelledby="tableTitle"
-              sx={{ "& .MuiTableCell-root": { padding: "0.5rem 0.25rem" } }}
+              sx={{
+                "& .MuiTableCell-root": { padding: "0.5rem 0.25rem" },
+              }}
             >
               <EnhancedTableHead
                 headCells={headCells}
