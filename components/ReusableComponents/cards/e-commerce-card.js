@@ -2,6 +2,7 @@ import { Card, Text, Group } from "@mantine/core"
 import { Box, Stack } from "@mui/material"
 import PillButton from "../buttons/pill-button"
 import theme from "../../../config/theme"
+import BodyText from "../text/body-text"
 
 export default function ECommerceCard({
   img,
@@ -35,14 +36,10 @@ export default function ECommerceCard({
       </Card.Section>
 
       <Group position="apart" mt="md" mb="xs">
-        <Text weight={500} color={theme.palette.text.white}>
-          {title || ""}
-        </Text>
+        <BodyText>{title || ""}</BodyText>
       </Group>
 
-      <Text size="sm" color="dimmed">
-        {description || ""}
-      </Text>
+      <BodyText>{description || ""}</BodyText>
 
       <Stack
         flexGrow={1}
