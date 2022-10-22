@@ -1,6 +1,8 @@
-import { Box, Stack } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import { SortableElement } from "react-sortable-hoc"
+import ScaleUpOnHoverStack from "../animations/scale-up-on-hover-stack"
 import ECommerceCard from "./e-commerce-card"
+import DeleteIcon from "@mui/icons-material/Delete"
 
 const SortableECard = SortableElement(
   ({ item, img, showMenu, imgCover, ...props }) => {
@@ -51,17 +53,90 @@ const SortableECard = SortableElement(
   }
 )
 
-const SortableCard = ({ index, disabled, item, img, imgCover, ...props }) => (
-  <SortableECard
-    axis="xy"
-    disabled={disabled}
-    showMenu={disabled}
-    item={item}
-    img={img}
-    index={index}
-    imgCover={imgCover}
-    {...props}
-  />
+const SortableImage = SortableElement(
+  ({ item, img, showMenu, imgCover, ...props }) => {
+    return (
+      <Box
+        component="li"
+        className="list-style-none no-select"
+        sx={{
+          position: "relative",
+          background: "transparent",
+          width: {
+            xs: "100%",
+            sm: "calc(50% - .5rem)",
+            md: "calc(33.3% - .5rem)",
+          },
+        }}
+      >
+        <Stack
+          className="no-select flex-center relative"
+          sx={{
+            cursor: showMenu ? "pointer" : "grab",
+            padding: ".5rem",
+            borderRadius: "10px",
+            height: { xs: "150px", md: "200px" },
+            background: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${
+              img || "/medias/default.jpg"
+            })`,
+            backgroundSize: "cover",
+            "&:hover": {
+              background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${
+                img || "/medias/default.jpg"
+              })`,
+              backgroundSize: "cover",
+            },
+          }}
+        >
+          <Typography
+            fontSize="1rem"
+            color="text.white"
+            className="uppercase text-center"
+          >
+            {item.title}
+          </Typography>
+          <Box {...props} />
+        </Stack>
+      </Box>
+    )
+  }
 )
+
+const SortableCard = ({
+  index,
+  disabled,
+  item,
+  img,
+  imgCover,
+  imageOnly,
+  ...props
+}) => {
+  if (imageOnly)
+    return (
+      <SortableImage
+        axis="xy"
+        disabled={disabled}
+        showMenu={disabled}
+        item={item}
+        img={img}
+        index={index}
+        imgCover={imgCover}
+        {...props}
+      />
+    )
+
+  return (
+    <SortableECard
+      axis="xy"
+      disabled={disabled}
+      showMenu={disabled}
+      item={item}
+      img={img}
+      index={index}
+      imgCover={imgCover}
+      {...props}
+    />
+  )
+}
 
 export default SortableCard

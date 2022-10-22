@@ -31,7 +31,7 @@ export default function ECommerceCard({
             component="img"
             draggable="false"
             src={img || "/medias/default.jpg"}
-            alt="image"
+            alt={title || ""}
             sx={{
               height: "100%",
               width: "100%",

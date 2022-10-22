@@ -21,7 +21,7 @@ import { AppContext } from "../../../contexts/AppContext"
 const currentYear = new Date().getFullYear()
 
 function EditFilmModal(props) {
-  const { filmId, openEditModal, handleCloseEditModal } = props
+  const { filmId, open, handleClose, fetch } = props
 
   // APP CONTEXT
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
@@ -76,13 +76,13 @@ function EditFilmModal(props) {
 
   // We immediately fetch up-to-date data
   useEffect(() => {
-    if (filmId) {
+    if (filmId && open) {
       fetchData()
       fetchFilmTypes()
       fetchFilmGear()
       fetchFilmRoles()
     }
-  }, [filmId, openEditModal])
+  }, [filmId, open])
 
   if (!filmId) return <></>
 
@@ -107,14 +107,12 @@ function EditFilmModal(props) {
     }
     setFilm({ ...film, [attribute]: localAttribute })
   }
-  const handleCancel = () => {
-    handleCloseEditModal()
-  }
   const handleSuccess = () => {
     setSnackSeverity("success")
     setSnackMessage("Le film a été mis à jour !")
     setFile(null)
-    handleCloseEditModal()
+    handleClose()
+    fetch()
   }
   const handleError = () => {
     setSnackSeverity("error")
@@ -234,11 +232,7 @@ function EditFilmModal(props) {
   )
 
   return (
-    <CustomModal
-      open={openEditModal}
-      handleClose={handleCloseEditModal}
-      gap={4}
-    >
+    <CustomModal open={open} handleClose={handleClose} gap={4}>
       <ModalTitle>Modifier le film</ModalTitle>
 
       <CustomForm gap={3}>
@@ -325,9 +319,7 @@ function EditFilmModal(props) {
         </Stack>
 
         <Stack flexDirection="row" gap={2} justifyContent="end" width="100%">
-          <CustomSubmitButton onClick={handleCancel}>
-            Annuler
-          </CustomSubmitButton>
+          <CustomSubmitButton onClick={handleClose}>Annuler</CustomSubmitButton>
           <CustomSubmitButton
             secondary="true"
             onClick={handleUpdate}
