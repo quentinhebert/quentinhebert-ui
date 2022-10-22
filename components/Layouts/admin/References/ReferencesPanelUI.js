@@ -16,6 +16,10 @@ import { AppContext } from "../../../../contexts/AppContext"
 import AddReferenceModal from "../../../Modals/Create-Modals/add-reference-modal"
 import DeleteReferenceModal from "../../../Modals/Delete-Modals/delete-reference-modal"
 import EditReferenceModal from "../../../Modals/Edit-Modals/edit-reference-modal"
+import ImageCard from "../../../ReusableComponents/cards/image-card"
+import ECommerceCard from "../../../ReusableComponents/cards/e-commerce-card"
+import PillButton from "../../../ReusableComponents/buttons/pill-button"
+import EditIcon from "@mui/icons-material/Edit"
 
 const SortableListItem = sortableElement(
   ({ item, fetchReferences, showMenu }) => {
@@ -54,63 +58,41 @@ const SortableListItem = sortableElement(
 
     return (
       <>
-        <Box
+        <Stack
           component="li"
           className="list-style-none"
-          width="calc(20% - 5px)"
-          onClick={handleOpenEditModal}
+          sx={{
+            width: {
+              xs: "100%",
+              sm: "calc(50% - .5rem)",
+              md: "calc(33.3% - .5rem)",
+              lg: "calc(25% - .5rem)",
+              xl: "calc(20% - .5rem)",
+            },
+          }}
         >
-          <Stack
-            className="no-select flex-center relative"
-            sx={{
-              cursor: showMenu ? "pointer" : "grab",
-              padding: ".5rem",
-              borderRadius: "10px",
-              height: { xs: "150px", md: "200px" },
-              background: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${
-                item.logo_url || "/medias/default.jpg"
-              })`,
-              backgroundSize: "cover",
-              backgroundPosition: "50% 50%",
-              "&:hover": {
-                background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${
-                  item.logo_url || "/medias/default.jpg"
-                })`,
-                backgroundSize: "cover",
-                backgroundPosition: "50% 50%",
-              },
-            }}
-          >
-            <Box
-              className="absolute"
-              top={10}
-              right={10}
-              sx={{
-                color: (theme) => theme.palette.text.white,
-                display: showMenu ? "block" : "none",
-              }}
-              onClick={handleOpenDeleteModal}
-            >
-              <ScaleUpOnHoverStack>
-                <DeleteIcon
-                  sx={{
-                    fontSize: "2rem",
-                    opacity: 0.2,
-                    "&:hover": { opacity: 1 },
-                  }}
-                />
-              </ScaleUpOnHoverStack>
-            </Box>
-
-            <Typography
-              fontSize="1rem"
-              color="text.white"
-              className="uppercase text-center"
-            >
-              {item.label}
-            </Typography>
-          </Stack>
-        </Box>
+          <ECommerceCard img={item.logo_url} title={item.label}>
+            <Stack gap={2} direction="row" justifyContent="center">
+              <PillButton
+                onClick={handleOpenDeleteModal}
+                fullWidth
+                padding=".5rem 0"
+                background={(theme) => theme.palette.tersary.main}
+                color={(theme) => theme.palette.text.white}
+              >
+                <DeleteIcon />
+              </PillButton>
+              <PillButton
+                onClick={handleOpenEditModal}
+                fullWidth
+                padding=".5rem 0"
+                color={(theme) => theme.palette.text.white}
+              >
+                <EditIcon />
+              </PillButton>
+            </Stack>
+          </ECommerceCard>
+        </Stack>
 
         {!destroyedEdit && (
           <EditReferenceModal
@@ -137,7 +119,7 @@ const SortableList = sortableContainer(
     <Box
       component="ul"
       className="list-style-none no-padding full-width flex-wrap"
-      gap="4px"
+      gap=".5rem"
     >
       {items.map((item, index) => (
         <SortableListItem
