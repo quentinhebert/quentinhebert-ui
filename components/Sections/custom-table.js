@@ -52,7 +52,7 @@ export default function CustomTable(props) {
   const [orderBy, setOrderBy] = useState("created_at")
   const [selected, setSelected] = useState([])
   const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [rowsPerPage, setRowsPerPage] = useState(25)
   const [openEditModal, setOpenEditModal] = useState(false)
 
   // WARNING: first column of the array MUST BE a primary key/id in DB
@@ -255,7 +255,7 @@ export default function CustomTable(props) {
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[25, 50, 100]}
             component="div"
             count={rows.length}
             rowsPerPage={rowsPerPage}
