@@ -164,89 +164,35 @@ const users = {
       }
     },
   },
-  /* Try to access change-email page with link */
-  changeEmail: async (token) => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/change-email/${token}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
-  /* Try to access email-confirmation page with link and updates DB email_confirmed=true */
-  emailConfirm: async (token) => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/email-confirmation`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  },
-  auth: {
-    // Unauthenticated
-    login: async ({ email, password }) => {
-      try {
-        const encodedPassword = new Buffer.from(password).toString("base64")
-        const body = {
-          email,
-          password: encodedPassword,
-        }
-        return await fetch(`${defaultConfig.apiUrl}/users/auth/login`, {
-          method: "PUT",
-          body: JSON.stringify(body),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-      } catch (error) {
-        console.error(error)
-      }
-    },
-    logout: async () => {
-      try {
-        const body = {
-          refresh_token: getRefreshToken(),
-        }
-        return await fetch(
-          `${defaultConfig.apiUrl}/users/${getUser().id}/logout`,
-          {
-            method: "PUT",
-            body: JSON.stringify(body),
+  security: {
+    email: {
+      /* Try to access change-email page with link */
+      update: async (token) => {
+        try {
+          return await fetch(`${defaultConfig.apiUrl}/change-email/${token}`, {
+            method: "PATCH",
             headers: {
-              Authorization: `Bearer ${await getFreshToken()}`,
               "Content-Type": "application/json",
             },
-          }
-        )
-      } catch (err) {
-        console.error(err)
-      }
-    },
-    getAccessToken: async () => {
-      try {
-        const body = {
-          id: getUser().id,
-          refresh_token: getRefreshToken(),
+          })
+        } catch (error) {
+          console.error(error)
         }
-        return await fetch(`${defaultConfig.apiUrl}/new-token`, {
-          method: "PUT",
-          body: JSON.stringify(body),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-      } catch (err) {
-        console.error(err)
-      }
+      },
+      /* Try to access email-confirmation page with link and updates DB email_confirmed=true */
+      confirm: async (token) => {
+        try {
+          return await fetch(`${defaultConfig.apiUrl}/email-confirmation`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          })
+        } catch (error) {
+          console.error(error)
+        }
+      },
     },
     password: {
       update: async (user) => {
@@ -326,6 +272,64 @@ const users = {
           console.error(error)
         }
       },
+    },
+  },
+  auth: {
+    // Unauthenticated
+    login: async ({ email, password }) => {
+      try {
+        const encodedPassword = new Buffer.from(password).toString("base64")
+        const body = {
+          email,
+          password: encodedPassword,
+        }
+        return await fetch(`${defaultConfig.apiUrl}/users/auth/login`, {
+          method: "PUT",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    logout: async () => {
+      try {
+        const body = {
+          refresh_token: getRefreshToken(),
+        }
+        return await fetch(
+          `${defaultConfig.apiUrl}/users/${getUser().id}/auth/logout`,
+          {
+            method: "PUT",
+            body: JSON.stringify(body),
+            headers: {
+              Authorization: `Bearer ${await getFreshToken()}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    getAccessToken: async () => {
+      try {
+        const body = {
+          id: getUser().id,
+          refresh_token: getRefreshToken(),
+        }
+        return await fetch(`${defaultConfig.apiUrl}/users/auth/new-token`, {
+          method: "PUT",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (err) {
+        console.error(err)
+      }
     },
   },
 }

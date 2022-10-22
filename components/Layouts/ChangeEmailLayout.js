@@ -28,7 +28,7 @@ export default function ChangeEmailLayout(props) {
   useEffect(() => {
     const initialCheck = async () => {
       if (token) {
-        const res = await apiCall.users.changeEmail(token)
+        const res = await apiCall.users.security.email.update(token)
         if (!res || !res.ok) setError(true)
 
         if (res.status && res.status === 204) setEmailChanged(true)

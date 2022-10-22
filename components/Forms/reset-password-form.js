@@ -61,7 +61,7 @@ export default function ResetPasswordForm(props) {
   /********** FUNCTIONS **********/
   const initialCheck = async () => {
     if (token) {
-      const res = await apiCall.users.auth.password.resetAccess(token)
+      const res = await apiCall.users.security.password.resetAccess(token)
 
       // We return a 401 if the token doesn't match any user who wants to reset his/her password
       if (!(res && res.ok)) {
@@ -103,7 +103,7 @@ export default function ResetPasswordForm(props) {
     if (!userId && !token) return null
     if (!checkPassword(password)) return null
     if (password !== passwordConfirmation) return null
-    const res = await apiCall.users.auth.password.reset({
+    const res = await apiCall.users.security.password.reset({
       token,
       password,
       id: userId,

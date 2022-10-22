@@ -30,7 +30,7 @@ export default function EmailConfirmationLayout(props) {
   useEffect(() => {
     const checkEmail = async () => {
       if (token) {
-        const res = await apiCall.users.emailConfirm(token)
+        const res = await apiCall.users.security.email.confirm(token)
         if (!res || !res.ok) setError(true)
 
         if (res.status && res.status === 204) setEmailConfirmed(true)

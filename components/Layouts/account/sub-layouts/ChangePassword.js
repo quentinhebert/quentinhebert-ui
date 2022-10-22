@@ -92,7 +92,7 @@ export default function ChangePassword(props) {
   }
   const handleSaveUser = async () => {
     setLoadingButton(true)
-    const res = await apiCall.users.auth.password.update(user)
+    const res = await apiCall.users.security.password.update(user)
     if (res && res.ok) {
       handleSuccess()
       await fetchUser() // Clear input fields
