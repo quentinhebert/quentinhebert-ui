@@ -13,6 +13,7 @@ export default function PillButton({
   animDelay,
   fontSize,
   preventTransitionOut,
+  preventTransition,
   border,
   boxShadow,
   scaleUpOnHover,
@@ -34,7 +35,7 @@ export default function PillButton({
   useEffect(() => {
     if (inView) {
       controls.start("visible")
-    } else if (!preventTransitionOut) {
+    } else if (!preventTransitionOut && !preventTransition) {
       controls.start("hidden")
     }
   }, [controls, inView])
@@ -42,7 +43,7 @@ export default function PillButton({
   return (
     <Box margin={margin || 0} ref={ref}>
       <motion.div
-        initial="hidden"
+        initial={preventTransition ? "visible" : "hidden"}
         variants={variants}
         animate={controls}
         style={{ width: "100%" }}

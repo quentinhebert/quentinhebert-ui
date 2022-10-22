@@ -50,7 +50,9 @@ const SortableGrid = ({
   }
 
   const SortHelper = () => (
+    // FIXME: I'm forced to prevent from animation/transition cause my component is reloading each sorting move
     <AlertInfo
+      noAnimation
       content={{
         show: true,
         severity: "info",
@@ -58,8 +60,12 @@ const SortableGrid = ({
         text: "Il vous suffit de glisser-déposer les éléments sur la grille puis d'enregistrer !",
         js: (
           <Stack direction="row" gap={2}>
-            <PillButton onClick={handleCancel}>Annuler</PillButton>
-            <PillButton onClick={handleSave}>Enregistrer</PillButton>
+            <PillButton onClick={handleCancel} preventTransition>
+              Annuler
+            </PillButton>
+            <PillButton onClick={handleSave} preventTransition>
+              Enregistrer
+            </PillButton>
           </Stack>
         ),
       }}

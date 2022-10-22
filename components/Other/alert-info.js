@@ -4,12 +4,10 @@ import React from "react"
 import theme from "../../config/theme"
 import { motion } from "framer-motion"
 
-function AlertInfo(props) {
-  const { content } = props
-
+function AlertInfo({ content, noAnimation }) {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={{ opacity: noAnimation ? 1 : 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
       style={{ width: "100%" }}
