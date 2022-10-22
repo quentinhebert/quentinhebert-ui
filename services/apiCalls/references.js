@@ -17,7 +17,7 @@ const references = {
   },
   getAll: async () => {
     try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/references`, {
+      return await fetch(`${defaultConfig.apiUrl}/references`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
@@ -30,16 +30,13 @@ const references = {
   },
   get: async (referenceId) => {
     try {
-      return await fetch(
-        `${defaultConfig.apiUrl}/admin/references/${referenceId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${await getFreshToken()}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      return await fetch(`${defaultConfig.apiUrl}/references/${referenceId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
     } catch (err) {
       console.error(err)
     }
@@ -48,7 +45,7 @@ const references = {
     try {
       let formData = new FormData()
       formData.append("logo", logo)
-      return await fetch(`${defaultConfig.apiUrl}/admin/references/logo`, {
+      return await fetch(`${defaultConfig.apiUrl}/references/logo`, {
         method: "POST",
         body: formData,
         mode: "cors",
@@ -67,7 +64,7 @@ const references = {
       logo_id: reference.logo.id,
     }
     try {
-      return await fetch(`${defaultConfig.apiUrl}/admin/references`, {
+      return await fetch(`${defaultConfig.apiUrl}/references`, {
         method: "POST",
         body: JSON.stringify(body),
         headers: {
@@ -87,33 +84,27 @@ const references = {
       type: reference.type.id,
     }
     try {
-      return await fetch(
-        `${defaultConfig.apiUrl}/admin/references/${reference.id}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(body),
-          headers: {
-            Authorization: `Bearer ${await getFreshToken()}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      return await fetch(`${defaultConfig.apiUrl}/references/${reference.id}`, {
+        method: "PUT",
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
     } catch (err) {
       console.error(err)
     }
   },
   delete: async (reference) => {
     try {
-      return await fetch(
-        `${defaultConfig.apiUrl}/admin/references/${reference.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${await getFreshToken()}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      return await fetch(`${defaultConfig.apiUrl}/references/${reference.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
     } catch (err) {
       console.error(err)
     }
@@ -122,7 +113,7 @@ const references = {
     try {
       const body = JSON.stringify({ sortedReferenceIds })
 
-      return await fetch(`${defaultConfig.apiUrl}/admin/references/sort`, {
+      return await fetch(`${defaultConfig.apiUrl}/references/sort`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
