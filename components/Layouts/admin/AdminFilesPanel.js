@@ -96,7 +96,7 @@ function AdminFilesPanel(props) {
   const [totalSize, setTotalSize] = useState(0)
 
   const fetchFiles = async () => {
-    const res = await apiCall.files.getFiles()
+    const res = await apiCall.files.getAll()
     if (res && res.ok) {
       const localTotalSize = 0
       const localArray = []
@@ -124,7 +124,7 @@ function AdminFilesPanel(props) {
     const errorsCount = filesToDelete.length
     const [errors] = await Promise.all(
       filesToDelete.map(async (imageId) => {
-        const res = await apiCall.files.deleteFile({ id: imageId })
+        const res = await apiCall.files.delete({ id: imageId })
         if (res && res.ok) {
           errorsCount -= 1
         }
