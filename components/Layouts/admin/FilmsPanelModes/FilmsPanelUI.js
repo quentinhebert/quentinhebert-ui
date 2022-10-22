@@ -9,7 +9,7 @@ import BodyText from "../../../ReusableComponents/text/body-text"
 import { AppContext } from "../../../../contexts/AppContext"
 import SortableCard from "../../../ReusableComponents/cards/sortable-card"
 import DeleteIcon from "@mui/icons-material/Delete"
-import SortableGrid from "../../../ReusableComponents/grids/sortable-cards-grid"
+import SortableGrid from "../../../ReusableComponents/grids/sortable-grid"
 
 const SortableItem = ({ disabled, item, index, fetchData }) => {
   const [openEditModal, setOpenEditModal] = useState(false)

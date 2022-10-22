@@ -6,7 +6,7 @@ import BodyText from "../../../ReusableComponents/text/body-text"
 import { AppContext } from "../../../../contexts/AppContext"
 import SortableCard from "../../../ReusableComponents/cards/sortable-card"
 import EditDeleteButtons from "../../../ReusableComponents/buttons/edit-delete-buttons"
-import SortableGrid from "../../../ReusableComponents/grids/sortable-cards-grid"
+import SortableGrid from "../../../ReusableComponents/grids/sortable-grid"
 import dynamic from "next/dynamic"
 
 const AddReferenceModal = dynamic(() =>
