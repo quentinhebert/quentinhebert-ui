@@ -1152,6 +1152,18 @@
   "resolved" "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.1.0.tgz"
   "version" "1.1.0"
 
+"@stripe/react-stripe-js@^1.13.0":
+  "integrity" "sha512-6v2VVYorWalmlHF5DIlHp5xtFzX9rY36N4d7kyS8D/4jxvZYHOKJj96LCQfwuFi/o19/dCX8rxt/ct+pF9kI8A=="
+  "resolved" "https://registry.npmjs.org/@stripe/react-stripe-js/-/react-stripe-js-1.13.0.tgz"
+  "version" "1.13.0"
+  dependencies:
+    "prop-types" "^15.7.2"
+
+"@stripe/stripe-js@^1.41.0", "@stripe/stripe-js@^1.42.0":
+  "integrity" "sha512-ZaQpZo5PRv/mN6157OywMW4fc7FIS+eI/tS12I1gU9MdvnL8fzFktuAU/g9FyUOL22E4t9hF1tsfLQAZcQDokQ=="
+  "resolved" "https://registry.npmjs.org/@stripe/stripe-js/-/stripe-js-1.42.0.tgz"
+  "version" "1.42.0"
+
 "@tabler/icons@^1.68.0":
   "integrity" "sha512-tJBH0qndheryzFFPu/RD5pKCVICw5+KuYWRC07l26QYCHcKVlwOvIgz/65qh9EnGNZGtJAxwfWqIbmy5UA4Wzg=="
   "resolved" "https://registry.npmjs.org/@tabler/icons/-/icons-1.105.0.tgz"
@@ -3395,7 +3407,7 @@
   dependencies:
     "ua-parser-js" "^1.0.2"
 
-"react-dom@^16 || ^17 || ^18", "react-dom@^16.3.0 || ^17.0.0", "react-dom@^16.6.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^16.8.0  || >=17.0.0 || >=18.0.0", "react-dom@^16.x || 17.x || 18.x", "react-dom@^17.0.0", "react-dom@^17.0.2 || ^18.0.0-0", "react-dom@>= 0.14.0", "react-dom@>= 16.3.0", "react-dom@>= 16.4.1", "react-dom@>= 16.8.0", "react-dom@>=16.6.0", "react-dom@>=16.8 || ^17.0.0 || ^18.0.0", "react-dom@>=16.8.0", "react-dom@>=17", "react-dom@>0.13.0", "react-dom@16.x.x || 17.x.x", "react-dom@17.0.2":
+"react-dom@^16 || ^17 || ^18", "react-dom@^16.3.0 || ^17.0.0", "react-dom@^16.6.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^16.8.0  || >=17.0.0 || >=18.0.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.x || 17.x || 18.x", "react-dom@^17.0.0", "react-dom@^17.0.2 || ^18.0.0-0", "react-dom@>= 0.14.0", "react-dom@>= 16.3.0", "react-dom@>= 16.4.1", "react-dom@>= 16.8.0", "react-dom@>=16.6.0", "react-dom@>=16.8 || ^17.0.0 || ^18.0.0", "react-dom@>=16.8.0", "react-dom@>=17", "react-dom@>0.13.0", "react-dom@16.x.x || 17.x.x", "react-dom@17.0.2":
   "integrity" "sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-17.0.2.tgz"
   "version" "17.0.2"

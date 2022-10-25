@@ -21,6 +21,8 @@
     "@mui/styled-engine-sc": "^5.4.2",
     "@mui/x-data-grid": "^5.8.0",
     "@n8tb1t/use-scroll-position": "^2.0.3",
+    "@stripe/react-stripe-js": "^1.13.0",
+    "@stripe/stripe-js": "^1.42.0",
     "array-move": "^4.0.0",
     "browser-image-compression": "^2.0.0",
     "date-fns": "^2.29.3",

@@ -1,0 +1,45 @@
+import { Stack } from "@mui/material"
+import { useRouter } from "next/router"
+import PagesLayout from "../../../../../components/Layouts/PagesLayout"
+import PillButton from "../../../../../components/ReusableComponents/buttons/pill-button"
+import BodyText from "../../../../../components/ReusableComponents/text/body-text"
+import PageTitle from "../../../../../components/ReusableComponents/titles/page-title"
+
+const head = {
+  // Main meta tags
+  title: "Paiement en attente !",
+  description: "quentinhebert.com : votre paiement est en attente !",
+  // SEO helpers
+  follow: false,
+  // OpenGraph additional tags (sharing)
+  type: "website",
+  ogImg: "/medias/ogimg.png",
+}
+
+export default function ProcessingPaymentPage() {
+  const router = useRouter()
+  const orderId = router.query.id
+
+  return (
+    <PagesLayout head={head}>
+      <Stack flexGrow={1} className="flex-center">
+        <Stack textAlign="center" gap={4}>
+          <PageTitle text="Votre paiement est en cours de traitement..." />
+          <BodyText textAlign="center">
+            Votre moyen de paiement a bien été authentifié. Le paiement de votre
+            commande est en cours de traitement. Veuillez actualiser la page
+            page de votre commande pour suivre l'avancée de la réception de
+            votre paiement.
+          </BodyText>
+          <PillButton
+            onClick={() =>
+              router.push(`/account/orders/${orderId}/information`)
+            }
+          >
+            Suivre ma commande
+          </PillButton>
+        </Stack>
+      </Stack>
+    </PagesLayout>
+  )
+}

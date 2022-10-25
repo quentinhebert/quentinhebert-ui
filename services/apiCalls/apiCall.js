@@ -5,6 +5,7 @@ import films from "../apiCalls/films"
 import websites from "../apiCalls/websites"
 import application from "../apiCalls/application"
 import references from "../apiCalls/references"
+import orders from "../apiCalls/orders"
 
 const apiCall = {
   application,
@@ -14,6 +15,7 @@ const apiCall = {
   users,
   services,
   references,
+  orders,
 }
 
 export default apiCall

@@ -45,6 +45,7 @@ export default function Breadcrumbs(props) {
     >
       {breadcrumbs.map((item, key) => {
         const isCurrentPage = key + 1 === pages.length // current page === last element of the breadcrumbs
+        if (!item.label) return <></>
         return (
           <Stack flexDirection="row" alignItems="center" gap={1.5} key={key}>
             <Link
@@ -69,7 +70,9 @@ export default function Breadcrumbs(props) {
                 {item.label}
               </Typography>
             </Link>
-            {!isCurrentPage && <Typography>{">"}</Typography>}
+            {!isCurrentPage && breadcrumbs[key + 1].label && (
+              <Typography>{">"}</Typography>
+            )}
           </Stack>
         )
       })}
