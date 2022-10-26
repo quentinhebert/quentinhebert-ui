@@ -6,15 +6,11 @@ import PleaseWait from "../../../ReusableComponents/helpers/please-wait"
 import BodyText from "../../../ReusableComponents/text/body-text"
 import AccountPagesLayout from "../../AccountPagesLayout"
 import Custom404Layout from "../../error/Custom404Layout"
-import PaymentIcon from "@mui/icons-material/Payment"
 import { useRouter } from "next/router"
-
-const OrderNumber = ({ orderId }) => (
-  <BodyText display="inline-flex">
-    {`Commande n°`}
-    <div style={{ marginLeft: ".5rem" }}>{orderId}</div>
-  </BodyText>
-)
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
+import RefreshButton from "../../../ReusableComponents/buttons/refresh-button"
+import { ORDERSTATES } from "../../../../enums/orderStates"
+import Pill from "../../../ReusableComponents/text/pill"
 
 const TotalPrice = ({ totalPrice }) => (
   <BodyText display="inline-flex">
@@ -49,6 +45,14 @@ const Value = ({ data }) => (
   </Box>
 )
 
+const StatusChip = ({ order }) => (
+  <Pill
+    bgColor={(theme) => theme.alert.title[ORDERSTATES[order.state].severity]}
+  >
+    <BodyText color="#000">{ORDERSTATES[order.state].label}</BodyText>
+  </Pill>
+)
+
 export default function OrderInformationLayout({ orderId }) {
   const initialOrder = {
     id: null,
@@ -59,9 +63,10 @@ export default function OrderInformationLayout({ orderId }) {
     items: [],
   }
   const [order, setOrder] = useState(initialOrder)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   const fetchOrder = async () => {
+    setLoading(true)
     if (orderId) {
       const res = await apiCall.orders.get({ id: orderId })
       if (res && res.ok) {
@@ -78,27 +83,21 @@ export default function OrderInformationLayout({ orderId }) {
 
   const router = useRouter()
 
-  // HANDLERS
-  const handleRedirectCheckout = async () => {
-    const res = await apiCall.orders.getCheckoutClientSecret(order)
-    if (res && res.ok) {
-      const jsonRes = await res.json()
-      router.push(
-        `/account/orders/${order.id}/checkout/${jsonRes.client_secret}`
-      )
-    }
-  }
-
   if (!order.id && !loading) return <Custom404Layout />
 
   return (
-    <AccountPagesLayout title="Information sur la commande">
+    <AccountPagesLayout
+      title={order.id ? `Commande n° ${order.id}` : "Commande"}
+    >
       {loading && <PleaseWait />}
+
       {order.id && !loading && (
         <Stack gap={4}>
-          <Stack gap={2}>
-            <OrderNumber orderId={order.id} />
-            <BodyText>Statut : {order.state}</BodyText>
+          <Stack className="row gap-10" alignItems="center">
+            <StatusChip order={order} />
+            <BodyText>{ORDERSTATES[order.state].description}</BodyText>
+            <Stack flexGrow={1} />
+            <RefreshButton refresh={fetchOrder} />
           </Stack>
 
           <Stack gap={2}>
@@ -114,13 +113,15 @@ export default function OrderInformationLayout({ orderId }) {
               <HeadItem>Item</HeadItem>
               <HeadItem>Description</HeadItem>
               <HeadItem>Quantité</HeadItem>
+              <HeadItem>TVA</HeadItem>
               <HeadItem>Prix HT</HeadItem>
               {order.items.map((item, key) => (
                 <Row key={key}>
-                  <Value data={item.item_type} />
+                  <Value data={item.item_type.type} />
                   <Value data={item.label} />
                   <Value data={item.description} />
                   <Value data={item.quantity} />
+                  <Value data={`${item.item_type.percent}%`} />
                   <Value data={`${item.no_vat_price / 100}€`} />
                 </Row>
               ))}
@@ -129,12 +130,14 @@ export default function OrderInformationLayout({ orderId }) {
             <Stack width="100%" alignItems="end">
               <Stack direction="row" alignItems="center" gap={5}>
                 <TotalPrice totalPrice={order.total_price} />
-                {order.state === "accepted" && (
+                {order.state === "WAITING_FOR_PAYMENT" && (
                   <PillButton
-                    startIcon={<PaymentIcon />}
-                    onClick={handleRedirectCheckout}
+                    startIcon={<ShoppingCartIcon />}
+                    onClick={() =>
+                      router.push(`/account/orders/${orderId}/checkout/form`)
+                    }
                   >
-                    Payer
+                    Finaliser la commande
                   </PillButton>
                 )}
               </Stack>

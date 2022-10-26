@@ -72,6 +72,8 @@ const mainTheme = createTheme({
       info: "#4fc3f7",
       warning: "#ffb74d",
       success: "#81c784",
+      error: errorColor,
+      disabled: grey,
     },
   },
   components: {

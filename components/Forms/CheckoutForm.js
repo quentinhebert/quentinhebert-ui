@@ -72,8 +72,8 @@ export default function CheckoutForm({ orderId, clientSecret }) {
     })
     if (res && res.ok) {
       alert("Abandon réussi, vous allez être redirigé")
-      // Go back to order information page
-      router.push(`/account/orders/${orderId}/information`)
+      // Go back to order page
+      router.push(`/account/orders/${orderId}`)
     } else alert("Problème")
   }
 

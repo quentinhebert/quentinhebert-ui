@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
 import { useContext } from "react"
-import OrderInformationLayout from "../../../../components/Layouts/account/orders/OrderInformationLayout"
+import OrderLayout from "../../../../components/Layouts/account/orders/OrderLayout"
 import Custom401Layout from "../../../../components/Layouts/error/Custom401Layout"
 import LoginLayout from "../../../../components/Layouts/LoginLayout"
 import PagesLayout from "../../../../components/Layouts/PagesLayout"
@@ -19,7 +19,7 @@ const head = {
   ogImg: "/medias/ogimg.png",
 }
 
-export default function OrderInformationPage() {
+export default function OrderPage() {
   // Check if user has grant to access that page
   const { user } = useContext(UserContext)
 
@@ -31,7 +31,7 @@ export default function OrderInformationPage() {
     <PagesLayout head={head}>
       {!user && <LoginLayout />}
       {!!user && user.type === USERTYPES.CLIENT ? (
-        <OrderInformationLayout orderId={orderId} />
+        <OrderLayout orderId={orderId} />
       ) : (
         <Custom401Layout />
       )}

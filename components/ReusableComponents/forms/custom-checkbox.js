@@ -33,9 +33,9 @@ const CssFormGroup = styled((props) => (
           fontFamily: props.fontFamily || "Helmet",
           fontWeight: props.fontWeight || "",
           fontSize: props.fontSize || {
-            xs: "1rem",
-            sm: "1.1rem",
-            md: "1.2rem",
+            xs: "0.8rem",
+            sm: "0.9rem",
+            md: "1rem",
           },
           letterSpacing: { xs: 0.25, sm: 0.5, md: 1 },
         },

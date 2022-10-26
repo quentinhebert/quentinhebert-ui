@@ -6,6 +6,7 @@ import websites from "../apiCalls/websites"
 import application from "../apiCalls/application"
 import references from "../apiCalls/references"
 import orders from "../apiCalls/orders"
+import clients from "../apiCalls/clients"
 
 const apiCall = {
   application,
@@ -16,6 +17,7 @@ const apiCall = {
   services,
   references,
   orders,
+  clients,
 }
 
 export default apiCall
