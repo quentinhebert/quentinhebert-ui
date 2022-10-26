@@ -33,7 +33,11 @@ const AdminItems = [
 
 const ClientItems = [
   { label: "Mon compte", icon: <PersonIcon />, url: "/account" },
-  // { label: "Mes commandes", icon: <ShoppingCartIcon />, url: "#" },
+  {
+    label: "Mes commandes",
+    icon: <ShoppingCartIcon />,
+    url: "/account/orders",
+  },
   // { label: "Messages", icon: <EmailIcon />, url: "#" },
 ]
 
