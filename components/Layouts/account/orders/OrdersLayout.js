@@ -62,37 +62,44 @@ export default function OrdersLayout() {
         {orders.length < 1 && !loading && (
           <BodyText>Pas de commande pour le moment</BodyText>
         )}
-        {!loading &&
-          orders.map((order, key) => (
-            <Stack className="row full-height flex-center" key={key} gap={4}>
+        <Stack sx={{ gap: { xs: 10, sm: 4 } }}>
+          {!loading &&
+            orders.map((order, key) => (
               <Stack
-                sx={{
-                  flexGrow: 1,
-                  border: (theme) =>
-                    `1px solid ${theme.palette.secondary.main}`,
-                  borderRadius: "30px",
-                  padding: 2,
-                }}
+                className="full-height flex-center"
+                key={key}
+                gap={4}
+                sx={{ flexDirection: { xs: "column", sm: "row" } }}
               >
-                <StatusChip order={order} />
-                <BodyText>N° de commande: {order.id}</BodyText>
-                <BodyText>
-                  Date:{" "}
-                  {convertToShortString(
-                    getLocaleDateTime(order.created_at, user.timezone)
-                  )}
-                </BodyText>
-                <BodyText>{order.total_price / 100}€</BodyText>
-              </Stack>
-              <Stack className="full-height">
-                <PillButton
-                  onClick={() => router.push(`/account/orders/${order.id}`)}
+                <Stack
+                  sx={{
+                    flexGrow: 1,
+                    border: (theme) =>
+                      `1px solid ${theme.palette.secondary.main}`,
+                    borderRadius: "30px",
+                    padding: 2,
+                  }}
                 >
-                  + d'infos
-                </PillButton>
+                  <StatusChip order={order} />
+                  <BodyText>N° de commande: {order.id}</BodyText>
+                  <BodyText>
+                    Date:{" "}
+                    {convertToShortString(
+                      getLocaleDateTime(order.created_at, user.timezone)
+                    )}
+                  </BodyText>
+                  <BodyText>{order.total_price / 100}€</BodyText>
+                </Stack>
+                <Stack className="full-height">
+                  <PillButton
+                    onClick={() => router.push(`/account/orders/${order.id}`)}
+                  >
+                    + d'infos
+                  </PillButton>
+                </Stack>
               </Stack>
-            </Stack>
-          ))}
+            ))}
+        </Stack>
       </Stack>
     </AccountPagesLayout>
   )
