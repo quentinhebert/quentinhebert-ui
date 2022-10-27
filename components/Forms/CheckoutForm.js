@@ -2,8 +2,9 @@ import { Stack } from "@mui/material"
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { defaultConfig } from "../../config/defaultConfig"
 import apiCall from "../../services/apiCalls/apiCall"
+import { formatPaymentErrors } from "../../services/stripe-utils"
+import AlertInfo from "../Other/alert-info"
 import PillButton from "../ReusableComponents/buttons/pill-button"
 import CustomCard from "../ReusableComponents/cards/custom-card"
 import CustomForm from "../ReusableComponents/forms/custom-form"
@@ -18,6 +19,15 @@ export default function CheckoutForm({ orderId, clientSecret }) {
 
   const [order, setOrder] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [processing, setProcessing] = useState(false)
+
+  const initalAlert = {
+    show: false,
+    severity: "error",
+    title: "",
+    text: "",
+  }
+  const [showAlert, setShowAlert] = useState(initalAlert)
 
   const fetchOrder = async () => {
     if (orderId) {
@@ -37,31 +47,33 @@ export default function CheckoutForm({ orderId, clientSecret }) {
   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here, which would refresh the page.
     event.preventDefault()
-
     if (!stripe || !elements) return
 
+    // Hide the previous alert if is was displayed
+    setShowAlert(initalAlert)
+
+    setProcessing(true)
     const result = await stripe.confirmPayment({
       elements,
       redirect: "if_required",
-      //   confirmParams: {
-      //     return_url: `${defaultConfig.webclientUrl}/account/orders/${orderId}/checkout/success`,
-      //   },
     })
-
-    if (result.paymentIntent.status === "succeeded")
-      return router.push(`/account/orders/${orderId}/checkout/success`)
-
-    if (result.paymentIntent.status === "processing")
-      return router.push(`/account/orders/${orderId}/checkout/processing`)
+    setProcessing(false)
 
     if (result.error) {
-      // Show error to your customer (for example, payment details incomplete)
-      console.log(result.error.message)
-      alert("Problème !!! Checke la console")
+      const formattedError = formatPaymentErrors(result.error)
+      setShowAlert({
+        ...showAlert,
+        show: true,
+        title: formattedError.title,
+        text: formattedError.message,
+      })
+      return
     } else {
-      // Your customer will be redirected to your `return_url`. For some payment
-      // methods like iDEAL, your customer will be redirected to an intermediate
-      // site first to authorize the payment, then redirected to the `return_url`.
+      if (result.paymentIntent.status === "succeeded")
+        return router.push(`/account/orders/${orderId}/checkout/success`)
+
+      if (result.paymentIntent.status === "processing")
+        return router.push(`/account/orders/${orderId}/checkout/processing`)
     }
   }
 
@@ -85,6 +97,11 @@ export default function CheckoutForm({ orderId, clientSecret }) {
           <CustomCard>
             <CustomForm onSubmit={handleSubmit}>
               <MediumTitle>Payer {order.total_price / 100}€</MediumTitle>
+              {showAlert.show && (
+                <Stack textAlign="left" maxWidth="300px" width="100%">
+                  <AlertInfo content={showAlert} />
+                </Stack>
+              )}
               <PaymentElement id="payment-element" />
               <Stack className="row gap-10" marginTop={2}>
                 <PillButton
@@ -98,8 +115,8 @@ export default function CheckoutForm({ orderId, clientSecret }) {
                 >
                   Annuler
                 </PillButton>
-                <PillButton type="submit" disabled={!stripe}>
-                  Payer
+                <PillButton type="submit" disabled={!stripe || processing}>
+                  {processing ? "Patientez" : "Payer"}
                 </PillButton>
               </Stack>
             </CustomForm>

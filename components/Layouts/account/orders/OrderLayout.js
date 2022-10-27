@@ -12,6 +12,8 @@ import RefreshButton from "../../../ReusableComponents/buttons/refresh-button"
 import { ORDERSTATES } from "../../../../enums/orderStates"
 import Pill from "../../../ReusableComponents/text/pill"
 
+const allowedStatesForPaying = ["WAITING_FOR_PAYMENT", "PAYMENT_FAILED"]
+
 const TotalPrice = ({ totalPrice }) => (
   <BodyText display="inline-flex">
     Prix TTC :<div style={{ marginLeft: ".5rem" }}>{totalPrice / 100}€</div>
@@ -130,7 +132,7 @@ export default function OrderInformationLayout({ orderId }) {
             <Stack width="100%" alignItems="end">
               <Stack direction="row" alignItems="center" gap={5}>
                 <TotalPrice totalPrice={order.total_price} />
-                {order.state === "WAITING_FOR_PAYMENT" && (
+                {allowedStatesForPaying.includes(order.state) && (
                   <PillButton
                     startIcon={<ShoppingCartIcon />}
                     onClick={() =>

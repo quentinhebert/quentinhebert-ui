@@ -1,4 +1,4 @@
-import { Stack, Step, StepButton, Stepper } from "@mui/material"
+import { Stack } from "@mui/material"
 import { useEffect, useState } from "react"
 import apiCall from "../../../../services/apiCalls/apiCall"
 import PleaseWait from "../../../ReusableComponents/helpers/please-wait"
@@ -63,17 +63,6 @@ export default function CheckoutFormLayout({ orderId }) {
   }, [])
 
   const router = useRouter()
-
-  // HANDLERS
-  const handleRedirectCheckout = async () => {
-    const res = await apiCall.orders.getCheckoutClientSecret(order)
-    if (res && res.ok) {
-      const jsonRes = await res.json()
-      router.push(
-        `/account/orders/${order.id}/checkout/${jsonRes.client_secret}`
-      )
-    }
-  }
 
   if (!order.id && !loading) return <Custom404Layout />
 
