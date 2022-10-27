@@ -27,7 +27,7 @@ export default function PaymentPage() {
     theme: "night",
     variables: {
       fontFamily: "Helmet",
-      fontWeightNormal: "500",
+      fontWeightNormal: "400",
       borderRadius: "20px",
       colorPrimary: theme.palette.secondary.main,
       colorPrimaryText: "#1A1B25",
@@ -48,6 +48,13 @@ export default function PaymentPage() {
   const options = {
     clientSecret,
     appearance,
+    fonts: [
+      {
+        family: "Helmet",
+        src: "url(https://fonts.cdnfonts.com/s/18191/Helmet-Regular.woff)",
+        weight: "400",
+      },
+    ],
   }
 
   return (
