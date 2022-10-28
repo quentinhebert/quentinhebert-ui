@@ -46,7 +46,7 @@ function SelectAddress({
     city: "",
     region: "",
     country: "FRANCE",
-    details: "FRANCE",
+    details: "",
   }
   const [address, setAddress] = useState(initialAddress)
   const [certificate, setCertificate] = useState(false)
@@ -72,7 +72,10 @@ function SelectAddress({
           const defaultIndex = localAddresses.findIndex(
             (addr) => addr.id === defaultId
           )
-          setAddress(jsonRes[defaultIndex])
+          setAddress({
+            ...jsonRes[defaultIndex],
+            postalCode: jsonRes[defaultIndex].postal_code,
+          })
           setActiveAddressIndex(defaultIndex)
         } else if (!activeAddressIndex) {
           setActiveAddressIndex(0)

@@ -11,7 +11,7 @@ import CustomForm from "../ReusableComponents/forms/custom-form"
 import PleaseWait from "../ReusableComponents/helpers/please-wait"
 import MediumTitle from "../ReusableComponents/titles/medium-title"
 
-export default function CheckoutForm({ orderId, clientSecret }) {
+export default function StripeCheckoutForm({ orderId, clientSecret }) {
   const stripe = useStripe()
   const elements = useElements()
 

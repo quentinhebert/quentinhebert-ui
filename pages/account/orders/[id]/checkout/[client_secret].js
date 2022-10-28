@@ -1,7 +1,7 @@
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
 import { useRouter } from "next/router"
-import CheckoutForm from "../../../../../components/Forms/CheckoutForm"
+import StripeCheckoutForm from "../../../../../components/Forms/StripeCheckoutForm"
 import PagesLayout from "../../../../../components/Layouts/PagesLayout"
 import theme from "../../../../../config/theme"
 
@@ -60,7 +60,7 @@ export default function PaymentPage() {
   return (
     <PagesLayout head={head}>
       <Elements stripe={stripePromise} options={options}>
-        <CheckoutForm orderId={orderId} clientSecret={clientSecret} />
+        <StripeCheckoutForm orderId={orderId} clientSecret={clientSecret} />
       </Elements>
     </PagesLayout>
   )

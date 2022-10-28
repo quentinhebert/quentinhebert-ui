@@ -61,7 +61,7 @@ const clients = {
           city: address.city,
           region: address.region,
           country: address.country,
-          details: address.details,
+          details: address.details || "",
         }
         return await fetch(
           `${defaultConfig.apiUrl}/clients/${client.id}/addresses/${address.id}`,

@@ -4,7 +4,6 @@ import apiCall from "../../../../services/apiCalls/apiCall"
 import PleaseWait from "../../../ReusableComponents/helpers/please-wait"
 import AccountPagesLayout from "../../AccountPagesLayout"
 import Custom404Layout from "../../error/Custom404Layout"
-import { useRouter } from "next/router"
 import CustomStepper from "../../../ReusableComponents/navigation/custom-stepper"
 import AlertInfo from "../../../Other/alert-info"
 import SelectAddress from "./CheckoutFormSteps/SelectAddress"
@@ -17,7 +16,7 @@ const steps = [
   "Moyen de paiement",
 ]
 
-export default function CheckoutFormLayout({ orderId }) {
+export default function BeforeCheckoutStepsLayout({ orderId }) {
   const initialOrder = {
     id: null,
     created_at: null,
@@ -61,8 +60,6 @@ export default function CheckoutFormLayout({ orderId }) {
   useEffect(() => {
     fetchOrder()
   }, [])
-
-  const router = useRouter()
 
   if (!order.id && !loading) return <Custom404Layout />
 
@@ -115,7 +112,13 @@ export default function CheckoutFormLayout({ orderId }) {
             />
           </>
         )}
-        {activeStep === 2 && <SelectPaymentMethod orderId={orderId} />}
+        {activeStep === 2 && (
+          <SelectPaymentMethod
+            orderId={orderId}
+            invoiceAddress={invoiceAddress}
+            deliveryAddress={deliveryAddress}
+          />
+        )}
       </Stack>
     </AccountPagesLayout>
   )

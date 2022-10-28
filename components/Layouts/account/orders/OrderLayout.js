@@ -11,6 +11,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import RefreshButton from "../../../ReusableComponents/buttons/refresh-button"
 import { ORDERSTATES } from "../../../../enums/orderStates"
 import Pill from "../../../ReusableComponents/text/pill"
+import ReceiptIcon from "@mui/icons-material/Receipt"
 
 const allowedStatesForPaying = ["WAITING_FOR_PAYMENT", "PAYMENT_FAILED"]
 
@@ -103,6 +104,16 @@ export default function OrderInformationLayout({ orderId }) {
           </Stack>
 
           <Stack gap={2}>
+            {order.invoice && (
+              <Box
+                component="a"
+                href={order.invoice}
+                download="facture.pdf"
+                target="_blank"
+              >
+                <PillButton startIcon={<ReceiptIcon />}>Facture</PillButton>
+              </Box>
+            )}
             <BodyText>Récapitulatif :</BodyText>
             <Box
               component="table"
@@ -136,7 +147,9 @@ export default function OrderInformationLayout({ orderId }) {
                   <PillButton
                     startIcon={<ShoppingCartIcon />}
                     onClick={() =>
-                      router.push(`/account/orders/${orderId}/checkout/form`)
+                      router.push(
+                        `/account/orders/${orderId}/checkout/before-checkout-steps`
+                      )
                     }
                   >
                     Finaliser la commande

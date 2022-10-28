@@ -5,12 +5,20 @@ import { useRouter } from "next/router"
 import PillButton from "../../../../ReusableComponents/buttons/pill-button"
 import PageTitle from "../../../../ReusableComponents/titles/page-title"
 
-export default function SelectPaymentMethod({ orderId }) {
+export default function SelectPaymentMethod({
+  orderId,
+  invoiceAddress,
+  deliveryAddress,
+}) {
   const router = useRouter()
 
   // HANDLERS
   const handleRedirectCheckout = async () => {
-    const res = await apiCall.orders.getCheckoutClientSecret({ id: orderId })
+    const res = await apiCall.orders.getCheckoutClientSecret({
+      order: { id: orderId },
+      invoiceAddress,
+      deliveryAddress,
+    })
     if (res && res.ok) {
       const jsonRes = await res.json()
       router.push(
