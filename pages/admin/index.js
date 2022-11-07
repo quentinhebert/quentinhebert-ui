@@ -3,9 +3,9 @@ import { USERTYPES } from "../../enums/userTypes"
 import { UserContext } from "../../contexts/UserContext"
 import AdminIndex from "../../components/Layouts/admin/AdminIndex"
 import LoginLayout from "../../components/Layouts/LoginLayout"
-import { useRouter } from "next/router"
 import prepareProps from "../../services/public-fetchers"
 import PagesLayout from "../../components/Layouts/PagesLayout"
+import Redirect from "../../components/ReusableComponents/helpers/redirect"
 
 const head = {
   // Main meta tags
@@ -22,8 +22,8 @@ export default function AdminLoginPage({ footer }) {
   const { user } = useContext(UserContext)
 
   // If user is logged in but not as an admin, the user is redirected to his/her account page
-  const router = useRouter()
-  if (!!user && user.type !== USERTYPES.ADMIN) router.push("/account")
+  if (!!user && user.type !== USERTYPES.ADMIN)
+    return <Redirect target="/account" />
 
   return (
     <PagesLayout head={head}>
