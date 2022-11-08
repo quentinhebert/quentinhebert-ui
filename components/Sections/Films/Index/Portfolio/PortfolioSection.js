@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react"
 import { Stack, Typography, useMediaQuery } from "@mui/material"
 import AnimateHeight from "react-animate-height"
-import PortfolioImageList from "./PortfolioImageList"
-import styles from "../../../styles/TextShine.module.css"
+import VideoList from "./VideoList"
+import styles from "../../../../../styles/TextShine.module.css"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import CenteredMaxWidthStack from "../../Containers/centered-max-width-container"
-import BodyText from "../../Text/body-text"
+import CenteredMaxWidthStack from "../../../../Containers/centered-max-width-container"
+import BodyText from "../../../../Text/body-text"
 
-export default function FilmsPortfolioPart(props) {
+export default function PortfolioSection(props) {
   const { refForScroll } = props
   const [height, setHeight] = useState(0)
 
@@ -107,7 +107,7 @@ export default function FilmsPortfolioPart(props) {
           </Stack>
 
           <AnimateHeight duration={500} height={height}>
-            <PortfolioImageList setHeight={setHeight} height={height} />
+            <VideoList setHeight={setHeight} height={height} />
           </AnimateHeight>
         </CenteredMaxWidthStack>
       </Stack>

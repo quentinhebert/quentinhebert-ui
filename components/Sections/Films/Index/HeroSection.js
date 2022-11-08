@@ -1,5 +1,5 @@
 import { Stack, Typography, useMediaQuery } from "@mui/material"
-import BouncingArrow from "../../Navigation/BouncingArrow"
+import BouncingArrow from "../../../Navigation/BouncingArrow"
 import PlayCircleFilledWhiteOutlinedIcon from "@mui/icons-material/PlayCircleFilledWhiteOutlined"
 import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline"
 import { motion } from "framer-motion"
@@ -7,9 +7,9 @@ import ReactPlayer from "react-player"
 import VolumeUpIcon from "@mui/icons-material/VolumeUp"
 import VolumeOffIcon from "@mui/icons-material/VolumeOff"
 import { useEffect, useState } from "react"
-import BodyText from "../../Text/body-text"
-import PillButton from "../../Buttons/pill-button"
-import ScaleUpOnHoverStack from "../../Animation/scale-up-on-hover-stack"
+import BodyText from "../../../Text/body-text"
+import PillButton from "../../../Buttons/pill-button"
+import ScaleUpOnHoverStack from "../../../Animation/scale-up-on-hover-stack"
 
 const Title = (props) => (
   <Typography
@@ -28,7 +28,7 @@ const Title = (props) => (
 
 const motionDivStyle = { display: "flex" }
 
-export default function FilmsIndexHero(props) {
+export default function HeroSection(props) {
   const { refForScroll } = props
 
   const scrollTo = (ref) => {

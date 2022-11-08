@@ -1,6 +1,18 @@
 import { Box } from "@mui/material"
 
-export default function ({ url }) {
+export default function ({ url, background }) {
+  if (background)
+    return (
+      <Box
+        className="full-width fixed"
+        height="100%"
+        zIndex={0}
+        sx={{
+          background: background,
+          backgroundSize: "cover",
+        }}
+      />
+    )
   return (
     <Box
       className="full-width fixed"

@@ -1,4 +1,4 @@
-import FilmsIndexLayout from "../../components/Layouts/films/FilmsIndexLayout"
+import FilmsIndex_Main from "../../components/Main/FilmsIndex_Main"
 import prepareProps from "../../services/public-fetchers"
 import { FilmsHomePageContext } from "../../contexts/PagesContexts"
 import PagesLayout from "../../components/Layouts/PagesLayout"
@@ -21,7 +21,7 @@ export default function FilmsHomePage({ navbar, footer, films }) {
   return (
     <FilmsHomePageContext.Provider value={{ staticData: { films } }}>
       <PagesLayout head={head} navbarData={navbar} footerData={footer}>
-        <FilmsIndexLayout />
+        <FilmsIndex_Main />
       </PagesLayout>
     </FilmsHomePageContext.Provider>
   )

@@ -1,10 +1,10 @@
 import React, { useRef } from "react"
 import { Stack } from "@mui/material"
-import ScrollToTopBtn from "../../Navigation/scroll-to-top"
-import FilmsIndexHero from "./FilmsIndexHero"
-import FilmsFocusPart from "./FilmsFocusPart"
-import FilmsPortfolioPart from "./FilmsPortfolioPart"
-import ContactSection from "../../Sections/contact-section"
+import ScrollToTopBtn from "../Navigation/scroll-to-top"
+import HeroSection from "../Sections/Films/Index/HeroSection"
+import PortfolioSection from "../Sections/Films/Index/Portfolio/PortfolioSection"
+import FocusSection from "../Sections/Films/Index/FocusSection"
+import ContactSection from "../Sections/ReusableSections/contact-section"
 
 export default function FilmsIndexLayout(props) {
   const {} = props
@@ -24,14 +24,14 @@ export default function FilmsIndexLayout(props) {
       {/* TOP Anchor */}
       <Stack ref={topRef} />
 
-      {/* HERO screen */}
-      <FilmsIndexHero refForScroll={refsForScroll.portfolio} />
+      {/* HERO */}
+      <HeroSection refForScroll={refsForScroll.portfolio} />
 
       {/* PORTFOLIO */}
-      <FilmsPortfolioPart refForScroll={refsForScroll.portfolio} />
+      <PortfolioSection refForScroll={refsForScroll.portfolio} />
 
       {/* INTRO */}
-      <FilmsFocusPart refsForScroll={refsForScroll} />
+      <FocusSection refsForScroll={refsForScroll} />
 
       {/* <FilmProjectSteps /> */}
 

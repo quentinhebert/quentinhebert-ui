@@ -1,12 +1,13 @@
 import React, { useRef } from "react"
 import { Stack } from "@mui/material"
 import ScrollToTopBtn from "../Navigation/scroll-to-top"
-import IndexHeroScreen from "../Sections/index-hero-screen"
-import ServicesSection from "../Sections/services-section"
-import WelcomeSection from "../Sections/welcome-section"
-import References from "./references/references"
+import HeroSection from "../Sections/Homepage/hero-section"
+import WelcomeSection from "../Sections/Homepage/welcome-section"
+import ServicesSection from "../Sections/Homepage/services-section"
+import ReferencesSection from "../Sections/Homepage/references-section"
+import FixedBackground from "../Backgrounds/fixed-background"
 
-export default function IndexLayout(props) {
+export default function Index_Main(props) {
   const {} = props
 
   const topRef = useRef()
@@ -27,25 +28,12 @@ export default function IndexLayout(props) {
       <Stack ref={topRef} />
 
       {/* Fixed Background for the page */}
-      <Stack
-        position="fixed"
-        width="100%"
-        height="100vh"
-        zIndex={0}
-        sx={{
-          background:
-            "linear-gradient(180deg, #000, rgb(0,0,0,0.5)), url(/medias/lines.jpg)",
-          backgroundPosition: "25% 50%",
-          backgroundSize: "cover",
-        }}
-      />
+      <FixedBackground background="linear-gradient(180deg, #000, rgb(0,0,0,0.5)), url(/medias/lines.jpg)" />
 
       {/* HERO */}
-      <IndexHeroScreen
-        scrollTo={scrollTo}
-        refForScroll={refsForScroll.welcome}
-      />
+      <HeroSection scrollTo={scrollTo} refForScroll={refsForScroll.welcome} />
 
+      {/* INTRODUCTION */}
       <WelcomeSection
         scrollTo={scrollTo}
         topRef={refsForScroll.welcome}
@@ -55,7 +43,8 @@ export default function IndexLayout(props) {
       {/* SERVICES */}
       <ServicesSection refForScroll={refsForScroll.services} />
 
-      <References />
+      {/* REFERENCES */}
+      <ReferencesSection />
 
       <ScrollToTopBtn refForScroll={topRef} />
     </Stack>

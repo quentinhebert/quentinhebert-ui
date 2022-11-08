@@ -1,11 +1,11 @@
 import * as React from "react"
 import { Box, Slide, Stack, Typography } from "@mui/material"
-import theme from "../../config/theme"
-import BouncingArrow from "../Navigation/BouncingArrow"
+import theme from "../../../config/theme"
+import BouncingArrow from "../../Navigation/BouncingArrow"
 import { motion } from "framer-motion"
-import styles from "../../styles/NeonFlickerText.module.css"
+import styles from "../../../styles/NeonFlickerText.module.css"
 
-export default function IndexHeadBandVideo(props) {
+export default function HeroSection(props) {
   const { scrollTo, refForScroll } = props
 
   return (

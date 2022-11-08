@@ -1,8 +1,8 @@
-import { Stack, Typography, useMediaQuery } from "@mui/material"
+import { Stack, useMediaQuery } from "@mui/material"
 import theme from "../../../config/theme"
 import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
-import AutoPlayCarousel from "./AutoPlayCarousel"
+import AutoPlayCarousel from "../../Carousels/AutoPlayCarousel"
 import styles from "../../../styles/TextShine.module.css"
 import MediumTitle from "../../Titles/medium-title"
 
@@ -12,7 +12,7 @@ async function fetchUpToDateReferences() {
   return jsonRes
 }
 
-export default function References(props) {
+export default function ReferencesSection(props) {
   const { data } = useSWR(`references`, async () => fetchUpToDateReferences(), {
     fallbackData: props,
     revalidateOnMount: true,

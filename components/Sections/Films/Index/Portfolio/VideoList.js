@@ -8,16 +8,16 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material"
-import VideoPlayer from "../../Modals/video-player"
+import VideoPlayer from "../../../../Modals/video-player"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline"
 import useSWR from "swr"
-import { fetchers } from "../../../services/public-fetchers"
-import { FilmsHomePageContext } from "../../../contexts/PagesContexts"
-import PillButton from "../../Buttons/pill-button"
-import Pill from "../../Text/pill"
+import { fetchers } from "../../../../../services/public-fetchers"
+import { FilmsHomePageContext } from "../../../../../contexts/PagesContexts"
+import PillButton from "../../../../Buttons/pill-button"
+import Pill from "../../../../Text/pill"
 
 const CATEGORIES = [
   "Tout",
@@ -468,7 +468,7 @@ const FilterSection = ({ handleFilter }) => {
   )
 }
 
-export default function MasonryImageList({ height, setHeight, ...props }) {
+export default function VideoList({ height, setHeight, ...props }) {
   const {} = props
 
   /********* StaticProps cached at build time **********/

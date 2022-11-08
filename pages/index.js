@@ -1,4 +1,4 @@
-import IndexLayout from "../components/Layouts/IndexLayout"
+import Index_Main from "../components/Main/Index_Main"
 import prepareProps from "../services/public-fetchers"
 import { HomePageContext } from "../contexts/PagesContexts"
 import PagesLayout from "../components/Layouts/PagesLayout"
@@ -22,7 +22,7 @@ export default function HomePage(props) {
   return (
     <HomePageContext.Provider value={{ staticData: { services } }}>
       <PagesLayout head={head} navbarData={navbar} footerData={footer}>
-        <IndexLayout />
+        <Index_Main />
       </PagesLayout>
     </HomePageContext.Provider>
   )

@@ -2,11 +2,11 @@ import { Stack } from "@mui/material"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { useEffect } from "react"
-import BodyText from "../Text/body-text"
-import styles from "../../styles/TextShine.module.css"
-import MediumTitle from "../Titles/medium-title"
-import CenteredLandingButton from "../Buttons/centered-landing-button"
-import CenteredMaxWidthContainer from "../Containers/centered-max-width-container"
+import BodyText from "../../Text/body-text"
+import styles from "../../../styles/TextShine.module.css"
+import MediumTitle from "../../Titles/medium-title"
+import CenteredLandingButton from "../../Buttons/centered-landing-button"
+import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 
 export default function WelcomeSection(props) {
   const { scrollTo, topRef, refForScroll } = props
