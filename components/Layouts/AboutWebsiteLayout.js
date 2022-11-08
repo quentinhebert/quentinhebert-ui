@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material"
-import BicolorTitle from "../ReusableComponents/titles/bicolor-title"
 import ImgTextBand from "../Sections/img-text-band-about-website"
 import styles from "../../styles/TextShine.module.css"
+import BicolorTitle from "../Titles/bicolor-title"
 
 export default function AboutWebsiteLayout() {
   return (

@@ -3,20 +3,20 @@ import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { ModalTitle } from "../Modal-Components/modal-title"
 import withConfirmAction from "../../hocs/withConfirmAction"
-import CustomModal from "../../ReusableComponents/modals/custom-modal"
-import CustomForm from "../../ReusableComponents/forms/custom-form"
-import TextArea from "../../ReusableComponents/forms/custom-outlined-text-area"
-import CustomOutlinedInput from "../../ReusableComponents/forms/custom-outlined-input"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
-import CustomOutlinedSelect from "../../ReusableComponents/forms/custom-outlined-select"
-import SelectOption from "../../ReusableComponents/forms/custom-select-option"
-import DualInputLine from "../../ReusableComponents/forms/responsive-dual-input-container"
-import CustomCheckbox from "../../ReusableComponents/forms/custom-checkbox"
-import CustomAccordion from "../../ReusableComponents/containers/custom-accordion"
-import DropzoneShowImage from "../../ReusableComponents/images/drop-zone-show-image"
+import CustomModal from "../../Modals/custom-modal"
+import CustomForm from "../../Forms/custom-form"
+import TextArea from "../../Inputs/custom-outlined-text-area"
+import CustomOutlinedInput from "../../Inputs/custom-outlined-input"
+import CustomOutlinedSelect from "../../Inputs/custom-outlined-select"
+import SelectOption from "../../Inputs/custom-select-option"
+import DualInputLine from "../../Containers/dual-input-line"
+import CustomCheckbox from "../../Inputs/custom-checkbox"
+import CustomAccordion from "../../Containers/custom-accordion"
+import DropzoneShowImage from "../../Images/drop-zone-show-image"
 import compressImage from "../../../services/images"
-import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
 import { AppContext } from "../../../contexts/AppContext"
+import CustomCircularProgress from "../../Helpers/custom-circular-progress"
+import RectangleButton from "../../Buttons/rectangle-button"
 
 const currentYear = new Date().getFullYear()
 
@@ -319,14 +319,14 @@ function EditFilmModal(props) {
         </Stack>
 
         <Stack flexDirection="row" gap={2} justifyContent="end" width="100%">
-          <CustomSubmitButton onClick={handleClose}>Annuler</CustomSubmitButton>
-          <CustomSubmitButton
+          <RectangleButton onClick={handleClose}>Annuler</RectangleButton>
+          <RectangleButton
             secondary="true"
             onClick={handleUpdate}
             disabled={isLoading}
           >
             {isLoading ? <CustomCircularProgress /> : "Enregistrer"}
-          </CustomSubmitButton>
+          </RectangleButton>
         </Stack>
       </CustomForm>
     </CustomModal>

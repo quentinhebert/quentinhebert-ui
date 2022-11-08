@@ -3,10 +3,8 @@ import { useContext, useEffect, useState } from "react"
 import { AppContext } from "../../../contexts/AppContext"
 import apiCall from "../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../hocs/withConfirmAction"
-import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
-import BodyText from "../../ReusableComponents/text/body-text"
-import PageTitle from "../../ReusableComponents/titles/page-title"
 import CustomTable from "../../Sections/custom-table"
+import BodyText from "../../text/body-text"
 import AdminPagesLayout from "../AdminPagesLayout"
 
 // Function to round param at closest decimal

@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/material"
 import { useCallback } from "react"
 import { useDropzone } from "react-dropzone"
-import BodyText from "../text/body-text"
+import BodyText from "../Text/body-text"
 import FileUploadIcon from "@mui/icons-material/FileUpload"
 
 export default function DropzoneShowImage({

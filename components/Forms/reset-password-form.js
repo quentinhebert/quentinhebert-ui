@@ -1,21 +1,19 @@
 import { useState, useEffect, useContext } from "react"
 import { Stack } from "@mui/material"
 import apiCall from "../../services/apiCalls/apiCall"
-import CustomForm from "../ReusableComponents/forms/custom-form"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
 import { motion } from "framer-motion"
 import AlertInfo from "../../components/Other/alert-info"
 import { checkPassword } from "../../services/utils"
-import PleaseWait from "../ReusableComponents/helpers/please-wait"
 import dynamic from "next/dynamic"
-import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
-import CustomOutlinedInput from "../ReusableComponents/forms/custom-outlined-input"
 import { useRouter } from "next/router"
 import { AppContext } from "../../contexts/AppContext"
+import PleaseWait from "../Helpers/please-wait"
+import CustomForm from "./custom-form"
+import RectangleButton from "../Buttons/rectangle-button"
+import CustomOutlinedInput from "../Inputs/custom-outlined-input"
 
-const Custom401Layout = dynamic(() =>
-  import("../Layouts/error/Custom401Layout")
-)
+const Custom401_Main = dynamic(() => import("../Main/Errors/Custom401_Main.js"))
 
 const AnimationRoot = (props) => (
   <motion.div
@@ -123,7 +121,7 @@ export default function ResetPasswordForm(props) {
   }, [token])
 
   if (isFetching) return <PleaseWait />
-  if (!userId && !isFetching) return <Custom401Layout />
+  if (!userId && !isFetching) return <Custom401_Main />
 
   /********** RENDER **********/
   return (
@@ -171,14 +169,14 @@ export default function ResetPasswordForm(props) {
 
               <Stack alignItems="end" width="100%">
                 <Stack flexDirection="row" gap={2}>
-                  <CustomSubmitButton href="/">Annuler</CustomSubmitButton>
-                  <CustomSubmitButton
+                  <RectangleButton href="/">Annuler</RectangleButton>
+                  <RectangleButton
                     secondary="true"
                     onClick={resetPassword}
                     disabled={mainButtonDisabled}
                   >
                     Enregistrer
-                  </CustomSubmitButton>
+                  </RectangleButton>
                 </Stack>
               </Stack>
             </>

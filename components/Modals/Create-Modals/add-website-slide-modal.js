@@ -3,24 +3,23 @@ import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { ModalTitle } from "../Modal-Components/modal-title"
 import withConfirmAction from "../../hocs/withConfirmAction"
-import CustomModal from "../../ReusableComponents/modals/custom-modal"
-import CustomForm from "../../ReusableComponents/forms/custom-form"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
-import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
 import { AppContext } from "../../../contexts/AppContext"
 import dynamic from "next/dynamic"
-import SmallTitle from "../../ReusableComponents/titles/small-title"
 import ModeEditIcon from "@mui/icons-material/ModeEdit"
 import {
   formatDescription,
   formatTitle,
   ParseJsx,
 } from "../../Layouts/websites/WebsiteWhyADev--style"
+import CustomModal from "../custom-modal"
+import CustomForm from "../../Forms/custom-form"
+import RectangleButton from "../../Buttons/rectangle-button"
+import SmallTitle from "../../Titles/small-title"
+import CustomCircularProgress from "../../Helpers/custom-circular-progress"
 
-const TextEditor = dynamic(
-  () => import("../../ReusableComponents/text-editor/text-editor"),
-  { ssr: false }
-)
+const TextEditor = dynamic(() => import("../../TextEditor/text-editor"), {
+  ssr: false,
+})
 
 const SectionTitle = (props) => (
   <Stack width="100%" alignItems="center">
@@ -144,12 +143,10 @@ function AddWebsiteSlideModal(props) {
         </Stack>
 
         <Stack flexDirection="row" gap={2} justifyContent="end" width="100%">
-          <CustomSubmitButton onClick={handleCancel}>
-            Annuler
-          </CustomSubmitButton>
-          <CustomSubmitButton secondary="true" onClick={handleCreate}>
+          <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
+          <RectangleButton secondary="true" onClick={handleCreate}>
             {isLoading ? <CustomCircularProgress /> : "Enregistrer"}
-          </CustomSubmitButton>
+          </RectangleButton>
         </Stack>
       </CustomForm>
     </CustomModal>

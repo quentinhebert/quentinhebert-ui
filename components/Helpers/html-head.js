@@ -1,6 +1,6 @@
 import Head from "next/head"
 import { useRouter } from "next/router"
-import { defaultConfig } from "../../../config/defaultConfig"
+import { defaultConfig } from "../../config/defaultConfig"
 
 export default function HtmlHead({
   title,

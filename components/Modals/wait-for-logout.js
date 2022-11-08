@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material"
-import CustomCircularProgress from "../ReusableComponents/custom-circular-progress"
-import CustomModal from "../ReusableComponents/modals/custom-modal"
-import BodyText from "../ReusableComponents/text/body-text"
+import CustomCircularProgress from "../Helpers/custom-circular-progress"
+import BodyText from "../Text/body-text"
+import CustomModal from "./custom-modal"
 
 export default function WaitForLogout(props) {
   const { open } = props

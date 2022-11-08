@@ -1,10 +1,10 @@
 import { Stack } from "@mui/material"
-import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
 import { Icon } from "react-icons-kit"
 import { browser } from "react-icons-kit/ikons/browser"
 import { slideshow } from "react-icons-kit/ikons/slideshow"
-import FixedBackground from "../../ReusableComponents/backgrounds/fixed-background"
 import AdminPagesLayout from "../AdminPagesLayout"
+import FixedBackground from "../../Backgrounds/fixed-background"
+import OneActionCardsGrid from "../../Cards/one-action-cards-grid"
 
 const CARDS = [
   {

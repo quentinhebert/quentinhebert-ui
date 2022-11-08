@@ -3,11 +3,11 @@ import { useState, useEffect } from "react"
 import apiCall from "../../services/apiCalls/apiCall"
 import AlertInfo from "../Other/alert-info"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
-import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
-import CustomForm from "../ReusableComponents/forms/custom-form"
-import CustomFilledInput from "../ReusableComponents/forms/custom-filled-input"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import RectangleButton from "../Buttons/rectangle-button"
+import CustomForm from "./custom-form"
+import CustomFilledInput from "../Inputs/custom-filled-input"
 
 export default function PasswordForgottenForm(props) {
   /********** PROPS **********/
@@ -115,16 +115,14 @@ export default function PasswordForgottenForm(props) {
             style={{ width: "100%", display: "flex", justifyContent: "end" }}
           >
             <Stack flexDirection="row" gap={2}>
-              <CustomSubmitButton onClick={handleCancel}>
-                Annuler
-              </CustomSubmitButton>
-              <CustomSubmitButton
+              <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
+              <RectangleButton
                 secondary="true"
                 onClick={handleSendPasswordForgotten}
                 disabled={!emailInput || emailInput.trim() === ""}
               >
                 Envoyer
-              </CustomSubmitButton>
+              </RectangleButton>
             </Stack>
           </motion.div>
         </CustomForm>

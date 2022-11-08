@@ -1,8 +1,8 @@
-import PageRoot from "../ReusableComponents/page-builder/page-root"
+import PageRoot from "../Containers/page-root"
 import Footer from "../Navigation/Footers/Footer"
-import HtmlHead from "../ReusableComponents/page-builder/html-head"
 import { motion } from "framer-motion"
 import Navbar from "../Navigation/Navbars/navbar"
+import HtmlHead from "../Helpers/html-head"
 
 export default function PagesLayout({
   children,
@@ -13,6 +13,7 @@ export default function PagesLayout({
   return (
     <>
       <Navbar staticData={navbarData} />
+
       <motion.div
         exit={{ opacity: 0 }}
         initial={{ opacity: 0 }}

@@ -1,6 +1,6 @@
 import JsxParser from "react-jsx-parser"
-import BodyText from "../text/body-text"
-import SmallTitle from "../../ReusableComponents/titles/small-title"
+import BodyText from "../Text/body-text"
+import SmallTitle from "../titles/small-title"
 import { Stack } from "@mui/material"
 
 export function formatToCustomComponentString(htmlString) {

@@ -1,11 +1,11 @@
 import * as React from "react"
 import Typography from "@mui/material/Typography"
 import Stack from "@mui/material/Stack"
-import adminTree from "../../Navigation/Admin/admin-tree"
+import adminTree from "../../../enums/breadcrumbs-trees/admin-tree"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { PANELTYPES } from "../../../enums/panelTypes"
-import accountTree from "../../Navigation/Account/account-tree"
+import accountTree from "../../../enums/breadcrumbs-trees/account-tree"
 
 export default function Breadcrumbs(props) {
   const { panel } = props

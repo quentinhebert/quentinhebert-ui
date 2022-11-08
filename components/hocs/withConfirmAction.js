@@ -1,9 +1,9 @@
 import { Stack } from "@mui/material"
 import React, { useState } from "react"
+import RectangleButton from "../Buttons/rectangle-button"
+import CustomModal from "../Modals/custom-modal"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
-import CustomModal from "../ReusableComponents/modals/custom-modal"
-import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
-import BodyText from "../ReusableComponents/text/body-text"
+import BodyText from "../text/body-text"
 
 function withConfirmAction(WrappedComponent) {
   function Enhancer(props) {
@@ -70,12 +70,10 @@ function withConfirmAction(WrappedComponent) {
 
           {/**** BOTTOM BUTTONS ****/}
           <Stack flexDirection="row" gap={2} justifyContent="end">
-            <CustomSubmitButton onClick={handleCancel}>
-              Annuler
-            </CustomSubmitButton>
-            <CustomSubmitButton secondary="true" onClick={handleNext}>
+            <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
+            <RectangleButton secondary="true" onClick={handleNext}>
               {nextButtonText}
-            </CustomSubmitButton>
+            </RectangleButton>
           </Stack>
         </CustomModal>
       </>

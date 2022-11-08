@@ -2,23 +2,23 @@ import { useState, useEffect, useContext } from "react"
 import { Stack, Typography } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AlertInfo from "../../Other/alert-info"
-import CustomForm from "../../ReusableComponents/forms/custom-form"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import { Reorder } from "framer-motion"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
-import CustomFilledInput from "../../ReusableComponents/forms/custom-filled-input"
-import SmallTitle from "../../ReusableComponents/titles/small-title"
-import InTextLink from "../../ReusableComponents/text/in-text-link"
-import SwitchButton from "../../ReusableComponents/buttons/switch-button"
-import CustomTooltip from "../../ReusableComponents/helpers/tooltip"
-import PleaseWait from "../../ReusableComponents/helpers/please-wait"
-import ReorderItem from "../../ReusableComponents/reorder/reorder-item"
-import MotionDivDownOnMount from "../../ReusableComponents/animations/motion-div-down-on-mount"
 import SortIcon from "@mui/icons-material/Sort"
-import CustomOutlinedButton from "../../ReusableComponents/buttons/custom-outlined-button"
-import SwipeableViewsReadyToUse from "../../ReusableComponents/containers/swipeable-view-ready-to-use"
 import useSWR from "swr"
 import { AppContext } from "../../../contexts/AppContext"
+import CustomForm from "../custom-form"
+import RectangleButton from "../../Buttons/rectangle-button"
+import CustomFilledInput from "../../Inputs/custom-filled-input"
+import SmallTitle from "../../Titles/small-title"
+import InTextLink from "../../Links/in-text-link"
+import SwitchButton from "../../Inputs/switch-button"
+import PleaseWait from "../../Helpers/please-wait"
+import ReorderItem from "../../Reorder/reorder-item"
+import MotionDivDownOnMount from "../../Animation/motion-div-down-on-mount"
+import CustomOutlinedButton from "../../Buttons/custom-outlined-button"
+import SwipeableViewsReadyToUse from "../../Containers/swipeable-views-ready-to-use"
+import CustomTooltip from "../../Helpers/custom-tooltip"
 
 const Caroussel = ({
   addressItems,
@@ -332,12 +332,10 @@ export default function AdminContactForm(props) {
           {sortDisabled && (
             // We hide that section if user is reordering the elements so the user has to apply or cancel sorting change
             <Stack flexDirection="row" gap={2} justifyContent="end">
-              <CustomSubmitButton onClick={handleCancel}>
-                Annuler
-              </CustomSubmitButton>
-              <CustomSubmitButton secondary="true" onClick={handleSaveContact}>
+              <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
+              <RectangleButton secondary="true" onClick={handleSaveContact}>
                 Enregistrer
-              </CustomSubmitButton>
+              </RectangleButton>
             </Stack>
           )}
         </MotionDivDownOnMount>

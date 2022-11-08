@@ -1,13 +1,13 @@
 import { useState, useContext, useEffect } from "react"
 import { Box, Stack } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
-import CustomForm from "../../ReusableComponents/forms/custom-form"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
 import useSWR from "swr"
 import { AppContext } from "../../../contexts/AppContext"
-import DropzoneShowImage from "../../ReusableComponents/images/drop-zone-show-image"
-import MotionDivFadeInOnMount from "../../ReusableComponents/animations/motion-div-fade-in-on-mount"
+import CustomForm from "../custom-form"
+import RectangleButton from "../../Buttons/rectangle-button"
+import MotionDivFadeInOnMount from "../../Animation/motion-div-fade-in-on-mount"
+import DropzoneShowImage from "../../Images/drop-zone-show-image"
 
 export default function AdminLogoForm(props) {
   /********** PROPS **********/
@@ -87,16 +87,14 @@ export default function AdminLogoForm(props) {
           </Stack>
 
           <Stack flexDirection="row" gap={2} justifyContent="end">
-            <CustomSubmitButton onClick={handleCancel}>
-              Annuler
-            </CustomSubmitButton>
-            <CustomSubmitButton
+            <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
+            <RectangleButton
               secondary="true"
               onClick={handleSaveLogo}
               disabled={!file?.size || loading}
             >
               {loading ? "Patientez..." : "Enregistrer"}
-            </CustomSubmitButton>
+            </RectangleButton>
           </Stack>
         </CustomForm>
       </Stack>

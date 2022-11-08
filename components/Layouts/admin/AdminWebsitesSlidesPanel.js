@@ -3,16 +3,14 @@ import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import CustomTable from "../../Sections/custom-table"
-import BodyText from "../../ReusableComponents/text/body-text"
 import AddWebsiteSlideModal from "../../Modals/Create-Modals/add-website-slide-modal"
-import CustomOutlinedButton from "../../ReusableComponents/buttons/custom-outlined-button"
 import SortIcon from "@mui/icons-material/Sort"
 import { AppContext } from "../../../contexts/AppContext"
-import PageTitle from "../../ReusableComponents/titles/page-title"
-import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
 import { removeHtmlTags } from "../../../services/utils"
 import SortWebsiteSlides from "../../Modals/sort-websites-slides"
 import AdminPagesLayout from "../AdminPagesLayout"
+import CustomOutlinedButton from "../../Buttons/custom-outlined-button"
+import BodyText from "../../Text/body-text"
 
 const headCells = [
   {

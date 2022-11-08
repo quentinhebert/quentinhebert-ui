@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import { Stack } from "@mui/material"
 import ResetPasswordForm from "../Forms/reset-password-form"
-import FixedBackground from "../ReusableComponents/backgrounds/fixed-background"
+import FixedBackground from "../Backgrounds/fixed-background"
 
 export default function ResetPassordLayout(props) {
   /********** PROPS **********/

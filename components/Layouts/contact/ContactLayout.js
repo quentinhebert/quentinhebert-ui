@@ -3,8 +3,8 @@ import LeftPartContact from "./LeftPartContact"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import ContactForm from "../../Forms/contact-form"
-import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
 import { useEffect } from "react"
+import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 
 export default function ContactLayout(props) {
   const { staticData } = props

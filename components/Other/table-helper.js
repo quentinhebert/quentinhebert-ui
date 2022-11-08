@@ -21,7 +21,7 @@ import { alpha } from "@mui/material/styles"
 import { visuallyHidden } from "@mui/utils"
 import CustomSearch from "./custom-search"
 import CustomSelect from "./custom-select"
-import OutlinedButton from "../ReusableComponents/buttons/outlined-button"
+import OutlinedButton from "../Buttons/outlined-button"
 
 export function EnhancedTableHead(props) {
   const {

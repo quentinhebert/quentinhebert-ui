@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react"
 import { Stack, Typography, useMediaQuery } from "@mui/material"
 import AnimateHeight from "react-animate-height"
 import PortfolioImageList from "./PortfolioImageList"
-import BodyText from "../../ReusableComponents/text/body-text"
-import CenteredMaxWidthStack from "../../ReusableComponents/containers/centered-max-width-container"
 import styles from "../../../styles/TextShine.module.css"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import CenteredMaxWidthStack from "../../Containers/centered-max-width-container"
+import BodyText from "../../Text/body-text"
 
 export default function FilmsPortfolioPart(props) {
   const { refForScroll } = props

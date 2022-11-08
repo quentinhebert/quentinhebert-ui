@@ -1,14 +1,14 @@
 import { Stack } from "@mui/material"
 import { useEffect, useState } from "react"
 import apiCall from "../../../../services/apiCalls/apiCall"
-import PleaseWait from "../../../ReusableComponents/helpers/please-wait"
 import AccountPagesLayout from "../../AccountPagesLayout"
 import Custom404Layout from "../../error/Custom404Layout"
-import CustomStepper from "../../../ReusableComponents/navigation/custom-stepper"
 import AlertInfo from "../../../Other/alert-info"
 import SelectAddress from "./CheckoutFormSteps/SelectAddress"
-import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/centered-max-width-container"
 import SelectPaymentMethod from "./CheckoutFormSteps/SelectPaymentMethod"
+import PleaseWait from "../../../Helpers/please-wait"
+import CustomStepper from "../../../Navigation/custom-stepper"
+import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
 
 const steps = [
   "Adresse de facturation",

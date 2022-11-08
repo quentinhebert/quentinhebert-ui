@@ -1,6 +1,6 @@
 import { Stack } from "@mui/material"
 import CustomCircularProgress from "../custom-circular-progress"
-import BodyText from "../text/body-text"
+import BodyText from "../Text/body-text"
 
 export default function PleaseWait() {
   return (

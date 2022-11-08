@@ -1,21 +1,19 @@
-import { Box, Stack } from "@mui/material"
+import { Stack } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../../services/apiCalls/apiCall"
-import PillButton from "../../../ReusableComponents/buttons/pill-button"
-import PleaseWait from "../../../ReusableComponents/helpers/please-wait"
-import BodyText from "../../../ReusableComponents/text/body-text"
 import AccountPagesLayout from "../../AccountPagesLayout"
-import Custom404Layout from "../../error/Custom404Layout"
-import PaymentIcon from "@mui/icons-material/Payment"
 import { useRouter } from "next/router"
 import { UserContext } from "../../../../contexts/UserContext"
 import {
   convertToShortString,
   getLocaleDateTime,
 } from "../../../../services/date-time"
-import Pill from "../../../ReusableComponents/text/pill"
 import { ORDERSTATES } from "../../../../enums/orderStates"
-import RefreshButton from "../../../ReusableComponents/buttons/refresh-button"
+import PillButton from "../../../Buttons/pill-button"
+import PleaseWait from "../../../Helpers/please-wait"
+import BodyText from "../../../text/body-text"
+import Pill from "../../../Text/pill"
+import RefreshButton from "../../../Buttons/refresh-button"
 
 const StatusChip = ({ order }) => (
   <Stack marginBottom={4}>

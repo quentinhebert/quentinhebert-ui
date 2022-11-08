@@ -1,11 +1,11 @@
 import { Box, Stack } from "@mui/material"
-import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import SupervisedUserCircleRoundedIcon from "@mui/icons-material/SupervisedUserCircleRounded"
 import DesktopMacOutlinedIcon from "@mui/icons-material/DesktopMacOutlined"
 import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined"
 import AdminPagesLayout from "../AdminPagesLayout"
-import FixedBackground from "../../ReusableComponents/backgrounds/fixed-background"
+import OneActionCardsGrid from "../../Cards/one-action-cards-grid"
+import FixedBackground from "../../Backgrounds/fixed-background"
 
 const CARDS = [
   {

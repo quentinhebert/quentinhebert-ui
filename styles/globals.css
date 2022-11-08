@@ -149,6 +149,9 @@ body {
 .right {
   right: 0
 }
+.flex-grow {
+  flex-grow: 1;
+}
 
 .no-select {
   -webkit-touch-callout: none; /* iOS Safari */

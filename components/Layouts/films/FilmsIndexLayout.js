@@ -5,8 +5,6 @@ import FilmsIndexHero from "./FilmsIndexHero"
 import FilmsFocusPart from "./FilmsFocusPart"
 import FilmsPortfolioPart from "./FilmsPortfolioPart"
 import ContactSection from "../../Sections/contact-section"
-import FilmProjectSteps from "./FilmProjectSteps"
-import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
 
 export default function FilmsIndexLayout(props) {
   const {} = props

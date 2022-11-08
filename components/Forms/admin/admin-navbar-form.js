@@ -1,25 +1,25 @@
 import { useState, useEffect, useContext } from "react"
 import { Stack, Typography } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
-import CustomForm from "../../ReusableComponents/forms/custom-form"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
-import CustomFilledInput from "../../ReusableComponents/forms/custom-filled-input"
-import DualInputLine from "../../ReusableComponents/forms/responsive-dual-input-container"
 import { Reorder } from "framer-motion"
-import SwitchButton from "../../ReusableComponents/buttons/switch-button"
 import theme from "../../../config/theme"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
-import PleaseWait from "../../ReusableComponents/helpers/please-wait"
 import AlertInfo from "../../Other/alert-info"
-import OutlinedButton from "../../ReusableComponents/buttons/outlined-button"
 import AddIcon from "@mui/icons-material/Add"
 import DeleteIcon from "@mui/icons-material/Delete"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import useSWR from "swr"
 import { AppContext } from "../../../contexts/AppContext"
+import CustomForm from "../custom-form"
+import RectangleButton from "../../Buttons/rectangle-button"
+import CustomFilledInput from "../../Inputs/custom-filled-input"
+import DualInputLine from "../../Containers/dual-input-line"
+import SwitchButton from "../../Inputs/switch-button"
+import PleaseWait from "../../Helpers/please-wait"
+import OutlinedButton from "../../Buttons/outlined-button"
 
 function AdminNavbarForm(props) {
   /********** PROPS **********/
@@ -337,12 +337,10 @@ function AdminNavbarForm(props) {
           style={{ width: "100%" }}
         >
           <Stack flexDirection="row" gap={2} justifyContent="end">
-            <CustomSubmitButton onClick={handleCancel}>
-              Annuler
-            </CustomSubmitButton>
-            <CustomSubmitButton secondary="true" onClick={handleSave}>
+            <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
+            <RectangleButton secondary onClick={handleSave}>
               Enregistrer
-            </CustomSubmitButton>
+            </RectangleButton>
           </Stack>
         </motion.div>
       </CustomForm>

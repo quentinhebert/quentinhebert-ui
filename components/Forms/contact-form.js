@@ -2,17 +2,17 @@ import { useContext, useState } from "react"
 import { Box, FormHelperText, Stack, Typography } from "@mui/material"
 import { checkEmail } from "../../services/utils"
 import apiCall from "../../services/apiCalls/apiCall"
-import Input from "../ReusableComponents/forms/custom-filled-input"
-import TextArea from "../ReusableComponents/forms/custom-filled-text-area"
-import DualInputLine from "../ReusableComponents/forms/responsive-dual-input-container"
-import RightSubmitButton from "../ReusableComponents/forms/right-submit-button"
-import Select from "../ReusableComponents/forms/custom-filled-select"
-import SelectOption from "../ReusableComponents/forms/custom-select-option"
-import Form from "../ReusableComponents/forms/custom-form"
-import CustomCheckbox from "../ReusableComponents/forms/custom-checkbox"
 import styles from "../../styles/WordsCaroussel.module.css"
 import theme from "../../config/theme"
 import { AppContext } from "../../contexts/AppContext"
+import CustomFilledInput from "../Inputs/custom-filled-input"
+import CustomFilledTextArea from "../Inputs/custom-filled-text-area"
+import CustomForm from "./custom-form"
+import DualInputLine from "../Containers/dual-input-line"
+import RightSubmitButton from "../Buttons/right-submit-button"
+import CustomFilledSelect from "../Inputs/custom-filled-select"
+import CustomSelectOption from "../Inputs/custom-select-option"
+import CustomCheckbox from "../Inputs/custom-checkbox"
 
 /** CONSTANTS **/
 
@@ -170,7 +170,7 @@ export default function ContactForm(props) {
     (formData.email.trim() !== "" && !checkEmail(formData.email))
 
   return (
-    <Form width="100%" gap={2} paddingBottom="1.5rem">
+    <CustomForm width="100%" gap={2} paddingBottom="1.5rem">
       <Stack
         width="100%"
         alignItems="center"
@@ -225,7 +225,7 @@ export default function ContactForm(props) {
 
       <Stack width="100%" sx={{ gap: { xs: 1, md: 2 } }}>
         <DualInputLine direction={defaultDirection}>
-          <Input
+          <CustomFilledInput
             required
             type="input"
             id="firstname"
@@ -236,7 +236,7 @@ export default function ContactForm(props) {
             error={errors.firstname}
             helperText={errors.firstname && "Veuillez remplir ce champ"}
           />
-          <Input
+          <CustomFilledInput
             type="input"
             id="lastname"
             label="Nom"
@@ -249,7 +249,7 @@ export default function ContactForm(props) {
         </DualInputLine>
 
         <DualInputLine direction={defaultDirection}>
-          <Input
+          <CustomFilledInput
             required
             type="email"
             id="email"
@@ -264,7 +264,7 @@ export default function ContactForm(props) {
             error={emailError || errors.email}
             helperText={emailError && "This email is not valid"}
           />
-          <Input
+          <CustomFilledInput
             type="phone"
             id="phone"
             label="Téléphone"
@@ -275,7 +275,7 @@ export default function ContactForm(props) {
         </DualInputLine>
 
         <DualInputLine direction={defaultDirection}>
-          <Input
+          <CustomFilledInput
             type="input"
             id="company"
             label="Entreprise"
@@ -288,7 +288,7 @@ export default function ContactForm(props) {
             helperText={errors.company && "Veuillez remplir ce champ"}
           />
           <Stack width="100%">
-            <Select
+            <CustomFilledSelect
               required
               id="budget"
               value={formData.budget}
@@ -307,11 +307,11 @@ export default function ContactForm(props) {
               }
             >
               {BUDGET_OPTIONS.map((option, key) => (
-                <SelectOption value={option} key={key}>
+                <CustomSelectOption value={option} key={key}>
                   {option}
-                </SelectOption>
+                </CustomSelectOption>
               ))}
-            </Select>
+            </CustomFilledSelect>
             {errors.budget && (
               <FormHelperText
                 margin={0}
@@ -324,7 +324,7 @@ export default function ContactForm(props) {
         </DualInputLine>
 
         <Stack width="100%">
-          <TextArea
+          <CustomFilledTextArea
             required
             id="description"
             label="À propos de mon projet..."
@@ -359,6 +359,6 @@ export default function ContactForm(props) {
       <RightSubmitButton onClick={handleSendRequest} disabled={isFetching}>
         {isFetching ? "Envoi en cours" : "Envoyer"}
       </RightSubmitButton>
-    </Form>
+    </CustomForm>
   )
 }

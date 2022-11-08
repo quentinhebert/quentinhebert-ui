@@ -2,18 +2,11 @@ import { Box, Stack, Typography } from "@mui/material"
 import { useContext, useState } from "react"
 import apiCall from "../../../../services/apiCalls/apiCall"
 import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
-import CustomForm from "../../../ReusableComponents/forms/custom-form"
-import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/centered-max-width-container"
-import BodyText from "../../../ReusableComponents/text/body-text"
-import CustomAccordion from "../../../ReusableComponents/containers/custom-accordion"
 import { Clock, Map, PhoneVertical, Language, Wifi } from "grommet-icons"
 import ComputerRoundedIcon from "@mui/icons-material/ComputerRounded"
 import TabletRoundedIcon from "@mui/icons-material/TabletRounded"
-import CustomSubmitButton from "../../../ReusableComponents/forms/custom-submit-button"
 import withConfirmAction from "../../../hocs/withConfirmAction"
-import PleaseWait from "../../../ReusableComponents/helpers/please-wait"
 import LogoutIcon from "@mui/icons-material/Logout"
-import RefreshIcon from "@mui/icons-material/Refresh"
 import {
   convertToLongString,
   convertToShortString,
@@ -21,6 +14,12 @@ import {
 } from "../../../../services/date-time"
 import { UserContext } from "../../../../contexts/UserContext"
 import { AppContext } from "../../../../contexts/AppContext"
+import CustomForm from "../../../Forms/custom-form"
+import PleaseWait from "../../../Helpers/please-wait"
+import BodyText from "../../../text/body-text"
+import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
+import RefreshButton from "../../../Buttons/refresh-button"
+import CustomAccordion from "../../../Containers/custom-accordion"
 
 const DataRow = (props) => (
   <BodyText
@@ -121,12 +120,7 @@ const RenderSessions = (props) => {
     <Stack gap={2}>
       <Stack width="100%">
         <Stack alignSelf="flex-end">
-          <CustomSubmitButton
-            startIcon={<RefreshIcon />}
-            onClick={fetchSessions}
-          >
-            Raffraîchir
-          </CustomSubmitButton>
+          <RefreshButton refresh={fetchSessions} />
         </Stack>
       </Stack>
 

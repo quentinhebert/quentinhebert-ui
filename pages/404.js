@@ -1,5 +1,5 @@
-import Custom404Layout from "../components/Layouts/error/Custom404Layout"
 import PagesLayout from "../components/Layouts/PagesLayout"
+import Custom404_Main from "../components/Main/Errors/Custom404_Main"
 
 const head = {
   // Main meta tags
@@ -15,7 +15,7 @@ const head = {
 export default function Custom404Page() {
   return (
     <PagesLayout head={head}>
-      <Custom404Layout />
+      <Custom404_Main />
     </PagesLayout>
   )
 }

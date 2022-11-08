@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import { Box, Slide, Stack, Typography, useMediaQuery } from "@mui/material"
-import BodyText from "../../ReusableComponents/text/body-text"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import PillButton from "../../ReusableComponents/buttons/pill-button"
+import PillButton from "../../Buttons/pill-button"
+import BodyText from "../../Text/body-text"
 
 const Keyword = ({ text }) => (
   <Box

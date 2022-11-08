@@ -1,15 +1,15 @@
 import { Stack } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import AdminPagesLayout from "../AdminPagesLayout"
-import BodyText from "../../ReusableComponents/text/body-text"
 import { AppContext } from "../../../contexts/AppContext"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import apiCall from "../../../services/apiCalls/apiCall"
-import SortableGrid from "../../ReusableComponents/grids/sortable-grid"
-import SortableCard from "../../ReusableComponents/cards/sortable-card"
-import PleaseWait from "../../ReusableComponents/helpers/please-wait"
-import EditDeleteButtons from "../../ReusableComponents/buttons/edit-delete-buttons"
 import dynamic from "next/dynamic"
+import BodyText from "../../text/body-text"
+import PleaseWait from "../../Helpers/please-wait"
+import SortableGrid from "../../Grids/sortable-grid"
+import SortableCard from "../../Cards/sortable-card"
+import EditDeleteButtons from "../../Buttons/edit-delete-buttons"
 
 const AddFilmGearModal = dynamic(() =>
   import("../../Modals/Create-Modals/add-film-gear-modal")

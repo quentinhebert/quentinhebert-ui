@@ -2,12 +2,11 @@ import { Stack } from "@mui/material"
 import { useContext, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { ModalTitle } from "../Modal-Components/modal-title"
-import CustomModal from "../../ReusableComponents/modals/custom-modal"
-import CustomForm from "../../ReusableComponents/forms/custom-form"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
-import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
-import BodyText from "../../ReusableComponents/text/body-text"
+import BodyText from "../../Text/body-text"
 import { AppContext } from "../../../contexts/AppContext"
+import CustomModal from "../custom-modal"
+import CustomCircularProgress from "../../Helpers/custom-circular-progress"
+import CustomForm from "../../Forms/custom-form"
 
 export default function DeleteReferenceModal(props) {
   const { reference, open, handleClose, fetch } = props
@@ -54,16 +53,14 @@ export default function DeleteReferenceModal(props) {
 
       <CustomForm gap={3}>
         <Stack flexDirection="row" gap={2} justifyContent="end" width="100%">
-          <CustomSubmitButton onClick={handleCancel}>
-            Annuler
-          </CustomSubmitButton>
-          <CustomSubmitButton
+          <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
+          <RectangleButton
             secondary="true"
             onClick={handleDelete}
             disabled={isLoading}
           >
             {isLoading ? <CustomCircularProgress /> : "Supprimer"}
-          </CustomSubmitButton>
+          </RectangleButton>
         </Stack>
       </CustomForm>
     </CustomModal>

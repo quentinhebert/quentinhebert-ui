@@ -7,9 +7,9 @@ import { getToken, removeToken } from "../services/auth"
 import { getUser } from "../services/utils"
 import apiCall from "../services/apiCalls/apiCall"
 import { AnimatePresence } from "framer-motion"
-import AnimatedLogoLayout from "../components/ReusableComponents/animations/animated-logo"
 import { AppContext } from "../contexts/AppContext"
 import Snacks from "../components/Navigation/snacks"
+import AnimatedLogoLayout from "../components/Animation/animated-logo"
 
 function MyApp({ Component, pageProps, router }) {
   // User

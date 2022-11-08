@@ -1,9 +1,9 @@
 import { Stack } from "@mui/material"
 import apiCall from "../../../../../services/apiCalls/apiCall"
-import CenteredMaxWidthContainer from "../../../../ReusableComponents/containers/centered-max-width-container"
 import { useRouter } from "next/router"
-import PillButton from "../../../../ReusableComponents/buttons/pill-button"
-import PageTitle from "../../../../ReusableComponents/titles/page-title"
+import CenteredMaxWidthContainer from "../../../../Containers/centered-max-width-container"
+import PageTitle from "../../../../Titles/page-title"
+import PillButton from "../../../../Buttons/pill-button"
 
 export default function SelectPaymentMethod({
   orderId,

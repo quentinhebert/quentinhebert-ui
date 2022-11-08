@@ -1,13 +1,13 @@
 import { Stack } from "@mui/material"
-import CustomModal from "../../ReusableComponents/modals/custom-modal"
 import { useState } from "react"
 import AdminFooterForm from "../../Forms/admin/admin-footer-form"
 import AdminNavbarForm from "../../Forms/admin/admin-navbar-form"
 import AdminContactForm from "../../Forms/admin/admin-contact-form"
-import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
 import AdminPagesLayout from "../AdminPagesLayout"
-import FixedBackground from "../../ReusableComponents/backgrounds/fixed-background"
 import AdminLogoForm from "../../Forms/admin/admin-logo-form"
+import CustomModal from "../../Modals/custom-modal"
+import OneActionCardsGrid from "../../Cards/one-action-cards-grid"
+import FixedBackground from "../../Backgrounds/fixed-background"
 
 export default function AdminWebsiteInfoPanel() {
   const [openModal, setOpenModal] = useState(false)

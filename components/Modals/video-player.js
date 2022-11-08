@@ -5,10 +5,10 @@ import CloseIcon from "@mui/icons-material/Close"
 import { memo, useEffect, useRef, useState } from "react"
 import YoutubePlayer from "../Sections/youtube-player"
 import BouncingArrow from "../Navigation/BouncingArrow"
-import ScaleUpOnHoverStack from "../ReusableComponents/animations/scale-up-on-hover-stack"
-import CustomModal from "../ReusableComponents/modals/custom-modal"
 import { isVimeo, isYoutube } from "../../services/urls"
-import BodyText from "../ReusableComponents/text/body-text"
+import ScaleUpOnHoverStack from "../Animation/scale-up-on-hover-stack"
+import BodyText from "../Text/body-text"
+import CustomModal from "./custom-modal"
 
 const CloseBtn = (props) => (
   <Box

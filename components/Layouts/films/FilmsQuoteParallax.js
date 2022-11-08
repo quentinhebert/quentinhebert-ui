@@ -2,10 +2,10 @@ import { Box, Stack, Typography } from "@mui/material"
 import { Parallax } from "react-parallax"
 import theme from "../../../config/theme"
 import FlashingRec from "../../Animation/FlashingRec"
-import Timer from "../../ReusableComponents/timer"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { useEffect } from "react"
+import Timer from "../../Other/timer"
 
 const Container = ({ btnColor, bgImg, href }) => {
   /********** ANIMATION **********/

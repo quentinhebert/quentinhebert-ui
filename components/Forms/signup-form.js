@@ -7,12 +7,12 @@ import { checkPhone, checkEmail, checkPassword } from "../../services/utils"
 import AlertInfo from "../Other/alert-info"
 import CustomSelect from "../Other/custom-select"
 import { UserContext } from "../../contexts/UserContext"
-import CustomOutlinedInput from "../ReusableComponents/forms/custom-outlined-input"
-import CustomCheckbox from "../ReusableComponents/forms/custom-checkbox"
-import CustomForm from "../ReusableComponents/forms/custom-form"
-import DualInputLine from "../ReusableComponents/forms/responsive-dual-input-container"
-import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
 import { AppContext } from "../../contexts/AppContext"
+import RectangleButton from "../Buttons/rectangle-button"
+import CustomOutlinedInput from "../Inputs/custom-outlined-input"
+import CustomCheckbox from "../Inputs/custom-checkbox"
+import CustomForm from "./custom-form"
+import DualInputLine from "../Containers/dual-input-line"
 
 export default function SignUpForm(props) {
   /********** PROPS **********/
@@ -277,16 +277,16 @@ export default function SignUpForm(props) {
       </CustomForm>
 
       <Stack flexDirection="row" gap={2} justifyContent="end">
-        <CustomSubmitButton onClick={handleCloseAndClear}>
+        <RectangleButton onClick={handleCloseAndClear}>
           {signupCompleted ? "Fermer" : "Annuler"}
-        </CustomSubmitButton>
-        <CustomSubmitButton
+        </RectangleButton>
+        <RectangleButton
           secondary="true"
           onClick={signUp}
           disabled={!accept.policy || signupCompleted}
         >
           Enregistrer
-        </CustomSubmitButton>
+        </RectangleButton>
       </Stack>
     </Stack>
   )

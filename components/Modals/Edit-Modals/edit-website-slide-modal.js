@@ -2,14 +2,11 @@ import { Stack } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { ModalTitle } from "../Modal-Components/modal-title"
-import withConfirmAction from "../../hocs/withConfirmAction"
-import CustomModal from "../../ReusableComponents/modals/custom-modal"
-import CustomForm from "../../ReusableComponents/forms/custom-form"
-import CustomOutlinedInput from "../../ReusableComponents/forms/custom-outlined-input"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
-import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
+import CustomModal from "../../Modals/custom-modal"
+import CustomForm from "../../Forms/custom-form"
+import CustomOutlinedInput from "../../Inputs/custom-outlined-input"
 import { AppContext } from "../../../contexts/AppContext"
-import SmallTitle from "../../ReusableComponents/titles/small-title"
+import SmallTitle from "../../Titles/small-title"
 import ModeEditIcon from "@mui/icons-material/ModeEdit"
 import {
   formatDescription,
@@ -17,11 +14,12 @@ import {
   ParseJsx,
 } from "../../Layouts/websites/WebsiteWhyADev--style"
 import dynamic from "next/dynamic"
+import CustomCircularProgress from "../../Helpers/custom-circular-progress"
+import RectangleButton from "../../Buttons/rectangle-button"
 
-const TextEditor = dynamic(
-  () => import("../../ReusableComponents/text-editor/text-editor"),
-  { ssr: false }
-)
+const TextEditor = dynamic(() => import("../../TextEditor/text-editor"), {
+  ssr: false,
+})
 
 const SectionTitle = (props) => (
   <Stack width="100%" alignItems="center">
@@ -163,16 +161,14 @@ export default function EditWebsiteSlideModal(props) {
         </Stack>
 
         <Stack flexDirection="row" gap={2} justifyContent="end" width="100%">
-          <CustomSubmitButton onClick={handleCancel}>
-            Annuler
-          </CustomSubmitButton>
-          <CustomSubmitButton
+          <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
+          <RectangleButton
             secondary="true"
             onClick={handleUpdate}
             disabled={isLoading}
           >
             {isLoading ? <CustomCircularProgress /> : "Enregistrer"}
-          </CustomSubmitButton>
+          </RectangleButton>
         </Stack>
       </CustomForm>
     </CustomModal>

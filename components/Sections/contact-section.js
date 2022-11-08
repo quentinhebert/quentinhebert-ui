@@ -3,9 +3,8 @@ import { Box, Stack, Typography } from "@mui/material"
 import ContactForm from "../Forms/contact-form"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import CenteredMaxWidthContainer from "../ReusableComponents/containers/centered-max-width-container"
-import GradientTitleCard from "../ReusableComponents/cards/gradient-title-card"
-import StrokeText from "../ReusableComponents/text/stroke-text"
+import CenteredMaxWidthContainer from "../Containers/centered-max-width-container"
+import StrokeText from "../Text/stroke-text"
 import styles from "../../styles/TextShine.module.css"
 
 export default function ContactSection(props) {

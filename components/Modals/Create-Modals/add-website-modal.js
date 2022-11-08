@@ -3,21 +3,21 @@ import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { ModalTitle } from "../Modal-Components/modal-title"
 import withConfirmAction from "../../hocs/withConfirmAction"
-import CustomModal from "../../ReusableComponents/modals/custom-modal"
-import CustomForm from "../../ReusableComponents/forms/custom-form"
-import TextArea from "../../ReusableComponents/forms/custom-outlined-text-area"
-import CustomOutlinedInput from "../../ReusableComponents/forms/custom-outlined-input"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
-import CustomOutlinedSelect from "../../ReusableComponents/forms/custom-outlined-select"
-import SelectOption from "../../ReusableComponents/forms/custom-select-option"
-import CustomCheckbox from "../../ReusableComponents/forms/custom-checkbox"
-import CustomAccordion from "../../ReusableComponents/containers/custom-accordion"
-import DropzoneShowImage from "../../ReusableComponents/images/drop-zone-show-image"
 import compressImage from "../../../services/images"
-import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
 import { AppContext } from "../../../contexts/AppContext"
 import DeleteIcon from "@mui/icons-material/Delete"
-import PillButton from "../../ReusableComponents/buttons/pill-button"
+import CustomModal from "../custom-modal"
+import PillButton from "../../Buttons/pill-button"
+import CustomCircularProgress from "../../Helpers/custom-circular-progress"
+import DropzoneShowImage from "../../Images/drop-zone-show-image"
+import CustomAccordion from "../../Containers/custom-accordion"
+import CustomCheckbox from "../../Inputs/custom-checkbox"
+import CustomSelectOption from "../../Inputs/custom-select-option"
+import CustomOutlinedSelect from "../../Inputs/custom-outlined-select"
+import RectangleButton from "../../Buttons/rectangle-button"
+import CustomOutlinedInput from "../../Inputs/custom-outlined-input"
+import CustomOutlinedTextArea from "../../Inputs/custom-outlined-text-area"
+import CustomForm from "../../Forms/custom-form"
 
 const currentYear = new Date().getFullYear()
 
@@ -182,9 +182,9 @@ function AddWebsiteModal(props) {
         { length: currentYear - 1999 },
         (v, k) => currentYear + 1 - k - 1
       ).map((item, key) => (
-        <SelectOption value={item} key={key}>
+        <CustomSelectOption value={item} key={key}>
           {item}
-        </SelectOption>
+        </CustomSelectOption>
       ))}
     </CustomOutlinedSelect>
   )
@@ -221,7 +221,7 @@ function AddWebsiteModal(props) {
           onChange={handleChange("client")}
         />
 
-        <TextArea
+        <CustomOutlinedTextArea
           required
           id="description"
           label="Description du site"
@@ -280,12 +280,10 @@ function AddWebsiteModal(props) {
         </Stack>
 
         <Stack flexDirection="row" gap={2} justifyContent="end" width="100%">
-          <CustomSubmitButton onClick={handleCancel}>
-            Annuler
-          </CustomSubmitButton>
-          <CustomSubmitButton secondary="true" onClick={handleCreate}>
+          <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
+          <RectangleButton secondary="true" onClick={handleCreate}>
             {isLoading ? <CustomCircularProgress /> : "Enregistrer"}
-          </CustomSubmitButton>
+          </RectangleButton>
         </Stack>
       </CustomForm>
     </CustomModal>

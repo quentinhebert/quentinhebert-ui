@@ -4,12 +4,12 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import apiCall from "../../services/apiCalls/apiCall"
 import { formatPaymentErrors } from "../../services/stripe-utils"
+import PillButton from "../Buttons/pill-button"
+import CustomCard from "../Cards/custom-card"
+import PleaseWait from "../Helpers/please-wait"
 import AlertInfo from "../Other/alert-info"
-import PillButton from "../ReusableComponents/buttons/pill-button"
-import CustomCard from "../ReusableComponents/cards/custom-card"
-import CustomForm from "../ReusableComponents/forms/custom-form"
-import PleaseWait from "../ReusableComponents/helpers/please-wait"
-import MediumTitle from "../ReusableComponents/titles/medium-title"
+import MediumTitle from "../Titles/medium-title"
+import CustomForm from "./custom-form"
 
 export default function StripeCheckoutForm({ orderId, clientSecret }) {
   const stripe = useStripe()

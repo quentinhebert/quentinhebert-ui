@@ -3,13 +3,13 @@ import BouncingArrow from "../../Navigation/BouncingArrow"
 import PlayCircleFilledWhiteOutlinedIcon from "@mui/icons-material/PlayCircleFilledWhiteOutlined"
 import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline"
 import { motion } from "framer-motion"
-import BodyText from "../../ReusableComponents/text/body-text"
-import PillButton from "../../ReusableComponents/buttons/pill-button"
-import ScaleUpOnHoverStack from "../../ReusableComponents/animations/scale-up-on-hover-stack"
 import ReactPlayer from "react-player"
 import VolumeUpIcon from "@mui/icons-material/VolumeUp"
 import VolumeOffIcon from "@mui/icons-material/VolumeOff"
 import { useEffect, useState } from "react"
+import BodyText from "../../Text/body-text"
+import PillButton from "../../Buttons/pill-button"
+import ScaleUpOnHoverStack from "../../Animation/scale-up-on-hover-stack"
 
 const Title = (props) => (
   <Typography

@@ -1,17 +1,17 @@
 import { Box, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
 import apiCall from "../../../../services/apiCalls/apiCall"
-import PillButton from "../../../ReusableComponents/buttons/pill-button"
-import PleaseWait from "../../../ReusableComponents/helpers/please-wait"
-import BodyText from "../../../ReusableComponents/text/body-text"
 import AccountPagesLayout from "../../AccountPagesLayout"
 import Custom404Layout from "../../error/Custom404Layout"
 import { useRouter } from "next/router"
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
-import RefreshButton from "../../../ReusableComponents/buttons/refresh-button"
 import { ORDERSTATES } from "../../../../enums/orderStates"
-import Pill from "../../../ReusableComponents/text/pill"
 import ReceiptIcon from "@mui/icons-material/Receipt"
+import PillButton from "../../../Buttons/pill-button"
+import PleaseWait from "../../../Helpers/please-wait"
+import BodyText from "../../../text/body-text"
+import Pill from "../../../Text/pill"
+import RefreshButton from "../../../Buttons/refresh-button"
 
 const allowedStatesForPaying = ["WAITING_FOR_PAYMENT", "PAYMENT_FAILED"]
 

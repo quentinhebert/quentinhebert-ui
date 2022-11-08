@@ -1,6 +1,6 @@
 import { Stack } from "@mui/material"
-import PageTitle from "../ReusableComponents/titles/page-title"
-import Breadcrumbs from "../ReusableComponents/navigation/breadcrumbs"
+import Breadcrumbs from "../Navigation/breadcrumbs"
+import PageTitle from "../Titles/page-title"
 
 export default function AdminPagesLayout({ children, title, noBreadcrumbs }) {
   return (

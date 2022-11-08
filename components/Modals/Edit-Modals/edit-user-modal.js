@@ -7,14 +7,14 @@ import apiCall from "../../../services/apiCalls/apiCall"
 import AlertInfo from "../../Other/alert-info"
 import { checkEmail, checkPhone } from "../../../services/utils"
 import RefreshIcon from "@mui/icons-material/Refresh"
-import CustomModal from "../../ReusableComponents/modals/custom-modal"
-import CustomForm from "../../ReusableComponents/forms/custom-form"
-import CustomOutlinedInput from "../../ReusableComponents/forms/custom-outlined-input"
+import CustomModal from "../../Modals/custom-modal"
+import CustomForm from "../../Forms/custom-form"
+import CustomOutlinedInput from "../../Inputs/custom-outlined-input"
 import CustomSelect from "../../Other/custom-select"
-import DualInputLine from "../../ReusableComponents/forms/responsive-dual-input-container"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
-import CustomCheckbox from "../../ReusableComponents/forms/custom-checkbox"
+import DualInputLine from "../../Containers/dual-input-line"
+import CustomCheckbox from "../../Inputs/custom-checkbox"
 import { AppContext } from "../../../contexts/AppContext"
+import RectangleButton from "../../Buttons/rectangle-button"
 
 export default function EditUserForm(props) {
   // PROPS
@@ -292,16 +292,16 @@ export default function EditUserForm(props) {
       </CustomForm>
 
       <Stack flexDirection="row" gap={2} justifyContent="end">
-        <CustomSubmitButton onClick={handleCloseEditModal}>
+        <RectangleButton onClick={handleCloseEditModal}>
           Annuler
-        </CustomSubmitButton>
-        <CustomSubmitButton
+        </RectangleButton>
+        <RectangleButton
           secondary="true"
           onClick={handleSaveUser}
           disabled={loadingButton}
         >
           Enregistrer
-        </CustomSubmitButton>
+        </RectangleButton>
       </Stack>
     </CustomModal>
   )

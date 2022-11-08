@@ -2,7 +2,7 @@ import { Card, Text, Group } from "@mantine/core"
 import { Box, Stack } from "@mui/material"
 import PillButton from "../buttons/pill-button"
 import theme from "../../../config/theme"
-import BodyText from "../text/body-text"
+import BodyText from "../Text/body-text"
 
 export default function ECommerceCard({
   img,

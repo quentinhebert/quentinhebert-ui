@@ -13,8 +13,8 @@ import {
 import { EnhancedTableHead, EnhancedTableToolbar } from "../Other/table-helper"
 import { alpha } from "@mui/material/styles"
 import EditModalSwitch from "../Modals/edit-modal-switch"
-import PleaseWait from "../ReusableComponents/helpers/please-wait"
 import { AppContext } from "../../contexts/AppContext"
+import PleaseWait from "../Helpers/please-wait"
 
 /******************** FUNCTIONS ********************/
 function descendingComparator(a, b, orderBy) {

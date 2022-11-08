@@ -4,11 +4,11 @@ import apiCall from "../../services/apiCalls/apiCall"
 import { Stack } from "@mui/material"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
-import BodyText from "../ReusableComponents/text/body-text"
-import SmallTitle from "../ReusableComponents/titles/small-title"
-import OutlinedButton from "../ReusableComponents/buttons/outlined-button"
 import LoginLayout from "../Layouts/LoginLayout"
 import Custom401Layout from "./error/Custom401Layout"
+import BodyText from "../Text/body-text"
+import SmallTitle from "../Titles/small-title"
+import OutlinedButton from "../Buttons/outlined-button"
 
 const Custom401 = dynamic(() => import("../../pages/401"))
 

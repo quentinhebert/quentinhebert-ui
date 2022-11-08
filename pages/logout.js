@@ -1,8 +1,8 @@
 import { Stack } from "@mui/material"
 import { useContext, useEffect } from "react"
+import CustomCircularProgress from "../components/Helpers/custom-circular-progress"
 import PagesLayout from "../components/Layouts/PagesLayout"
-import CustomCircularProgress from "../components/ReusableComponents/custom-circular-progress"
-import BodyText from "../components/ReusableComponents/text/body-text"
+import BodyText from "../components/Text/body-text"
 import { UserContext } from "../contexts/UserContext"
 import { logout } from "../services/utils"
 

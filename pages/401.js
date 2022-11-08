@@ -1,5 +1,5 @@
-import Custom401Layout from "../components/Layouts/error/Custom401Layout"
 import PagesLayout from "../components/Layouts/PagesLayout"
+import Custom401_Main from "../components/Main/Errors/Custom401_Main"
 
 const head = {
   // Main meta tags
@@ -15,7 +15,7 @@ const head = {
 export default function Custom401Page() {
   return (
     <PagesLayout head={head}>
-      <Custom401Layout />
+      <Custom401_Main />
     </PagesLayout>
   )
 }

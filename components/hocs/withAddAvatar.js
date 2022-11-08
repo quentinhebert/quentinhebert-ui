@@ -3,13 +3,13 @@ import React, { useCallback, useContext, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import AlertInfo from "../Other/alert-info"
 import apiCall from "../../services/apiCalls/apiCall"
-import CustomModal from "../ReusableComponents/modals/custom-modal"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
-import CustomSubmitButton from "../ReusableComponents/forms/custom-submit-button"
-import BodyText from "../ReusableComponents/text/body-text"
 import compressImage from "../../services/images"
 import { UserContext } from "../../contexts/UserContext"
 import { AppContext } from "../../contexts/AppContext"
+import CustomModal from "../Modals/custom-modal"
+import BodyText from "../text/body-text"
+import RectangleButton from "../Buttons/rectangle-button"
 
 export default function withAddAvatar(WrappedComponent) {
   return function Enhancer(props) {
@@ -135,16 +135,14 @@ export default function withAddAvatar(WrappedComponent) {
           )}
 
           <Stack flexDirection="row" gap={2} justifyContent="end">
-            <CustomSubmitButton onClick={handleCancel}>
-              Annuler
-            </CustomSubmitButton>
-            <CustomSubmitButton
+            <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
+            <RectangleButton
               secondary="true"
               onClick={handleSendAvatar}
               disabled={!(files && files.length)}
             >
               Ajouter
-            </CustomSubmitButton>
+            </RectangleButton>
           </Stack>
         </CustomModal>
       </>

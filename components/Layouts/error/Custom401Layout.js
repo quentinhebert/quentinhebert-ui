@@ -1,7 +1,7 @@
 import { Stack, Typography } from "@mui/material"
-import BodyText from "../../ReusableComponents/text/body-text"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
 import { useRouter } from "next/router"
+import BodyText from "../../Text/body-text"
+import RectangleButton from "../../Buttons/rectangle-button"
 
 export default function Custom401Layout() {
   const router = useRouter()
@@ -20,9 +20,9 @@ export default function Custom401Layout() {
 
       <BodyText>Accès refusé... La police est en route !</BodyText>
 
-      <CustomSubmitButton secondary="true" onClick={() => router.push("/")}>
+      <RectangleButton secondary="true" onClick={() => router.push("/")}>
         Faire demi-tour
-      </CustomSubmitButton>
+      </RectangleButton>
     </Stack>
   )
 }

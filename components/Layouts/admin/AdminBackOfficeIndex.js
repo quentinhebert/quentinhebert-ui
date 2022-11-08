@@ -1,11 +1,9 @@
-import { Box, Stack } from "@mui/material"
-import PageTitle from "../../ReusableComponents/titles/page-title"
-import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
-import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
+import { Stack } from "@mui/material"
 import FlashingRec from "../../Animation/FlashingRec"
 import FlashingUnderscore from "../../Animation/flashing-underscore"
-import FixedBackground from "../../ReusableComponents/backgrounds/fixed-background"
 import AdminPagesLayout from "../AdminPagesLayout"
+import OneActionCardsGrid from "../../Cards/one-action-cards-grid"
+import FixedBackground from "../../Backgrounds/fixed-background"
 
 const CARDS = [
   {

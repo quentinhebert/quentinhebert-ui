@@ -3,8 +3,8 @@ import theme from "../../../config/theme"
 import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AutoPlayCarousel from "./AutoPlayCarousel"
-import MediumTitle from "../../ReusableComponents/titles/medium-title"
 import styles from "../../../styles/TextShine.module.css"
+import MediumTitle from "../../Titles/medium-title"
 
 async function fetchUpToDateReferences() {
   const res = await apiCall.references.getAllPublic()

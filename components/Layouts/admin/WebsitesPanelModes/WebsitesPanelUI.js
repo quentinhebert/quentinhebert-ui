@@ -3,18 +3,18 @@ import apiCall from "../../../../services/apiCalls/apiCall"
 import { Box, Stack, Typography } from "@mui/material"
 import { sortableContainer, sortableElement } from "react-sortable-hoc"
 import { arrayMoveImmutable } from "array-move"
-import CustomSubmitButton from "../../../ReusableComponents/forms/custom-submit-button"
-import SwitchButton from "../../../ReusableComponents/buttons/switch-button"
 import AlertInfo from "../../../Other/alert-info"
 import DeleteIcon from "@mui/icons-material/Delete"
-import ScaleUpOnHoverStack from "../../../ReusableComponents/animations/scale-up-on-hover-stack"
-import PleaseWait from "../../../ReusableComponents/helpers/please-wait"
-import OutlinedButton from "../../../ReusableComponents/buttons/outlined-button"
 import AddIcon from "@mui/icons-material/Add"
-import BodyText from "../../../ReusableComponents/text/body-text"
 import { AppContext } from "../../../../contexts/AppContext"
 import AddWebsiteModal from "../../../Modals/Create-Modals/add-website-modal"
 import dynamic from "next/dynamic"
+import BodyText from "../../../Text/body-text"
+import OutlinedButton from "../../../Buttons/outlined-button"
+import ScaleUpOnHoverStack from "../../../Animation/scale-up-on-hover-stack"
+import RectangleButton from "../../../Buttons/rectangle-button"
+import PleaseWait from "../../../Helpers/please-wait"
+import SwitchButton from "../../../Inputs/switch-button"
 
 const EditWebsiteModal = dynamic(() =>
   import("../../../Modals/Edit-Modals/edit-website-modal")
@@ -279,19 +279,19 @@ export default function WebsitesPanelUI(props) {
             }}
           >
             <Stack flexDirection="row" gap={2}>
-              <CustomSubmitButton
+              <RectangleButton
                 onClick={() => {
                   setDisableSort(true)
                 }}
               >
                 Annuler
-              </CustomSubmitButton>
-              <CustomSubmitButton
+              </RectangleButton>
+              <RectangleButton
                 secondary="true"
                 onClick={handleSaveSortedWebsites}
               >
                 Enregistrer
-              </CustomSubmitButton>
+              </RectangleButton>
             </Stack>
           </Stack>
         )}

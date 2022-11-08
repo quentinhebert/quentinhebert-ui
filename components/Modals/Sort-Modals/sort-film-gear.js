@@ -4,9 +4,9 @@ import { sortableContainer, sortableElement } from "react-sortable-hoc"
 import { arrayMoveImmutable } from "array-move"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { ModalTitle } from "../Modal-Components/modal-title"
-import CustomModal from "../../ReusableComponents/modals/custom-modal"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
+import CustomModal from "../../Modals/custom-modal"
 import AlertInfo from "../../Other/alert-info"
+import RectangleButton from "../../Buttons/rectangle-button"
 
 const SortableListItem = sortableElement(({ item }) => (
   <Box
@@ -125,10 +125,10 @@ export default function SortFilmGear(props) {
         }}
       >
         <Stack flexDirection="row" gap={2}>
-          <CustomSubmitButton onClick={handleClose}>Annuler</CustomSubmitButton>
-          <CustomSubmitButton secondary="true" onClick={handleSaveSortedVideos}>
+          <RectangleButton onClick={handleClose}>Annuler</RectangleButton>
+          <RectangleButton secondary="true" onClick={handleSaveSortedVideos}>
             Enregistrer
-          </CustomSubmitButton>
+          </RectangleButton>
         </Stack>
       </Stack>
     </CustomModal>

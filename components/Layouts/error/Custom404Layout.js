@@ -1,7 +1,7 @@
 import { Stack, Typography } from "@mui/material"
-import BodyText from "../../ReusableComponents/text/body-text"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
 import { useRouter } from "next/router"
+import RectangleButton from "../../Buttons/rectangle-button"
+import BodyText from "../../Text/body-text"
 
 export default function Custom404Layout() {
   const router = useRouter()
@@ -20,9 +20,9 @@ export default function Custom404Layout() {
 
       <BodyText>Il semble que vous vous êtes perdu·e en chemin...</BodyText>
 
-      <CustomSubmitButton secondary="true" onClick={() => router.push("/")}>
+      <RectangleButton secondary="true" onClick={() => router.push("/")}>
         Case départ
-      </CustomSubmitButton>
+      </RectangleButton>
     </Stack>
   )
 }

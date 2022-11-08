@@ -6,13 +6,13 @@ import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import Visibility from "@mui/icons-material/Visibility"
 import VisibilityOff from "@mui/icons-material/VisibilityOff"
 import { errorCodes } from "../../../../config/errorCodes"
-import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/centered-max-width-container"
-import CustomForm from "../../../ReusableComponents/forms/custom-form"
-import CustomSubmitButton from "../../../ReusableComponents/forms/custom-submit-button"
-import CustomOutlinedInput from "../../../ReusableComponents/forms/custom-outlined-input"
-import DualInputLine from "../../../ReusableComponents/forms/responsive-dual-input-container"
 import { UserContext } from "../../../../contexts/UserContext"
 import { AppContext } from "../../../../contexts/AppContext"
+import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
+import CustomForm from "../../../Forms/custom-form"
+import CustomOutlinedInput from "../../../Inputs/custom-outlined-input"
+import DualInputLine from "../../../Containers/dual-input-line"
+import RectangleButton from "../../../Buttons/rectangle-button"
 
 export default function ChangePassword(props) {
   const {} = props
@@ -205,8 +205,8 @@ export default function ChangePassword(props) {
           </Stack>
 
           <Stack flexDirection="row" gap={2} justifyContent="center">
-            <CustomSubmitButton onClick={fetchUser}>Reset</CustomSubmitButton>
-            <CustomSubmitButton
+            <RectangleButton onClick={fetchUser}>Reset</RectangleButton>
+            <RectangleButton
               secondary="true"
               onClick={handleSaveUser}
               disabled={
@@ -216,7 +216,7 @@ export default function ChangePassword(props) {
               }
             >
               Enregistrer
-            </CustomSubmitButton>
+            </RectangleButton>
           </Stack>
         </Stack>
       </CustomForm>

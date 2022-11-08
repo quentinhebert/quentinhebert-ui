@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../../services/apiCalls/apiCall"
 import { Stack } from "@mui/material"
-import PleaseWait from "../../../ReusableComponents/helpers/please-wait"
-import BodyText from "../../../ReusableComponents/text/body-text"
 import { AppContext } from "../../../../contexts/AppContext"
-import SortableCard from "../../../ReusableComponents/cards/sortable-card"
-import EditDeleteButtons from "../../../ReusableComponents/buttons/edit-delete-buttons"
-import SortableGrid from "../../../ReusableComponents/grids/sortable-grid"
 import dynamic from "next/dynamic"
+import PleaseWait from "../../../Helpers/please-wait"
+import BodyText from "../../../Text/body-text"
+import SortableCard from "../../../Cards/sortable-card"
+import EditDeleteButtons from "../../../Buttons/edit-delete-buttons"
+import SortableGrid from "../../../Grids/sortable-grid"
 
 const AddReferenceModal = dynamic(() =>
   import("../../../Modals/Create-Modals/add-reference-modal")

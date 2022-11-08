@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material"
-import BodyText from "../text/body-text"
+import BodyText from "../Text/body-text"
 import CustomCard from "./custom-card"
 import CustomCardTitle from "./custom-card-title"
 import EndCardButton from "./end-card-button"

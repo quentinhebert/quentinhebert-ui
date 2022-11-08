@@ -3,10 +3,10 @@ import { Stack } from "@mui/material"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 import apiCall from "../../services/apiCalls/apiCall"
-import PleaseWait from "../ReusableComponents/helpers/please-wait"
-import BodyText from "../ReusableComponents/text/body-text"
-import OutlinedButton from "../ReusableComponents/buttons/outlined-button"
-import SmallTitle from "../ReusableComponents/titles/small-title"
+import PleaseWait from "../Helpers/please-wait"
+import BodyText from "../text/body-text"
+import OutlinedButton from "../Buttons/outlined-button"
+import SmallTitle from "../Titles/small-title"
 
 const Custom401Layout = dynamic(() => import("./error/Custom401Layout"))
 

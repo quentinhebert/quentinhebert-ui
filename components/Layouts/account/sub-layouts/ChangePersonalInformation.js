@@ -4,13 +4,13 @@ import { AppContext } from "../../../../contexts/AppContext"
 import { UserContext } from "../../../../contexts/UserContext"
 import apiCall from "../../../../services/apiCalls/apiCall"
 import { checkEmail, checkPhone } from "../../../../services/utils"
+import RectangleButton from "../../../Buttons/rectangle-button"
+import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
+import DualInputLine from "../../../Containers/dual-input-line"
+import CustomForm from "../../../Forms/custom-form"
+import CustomOutlinedInput from "../../../Inputs/custom-outlined-input"
 import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import AlertInfo from "../../../Other/alert-info"
-import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/centered-max-width-container"
-import CustomForm from "../../../ReusableComponents/forms/custom-form"
-import CustomOutlinedInput from "../../../ReusableComponents/forms/custom-outlined-input"
-import CustomSubmitButton from "../../../ReusableComponents/forms/custom-submit-button"
-import DualInputLine from "../../../ReusableComponents/forms/responsive-dual-input-container"
 
 export default function ChangePersonalInformation(props) {
   const {} = props
@@ -169,14 +169,14 @@ export default function ChangePersonalInformation(props) {
           {showAlert.show ? <AlertInfo content={showAlert} /> : null}
 
           <Stack flexDirection="row" gap={2} justifyContent="end">
-            <CustomSubmitButton onClick={fetchUser}>Reset</CustomSubmitButton>
-            <CustomSubmitButton
+            <RectangleButton onClick={fetchUser}>Reset</RectangleButton>
+            <RectangleButton
               secondary="true"
               onClick={handleSaveUser}
               disabled={loadingButton}
             >
               Enregistrer
-            </CustomSubmitButton>
+            </RectangleButton>
           </Stack>
         </Stack>
       </CustomForm>

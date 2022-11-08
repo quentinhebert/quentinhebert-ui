@@ -1,8 +1,8 @@
 import { Stack } from "@mui/material"
 import { useState } from "react"
+import FixedBackground from "../Backgrounds/fixed-background"
 import LoginForm from "../Forms/login-form"
 import PasswordForgottenForm from "../Forms/password-forgotten-form"
-import FixedBackground from "../ReusableComponents/backgrounds/fixed-background"
 
 export default function LoginLayout({ redirect }) {
   const [passwordForgotten, setPasswordForgotten] = useState(false)

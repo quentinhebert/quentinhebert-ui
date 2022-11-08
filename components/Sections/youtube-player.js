@@ -1,9 +1,9 @@
 import { Stack } from "@mui/material"
 import { memo, useEffect, useState } from "react"
 import ReactPlayer from "react-player"
-import PillButton from "../ReusableComponents/buttons/pill-button"
 import VolumeUpIcon from "@mui/icons-material/VolumeUp"
 import VolumeOffIcon from "@mui/icons-material/VolumeOff"
+import PillButton from "../Buttons/pill-button"
 
 function arePropsEqual(prevProps, nextProps) {
   return prevProps.videoId === nextProps.videoId

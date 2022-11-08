@@ -5,11 +5,11 @@ import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import { compose } from "redux"
 import withAddAvatar from "../../../hocs/withAddAvatar"
 import withConfirmAction from "../../../hocs/withConfirmAction"
-import CustomForm from "../../../ReusableComponents/forms/custom-form"
-import CustomSubmitButton from "../../../ReusableComponents/forms/custom-submit-button"
-import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/centered-max-width-container"
 import { UserContext } from "../../../../contexts/UserContext"
 import { AppContext } from "../../../../contexts/AppContext"
+import CustomForm from "../../../Forms/custom-form"
+import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
+import RectangleButton from "../../../Buttons/rectangle-button"
 
 function ChangeAvatar(props) {
   const {
@@ -89,18 +89,18 @@ function ChangeAvatar(props) {
           />
 
           <Stack flexDirection="row" gap={2} justifyContent="end">
-            <CustomSubmitButton
+            <RectangleButton
               onClick={handleDeleteAvatar}
               disabled={!user.avatar_path}
             >
               Supprimer
-            </CustomSubmitButton>
-            <CustomSubmitButton
+            </RectangleButton>
+            <RectangleButton
               secondary="true"
               onClick={(e) => setOpenAddNewPhotosModal(true)}
             >
               {user.avatar_path ? "Modifier" : "Ajouter"}
-            </CustomSubmitButton>
+            </RectangleButton>
           </Stack>
         </Stack>
       </CustomForm>

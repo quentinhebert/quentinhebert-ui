@@ -1,13 +1,13 @@
 import { Box, Stack } from "@mui/material"
 import { useContext, useState } from "react"
 import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
-import CenteredMaxWidthContainer from "../../../ReusableComponents/containers/centered-max-width-container"
-import CustomForm from "../../../ReusableComponents/forms/custom-form"
-import CustomSubmitButton from "../../../ReusableComponents/forms/custom-submit-button"
-import CustomOutlinedAutocomplete from "../../../ReusableComponents/forms/custom-outlined-autocomplete"
 import { UserContext } from "../../../../contexts/UserContext"
 import apiCall from "../../../../services/apiCalls/apiCall"
 import { AppContext } from "../../../../contexts/AppContext"
+import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
+import CustomForm from "../../../Forms/custom-form"
+import CustomOutlinedAutocomplete from "../../../Inputs/custom-outlined-autocomplete"
+import RectangleButton from "../../../Buttons/rectangle-button"
 
 export default function ChangeTimezone(props) {
   const {} = props
@@ -95,10 +95,10 @@ export default function ChangeTimezone(props) {
           </Stack>
 
           <Stack flexDirection="row" gap={2} justifyContent="center">
-            <CustomSubmitButton onClick={handleReset}>Reset</CustomSubmitButton>
-            <CustomSubmitButton secondary="true" onClick={handleSave}>
+            <RectangleButton onClick={handleReset}>Reset</RectangleButton>
+            <RectangleButton secondary="true" onClick={handleSave}>
               Enregistrer
-            </CustomSubmitButton>
+            </RectangleButton>
           </Stack>
         </Stack>
       </CustomForm>

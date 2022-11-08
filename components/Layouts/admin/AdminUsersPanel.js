@@ -2,14 +2,12 @@ import { Avatar, Stack, Tooltip } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../hocs/withConfirmAction"
-import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
-import PageTitle from "../../ReusableComponents/titles/page-title"
 import CustomTable from "../../Sections/custom-table"
 import SignUpForm from "../../Forms/signup-form"
-import CustomModal from "../../ReusableComponents/modals/custom-modal"
-import BodyText from "../../ReusableComponents/text/body-text"
 import { AppContext } from "../../../contexts/AppContext"
 import AdminPagesLayout from "../AdminPagesLayout"
+import CustomModal from "../../Modals/custom-modal"
+import BodyText from "../../Text/body-text"
 
 function getBoolValue(param) {
   if (!param)

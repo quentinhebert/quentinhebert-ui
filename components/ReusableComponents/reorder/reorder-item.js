@@ -1,6 +1,6 @@
 import { Stack } from "@mui/material"
 import { Reorder, useDragControls, useMotionValue } from "framer-motion"
-import ReorderIcon from "../../ReusableComponents/navigation/drag-icon-framer-motion.tsx"
+import ReorderIcon from "../../Reorder/drag-icon-framer-motion.tsx"
 
 export default function ReorderItem({ item, sortDisabled, ...props }) {
   const y = useMotionValue()

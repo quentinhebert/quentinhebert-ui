@@ -2,12 +2,12 @@ import { Stack } from "@mui/material"
 import { useContext, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { ModalTitle } from "../Modal-Components/modal-title"
-import CustomModal from "../../ReusableComponents/modals/custom-modal"
-import CustomForm from "../../ReusableComponents/forms/custom-form"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
-import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
-import BodyText from "../../ReusableComponents/text/body-text"
 import { AppContext } from "../../../contexts/AppContext"
+import CustomModal from "../custom-modal"
+import CustomForm from "../../Forms/custom-form"
+import RectangleButton from "../../Buttons/rectangle-button"
+import CustomCircularProgress from "../../Helpers/custom-circular-progress"
+import BodyText from "../../Text/body-text"
 
 export default function DeleteWebsiteModal(props) {
   const { website, open, handleClose } = props
@@ -53,16 +53,14 @@ export default function DeleteWebsiteModal(props) {
 
       <CustomForm gap={3}>
         <Stack flexDirection="row" gap={2} justifyContent="end" width="100%">
-          <CustomSubmitButton onClick={handleCancel}>
-            Annuler
-          </CustomSubmitButton>
-          <CustomSubmitButton
+          <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
+          <RectangleButton
             secondary="true"
             onClick={handleDelete}
             disabled={isLoading}
           >
             {isLoading ? <CustomCircularProgress /> : "Supprimer"}
-          </CustomSubmitButton>
+          </RectangleButton>
         </Stack>
       </CustomForm>
     </CustomModal>

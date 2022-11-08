@@ -4,11 +4,11 @@ import apiCall from "../../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../../hocs/withConfirmAction"
 import SortWebsites from "../../../Modals/sort-websites"
 import CustomTable from "../../../Sections/custom-table"
-import BodyText from "../../../ReusableComponents/text/body-text"
 import AddWebsiteModal from "../../../Modals/Create-Modals/add-website-modal"
-import CustomOutlinedButton from "../../../ReusableComponents/buttons/custom-outlined-button"
 import SortIcon from "@mui/icons-material/Sort"
 import { AppContext } from "../../../../contexts/AppContext"
+import BodyText from "../../../Text/body-text"
+import CustomOutlinedButton from "../../../Buttons/custom-outlined-button"
 
 const headCells = [
   {

@@ -14,10 +14,10 @@ import { useInView } from "react-intersection-observer"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline"
 import useSWR from "swr"
-import PillButton from "../../ReusableComponents/buttons/pill-button"
-import Pill from "../../ReusableComponents/text/pill"
 import { fetchers } from "../../../services/public-fetchers"
 import { FilmsHomePageContext } from "../../../contexts/PagesContexts"
+import PillButton from "../../Buttons/pill-button"
+import Pill from "../../Text/pill"
 
 const CATEGORIES = [
   "Tout",

@@ -3,16 +3,16 @@ import { useContext, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { ModalTitle } from "../Modal-Components/modal-title"
 import withConfirmAction from "../../hocs/withConfirmAction"
-import CustomModal from "../../ReusableComponents/modals/custom-modal"
-import CustomForm from "../../ReusableComponents/forms/custom-form"
-import CustomOutlinedInput from "../../ReusableComponents/forms/custom-outlined-input"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
-import CustomOutlinedSelect from "../../ReusableComponents/forms/custom-outlined-select"
-import SelectOption from "../../ReusableComponents/forms/custom-select-option"
-import DropzoneShowImage from "../../ReusableComponents/images/drop-zone-show-image"
 import compressImage from "../../../services/images"
-import CustomCircularProgress from "../../ReusableComponents/custom-circular-progress"
 import { AppContext } from "../../../contexts/AppContext"
+import CustomModal from "../custom-modal"
+import CustomForm from "../../Forms/custom-form"
+import CustomOutlinedInput from "../../Inputs/custom-outlined-input"
+import RectangleButton from "../../Buttons/rectangle-button"
+import CustomOutlinedSelect from "../../Inputs/custom-outlined-select"
+import CustomSelectOption from "../../Inputs/custom-select-option"
+import DropzoneShowImage from "../../Images/drop-zone-show-image"
+import CustomCircularProgress from "../../Helpers/custom-circular-progress"
 
 const REFERENCE_TYPES = [
   { id: "films", label: "Vidéo" },
@@ -114,9 +114,9 @@ function AddReferenceModal(props) {
     >
       {REFERENCE_TYPES &&
         REFERENCE_TYPES.map((type, key) => (
-          <SelectOption value={type.id} key={key}>
+          <CustomSelectOption value={type.id} key={key}>
             {type.label}
-          </SelectOption>
+          </CustomSelectOption>
         ))}
     </CustomOutlinedSelect>
   )
@@ -147,12 +147,10 @@ function AddReferenceModal(props) {
         />
 
         <Stack flexDirection="row" gap={2} justifyContent="end" width="100%">
-          <CustomSubmitButton onClick={handleCancel}>
-            Annuler
-          </CustomSubmitButton>
-          <CustomSubmitButton secondary="true" onClick={handleCreate}>
+          <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
+          <RectangleButton secondary="true" onClick={handleCreate}>
             {isLoading ? <CustomCircularProgress /> : "Enregistrer"}
-          </CustomSubmitButton>
+          </RectangleButton>
         </Stack>
       </CustomForm>
     </CustomModal>

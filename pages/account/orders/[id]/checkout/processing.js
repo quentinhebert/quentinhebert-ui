@@ -1,10 +1,10 @@
 import { Stack } from "@mui/material"
 import { useRouter } from "next/router"
 import PagesLayout from "../../../../../components/Layouts/PagesLayout"
-import PillButton from "../../../../../components/ReusableComponents/buttons/pill-button"
-import CenteredMaxWidthContainer from "../../../../../components/ReusableComponents/containers/centered-max-width-container"
-import BodyText from "../../../../../components/ReusableComponents/text/body-text"
-import PageTitle from "../../../../../components/ReusableComponents/titles/page-title"
+import PillButton from "../../../../../components/Buttons/pill-button"
+import CenteredMaxWidthContainer from "../../../../../components/Containers/centered-max-width-container"
+import BodyText from "../../../../../components/Text/body-text"
+import PageTitle from "../../../../../components/Titles/page-title"
 
 const head = {
   // Main meta tags

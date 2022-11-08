@@ -1,4 +1,4 @@
-import OneActionCardsGrid from "../../ReusableComponents/cards/one-action-cards-grid"
+import OneActionCardsGrid from "../../Cards/one-action-cards-grid"
 import AccountPagesLayout from "../AccountPagesLayout"
 
 const CARDS = [

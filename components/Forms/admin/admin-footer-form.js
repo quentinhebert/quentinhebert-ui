@@ -2,14 +2,14 @@ import { useState, useContext, useEffect } from "react"
 import { Stack } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AlertInfo from "../../Other/alert-info"
-import CustomForm from "../../ReusableComponents/forms/custom-form"
-import CustomFilledTextArea from "../../ReusableComponents/forms/custom-filled-text-area"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import CustomSubmitButton from "../../ReusableComponents/forms/custom-submit-button"
 import useSWR from "swr"
 import { AppContext } from "../../../contexts/AppContext"
+import CustomForm from "../custom-form"
+import RectangleButton from "../../Buttons/rectangle-button"
+import CustomFilledTextArea from "../../Inputs/custom-filled-text-area"
 
 export default function AdminFooterForm(props) {
   /********** PROPS **********/
@@ -122,16 +122,14 @@ export default function AdminFooterForm(props) {
           style={{ width: "100%" }}
         >
           <Stack flexDirection="row" gap={2} justifyContent="end">
-            <CustomSubmitButton onClick={handleCancel}>
-              Annuler
-            </CustomSubmitButton>
-            <CustomSubmitButton
-              secondary="true"
+            <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
+            <RectangleButton
+              secondary
               onClick={handleSaveFooter}
               disabled={!credits || credits.trim() === ""}
             >
               Enregistrer
-            </CustomSubmitButton>
+            </RectangleButton>
           </Stack>
         </motion.div>
       </CustomForm>

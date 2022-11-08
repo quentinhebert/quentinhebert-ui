@@ -1,10 +1,5 @@
-import CenteredMaxWidthContainer from "../../ReusableComponents/containers/centered-max-width-container"
-import BigTitle from "../../ReusableComponents/titles/big-title"
 import styles from "../../../styles/TextShine.module.css"
-import theme from "../../../config/theme"
 import { Box, Stack, Typography } from "@mui/material"
-import GradientTitleCard from "../../ReusableComponents/cards/gradient-title-card"
-import BodyText from "../../ReusableComponents/text/body-text"
 import * as React from "react"
 import { styled } from "@mui/material/styles"
 import Stepper from "@mui/material/Stepper"
@@ -17,7 +12,10 @@ import GradingIcon from "@mui/icons-material/Grading"
 import VideocamIcon from "@mui/icons-material/Videocam"
 import EuroIcon from "@mui/icons-material/Euro"
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome"
-import StrokeText from "../../ReusableComponents/text/stroke-text"
+import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
+import BodyText from "../../Text/body-text"
+import GradientTitleCard from "../../Titles/gradient-title-card"
+import StrokeText from "../../Text/stroke-text"
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {

@@ -2,7 +2,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import { Box, Typography } from "@mui/material"
 import styles from "../../styles/BouncingArrow.module.css"
 import theme from "../../config/theme"
-import ScaleUpOnHoverStack from "../ReusableComponents/animations/scale-up-on-hover-stack"
+import ScaleUpOnHoverStack from "../Animation/scale-up-on-hover-stack"
 
 export default function BouncingArrow(props) {
   const { text, scrollTo, refForScroll } = props

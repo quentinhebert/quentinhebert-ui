@@ -5,7 +5,7 @@ import AdminIndex from "../../components/Layouts/admin/AdminIndex"
 import LoginLayout from "../../components/Layouts/LoginLayout"
 import prepareProps from "../../services/public-fetchers"
 import PagesLayout from "../../components/Layouts/PagesLayout"
-import Redirect from "../../components/ReusableComponents/helpers/redirect"
+import Redirect from "../../components/Helpers/redirect"
 
 const head = {
   // Main meta tags

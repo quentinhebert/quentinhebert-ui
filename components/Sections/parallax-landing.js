@@ -3,8 +3,8 @@ import { Box, Button, Stack, Typography } from "@mui/material"
 import { Parallax } from "react-parallax"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import ScaleUpOnHoverStack from "../ReusableComponents/animations/scale-up-on-hover-stack"
 import { styled } from "@mui/system"
+import ScaleUpOnHoverStack from "../Animation/scale-up-on-hover-stack"
 
 const Text = styled((props) => (
   <Typography

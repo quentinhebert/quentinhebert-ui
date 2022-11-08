@@ -1,13 +1,11 @@
 import { Box, Stack } from "@mui/material"
 import { useState } from "react"
-import PageTitle from "../../ReusableComponents/titles/page-title"
-import Breadcrumbs from "../../ReusableComponents/navigation/breadcrumbs"
 import AppsIcon from "@mui/icons-material/Apps"
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
 import FilmsPanel from "./FilmsPanelModes/FilmsPanel"
 import FilmsPanelUI from "./FilmsPanelModes/FilmsPanelUI"
-import CustomOutlinedButton from "../../ReusableComponents/buttons/custom-outlined-button"
 import AdminPagesLayout from "../AdminPagesLayout"
+import CustomOutlinedButton from "../../Buttons/custom-outlined-button"
 
 export default function AdminFilmsPanel(props) {
   const {} = props
