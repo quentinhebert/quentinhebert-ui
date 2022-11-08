@@ -12,10 +12,10 @@ import GradingIcon from "@mui/icons-material/Grading"
 import VideocamIcon from "@mui/icons-material/Videocam"
 import EuroIcon from "@mui/icons-material/Euro"
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome"
-import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
-import BodyText from "../../Text/body-text"
-import GradientTitleCard from "../../Titles/gradient-title-card"
-import StrokeText from "../../Text/stroke-text"
+import CenteredMaxWidthContainer from "../../../../Containers/centered-max-width-container"
+import BodyText from "../../../../Text/body-text"
+import GradientTitleCard from "../../../../Titles/gradient-title-card"
+import StrokeText from "../../../../Text/stroke-text"
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { Box, Button, Stack } from "@mui/material"
 import SaveAltIcon from "@mui/icons-material/SaveAlt"
-import theme from "../../../config/theme"
+import theme from "../../../../../config/theme"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import BigTitle from "../../Titles/big-title"
+import BigTitle from "../../../../Titles/big-title"
 import BodyText from "../..Ttext/body-text"
 
 export default function FilmsExperiencePart(props) {
