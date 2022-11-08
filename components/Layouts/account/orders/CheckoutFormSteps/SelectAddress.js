@@ -17,7 +17,7 @@ import CustomFilledInput from "../../../../Inputs/custom-filled-input"
 import PageTitle from "../../../../Titles/page-title"
 import DualInputLine from "../../../../Containers/dual-input-line"
 import RightSubmitButton from "../../../../Buttons/right-submit-button"
-import BodyText from "../../../../text/body-text"
+import BodyText from "../../../../Text/body-text"
 
 function SelectAddress({
   defaultId,

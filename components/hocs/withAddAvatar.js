@@ -8,7 +8,7 @@ import compressImage from "../../services/images"
 import { UserContext } from "../../contexts/UserContext"
 import { AppContext } from "../../contexts/AppContext"
 import CustomModal from "../Modals/custom-modal"
-import BodyText from "../text/body-text"
+import BodyText from "../Text/body-text"
 import RectangleButton from "../Buttons/rectangle-button"
 
 export default function withAddAvatar(WrappedComponent) {

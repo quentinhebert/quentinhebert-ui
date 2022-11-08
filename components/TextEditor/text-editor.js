@@ -1,5 +1,5 @@
 import { RichTextEditor } from "@mantine/rte"
-import theme from "../../../config/theme"
+import theme from "../../config/theme"
 
 export default function TextEditor({ value, setValue, controls }) {
   return (

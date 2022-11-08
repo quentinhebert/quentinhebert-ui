@@ -4,7 +4,7 @@ import { AppContext } from "../../../contexts/AppContext"
 import apiCall from "../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import CustomTable from "../../Sections/custom-table"
-import BodyText from "../../text/body-text"
+import BodyText from "../../Text/body-text"
 import AdminPagesLayout from "../AdminPagesLayout"
 
 // Function to round param at closest decimal

@@ -7,6 +7,7 @@ import { AppContext } from "../../../contexts/AppContext"
 import CustomModal from "../custom-modal"
 import CustomCircularProgress from "../../Helpers/custom-circular-progress"
 import CustomForm from "../../Forms/custom-form"
+import RectangleButton from "../../Buttons/rectangle-button"
 
 export default function DeleteReferenceModal(props) {
   const { reference, open, handleClose, fetch } = props

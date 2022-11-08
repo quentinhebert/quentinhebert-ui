@@ -57,7 +57,7 @@ const SortableItem = ({ disabled, item, index, fetchData }) => {
         fetch={fetchData}
       />
       <DeleteReferenceModal
-        item={clickedItem}
+        reference={clickedItem}
         open={openDeleteModal}
         handleClose={handleCloseDeleteModal}
         fetch={fetchData}

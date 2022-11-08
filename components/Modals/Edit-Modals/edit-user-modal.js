@@ -157,12 +157,12 @@ export default function EditUserForm(props) {
       <ModalTitle>Modifier l'utilisateur</ModalTitle>
 
       <Stack direction="row" justifyContent="flex-end">
-        <CustomSubmitButton
+        <RectangleButton
           startIcon={<RefreshIcon />}
           onClick={(e) => fetchUser()}
         >
           Rafraîchir
-        </CustomSubmitButton>
+        </RectangleButton>
       </Stack>
 
       <CustomForm>
@@ -239,22 +239,22 @@ export default function EditUserForm(props) {
             />
           </DualInputLine>
 
-          <CustomSubmitButton
+          <RectangleButton
             maxWidth="100%"
             onClick={sendPasswordForgottenEmail}
             startIcon={<SendIcon />}
             fontSize="0.8rem"
           >
             Envoyer un e-mail de réinitialisation de mot de passe
-          </CustomSubmitButton>
-          <CustomSubmitButton
+          </RectangleButton>
+          <RectangleButton
             maxWidth="100%"
             onClick={resendConfirmEmail}
             startIcon={<SendIcon />}
             fontSize="0.8rem"
           >
             Envoyer un email de confirmation d'e-mail
-          </CustomSubmitButton>
+          </RectangleButton>
 
           <Box>
             <CustomCheckbox

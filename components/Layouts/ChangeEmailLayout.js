@@ -4,7 +4,7 @@ import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 import apiCall from "../../services/apiCalls/apiCall"
 import PleaseWait from "../Helpers/please-wait"
-import BodyText from "../text/body-text"
+import BodyText from "../Text/body-text"
 import OutlinedButton from "../Buttons/outlined-button"
 import SmallTitle from "../Titles/small-title"
 

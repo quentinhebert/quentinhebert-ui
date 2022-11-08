@@ -8,7 +8,7 @@ import { AppContext } from "../../../../contexts/AppContext"
 import { UserContext } from "../../../../contexts/UserContext"
 import CustomForm from "../../../Forms/custom-form"
 import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
-import BodyText from "../../../text/body-text"
+import BodyText from "../../../Text/body-text"
 import CustomOutlinedInput from "../../../Inputs/custom-outlined-input"
 
 const CopyPaste = (props) => (

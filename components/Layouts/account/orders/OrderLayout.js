@@ -9,7 +9,7 @@ import { ORDERSTATES } from "../../../../enums/orderStates"
 import ReceiptIcon from "@mui/icons-material/Receipt"
 import PillButton from "../../../Buttons/pill-button"
 import PleaseWait from "../../../Helpers/please-wait"
-import BodyText from "../../../text/body-text"
+import BodyText from "../../../Text/body-text"
 import Pill from "../../../Text/pill"
 import RefreshButton from "../../../Buttons/refresh-button"
 

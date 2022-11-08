@@ -3,7 +3,7 @@ import Accordion from "@mui/material/Accordion"
 import AccordionSummary from "@mui/material/AccordionSummary"
 import AccordionDetails from "@mui/material/AccordionDetails"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import BodyText from "../text/body-text"
+import BodyText from "../Text/body-text"
 
 export default function CustomAccordion({ title, ...props }) {
   return (

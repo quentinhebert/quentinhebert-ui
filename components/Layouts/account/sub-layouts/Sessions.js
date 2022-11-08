@@ -16,10 +16,11 @@ import { UserContext } from "../../../../contexts/UserContext"
 import { AppContext } from "../../../../contexts/AppContext"
 import CustomForm from "../../../Forms/custom-form"
 import PleaseWait from "../../../Helpers/please-wait"
-import BodyText from "../../../text/body-text"
+import BodyText from "../../../Text/body-text"
 import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
 import RefreshButton from "../../../Buttons/refresh-button"
 import CustomAccordion from "../../../Containers/custom-accordion"
+import RectangleButton from "../../../Buttons/rectangle-button"
 
 const DataRow = (props) => (
   <BodyText
@@ -247,13 +248,13 @@ const RenderSessions = (props) => {
                     justifyContent="end"
                     marginTop={4}
                   >
-                    <CustomSubmitButton
+                    <RectangleButton
                       secondary="true"
                       startIcon={<LogoutIcon />}
                       onClick={() => handleDeleteSession(session.id)}
                     >
                       Déconnecter
-                    </CustomSubmitButton>
+                    </RectangleButton>
                   </Stack>
                 </Stack>
               </CustomAccordion>

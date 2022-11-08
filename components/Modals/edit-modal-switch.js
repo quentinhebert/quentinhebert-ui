@@ -32,8 +32,8 @@ export default function EditModalSwitch(props) {
       return (
         <EditFilmModal
           filmId={dataId}
-          openEditModal={openEditModal}
-          handleCloseEditModal={handleCloseEditModal}
+          open={openEditModal}
+          handleClose={handleCloseEditModal}
         />
       )
     case "edit-film-gear":

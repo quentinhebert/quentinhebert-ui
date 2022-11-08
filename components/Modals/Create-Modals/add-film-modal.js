@@ -195,9 +195,9 @@ function AddFilmModal(props) {
           { length: currentYear - 1999 },
           (v, k) => currentYear + 1 - k - 1
         ).map((item, key) => (
-          <SelectOption value={item} key={key}>
+          <CustomSelectOption value={item} key={key}>
             {item}
-          </SelectOption>
+          </CustomSelectOption>
         ))}
       </CustomOutlinedSelect>
     </DualInputLine>

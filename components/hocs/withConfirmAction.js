@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import RectangleButton from "../Buttons/rectangle-button"
 import CustomModal from "../Modals/custom-modal"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
-import BodyText from "../text/body-text"
+import BodyText from "../Text/body-text"
 
 function withConfirmAction(WrappedComponent) {
   function Enhancer(props) {
