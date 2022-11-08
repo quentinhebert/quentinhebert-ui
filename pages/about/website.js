@@ -1,4 +1,4 @@
-import AboutWebsiteLayout from "../../components/Layouts/AboutWebsiteLayout"
+import AboutWebsite_Main from "../../components/Main/AboutWebsite_Main"
 import prepareProps from "../../services/public-fetchers"
 import PagesLayout from "../../components/Layouts/PagesLayout"
 
@@ -18,7 +18,7 @@ const head = {
 export default function AboutWebsitePage({ navbar, footer }) {
   return (
     <PagesLayout head={head} navbarData={navbar} footerData={footer}>
-      <AboutWebsiteLayout />
+      <AboutWebsite_Main />
     </PagesLayout>
   )
 }

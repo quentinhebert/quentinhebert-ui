@@ -12,7 +12,7 @@ import {
   formatDescription,
   formatTitle,
   ParseJsx,
-} from "../../Layouts/websites/WebsiteWhyADev--style"
+} from "../../Sections/Websites/Index/WhyADev/WebsiteWhyADev--style"
 import dynamic from "next/dynamic"
 import CustomCircularProgress from "../../Helpers/custom-circular-progress"
 import RectangleButton from "../../Buttons/rectangle-button"

@@ -1,10 +1,11 @@
 import React, { useContext } from "react"
 import { USERTYPES } from "../../../../enums/userTypes"
 import { UserContext } from "../../../../contexts/UserContext"
-import LoginLayout from "../../../../components/Layouts/LoginLayout"
-import AdminGearPanel from "../../../../components/Layouts/admin/AdminGearPanel"
-import { useRouter } from "next/router"
+import Login_Main from "../../../../components/Main/Login_Main"
+import FilmGearPanel_Main from "../../../../components/Main/Admin/FilmGearPanel_Main"
 import PagesLayout from "../../../../components/Layouts/PagesLayout"
+import Redirect from "../../../../components/Helpers/redirect"
+import AdminLayout from "../../../../components/Layouts/AdminLayout"
 
 const head = {
   // Main meta tags
@@ -23,15 +24,16 @@ export default function ManageVideosPage() {
   const { user } = useContext(UserContext)
 
   // If user is logged in but not as an admin, the user is redirected to his/her account page
-  const router = useRouter()
-  if (!!user && user.type !== USERTYPES.ADMIN) router.push("/account")
+  if (!!user && user.type !== USERTYPES.ADMIN)
+    return <Redirect target="/account" />
 
   return (
     <PagesLayout head={head}>
-      {!!user && user.type === USERTYPES.ADMIN ? (
-        <AdminGearPanel />
-      ) : (
-        <LoginLayout />
+      {!user && <Login_Main />}
+      {!!user && user.type === USERTYPES.ADMIN && (
+        <AdminLayout title="Mon matériel vidéo">
+          <FilmGearPanel_Main />
+        </AdminLayout>
       )}
     </PagesLayout>
   )

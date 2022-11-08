@@ -1,5 +1,4 @@
-import ContactLayout from "../../components/Layouts/contact/ContactLayout"
-import { Box } from "@mui/material"
+import Contact_Main from "../../components/Main/Contact_Main"
 import prepareProps from "../../services/public-fetchers"
 import PagesLayout from "../../components/Layouts/PagesLayout"
 
@@ -22,17 +21,7 @@ export default function ContactPage(props) {
 
   return (
     <PagesLayout head={head} navbarData={navbar} footerData={footer}>
-      <Box
-        sx={{
-          position: "fixed",
-          width: "100%",
-          height: "100%",
-          background: (theme) =>
-            `linear-gradient(150deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`,
-        }}
-      />
-
-      <ContactLayout staticData={websiteContact} />
+      <Contact_Main staticData={websiteContact} />
     </PagesLayout>
   )
 }

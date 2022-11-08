@@ -1,6 +1,6 @@
 import React from "react"
 import PagesLayout from "../../../components/Layouts/PagesLayout"
-import ResetPassordLayout from "../../../components/Layouts/ResetPasswordLayout"
+import ResetPassord_Main from "../../../components/Main/Account/ResetPassword_Main"
 
 const head = {
   // Main meta tags
@@ -16,7 +16,7 @@ const head = {
 export default function ResetPassordPage() {
   return (
     <PagesLayout head={head}>
-      <ResetPassordLayout />
+      <ResetPassord_Main />
     </PagesLayout>
   )
 }

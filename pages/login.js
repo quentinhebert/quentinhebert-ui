@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import LoginLayout from "../components/Layouts/LoginLayout"
+import Login_Main from "../components/Main/Login_Main"
 import { UserContext } from "../contexts/UserContext"
 import { Stack } from "@mui/material"
 import prepareProps from "../services/public-fetchers"
@@ -26,7 +26,7 @@ export default function LoginPage({ navbar, footer }) {
   return (
     <PagesLayout head={head} navbarData={navbar} footerData={footer}>
       {!user ? (
-        <LoginLayout redirect="/account" />
+        <Login_Main redirect="/account" />
       ) : (
         <Stack flexGrow={1} justifyContent="center">
           <PleaseWait />

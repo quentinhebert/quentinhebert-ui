@@ -1,10 +1,11 @@
 import React, { useContext } from "react"
 import { USERTYPES } from "../../../enums/userTypes"
 import { UserContext } from "../../../contexts/UserContext"
-import AdminBackOfficeIndex from "../../../components/Layouts/admin/AdminBackOfficeIndex"
-import LoginLayout from "../../../components/Layouts/LoginLayout"
-import { useRouter } from "next/router"
+import BackOffice_Main from "../../../components/Main/Admin/BackOffice_Main"
+import Login_Main from "../../../components/Main/Login_Main"
 import PagesLayout from "../../../components/Layouts/PagesLayout"
+import Redirect from "../../../components/Helpers/redirect"
+import AdminLayout from "../../../components/Layouts/AdminLayout"
 
 const head = {
   // Main meta tags
@@ -22,15 +23,17 @@ export default function AdminManageContentIndexPage() {
   const { user } = useContext(UserContext)
 
   // If user is logged in but not as an admin, the user is redirected to his/her account page
-  const router = useRouter()
-  if (!!user && user.type !== USERTYPES.ADMIN) router.push("/account")
+  if (!!user && user.type !== USERTYPES.ADMIN)
+    return <Redirect target="/account" />
 
   return (
     <PagesLayout head={head}>
-      {!!user && user.type === USERTYPES.ADMIN ? (
-        <AdminBackOfficeIndex />
-      ) : (
-        <LoginLayout />
+      {!user && <Login_Main />}
+
+      {!!user && user.type === USERTYPES.ADMIN && (
+        <AdminLayout title="Back-Office">
+          <BackOffice_Main />
+        </AdminLayout>
       )}
     </PagesLayout>
   )

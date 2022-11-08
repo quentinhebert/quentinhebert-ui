@@ -10,7 +10,7 @@ import {
   formatDescription,
   formatTitle,
   ParseJsx,
-} from "../../Layouts/websites/WebsiteWhyADev--style"
+} from "../../Sections/Websites/Index/WhyADev/WebsiteWhyADev--style"
 import CustomModal from "../custom-modal"
 import CustomForm from "../../Forms/custom-form"
 import RectangleButton from "../../Buttons/rectangle-button"

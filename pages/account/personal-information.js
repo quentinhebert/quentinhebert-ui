@@ -1,8 +1,9 @@
 import React, { useContext } from "react"
 import { UserContext } from "../../contexts/UserContext"
-import LoginLayout from "../../components/Layouts/LoginLayout"
-import ChangePersonalInformationLayout from "../../components/Layouts/account/ChangePersonalInformationLayout"
+import Login_Main from "../../components/Main/Login_Main"
+import AccountPersonalInformation_Main from "../../components/Main/Account/AccountPersonalInformation_Main"
 import PagesLayout from "../../components/Layouts/PagesLayout"
+import AccountLayout from "../../components/Layouts/AccountLayout"
 
 const head = {
   // Main meta tags
@@ -21,9 +22,11 @@ function PersonalInformationPage() {
   return (
     <PagesLayout head={head}>
       {!user ? (
-        <LoginLayout />
+        <Login_Main />
       ) : (
-        <ChangePersonalInformationLayout user={user} setUser={setUser} />
+        <AccountLayout title="Mes informations personnelles">
+          <AccountPersonalInformation_Main user={user} setUser={setUser} />
+        </AccountLayout>
       )}
     </PagesLayout>
   )

@@ -1,11 +1,11 @@
 import React, { useContext } from "react"
 import { USERTYPES } from "../../enums/userTypes"
 import { UserContext } from "../../contexts/UserContext"
-import AdminIndex from "../../components/Layouts/admin/AdminIndex"
-import LoginLayout from "../../components/Layouts/LoginLayout"
-import prepareProps from "../../services/public-fetchers"
+import AdminIndex_Main from "../../components/Main/Admin/AdminIndex_Main"
+import Login_Main from "../../components/Main/Login_Main"
 import PagesLayout from "../../components/Layouts/PagesLayout"
 import Redirect from "../../components/Helpers/redirect"
+import AdminLayout from "../../components/Layouts/AdminLayout"
 
 const head = {
   // Main meta tags
@@ -17,7 +17,7 @@ const head = {
   ogImg: "/medias/ogimg.png",
 }
 
-export default function AdminLoginPage({ footer }) {
+export default function AdminLoginPage({}) {
   // Check if user has grant to access that page
   const { user } = useContext(UserContext)
 
@@ -27,15 +27,13 @@ export default function AdminLoginPage({ footer }) {
 
   return (
     <PagesLayout head={head}>
-      {!!user && user.type === USERTYPES.ADMIN ? (
-        <AdminIndex />
-      ) : (
-        <LoginLayout />
+      {!user && <Login_Main />}
+
+      {!!user && user.type === USERTYPES.ADMIN && (
+        <AdminLayout title="Panneau administrateur" noBreadcrumbs>
+          <AdminIndex_Main />
+        </AdminLayout>
       )}
     </PagesLayout>
   )
-}
-
-export async function getStaticProps() {
-  return await prepareProps(["footer"])
 }

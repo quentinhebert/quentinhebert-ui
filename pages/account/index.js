@@ -1,8 +1,9 @@
 import React, { useContext } from "react"
 import { UserContext } from "../../contexts/UserContext"
-import AccountIndex from "../../components/Layouts/account/AccountIndex"
-import LoginLayout from "../../components/Layouts/LoginLayout"
+import AccountIndex_Main from "../../components/Main/Account/AccountIndex_Main"
+import Login_Main from "../../components/Main/Login_Main"
 import PagesLayout from "../../components/Layouts/PagesLayout"
+import AccountLayout from "../../components/Layouts/AccountLayout"
 
 const head = {
   // Main meta tags
@@ -20,7 +21,13 @@ export default function AccountIndexPage() {
 
   return (
     <PagesLayout head={head}>
-      {!user ? <LoginLayout /> : <AccountIndex user={user} />}
+      {!user ? (
+        <Login_Main />
+      ) : (
+        <AccountLayout title="Mon compte" noBreadcrumbs>
+          <AccountIndex_Main user={user} />
+        </AccountLayout>
+      )}
     </PagesLayout>
   )
 }

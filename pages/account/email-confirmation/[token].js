@@ -1,5 +1,5 @@
 import React from "react"
-import EmailConfirmationLayout from "../../../components/Layouts/EmailConfirmationLayout"
+import EmailConfirmation_Main from "../../../components/Main/Account/EmailConfirmation_Main"
 import PagesLayout from "../../../components/Layouts/PagesLayout"
 
 const head = {
@@ -16,7 +16,7 @@ const head = {
 export default function EmailConfirmationPage() {
   return (
     <PagesLayout head={head}>
-      <EmailConfirmationLayout />
+      <EmailConfirmation_Main />
     </PagesLayout>
   )
 }

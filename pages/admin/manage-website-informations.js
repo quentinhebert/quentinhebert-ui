@@ -1,10 +1,11 @@
 import React, { useContext } from "react"
 import { USERTYPES } from "../../enums/userTypes"
 import { UserContext } from "../../contexts/UserContext"
-import LoginLayout from "../../components/Layouts/LoginLayout"
-import AdminManageWebsiteInfoPanel from "../../components/Layouts/admin/AdminWebsiteInfoPanel"
-import { useRouter } from "next/router"
+import Login_Main from "../../components/Main/Login_Main"
+import WebsiteInfoPanel_Main from "../../components/Main/Admin/WebsiteInfoPanel_Main"
 import PagesLayout from "../../components/Layouts/PagesLayout"
+import Redirect from "../../components/Helpers/redirect"
+import AdminLayout from "../../components/Layouts/AdminLayout"
 
 const head = {
   // Main meta tags
@@ -20,18 +21,19 @@ const head = {
 
 export default function AdminManageWebsiteInformations() {
   // Check if user has grant to access that page
-  const router = useRouter()
   const { user } = useContext(UserContext)
 
   // If user is logged in but not as an admin, the user is redirected to his/her account page
-  if (!!user && user.type !== USERTYPES.ADMIN) router.push("/account")
+  if (!!user && user.type !== USERTYPES.ADMIN)
+    return <Redirect target="/account" />
 
   return (
     <PagesLayout head={head}>
-      {!!user && user.type === USERTYPES.ADMIN ? (
-        <AdminManageWebsiteInfoPanel />
-      ) : (
-        <LoginLayout />
+      {!user && <Login_Main />}
+      {!!user && user.type === USERTYPES.ADMIN && (
+        <AdminLayout title="Gérer les informations du site">
+          <WebsiteInfoPanel_Main />
+        </AdminLayout>
       )}
     </PagesLayout>
   )

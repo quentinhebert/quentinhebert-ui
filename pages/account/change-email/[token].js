@@ -1,5 +1,5 @@
 import React from "react"
-import ChangeEmailLayout from "../../../components/Layouts/ChangeEmailLayout"
+import ChangeEmail_Main from "../../../components/Main/Account/ChangeEmail_Main"
 import PagesLayout from "../../../components/Layouts/PagesLayout"
 
 const head = {
@@ -16,7 +16,7 @@ const head = {
 export default function ChangeEmailPage() {
   return (
     <PagesLayout head={head}>
-      <ChangeEmailLayout />
+      <ChangeEmail_Main />
     </PagesLayout>
   )
 }

@@ -1,8 +1,9 @@
 import React, { useContext } from "react"
 import { UserContext } from "../../contexts/UserContext"
-import LoginLayout from "../../components/Layouts/LoginLayout"
-import SecurityLayout from "../../components/Layouts/account/SecurityLayout"
+import Login_Main from "../../components/Main/Login_Main"
+import AccountSecurity_Main from "../../components/Main/Account/AccountSecurity_Main"
 import PagesLayout from "../../components/Layouts/PagesLayout"
+import AccountLayout from "../../components/Layouts/AccountLayout"
 
 const head = {
   // Main meta tags
@@ -21,9 +22,11 @@ export default function SecurityPage() {
   return (
     <PagesLayout head={head}>
       {!user ? (
-        <LoginLayout />
+        <Login_Main />
       ) : (
-        <SecurityLayout user={user} setUser={setUser} />
+        <AccountLayout title="Sécurité">
+          <AccountSecurity_Main user={user} setUser={setUser} />
+        </AccountLayout>
       )}
     </PagesLayout>
   )

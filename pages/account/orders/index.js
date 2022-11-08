@@ -1,8 +1,8 @@
-import { useRouter } from "next/router"
 import { useContext } from "react"
-import OrdersLayout from "../../../components/Layouts/account/orders/OrdersLayout"
-import Custom401Layout from "../../../components/Layouts/error/Custom401Layout"
-import LoginLayout from "../../../components/Layouts/LoginLayout"
+import Orders_Main from "../../../components/Main/Account/Orders_Main"
+import AccountLayout from "../../../components/Layouts/AccountLayout"
+import Custom401_Main from "../../../components/Main/Errors/Custom401_Main"
+import Login_Main from "../../../components/Main/Login_Main"
 import PagesLayout from "../../../components/Layouts/PagesLayout"
 import { UserContext } from "../../../contexts/UserContext"
 import { USERTYPES } from "../../../enums/userTypes"
@@ -22,15 +22,19 @@ export default function OrdersPage() {
   // Check if user has grant to access that page
   const { user } = useContext(UserContext)
 
-  const router = useRouter()
-
   return (
     <PagesLayout head={head}>
-      {!user && <LoginLayout />}
-      {!!user && user.type === USERTYPES.CLIENT ? (
-        <OrdersLayout />
-      ) : (
-        <Custom401Layout />
+      {/* UNLOGGED */}
+      {!user && <Login_Main />}
+
+      {/* WRONG CREDENTIALS */}
+      {!!user && user.type !== USERTYPES.CLIENT && <Custom401_Main />}
+
+      {/* GOOD CREDENTIALS */}
+      {!!user && user.type === USERTYPES.CLIENT && (
+        <AccountLayout title="Mes commandes">
+          <Orders_Main />
+        </AccountLayout>
       )}
     </PagesLayout>
   )

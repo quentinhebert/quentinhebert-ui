@@ -1,14 +1,14 @@
 import { Stack, Box, Typography } from "@mui/material"
-import VimeoPlayer from "../Sections/vimeo-player"
 import Boop from "../Animation/boop"
 import CloseIcon from "@mui/icons-material/Close"
 import { memo, useEffect, useRef, useState } from "react"
-import YoutubePlayer from "../Sections/youtube-player"
 import BouncingArrow from "../Navigation/BouncingArrow"
 import { isVimeo, isYoutube } from "../../services/urls"
 import ScaleUpOnHoverStack from "../Animation/scale-up-on-hover-stack"
 import BodyText from "../Text/body-text"
 import CustomModal from "./custom-modal"
+import VimeoPlayer from "../VideoPlayers/vimeo-player"
+import YoutubePlayer from "../VideoPlayers/youtube-player"
 
 const CloseBtn = (props) => (
   <Box
