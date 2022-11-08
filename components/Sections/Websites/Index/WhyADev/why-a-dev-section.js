@@ -9,11 +9,7 @@ import { useInView } from "react-intersection-observer"
 import { WebsitesHomePageContext } from "../../../../../contexts/PagesContexts"
 import { fetchers } from "../../../../../services/public-fetchers"
 import useSWR from "swr"
-import {
-  formatDescription,
-  formatTitle,
-  ParseJsx,
-} from "./WebsiteWhyADev--style"
+import { formatDescription, formatTitle, ParseJsx } from "./why-a-dev--style"
 
 const Step = ({ slide }) => (
   <Stack alignItems="center" justifyContent="center">

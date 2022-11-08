@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material"
-import ChangeAvatarSection from "../../Sections/Account/PersonalInformation/ChangeAvatarSection"
-import ChangePersonalInformationSection from "../../Sections/Account/PersonalInformation/ChangePersonalInformationSection"
-import ChangeTimezoneSection from "../../Sections/Account/PersonalInformation/ChangeTimezoneSection"
+import ChangeAvatarSection from "../../Sections/Account/PersonalInformation/change-avatar-section"
+import ChangePersonalInformationSection from "../../Sections/Account/PersonalInformation/change-personal-information-section"
+import ChangeTimezoneSection from "../../Sections/Account/PersonalInformation/change-timezone-section"
 
 export default function AccountPersonalInformation_Main(props) {
   const { user, setUser } = props

@@ -1,9 +1,9 @@
 import React, { useRef } from "react"
 import { Stack } from "@mui/material"
 import ScrollToTopBtn from "../Navigation/scroll-to-top"
-import HeroSection from "../Sections/Films/Index/HeroSection"
-import PortfolioSection from "../Sections/Films/Index/Portfolio/PortfolioSection"
-import FocusSection from "../Sections/Films/Index/FocusSection"
+import HeroSection from "../Sections/Films/Index/hero-section"
+import PortfolioSection from "../Sections/Films/Index/Portfolio/portfolio-section"
+import FocusSection from "../Sections/Films/Index/focus-section"
 import ContactSection from "../Sections/ReusableSections/contact-section"
 
 export default function FilmsIndexLayout(props) {

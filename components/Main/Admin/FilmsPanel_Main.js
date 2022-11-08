@@ -2,8 +2,8 @@ import { Box, Stack } from "@mui/material"
 import { useState } from "react"
 import AppsIcon from "@mui/icons-material/Apps"
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
-import FilmsPanelSection from "../../Sections/Admin/Films/FilmsPanelSection"
-import FilmsPanelUISection from "../../Sections/Admin/Films/FilmsPanelUISection"
+import FilmsPanelSection from "../../Sections/Admin/Films/films-panel-section"
+import FilmsPanelUISection from "../../Sections/Admin/Films/films-panel-ui-section"
 import CustomOutlinedButton from "../../Buttons/custom-outlined-button"
 
 export default function FilmsPanel_Main(props) {

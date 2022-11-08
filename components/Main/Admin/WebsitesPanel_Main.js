@@ -6,10 +6,10 @@ import dynamic from "next/dynamic"
 import CustomOutlinedButton from "../../Buttons/custom-outlined-button"
 
 const WebsitesPanelSection = dynamic(() =>
-  import("../../Sections/Admin/Websites/WebsitesPanelSection")
+  import("../../Sections/Admin/Websites/websites-panel-section")
 )
 const WebsitesPanelUISection = dynamic(() =>
-  import("../../Sections/Admin/Websites/WebsitesPanelUISection")
+  import("../../Sections/Admin/Websites/websites-panel-ui-section")
 )
 
 export default function WebsitesPanel_Main(props) {

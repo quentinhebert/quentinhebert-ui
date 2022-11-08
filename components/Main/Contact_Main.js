@@ -1,5 +1,5 @@
 import { Stack, useMediaQuery } from "@mui/material"
-import ContactInformationSection from "../Sections/ContactPage/ContactInformationSection"
+import ContactInformationSection from "../Sections/ContactPage/contact-information-section"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import ContactForm from "../Forms/contact-form"

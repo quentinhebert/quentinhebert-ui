@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Stack, Typography, useMediaQuery } from "@mui/material"
 import AnimateHeight from "react-animate-height"
-import VideoList from "./VideoList"
+import VideoList from "./video-list"
 import styles from "../../../../../styles/TextShine.module.css"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"

@@ -1,9 +1,9 @@
 import { useRef } from "react"
 import { Stack } from "@mui/material"
 import FixedBackground from "../Backgrounds/fixed-background"
-import HeroSection from "../Sections/Websites/Index/HeroSection"
-import WhyADevSection from "../Sections/Websites/Index/WhyADev/WhyADevSection"
-import PortfolioSection from "../Sections/Websites/Index/PortfolioSection"
+import HeroSection from "../Sections/Websites/Index/hero-section"
+import WhyADevSection from "../Sections/Websites/Index/WhyADev/why-a-dev-section"
+import PortfolioSection from "../Sections/Websites/Index/portfolio-section"
 import ContactSection from "../Sections/ReusableSections/contact-section"
 import ScrollToTopBtn from "../Navigation/scroll-to-top"
 
