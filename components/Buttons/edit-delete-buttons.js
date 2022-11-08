@@ -10,12 +10,14 @@ export default function EditDeleteButtons({ handleDelete, handleEdit }) {
         background="transparent"
         border={(theme) => `1px solid ${theme.palette.secondary.main}`}
         color={(theme) => theme.palette.text.white}
+        padding="0.5rem 0"
       >
-        <DeleteIcon color="secondary" />
+        <DeleteIcon color="secondary" sx={{ fontSize: "1rem" }} />
       </PillButton>
       <PillButton
         onClick={handleEdit}
         color={(theme) => theme.palette.text.primary}
+        fontSize="0.8rem"
       >
         Modifier
       </PillButton>
