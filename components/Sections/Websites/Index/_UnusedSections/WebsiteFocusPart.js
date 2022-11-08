@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 import { Box, Button, Stack } from "@mui/material"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import BodyText from "../../Text/body-text"
-import BigTitle from "../../Titles/big-title"
-import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
+import BodyText from "../../../../Text/body-text"
+import BigTitle from "../../../../Titles/big-title"
+import CenteredMaxWidthContainer from "../../../../Containers/centered-max-width-container"
 
 const Keyword = ({ text }) => (
   <Box

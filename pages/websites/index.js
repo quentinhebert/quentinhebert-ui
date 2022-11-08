@@ -1,4 +1,4 @@
-import WebsitesIndexLayout from "../../components/Layouts/websites/WebsitesIndexLayout"
+import WebsitesIndex_Main from "../../components/Main/WebsitesIndex_Main"
 import prepareProps from "../../services/public-fetchers"
 import { WebsitesHomePageContext } from "../../contexts/PagesContexts"
 import PagesLayout from "../../components/Layouts/PagesLayout"
@@ -27,7 +27,7 @@ export default function WebsitesHomePage({
       <WebsitesHomePageContext.Provider
         value={{ staticData: { websites, websiteSlides } }}
       >
-        <WebsitesIndexLayout />
+        <WebsitesIndex_Main />
       </WebsitesHomePageContext.Provider>
     </PagesLayout>
   )

@@ -1,13 +1,13 @@
 import { Stack, Typography } from "@mui/material"
-import styles from "../../../styles/TextShine.module.css"
-import SwipeableViews from "../../Other/SwipeableViews"
+import styles from "../../../../../styles/TextShine.module.css"
+import SwipeableViews from "../../../../Other/SwipeableViews"
 import { useContext, useEffect, useState } from "react"
-import Stepper from "../../Navigation/stepper"
+import Stepper from "../../../../Navigation/stepper"
 import SwipeIcon from "@mui/icons-material/Swipe"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import { WebsitesHomePageContext } from "../../../contexts/PagesContexts"
-import { fetchers } from "../../../services/public-fetchers"
+import { WebsitesHomePageContext } from "../../../../../contexts/PagesContexts"
+import { fetchers } from "../../../../../services/public-fetchers"
 import useSWR from "swr"
 import {
   formatDescription,
@@ -130,7 +130,7 @@ const Caroussel = () => {
   )
 }
 
-export default function WebsitesWhyADevPart(props) {
+export default function WhyADevSection(props) {
   const { topRef } = props
 
   return (

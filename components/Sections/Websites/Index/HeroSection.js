@@ -1,8 +1,8 @@
 import { Box, Slide, Stack, Typography } from "@mui/material"
-import PillButton from "../../Buttons/pill-button"
-import BouncingArrow from "../../Navigation/BouncingArrow"
+import PillButton from "../../../Buttons/pill-button"
+import BouncingArrow from "../../../Navigation/BouncingArrow"
 
-export default function WebsitesIndexHero(props) {
+export default function HeroSection(props) {
   const { refsForScroll } = props
 
   const scrollTo = (ref) => {

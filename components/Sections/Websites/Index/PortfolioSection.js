@@ -1,21 +1,21 @@
-import styles from "../../../styles/TextShine.module.css"
+import styles from "../../../../styles/TextShine.module.css"
 import { Box, Stack, useMediaQuery } from "@mui/material"
 import OpenInNewIcon from "@mui/icons-material/OpenInNew"
 import { useContext } from "react"
-import { WebsitesHomePageContext } from "../../../contexts/PagesContexts"
+import { WebsitesHomePageContext } from "../../../../contexts/PagesContexts"
 import useSWR from "swr"
-import { fetchers } from "../../../services/public-fetchers"
-import ScaleUpOnHoverStack from "../../Animation/scale-up-on-hover-stack"
-import PillButton from "../../Buttons/pill-button"
-import Pill from "../../Text/pill"
-import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
-import MediumTitle from "../../Titles/medium-title"
-import GradientTitleCard from "../../Titles/gradient-title-card"
-import BodyText from "../../Text/body-text"
-import StrokeText from "../../Text/stroke-text"
-import ImageCard from "../../Cards/image-card"
+import { fetchers } from "../../../../services/public-fetchers"
+import ScaleUpOnHoverStack from "../../../Animation/scale-up-on-hover-stack"
+import PillButton from "../../../Buttons/pill-button"
+import Pill from "../../../Text/pill"
+import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
+import MediumTitle from "../../../Titles/medium-title"
+import GradientTitleCard from "../../../Titles/gradient-title-card"
+import BodyText from "../../../Text/body-text"
+import StrokeText from "../../../Text/stroke-text"
+import ImageCard from "../../../Cards/image-card"
 
-export default function WebsitesPortfolio(props) {
+export default function PortfolioSection(props) {
   const { topRef } = props
 
   /********* StaticProps cached at build time **********/

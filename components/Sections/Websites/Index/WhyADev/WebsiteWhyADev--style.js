@@ -1,10 +1,10 @@
 import JsxParser from "react-jsx-parser"
-import BodyText from "../../Text/body-text"
-import StrokeText from "../../Text/stroke-text"
-import MediumTitle from "../../Titles/medium-title"
-import styles from "../../../styles/TextShine.module.css"
-import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
-import Keyword from "../../Text/keyword"
+import BodyText from "../../../../Text/body-text"
+import StrokeText from "../../../../Text/stroke-text"
+import MediumTitle from "../../../../Titles/medium-title"
+import styles from "../../../../../styles/TextShine.module.css"
+import CenteredMaxWidthContainer from "../../../../Containers/centered-max-width-container"
+import Keyword from "../../../../Text/keyword"
 
 const Title = (props) => (
   <MediumTitle
