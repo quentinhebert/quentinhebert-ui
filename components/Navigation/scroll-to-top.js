@@ -38,28 +38,28 @@ export default function ScrollToTopBtn(props) {
   return (
     <Slide direction="left" in={showButton} mountOnEnter unmountOnExit>
       <Stack
-        justifyContent="center"
-        alignItems="center"
+        className="flex-center"
         position="fixed"
         bottom="5%"
         right="5%"
         zIndex={100}
       >
         <Button
-          onClick={(e) => scrollTo(refForScroll)}
+          variant="contained"
+          onClick={() => scrollTo(refForScroll)}
           startIcon={<AirplanemodeActiveIcon sx={{ margin: "0 .25rem" }} />}
+          color="secondary"
           sx={{
             borderRadius: "30px",
-            margin: "1rem auto",
             padding: { xs: "0.5rem 1rem", md: ".75rem 1.5rem" },
-            backgroundColor: "rgb(198, 144, 14, 0.8)",
             color: "#000",
-            letterSpacing: "1px",
-            fontSize: "0.8rem",
+            letterSpacing: { xs: "1px", md: "0.5px" },
+            fontSize: { xs: "0.6rem", md: "0.8rem" },
             fontWeight: "bold",
             boxShadow: "5px 10px 30px 5px rgb(0,0,0,0.3)",
+            opacity: 0.7,
             "&:hover": {
-              backgroundColor: (theme) => theme.palette.background.secondary,
+              opacity: 1,
             },
           }}
         >
