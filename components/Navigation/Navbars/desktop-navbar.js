@@ -1,9 +1,11 @@
 import { Stack, Typography } from "@mui/material"
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { useRouter } from "next/router"
 
 export default function DesktopNavbar(props) {
   const { list, isReduced } = props
+  const router = useRouter()
 
   return (
     <Stack
@@ -15,6 +17,7 @@ export default function DesktopNavbar(props) {
     >
       {list?.length &&
         list.map((item, key) => {
+          const active = router.pathname === item.href
           return (
             <motion.div
               initial={{ opacity: 0 }}
@@ -33,7 +36,9 @@ export default function DesktopNavbar(props) {
                   letterSpacing={2}
                   component="a"
                   sx={{
-                    color: "#fff",
+                    color: active
+                      ? (theme) => theme.palette.secondary.main
+                      : "#fff",
                     borderColor: (theme) => theme.palette.secondary.main,
                     cursor: "pointer",
                     fontSize: isReduced ? "0.85rem" : "0.9rem",

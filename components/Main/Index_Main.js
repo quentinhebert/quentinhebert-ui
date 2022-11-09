@@ -27,9 +27,6 @@ export default function Index_Main(props) {
     <Stack flexGrow={1}>
       <Stack ref={topRef} />
 
-      {/* Fixed Background for the page */}
-      <FixedBackground background="linear-gradient(180deg, #000, rgb(0,0,0,0.5)), url(/medias/lines.jpg)" />
-
       {/* HERO */}
       <HeroSection scrollTo={scrollTo} refForScroll={refsForScroll.welcome} />
 

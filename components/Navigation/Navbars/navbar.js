@@ -5,7 +5,7 @@ import Toolbar from "@mui/material/Toolbar"
 import LoginOrMenuButton from "../login-or-menu-button"
 import { UserContext } from "../../../contexts/UserContext"
 import Image from "next/image"
-import { Slide, Stack, Typography, useMediaQuery } from "@mui/material"
+import { Button, Slide, Stack, Typography, useMediaQuery } from "@mui/material"
 import theme from "../../../config/theme"
 import { useRouter } from "next/router"
 import dynamic from "next/dynamic"
@@ -57,106 +57,85 @@ export default function Navbar(props) {
   return (
     <>
       <AppBar
+        className="flex-center"
         position="fixed"
         component="nav"
         sx={{
           background: "transparent",
           width: "100%",
           boxShadow: "none",
+          gap: 2,
+          background: isReduced ? "#000" : "transparent",
+          borderBottom: isReduced ? "1px solid" : "",
+          borderColor: (theme) => theme.palette.secondary.main,
         }}
       >
-        <Box
-          sx={{
-            position: "fixed",
-            width: "100%",
-            height: "calc(65px + 2px)",
-            transition: "opacity 0.25s ease-in-out",
-            opacity: isReduced ? 1 : 0,
-            top: "-2px",
-            background: "transparent",
-          }}
-        />
-        <Box sx={{ flexGrow: 2, width: "100%" }}>
-          <Toolbar sx={{ width: "100%" }}>
-            <Stack
-              padding="1rem 0.75rem"
-              flexDirection="row"
-              alignItems="center"
+        <Stack padding="1rem 0.75rem" alignItems="center">
+          <Link href="/contact" passHref>
+            <Button
+              variant="outlined"
+              sx={{
+                borderRadius: "30px",
+                position: "absolute",
+                left: { xs: 20, md: 50 },
+                top: { xs: isReduced ? 17 : 25, md: isReduced ? 10 : 20 },
+                color: "#fff",
+                borderColor: "#fff",
+                padding: { xs: "0.25rem 0.75rem", md: "0.5rem 2rem" },
+                letterSpacing: 1,
+              }}
             >
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 2 }}
+              Contact
+            </Button>
+          </Link>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2 }}
+          >
+            <Link href="/" passHref>
+              <ScaleUpOnHoverStack
+                component="a"
+                sx={{ flexDirection: "row", alignItems: "center" }}
               >
-                <Link href="/" passHref>
-                  <ScaleUpOnHoverStack
-                    component="a"
-                    sx={{ flexDirection: "row", alignItems: "center" }}
-                  >
-                    <Stack
-                      width={isReduced ? "45px" : "65px"}
-                      height={isReduced ? "35px" : "50px"}
-                      sx={{
-                        transition:
-                          "width 0.1s ease-in-out, height 0.1s ease-in-out",
-                      }}
-                    >
-                      {data?.logo?.URL && (
-                        <Image
-                          src={data.logo.URL}
-                          width="100%"
-                          height="100%"
-                          priority={true}
-                        />
-                      )}
-                    </Stack>
-                    <Stack ref={ContainerRef} overflow="hidden">
-                      <Slide
-                        direction="right"
-                        {...{ timeout: 300 }}
-                        in={!isReduced}
-                        container={ContainerRef.current}
-                      >
-                        <Typography
-                          sx={{
-                            color: "#fff",
-                            textTransform: "uppercase",
-                            letterSpacing: "1.5px",
-                            fontStyle: "italic",
-                            lineHeight: "1.2rem",
-                            fontSize: "1rem",
-                            fontFamily: "Helmet",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          Quentin Hébert
-                        </Typography>
-                      </Slide>
-                    </Stack>
-                  </ScaleUpOnHoverStack>
-                </Link>
-              </motion.div>
-            </Stack>
-            <Box component="div" sx={{ flexGrow: 1 }} />
+                <Stack
+                  width={isReduced ? "45px" : "65px"}
+                  height={isReduced ? "35px" : "50px"}
+                  sx={{
+                    transition:
+                      "width 0.1s ease-in-out, height 0.1s ease-in-out",
+                  }}
+                >
+                  {data?.logo?.URL && (
+                    <Image
+                      src={data.logo.URL}
+                      width="100%"
+                      height="100%"
+                      priority={true}
+                    />
+                  )}
+                </Stack>
+              </ScaleUpOnHoverStack>
+            </Link>
+          </motion.div>
 
-            {isMobile ? (
-              <MobileNavbar
-                mainColor={mainColor}
-                list={data.menu_items}
-                page={page}
-              />
-            ) : (
-              <DesktopNavbar
-                mainColor={mainColor}
-                list={data.menu_items}
-                page={page}
-                isReduced={isReduced}
-              />
-            )}
+          <Stack
+            sx={{
+              position: "absolute",
+              right: { xs: 20, md: 50 },
+              top: isReduced ? 10 : 15,
+            }}
+          >
+            <MobileNavbar
+              mainColor={mainColor}
+              list={data.menu_items}
+              page={page}
+            />
+          </Stack>
+        </Stack>
 
-            {!!user && <LoginOrMenuButton />}
-          </Toolbar>
-        </Box>
+        {!!user && <LoginOrMenuButton />}
       </AppBar>
 
       {/* Trick to have a linear gradient behind the navbar but not when burger menu is open */}

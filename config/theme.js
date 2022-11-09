@@ -6,6 +6,7 @@ const tersary = "#AE1B1E"
 const link = "#06c"
 const errorColor = "#AE1B1E"
 const grey = "#696969"
+const darkGrey = "#161616"
 
 const mainTheme = createTheme({
   palette: {
@@ -27,6 +28,7 @@ const mainTheme = createTheme({
       alert: "rgb(255, 226, 183)",
       white: "#dddddd",
       grey: grey,
+      darkGrey: darkGrey,
     },
     text: {
       primary: primary,

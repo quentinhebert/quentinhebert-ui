@@ -152,6 +152,9 @@ body {
 .flex-grow {
   flex-grow: 1;
 }
+.uppercase {
+  text-transform: uppercase;
+}
 
 .no-select {
   -webkit-touch-callout: none; /* iOS Safari */

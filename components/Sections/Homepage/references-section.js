@@ -34,7 +34,7 @@ export default function ReferencesSection(props) {
   return (
     <Stack
       className="full-width flex-center"
-      sx={{ backgroundColor: "red", height: "100vh" }}
+      sx={{ backgroundColor: "#000", height: "100vh", zIndex: 0 }}
     >
       <MediumTitle
         textAlign="center"

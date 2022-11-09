@@ -201,68 +201,75 @@ export default function ServicesSection(props) {
     <>
       <Stack ref={refForScroll} sx={{ scrollMarginTop: "60px" }} />
 
-      <CenteredMaxWidthContainer zIndex={1}>
-        <Stack
-          width="100%"
-          alignItems="center"
-          justifyContent="center"
-          ref={ref}
-          sx={{
-            margin: { xs: "2rem 0 8rem", md: "6rem 0 12rem" },
-            gap: { xs: 1, md: 2 },
-          }}
-        >
+      <Stack
+        sx={{
+          zIndex: 1,
+          backgroundColor: "#000",
+        }}
+      >
+        <CenteredMaxWidthContainer>
           <Stack
             width="100%"
+            alignItems="center"
             justifyContent="center"
-            gap={2}
+            ref={ref}
             sx={{
-              flexDirection: { xs: "column", sm: "row" },
+              margin: { xs: "2rem 0 8rem", md: "6rem 0 12rem" },
+              gap: { xs: 1, md: 2 },
             }}
           >
-            {sm ? (
-              <motion.div
-                initial="hidden"
-                variants={variants(0)}
-                animate={controls}
-                style={motionDivStyle0}
-              >
-                <Caroussel services={data} />
-              </motion.div>
-            ) : (
-              <>
+            <Stack
+              width="100%"
+              justifyContent="center"
+              gap={2}
+              sx={{
+                flexDirection: { xs: "column", sm: "row" },
+              }}
+            >
+              {sm ? (
                 <motion.div
                   initial="hidden"
-                  variants={variants(1)}
+                  variants={variants(0)}
                   animate={controls}
-                  style={motionDivStyle}
+                  style={motionDivStyle0}
                 >
-                  <ServiceCard
-                    service={data[0]}
-                    animationElement={<FlashingRec />}
-                    href="/films"
-                    orientation="left"
-                  />
+                  <Caroussel services={data} />
                 </motion.div>
+              ) : (
+                <>
+                  <motion.div
+                    initial="hidden"
+                    variants={variants(1)}
+                    animate={controls}
+                    style={motionDivStyle}
+                  >
+                    <ServiceCard
+                      service={data[0]}
+                      animationElement={<FlashingRec />}
+                      href="/films"
+                      orientation="left"
+                    />
+                  </motion.div>
 
-                <motion.div
-                  initial="hidden"
-                  variants={variants(2)}
-                  animate={controls}
-                  style={motionDivStyle}
-                >
-                  <ServiceCard
-                    service={data[1]}
-                    animationElement={<FlashingUnderscore />}
-                    href="/websites"
-                    orientation="right"
-                  />
-                </motion.div>
-              </>
-            )}
+                  <motion.div
+                    initial="hidden"
+                    variants={variants(2)}
+                    animate={controls}
+                    style={motionDivStyle}
+                  >
+                    <ServiceCard
+                      service={data[1]}
+                      animationElement={<FlashingUnderscore />}
+                      href="/websites"
+                      orientation="right"
+                    />
+                  </motion.div>
+                </>
+              )}
+            </Stack>
           </Stack>
-        </Stack>
-      </CenteredMaxWidthContainer>
+        </CenteredMaxWidthContainer>
+      </Stack>
     </>
   )
 }
