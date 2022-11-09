@@ -84,7 +84,7 @@ export default function Menu(props) {
                       justifyContent="center"
                       fontWeight="bold"
                       sx={{
-                        fontSize: { xs: "1.5rem", md: "2.5vw" },
+                        fontSize: { xs: "1.2rem", md: "2.5vw" },
                         letterSpacing: { xs: 1, md: 2 },
                         textTransform: "uppercase",
                         cursor: page === item.href ? "default" : "pointer",
