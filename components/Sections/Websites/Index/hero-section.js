@@ -1,4 +1,3 @@
-import { StylesApiProvider } from "@mantine/core"
 import { Box, Slide, Stack, Typography } from "@mui/material"
 import PillButton from "../../../Buttons/pill-button"
 import BouncingArrow from "../../../Navigation/BouncingArrow"
@@ -20,8 +19,7 @@ export default function HeroSection(props) {
       position="relative"
       sx={{
         background: (theme) =>
-          // `linear-gradient(220deg, ${theme.palette.tersary.main} 10%, ${theme.palette.background.secondary} 100%)`,
-          "#000",
+          `linear-gradient(220deg, #000 40%, ${theme.palette.background.main} 100%)`,
         width: "100%",
         minHeight: { xs: "500px", md: "600px" },
         height: { xs: "70vh", sm: "70vh", md: "100vh" },
