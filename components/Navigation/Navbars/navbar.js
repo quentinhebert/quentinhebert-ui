@@ -1,11 +1,9 @@
 import { useContext, useRef, useState } from "react"
 import AppBar from "@mui/material/AppBar"
-import Box from "@mui/material/Box"
-import Toolbar from "@mui/material/Toolbar"
 import LoginOrMenuButton from "../login-or-menu-button"
 import { UserContext } from "../../../contexts/UserContext"
 import Image from "next/image"
-import { Button, Slide, Stack, Typography, useMediaQuery } from "@mui/material"
+import { Button, Stack, useMediaQuery } from "@mui/material"
 import theme from "../../../config/theme"
 import { useRouter } from "next/router"
 import dynamic from "next/dynamic"
@@ -127,11 +125,13 @@ export default function Navbar(props) {
               top: isReduced ? 10 : 15,
             }}
           >
-            <MobileNavbar
-              mainColor={mainColor}
-              list={data.menu_items}
-              page={page}
-            />
+            <Stack>
+              <MobileNavbar
+                mainColor={mainColor}
+                list={data.menu_items}
+                page={page}
+              />
+            </Stack>
           </Stack>
         </Stack>
 

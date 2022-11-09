@@ -78,7 +78,7 @@ export default function HeroSection(props) {
     <Stack
       className="full-width flex-center relative"
       sx={{
-        height: "100vh",
+        height: { xs: "90vh", md: "100vh" },
         minHeight: "300px",
         background: "#000",
         zIndex: 1,

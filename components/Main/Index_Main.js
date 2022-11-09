@@ -6,6 +6,7 @@ import WelcomeSection from "../Sections/Homepage/welcome-section"
 import ServicesSection from "../Sections/Homepage/services-section"
 import ReferencesSection from "../Sections/Homepage/references-section"
 import FixedBackground from "../Backgrounds/fixed-background"
+import { Parallax, ParallaxProvider } from "react-scroll-parallax"
 
 export default function Index_Main(props) {
   const {} = props
@@ -24,26 +25,28 @@ export default function Index_Main(props) {
   }
 
   return (
-    <Stack flexGrow={1}>
-      <Stack ref={topRef} />
+    <ParallaxProvider>
+      <Stack flexGrow={1}>
+        <Stack ref={topRef} />
 
-      {/* HERO */}
-      <HeroSection scrollTo={scrollTo} refForScroll={refsForScroll.welcome} />
+        {/* HERO */}
+        <HeroSection scrollTo={scrollTo} refForScroll={refsForScroll.welcome} />
 
-      {/* INTRODUCTION */}
-      <WelcomeSection
-        scrollTo={scrollTo}
-        topRef={refsForScroll.welcome}
-        refForScroll={refsForScroll.services}
-      />
+        {/* INTRODUCTION */}
+        <WelcomeSection
+          scrollTo={scrollTo}
+          topRef={refsForScroll.welcome}
+          refForScroll={refsForScroll.services}
+        />
 
-      {/* SERVICES */}
-      <ServicesSection refForScroll={refsForScroll.services} />
+        {/* SERVICES */}
+        <ServicesSection refForScroll={refsForScroll.services} />
 
-      {/* REFERENCES */}
-      <ReferencesSection />
+        {/* REFERENCES */}
+        <ReferencesSection />
 
-      <ScrollToTopBtn refForScroll={topRef} />
-    </Stack>
+        <ScrollToTopBtn refForScroll={topRef} />
+      </Stack>
+    </ParallaxProvider>
   )
 }

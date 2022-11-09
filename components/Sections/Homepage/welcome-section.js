@@ -1,8 +1,9 @@
 import { Box, Button, Stack, Typography } from "@mui/material"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import BodyText from "../../Text/body-text"
+import { Parallax } from "react-scroll-parallax"
 
 export default function WelcomeSection(props) {
   const { scrollTo, topRef, refForScroll } = props
@@ -12,26 +13,16 @@ export default function WelcomeSection(props) {
   const controls = useAnimation()
   const textVariant = (delay) => ({
     visible: {
-      opacity: 1,
       x: 0,
+      opacity: 1,
       transition: { duration: 1.5, delay, ease: [0.25, 0.1, 0.25, 1.0] },
     },
     hidden: {
-      opacity: 0,
       x: -25,
+      opacity: 0,
       transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1.0] },
     },
   })
-  const imgVariant = {
-    visible: {
-      opacity: 1,
-      transition: { duration: 2, ease: [0.25, 0.1, 0.25, 1.0] },
-    },
-    hidden: {
-      opacity: 0,
-      transition: { duration: 0.5, delay: 0.5 },
-    },
-  }
   useEffect(() => {
     if (inView) {
       controls.start("visible")
@@ -39,6 +30,13 @@ export default function WelcomeSection(props) {
       controls.start("hidden")
     }
   }, [controls, inView])
+
+  const [opacity, setOpacity] = useState(0)
+  const handleOpacity = (progress) => {
+    if (progress < 0.5) setOpacity(progress * 2)
+    else if (progress > 0.75) setOpacity(-4 * progress + 4)
+    else setOpacity(1)
+  }
 
   return (
     <>
@@ -56,54 +54,57 @@ export default function WelcomeSection(props) {
         position="relative"
       >
         {/* Tracking ref for visibility inView */}
-        <Stack
-          ref={ref}
-          height="700px"
-          width="100%"
-          sx={{
+
+        <Parallax
+          onProgressChange={(progress) => handleOpacity(progress)}
+          style={{
+            background: "blue",
+            zIndex: 100,
             position: "absolute",
             top: 0,
-            left: 0,
-            marginTop: "100px",
-            // background: "red",
-            zIndex: 5,
-          }}
-        />
-
-        <Stack
-          className="full-width"
-          sx={{
-            height: { xs: "100%", md: "100vh" },
-            bottom: 0,
-            left: 0,
-            flexDirection: { xs: "column", md: "row" },
-            position: { xs: "relative", md: "fixed" },
+            height: "1000px",
           }}
         >
-          <Stack sx={{ width: { xs: "100%", md: "50%" }, height: "100%" }}>
-            <motion.div
-              className="flex-center"
-              initial="hidden"
-              animate={controls}
-              variants={imgVariant}
-              style={{
-                zIndex: 1,
-                height: "100%",
-                width: "100%",
+          <Stack
+            ref={ref}
+            height="700px"
+            width="100%"
+            sx={{
+              marginTop: "100px",
+              zIndex: 100,
+              backgroundColor: "red",
+            }}
+          />
+        </Parallax>
+
+        <Stack
+          className="full-width bottom left"
+          sx={{
+            position: { xs: "relative", md: "fixed" },
+            flexDirection: { xs: "column", md: "row" },
+            height: { xs: "100%", md: "100vh" },
+          }}
+        >
+          <Stack
+            sx={{
+              width: { xs: "100%", md: "50%" },
+              height: "100%",
+              zIndex: 1,
+            }}
+          >
+            <Stack
+              width="100%"
+              height="100%"
+              minHeight="300px"
+              sx={{
                 marginTop: "30px",
+                opacity: { xs: 1, md: opacity },
+                transition: "opacity 0.4s ease",
+                backgroundImage: "url(/medias/portrait.jpg)",
+                backgroundSize: "cover",
+                backgroundPosition: { xs: "50%", md: "20%", lg: "50%" },
               }}
-            >
-              <Stack
-                width="100%"
-                height="100%"
-                minHeight="300px"
-                sx={{
-                  backgroundImage: "url(/medias/portrait.jpg)",
-                  backgroundSize: "cover",
-                  backgroundPosition: { xs: "50%", md: "20%", lg: "50%" },
-                }}
-              />
-            </motion.div>
+            />
           </Stack>
 
           <Stack
@@ -112,21 +113,20 @@ export default function WelcomeSection(props) {
             sx={{
               width: { xs: "100%", md: "50%" },
               height: "100%",
-              opacity: inView ? 1 : 0,
-              transition: "opacity 1s",
+              opacity: { xs: 1, md: opacity },
+              transition: "opacity 0.4s ease",
               backgroundImage:
                 "linear-gradient(#000 40%, rgb(0,0,0,0.5)), url(/medias/bubbles.svg)",
               backgroundSize: "cover",
               backgroundPosition: "50%",
+              padding: "2rem",
+              gap: "2rem",
             }}
           >
             <motion.div
-              initial="hidden"
-              variants={textVariant(0.5)}
               animate={controls}
-              style={{
-                padding: "2rem 2rem 1rem",
-              }}
+              initial="hidden"
+              variants={textVariant(0)}
             >
               <Typography
                 color="#fff"
@@ -137,13 +137,13 @@ export default function WelcomeSection(props) {
                 Créons ensemble, voyons plus loin
               </Typography>
             </motion.div>
+
             <motion.div
-              initial="hidden"
-              variants={textVariant(1)}
-              animate={controls}
               className="flex column"
+              animate={controls}
+              initial="hidden"
+              variants={textVariant(0)}
               style={{
-                padding: "1rem 2rem 2rem",
                 gap: "2rem",
               }}
             >
@@ -161,13 +161,16 @@ export default function WelcomeSection(props) {
                 Artisan, j'allie ma créativité à mon savoir-faire pour vous
                 aider à mieux communiquer une idée, un bien ou un service.
               </BodyText>
-              <Box>
+
+              <Box width="100%">
                 <Button
                   variant="outlined"
                   sx={{
                     borderRadius: "30px",
-                    color: "#fff",
-                    borderColor: "#fff",
+                    // color: "#fff",
+                    color: (theme) => theme.palette.secondary.main,
+                    // borderColor: "#fff",
+                    borderColor: (theme) => theme.palette.secondary.main,
                     padding: "0.5rem 2rem",
                     letterSpacing: 1,
                   }}

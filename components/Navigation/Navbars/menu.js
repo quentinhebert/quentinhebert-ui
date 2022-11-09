@@ -47,7 +47,7 @@ export default function Menu(props) {
       TransitionComponent={Transition}
       keepMounted
       sx={{
-        zIndex: 500,
+        zIndex: 1000,
         ".MuiPaper-root": {
           justifyContent: "center",
           alignItems: "center",
@@ -83,8 +83,9 @@ export default function Menu(props) {
                       alignItems="center"
                       justifyContent="center"
                       fontWeight="bold"
-                      marginLeft={page === item.href ? -3 : 0}
                       sx={{
+                        fontSize: { xs: "1.5rem", md: "2.5vw" },
+                        letterSpacing: { xs: 1, md: 2 },
                         textTransform: "uppercase",
                         cursor: page === item.href ? "default" : "pointer",
                         color:
@@ -96,7 +97,6 @@ export default function Menu(props) {
                         },
                       }}
                     >
-                      {page === item.href ? <PlayArrowIcon /> : null}
                       {item.label}
                     </Typography>
                   </Link>
