@@ -67,8 +67,11 @@ export default function HeroSection(props) {
     >
       <Typography
         color="#fff"
-        fontSize="5vw"
-        sx={{ textTransform: "uppercase", lineHeight: "5vw" }}
+        sx={{
+          textTransform: "uppercase",
+          lineHeight: { xs: "8vw", md: "5vw" },
+          fontSize: { xs: "8vw", md: "5vw" },
+        }}
         {...props}
       />
     </motion.div>
