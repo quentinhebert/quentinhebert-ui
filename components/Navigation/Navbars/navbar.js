@@ -124,18 +124,20 @@ export default function Navbar(props) {
               right: { xs: 20, md: 50 },
               top: isReduced ? 10 : 15,
             }}
+            flexDirection="row"
           >
-            <Stack>
-              <MobileNavbar
-                mainColor={mainColor}
-                list={data.menu_items}
-                page={page}
-              />
-            </Stack>
+            <MobileNavbar
+              mainColor={mainColor}
+              list={data.menu_items}
+              page={page}
+            />
+            {!!user && (
+              <Stack>
+                <LoginOrMenuButton />
+              </Stack>
+            )}
           </Stack>
         </Stack>
-
-        {!!user && <LoginOrMenuButton />}
       </AppBar>
 
       {/* Trick to have a linear gradient behind the navbar but not when burger menu is open */}

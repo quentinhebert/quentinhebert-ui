@@ -46,16 +46,20 @@ function LoginOrMenuButton(props) {
           onClick={toggleDrawer(true)}
           sx={{ "&:hover": { background: "transparent" } }}
         >
+          {!isMobile ? (
+            <Typography
+              marginRight={2}
+              textTransform="capitalize"
+              color="secondary"
+            >
+              {user.firstname}
+            </Typography>
+          ) : null}
           {user.avatar_path ? (
             <Avatar alt="Avatar" src={user.avatar_path} />
           ) : (
             <Avatar>{user.firstname[0]}</Avatar>
           )}
-          {!isMobile ? (
-            <Typography margin={2} textTransform="capitalize" color="secondary">
-              {user.firstname}
-            </Typography>
-          ) : null}
         </Button>
         <UserMenuDrawer
           toggleDrawer={toggleDrawer}
