@@ -142,7 +142,7 @@ export default function WelcomeSection(props) {
               className="flex column"
               animate={controls}
               initial="hidden"
-              variants={textVariant(0)}
+              variants={textVariant(0.3)}
               style={{
                 gap: "2rem",
               }}
@@ -167,10 +167,8 @@ export default function WelcomeSection(props) {
                   variant="outlined"
                   sx={{
                     borderRadius: "30px",
-                    // color: "#fff",
-                    color: (theme) => theme.palette.secondary.main,
-                    // borderColor: "#fff",
-                    borderColor: (theme) => theme.palette.secondary.main,
+                    color: "#fff",
+                    borderColor: "#fff",
                     padding: "0.5rem 2rem",
                     letterSpacing: 1,
                   }}
