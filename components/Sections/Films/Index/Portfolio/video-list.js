@@ -12,7 +12,7 @@ import VideoPlayer from "../../../../Modals/video-player"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline"
+import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 import useSWR from "swr"
 import { fetchers } from "../../../../../services/public-fetchers"
 import { FilmsHomePageContext } from "../../../../../contexts/PagesContexts"
@@ -700,9 +700,7 @@ export default function VideoList({ height, setHeight, ...props }) {
                                 textTransform: "uppercase",
                               }}
                             >
-                              <PlayCircleOutlineIcon
-                                sx={{ fontSize: "4rem" }}
-                              />
+                              <PlayArrowIcon sx={{ fontSize: "4rem" }} />
                             </Box>
                             {/* <Typography
                               color="secondary"
