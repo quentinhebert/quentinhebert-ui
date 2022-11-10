@@ -1,29 +1,12 @@
-import React, { useRef } from "react"
-import { Stack, Typography } from "@mui/material"
-import ScrollToTopBtn from "../Navigation/scroll-to-top"
+import { Stack } from "@mui/material"
 import PageTitle from "../Titles/page-title"
 import BodyText from "../Text/body-text"
 
 export default function TermsAndConditions_Main(props) {
   const { terms, conditions } = props
 
-  const topRef = useRef()
-  const welcomeRef = useRef()
-  const servicesRef = useRef()
-  const refsForScroll = {
-    welcome: welcomeRef,
-    services: servicesRef,
-  }
-  const scrollTo = (ref) => {
-    ref.current.scrollIntoView({
-      behavior: "smooth",
-    })
-  }
-
   return (
     <Stack flexGrow={1} gap={4}>
-      <Stack ref={topRef} />
-
       <Stack gap={2}>
         <PageTitle text="Mentions Légales" />
         <BodyText>
@@ -156,7 +139,6 @@ export default function TermsAndConditions_Main(props) {
           ipsum primis in faucibus.
         </BodyText>
       </Stack>
-      <ScrollToTopBtn refForScroll={topRef} />
     </Stack>
   )
 }

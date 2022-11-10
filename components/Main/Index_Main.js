@@ -1,17 +1,14 @@
 import React, { useRef } from "react"
 import { Stack } from "@mui/material"
-import ScrollToTopBtn from "../Navigation/scroll-to-top"
 import HeroSection from "../Sections/Homepage/hero-section"
 import WelcomeSection from "../Sections/Homepage/welcome-section"
 import ServicesSection from "../Sections/Homepage/services-section"
 import ReferencesSection from "../Sections/Homepage/references-section"
-import FixedBackground from "../Backgrounds/fixed-background"
-import { Parallax, ParallaxProvider } from "react-scroll-parallax"
+import { ParallaxProvider } from "react-scroll-parallax"
 
 export default function Index_Main(props) {
   const {} = props
 
-  const topRef = useRef()
   const welcomeRef = useRef()
   const servicesRef = useRef()
   const refsForScroll = {
@@ -27,8 +24,6 @@ export default function Index_Main(props) {
   return (
     <ParallaxProvider>
       <Stack flexGrow={1}>
-        <Stack ref={topRef} />
-
         {/* HERO */}
         <HeroSection scrollTo={scrollTo} refForScroll={refsForScroll.welcome} />
 
@@ -44,8 +39,6 @@ export default function Index_Main(props) {
 
         {/* REFERENCES */}
         <ReferencesSection />
-
-        <ScrollToTopBtn refForScroll={topRef} />
       </Stack>
     </ParallaxProvider>
   )
