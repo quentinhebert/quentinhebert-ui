@@ -7,7 +7,6 @@ import CustomForm from "../../Forms/custom-form"
 import CustomOutlinedInput from "../../Inputs/custom-outlined-input"
 import { AppContext } from "../../../contexts/AppContext"
 import SmallTitle from "../../Titles/small-title"
-import ModeEditIcon from "@mui/icons-material/ModeEdit"
 import {
   formatDescription,
   formatTitle,
@@ -16,16 +15,12 @@ import {
 import dynamic from "next/dynamic"
 import CustomCircularProgress from "../../Helpers/custom-circular-progress"
 import RectangleButton from "../../Buttons/rectangle-button"
+import SwitchButton from "../../Inputs/switch-button"
+import BodyText from "../../Text/body-text"
 
 const TextEditor = dynamic(() => import("../../TextEditor/text-editor"), {
   ssr: false,
 })
-
-const SectionTitle = (props) => (
-  <Stack width="100%" alignItems="center">
-    <SmallTitle textTransform="Initial" className="flex gap-10" {...props} />
-  </Stack>
-)
 
 export default function EditWebsiteSlideModal(props) {
   const { slideId, openEditModal, handleCloseEditModal } = props
@@ -42,8 +37,7 @@ export default function EditWebsiteSlideModal(props) {
   const [isLoading, setIsLoading] = useState(false)
   const [richTextDescription, setRichTextDescription] = useState("")
   const [richTextTitle, setRichTextTitle] = useState("")
-  const [edit, setEdit] = useState(null)
-  const EDITS = { TITLE: "title", DESCRIPTION: "description" }
+  const [edit, setEdit] = useState(false)
 
   // Fetch data
   const fetchData = async () => {
@@ -59,7 +53,6 @@ export default function EditWebsiteSlideModal(props) {
     if (slideId) {
       fetchData()
     }
-    setEdit(null)
   }, [slideId, openEditModal])
 
   // HANDLERS
@@ -83,8 +76,8 @@ export default function EditWebsiteSlideModal(props) {
     setIsLoading(false)
   }
   const toggleEdit = (mode) => {
-    if (mode === edit) return setEdit(null)
-    return setEdit(mode)
+    if (edit) return setEdit(false)
+    return setEdit(true)
   }
 
   // Handle change
@@ -118,45 +111,39 @@ export default function EditWebsiteSlideModal(props) {
       <CustomForm gap={3} flexGrow={1}>
         <IdInput />
 
+        <Stack className="row flex-center">
+          <BodyText marginRight={3}>Prévisualiser</BodyText>
+          <SwitchButton checked={edit} handleCheck={toggleEdit} />{" "}
+          <BodyText>Modifier</BodyText>
+        </Stack>
+
         <Stack flexGrow={1} gap={3} width="100%">
-          <SectionTitle>
-            Titre{" "}
-            <ModeEditIcon
-              className="pointer"
-              onClick={() => toggleEdit(EDITS.TITLE)}
-            />
-          </SectionTitle>
-          {edit === EDITS.TITLE ? (
-            <TextEditor
-              value={richTextTitle}
-              setValue={setRichTextTitle}
-              controls={[["italic"]]}
-            />
-          ) : (
-            // See a demo of the expected result
-            <Stack color="#fff" width="100%">
-              <ParseJsx jsx={formatTitle(slide.title || "")} />
-            </Stack>
+          {!edit && (
+            <>
+              <Stack color="#fff" width="100%">
+                <ParseJsx jsx={formatTitle(slide.title || "")} />
+                <ParseJsx jsx={formatDescription(slide.description || "")} />
+              </Stack>
+            </>
           )}
 
-          <SectionTitle>
-            Description{" "}
-            <ModeEditIcon
-              className="pointer"
-              onClick={() => toggleEdit(EDITS.DESCRIPTION)}
-            />
-          </SectionTitle>
-          {edit === EDITS.DESCRIPTION ? (
-            <TextEditor
-              value={richTextDescription}
-              setValue={setRichTextDescription}
-              controls={[["bold"]]}
-            />
-          ) : (
-            // See a demo of the expected result
-            <Stack color="#fff" width="100%">
-              <ParseJsx jsx={formatDescription(slide.description || "")} />
-            </Stack>
+          {edit && (
+            <>
+              <SmallTitle textAlign="center">Titre</SmallTitle>
+              <TextEditor
+                id="rte1"
+                value={richTextTitle}
+                setValue={setRichTextTitle}
+                controls={[["italic"]]}
+              />
+              <SmallTitle textAlign="center">Description</SmallTitle>
+              <TextEditor
+                id="rte2"
+                value={richTextDescription}
+                setValue={setRichTextDescription}
+                controls={[["bold"]]}
+              />
+            </>
           )}
         </Stack>
 

@@ -5,6 +5,7 @@ import MediumTitle from "../../../../Titles/medium-title"
 import styles from "../../../../../styles/TextShine.module.css"
 import CenteredMaxWidthContainer from "../../../../Containers/centered-max-width-container"
 import Keyword from "../../../../Text/keyword"
+import { Stack } from "@mui/material"
 
 const Title = (props) => (
   <MediumTitle
@@ -28,8 +29,8 @@ export function formatTitle(htmlString) {
 
 export function formatDescription(htmlString) {
   let formattedString = htmlString
-    .replaceAll("<p", "<Stack><BodyText")
-    .replaceAll("p>", "BodyText></Stack>")
+    .replaceAll("<p", "<BodyText")
+    .replaceAll("p>", "BodyText><br />")
     .replaceAll("<strong", "<Keyword")
     .replaceAll("strong>", "Keyword>")
     .replaceAll("<br>", "<br />")
@@ -46,6 +47,7 @@ export function ParseJsx({ jsx }) {
   return (
     <JsxParser
       components={{
+        Stack,
         StrokeText,
         Title,
         Keyword,
