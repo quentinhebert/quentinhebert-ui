@@ -47,14 +47,15 @@ export default function WelcomeSection(props) {
 
       <Stack
         width="100%"
-        height="150vh"
         minHeight="600px"
         justifyContent="center"
         zIndex={0}
         position="relative"
+        sx={{
+          height: { xs: "auto", md: "150vh" },
+        }}
       >
         {/* Tracking ref for visibility inView */}
-
         <Parallax
           onProgressChange={(progress) => handleOpacity(progress)}
           style={{
@@ -82,21 +83,21 @@ export default function WelcomeSection(props) {
           sx={{
             position: { xs: "relative", md: "fixed" },
             flexDirection: { xs: "column", md: "row" },
-            height: { xs: "100%", md: "100vh" },
+            height: { xs: "auto", md: "100vh" },
           }}
         >
           <Stack
             sx={{
               width: { xs: "100%", md: "50%" },
-              height: "100%",
+              height: { xs: "auto", md: "100%" },
               zIndex: 1,
             }}
           >
             <Stack
               width="100%"
-              height="100%"
               minHeight="300px"
               sx={{
+                height: { xs: "auto", md: "100%" },
                 marginTop: "30px",
                 opacity: { xs: 1, md: opacity },
                 transition: "opacity 0.4s ease",
@@ -131,8 +132,10 @@ export default function WelcomeSection(props) {
               <Typography
                 color="#fff"
                 letterSpacing={2}
-                fontSize="4rem"
-                lineHeight="3rem"
+                sx={{
+                  fontSize: { xs: "2rem", md: "4rem" },
+                  lineHeight: { xs: "2rem", md: "3rem" },
+                }}
               >
                 Créons ensemble, voyons plus loin
               </Typography>
