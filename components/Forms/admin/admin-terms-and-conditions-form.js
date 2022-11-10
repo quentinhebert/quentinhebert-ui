@@ -1,7 +1,6 @@
 import { useState, useContext, useEffect } from "react"
 import { Stack } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
-import AlertInfo from "../../Other/alert-info"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
@@ -9,24 +8,20 @@ import useSWR from "swr"
 import { AppContext } from "../../../contexts/AppContext"
 import CustomForm from "../custom-form"
 import RectangleButton from "../../Buttons/rectangle-button"
-import CustomFilledTextArea from "../../Inputs/custom-filled-text-area"
+import TextEditor from "../../TextEditor/text-editor"
+import SmallTitle from "../../Titles/small-title"
 
-export default function AdminTermsOfUseForm(props) {
+export default function AdminTermsAndConditionsForm(props) {
   /********** PROPS **********/
   const { handleClose } = props
 
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
-  const { mutate } = useSWR("footer")
+  const { mutate } = useSWR("termsAndConditions")
 
   /********** USE-STATES **********/
-  const [credits, setCredits] = useState("")
-  const [showAlert, setShowAlert] = useState({
-    show: false,
-    severity: null,
-    text: null,
-    title: null,
-  })
+  const [richTextTerms, setRichTextTerms] = useState("")
+  const [richTextConditions, setRichTextConditions] = useState("")
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
@@ -49,31 +44,35 @@ export default function AdminTermsOfUseForm(props) {
   }, [controls, inView])
 
   /********** FUNCTIONS **********/
-  const fetchFooter = async () => {
-    const res = await apiCall.application.footer.getPublic()
+  const fetchData = async () => {
+    const res = await apiCall.application.termsAndConditions.get()
     if (res && res.ok) {
       const jsonRes = await res.json()
-      setCredits(jsonRes.credits)
+      setRichTextTerms(jsonRes.terms)
+      setRichTextConditions(jsonRes.conditions)
     }
   }
 
   useEffect(() => {
-    fetchFooter()
+    fetchData()
   }, [])
 
   const handleSuccess = () => {
     setSnackSeverity("success")
-    setSnackMessage("Footer mis à jour")
+    setSnackMessage("Mentions légales et CGV mises à jour")
     handleClose()
-    mutate() // Refresh footer static props (SWR)
-    fetchFooter() // reset form
+    mutate() // Refresh terms of use static props (SWR)
+    fetchData() // reset form
   }
   const handleError = () => {
     setSnackSeverity("error")
-    setSnackMessage("Footer non mis à jour")
+    setSnackMessage("Mentions légales et CGV non mises à jour")
   }
-  const handleSaveFooter = async () => {
-    const res = await apiCall.application.footer.update(credits)
+  const handleSave = async () => {
+    const res = await apiCall.application.termsAndConditions.update({
+      terms: richTextTerms,
+      conditions: richTextConditions,
+    })
     if (res && res.ok) handleSuccess()
     else handleError()
   }
@@ -81,7 +80,7 @@ export default function AdminTermsOfUseForm(props) {
   const handleCancel = async () => {
     if (handleClose) handleClose()
     // reset form
-    await fetchFooter()
+    await fetchData()
   }
 
   /********** RENDER **********/
@@ -93,27 +92,25 @@ export default function AdminTermsOfUseForm(props) {
         animate={controls}
         style={{ width: "100%" }}
       >
-        <ModalTitle>Modifier le footer</ModalTitle>
+        <ModalTitle>Modifier les mentions légales et CGV</ModalTitle>
       </motion.div>
 
       <CustomForm gap={4}>
-        <motion.div
-          initial="hidden"
-          variants={variants(2)}
-          animate={controls}
-          style={{ width: "100%" }}
-        >
-          <Stack gap={2} width="100%">
-            <CustomFilledTextArea
-              label="Modifier les crédits"
-              id="credits"
-              value={credits}
-              onChange={(e) => setCredits(e.target.value)}
-            />
+        <SmallTitle>Mentions légales</SmallTitle>
+        <TextEditor
+          id="rte1"
+          value={richTextTerms}
+          setValue={setRichTextTerms}
+          controls={[["h1"], ["bold", "italic"]]}
+        />
 
-            {showAlert.show ? <AlertInfo content={showAlert} /> : null}
-          </Stack>
-        </motion.div>
+        <SmallTitle>Conditions Générales de Vente</SmallTitle>
+        <TextEditor
+          id="rte2"
+          value={richTextConditions}
+          setValue={setRichTextConditions}
+          controls={[["h1"], ["bold", "italic"]]}
+        />
 
         <motion.div
           initial="hidden"
@@ -123,11 +120,7 @@ export default function AdminTermsOfUseForm(props) {
         >
           <Stack flexDirection="row" gap={2} justifyContent="end">
             <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
-            <RectangleButton
-              secondary
-              onClick={handleSaveFooter}
-              disabled={!credits || credits.trim() === ""}
-            >
+            <RectangleButton secondary onClick={handleSave}>
               Enregistrer
             </RectangleButton>
           </Stack>

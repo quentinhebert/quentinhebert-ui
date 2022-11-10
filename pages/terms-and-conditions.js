@@ -17,17 +17,17 @@ const head = {
 }
 
 export default function HomePage(props) {
-  const { navbar, footer } = props
+  const { navbar, footer, termsAndConditions } = props
 
   return (
     <PagesLayout head={head} navbarData={navbar} footerData={footer}>
       <TextContentLayout>
-        <TermsAndConditions_Main />
+        <TermsAndConditions_Main staticData={termsAndConditions} />
       </TextContentLayout>
     </PagesLayout>
   )
 }
 
 export async function getStaticProps() {
-  return await prepareProps(["navbar", "footer"])
+  return await prepareProps(["navbar", "footer", "termsAndConditions"])
 }

@@ -216,6 +216,42 @@ const application = {
       }
     },
   },
+  termsAndConditions: {
+    get: async () => {
+      try {
+        return await fetch(
+          `${defaultConfig.apiUrl}/application/terms-and-conditions`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    // Admin only
+    update: async ({ terms, conditions }) => {
+      const body = { terms, conditions }
+      try {
+        return await fetch(
+          `${defaultConfig.apiUrl}/application/terms-and-conditions`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${await getFreshToken()}`,
+            },
+            body: JSON.stringify(body),
+          }
+        )
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  },
 }
 
 export default application

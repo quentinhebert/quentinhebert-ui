@@ -1,10 +1,10 @@
 import { RichTextEditor } from "@mantine/rte"
 import theme from "../../config/theme"
 
-export default function TextEditor({ value, setValue, controls }) {
+export default function TextEditor({ value, setValue, controls, id }) {
   return (
     <RichTextEditor
-      id="rte"
+      id={id || "rte"}
       value={value}
       onChange={setValue}
       style={{
