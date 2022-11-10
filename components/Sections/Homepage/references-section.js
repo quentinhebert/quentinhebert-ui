@@ -34,15 +34,20 @@ export default function ReferencesSection(props) {
   return (
     <Stack
       className="full-width flex-center"
-      sx={{ backgroundColor: "#000", height: "100vh", zIndex: 0 }}
+      sx={{
+        backgroundColor: "#000",
+        height: "auto",
+        padding: "6rem 0",
+        zIndex: 0,
+      }}
     >
       <MediumTitle
         textAlign="center"
         className={styles.shine}
-        marginBottom="2rem"
-        sx={{ fontSize: "2rem" }}
+        color="#fff"
+        sx={{ fontSize: { xs: "1.5rem", md: "2rem" }, lineHeight: "2rem" }}
       >
-        Ils auraient pu trouver moins bien ailleurs...
+        Nous avons travaillé ensemble
       </MediumTitle>
       <Stack
         paddingBottom="2rem"
