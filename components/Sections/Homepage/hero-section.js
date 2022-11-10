@@ -2,11 +2,10 @@ import { Box, Slide, Stack, Typography } from "@mui/material"
 import theme from "../../../config/theme"
 import BouncingArrow from "../../Navigation/BouncingArrow"
 import { motion, useAnimation } from "framer-motion"
-import styles from "../../../styles/NeonFlickerText.module.css"
-import StrokeText from "../../Text/stroke-text"
 import Link from "next/link"
 import { useInView } from "react-intersection-observer"
 import { useEffect } from "react"
+import styles from "../../../styles/TextShine.module.css"
 
 const SHORT_MENU = [
   {
@@ -82,7 +81,7 @@ export default function HeroSection(props) {
       className="full-width flex-center relative"
       sx={{
         height: { xs: "90vh", md: "100vh" },
-        minHeight: "300px",
+        minHeight: "500px",
         background: "#000",
         zIndex: 1,
       }}
@@ -91,7 +90,33 @@ export default function HeroSection(props) {
       <Stack
         className="absolute row uppercase"
         sx={{
-          top: "100px",
+          top: "80px",
+          gap: 4,
+          letterSpacing: 2,
+        }}
+      >
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 2 }}
+        >
+          <Typography
+            color="#FFF"
+            letterSpacing={1}
+            className={styles.shine}
+            sx={{
+              fontSize: { xs: "1.5rem", md: "2rem" },
+            }}
+          >
+            – Quentin Hébert –
+          </Typography>
+        </motion.div>
+      </Stack>
+
+      <Stack
+        className="absolute row uppercase"
+        sx={{
+          top: "130px",
           gap: 4,
           letterSpacing: 2,
         }}
