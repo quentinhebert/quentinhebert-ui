@@ -4,13 +4,21 @@ import AdminFooterForm from "../../Forms/admin/admin-footer-form"
 import AdminNavbarForm from "../../Forms/admin/admin-navbar-form"
 import AdminContactForm from "../../Forms/admin/admin-contact-form"
 import AdminLogoForm from "../../Forms/admin/admin-logo-form"
+import AdminTermsOfUseForm from "../../Forms/admin/admin-terms-of-use-form"
+import AdminTermsAndConditionsForm from "../../Forms/admin/admin-terms-and-conditions-form"
 import CustomModal from "../../Modals/custom-modal"
 import OneActionCardsGrid from "../../Cards/one-action-cards-grid"
 import FixedBackground from "../../Backgrounds/fixed-background"
 
 export default function WebsiteInfoPanel_Main() {
   const [openModal, setOpenModal] = useState(false)
+  const [modalFullscreen, setModalFullscreen] = useState(false)
   const [dialogContent, setDialogContent] = useState(null)
+
+  const handleClose = () => {
+    setOpenModal(false)
+    setModalFullscreen(false)
+  }
 
   const CARDS = [
     {
@@ -60,6 +68,33 @@ export default function WebsiteInfoPanel_Main() {
         },
       },
     },
+    {
+      id: "terms_of_use",
+      title: "CGU",
+      description: "Modifiez vos Conditions Générales d'Utilisation (CGU).",
+      button: {
+        text: "Modifier",
+        onClick: () => {
+          setOpenModal(true)
+          setModalFullscreen(true)
+          setDialogContent("terms_of_use")
+        },
+      },
+    },
+    {
+      id: "terms_and_conditions",
+      title: "Mentions Légales",
+      description:
+        "Modifiez vos mentions légales et vos Conditions Générales de Vente (CGV).",
+      button: {
+        text: "Modifier",
+        onClick: () => {
+          setOpenModal(true)
+          setModalFullscreen(true)
+          setDialogContent("terms_and_conditions")
+        },
+      },
+    },
   ]
 
   return (
@@ -69,18 +104,28 @@ export default function WebsiteInfoPanel_Main() {
         <OneActionCardsGrid cards={CARDS} />
       </Stack>
 
-      <CustomModal open={openModal} handleClose={() => setOpenModal(false)}>
+      <CustomModal
+        open={openModal}
+        handleClose={handleClose}
+        fullscreen={modalFullscreen ? true : null}
+      >
         {dialogContent === "navbar" && (
-          <AdminNavbarForm handleClose={() => setOpenModal(false)} />
+          <AdminNavbarForm handleClose={handleClose} />
         )}
         {dialogContent === "footer" && (
-          <AdminFooterForm handleClose={() => setOpenModal(false)} />
+          <AdminFooterForm handleClose={handleClose} />
         )}
         {dialogContent === "contact" && (
-          <AdminContactForm handleClose={() => setOpenModal(false)} />
+          <AdminContactForm handleClose={handleClose} />
         )}
         {dialogContent === "logo" && (
-          <AdminLogoForm handleClose={() => setOpenModal(false)} />
+          <AdminLogoForm handleClose={handleClose} />
+        )}
+        {dialogContent === "terms_of_use" && (
+          <AdminTermsOfUseForm handleClose={handleClose} />
+        )}
+        {dialogContent === "terms_and_conditions" && (
+          <AdminTermsAndConditionsForm handleClose={handleClose} />
         )}
       </CustomModal>
     </>

@@ -186,6 +186,36 @@ const application = {
       }
     },
   },
+  termsOfUse: {
+    get: async () => {
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/application/terms-of-use`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    // Admin only
+    update: async (termsOfUse) => {
+      const body = { terms_of_use: termsOfUse }
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/application/terms-of-use`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${await getFreshToken()}`,
+          },
+          body: JSON.stringify(body),
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  },
 }
 
 export default application

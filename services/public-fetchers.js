@@ -36,6 +36,11 @@ export const fetchers = {
     const jsonRes = await res.json()
     return jsonRes
   },
+  termsOfUse: async () => {
+    const res = await apiCall.application.termsOfUse.get()
+    const jsonRes = await res.json()
+    return jsonRes
+  },
 }
 
 const prepareProps = async (componentNames) => {

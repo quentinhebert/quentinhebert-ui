@@ -9,9 +9,9 @@ export default function TextEditor({ value, setValue, controls }) {
       onChange={setValue}
       style={{
         width: "100%",
-        backgroundColor: "transparent",
+        // backgroundColor: "transparent",
         border: `1px solid ${theme.palette.secondary.main}`,
-        color: "#fff",
+        // color: "#fff",
       }}
       controls={
         controls || [

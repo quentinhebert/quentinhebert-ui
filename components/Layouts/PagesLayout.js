@@ -3,6 +3,9 @@ import Footer from "../Navigation/Footers/Footer"
 import { motion } from "framer-motion"
 import Navbar from "../Navigation/Navbars/navbar"
 import HtmlHead from "../Helpers/html-head"
+import { useRef } from "react"
+import ScrollToTopBtn from "../Navigation/scroll-to-top"
+import { Stack } from "@mui/material"
 
 export default function PagesLayout({
   children,
@@ -10,9 +13,12 @@ export default function PagesLayout({
   footerData,
   head,
 }) {
+  const topRef = useRef()
+
   return (
     <>
       <Navbar staticData={navbarData} />
+      <Stack ref={topRef} />
 
       <motion.div
         exit={{ opacity: 0 }}
@@ -32,6 +38,8 @@ export default function PagesLayout({
           {children}
 
           <Footer staticData={footerData} />
+
+          <ScrollToTopBtn refForScroll={topRef} />
         </PageRoot>
       </motion.div>
     </>

@@ -56,6 +56,12 @@ const Credits = ({ text }) => {
     >
       <SmallText>
         © Quentin Hébert {year} · {text} ·{" "}
+        <InTextLink href="/terms-of-use" text="CGU" /> ·{" "}
+        <InTextLink
+          href="/terms-and-conditions"
+          text="Mentions légales et CGV"
+        />{" "}
+        ·{" "}
         <InTextLink
           href="/about/website"
           text="À propos de ce site"
