@@ -2,10 +2,8 @@ import { Stack } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { ModalTitle } from "../Modal-Components/modal-title"
-import withConfirmAction from "../../hocs/withConfirmAction"
 import { AppContext } from "../../../contexts/AppContext"
 import dynamic from "next/dynamic"
-import ModeEditIcon from "@mui/icons-material/ModeEdit"
 import {
   formatDescription,
   formatTitle,
@@ -16,29 +14,16 @@ import CustomForm from "../../Forms/custom-form"
 import RectangleButton from "../../Buttons/rectangle-button"
 import SmallTitle from "../../Titles/small-title"
 import CustomCircularProgress from "../../Helpers/custom-circular-progress"
+import BodyText from "../../Text/body-text"
+import SwitchButton from "../../Inputs/switch-button"
+import useSWR from "swr"
 
 const TextEditor = dynamic(() => import("../../TextEditor/text-editor"), {
   ssr: false,
 })
 
-const SectionTitle = (props) => (
-  <Stack width="100%" alignItems="center">
-    <SmallTitle textTransform="Initial" className="flex gap-10" {...props} />
-  </Stack>
-)
-
-const currentYear = new Date().getFullYear()
-
-function AddWebsiteSlideModal(props) {
-  const {
-    refreshData,
-    open,
-    handleClose,
-    setActionToFire,
-    setOpenConfirmModal,
-    setConfirmTitle,
-    setConfirmContent,
-  } = props
+export default function AddWebsiteSlideModal(props) {
+  const { refreshData, open, handleClose } = props
 
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
@@ -50,8 +35,9 @@ function AddWebsiteSlideModal(props) {
   const [isLoading, setIsLoading] = useState(false)
   const [richTextDescription, setRichTextDescription] = useState("")
   const [richTextTitle, setRichTextTitle] = useState("")
-  const EDITS = { TITLE: "title", DESCRIPTION: "description" }
-  const [edit, setEdit] = useState(null)
+  const [edit, setEdit] = useState(true)
+
+  const { mutate } = useSWR("websiteSlides")
 
   // HANDLERS
   const handleCancel = () => {
@@ -75,6 +61,7 @@ function AddWebsiteSlideModal(props) {
     if (res && res.ok) {
       handleSuccess()
       refreshData() // Refresh all rows of custom table
+      mutate()
     } else {
       // TODO: if new thumbnail uploaded but slide update fails, need to remove file just uploaded (DB and FTP)
       handleError()
@@ -100,45 +87,39 @@ function AddWebsiteSlideModal(props) {
       <ModalTitle>Ajouter une slide</ModalTitle>
 
       <CustomForm gap={3} height="100%">
+        <Stack className="row flex-center">
+          <BodyText marginRight={3}>Prévisualiser</BodyText>
+          <SwitchButton checked={edit} handleCheck={toggleEdit} />{" "}
+          <BodyText>Modifier</BodyText>
+        </Stack>
+
         <Stack flexGrow={1} gap={3} width="100%">
-          <SectionTitle>
-            Titre{" "}
-            <ModeEditIcon
-              className="pointer"
-              onClick={() => toggleEdit(EDITS.TITLE)}
-            />
-          </SectionTitle>
-          {edit === EDITS.TITLE ? (
-            <TextEditor
-              value={richTextTitle}
-              setValue={setRichTextTitle}
-              controls={[["italic"]]}
-            />
-          ) : (
-            // See a demo of the expected result
-            <Stack color="#fff" width="100%">
-              <ParseJsx jsx={formatTitle(slide.title)} />
-            </Stack>
+          {!edit && (
+            <>
+              <Stack color="#fff" width="100%">
+                <ParseJsx jsx={formatTitle(slide.title || "")} />
+                <ParseJsx jsx={formatDescription(slide.description || "")} />
+              </Stack>
+            </>
           )}
 
-          <SectionTitle>
-            Description{" "}
-            <ModeEditIcon
-              className="pointer"
-              onClick={() => toggleEdit(EDITS.DESCRIPTION)}
-            />
-          </SectionTitle>
-          {edit === EDITS.DESCRIPTION ? (
-            <TextEditor
-              value={richTextDescription}
-              setValue={setRichTextDescription}
-              controls={[["bold"]]}
-            />
-          ) : (
-            // See a demo of the expected result
-            <Stack color="#fff" width="100%">
-              <ParseJsx jsx={formatDescription(slide.description)} />
-            </Stack>
+          {edit && (
+            <>
+              <SmallTitle textAlign="center">Titre</SmallTitle>
+              <TextEditor
+                id="rte1"
+                value={richTextTitle}
+                setValue={setRichTextTitle}
+                controls={[["italic"]]}
+              />
+              <SmallTitle textAlign="center">Description</SmallTitle>
+              <TextEditor
+                id="rte2"
+                value={richTextDescription}
+                setValue={setRichTextDescription}
+                controls={[["bold"]]}
+              />
+            </>
           )}
         </Stack>
 
@@ -152,5 +133,3 @@ function AddWebsiteSlideModal(props) {
     </CustomModal>
   )
 }
-
-export default withConfirmAction(AddWebsiteSlideModal)

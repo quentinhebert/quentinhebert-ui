@@ -10,6 +10,7 @@ import { removeHtmlTags } from "../../../services/utils"
 import SortWebsiteSlides from "../../Modals/sort-websites-slides"
 import CustomOutlinedButton from "../../Buttons/custom-outlined-button"
 import BodyText from "../../Text/body-text"
+import useSWR from "swr"
 
 const headCells = [
   {
@@ -51,6 +52,8 @@ function WebsitesSlidesPanel_Main(props) {
   const [openAddWebsiteSlideModal, setOpenAddWebsiteSlideModal] =
     useState(false)
   const [openSortWebsitesModal, setOpenSortWebsitesModal] = useState(false)
+
+  const { mutate } = useSWR("websiteSlides")
 
   /***************** FETCH DATA ****************/
   const fetchWebsiteSLides = async () => {
@@ -109,6 +112,7 @@ function WebsitesSlidesPanel_Main(props) {
     })
     setNextButtonText("Supprimer")
     setOpenConfirmModal(true)
+    mutate()
   }
   const handleCreate = () => setOpenAddWebsiteSlideModal(true)
   const handleCloseSortWebsitesModal = async () => {

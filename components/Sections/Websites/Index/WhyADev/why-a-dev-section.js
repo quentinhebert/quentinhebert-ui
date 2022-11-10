@@ -121,7 +121,11 @@ const Caroussel = () => {
         </Typography>
       </Stack>
 
-      <Stepper totalSteps={4} activeStep={index} setActiveStep={setIndex} />
+      <Stepper
+        totalSteps={WhySteps.length}
+        activeStep={index}
+        setActiveStep={setIndex}
+      />
     </Stack>
   )
 }
