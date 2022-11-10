@@ -40,8 +40,9 @@ export default function ReferencesSection(props) {
         textAlign="center"
         className={styles.shine}
         marginBottom="2rem"
+        sx={{ fontSize: "2rem" }}
       >
-        Ils m'ont fait confiance
+        Ils auraient pu trouver moins bien ailleurs...
       </MediumTitle>
       <Stack
         paddingBottom="2rem"
