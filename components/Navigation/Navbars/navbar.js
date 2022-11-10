@@ -1,9 +1,9 @@
-import { useContext, useRef, useState } from "react"
+import { useContext, useState } from "react"
 import AppBar from "@mui/material/AppBar"
 import LoginOrMenuButton from "../login-or-menu-button"
 import { UserContext } from "../../../contexts/UserContext"
 import Image from "next/image"
-import { Button, Stack, useMediaQuery } from "@mui/material"
+import { Button, Stack } from "@mui/material"
 import theme from "../../../config/theme"
 import { useRouter } from "next/router"
 import dynamic from "next/dynamic"
@@ -31,19 +31,13 @@ export default function Navbar(props) {
   // Define main color of navbar
   let mainColor = theme.palette.background.main
 
-  // Define logo of navbar
-  let logoQH = "/logos/logo-qh.png"
-
   // Check if user has grant to access that page
   const { user } = useContext(UserContext)
-
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"))
 
   const router = useRouter()
   const page = router.asPath
 
   const [isReduced, setIsReduced] = useState(false)
-  const ContainerRef = useRef(null)
   useScrollPosition(({ prevPos, currPos }) => {
     if (window.pageYOffset > 0) {
       setIsReduced(true)
@@ -129,18 +123,19 @@ export default function Navbar(props) {
               right: { xs: 20, md: 50 },
               top: isReduced ? 10 : 15,
             }}
+            gap={2}
             flexDirection="row"
           >
-            <MobileNavbar
-              mainColor={mainColor}
-              list={data.menu_items}
-              page={page}
-            />
             {!!user && (
               <Stack>
                 <LoginOrMenuButton />
               </Stack>
             )}
+            <MobileNavbar
+              mainColor={mainColor}
+              list={data.menu_items}
+              page={page}
+            />
           </Stack>
         </Stack>
       </AppBar>
