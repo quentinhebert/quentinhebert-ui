@@ -5,7 +5,7 @@ export default function TermsOfUse_Main(props) {
   const { staticData } = props
 
   return (
-    <Stack flexGrow={1} gap={4}>
+    <Stack flexGrow={1}>
       <TermsOfUseSection staticData={staticData} />
     </Stack>
   )

@@ -16,7 +16,7 @@ export default function AdminTermsOfUseForm(props) {
 
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
-  const { mutate } = useSWR("terms-of-use")
+  const { mutate } = useSWR("termsOfUse")
 
   /********** USE-STATES **********/
   const [richTextValue, setRichTextValue] = useState("")
