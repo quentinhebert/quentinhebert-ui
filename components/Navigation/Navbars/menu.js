@@ -50,6 +50,7 @@ export default function Menu(props) {
         ".MuiPaper-root": {
           justifyContent: "center",
           alignItems: "center",
+          background: (theme) => theme.palette.background.secondary,
         },
       }}
     >
@@ -58,7 +59,8 @@ export default function Menu(props) {
           width: "100%",
           height: "100%",
           transition: "width .5s ease-in-out, height .5s ease-in-out",
-          backgroundColor: theme.palette.background.secondary,
+          // backgroundColor: theme.palette.background.secondary,
+          background: "radial-gradient(rgb(0,0,0,0.1) 0%, rgb(0,0,0,0.6) 90%)",
         }}
         justifyContent="center"
         alignItems="center"
