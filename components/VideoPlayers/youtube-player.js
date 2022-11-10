@@ -55,7 +55,7 @@ function Youtube(props) {
       <ReactPlayer
         playsinline
         url={`https://youtu.be/${videoId}`}
-        controls={false}
+        controls={true}
         playing={playing}
         volume={volume}
         loop={true}
@@ -75,12 +75,12 @@ function Youtube(props) {
           position: "absolute",
           flexGrow: 1,
           height: "100%",
-          visibility: playing ? "visible" : "hidden",
-          opacity: playing ? 1 : 0,
+          // visibility: playing ? "visible" : "hidden",
+          // opacity: playing ? 1 : 0,
           transition: "opacity 0.7s ease-in-out",
         }}
       />
-      <Stack
+      {/* <Stack
         className="absolute top full-width flex-center row gap-10"
         sx={{
           height: "100%",
@@ -98,7 +98,7 @@ function Youtube(props) {
             <VolumeOffIcon sx={{ marginLeft: ".25rem" }} />
           )}
         </PillButton>
-      </Stack>
+      </Stack> */}
     </Stack>
   )
 }
