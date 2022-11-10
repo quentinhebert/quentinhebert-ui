@@ -214,7 +214,7 @@ export default function ServicesSection(props) {
             justifyContent="center"
             ref={ref}
             sx={{
-              margin: { xs: "2rem 0 8rem", md: "12rem 0 12rem" },
+              margin: { xs: "8rem 0 8rem", md: "12rem 0 12rem" },
               gap: { xs: 1, md: 2 },
             }}
           >
