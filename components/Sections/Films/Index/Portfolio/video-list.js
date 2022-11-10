@@ -704,7 +704,7 @@ export default function VideoList({ height, setHeight, ...props }) {
                                 sx={{ fontSize: "4rem" }}
                               />
                             </Box>
-                            <Typography
+                            {/* <Typography
                               color="secondary"
                               fontStyle="italic"
                               fontFamily="Ethereal"
@@ -715,7 +715,7 @@ export default function VideoList({ height, setHeight, ...props }) {
                               }}
                             >
                               {item.type}
-                            </Typography>
+                            </Typography> */}
                             <Typography
                               color="secondary"
                               fontWeight="bold"
