@@ -154,12 +154,19 @@ export default function WelcomeSection(props) {
                   md: "1.2rem",
                 }}
               >
-                Bonjour et bienvenue sur mon site, je m'appelle Quentin HÉBERT.
-                Je suis vidéaste professionnel et développeur web.
+                Je suis Quentin HÉBERT, vidéaste professionnel et développeur
+                web.
                 <br />
                 <br />
-                Artisan, j'allie ma créativité à mon savoir-faire pour vous
-                aider à mieux communiquer une idée, un bien ou un service.
+                {/* Artisan, j'allie ma créativité à mon savoir-faire pour vous
+                aider à mieux communiquer une idée, à vendre un bien ou un
+                service. */}
+                Propulsons vos idées sur le web et en vidéo.
+                <br />
+                <br />
+                Ne cherchez plus, vous trouverez tout ici. Image de marque,
+                branding, site web, film promotionnel ou artistique, le tout sur
+                mesure.
               </BodyText>
 
               <Box width="100%">
