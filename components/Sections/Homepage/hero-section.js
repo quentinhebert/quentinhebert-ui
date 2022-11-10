@@ -90,7 +90,7 @@ export default function HeroSection(props) {
       <Stack
         className="absolute row uppercase"
         sx={{
-          top: "80px",
+          top: { xs: "90px", md: "80px" },
           gap: 4,
           letterSpacing: 2,
         }}
@@ -105,7 +105,7 @@ export default function HeroSection(props) {
             letterSpacing={1}
             className={styles.shine}
             sx={{
-              fontSize: { xs: "1.5rem", md: "2rem" },
+              fontSize: { xs: "1.2rem", md: "2rem" },
             }}
           >
             – Quentin Hébert –
@@ -139,7 +139,7 @@ export default function HeroSection(props) {
 
       <Stack position="relative">
         <AnimatedLine left={0} top={-5} />
-        <JobWord x={15}>Réalisateur</JobWord>
+        <JobWord x={15}>Réalisateur //////</JobWord>
         <JobWord x={-15}>Développeur web</JobWord>
         <AnimatedLine right={0} bottom={-5} />
       </Stack>

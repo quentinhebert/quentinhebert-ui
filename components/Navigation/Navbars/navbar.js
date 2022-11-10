@@ -82,6 +82,9 @@ export default function Navbar(props) {
                 borderColor: "#fff",
                 padding: { xs: "0.25rem 0.75rem", md: "0.5rem 2rem" },
                 letterSpacing: 1,
+                "&:hover": {
+                  borderColor: (theme) => theme.palette.secondary.main,
+                },
               }}
             >
               Contact

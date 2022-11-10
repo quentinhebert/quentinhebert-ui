@@ -4,6 +4,7 @@ import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
 import BodyText from "../../Text/body-text"
 import { Parallax } from "react-scroll-parallax"
+import styles from "../../../styles/TextShine.module.css"
 
 export default function WelcomeSection(props) {
   const { scrollTo, topRef, refForScroll } = props
@@ -172,7 +173,7 @@ export default function WelcomeSection(props) {
                 mesure.
               </BodyText>
 
-              <Box width="100%">
+              <Box width="100%" className={styles.shine}>
                 <Button
                   variant="outlined"
                   sx={{
@@ -181,6 +182,9 @@ export default function WelcomeSection(props) {
                     borderColor: "#fff",
                     padding: "0.5rem 2rem",
                     letterSpacing: 1,
+                    "&:hover": {
+                      borderColor: (theme) => theme.palette.secondary.main,
+                    },
                   }}
                   onClick={() => scrollTo(refForScroll)}
                 >
