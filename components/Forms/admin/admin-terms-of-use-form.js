@@ -8,7 +8,11 @@ import useSWR from "swr"
 import { AppContext } from "../../../contexts/AppContext"
 import CustomForm from "../custom-form"
 import RectangleButton from "../../Buttons/rectangle-button"
-import TextEditor from "../../TextEditor/text-editor"
+import dynamic from "next/dynamic"
+
+const TextEditor = dynamic(() => import("../../TextEditor/text-editor"), {
+  ssr: false,
+})
 
 export default function AdminTermsOfUseForm(props) {
   /********** PROPS **********/

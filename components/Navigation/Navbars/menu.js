@@ -1,5 +1,5 @@
 import Slide from "@mui/material/Slide"
-import { Dialog, Stack, Typography } from "@mui/material"
+import { Box, Dialog, Stack, Typography } from "@mui/material"
 import Link from "next/link"
 import theme from "../../../config/theme"
 import { forwardRef, useEffect } from "react"
@@ -54,13 +54,25 @@ export default function Menu(props) {
         },
       }}
     >
+      <Box
+        className="absolute top left"
+        zIndex={0}
+        width="100%"
+        height="100vh"
+        sx={{
+          // backgroundImage: "url(/medias/grain.jpg)",
+          // backgroundSize: "cover",
+          mixBlendMode: "luminosity",
+        }}
+      />
       <Stack
+        zIndex={1}
         sx={{
           width: "100%",
           height: "100%",
           transition: "width .5s ease-in-out, height .5s ease-in-out",
           // backgroundColor: theme.palette.background.secondary,
-          background: "radial-gradient(rgb(0,0,0,0.1) 0%, rgb(0,0,0,0.6) 90%)",
+          background: "radial-gradient(rgb(0,0,0,0.3) 10%, rgb(0,0,0,0.8) 90%)",
         }}
         justifyContent="center"
         alignItems="center"

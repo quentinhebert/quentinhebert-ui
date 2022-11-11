@@ -1,6 +1,13 @@
 import { RichTextEditor } from "@mantine/rte"
 import theme from "../../config/theme"
 
+// WARNING :
+// node_modules/quill/dist/quill.js ERROR
+// Don't forget to import the text editor with dynamic import !
+// const TextEditor = dynamic(() => import("../../TextEditor/text-editor"), {
+//   ssr: false,
+// })
+
 export default function TextEditor({ value, setValue, controls, id }) {
   return (
     <RichTextEditor
