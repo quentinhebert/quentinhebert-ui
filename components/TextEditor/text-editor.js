@@ -18,6 +18,7 @@ export default function TextEditor({ value, setValue, controls, id }) {
         width: "100%",
         // backgroundColor: "transparent",
         border: `1px solid ${theme.palette.secondary.main}`,
+        fontSize: "initial",
         // color: "#fff",
       }}
       controls={
