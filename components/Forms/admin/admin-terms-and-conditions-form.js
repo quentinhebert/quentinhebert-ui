@@ -8,8 +8,8 @@ import useSWR from "swr"
 import { AppContext } from "../../../contexts/AppContext"
 import CustomForm from "../custom-form"
 import RectangleButton from "../../Buttons/rectangle-button"
-import SmallTitle from "../../Titles/small-title"
 import dynamic from "next/dynamic"
+import CustomAccordion from "../../Containers/custom-accordion"
 
 const TextEditor = dynamic(() => import("../../TextEditor/text-editor"), {
   ssr: false,
@@ -89,7 +89,7 @@ export default function AdminTermsAndConditionsForm(props) {
 
   /********** RENDER **********/
   return (
-    <Stack width="100%" gap={4} ref={ref}>
+    <Stack width="100%" gap={4} ref={ref} height="100%">
       <motion.div
         initial="hidden"
         variants={variants(0.5)}
@@ -99,22 +99,26 @@ export default function AdminTermsAndConditionsForm(props) {
         <ModalTitle>Modifier les mentions légales et CGV</ModalTitle>
       </motion.div>
 
-      <CustomForm gap={4}>
-        <SmallTitle>Mentions légales</SmallTitle>
-        <TextEditor
-          id="rte1"
-          value={richTextTerms}
-          setValue={setRichTextTerms}
-          controls={[["h1"], ["bold", "italic"]]}
-        />
+      <CustomForm gap={4} flexGrow={1} justifyContent="flex-start">
+        <Stack width="100%" flexGrow={1}>
+          <CustomAccordion title="Mentions légales">
+            <TextEditor
+              id="rte1"
+              value={richTextTerms}
+              setValue={setRichTextTerms}
+              controls={[["h1"], ["bold", "italic"]]}
+            />
+          </CustomAccordion>
 
-        <SmallTitle>Conditions Générales de Vente</SmallTitle>
-        <TextEditor
-          id="rte2"
-          value={richTextConditions}
-          setValue={setRichTextConditions}
-          controls={[["h1"], ["bold", "italic"]]}
-        />
+          <CustomAccordion title="Conditions Générales de Vente" flexGrow={1}>
+            <TextEditor
+              id="rte2"
+              value={richTextConditions}
+              setValue={setRichTextConditions}
+              controls={[["h1"], ["bold", "italic"]]}
+            />
+          </CustomAccordion>
+        </Stack>
 
         <motion.div
           initial="hidden"

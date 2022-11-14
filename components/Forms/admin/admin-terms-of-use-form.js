@@ -83,7 +83,12 @@ export default function AdminTermsOfUseForm(props) {
 
   /********** RENDER **********/
   return (
-    <Stack width="100%" gap={4} ref={ref}>
+    <Stack
+      width="100%"
+      gap={4}
+      ref={ref}
+      sx={{ height: { xs: "80vh", md: "90vh" } }}
+    >
       <motion.div
         initial="hidden"
         variants={variants(0.5)}
@@ -93,27 +98,27 @@ export default function AdminTermsOfUseForm(props) {
         <ModalTitle>Modifier les CGU</ModalTitle>
       </motion.div>
 
-      <CustomForm gap={4}>
+      <CustomForm gap={4} sx={{ overflowY: "auto" }}>
         <TextEditor
           value={richTextValue}
           setValue={setRichTextValue}
           controls={[["h1"], ["bold", "italic"]]}
         />
-
-        <motion.div
-          initial="hidden"
-          variants={variants(4)}
-          animate={controls}
-          style={{ width: "100%" }}
-        >
-          <Stack flexDirection="row" gap={2} justifyContent="end">
-            <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
-            <RectangleButton secondary onClick={handleSave}>
-              Enregistrer
-            </RectangleButton>
-          </Stack>
-        </motion.div>
       </CustomForm>
+
+      <motion.div
+        initial="hidden"
+        variants={variants(4)}
+        animate={controls}
+        style={{ width: "100%" }}
+      >
+        <Stack flexDirection="row" gap={2} justifyContent="end">
+          <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
+          <RectangleButton secondary onClick={handleSave}>
+            Enregistrer
+          </RectangleButton>
+        </Stack>
+      </motion.div>
     </Stack>
   )
 }

@@ -19,6 +19,10 @@ export default function TextEditor({ value, setValue, controls, id }) {
         // backgroundColor: "transparent",
         border: `1px solid ${theme.palette.secondary.main}`,
         fontSize: "initial",
+        overflow: "auto",
+        display: "flex",
+        flexDirection: "column",
+        flexGrow: 1,
         // color: "#fff",
       }}
       controls={
