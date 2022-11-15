@@ -105,7 +105,14 @@ export default function Breadcrumbs(props) {
                     },
                   }}
                 >
-                  <Typography className="no-select">{item.label}</Typography>
+                  <Typography
+                    className="no-select"
+                    sx={{
+                      fontSize: "0.8rem",
+                    }}
+                  >
+                    {item.label}
+                  </Typography>
                   {breadcrumbs.length > 1 && isCurrentPage && sm && (
                     <Stack flexGrow={1}>
                       <KeyboardArrowUpIcon
