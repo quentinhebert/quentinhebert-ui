@@ -30,7 +30,7 @@ export default function AdminLoginPage({}) {
       {!user && <Login_Main />}
 
       {!!user && user.type === USERTYPES.ADMIN && (
-        <AdminLayout title="Panneau administrateur" noBreadcrumbs>
+        <AdminLayout title="Panneau administrateur">
           <AdminIndex_Main />
         </AdminLayout>
       )}

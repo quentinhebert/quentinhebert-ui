@@ -1,17 +1,17 @@
 const adminTree = {
-  admin: "Panneau administrateur",
+  admin: "Panneau admin",
   "manage-website-informations": "Gérer les informations du site",
-  "manage-users": "Gérer les utilisateurs",
-  "manage-files": "Gérer les fichiers",
-  "back-office": "Back-Office (gérer le contenu)",
+  "manage-users": "Utilisateurs",
+  "manage-files": "Fichiers",
+  "back-office": "Back-Office",
   films: "Vidéo",
-  "manage-films": "Mes films",
-  "manage-film-gear": "Mon matériel",
-  websites: "Sites web",
-  references: "Mes références",
-  "manage-websites": "Mes sites web",
-  "manage-slides": "Gérer les diapositives textuelles",
-  "manage-gear": "Gérer votre matériel vidéo",
+  "manage-films": "Films",
+  "manage-film-gear": "Matériel",
+  websites: "Web",
+  references: "Références",
+  "manage-websites": "Sites web",
+  "manage-slides": "Diapositives",
+  "manage-gear": "Matériel",
 }
 
 export default adminTree
