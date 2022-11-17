@@ -108,7 +108,10 @@ export default function HeroSection(props) {
         <AnimatedLine left={0} top={-5} />
         <JobWord x={15}>
           Réalisateur{" "}
-          <Box component="span" sx={{ fontSize: "2rem", marginLeft: "2rem" }}>
+          <Box
+            component="span"
+            sx={{ fontSize: { xs: "1rem", md: "2rem" }, marginLeft: "2rem" }}
+          >
             x
           </Box>
         </JobWord>
@@ -146,12 +149,18 @@ export default function HeroSection(props) {
                 },
               }}
             >
-              @{" "}
+              <motion.span
+                initial="hidden"
+                variants={identityVariant(1.5)}
+                animate={controls}
+              >
+                @{" "}
+              </motion.span>
               {Object.values(identity).map((letter, key) => {
                 return (
                   <motion.span
                     initial="hidden"
-                    variants={identityVariant(key / 10)}
+                    variants={identityVariant(1.5 + key / 10)}
                     animate={controls}
                     key={key}
                   >
