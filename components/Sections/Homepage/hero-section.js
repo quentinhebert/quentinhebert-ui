@@ -1,4 +1,4 @@
-import { Box, Slide, Stack, Typography } from "@mui/material"
+import { Box, Slide, Stack, Typography, Grid } from "@mui/material"
 import theme from "../../../config/theme"
 import BouncingArrow from "../../Navigation/BouncingArrow"
 import { motion, useAnimation } from "framer-motion"
@@ -6,6 +6,9 @@ import Link from "next/link"
 import { useInView } from "react-intersection-observer"
 import { useEffect } from "react"
 import styles from "../../../styles/TextShine.module.css"
+import BodyText from "../../Text/body-text"
+import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined"
+import FlashingUnderscore from "../../Animation/flashing-underscore"
 
 const SHORT_MENU = [
   {
@@ -17,6 +20,16 @@ const SHORT_MENU = [
     href: "/websites",
   },
 ]
+
+const identityVariant = (delay) => ({
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.1, delay },
+  },
+})
 
 const lineVariant = {
   hidden: {
@@ -32,6 +45,8 @@ const lineVariant = {
 
 export default function HeroSection(props) {
   const { scrollTo, refForScroll } = props
+
+  const identity = "Quentin Hébert"
 
   /********** ANIMATION **********/
   const [animationRef, inView] = useInView()
@@ -49,7 +64,7 @@ export default function HeroSection(props) {
       <Box
         sx={{
           width: "50%",
-          border: "1px solid",
+          border: "2px solid",
           borderColor: (theme) => theme.palette.secondary.main,
           position: "absolute",
         }}
@@ -82,7 +97,8 @@ export default function HeroSection(props) {
       sx={{
         height: { xs: "90vh", md: "100vh" },
         minHeight: "500px",
-        background: "#000",
+        background: (theme) =>
+          `linear-gradient(#000 0%, transparent 50%, ${theme.palette.background.secondary} 100%), url(https://i.gifer.com/origin/09/098a359ee79551f8a36b42338a9255cc_w200.gif)`,
         zIndex: 1,
       }}
       ref={animationRef}
@@ -90,128 +106,101 @@ export default function HeroSection(props) {
       {/* HERO TEXT */}
       <Stack position="relative" marginTop={-10}>
         <AnimatedLine left={0} top={-5} />
-        <JobWord x={15}>Réalisateur //////</JobWord>
+        <JobWord x={15}>
+          Réalisateur{" "}
+          <Box component="span" sx={{ fontSize: "2rem", marginLeft: "2rem" }}>
+            x
+          </Box>
+        </JobWord>
         <JobWord x={-15}>Développeur web</JobWord>
         <AnimatedLine right={0} bottom={-5} />
       </Stack>
 
-      {/* BOUNCING ARROW */}
-      <Stack
-        zIndex={10}
-        justifyContent="end"
-        alignItems="center"
-        sx={{ display: "flex", position: "absolute", bottom: 80 }}
-      >
-        <BouncingArrow
-          text=""
-          scrollTo={scrollTo}
-          refForScroll={refForScroll}
-        />
-      </Stack>
-
-      {/* CREDITS LINE */}
-      <Stack
+      {/* Navigation / Credits LINE */}
+      <Grid
+        container
         className="absolute uppercase"
         sx={{
-          bottom: "50px",
-          gap: 4,
-          letterSpacing: 2,
+          bottom: "30px",
+          letterSpacing: 1,
           width: { xs: "90%", md: "94%" },
-          justifyContent: "right",
           paddingTop: 0.5,
-          flexDirection: { xs: "column", sm: "row" },
         }}
       >
         {/* QUENTIN HÉBERT */}
-        <Stack>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 2 }}
-            style={{
-              position: "absolute",
-              left: 0,
-              width: "100%",
-            }}
-          >
-            <Typography
-              color="#FFF"
-              letterSpacing={1}
-              sx={{
-                margin: { xs: "auto", md: "auto auto auto 0" },
-                fontSize: { xs: "0.8rem", md: "1rem" },
-              }}
-            >
-              Quentin Hébert
-            </Typography>
-          </motion.div>
-        </Stack>
+        <Grid item xs={12} md={4}>
+          <Typography color="#000" letterSpacing={2} fontSize="1.5rem">
+            @{" "}
+            {Object.values(identity).map((letter, key) => {
+              if (letter === " ") return " "
 
-        <Stack
-          sx={{
-            width: {
-              xs: "100%",
-              sm: "calc(100% - 8rem - 8rem)",
-              md: "calc(100% - 10rem - 11rem)",
-            },
-            position: "absolute",
-            top: "55%",
-            left: {
-              xs: "0",
-              sm: "calc(50% - (100% - 8rem - 8rem) / 2 )",
-              md: "calc(50% - (100% - 10rem - 11rem) / 2 )",
-            },
-          }}
-        >
-          {/* LINE */}
-          <motion.div
-            initial={{ opacity: 0, scaleX: 0 }}
-            animate={{ opacity: 1, scaleX: 1 }}
-            transition={{ duration: 1, delay: 0.7 }}
-            style={{
-              width: "100%",
-            }}
-          >
-            <Stack
-              className={styles.shine}
-              sx={{
-                borderTop: "1px solid #FFF",
-                width: "100%",
-                position: "absolute",
-              }}
-            />
-          </motion.div>
-        </Stack>
-
-        {/* VIDEO / WEB */}
-        <Stack
-          className="row"
-          sx={{
-            justifyContent: "right",
-          }}
-          gap={4}
-        >
-          {SHORT_MENU.map((item, key) => (
-            <motion.div
-              key={key}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 2, delay: 0.7 + key / 2 }}
-            >
-              <Link href={item.href} passHref>
-                <Typography
-                  component="a"
-                  className="cool-button"
-                  color="#fff"
-                  sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+              return (
+                <motion.span
+                  initial="hidden"
+                  variants={identityVariant(key / 10)}
+                  animate={controls}
+                  key={key}
                 >
-                  {item.label}
-                </Typography>
-              </Link>
-            </motion.div>
-          ))}
-        </Stack>
-      </Stack>
+                  {letter}
+                </motion.span>
+              )
+            })}
+            {/* <FlashingUnderscore color="#000" /> */}
+          </Typography>
+        </Grid>
+
+        {/* JOB LINKS */}
+        <Grid
+          item
+          xs={12}
+          md={4}
+          className="row"
+          gap={4}
+          justifyContent="center"
+        >
+          {/* {SHORT_MENU.map((item, key) => (
+            <Link href={item.href} passHref key={key}>
+              <Typography
+                component="a"
+                className="cool-button-black"
+                color="#000"
+                fontSize="1.5rem"
+              >
+                {item.label}
+              </Typography>
+            </Link>
+          ))} */}
+        </Grid>
+
+        {/* SEE MORE */}
+        <Grid
+          item
+          xs={12}
+          md={4}
+          className="row"
+          gap={1}
+          justifyContent="right"
+        >
+          <Box color="#000" className={styles.shine} display="flex">
+            {[1, 2, 3].map((item) => (
+              <NavigateNextOutlinedIcon
+                key={item}
+                sx={{ marginLeft: "-0.5rem", fontSize: "2.2rem" }}
+              />
+            ))}
+          </Box>
+
+          <Typography
+            onClick={() => scrollTo(refForScroll)}
+            component="a"
+            className="cool-button-black"
+            color="#000"
+            sx={{ cursor: "pointer", fontSize: "1.5rem" }}
+          >
+            Voir plus
+          </Typography>
+        </Grid>
+      </Grid>
     </Stack>
   )
 

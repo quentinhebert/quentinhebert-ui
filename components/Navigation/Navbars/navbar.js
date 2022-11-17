@@ -108,7 +108,7 @@ export default function Navbar(props) {
                       width="100%"
                       height="100%"
                       priority={true}
-                      className={page === "/" ? styles.shine : null}
+                      // className={page === "/" ? styles.shine : null}
                     />
                   )}
                 </Stack>
