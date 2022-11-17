@@ -128,64 +128,63 @@ export default function HeroSection(props) {
         }}
       >
         {/* QUENTIN HÉBERT */}
-        <Grid item xs={12} md={4}>
-          <Typography color="#000" letterSpacing={2} fontSize="1.5rem">
-            @{" "}
-            {Object.values(identity).map((letter, key) => {
-              if (letter === " ") return " "
-
-              return (
-                <motion.span
-                  initial="hidden"
-                  variants={identityVariant(key / 10)}
-                  animate={controls}
-                  key={key}
-                >
-                  {letter}
-                </motion.span>
-              )
-            })}
-            {/* <FlashingUnderscore color="#000" /> */}
-          </Typography>
-        </Grid>
-
-        {/* JOB LINKS */}
-        <Grid
-          item
-          xs={12}
-          md={4}
-          className="row"
-          gap={4}
-          justifyContent="center"
-        >
-          {/* {SHORT_MENU.map((item, key) => (
-            <Link href={item.href} passHref key={key}>
-              <Typography
-                component="a"
-                className="cool-button-black"
-                color="#000"
-                fontSize="1.5rem"
-              >
-                {item.label}
-              </Typography>
-            </Link>
-          ))} */}
+        <Grid item xs={12} md={6}>
+          <Stack
+            width="100%"
+            sx={{
+              textAlign: { xs: "center", md: "left" },
+              paddingBottom: { xs: "40%", md: "0" },
+            }}
+          >
+            <Typography
+              letterSpacing={2}
+              sx={{
+                fontSize: { xs: "1.2rem", md: "1.5rem" },
+                color: {
+                  xs: theme.palette.text.secondary,
+                  md: "#000",
+                },
+              }}
+            >
+              @{" "}
+              {Object.values(identity).map((letter, key) => {
+                return (
+                  <motion.span
+                    initial="hidden"
+                    variants={identityVariant(key / 10)}
+                    animate={controls}
+                    key={key}
+                  >
+                    {letter}
+                  </motion.span>
+                )
+              })}
+            </Typography>
+          </Stack>
         </Grid>
 
         {/* SEE MORE */}
         <Grid
           item
           xs={12}
-          md={4}
+          md={6}
           className="row"
           gap={1}
           justifyContent="right"
         >
-          <Box color="#000" className={styles.shine} display="flex">
+          <Box
+            color="#000"
+            className={styles.shine}
+            display="flex"
+            alignItems="center"
+          >
             {[1, 2, 3].map((item) => (
               <NavigateNextOutlinedIcon
                 key={item}
-                sx={{ marginLeft: "-0.5rem", fontSize: "2.2rem" }}
+                sx={{
+                  marginLeft: "-0.5rem",
+                  fontSize: { xs: "1rem", md: "2.2rem" },
+                }}
               />
             ))}
           </Box>
@@ -195,7 +194,7 @@ export default function HeroSection(props) {
             component="a"
             className="cool-button-black"
             color="#000"
-            sx={{ cursor: "pointer", fontSize: "1.5rem" }}
+            sx={{ cursor: "pointer", fontSize: { xs: "1rem", md: "1.5rem" } }}
           >
             Voir plus
           </Typography>

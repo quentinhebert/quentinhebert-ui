@@ -41,10 +41,7 @@ export default function WelcomeSection(props) {
 
   return (
     <>
-      <Stack
-        ref={topRef}
-        sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
-      />
+      <Stack ref={topRef} sx={{ scrollMarginTop: "60px" }} />
 
       <Stack
         width="100%"
@@ -99,7 +96,7 @@ export default function WelcomeSection(props) {
               minHeight="300px"
               sx={{
                 height: { xs: "auto", md: "100%" },
-                marginTop: "30px",
+                marginTop: { xs: "0", md: "30px" },
                 opacity: { xs: 1, md: opacity },
                 transition: "opacity 0.4s ease",
                 backgroundImage: "url(/medias/portrait.jpg)",
@@ -120,7 +117,7 @@ export default function WelcomeSection(props) {
               backgroundImage:
                 "linear-gradient(#000 40%, rgb(0,0,0,0.5)), url(/medias/bubbles.svg)",
               backgroundSize: "cover",
-              backgroundPosition: "50%",
+              backgroundPosition: `50%`,
               padding: "2rem",
               gap: "2rem",
             }}
