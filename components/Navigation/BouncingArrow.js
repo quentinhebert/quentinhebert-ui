@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material"
 import styles from "../../styles/BouncingArrow.module.css"
 import theme from "../../config/theme"
 import ScaleUpOnHoverStack from "../Animation/scale-up-on-hover-stack"
+import MouseIcon from "@mui/icons-material/Mouse"
 
 export default function BouncingArrow(props) {
   const { text, scrollTo, refForScroll } = props

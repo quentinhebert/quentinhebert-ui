@@ -57,7 +57,6 @@ export default function Navbar(props) {
           background: "transparent",
           width: "100%",
           boxShadow: "none",
-          gap: 2,
           background: isReduced ? "#000" : "transparent",
           borderBottom: isReduced ? "1px solid" : "",
           borderColor: (theme) => theme.palette.secondary.main,

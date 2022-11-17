@@ -87,74 +87,130 @@ export default function HeroSection(props) {
       }}
       ref={animationRef}
     >
-      <Stack
-        className="absolute row uppercase"
-        sx={{
-          top: { xs: "90px", md: "80px" },
-          gap: 4,
-          letterSpacing: 2,
-        }}
-      >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2 }}
-        >
-          <Typography
-            color="#FFF"
-            letterSpacing={1}
-            className={styles.shine}
-            sx={{
-              fontSize: { xs: "1.2rem", md: "2rem" },
-            }}
-          >
-            – Quentin Hébert –
-          </Typography>
-        </motion.div>
-      </Stack>
-
-      <Stack
-        className="absolute row uppercase"
-        sx={{
-          top: "130px",
-          gap: 4,
-          letterSpacing: 2,
-        }}
-      >
-        {SHORT_MENU.map((item, key) => (
-          <motion.div
-            key={key}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 2, delay: 0.5 + key / 5 }}
-          >
-            <Link href={item.href} passHref>
-              <Typography component="a" className="cool-button" color="#fff">
-                {item.label}
-              </Typography>
-            </Link>
-          </motion.div>
-        ))}
-      </Stack>
-
-      <Stack position="relative">
+      {/* HERO TEXT */}
+      <Stack position="relative" marginTop={-10}>
         <AnimatedLine left={0} top={-5} />
         <JobWord x={15}>Réalisateur //////</JobWord>
         <JobWord x={-15}>Développeur web</JobWord>
         <AnimatedLine right={0} bottom={-5} />
       </Stack>
 
+      {/* BOUNCING ARROW */}
       <Stack
         zIndex={10}
         justifyContent="end"
         alignItems="center"
-        sx={{ display: "flex", position: "absolute", bottom: 0 }}
+        sx={{ display: "flex", position: "absolute", bottom: 80 }}
       >
         <BouncingArrow
           text=""
           scrollTo={scrollTo}
           refForScroll={refForScroll}
         />
+      </Stack>
+
+      {/* CREDITS LINE */}
+      <Stack
+        className="absolute uppercase"
+        sx={{
+          bottom: "50px",
+          gap: 4,
+          letterSpacing: 2,
+          width: { xs: "90%", md: "94%" },
+          justifyContent: "right",
+          paddingTop: 0.5,
+          flexDirection: { xs: "column", sm: "row" },
+        }}
+      >
+        {/* QUENTIN HÉBERT */}
+        <Stack>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2 }}
+            style={{
+              position: "absolute",
+              left: 0,
+              width: "100%",
+            }}
+          >
+            <Typography
+              color="#FFF"
+              letterSpacing={1}
+              sx={{
+                margin: { xs: "auto", md: "auto auto auto 0" },
+                fontSize: { xs: "0.8rem", md: "1rem" },
+              }}
+            >
+              Quentin Hébert
+            </Typography>
+          </motion.div>
+        </Stack>
+
+        <Stack
+          sx={{
+            width: {
+              xs: "100%",
+              sm: "calc(100% - 8rem - 8rem)",
+              md: "calc(100% - 10rem - 11rem)",
+            },
+            position: "absolute",
+            top: "55%",
+            left: {
+              xs: "0",
+              sm: "calc(50% - (100% - 8rem - 8rem) / 2 )",
+              md: "calc(50% - (100% - 10rem - 11rem) / 2 )",
+            },
+          }}
+        >
+          {/* LINE */}
+          <motion.div
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            transition={{ duration: 1, delay: 0.7 }}
+            style={{
+              width: "100%",
+            }}
+          >
+            <Stack
+              className={styles.shine}
+              sx={{
+                borderTop: "1px solid #FFF",
+                width: "100%",
+                position: "absolute",
+              }}
+            />
+          </motion.div>
+        </Stack>
+
+        {/* VIDEO / WEB */}
+        <Stack
+          className="row"
+          sx={{
+            justifyContent: "right",
+          }}
+          gap={4}
+        >
+          {SHORT_MENU.map((item, key) => (
+            <motion.div
+              key={key}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 2, delay: 0.7 + key / 2 }}
+            >
+              <Link href={item.href} passHref>
+                <Typography
+                  component="a"
+                  className="cool-button"
+                  color="#fff"
+                  sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                >
+                  {item.label}
+                </Typography>
+              </Link>
+            </motion.div>
+          ))}
+        </Stack>
       </Stack>
     </Stack>
   )
