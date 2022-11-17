@@ -27,9 +27,19 @@ const identityVariant = (delay) => ({
   },
   visible: {
     opacity: 1,
-    transition: { duration: 0.1, delay },
+    transition: { duration: 0.2, delay },
   },
 })
+
+const arobaseVariant = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.4, delay: 1.3 },
+  },
+}
 
 const lineVariant = {
   hidden: {
@@ -151,7 +161,7 @@ export default function HeroSection(props) {
             >
               <motion.span
                 initial="hidden"
-                variants={identityVariant(1.5)}
+                variants={arobaseVariant}
                 animate={controls}
               >
                 @{" "}
