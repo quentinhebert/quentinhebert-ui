@@ -58,8 +58,6 @@ export default function Navbar(props) {
           width: "100%",
           boxShadow: "none",
           background: isReduced ? "#000" : "transparent",
-          borderBottom: isReduced ? "1px solid" : "",
-          borderColor: (theme) => theme.palette.secondary.main,
         }}
       >
         <Stack padding="1rem 0.75rem" alignItems="center">

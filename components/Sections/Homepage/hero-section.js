@@ -128,12 +128,12 @@ export default function HeroSection(props) {
         }}
       >
         {/* QUENTIN HÉBERT */}
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={6}>
           <Stack
             width="100%"
             sx={{
-              textAlign: { xs: "center", md: "left" },
-              paddingBottom: { xs: "40%", md: "0" },
+              textAlign: { xs: "center", sm: "left" },
+              paddingBottom: { xs: "calc(50vh - 10rem)", sm: "0" },
             }}
           >
             <Typography
@@ -142,7 +142,7 @@ export default function HeroSection(props) {
                 fontSize: { xs: "1.2rem", md: "1.5rem" },
                 color: {
                   xs: theme.palette.text.secondary,
-                  md: "#000",
+                  sm: "#000",
                 },
               }}
             >
@@ -167,7 +167,7 @@ export default function HeroSection(props) {
         <Grid
           item
           xs={12}
-          md={6}
+          sm={6}
           className="row"
           gap={1}
           justifyContent="right"
