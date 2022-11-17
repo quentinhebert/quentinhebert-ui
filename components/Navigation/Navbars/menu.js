@@ -75,7 +75,7 @@ export default function Menu(props) {
                 >
                   <Link href={item.href} passHref>
                     <Typography
-                      className="no-select cool-button"
+                      className="no-select"
                       key={key}
                       padding=".5rem 0"
                       display="flex"
@@ -86,7 +86,7 @@ export default function Menu(props) {
                         lineHeight: { xs: "9vw", md: "10vw" },
                         letterSpacing: { xs: 1, md: 2 },
                         textTransform: "uppercase",
-                        cursor: page === item.href ? "default" : "pointer",
+                        cursor: "pointer",
                         color:
                           page === item.href
                             ? (theme) => theme.palette.text.secondary
@@ -97,7 +97,14 @@ export default function Menu(props) {
                         },
                       }}
                     >
-                      0{key + 1} {item.label}
+                      0{key + 1}{" "}
+                      <Box
+                        component="span"
+                        className="cool-button"
+                        marginLeft={2}
+                      >
+                        {item.label}
+                      </Box>
                     </Typography>
                   </Link>
                 </motion.div>
