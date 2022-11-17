@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Typography } from "@mui/material"
+import { Box, Button, Stack, Typography, useMediaQuery } from "@mui/material"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
@@ -39,6 +39,8 @@ export default function WelcomeSection(props) {
     else setOpacity(1)
   }
 
+  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
+
   return (
     <>
       <Stack ref={topRef} sx={{ scrollMarginTop: "60px" }} />
@@ -57,7 +59,6 @@ export default function WelcomeSection(props) {
         <Parallax
           onProgressChange={(progress) => handleOpacity(progress)}
           style={{
-            background: "blue",
             zIndex: 100,
             position: "absolute",
             top: 0,
@@ -101,7 +102,11 @@ export default function WelcomeSection(props) {
                 transition: "opacity 0.4s ease",
                 backgroundImage: "url(/medias/portrait.jpg)",
                 backgroundSize: "cover",
-                backgroundPosition: { xs: "50%", md: "20%", lg: "50%" },
+                backgroundPosition: {
+                  xs: "50%",
+                  sm: "0% 10%",
+                  lg: "50%",
+                },
               }}
             />
           </Stack>
