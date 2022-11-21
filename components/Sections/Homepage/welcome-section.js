@@ -32,14 +32,15 @@ export default function WelcomeSection(props) {
     }
   }, [controls, inView])
 
+  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
+
   const [opacity, setOpacity] = useState(0)
   const handleOpacity = (progress) => {
+    if (sm) return
     if (progress < 0.5) setOpacity(progress * 2)
     else if (progress > 0.75) setOpacity(-4 * progress + 4)
     else setOpacity(1)
   }
-
-  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
 
   return (
     <>
