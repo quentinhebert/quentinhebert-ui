@@ -8,20 +8,7 @@ import { useEffect } from "react"
 import styles from "../../../styles/TextShine.module.css"
 import BodyText from "../../Text/body-text"
 import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined"
-import FlashingUnderscore from "../../Animation/flashing-underscore"
 import { useRouter } from "next/router"
-import StraightIcon from "@mui/icons-material/Straight"
-
-const SHORT_MENU = [
-  {
-    label: "Vidéo",
-    href: "/films",
-  },
-  {
-    label: "Web",
-    href: "/websites",
-  },
-]
 
 const identityVariant = (delay) => ({
   hidden: {
@@ -29,7 +16,7 @@ const identityVariant = (delay) => ({
   },
   visible: {
     opacity: 1,
-    transition: { duration: 0.2, delay },
+    transition: { duration: 1, delay },
   },
 })
 
@@ -45,10 +32,12 @@ const lineVariant = {
   },
 }
 
+const year = new Date().getFullYear()
+
 export default function HeroSection(props) {
   const { scrollTo, refForScroll } = props
 
-  const identity = "Quentin Hébert"
+  const identity = `Quentin Hébert | ${year}`
   const router = useRouter()
 
   /********** ANIMATION **********/
@@ -164,7 +153,7 @@ export default function HeroSection(props) {
                   <motion.span
                     initial="hidden"
                     variants={identityVariant(
-                      letter === " " ? 0 : 1.2 + key / 10
+                      letter === " " ? 0 : 1 + key / 20
                     )}
                     animate={controls}
                     key={key}
@@ -199,14 +188,15 @@ export default function HeroSection(props) {
               className={styles.shine}
               display="flex"
               alignItems="center"
-              paddingLeft={3}
+              paddingLeft={10}
             >
               {[1, 2].map((item) => (
                 <NavigateNextOutlinedIcon
                   key={item}
                   sx={{
-                    marginLeft: "-1.5rem",
-                    fontSize: { xs: "1rem", md: "2.2rem" },
+                    display: "flex",
+                    marginLeft: { xs: "-0.75rem", md: "-1.5rem" },
+                    fontSize: { xs: "1.3rem", md: "2.2rem" },
                   }}
                 />
               ))}
@@ -215,7 +205,7 @@ export default function HeroSection(props) {
             <Typography
               onClick={() => scrollTo(refForScroll)}
               component="a"
-              className="cool-button-black"
+              className="cool-button-black flex column"
               color="#000"
               sx={{ cursor: "pointer", fontSize: { xs: "1rem", md: "1.5rem" } }}
             >
