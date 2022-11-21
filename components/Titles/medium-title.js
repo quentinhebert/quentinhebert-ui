@@ -11,10 +11,9 @@ export default function MediumTitle({ preventTransitionOut, ...props }) {
     return {
       visible: {
         opacity: 1,
-        y: 1,
         transition: { duration: 1, delay: key / 10 },
       },
-      hidden: { opacity: 0, y: -25 },
+      hidden: { opacity: 0 },
     }
   }
   useEffect(() => {
