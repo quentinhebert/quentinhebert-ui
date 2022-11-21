@@ -94,7 +94,7 @@ export default function WelcomeSection(props) {
           >
             <Stack
               width="100%"
-              minHeight="300px"
+              minHeight="400px"
               sx={{
                 height: { xs: "auto", md: "100%" },
                 marginTop: { xs: "0", md: "30px" },
@@ -112,7 +112,7 @@ export default function WelcomeSection(props) {
           </Stack>
 
           <Stack
-            className="flex-center"
+            justifyContent="center"
             zIndex={0}
             sx={{
               width: { xs: "100%", md: "50%" },
