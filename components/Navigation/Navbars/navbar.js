@@ -130,8 +130,8 @@ export default function Navbar(props) {
               position: "absolute",
               right: { xs: 20, md: 50 },
               top: isReduced ? 10 : 15,
+              gap: { xs: 0, lg: 2 },
             }}
-            gap={2}
             flexDirection="row"
           >
             {!!user && (
