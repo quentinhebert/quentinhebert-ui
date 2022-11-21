@@ -78,12 +78,10 @@ export default function Menu(props) {
                       className="no-select"
                       key={key}
                       padding=".5rem 0"
-                      display="flex"
-                      alignItems="center"
                       fontWeight="bold"
                       sx={{
-                        fontSize: { xs: "10vw", md: "12vw" },
-                        lineHeight: { xs: "9vw", md: "10vw" },
+                        fontSize: { xs: "10vw", md: "min(12vw, 20vh)" },
+                        lineHeight: { xs: "9vw", md: "min(8vw, 12vh)" },
                         letterSpacing: { xs: 1, md: 2 },
                         textTransform: "uppercase",
                         cursor: "pointer",
@@ -97,7 +95,9 @@ export default function Menu(props) {
                         },
                       }}
                     >
-                      0{key + 1}{" "}
+                      <Box component="span" fontSize="3rem" marginRight="4rem">
+                        0{key + 1}
+                      </Box>
                       <Box
                         component="span"
                         className="cool-button"
