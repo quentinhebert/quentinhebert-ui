@@ -9,6 +9,7 @@ import styles from "../../../styles/TextShine.module.css"
 import BodyText from "../../Text/body-text"
 import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined"
 import FlashingUnderscore from "../../Animation/flashing-underscore"
+import { useRouter } from "next/router"
 
 const SHORT_MENU = [
   {
@@ -57,6 +58,7 @@ export default function HeroSection(props) {
   const { scrollTo, refForScroll } = props
 
   const identity = "Quentin Hébert"
+  const router = useRouter()
 
   /********** ANIMATION **********/
   const [animationRef, inView] = useInView()
@@ -67,7 +69,7 @@ export default function HeroSection(props) {
     } else {
       controls.start("hidden")
     }
-  }, [controls, inView])
+  }, [controls, inView, router])
 
   const AnimatedLine = (props) => (
     <motion.div initial="hidden" variants={lineVariant} animate={controls}>
@@ -108,8 +110,11 @@ export default function HeroSection(props) {
         height: { xs: "90vh", md: "100vh" },
         minHeight: "500px",
         background: (theme) =>
-          `linear-gradient(#000 0%, transparent 50%, ${theme.palette.background.secondary} 100%), url(https://i.gifer.com/origin/09/098a359ee79551f8a36b42338a9255cc_w200.gif)`,
+          `linear-gradient(#000 0%, transparent 50%, ${theme.palette.background.secondary} 100%),
+          url(https://images.creativemarket.com/0.1.0/ps/8818362/1820/1281/m1/fpnw/wm1/nrflslythqd9cpglhfvhf9yvkwgnw5bdgo9vu2wnd6bhkmvfhuvtjzti3yduhucj-.jpg?1596299752&s=156abbb59e74612b8de7cd4cde428ac7)`,
+        backgroundSize: "cover",
         zIndex: 1,
+        overflow: "hidden",
       }}
       ref={animationRef}
     >
@@ -164,7 +169,7 @@ export default function HeroSection(props) {
                 variants={arobaseVariant}
                 animate={controls}
               >
-                @{" "}
+                {/* @{" "} */}
               </motion.span>
               {Object.values(identity).map((letter, key) => {
                 return (
