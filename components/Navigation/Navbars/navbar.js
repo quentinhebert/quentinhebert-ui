@@ -3,7 +3,7 @@ import AppBar from "@mui/material/AppBar"
 import LoginOrMenuButton from "../login-or-menu-button"
 import { UserContext } from "../../../contexts/UserContext"
 import Image from "next/image"
-import { Button, Stack } from "@mui/material"
+import { Box, Button, Stack } from "@mui/material"
 import theme from "../../../config/theme"
 import { useRouter } from "next/router"
 import dynamic from "next/dynamic"
@@ -57,9 +57,20 @@ export default function Navbar(props) {
           background: "transparent",
           width: "100%",
           boxShadow: "none",
-          background: isReduced ? "#000" : "transparent",
         }}
       >
+        <Box
+          width="100%"
+          height="100%"
+          sx={{
+            background: "#000",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            opacity: isReduced ? 1 : 0,
+            transition: "0.2s ease-in-out",
+          }}
+        />
         <Stack padding="1rem 0.75rem" alignItems="center">
           <Link href="/contact" passHref>
             <Button
