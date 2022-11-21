@@ -119,15 +119,16 @@ export default function HeroSection(props) {
       ref={animationRef}
     >
       {/* HERO TEXT */}
-      <Stack position="relative" marginTop={-10}>
+      <Stack position="relative" marginTop={-10} component="h1">
         <AnimatedLine left={0} top={-5} />
         <JobWord x={15}>
-          Réalisateur{" "}
+          Réalisateur
           <Box
             component="span"
             sx={{ fontSize: { xs: "1rem", md: "2rem" }, marginLeft: "2rem" }}
           >
-            x
+            {" "}
+            x{" "}
           </Box>
         </JobWord>
         <JobWord x={-15}>Développeur web</JobWord>
