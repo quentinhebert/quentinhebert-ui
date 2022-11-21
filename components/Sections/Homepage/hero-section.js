@@ -10,6 +10,7 @@ import BodyText from "../../Text/body-text"
 import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined"
 import FlashingUnderscore from "../../Animation/flashing-underscore"
 import { useRouter } from "next/router"
+import StraightIcon from "@mui/icons-material/Straight"
 
 const SHORT_MENU = [
   {
@@ -31,16 +32,6 @@ const identityVariant = (delay) => ({
     transition: { duration: 0.2, delay },
   },
 })
-
-const arobaseVariant = {
-  hidden: {
-    opacity: 0,
-  },
-  visible: {
-    opacity: 1,
-    transition: { duration: 0.4, delay: 1.3 },
-  },
-}
 
 const lineVariant = {
   hidden: {
@@ -92,11 +83,13 @@ export default function HeroSection(props) {
       transition={{ duration: 2, ease: [0.25, 0.1, 0.25, 1.0] }}
     >
       <Typography
+        className="no-select"
         color="#fff"
         sx={{
           textTransform: "uppercase",
           lineHeight: { xs: "8vw", md: "5vw" },
           fontSize: { xs: "8vw", md: "5vw" },
+          letterSpacing: 4,
         }}
         {...props}
       />
@@ -111,8 +104,9 @@ export default function HeroSection(props) {
         minHeight: "500px",
         background: (theme) =>
           `linear-gradient(#000 0%, transparent 50%, ${theme.palette.background.secondary} 100%),
-          url(https://images.creativemarket.com/0.1.0/ps/8818362/1820/1281/m1/fpnw/wm1/nrflslythqd9cpglhfvhf9yvkwgnw5bdgo9vu2wnd6bhkmvfhuvtjzti3yduhucj-.jpg?1596299752&s=156abbb59e74612b8de7cd4cde428ac7)`,
+          url(/medias/film_grain.jpg)`,
         backgroundSize: "cover",
+        backgroundPosition: "30% 50%",
         zIndex: 1,
         overflow: "hidden",
       }}
@@ -165,18 +159,13 @@ export default function HeroSection(props) {
                 },
               }}
             >
-              <motion.span
-                initial="hidden"
-                variants={arobaseVariant}
-                animate={controls}
-              >
-                {/* @{" "} */}
-              </motion.span>
               {Object.values(identity).map((letter, key) => {
                 return (
                   <motion.span
                     initial="hidden"
-                    variants={identityVariant(1.5 + key / 10)}
+                    variants={identityVariant(
+                      letter === " " ? 0 : 1.2 + key / 10
+                    )}
                     animate={controls}
                     key={key}
                   >
@@ -189,40 +178,50 @@ export default function HeroSection(props) {
         </Grid>
 
         {/* SEE MORE */}
-        <Grid
-          item
-          xs={12}
-          sm={6}
-          className="row"
-          gap={1}
-          justifyContent="right"
-        >
-          <Box
-            color="#000"
-            className={styles.shine}
-            display="flex"
-            alignItems="center"
+        <Grid item xs={12} sm={6} justifyContent="right">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{
+              duration: 1,
+              delay: 3,
+              ease: [0.25, 0.1, 0.25, 1.0],
+            }}
+            style={{
+              flexDirection: "row",
+              display: "flex",
+              gap: 1,
+              justifyContent: "right",
+            }}
           >
-            {[1, 2, 3].map((item) => (
-              <NavigateNextOutlinedIcon
-                key={item}
-                sx={{
-                  marginLeft: "-0.5rem",
-                  fontSize: { xs: "1rem", md: "2.2rem" },
-                }}
-              />
-            ))}
-          </Box>
+            <Box
+              color="#000"
+              className={styles.shine}
+              display="flex"
+              alignItems="center"
+              paddingLeft={3}
+            >
+              {[1, 2].map((item) => (
+                <NavigateNextOutlinedIcon
+                  key={item}
+                  sx={{
+                    marginLeft: "-1.5rem",
+                    fontSize: { xs: "1rem", md: "2.2rem" },
+                  }}
+                />
+              ))}
+            </Box>
 
-          <Typography
-            onClick={() => scrollTo(refForScroll)}
-            component="a"
-            className="cool-button-black"
-            color="#000"
-            sx={{ cursor: "pointer", fontSize: { xs: "1rem", md: "1.5rem" } }}
-          >
-            Voir plus
-          </Typography>
+            <Typography
+              onClick={() => scrollTo(refForScroll)}
+              component="a"
+              className="cool-button-black"
+              color="#000"
+              sx={{ cursor: "pointer", fontSize: { xs: "1rem", md: "1.5rem" } }}
+            >
+              Voir plus
+            </Typography>
+          </motion.div>
         </Grid>
       </Grid>
     </Stack>

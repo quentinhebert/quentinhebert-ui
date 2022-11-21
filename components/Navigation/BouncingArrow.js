@@ -5,8 +5,17 @@ import theme from "../../config/theme"
 import ScaleUpOnHoverStack from "../Animation/scale-up-on-hover-stack"
 import MouseIcon from "@mui/icons-material/Mouse"
 
-export default function BouncingArrow(props) {
-  const { text, scrollTo, refForScroll } = props
+export default function BouncingArrow({
+  text,
+  scrollTo,
+  refForScroll,
+  CustomIcon,
+}) {
+  const Icon = (props) => {
+    if (CustomIcon) return CustomIcon
+    return <KeyboardArrowDownIcon {...props} />
+  }
+
   return (
     <ScaleUpOnHoverStack>
       <Box
@@ -41,7 +50,7 @@ export default function BouncingArrow(props) {
             {text}
           </Typography>
         ) : null}
-        <KeyboardArrowDownIcon
+        <Icon
           sx={{
             color: "#fff !important",
             fontSize: "3rem",

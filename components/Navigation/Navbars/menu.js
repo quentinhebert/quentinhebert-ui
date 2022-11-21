@@ -102,6 +102,11 @@ export default function Menu(props) {
                         component="span"
                         className="cool-button"
                         marginLeft={2}
+                        sx={{
+                          "::after": {
+                            marginTop: "0.5rem",
+                          },
+                        }}
                       >
                         {item.label}
                       </Box>
