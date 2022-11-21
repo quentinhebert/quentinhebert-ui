@@ -32,11 +32,11 @@ export default function WelcomeSection(props) {
     }
   }, [controls, inView])
 
-  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
+  const md = useMediaQuery((theme) => theme.breakpoints.down("md"))
 
   const [opacity, setOpacity] = useState(0)
   const handleOpacity = (progress) => {
-    if (sm) return
+    if (md) return
     if (progress < 0.5) setOpacity(progress * 2)
     else if (progress > 0.75) setOpacity(-4 * progress + 4)
     else setOpacity(1)
@@ -73,7 +73,6 @@ export default function WelcomeSection(props) {
             sx={{
               marginTop: "100px",
               zIndex: 100,
-              backgroundColor: "red",
             }}
           />
         </Parallax>
