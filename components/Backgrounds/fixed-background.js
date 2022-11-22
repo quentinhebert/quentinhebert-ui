@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 
-export default function ({ url, background }) {
+export default function FixedBackground({ url, background }) {
   if (background)
     return (
       <Box

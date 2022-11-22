@@ -49,8 +49,8 @@ const Text = styled(
             fontFamily={fontFamily || "Helmet"}
             sx={{
               fontSize: props.fontSize || {
-                xs: "0.9rem",
-                md: "1rem",
+                xs: "1rem",
+                md: "1.2rem",
               },
               letterSpacing: props.letterSpacing || 1,
               lineHeight: props.lineHeight || {

@@ -17,15 +17,16 @@ import FlashingUnderscore from "../../Animation/flashing-underscore"
 import FlashingRec from "../../Animation/FlashingRec"
 import { fetchers } from "../../../services/public-fetchers"
 import { HomePageContext } from "../../../contexts/PagesContexts"
+import BodyText from "../../Text/body-text"
 
 const ListItem = (props) => (
-  <Typography
+  <BodyText
     className="no-select"
     display="flex"
     alignItems="center"
     justifyContent="left"
     marginBottom="0.5rem"
-    sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+    preventTransition
     {...props}
   />
 )

@@ -58,12 +58,12 @@ export default function Menu(props) {
         zIndex={1}
         sx={{
           width: "100%",
-          height: "100%",
         }}
+        marginTop="2rem"
         justifyContent="center"
         alignItems="center"
       >
-        <Stack textAlign="left" ref={viewRef}>
+        <Stack textAlign="right" ref={viewRef}>
           {list?.length > 0 &&
             list.map((item, key) => {
               return (
@@ -80,8 +80,8 @@ export default function Menu(props) {
                       padding=".5rem 0"
                       fontWeight="bold"
                       sx={{
-                        fontSize: { xs: "10vw", md: "min(12vw, 20vh)" },
-                        lineHeight: { xs: "9vw", md: "min(8vw, 12vh)" },
+                        fontSize: { xs: "6vw", md: "min(8vw, 12vh)" },
+                        lineHeight: { xs: "9vw", md: "min(8vw, 10vh)" },
                         letterSpacing: { xs: 1, md: 2 },
                         textTransform: "uppercase",
                         cursor: "pointer",
@@ -95,9 +95,6 @@ export default function Menu(props) {
                         },
                       }}
                     >
-                      <Box component="span" fontSize="3rem" marginRight="4rem">
-                        0{key + 1}
-                      </Box>
                       <Box
                         component="span"
                         className="cool-button"
@@ -109,6 +106,9 @@ export default function Menu(props) {
                         }}
                       >
                         {item.label}
+                      </Box>
+                      <Box component="span" fontSize="3rem" marginLeft="2rem">
+                        0{key + 1}
                       </Box>
                     </Typography>
                   </Link>

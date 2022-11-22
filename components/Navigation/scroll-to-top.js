@@ -54,7 +54,7 @@ export default function ScrollToTopBtn(props) {
             padding: { xs: "0.5rem 1rem", md: ".75rem 1.5rem" },
             color: "#000",
             letterSpacing: { xs: "1px", md: "0.5px" },
-            fontSize: { xs: "0.6rem", md: "0.8rem" },
+            fontSize: { xs: "0.6rem", md: "1rem" },
             fontWeight: "bold",
             boxShadow: "5px 10px 30px 5px rgb(0,0,0,0.3)",
             opacity: 0.7,
