@@ -7,12 +7,12 @@ export default function WaitForLogout(props) {
   const { open } = props
 
   return (
-    <CustomModal open={open}>
+    <CustomModal open={open} fullscreen>
       <Stack
         alignItems="center"
         justifyContent="center"
         flexDirection="row"
-        minHeight={300}
+        height="100%"
         gap={4}
       >
         <CustomCircularProgress />

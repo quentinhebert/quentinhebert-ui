@@ -5,6 +5,7 @@ import { Stack } from "@mui/material"
 import prepareProps from "../services/public-fetchers"
 import PagesLayout from "../components/Layouts/PagesLayout"
 import PleaseWait from "../components/Helpers/please-wait"
+import Redirect from "../components/Helpers/redirect"
 
 const head = {
   // Main meta tags
@@ -27,6 +28,8 @@ export default function LoginPage({ navbar, footer }) {
     <PagesLayout head={head} navbarData={navbar} footerData={footer}>
       {!user ? (
         <Login_Main redirect="/account" />
+      ) : !!user ? (
+        <Redirect target="/account" />
       ) : (
         <Stack flexGrow={1} justifyContent="center">
           <PleaseWait />
