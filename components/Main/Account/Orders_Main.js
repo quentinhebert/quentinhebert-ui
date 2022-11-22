@@ -18,12 +18,18 @@ const StatusChip = ({ order }) => (
   <Pill
     bgColor={(theme) => theme.alert.title[ORDERSTATES[order.state].severity]}
   >
-    <BodyText color="#000">{ORDERSTATES[order.state].label}</BodyText>
+    <BodyText fontSize="1rem" color="#000">
+      {ORDERSTATES[order.state].label}
+    </BodyText>
   </Pill>
 )
 
+const GridItem = ({ ...props }) => (
+  <Grid item md={2.4} {...props} paddingLeft="2rem" />
+)
+
 const GridHead = () => {
-  const headItems = ["Status", "Date", "Montant", ""]
+  const headItems = ["Status", "Description", "Date", "Montant", ""]
   return (
     <Grid
       container
@@ -33,19 +39,12 @@ const GridHead = () => {
         borderRadius: "60px",
         padding: 2,
         justifyContent: "space-between",
-        alignItems: "center",
       }}
     >
       {headItems.map((label, key) => (
-        <Grid
-          item
-          key={key}
-          md={3}
-          textAlign={key === 0 ? "left" : "center"}
-          paddingLeft={key === 0 ? "1rem" : 0}
-        >
+        <GridItem paddingLeft={key === 0 ? "1rem" : 0}>
           <BodyText>{label}</BodyText>
-        </Grid>
+        </GridItem>
       ))}
     </Grid>
   )
@@ -98,14 +97,27 @@ export default function Orders_Main() {
                 background: (theme) => theme.palette.background.main,
                 borderRadius: "60px",
                 padding: 2,
-                justifyContent: "space-between",
-                alignItems: "center",
               }}
             >
-              <Grid item key={key} md={3} textAlign="left">
+              <GridItem sx={{ paddingLeft: 0 }}>
                 <StatusChip order={order} />
-              </Grid>
-              <Grid item key={key} md={3} textAlign="center">
+              </GridItem>
+              <GridItem>
+                <BodyText
+                  sx={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                  }}
+                >
+                  {order.label && order.label !== ""
+                    ? order.label
+                    : "Pas de description"}
+                </BodyText>
+              </GridItem>
+              <GridItem>
                 <BodyText>
                   {
                     convertToShortString(
@@ -113,11 +125,11 @@ export default function Orders_Main() {
                     ).split(" ")[0]
                   }
                 </BodyText>
-              </Grid>
-              <Grid item key={key} md={3} textAlign="center">
+              </GridItem>
+              <GridItem>
                 <BodyText>{order.total_price / 100}€</BodyText>
-              </Grid>
-              <Grid item key={key} md={3} textAlign="right">
+              </GridItem>
+              <GridItem textAlign="right">
                 <Stack className="full-height">
                   <PillButton
                     onClick={() => router.push(`/account/orders/${order.id}`)}
@@ -125,7 +137,7 @@ export default function Orders_Main() {
                     + d'infos
                   </PillButton>
                 </Stack>
-              </Grid>
+              </GridItem>
             </Grid>
           ))}
       </Stack>
