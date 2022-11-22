@@ -81,7 +81,7 @@ export default function Breadcrumbs(props) {
                   sx={{
                     background: (theme) =>
                       isCurrentPage
-                        ? theme.palette.background.secondary
+                        ? `linear-gradient(90deg, ${theme.palette.tersary.main}, ${theme.palette.background.secondary})`
                         : "#313030",
                     padding: "8px 20px",
                     borderRadius: "30px",
