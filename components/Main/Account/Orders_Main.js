@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material"
+import { Grid, Stack } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { useRouter } from "next/router"
@@ -15,14 +15,41 @@ import Pill from "../../Text/pill"
 import RefreshButton from "../../Buttons/refresh-button"
 
 const StatusChip = ({ order }) => (
-  <Stack marginBottom={4}>
-    <Pill
-      bgColor={(theme) => theme.alert.title[ORDERSTATES[order.state].severity]}
-    >
-      <BodyText color="#000">{ORDERSTATES[order.state].label}</BodyText>
-    </Pill>
-  </Stack>
+  <Pill
+    bgColor={(theme) => theme.alert.title[ORDERSTATES[order.state].severity]}
+  >
+    <BodyText color="#000">{ORDERSTATES[order.state].label}</BodyText>
+  </Pill>
 )
+
+const GridHead = () => {
+  const headItems = ["Status", "Date", "Montant", ""]
+  return (
+    <Grid
+      container
+      sx={{
+        flexDirection: { xs: "column", sm: "row" },
+        background: (theme) => theme.palette.background.main,
+        borderRadius: "60px",
+        padding: 2,
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      {headItems.map((label, key) => (
+        <Grid
+          item
+          key={key}
+          md={3}
+          textAlign={key === 0 ? "left" : "center"}
+          paddingLeft={key === 0 ? "1rem" : 0}
+        >
+          <BodyText>{label}</BodyText>
+        </Grid>
+      ))}
+    </Grid>
+  )
+}
 
 export default function Orders_Main() {
   const [orders, setOrders] = useState([])
@@ -58,42 +85,48 @@ export default function Orders_Main() {
       {orders.length < 1 && !loading && (
         <BodyText>Pas de commande pour le moment</BodyText>
       )}
-      <Stack sx={{ gap: { xs: 10, sm: 4 } }}>
+      <Stack sx={{ gap: { xs: 10, sm: 2 } }}>
+        <GridHead />
         {!loading &&
           orders.map((order, key) => (
-            <Stack
-              className="full-height flex-center"
+            <Grid
+              container
               key={key}
-              gap={4}
-              sx={{ flexDirection: { xs: "column", sm: "row" } }}
+              sx={{
+                flexDirection: { xs: "column", sm: "row" },
+                border: (theme) => `1px solid ${theme.palette.secondary.main}`,
+                background: (theme) => theme.palette.background.main,
+                borderRadius: "60px",
+                padding: 2,
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
             >
-              <Stack
-                sx={{
-                  flexGrow: 1,
-                  border: (theme) =>
-                    `1px solid ${theme.palette.secondary.main}`,
-                  borderRadius: "30px",
-                  padding: 2,
-                }}
-              >
+              <Grid item key={key} md={3} textAlign="left">
                 <StatusChip order={order} />
-                <BodyText>N° de commande: {order.id}</BodyText>
+              </Grid>
+              <Grid item key={key} md={3} textAlign="center">
                 <BodyText>
-                  Date:{" "}
-                  {convertToShortString(
-                    getLocaleDateTime(order.created_at, user.timezone)
-                  )}
+                  {
+                    convertToShortString(
+                      getLocaleDateTime(order.created_at, user.timezone)
+                    ).split(" ")[0]
+                  }
                 </BodyText>
+              </Grid>
+              <Grid item key={key} md={3} textAlign="center">
                 <BodyText>{order.total_price / 100}€</BodyText>
-              </Stack>
-              <Stack className="full-height">
-                <PillButton
-                  onClick={() => router.push(`/account/orders/${order.id}`)}
-                >
-                  + d'infos
-                </PillButton>
-              </Stack>
-            </Stack>
+              </Grid>
+              <Grid item key={key} md={3} textAlign="right">
+                <Stack className="full-height">
+                  <PillButton
+                    onClick={() => router.push(`/account/orders/${order.id}`)}
+                  >
+                    + d'infos
+                  </PillButton>
+                </Stack>
+              </Grid>
+            </Grid>
           ))}
       </Stack>
     </Stack>
