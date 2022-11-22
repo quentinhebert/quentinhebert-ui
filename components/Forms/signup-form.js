@@ -1,5 +1,5 @@
 import { useState, useContext } from "react"
-import { FormHelperText, Stack } from "@mui/material"
+import { Box, FormHelperText, Stack } from "@mui/material"
 import apiCall from "../../services/apiCalls/apiCall"
 import { USERTYPES } from "../../enums/userTypes"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
@@ -13,6 +13,7 @@ import CustomOutlinedInput from "../Inputs/custom-outlined-input"
 import CustomCheckbox from "../Inputs/custom-checkbox"
 import CustomForm from "./custom-form"
 import DualInputLine from "../Containers/dual-input-line"
+import BodyText from "../Text/body-text"
 
 export default function SignUpForm(props) {
   /********** PROPS **********/
@@ -171,12 +172,6 @@ export default function SignUpForm(props) {
   /********** RENDER **********/
   return (
     <Stack gap={4}>
-      {isAdmin ? (
-        <ModalTitle>Ajouter un utilisateur</ModalTitle>
-      ) : (
-        <ModalTitle>S'inscrire</ModalTitle>
-      )}
-
       <CustomForm>
         <DualInputLine>
           <CustomOutlinedInput

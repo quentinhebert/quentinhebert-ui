@@ -135,6 +135,25 @@ const users = {
       console.error(err)
     }
   },
+  // Admin only
+  sendClientSignupLink: async ({ email }) => {
+    try {
+      const body = { email }
+      return await fetch(
+        `${defaultConfig.apiUrl}/users/send-client-signup-link`,
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
   sessions: {
     get: async (userId) => {
       try {

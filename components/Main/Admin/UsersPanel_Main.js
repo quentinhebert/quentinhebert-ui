@@ -1,4 +1,4 @@
-import { Avatar, Stack, Tooltip } from "@mui/material"
+import { Avatar, Box, Stack, Tooltip } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../hocs/withConfirmAction"
@@ -7,6 +7,9 @@ import SignUpForm from "../../Forms/signup-form"
 import { AppContext } from "../../../contexts/AppContext"
 import CustomModal from "../../Modals/custom-modal"
 import BodyText from "../../Text/body-text"
+import AlertInfo from "../../Other/alert-info"
+import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
+import GenerateClientSignupLink from "../../Forms/admin/generate-client-signup-link"
 
 function getBoolValue(param) {
   if (!param)
@@ -198,6 +201,9 @@ function UsersPanel_Main(props) {
     await fetchUsers()
   }
 
+  const [clientLink, setClientLink] = useState(false)
+  const handleClientLink = () => setClientLink(true)
+
   return (
     <>
       <Stack gap={2}>
@@ -219,8 +225,44 @@ function UsersPanel_Main(props) {
         />
       </Stack>
 
-      <CustomModal open={openSignUp} handleClose={handleCloseSignUp}>
-        <SignUpForm handleClose={handleCloseSignUp} />
+      <CustomModal open={openSignUp} handleClose={handleCloseSignUp} gap={2}>
+        <ModalTitle>
+          {clientLink
+            ? "Générer un lien d'inscription"
+            : "Ajouter un utilisateur"}
+        </ModalTitle>
+        <AlertInfo
+          content={{
+            severity: "info",
+            title: "Générer un lien d'inscription",
+            js: (
+              <BodyText fontSize="1rem">
+                Vous pouvez générer un{" "}
+                <Box
+                  component="span"
+                  sx={{
+                    textDecoration: "underline",
+                    color: (theme) => theme.palette.text.secondary,
+                    cursor: "pointer",
+                  }}
+                  onClick={handleClientLink}
+                >
+                  lien d'inscription
+                </Box>{" "}
+                (client uniquement). Le client pourra ainsi remplir tous les
+                champs d'inscription lui-même.
+              </BodyText>
+            ),
+          }}
+        />
+        {clientLink ? (
+          <GenerateClientSignupLink
+            handleCancel={() => setClientLink(false)}
+            handleClose={handleCloseSignUp}
+          />
+        ) : (
+          <SignUpForm handleClose={handleCloseSignUp} />
+        )}
       </CustomModal>
     </>
   )
