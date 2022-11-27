@@ -9,6 +9,7 @@ const FormContainer = styled((props) => {
       alignItems="center"
       justifyContent="center"
       gap={md ? 1 : 2}
+      onSubmit={(e) => e.preventDefault()} // prevent from page reload
       {...props}
     />
   )

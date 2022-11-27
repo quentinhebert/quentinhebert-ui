@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import adminTree from "../../enums/breadcrumbs-trees/admin-tree"
 import accountTree from "../../enums/breadcrumbs-trees/account-tree"
+import dashboardTree from "../../enums/breadcrumbs-trees/dashboard-tree"
 import { PANELTYPES } from "../../enums/panelTypes"
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
 import { useState } from "react"
@@ -23,6 +24,7 @@ export default function Breadcrumbs(props) {
   let tree = []
   if (panel === PANELTYPES.ADMIN) tree = adminTree
   if (panel === PANELTYPES.ACCOUNT) tree = accountTree
+  if (panel === PANELTYPES.DASHOBARD) tree = dashboardTree
 
   const breadcrumbs = []
   const path = []

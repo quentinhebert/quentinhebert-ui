@@ -7,6 +7,7 @@ import application from "../apiCalls/application"
 import references from "../apiCalls/references"
 import orders from "../apiCalls/orders"
 import clients from "../apiCalls/clients"
+import quotations from "../apiCalls/quotations"
 
 const apiCall = {
   application,
@@ -18,6 +19,7 @@ const apiCall = {
   references,
   orders,
   clients,
+  quotations,
 }
 
 export default apiCall

@@ -2,6 +2,20 @@ import { defaultConfig } from "../../config/defaultConfig"
 import { getFreshToken } from "../utils"
 
 const clients = {
+  // Admin only
+  search: async ({ string }) => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/clients/search/${string}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
   addresses: {
     // Client and Admin
     getAll: async (client) => {

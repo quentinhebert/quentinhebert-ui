@@ -19,6 +19,8 @@ import { logout } from "../../services/utils"
 import Link from "next/link"
 import { USERTYPES } from "../../enums/userTypes"
 import WaitForLogout from "../Modals/wait-for-logout"
+import DashboardIcon from "@mui/icons-material/Dashboard"
+import { PersonalComputer, Projects } from "grommet-icons"
 
 const AdminItems = [
   {
@@ -27,8 +29,11 @@ const AdminItems = [
     url: "/admin",
   },
   { label: "Mon compte", icon: <PersonIcon />, url: "/account" },
-  // { label: "Mes missions", icon: <WorkIcon />, url: "#" },
-  // { label: "Messages", icon: <EmailIcon />, url: "#" },
+  {
+    label: "Dashboard",
+    icon: <DashboardIcon color="#fff" />,
+    url: "/dashboard",
+  },
 ]
 
 const ClientItems = [

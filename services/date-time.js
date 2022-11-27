@@ -27,3 +27,30 @@ export function convertToLongString(dateTime) {
     minute: "2-digit",
   })
 }
+
+export function getTodayShortString() {
+  const today = new Date()
+  const todayDate = convertToShortString(today)
+  return todayDate
+}
+
+export function getYesterdayShortString() {
+  const yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - 1)
+  const yesterdayDate = convertToShortString(yesterday)
+  return yesterdayDate
+}
+
+export function formatDayDate({ timestamp, timezone }) {
+  const today = getTodayShortString().split(" ")[0]
+  const yesterday = getYesterdayShortString().split(" ")[0]
+  const dateTime = convertToShortString(
+    getLocaleDateTime(new Date(timestamp), timezone)
+  )
+  const date = dateTime.split(" ")[0]
+  const time = dateTime.split(" ")[1]
+  let formattedDate = `${date} à ${time}`
+  if (date === today) formattedDate = `Aujourd'hui à ${time}`
+  if (date === yesterday) formattedDate = `Hier à ${time}`
+  return formattedDate
+}

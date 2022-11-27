@@ -10,7 +10,7 @@ function withConfirmAction(WrappedComponent) {
     const [actionToFire, setActionToFire] = useState(null)
     const [openModal, setOpenModal] = useState(false)
     const [confirmTitle, setConfirmTitle] = useState("Confirmation")
-    const [nextButtonText, setNextButtonText] = useState("Continue")
+    const [nextButtonText, setNextButtonText] = useState("Continuer")
     const [confirmContent, setConfirmContent] = useState({
       text: null,
       js: null,

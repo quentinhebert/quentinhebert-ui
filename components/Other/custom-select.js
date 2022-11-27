@@ -5,18 +5,17 @@ import FormControl from "@mui/material/FormControl"
 import Select from "@mui/material/Select"
 import { alpha } from "@mui/material/styles"
 
-export default function CustomSelect(props) {
-  const {
-    placeholder,
-    required,
-    options,
-    value,
-    setValue,
-    size,
-    backgroundColor,
-    error,
-  } = props
-
+export default function CustomSelect({
+  placeholder,
+  required,
+  options,
+  value,
+  setValue,
+  customHandleChange,
+  size,
+  backgroundColor,
+  error,
+}) {
   const handleChange = (event) => {
     setValue(event.target.value)
   }
@@ -40,7 +39,7 @@ export default function CustomSelect(props) {
         labelId="select-label"
         value={value}
         label={placeholder}
-        onChange={handleChange}
+        onChange={!!handleChange ? customHandleChange : handleChange}
         sx={{
           backgroundColor: backgroundColor || "transparent",
           "&:hover": {
