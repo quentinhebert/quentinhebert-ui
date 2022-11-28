@@ -102,46 +102,48 @@ export default function QuotationReadOnlySection({ items }) {
   // RENDER
   return (
     <>
-      <Box
-        component="table"
-        sx={{
-          width: "99%",
-          marginLeft: "0.5%",
-          marginBottom: "0.5%",
-          marginTop: "0.5%",
-          borderCollapse: "collapse",
-          borderStyle: "hidden",
-          borderRadius: "20px",
-          boxShadow: (theme) => `0 0 0 2px ${theme.palette.secondary.main}`,
-          overflow: "hidden",
-        }}
-      >
-        {HEAD.map((item, key) => (
-          <HeadCell key={key} width={item.width}>
-            {item.label}
-          </HeadCell>
-        ))}
+      <Stack overflow="auto">
+        <Box
+          component="table"
+          sx={{
+            width: "99%",
+            margin: "0.5%",
+            borderCollapse: "collapse",
+            borderStyle: "hidden",
+            borderRadius: "20px",
+            boxShadow: (theme) => `0 0 0 2px ${theme.palette.secondary.main}`,
+            overflow: "hidden",
+          }}
+        >
+          {HEAD.map((item, key) => (
+            <HeadCell key={key} width={item.width}>
+              {item.label}
+            </HeadCell>
+          ))}
 
-        {items.map((item, key) => (
-          <Line key={key}>
-            <Cell>
-              {
-                QUOTATION_ITEM_TYPES.filter((elt) => elt.id === item.type)[0]
-                  .label
-              }
-            </Cell>
-            <Cell>{item.label}</Cell>
-            <Cell>{item.description}</Cell>
-            <Cell>{item.quantity}</Cell>
-            <Cell>{item.vat} %</Cell>
-            <Cell>{item.no_vat_price / 100} €</Cell>
-            <Cell>
-              {(item.no_vat_price / 100) * item.quantity * (1 + item.vat / 100)}{" "}
-              €
-            </Cell>
-          </Line>
-        ))}
-      </Box>
+          {items.map((item, key) => (
+            <Line key={key}>
+              <Cell>
+                {
+                  QUOTATION_ITEM_TYPES.filter((elt) => elt.id === item.type)[0]
+                    .label
+                }
+              </Cell>
+              <Cell>{item.label}</Cell>
+              <Cell>{item.description}</Cell>
+              <Cell>{item.quantity}</Cell>
+              <Cell>{item.vat} %</Cell>
+              <Cell>{item.no_vat_price / 100} €</Cell>
+              <Cell>
+                {(item.no_vat_price / 100) *
+                  item.quantity *
+                  (1 + item.vat / 100)}{" "}
+                €
+              </Cell>
+            </Line>
+          ))}
+        </Box>
+      </Stack>
 
       <TotalPrices />
     </>

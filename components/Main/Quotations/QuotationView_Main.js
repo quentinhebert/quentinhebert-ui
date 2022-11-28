@@ -107,7 +107,7 @@ export default function QuotationView_Main({}) {
     )
 
   return (
-    <Stack padding="100px 1rem" gap={2}>
+    <Stack padding="100px 2rem" gap={2}>
       <PageTitle text="Aperçu du devis" />
       <AlertInfo
         content={{
