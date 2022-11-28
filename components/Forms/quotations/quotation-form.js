@@ -29,8 +29,10 @@ import QuotationReadOnlySection from "../../Sections/Quotations/quotation-read-o
 import AlertInfo from "../../Other/alert-info"
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf"
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd"
-import CustomOutlinedAutocomplete from "../../Inputs/custom-outlined-autocomplete"
 import ClientAutocomplete from "../admin/client-autocomplete"
+import DoneAllIcon from "@mui/icons-material/DoneAll"
+import SubmitButton from "../../Buttons/submit-button"
+import CancelButton from "../../Buttons/cancel-button"
 
 const EDIT_STATUSES = [
   QUOTATION_STATUS.DRAFT.id,
@@ -90,41 +92,6 @@ const Line = (props) => (
     }}
     {...props}
   />
-)
-const SaveButton = ({ handleSave, disabled }) => (
-  <PillButton
-    color={(theme) => theme.palette.text.secondary}
-    border={(theme) => `1px solid ${theme.palette.text.secondary}`}
-    background="transparent"
-    startIcon={<SaveAltIcon />}
-    onClick={handleSave}
-    disabled={disabled || false}
-  >
-    Enregistrer
-  </PillButton>
-)
-const CancelButton = ({ handleCancel }) => (
-  <PillButton
-    color={"#fff"}
-    border={"1px solid #fff"}
-    background="transparent"
-    onClick={handleCancel}
-  >
-    Annuler
-  </PillButton>
-)
-const SendButton = ({ handleSend, disabled }) => (
-  <PillButton
-    type="submit"
-    color={(theme) => theme.palette.text.secondary}
-    border={(theme) => `1px solid ${theme.palette.text.secondary}`}
-    background="transparent"
-    startIcon={<SendIcon />}
-    onClick={handleSend}
-    disabled={disabled || false}
-  >
-    Envoyer
-  </PillButton>
 )
 
 function QuotationForm({
@@ -199,7 +166,6 @@ function QuotationForm({
     setEmailInput("")
     setOpenSendModal(false)
   }
-
   const handleChange = (attribute) => (e) => {
     setQuotation({ ...quotation, [attribute]: e.target.value })
   }
@@ -293,7 +259,6 @@ function QuotationForm({
     }
   }
   const handleAssign = async () => {
-    // if (!assignValue?.id) return
     const res = await apiCall.quotations.assignClient({
       id: quotation.id,
       clientId: assignValue?.id || null,
@@ -341,6 +306,20 @@ function QuotationForm({
         >
           Modifications non sauvegardées{" "}
           <AccessTimeIcon sx={{ display: "inline-flex" }} />
+        </BodyText>
+      )
+
+    if (quotation.status === QUOTATION_STATUS.ACCEPTED.id)
+      return (
+        <BodyText
+          marginLeft="1rem"
+          sx={{
+            color: (theme) => theme.alert.title.success,
+            display: "inline-flex",
+            gap: ".5rem",
+          }}
+        >
+          Accepté par le client <DoneAllIcon />
         </BodyText>
       )
 
@@ -403,8 +382,16 @@ function QuotationForm({
           />
         )}
         <Stack alignItems="center" width="100%" flexDirection="row" gap={2}>
-          <SaveButton handleSave={handleSave} />
-          <SendButton handleSend={handleSend} />
+          {EDIT_STATUSES.includes(quotation.status) && (
+            <>
+              <SubmitButton onClick={handleSave} icon={<SaveAltIcon />} />
+              <SubmitButton
+                onClick={handleSend}
+                label="Envoyer"
+                icon={<SendIcon />}
+              />
+            </>
+          )}
           <Status />
           <Stack flexGrow={1} />
           <DropdownOptions options={options} />
@@ -467,9 +454,13 @@ function QuotationForm({
         <CustomForm gap={4}>
           <Toolbar />
 
-          {!EDIT_STATUSES.includes(quotation.status) ? (
+          {/* READ ONLY MODE */}
+          {!EDIT_STATUSES.includes(quotation.status) && (
             <QuotationReadOnlySection items={items} />
-          ) : (
+          )}
+
+          {/* EDIT MODE */}
+          {EDIT_STATUSES.includes(quotation.status) && (
             <>
               <Stack gap={2} width="100%" overflow="auto">
                 <Box
@@ -533,6 +524,7 @@ function QuotationForm({
         </CustomForm>
       </Stack>
 
+      {/* CREATE QUOTATION ITEM */}
       <CustomModal open={openCreateModal} handleClose={handleCloseCreateModal}>
         <CreateQuotationItemForm
           handleClose={handleCloseCreateModal}
@@ -542,6 +534,7 @@ function QuotationForm({
         />
       </CustomModal>
 
+      {/* EDIT QUOTATION ITEM */}
       <CustomModal open={openEditModal} handleClose={handleCloseEditModal}>
         <EditQuotationItemForm
           handleClose={handleCloseEditModal}
@@ -553,6 +546,7 @@ function QuotationForm({
         />
       </CustomModal>
 
+      {/* SAVE QUOTATION / EDIT QUOTATION NAME */}
       <CustomModal
         open={openSaveModal}
         handleClose={handleCloseSaveModal}
@@ -570,46 +564,56 @@ function QuotationForm({
           />
           <Stack className="row" gap={2}>
             <CancelButton handleCancel={handleCancel} />
-            <SaveButton handleSave={handleSave} />
+            <SubmitButton
+              onClick={handleSave}
+              icon={<SaveAltIcon />}
+              disabled={quotation.label.trim() === ""}
+            />
           </Stack>
         </CustomForm>
       </CustomModal>
 
+      {/* SEND QUOTATION */}
       <CustomModal
         open={openSendModal}
         handleClose={handleCloseSendModal}
         gap={4}
       >
         <ModalTitle>Envoyer le devis</ModalTitle>
-        <AlertInfo
-          content={{
-            text: `Vous avez déjà envoyé le devis à ${recipientEmailsString}`,
-          }}
-        />
-        <BodyText preventTransition display="inline-flex" gap={1}>
-          Le devis est destiné à
-          <Box
-            component="div"
-            sx={{ color: (theme) => theme.palette.text.secondary }}
-          >
-            {quotation.client?.email}
-          </Box>
-        </BodyText>
+        {!!quotation.recipient_emails.length && (
+          <AlertInfo
+            content={{
+              text: `Vous avez déjà envoyé le devis à ${recipientEmailsString}`,
+            }}
+          />
+        )}
+        {!!quotation.client?.email && (
+          <BodyText preventTransition display="inline-flex" gap={1}>
+            Le devis est destiné à
+            <Box
+              component="div"
+              sx={{ color: (theme) => theme.palette.text.secondary }}
+            >
+              {quotation.client?.email}
+            </Box>
+          </BodyText>
+        )}
         <CustomForm gap={4}>
           <CustomFilledInput
             value={emailInput}
             onChange={(e) => setEmailInput(e.target.value)}
-            label="Destinataire"
+            label="Destinataire (e-mail)"
             error={emailError}
             helperText={emailError && "Adresse e-mail invalide"}
           />
           <Stack className="row" gap={2}>
             <CancelButton handleCancel={handleCancel} />
-            <SendButton handleSend={handleSend} />
+            <SubmitButton onClick={handleSend} />
           </Stack>
         </CustomForm>
       </CustomModal>
 
+      {/* ASSIGN CLIENT TO QUOTATION */}
       <CustomModal
         open={openAssignModal}
         handleClose={handleCloseAssignModal}
@@ -629,7 +633,7 @@ function QuotationForm({
           />
           <Stack className="row" gap={2}>
             <CancelButton handleCancel={handleCloseAssignModal} />
-            <SaveButton handleSave={handleAssign} />
+            <SubmitButton onClick={handleAssign} />
           </Stack>
         </CustomForm>
       </CustomModal>
