@@ -19,8 +19,29 @@ const files = {
     }
   },
   // Admin only
-  save: async ({ label, status, items, id }) => {
-    const body = { label, status, items }
+  save: async ({
+    id,
+    label,
+    status,
+    items,
+    date,
+    delivery_date,
+    duration,
+    validity_end_date,
+    payment_options,
+    payment_conditions,
+  }) => {
+    const body = {
+      label,
+      status,
+      items,
+      date,
+      delivery_date,
+      duration,
+      validity_end_date,
+      payment_options,
+      payment_conditions,
+    }
     try {
       return await fetch(`${defaultConfig.apiUrl}/quotations/${id}`, {
         method: "PUT",

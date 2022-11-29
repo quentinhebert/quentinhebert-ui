@@ -1,13 +1,13 @@
 import { TextField } from "@mui/material"
 import { styled } from "@mui/system"
 
-const CssFilledInput = styled((props) => (
+const CssFilledInput = styled(({ width, ...props }) => (
   <TextField
     size="small"
     variant="filled"
     InputProps={{ disableUnderline: true }}
     sx={{
-      width: "100%",
+      width: width || "100%",
     }}
     {...props}
   />
@@ -49,6 +49,10 @@ const CssFilledInput = styled((props) => (
   "& .MuiFormHelperText-root.Mui-error": {
     color: theme.palette.error.main,
     margin: 0,
+  },
+  "& .MuiFormHelperText-root": {
+    margin: 0,
+    marginTop: 5,
   },
 }))
 

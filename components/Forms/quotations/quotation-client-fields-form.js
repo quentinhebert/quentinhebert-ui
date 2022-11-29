@@ -34,9 +34,6 @@ export default function QuotationClientFieldsForm({ defaultClient }) {
     country: defaultClient?.country || "",
   }
 
-  console.log("defaultClient", defaultClient)
-  console.log("initialClient", initialClient)
-
   // Set initial errors on false
   let initialErrors = {}
   Object.keys(initialClient).map((key) => {

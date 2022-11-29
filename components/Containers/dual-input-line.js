@@ -1,11 +1,11 @@
 import { Stack } from "@mui/material"
 import { styled } from "@mui/system"
 
-const TwoInputLine = styled((props) => (
+const TwoInputLine = styled(({ gap, ...props }) => (
   <Stack
     sx={{
       width: "100%",
-      gap: { xs: 1, md: 2 },
+      gap: gap || { xs: 1, md: 2 },
       flexDirection: props.direction || { xs: "column", sm: "row" },
     }}
     {...props}

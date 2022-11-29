@@ -28,6 +28,15 @@ export function convertToLongString(dateTime) {
   })
 }
 
+export function convertDateToLongString(dateTime) {
+  return dateTime.toLocaleDateString("fr-FR", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })
+}
+
 export function getTodayShortString() {
   const today = new Date()
   const todayDate = convertToShortString(today)

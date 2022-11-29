@@ -1,10 +1,9 @@
 import { useState, useContext, useEffect } from "react"
-import { Box, Grid, Stack } from "@mui/material"
+import { Box, Grid, Stack, Typography } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { AppContext } from "../../../contexts/AppContext"
 import CustomForm from "../custom-form"
 import BodyText from "../../Text/body-text"
-import PillButton from "../../Buttons/pill-button"
 import CustomModal from "../../Modals/custom-modal"
 import CreateQuotationItemForm from "./create-quotation-item-form"
 import EditQuotationItemForm from "./edit-quotation-item-form"
@@ -23,6 +22,11 @@ import ClientAutocomplete from "../admin/client-autocomplete"
 import SubmitButton from "../../Buttons/submit-button"
 import CancelButton from "../../Buttons/cancel-button"
 import { Cell, HeadCell, Line } from "../../Tables/table-components"
+import theme from "../../../config/theme"
+import CustomDatePicker from "../../Inputs/custom-date-picker"
+import DualInputLine from "../../Containers/dual-input-line"
+import CustomCheckbox from "../../Inputs/custom-checkbox"
+import SmallTitle from "../../Titles/small-title"
 // Icons
 import SendIcon from "@mui/icons-material/Send"
 import DoneIcon from "@mui/icons-material/Done"
@@ -37,6 +41,12 @@ import AddIcon from "@mui/icons-material/Add"
 import SaveAltIcon from "@mui/icons-material/SaveAlt"
 
 // CONSTANTS
+const PAYMENT_OPTIONS = [
+  { id: "card", label: "Carte bancaire" },
+  { id: "transfer", label: "Virement bancaire" },
+  { id: "check", label: "Chèque de banque" },
+  { id: "cash", label: "Espèces" },
+]
 const EDIT_STATUSES = [
   QUOTATION_STATUS.DRAFT.id,
   QUOTATION_STATUS.SENT.id,
@@ -73,7 +83,7 @@ function QuotationForm({
   const router = useRouter()
 
   /********** USE-STATES **********/
-  const [quotation, setQuotation] = useState({
+  const initialQuotation = {
     id: id,
     label: "",
     created_at: null,
@@ -81,7 +91,19 @@ function QuotationForm({
     status: QUOTATION_STATUS.DRAFT.id,
     recipient_emails: [],
     client: {},
-  })
+    date: null,
+    delivery_date: null,
+    duration: "",
+    validity_end_date: null,
+    payment_options: {
+      card: false,
+      transfer: false,
+      check: false,
+      cash: false,
+    },
+    payment_conditions: "",
+  }
+  const [quotation, setQuotation] = useState(initialQuotation)
   const [items, setItems] = useState([])
   const [unsavedChanges, setUnsavedChanges] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
@@ -126,6 +148,21 @@ function QuotationForm({
   }
   const handleChange = (attribute) => (e) => {
     setQuotation({ ...quotation, [attribute]: e.target.value })
+    handleDetectChange()
+  }
+  const handleChangeDate = (attribute) => (newValue) => {
+    setQuotation({ ...quotation, [attribute]: newValue })
+    handleDetectChange()
+  }
+  const handleCheckPaymentOptions = (attribute) => (e) => {
+    setQuotation({
+      ...quotation,
+      payment_options: {
+        ...quotation.payment_options,
+        [attribute]: e.target.checked,
+      },
+    })
+    handleDetectChange()
   }
   const save = async () => {
     let res = null
@@ -139,8 +176,7 @@ function QuotationForm({
     } else {
       // If quotation is created and needs to be saved/updated
       res = await apiCall.quotations.save({
-        label: quotation.label,
-        status: quotation.status,
+        ...quotation,
         items,
         id,
       })
@@ -148,14 +184,14 @@ function QuotationForm({
     if (res && res.ok) {
       const jsonRes = await res.json()
       setSnackSeverity("success")
-      setSnackMessage("Succès")
+      setSnackMessage("Le devis a bien été enregistré")
       setOpenModal(false)
       // if no id provided === user is on CreateQuotationPage (not EditQuotationPage), we redirect the user onto the edit page (with the same quotationForm component)
       if (!id) return router.push(`/dashboard/quotations/${jsonRes.id}/edit`)
       await fetchQuotation()
     } else {
       setSnackSeverity("error")
-      setSnackMessage("Erreur")
+      setSnackMessage("Une erreur est survenue...")
     }
   }
   const handleSave = async () => {
@@ -313,8 +349,22 @@ function QuotationForm({
       })
 
     return (
-      <Stack width="100%" gap={4}>
-        <BodyText color={(theme) => theme.palette.text.secondary}>
+      <Stack
+        width="100%"
+        gap={4}
+        sx={{
+          position: "-webkit-sticky",
+          position: "sticky",
+          top: 60,
+          background: "#000",
+          padding: "1rem 0",
+          zIndex: 10,
+        }}
+      >
+        <BodyText
+          preventTransition
+          color={(theme) => theme.palette.text.secondary}
+        >
           {quotation.label || "Sans nom"}{" "}
           <Box component="span" color="#fff" fontStyle="italic">
             {`(${QUOTATION_STATUS[quotation.status].label})`}
@@ -333,11 +383,16 @@ function QuotationForm({
         <Stack alignItems="center" width="100%" flexDirection="row" gap={2}>
           {EDIT_STATUSES.includes(quotation.status) && (
             <>
-              <SubmitButton onClick={handleSave} icon={<SaveAltIcon />} />
+              <SubmitButton
+                onClick={handleSave}
+                icon={<SaveAltIcon />}
+                preventTransition
+              />
               <SubmitButton
                 onClick={handleSend}
                 label="Envoyer"
                 icon={<SendIcon />}
+                preventTransition
               />
             </>
           )}
@@ -362,20 +417,24 @@ function QuotationForm({
 
     const Label = (props) => (
       <Grid item xs={6}>
-        <BodyText {...props} color={(theme) => theme.palette.text.secondary} />
+        <BodyText
+          preventTransition
+          {...props}
+          color={(theme) => theme.palette.text.secondary}
+        />
       </Grid>
     )
 
     const Price = (props) => (
       <Grid item xs={6}>
-        <BodyText {...props} />
+        <BodyText preventTransition {...props} />
       </Grid>
     )
 
     return (
       <Stack
         sx={{
-          alignSelf: "end",
+          alignSelf: { xs: "end", md: "start" },
           border: (theme) => `1px solid ${theme.palette.secondary.main}`,
           borderRadius: "20px",
           padding: 2,
@@ -392,6 +451,9 @@ function QuotationForm({
       </Stack>
     )
   }
+  const FormStack = (props) => (
+    <Stack sx={{ width: { xs: "100%", md: "50%" } }} {...props} />
+  )
 
   /********** LOADING **********/
   if (loading) return <PleaseWait />
@@ -458,13 +520,110 @@ function QuotationForm({
 
               <Stack className="flex-center" width="100%">
                 <SubmitButton
+                  background={(theme) => theme.palette.background.secondary}
+                  color="#000"
                   icon={<AddIcon />}
                   label="Nouvelle ligne"
                   onClick={() => handleOpenModal(MODALS.CREATE_ITEM)}
                 />
               </Stack>
 
-              <TotalPrices />
+              <Stack
+                width="100%"
+                sx={{
+                  marginTop: 4,
+                  gap: 8,
+                  flexDirection: { xs: "column", md: "row-reverse" },
+                }}
+              >
+                <TotalPrices />
+
+                {/* CONDITIONS & MENTIONS */}
+                <Stack
+                  className="full-width"
+                  sx={{
+                    background: (theme) => theme.palette.background.main,
+                    padding: "2rem",
+                    borderRadius: "20px",
+                    gap: 4,
+                  }}
+                >
+                  <SmallTitle color="#fff">
+                    Conditions et mentions obligatoires
+                  </SmallTitle>
+
+                  <DualInputLine>
+                    <FormStack>
+                      <CustomDatePicker
+                        label="Date de la prestation"
+                        value={quotation.date}
+                        handleChange={handleChangeDate("date")}
+                      />
+                    </FormStack>
+                    <FormStack>
+                      <CustomDatePicker
+                        label="Date de livraison estimée"
+                        value={quotation.delivery_date}
+                        handleChange={handleChangeDate("delivery_date")}
+                      />
+                    </FormStack>
+                  </DualInputLine>
+
+                  <DualInputLine>
+                    <CustomFilledInput
+                      width={{ xs: "100%", md: "50%" }}
+                      value={quotation.duration}
+                      onChange={handleChange("duration")}
+                      label="Durée estimée (optionnel)"
+                      placeholder="1 jour de tournage et 3 jours de montage"
+                    />
+                    <FormStack>
+                      <CustomDatePicker
+                        label="Fin de validité du devis (optionnel)"
+                        value={quotation.validity_end_date}
+                        handleChange={handleChangeDate("validity_end_date")}
+                      />
+                    </FormStack>
+                  </DualInputLine>
+
+                  <Stack
+                    sx={{
+                      background: "#000",
+                      padding: ".75rem",
+                      border: "1px solid",
+                      borderColor: theme.palette.secondary.main,
+                      borderRadius: "10px",
+                      gap: 2,
+                    }}
+                  >
+                    <BodyText
+                      preventTransition
+                      color={(theme) => theme.palette.text.secondary}
+                      fontSize="1rem"
+                    >
+                      Moyen de paiement
+                    </BodyText>
+                    <Grid container spacing={2}>
+                      {PAYMENT_OPTIONS.map((opt) => (
+                        <Grid item md={3} key={opt.id}>
+                          <CustomCheckbox
+                            label={opt.label}
+                            checked={quotation.payment_options[opt.id]}
+                            onChange={handleCheckPaymentOptions(opt.id)}
+                          />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Stack>
+                  <CustomFilledInput
+                    label="Conditions de règlement"
+                    placeholder="Accompte de 60% lors de la signature du devis. Solde de 40% entre le jour de la prestation et la livraison."
+                    value={quotation.payment_conditions}
+                    onChange={handleChange("payment_conditions")}
+                    helperText="Accompte de 60% lors de la signature du devis. Solde de 40% entre le jour de la prestation et la livraison."
+                  />
+                </Stack>
+              </Stack>
             </>
           )}
         </CustomForm>

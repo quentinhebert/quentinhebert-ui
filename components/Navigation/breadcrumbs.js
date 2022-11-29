@@ -62,15 +62,15 @@ export default function Breadcrumbs(props) {
     >
       {breadcrumbs.map((item, key) => {
         const isCurrentPage = key + 1 === pages.length // current page === last element of the breadcrumbs
+        if (!item.label) return <Stack key={key} display="none"></Stack>
         if (!item.label) return <></>
         if (isExpanded || isCurrentPage || !sm)
           return (
-            <Link href={item.href} passHref>
+            <Link href={item.href} passHref key={key}>
               <motion.div
                 initial={{ opacity: sm ? 0 : 1 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: key / 10, duration: 0.5 }}
-                key={key}
                 style={{
                   zIndex: -key,
                 }}

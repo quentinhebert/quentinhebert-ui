@@ -1,6 +1,14 @@
 import { Box, Grid, Stack } from "@mui/material"
 import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
+import { convertDateToLongString } from "../../../services/date-time"
 import BodyText from "../../Text/body-text"
+
+const PAYMENT_OPTIONS = [
+  { id: "card", label: "Carte bancaire" },
+  { id: "transfer", label: "Virement bancaire" },
+  { id: "check", label: "Chèque de banque" },
+  { id: "cash", label: "Espèces" },
+]
 
 const HEAD = [
   { label: "Type" },
@@ -51,8 +59,29 @@ const Line = (props) => (
     {...props}
   />
 )
+const DateInfo = ({ label, ...props }) => (
+  <BodyText preventTransition>
+    <Title>{label}</Title>
+    <Box component="span" textTransform="capitalize" {...props} />
+  </BodyText>
+)
+const Title = (props) => (
+  <Stack>
+    <BodyText
+      preventTransition
+      color={(theme) => theme.palette.text.secondary}
+      {...props}
+    />
+  </Stack>
+)
+const Info = ({ title, ...props }) => (
+  <BodyText preventTransition>
+    <Title>{title}</Title>
+    <Box component="span" {...props} />
+  </BodyText>
+)
 
-export default function QuotationReadOnlySection({ items }) {
+export default function QuotationReadOnlySection({ items, quotation }) {
   // SUB-COMPONENTS
   const TotalPrices = () => {
     let totalPrice = 0
@@ -68,13 +97,17 @@ export default function QuotationReadOnlySection({ items }) {
 
     const Label = (props) => (
       <Grid item xs={6}>
-        <BodyText {...props} color={(theme) => theme.palette.text.secondary} />
+        <BodyText
+          preventTransition
+          {...props}
+          color={(theme) => theme.palette.text.secondary}
+        />
       </Grid>
     )
 
     const Price = (props) => (
       <Grid item xs={6}>
-        <BodyText {...props} />
+        <BodyText preventTransition {...props} />
       </Grid>
     )
 
@@ -99,9 +132,59 @@ export default function QuotationReadOnlySection({ items }) {
     )
   }
 
+  let paymentOptionsArray = []
+  Object.keys(quotation.payment_options).map((opt) => {
+    if (quotation.payment_options[opt] === true) {
+      paymentOptionsArray.push(
+        PAYMENT_OPTIONS.filter((elt) => elt.id === opt)[0].label
+      )
+    }
+  })
+  const paymentOptionsString = paymentOptionsArray.join(", ")
+
   // RENDER
   return (
-    <>
+    <Stack gap={4}>
+      <Stack
+        sx={{
+          border: "1px solid",
+          borderColor: (theme) => theme.palette.secondary.main,
+          padding: 4,
+          borderRadius: "20px",
+          gap: 2,
+        }}
+      >
+        <DateInfo label="Date de la prestation">
+          {convertDateToLongString(new Date(quotation.date))}
+        </DateInfo>
+
+        <DateInfo label="Date de livraison estimée">
+          {convertDateToLongString(new Date(quotation.delivery_date))}
+        </DateInfo>
+
+        {/* Optional */}
+        {!!quotation.duration && quotation.duration.trim !== "" && (
+          <Info title="Durée estimée de la prestation">
+            {quotation.duration}
+          </Info>
+        )}
+
+        {/* Optional */}
+        {!!quotation.validity_end_date && (
+          <DateInfo label="Date de livraison estimée">
+            {convertDateToLongString(new Date(quotation.validity_end_date))}
+          </DateInfo>
+        )}
+
+        <Info title="Moyen(s) de règlement au choix">
+          {paymentOptionsString}
+        </Info>
+
+        <Info title="Conditions de règlement">
+          {quotation.payment_conditions}
+        </Info>
+      </Stack>
+
       <Stack overflow="auto">
         <Box
           component="table"
@@ -146,6 +229,6 @@ export default function QuotationReadOnlySection({ items }) {
       </Stack>
 
       <TotalPrices />
-    </>
+    </Stack>
   )
 }

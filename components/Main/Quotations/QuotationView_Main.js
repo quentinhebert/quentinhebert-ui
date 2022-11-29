@@ -1,8 +1,6 @@
-import { Grid, Stack } from "@mui/material"
-import { Box } from "@mui/system"
+import { Stack } from "@mui/material"
 import { useRouter } from "next/router"
 import { useContext, useEffect, useRef, useState } from "react"
-import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
 import apiCall from "../../../services/apiCalls/apiCall"
 import PillButton from "../../Buttons/pill-button"
 import CustomForm from "../../Forms/custom-form"
@@ -117,7 +115,7 @@ export default function QuotationView_Main({}) {
         }}
       />
 
-      <QuotationReadOnlySection items={quotation.items} />
+      <QuotationReadOnlySection items={quotation.items} quotation={quotation} />
 
       <Stack alignSelf="end">
         <PillButton onClick={() => scrollTo(formRef)} endIcon={<EastIcon />}>

@@ -5,7 +5,7 @@ export default function SmallTitle(props) {
     <Typography
       componenent="h2"
       variant="h3"
-      textTransform="uppercase"
+      textTransform={props.textTransform || "uppercase"}
       letterSpacing={2}
       fontWeight="bold"
       zIndex={1}

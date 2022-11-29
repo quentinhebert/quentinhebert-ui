@@ -1,6 +1,12 @@
 import PillButton from "./pill-button"
 
-export default function SubmitButton({ onClick, disabled, label, icon }) {
+export default function SubmitButton({
+  onClick,
+  disabled,
+  label,
+  icon,
+  ...props
+}) {
   return (
     <PillButton
       type="submit"
@@ -10,6 +16,7 @@ export default function SubmitButton({ onClick, disabled, label, icon }) {
       startIcon={icon}
       onClick={onClick}
       disabled={disabled || false}
+      {...props}
     >
       {label || "Enregistrer"}
     </PillButton>
