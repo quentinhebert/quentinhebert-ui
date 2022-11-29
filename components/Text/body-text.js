@@ -54,7 +54,7 @@ const Text = styled(
               },
               letterSpacing: props.letterSpacing || 1,
               lineHeight: props.lineHeight || {
-                xs: "0",
+                xs: "1rem",
                 sm: "1.2rem",
                 md: "1.6rem",
               },
