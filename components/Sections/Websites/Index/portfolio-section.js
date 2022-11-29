@@ -137,7 +137,15 @@ export default function PortfolioSection(props) {
                     }
                   >
                     <Stack className="row flex-center" gap={1}>
-                      <Box component="a" target="_blank" href={website.url}>
+                      <Box
+                        component="a"
+                        target="_blank"
+                        href={
+                          website.url.startsWith("https")
+                            ? website.url
+                            : `https://${website.url}`
+                        }
+                      >
                         Accéder au site
                       </Box>
                       <OpenInNewIcon sx={{ display: "flex" }} />
