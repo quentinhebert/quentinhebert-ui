@@ -1,7 +1,16 @@
 import { Stack, styled } from "@mui/material"
 
 const Card = styled(
-  ({ background, border, color, padding, gradientOrientation, ...props }) => {
+  ({
+    backgroundColor,
+    background,
+    border,
+    color,
+    padding,
+    gradientOrientation,
+    gap,
+    ...props
+  }) => {
     return (
       <Stack
         textAlign="center"
@@ -26,9 +35,9 @@ const Card = styled(
           height="100%"
           borderRadius="30px"
           sx={{
-            background: "#000",
+            background: backgroundColor || "#000",
             padding: "2rem",
-            gap: { xs: 2, md: 4 },
+            gap: gap || { xs: 2, md: 4 },
           }}
           {...props}
         />

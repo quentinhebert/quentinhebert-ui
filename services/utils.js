@@ -1,5 +1,6 @@
 import jsonwebtoken from "jsonwebtoken"
 import { useRouter } from "next/router"
+import { defaultConfig } from "../config/defaultConfig"
 import apiCall from "./apiCalls/apiCall"
 import { getToken, removeToken, setRefreshToken, setToken } from "./auth"
 
@@ -87,4 +88,9 @@ export function generateUuidV4() {
 export function removeHtmlTags(htmlString) {
   if (!htmlString) return ""
   return htmlString.replace(/(<([^>]+)>)/gi, "")
+}
+
+export const buildPublicURL = (path) => {
+  if (!path) return null
+  return `${defaultConfig.ftpPublicBasePath}${path}`
 }

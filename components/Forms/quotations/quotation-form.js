@@ -467,7 +467,7 @@ function QuotationForm({
 
           {/* READ ONLY MODE */}
           {!EDIT_STATUSES.includes(quotation.status) && (
-            <QuotationReadOnlySection items={items} />
+            <QuotationReadOnlySection items={items} quotation={quotation} />
           )}
 
           {/* EDIT MODE */}
