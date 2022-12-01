@@ -3,8 +3,21 @@ import { getFreshToken } from "../utils"
 
 const quotations = {
   // Admin only
-  create: async ({ label, status, items }) => {
-    const body = { label, status, items }
+  create: async (
+    quotation = {
+      label,
+      items,
+      date,
+      delivery_date,
+      duration,
+      validity_end_date,
+      payment_options,
+      payment_conditions,
+      additional_mentions,
+    },
+    items
+  ) => {
+    const body = { ...quotation, items }
     try {
       return await fetch(`${defaultConfig.apiUrl}/quotations`, {
         method: "POST",

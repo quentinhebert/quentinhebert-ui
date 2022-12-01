@@ -155,11 +155,11 @@ export default function QuotationReadOnlySection({ items, quotation }) {
         }}
       >
         <DateInfo label="Date de la prestation">
-          {convertDateToLongString(new Date(quotation.date))}
+          {convertDateToLongString(quotation.date)}
         </DateInfo>
 
         <DateInfo label="Date de livraison estimée">
-          {convertDateToLongString(new Date(quotation.delivery_date))}
+          {convertDateToLongString(quotation.delivery_date)}
         </DateInfo>
 
         {/* Optional */}
@@ -172,7 +172,7 @@ export default function QuotationReadOnlySection({ items, quotation }) {
         {/* Optional */}
         {!!quotation.validity_end_date && (
           <DateInfo label="Date de livraison estimée">
-            {convertDateToLongString(new Date(quotation.validity_end_date))}
+            {convertDateToLongString(quotation.validity_end_date)}
           </DateInfo>
         )}
 
@@ -208,8 +208,9 @@ export default function QuotationReadOnlySection({ items, quotation }) {
             <Line key={key}>
               <Cell>
                 {
-                  QUOTATION_ITEM_TYPES.filter((elt) => elt.id === item.type)[0]
-                    .label
+                  // QUOTATION_ITEM_TYPES.filter((elt) => elt.id === item.type)[0]
+                  //   .label
+                  item.type
                 }
               </Cell>
               <Cell>{item.label}</Cell>

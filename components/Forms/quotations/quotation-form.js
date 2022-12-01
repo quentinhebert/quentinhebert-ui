@@ -102,6 +102,7 @@ function QuotationForm({
       cash: false,
     },
     payment_conditions: "",
+    additional_mentions: "",
   }
   const [quotation, setQuotation] = useState(initialQuotation)
   const [items, setItems] = useState([])
@@ -168,11 +169,7 @@ function QuotationForm({
     let res = null
     if (!id) {
       // If quotation is not created yet
-      res = await apiCall.quotations.create({
-        label: quotation.label,
-        status: quotation.status,
-        items,
-      })
+      res = await apiCall.quotations.create(quotation, items)
     } else {
       // If quotation is created and needs to be saved/updated
       res = await apiCall.quotations.save({

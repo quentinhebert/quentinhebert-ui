@@ -136,21 +136,22 @@ export default function NewInvoice_Main({}) {
                       gap={1}
                     >
                       <CalendarTodayIcon />{" "}
-                      {convertDateToLongString(new Date(quotation.date))}
+                      {convertDateToLongString(quotation.date)}
                     </BodyText>
 
                     {!!quotation.client && (
                       <Stack className="row" alignItems="center" gap={1}>
-                        {!!quotation.client.avatar_id.path ? (
+                        {!!quotation.client?.avatar_path ? (
                           <Avatar
                             sx={{ width: 24, height: 24 }}
                             alt={quotation.client.firstname}
-                            src={buildPublicURL(
-                              quotation.client.avatar_id.path
-                            )}
+                            src={buildPublicURL(quotation.client.avatar_path)}
                           />
                         ) : (
-                          <Avatar>{quotation.client.firstname[0]}</Avatar>
+                          <Avatar sx={{ width: 24, height: 24 }}>
+                            {quotation.client?.firstname?.length &&
+                              quotation.client?.firstname[0]}
+                          </Avatar>
                         )}
                         <BodyText fontSize="0.8rem">
                           {quotation.client?.firstname}{" "}

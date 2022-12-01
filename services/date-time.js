@@ -29,7 +29,9 @@ export function convertToLongString(dateTime) {
 }
 
 export function convertDateToLongString(dateTime) {
-  return dateTime.toLocaleDateString("fr-FR", {
+  if (!dateTime) return ""
+  const date = new Date(dateTime)
+  return date.toLocaleDateString("fr-FR", {
     weekday: "long",
     year: "numeric",
     month: "long",
