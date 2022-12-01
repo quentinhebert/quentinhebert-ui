@@ -1,7 +1,7 @@
 import { defaultConfig } from "../../config/defaultConfig"
 import { getFreshToken } from "../utils"
 
-const files = {
+const quotations = {
   // Admin only
   create: async ({ label, status, items }) => {
     const body = { label, status, items }
@@ -236,4 +236,4 @@ const files = {
   },
 }
 
-export default files
+export default quotations
