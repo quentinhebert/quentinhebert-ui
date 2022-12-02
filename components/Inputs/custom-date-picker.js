@@ -6,7 +6,12 @@ import CustomFilledInput from "./custom-filled-input"
 import dayjs from "dayjs"
 import "dayjs/locale/fr"
 
-export default function CustomDatePicker({ label, value, handleChange }) {
+export default function CustomDatePicker({
+  label,
+  value,
+  handleChange,
+  error,
+}) {
   return (
     <Stack
       sx={{
@@ -24,7 +29,7 @@ export default function CustomDatePicker({ label, value, handleChange }) {
           inputFormat="DD/MM/YYYY"
           renderInput={(params) => {
             params.InputProps.disableUnderline = true
-            return <CustomFilledInput {...params} />
+            return <CustomFilledInput {...params} error={error} />
           }}
           PaperProps={{
             sx: {

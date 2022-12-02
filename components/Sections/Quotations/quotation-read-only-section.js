@@ -144,7 +144,7 @@ export default function QuotationReadOnlySection({ items, quotation }) {
 
   // RENDER
   return (
-    <Stack gap={4}>
+    <Stack gap={4} width="100%">
       <Stack
         sx={{
           border: "1px solid",

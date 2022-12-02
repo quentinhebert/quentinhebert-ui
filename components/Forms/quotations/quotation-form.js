@@ -115,6 +115,12 @@ function QuotationForm({
   const [assignInputValue, setAssignInputValue] = useState("")
   const [modal, setModal] = useState(null)
   const [openModal, setOpenModal] = useState(false)
+  const [errors, setErrors] = useState({
+    date: false,
+    delivery_date: false,
+    payment_conditions: false,
+    payment_options: false,
+  })
 
   /********** FETCH DATA **********/
   const fetchQuotation = async () => {
@@ -149,13 +155,16 @@ function QuotationForm({
   }
   const handleChange = (attribute) => (e) => {
     setQuotation({ ...quotation, [attribute]: e.target.value })
+    if (errors[attribute]) setErrors({ ...errors, [attribute]: false })
     handleDetectChange()
   }
   const handleChangeDate = (attribute) => (newValue) => {
+    if (errors[attribute]) setErrors({ ...errors, [attribute]: false })
     setQuotation({ ...quotation, [attribute]: newValue })
     handleDetectChange()
   }
   const handleCheckPaymentOptions = (attribute) => (e) => {
+    if (errors.payment_options) setErrors({ ...errors, payment_options: false })
     setQuotation({
       ...quotation,
       payment_options: {
@@ -186,9 +195,11 @@ function QuotationForm({
       // if no id provided === user is on CreateQuotationPage (not EditQuotationPage), we redirect the user onto the edit page (with the same quotationForm component)
       if (!id) return router.push(`/dashboard/quotations/${jsonRes.id}/edit`)
       await fetchQuotation()
+      return true
     } else {
       setSnackSeverity("error")
       setSnackMessage("Une erreur est survenue...")
+      return false
     }
   }
   const handleSave = async () => {
@@ -255,6 +266,30 @@ function QuotationForm({
       setSnackMessage("Une erreur est survenue")
       setSnackSeverity("error")
     }
+  }
+  const handleGenerate = async () => {
+    let localErrors = errors
+    if (!quotation.date) localErrors.date = true
+    if (!quotation.delivery_date) localErrors.delivery_date = true
+    if (!quotation.payment_conditions) localErrors.payment_conditions = true
+
+    if (
+      !Object.values(quotation.payment_options).filter((opt) => opt === true)
+        .length
+    )
+      localErrors.payment_options = true
+    setErrors(localErrors)
+
+    if (!Object.values(localErrors).filter((elt) => elt === true).length) {
+      // Save before exit page
+      const saved = await save()
+      if (!saved) return
+      return router.push(`/quotation-view/${quotation.id}`)
+    }
+    setSnackMessage(
+      `Certains champs sont manquants dans les conditions et mentions obligatoires.`
+    )
+    setSnackSeverity("error")
   }
 
   const emailError = emailInput.trim() !== "" && !checkEmail(emailInput)
@@ -333,7 +368,7 @@ function QuotationForm({
       },
       {
         label: "Générer le PDF",
-        handleClick: () => router.push(`/quotation-view/${quotation.id}`),
+        handleClick: handleGenerate,
         icon: <PictureAsPdfIcon />,
       },
     ]
@@ -535,7 +570,7 @@ function QuotationForm({
               >
                 <TotalPrices />
 
-                {/* CONDITIONS & MENTIONS */}
+                {/********** CONDITIONS & MENTIONS **********/}
                 <Stack
                   className="full-width"
                   sx={{
@@ -555,6 +590,7 @@ function QuotationForm({
                         label="Date de la prestation"
                         value={quotation.date}
                         handleChange={handleChangeDate("date")}
+                        error={errors.date}
                       />
                     </FormStack>
                     <FormStack>
@@ -562,6 +598,7 @@ function QuotationForm({
                         label="Date de livraison estimée"
                         value={quotation.delivery_date}
                         handleChange={handleChangeDate("delivery_date")}
+                        error={errors.delivery_date}
                       />
                     </FormStack>
                   </DualInputLine>
@@ -595,7 +632,11 @@ function QuotationForm({
                   >
                     <BodyText
                       preventTransition
-                      color={(theme) => theme.palette.text.secondary}
+                      color={(theme) =>
+                        errors.payment_options
+                          ? theme.palette.error.main
+                          : theme.palette.text.secondary
+                      }
                       fontSize="1rem"
                     >
                       Moyen de paiement
@@ -618,6 +659,7 @@ function QuotationForm({
                     value={quotation.payment_conditions}
                     onChange={handleChange("payment_conditions")}
                     helperText="Accompte de 60% lors de la signature du devis. Solde de 40% entre le jour de la prestation et la livraison."
+                    error={errors.payment_conditions}
                   />
                 </Stack>
               </Stack>
