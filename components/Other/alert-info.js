@@ -26,7 +26,7 @@ function AlertInfo({ content, noAnimation }) {
         >
           <Stack gap={content.js ? 1 : 0}>
             {content?.title ? (
-              <AlertTitle color={theme.alert.title[content.severity]}>
+              <AlertTitle color={theme.alert.title[content.severity].color}>
                 {content.title}
               </AlertTitle>
             ) : null}

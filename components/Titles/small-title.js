@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material"
 
-export default function SmallTitle(props) {
+export default function SmallTitle({ padding, ...props }) {
   return (
     <Typography
       componenent="h2"
@@ -13,6 +13,7 @@ export default function SmallTitle(props) {
       sx={{
         color: props.color || ((theme) => theme.palette.text.secondary),
         fontSize: "1.2rem",
+        padding: padding || 0,
       }}
       {...props}
     />

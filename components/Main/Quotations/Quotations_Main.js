@@ -115,8 +115,11 @@ const QuotationCard = withConfirmAction(function ({
         onClick={!!onClick ? onClick : null}
         width="100%"
         height="100%"
-        gap={2}
         sx={{
+          gap: {
+            xs: 4,
+            sm: mode === MODES.LIST ? 2 : 4,
+          },
           alignItems: {
             xs: "start",
             sm: mode === MODES.LIST ? "center" : "start",
@@ -132,12 +135,30 @@ const QuotationCard = withConfirmAction(function ({
           textAlign="left"
           letterSpacing={0}
           lineHeight={2}
+          padding={mode === MODES.GRID ? { xs: 0, sm: "0 0.5rem 0 0" } : 0}
         >
           <Status status={quotation.status} />
           {quotation.label || "Sans nom"}
         </SmallTitle>
 
         <Stack flexGrow={1} />
+        <Stack>
+          <BodyText
+            preventTransition
+            fontSize={{
+              xs: "1rem",
+              sm: mode === MODES.GRID ? "1rem" : "0.8rem",
+            }}
+          >
+            <Box component="span">Total HT</Box>{" "}
+            <Box
+              component="span"
+              sx={{ color: (theme) => theme.palette.text.secondary }}
+            >
+              {quotation.total_price / 100} €
+            </Box>
+          </BodyText>
+        </Stack>
 
         <Stack
           className="row"
@@ -192,8 +213,14 @@ const QuotationCard = withConfirmAction(function ({
             xs: "relative",
             sm: mode === MODES.LIST ? "relative" : "absolute",
           },
-          top: mode === MODES.LIST ? 0 : 10,
-          right: mode === MODES.LIST ? 0 : 10,
+          top: {
+            xs: 0,
+            sm: mode === MODES.LIST ? 0 : 10,
+          },
+          right: {
+            xs: 0,
+            sm: mode === MODES.LIST ? 0 : 10,
+          },
         }}
       >
         <DropdownOptions options={options} />
@@ -286,6 +313,7 @@ export default function Quotations_Main({}) {
       <Grid container spacing={2}>
         {quotations.map((quotation, key) => (
           <Grid
+            key={key}
             item
             xs={12}
             sm={mode === MODES.LIST ? 12 : 6}
