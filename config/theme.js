@@ -71,11 +71,14 @@ const mainTheme = createTheme({
   },
   alert: {
     title: {
-      info: "#4fc3f7",
+      info: {
+        color: "#4fc3f7",
+        background: "#00013B",
+      },
       warning: "#ffb74d",
-      success: "#81c784",
-      error: errorColor,
-      disabled: grey,
+      success: { color: "#7FF589", background: "#184A1D" },
+      error: { color: "#FF6860", background: "#7D0000" },
+      disabled: { color: "#fff", background: darkGrey },
     },
   },
   components: {
