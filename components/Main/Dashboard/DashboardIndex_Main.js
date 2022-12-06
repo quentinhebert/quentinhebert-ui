@@ -1,47 +1,37 @@
 import { Stack } from "@mui/material"
-import OneActionCardsGrid from "../../Cards/one-action-cards-grid"
 import FixedBackground from "../../Backgrounds/fixed-background"
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined"
-import MarkEmailUnreadOutlinedIcon from "@mui/icons-material/MarkEmailUnreadOutlined"
-import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined"
 import PillButton from "../../Buttons/pill-button"
 import CustomCard from "../../Cards/custom-card"
 import DescriptionIcon from "@mui/icons-material/Description"
 import EastIcon from "@mui/icons-material/East"
 import BodyText from "../../Text/body-text"
 import { useRouter } from "next/router"
+import OneActionBubblesGrid from "../../Cards/one-action-bubbles-grid"
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined"
+import MarkEmailUnreadOutlinedIcon from "@mui/icons-material/MarkEmailUnreadOutlined"
+import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined"
+import TaskIcon from "@mui/icons-material/Task"
 
 const CARDS = [
   {
     title: "Prospects",
-    icon: (
-      <MarkEmailUnreadOutlinedIcon
-        sx={{ marginRight: ".5rem", fontSize: "5rem" }}
-      />
-    ),
-    description: "Retrouvez tous vos prospects qui vous ont demandé un devis.",
+    icon: <MarkEmailUnreadOutlinedIcon className="full-width full-height" />,
     button: { text: "Accéder", href: "/dashboard/quotation-requests" },
   },
   {
+    title: "Commandes",
+    icon: <WorkOutlineOutlinedIcon className="full-width full-height" />,
+    button: { text: "Accéder", href: "/dashboard/orders" },
+  },
+  {
     title: "Devis",
-    icon: (
-      <DescriptionOutlinedIcon
-        sx={{ marginRight: ".5rem", fontSize: "5rem" }}
-      />
-    ),
-    description:
-      "Retrouvez tous les devis brouillons ou envoyés à vos prospects.",
+    icon: <TaskIcon className="full-width full-height" />,
     button: { text: "Accéder", href: "/dashboard/quotations" },
   },
   {
-    title: "Missions",
-    icon: (
-      <WorkOutlineOutlinedIcon
-        sx={{ marginRight: ".5rem", fontSize: "5rem" }}
-      />
-    ),
-    description: "Retrouvez toutes vos missions (vidéo et web), factures...",
-    button: { text: "Accéder", href: "/dashboard/missions" },
+    title: "Factures",
+    icon: <DescriptionOutlinedIcon className="full-width full-height" />,
+    button: { text: "Accéder", href: "/dashboard/invoices" },
   },
 ]
 
@@ -50,12 +40,13 @@ export default function AdminIndex_Main() {
   return (
     <>
       <FixedBackground url="url(/medias/lines.jpg)" />
+
       <Stack zIndex={0} gap={4}>
         <CustomCard
-          backgroundColor={"#000"}
-          background={(theme) => theme.palette.secondary.main}
+          backgroundColor={(theme) => theme.palette.background.main}
+          background={"transparent"}
         >
-          <Stack gap={4} className="flex-center">
+          <Stack gap={4} className="flex-center" padding="1.5rem">
             <BodyText
               className="inline-flex gap-10"
               alignItems="center"
@@ -86,7 +77,7 @@ export default function AdminIndex_Main() {
           </Stack>
         </CustomCard>
 
-        <OneActionCardsGrid cards={CARDS} />
+        <OneActionBubblesGrid cards={CARDS} />
       </Stack>
     </>
   )

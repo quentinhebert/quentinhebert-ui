@@ -3,9 +3,11 @@ import Footer from "../Navigation/Footers/Footer"
 import { motion } from "framer-motion"
 import Navbar from "../Navigation/Navbars/navbar"
 import HtmlHead from "../Helpers/html-head"
-import { useRef } from "react"
+import { useContext, useRef } from "react"
 import ScrollToTopBtn from "../Navigation/scroll-to-top"
 import { Stack } from "@mui/material"
+import { UserContext } from "../../contexts/UserContext"
+import LoggedPagesLayout from "./LoggedPagesLayout"
 
 export default function PagesLayout({
   children,
@@ -14,6 +16,18 @@ export default function PagesLayout({
   head,
 }) {
   const topRef = useRef()
+
+  const { user } = useContext(UserContext)
+
+  if (user)
+    return (
+      <LoggedPagesLayout
+        children={children}
+        navbarData={navbarData}
+        footerData={footerData}
+        head={head}
+      />
+    )
 
   return (
     <>

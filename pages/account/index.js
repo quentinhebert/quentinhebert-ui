@@ -24,7 +24,7 @@ export default function AccountIndexPage() {
       {!user ? (
         <Login_Main />
       ) : (
-        <AccountLayout title="Mon compte" noBreadcrumbs>
+        <AccountLayout title="Mon compte">
           <AccountIndex_Main user={user} />
         </AccountLayout>
       )}

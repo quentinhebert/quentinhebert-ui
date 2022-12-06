@@ -76,7 +76,7 @@ export default function HeroSection(props) {
         background: "#000",
         backgroundRepeat: "no-repeat",
         width: "100%",
-        height: { xs: "90vh", md: "100vh" },
+        height: { xs: "calc(90vh - 80px)", md: "calc(100vh - 100px)" },
         // maxHeight: "600px", // TODO: Remove that line when suscribed to vimeo plan
         overflow: "hidden",
         objectFit: "cover",

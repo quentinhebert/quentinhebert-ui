@@ -97,6 +97,20 @@ const quotations = {
     }
   },
   // Admin only
+  getAllAccepted: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/quotations/accepted`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  // Admin only
   delete: async ({ id }) => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/quotations/${id}`, {

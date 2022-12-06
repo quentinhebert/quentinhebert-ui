@@ -22,7 +22,7 @@ export default function HeroSection(props) {
           `linear-gradient(220deg, #000 40%, ${theme.palette.background.main} 100%)`,
         width: "100%",
         minHeight: { xs: "500px", md: "600px" },
-        height: { xs: "70vh", sm: "70vh", md: "100vh" },
+        height: { xs: "calc(70vh - 80px)", md: "calc(100vh - 80px)" },
         alignItems: "end",
         position: "relative",
       }}
@@ -86,7 +86,7 @@ export default function HeroSection(props) {
             backgroundRepeat: "no-repeat",
             width: "100%",
             minHeight: { xs: "500px", md: "600px" },
-            height: { xs: "70vh", sm: "70vh", md: "100vh" },
+            height: { xs: "calc(70vh - 80px)", md: "calc(100vh - 80px)" },
             zIndex: 1,
           }}
         />

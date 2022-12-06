@@ -367,7 +367,12 @@ function QuotationForm({
         icon: <AssignmentIndIcon />,
       },
       {
-        label: "Générer le PDF",
+        label: "Générer le devis PDF",
+        handleClick: handleGenerate,
+        icon: <PictureAsPdfIcon />,
+      },
+      {
+        label: "Générer la facture PDF",
         handleClick: handleGenerate,
         icon: <PictureAsPdfIcon />,
       },

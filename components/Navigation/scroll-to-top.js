@@ -40,9 +40,11 @@ export default function ScrollToTopBtn(props) {
       <Stack
         className="flex-center"
         position="fixed"
-        bottom="5%"
         right="5%"
         zIndex={100}
+        sx={{
+          bottom: { xs: "10%", md: "5%" },
+        }}
       >
         <Button
           variant="contained"

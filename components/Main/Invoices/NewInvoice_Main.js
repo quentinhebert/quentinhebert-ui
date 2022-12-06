@@ -1,42 +1,36 @@
 import { Stack } from "@mui/system"
 import PillButton from "../../Buttons/pill-button"
 import BodyText from "../../Text/body-text"
-import DescriptionIcon from "@mui/icons-material/Description"
 import { Icon } from "react-icons-kit"
 import { ic_insert_drive_file_outline, ic_file_copy } from "react-icons-kit/md"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { useContext, useEffect, useState } from "react"
 import WestIcon from "@mui/icons-material/West"
 import PleaseWait from "../../Helpers/please-wait"
-import { Avatar, Box, Grid } from "@mui/material"
-import {
-  convertDateToLongString,
-  formatDayDate,
-} from "../../../services/date-time"
-import CustomCard from "../../Cards/custom-card"
-import OpenInNewIcon from "@mui/icons-material/OpenInNew"
+import { Grid } from "@mui/material"
 import { UserContext } from "../../../contexts/UserContext"
-import { buildPublicURL } from "../../../services/utils"
-import Link from "next/link"
-import UpdateIcon from "@mui/icons-material/Update"
-import EuroSymbolIcon from "@mui/icons-material/EuroSymbol"
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
+import QuotationCard from "../../Cards/quotations/quotation-card"
+import { MODES_ENUM } from "../../../enums/modesEnum"
+import ModesToggle from "../../Navigation/modes-toggle"
+import { useRouter } from "next/router"
+import AlertInfo from "../../Other/alert-info"
 
 const Root = (props) => (
   <Stack gap={4} className="flex-center" minHeight="300px" {...props} />
 )
 
 export default function NewInvoice_Main({}) {
-  const { user } = useContext(UserContext)
+  const router = useRouter()
 
   const [quotations, setQuotations] = useState([])
   const [step, setStep] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [mode, setMode] = useState(MODES_ENUM.LIST)
 
   const fetchQuotations = async () => {
     if (step !== 1) return
     setLoading(true)
-    const res = await apiCall.quotations.getAll()
+    const res = await apiCall.quotations.getAllAccepted()
     if (res && res.ok) {
       const jsonRes = await res.json()
       setQuotations(jsonRes)
@@ -67,9 +61,7 @@ export default function NewInvoice_Main({}) {
             gap: { xs: 2, sm: 4 },
           }}
         >
-          <PillButton
-            onClick={() => router.push("/dashboard/quotations/create")}
-          >
+          <PillButton onClick={() => router.push("/dashboard/invoices/create")}>
             <Icon
               icon={ic_insert_drive_file_outline}
               size={25}
@@ -102,6 +94,17 @@ export default function NewInvoice_Main({}) {
           Sélectionnez le devis sur lequel se basera la nouvelle facture...
         </BodyText>
 
+        <AlertInfo
+          content={{
+            severity: "info",
+            text: "La liste ci-dessous n'affiche que les devis qui ont été acceptés par le client. Vous pouvez accepter un devis manuellement si vous avez des droits administrateurs.",
+          }}
+        />
+
+        <Stack width="100%">
+          <ModesToggle mode={mode} setMode={setMode} />
+        </Stack>
+
         {loading && (
           <Stack className="full-width flex-center">
             <PleaseWait />
@@ -109,96 +112,28 @@ export default function NewInvoice_Main({}) {
         )}
 
         <Grid container spacing={2}>
-          {quotations.map((quotation, key) => {
-            let totalPrice = 0
-            quotation.items?.length &&
-              quotation.items.map((item) => {
-                totalPrice +=
-                  ((item.quantity * item.no_vat_price) / 100) *
-                  (1 + item.vat / 100)
-              })
-            return (
-              <Grid item key={key} xs={12} sm={6} md={4} lg={3}>
-                <CustomCard gap={2}>
-                  <BodyText>{quotation.label}</BodyText>
-
-                  <BodyText
-                    sx={{ color: (theme) => theme.palette.text.secondary }}
-                  >
-                    {totalPrice} €
-                  </BodyText>
-
-                  <Stack gap={1}>
-                    <BodyText
-                      fontSize="0.8rem"
-                      alignItems="center"
-                      display="flex"
-                      gap={1}
-                    >
-                      <CalendarTodayIcon />{" "}
-                      {convertDateToLongString(quotation.date)}
-                    </BodyText>
-
-                    {!!quotation.client && (
-                      <Stack className="row" alignItems="center" gap={1}>
-                        {!!quotation.client?.avatar_path ? (
-                          <Avatar
-                            sx={{ width: 24, height: 24 }}
-                            alt={quotation.client.firstname}
-                            src={buildPublicURL(quotation.client.avatar_path)}
-                          />
-                        ) : (
-                          <Avatar sx={{ width: 24, height: 24 }}>
-                            {quotation.client?.firstname?.length &&
-                              quotation.client?.firstname[0]}
-                          </Avatar>
-                        )}
-                        <BodyText fontSize="0.8rem">
-                          {quotation.client?.firstname}{" "}
-                          {quotation.client?.lastname || ""}
-                        </BodyText>
-                      </Stack>
-                    )}
-                  </Stack>
-
-                  <Stack flexGrow={1} />
-
-                  <Stack
-                    className="full-width flex-center"
-                    sx={{
-                      gap: 2,
-                      flexDirection: { xs: "column-reverse", md: "row" },
-                    }}
-                  >
-                    <Link
-                      href={`/dashboard/quotations/${quotation.id}/edit`}
-                      passHref
-                    >
-                      <Box
-                        target="_blank"
-                        component="a"
-                        className="cool-button"
-                      >
-                        <BodyText
-                          display="flex"
-                          alignItems="center"
-                          gap={0.5}
-                          color={(theme) => theme.palette.text.secondary}
-                          fontSize="1rem"
-                        >
-                          Voir
-                          <OpenInNewIcon sx={{ fontSize: "1rem" }} />
-                        </BodyText>
-                      </Box>
-                    </Link>
-                    <PillButton fontSize="0.8rem" padding="0.5rem 1rem">
-                      Sélectionner
-                    </PillButton>
-                  </Stack>
-                </CustomCard>
-              </Grid>
-            )
-          })}
+          {quotations.map((quotation, key) => (
+            <Grid
+              key={key}
+              item
+              xs={12}
+              sm={mode === MODES_ENUM.LIST ? 12 : 6}
+              md={mode === MODES_ENUM.LIST ? 12 : 4}
+            >
+              <QuotationCard
+                key={key}
+                quotation={quotation}
+                mode={mode}
+                optionsList={["open"]}
+                refreshData={fetchQuotations}
+                onClick={() =>
+                  router.push(
+                    `/dashboard/invoices/create?from_quotation=${quotation.id}`
+                  )
+                }
+              />
+            </Grid>
+          ))}
         </Grid>
 
         <PillButton startIcon={<WestIcon />} onClick={handlePrevious}>

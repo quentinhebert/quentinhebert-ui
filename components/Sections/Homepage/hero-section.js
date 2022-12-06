@@ -89,7 +89,7 @@ export default function HeroSection(props) {
     <Stack
       className="full-width flex-center relative"
       sx={{
-        height: { xs: "90vh", md: "100vh" },
+        height: { xs: "calc(90vh - 80px)", md: "calc(100vh - 80px)" },
         minHeight: "500px",
         background: (theme) =>
           `linear-gradient(#000 0%, transparent 50%, ${theme.palette.background.secondary} 100%),

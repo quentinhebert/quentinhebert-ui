@@ -51,7 +51,7 @@ export default function Navbar(props) {
     <>
       <AppBar
         className="flex-center"
-        position="fixed"
+        position="sticky"
         component="nav"
         sx={{
           background: "transparent",
@@ -134,11 +134,11 @@ export default function Navbar(props) {
             }}
             flexDirection="row"
           >
-            {!!user && (
+            {/* {!!user && (
               <Stack>
                 <LoginOrMenuButton />
               </Stack>
-            )}
+            )} */}
             <MobileNavbar
               mainColor={mainColor}
               list={data.menu_items}
