@@ -94,22 +94,19 @@ export default function Breadcrumbs(props) {
                       sm: key !== 0 ? "60px" : "auto",
                     },
                     cursor: !isCurrentPage || sm ? "pointer" : "default",
-                    color: (theme) =>
-                      isCurrentPage
-                        ? theme.palette.background.darkGrey
-                        : "current",
                     "&:hover": {
                       background: (theme) =>
                         isCurrentPage
                           ? "current"
                           : theme.palette.background.secondary,
-                      color: (theme) => theme.palette.background.darkGrey,
                     },
                   }}
                 >
                   <Typography
                     className="no-select"
                     sx={{
+                      color: "#fff",
+                      filter: "drop-shadow(3px 4px 10px rgba(0,0,0,0.87))",
                       fontSize: "0.8rem",
                     }}
                   >

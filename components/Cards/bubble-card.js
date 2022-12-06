@@ -1,6 +1,5 @@
-import { Stack, styled } from "@mui/material"
+import { Stack, styled, Typography } from "@mui/material"
 import Link from "next/link"
-import BodyText from "../Text/body-text"
 
 const Card = styled(
   ({
@@ -17,14 +16,15 @@ const Card = styled(
       <Stack
         className="flex-center pointer"
         gap={2}
+        sx={{ width: { xs: "70px", md: "100px" } }}
         onClick={onClick || (() => {})}
       >
         <Stack
           className="flex-center"
           borderRadius="500px"
           sx={{
-            height: { xs: "75px", md: "100px" },
-            width: { xs: "75px", md: "100px" },
+            height: { xs: "50px", sm: "75px", md: "85px" },
+            width: { xs: "50px", sm: "75px", md: "85px" },
             background:
               background ||
               ((theme) =>
@@ -42,14 +42,27 @@ const Card = styled(
         >
           <Stack
             sx={{
-              width: { xs: "2rem", md: "3rem" },
-              height: { xs: "2rem", md: "3rem" },
+              width: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+              height: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
             }}
           >
             {icon}
           </Stack>
         </Stack>
-        <BodyText textAlign="center">{title}</BodyText>
+
+        <Typography
+          color="#fff"
+          textAlign="center"
+          sx={{
+            width: "130%",
+            display: "box",
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {title}
+        </Typography>
       </Stack>
     )
   }
