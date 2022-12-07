@@ -1,15 +1,17 @@
-import { Stack, styled, Typography } from "@mui/material"
+import { Badge, Box, Stack, styled, Typography } from "@mui/material"
 import Link from "next/link"
+import InlineBadge from "../Helpers/inline-badge"
 
 const Card = styled(
   ({
     title,
-    icon,
     onClick,
+    icon,
     background,
     border,
     color,
     padding,
+    notifications,
     gradientOrientation,
   }) => {
     return (
@@ -35,6 +37,7 @@ const Card = styled(
             color: color || "#fff",
             padding: padding || "2px",
             gap: { xs: 2, md: 4 },
+            transition: "opacity 0.2s ease-in-out",
             "&:hover": {
               opacity: 0.5,
             },
@@ -50,19 +53,21 @@ const Card = styled(
           </Stack>
         </Stack>
 
-        <Typography
-          color="#fff"
-          textAlign="center"
-          sx={{
-            width: "130%",
-            display: "box",
-            textOverflow: "ellipsis",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {title}
-        </Typography>
+        <Stack width="120%" className="flex-center row">
+          <Typography
+            color="#fff"
+            textAlign="center"
+            sx={{
+              display: "box",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {title}
+          </Typography>
+          <InlineBadge number={notifications} />
+        </Stack>
       </Stack>
     )
   }

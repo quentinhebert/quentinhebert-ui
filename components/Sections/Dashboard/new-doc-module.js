@@ -1,11 +1,14 @@
 import { Stack } from "@mui/material"
 import PillButton from "../../Buttons/pill-button"
 import CustomCard from "../../Cards/custom-card"
-import DescriptionIcon from "@mui/icons-material/Description"
 import EastIcon from "@mui/icons-material/East"
 import BodyText from "../../Text/body-text"
+import { useRouter } from "next/router"
+import NoteAddIcon from "@mui/icons-material/NoteAdd"
 
 export default function NewDocModule({}) {
+  const router = useRouter()
+
   return (
     <CustomCard
       backgroundColor={(theme) => theme.palette.background.main}
@@ -24,8 +27,8 @@ export default function NewDocModule({}) {
           fontSize="1.5rem"
           lineHeight="2rem"
         >
-          <DescriptionIcon sx={{ display: "flex", fontSize: "2rem" }} /> Créer
-          un document
+          <NoteAddIcon sx={{ display: "flex", fontSize: "2rem" }} /> Créer un
+          document
         </BodyText>
         <Stack
           sx={{

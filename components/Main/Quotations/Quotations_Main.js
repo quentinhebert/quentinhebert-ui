@@ -10,6 +10,7 @@ import { useRouter } from "next/router"
 import QuotationCard from "../../Cards/quotations/quotation-card"
 import ModesToggle from "../../Navigation/modes-toggle"
 import { MODES_ENUM } from "../../../enums/modesEnum"
+import TaskIcon from "@mui/icons-material/Task"
 
 export default function Quotations_Main({}) {
   /******* USE-STATES *******/
@@ -38,11 +39,26 @@ export default function Quotations_Main({}) {
 
   const handleNewQuotation = () => router.push("/dashboard/quotations/create")
 
-  if (loading) return <PleaseWait />
-
   return (
-    <Stack gap={2}>
-      <BodyText>Vous trouverez ci-dessous tous vos devis.</BodyText>
+    <Stack
+      gap={4}
+      sx={{
+        background: (theme) => theme.palette.background.main,
+        borderRadius: "30px",
+      }}
+      padding="2rem"
+    >
+      <BodyText
+        className="inline-flex gap-10"
+        alignItems="center"
+        fontSize="1.5rem"
+        lineHeight="2rem"
+        textAlign="center"
+        preventTransition
+      >
+        <TaskIcon sx={{ fontSize: "2rem" }} /> Mes devis
+      </BodyText>
+
       <Stack className="row" alignItems="center" width="100%">
         <ModesToggle mode={mode} setMode={setMode} />
         <PillButton startIcon={<AddIcon />} onClick={handleNewQuotation}>
@@ -50,28 +66,32 @@ export default function Quotations_Main({}) {
         </PillButton>
       </Stack>
 
-      <Grid container spacing={2}>
-        {quotations.map((quotation, key) => (
-          <Grid
-            key={key}
-            item
-            xs={12}
-            sm={mode === MODES_ENUM.LIST ? 12 : 6}
-            md={mode === MODES_ENUM.LIST ? 12 : 4}
-          >
-            <QuotationCard
-              quotation={quotation}
-              timezone={user.timezone}
-              refreshData={fetchQuotations}
-              mode={mode}
-              onClick={() =>
-                router.push(`/dashboard/quotations/${quotation.id}/edit`)
-              }
-              optionsList={["delete"]}
-            />
-          </Grid>
-        ))}
-      </Grid>
+      {loading ? (
+        <PleaseWait />
+      ) : (
+        <Grid container spacing={1}>
+          {quotations.map((quotation, key) => (
+            <Grid
+              key={key}
+              item
+              xs={12}
+              sm={mode === MODES_ENUM.LIST ? 12 : 6}
+              md={mode === MODES_ENUM.LIST ? 12 : 4}
+            >
+              <QuotationCard
+                quotation={quotation}
+                timezone={user.timezone}
+                refreshData={fetchQuotations}
+                mode={mode}
+                onClick={() =>
+                  router.push(`/dashboard/quotations/${quotation.id}/edit`)
+                }
+                optionsList={["delete"]}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Stack>
   )
 }

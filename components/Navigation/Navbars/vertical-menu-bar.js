@@ -16,24 +16,29 @@ import Link from "next/link"
 import BodyText from "../../Text/body-text"
 import WaitForLogout from "../../Modals/wait-for-logout"
 import { logout } from "../../../services/utils"
+import BasicTooltip from "../../Helpers/basic-tooltip"
+import { useRouter } from "next/router"
 
 const AdminItems = [
   {
     label: "Panneau adminitrateur",
     icon: <AdminPanelSettingsIcon />,
     url: "/admin",
+    section: "admin",
     orderMobile: 1,
   },
   {
     label: "Mon compte",
     icon: <PersonIcon />,
     url: "/account",
+    section: "account",
     orderMobile: 3,
   },
   {
     label: "Dashboard",
     icon: <DashboardIcon color="#fff" />,
     url: "/dashboard",
+    section: "dashboard",
     orderMobile: 2,
   },
 ]
@@ -96,6 +101,7 @@ const Label = ({ ...props }) => (
 export function VerticalMenuBar({}) {
   /******** CONTEXTS ********/
   const { user, setUser, setAccessToken } = useContext(UserContext)
+  const router = useRouter()
 
   /******** USE-STATES ********/
   const [isExpanded, setIsExpanded] = useState(false)
@@ -124,41 +130,51 @@ export function VerticalMenuBar({}) {
     handleCloseLogoutModal()
   }
 
+  const pageSection = router.pathname.split("/")[1]
+  const isActive = (section) => {
+    if (pageSection === section) return true
+    return false
+  }
+
   /******** SUB-COMPONENTS ********/
   const renderMenuItems = (setOfItems) => {
     return (
-      <Stack
-        sx={{
-          flexDirection: { xs: "row", md: "column" },
-          gap: { xs: 6, md: 2 },
-        }}
-      >
+      <>
         {setOfItems.map((item, key) => (
           <Link key={key} href={item.url} passHref>
             <Stack
               component="a"
               sx={{
                 width: { xs: "auto", md: "100%" },
-                order: { xs: item.orderMobile, md: key },
+                order: { xs: item.orderMobile, md: 0 },
               }}
             >
-              <Tooltip title={item.label} disableHoverListener={isExpanded}>
+              <BasicTooltip title={item.label} disabled={isExpanded}>
                 <ListItem button>
                   <Stack
                     flexDirection="row"
                     gap={2}
                     alignItems="center"
+                    padding="0.5rem 0"
                     sx={{ whiteSpace: "nowrap" }}
                   >
-                    {item.icon}
+                    <Box
+                      sx={{
+                        color: isActive(item.section)
+                          ? (theme) => theme.palette.secondary.main
+                          : "#fff",
+                      }}
+                    >
+                      {item.icon}
+                    </Box>
                     {isExpanded ? <Label>{item.label}</Label> : null}
                   </Stack>
                 </ListItem>
-              </Tooltip>
+              </BasicTooltip>
             </Stack>
           </Link>
         ))}
-      </Stack>
+      </>
     )
   }
 
@@ -175,14 +191,13 @@ export function VerticalMenuBar({}) {
         component="nav"
         position="fixed"
         alignItems="center"
-        gap={2}
         zIndex={1101}
         sx={{
           width: { xs: "100%", md: isExpanded ? "300px" : "55px" },
           top: { xs: null, md: 0 },
           bottom: { xs: 0, md: null },
           left: 0,
-          padding: "1.5rem 0",
+          padding: { xs: "1rem", md: "0 0 1.5rem 0" },
           height: { xs: "55px", md: "100vh" },
           flexDirection: { xs: "row", md: "column" },
           justifyContent: "center",
@@ -193,7 +208,13 @@ export function VerticalMenuBar({}) {
           boxShadow: "0px 0px 20px 0px rgb(0,0,0,0.5)",
         }}
       >
-        <ListItem sx={{ display: { xs: "none", md: "flex" } }}>
+        <ListItem
+          sx={{
+            display: { xs: "none", md: "flex" },
+            background: (theme) => theme.palette.background.darkGrey,
+            padding: "1.5rem 1rem",
+          }}
+        >
           <Stack
             flexDirection="row"
             gap={2}
@@ -223,30 +244,31 @@ export function VerticalMenuBar({}) {
 
         <Stack sx={{ flexGrow: { xs: 0, md: 1 } }} />
 
-        <Tooltip
+        <BasicTooltip
           title="Déconnexion"
-          disableHoverListener={isExpanded}
+          disabled={isExpanded}
           sx={{ display: { xs: "none", md: "flex" } }}
         >
           <ListItem button onClick={handleLogout}>
-            <Stack flexDirection="row" gap={2}>
+            <Stack flexDirection="row" gap={2} padding="0.5rem 0">
               <LogoutIcon />
               {isExpanded ? <Label>Déconnexion</Label> : <></>}
             </Stack>
           </ListItem>
-        </Tooltip>
+        </BasicTooltip>
 
         <Separator />
 
-        <Tooltip
+        <BasicTooltip
           title="Développer"
-          disableHoverListener={isExpanded}
+          disabled={isExpanded}
           sx={{ display: { xs: "none", md: "flex" } }}
         >
           <ListItem button onClick={toggleExpand}>
             <Stack
               flexDirection="row"
               gap={2}
+              padding="0.5rem 0"
               sx={{
                 cursor: "pointer",
               }}
@@ -257,7 +279,7 @@ export function VerticalMenuBar({}) {
               {isExpanded ? <Label>Réduire</Label> : <></>}
             </Stack>
           </ListItem>
-        </Tooltip>
+        </BasicTooltip>
       </Stack>
 
       <WaitForLogout open={openLogoutModal} />

@@ -43,7 +43,10 @@ export default function DropdownOptions({ options }) {
         {options.map((option, key) => (
           <MenuItem
             key={key}
-            onClick={option.handleClick}
+            onClick={() => {
+              option.handleClick()
+              handleClose()
+            }}
             sx={{ color: "white", display: "flex", gap: 2 }}
           >
             {option.icon}

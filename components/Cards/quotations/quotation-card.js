@@ -1,4 +1,4 @@
-import { Avatar, Box, Stack } from "@mui/material"
+import { Avatar, Box, Stack, Typography } from "@mui/material"
 import { useContext } from "react"
 import { QUOTATION_STATUS } from "../../../enums/quotationStatus"
 import apiCall from "../../../services/apiCalls/apiCall"
@@ -104,13 +104,14 @@ function QuotationCard({
   return (
     <CustomCard
       background={(theme) => theme.palette.background.main}
+      backgroundColor="rgb(0,0,0,0.3)"
       sx={{
         cursor: "pointer",
         position: "relative",
         padding: { xs: "1rem", sm: "1rem 2rem" },
         flexDirection: { xs: "row" },
         "&:hover": {
-          background: (theme) => theme.palette.background.main,
+          background: "rgb(0,0,0,0.5)",
         },
       }}
     >
@@ -119,10 +120,7 @@ function QuotationCard({
         width="100%"
         height="100%"
         sx={{
-          gap: {
-            xs: 4,
-            sm: mode === MODES.LIST ? 2 : 4,
-          },
+          gap: 2,
           alignItems: {
             xs: "start",
             sm: mode === MODES.LIST ? "center" : "start",
@@ -133,35 +131,38 @@ function QuotationCard({
           },
         }}
       >
+        <Stack flexDirection="row" alignItems="center">
+          <Status status={quotation.status} />
+          <Typography fontSize="1rem" color="#fff">
+            {quotation.total_price / 100}€
+          </Typography>
+        </Stack>
+
         <SmallTitle
           textTransform="initial"
           textAlign="left"
           letterSpacing={0}
           lineHeight={2}
           padding={mode === MODES.GRID ? { xs: 0, sm: "0 0.5rem 0 0" } : 0}
+          display="flex"
+          alignItems="center"
+          gap={1}
+          width="90%"
         >
-          <Status status={quotation.status} />
-          {quotation.label || "Sans nom"}
+          <Box
+            sx={{
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+            }}
+          >
+            {quotation.label || "Sans nom"}
+          </Box>
         </SmallTitle>
 
         <Stack flexGrow={1} />
-        <Stack>
-          <BodyText
-            preventTransition
-            fontSize={{
-              xs: "1rem",
-              sm: mode === MODES.GRID ? "1rem" : "0.8rem",
-            }}
-          >
-            <Box component="span">Total HT</Box>{" "}
-            <Box
-              component="span"
-              sx={{ color: (theme) => theme.palette.text.secondary }}
-            >
-              {quotation.total_price / 100} €
-            </Box>
-          </BodyText>
-        </Stack>
 
         <Stack
           className="row"

@@ -34,12 +34,21 @@ export default function Breadcrumbs(props) {
   pages.shift() // remove first row of the array
 
   for (let i = pages.length; i > 0; i--) {
-    path.push(pages[pages.length - i])
-
-    breadcrumbs.push({
-      label: tree[pages[pages.length - i]],
-      href: "/" + path.join("/"),
-    })
+    if (
+      !!tree[pages[pages.length - i]]?.label &&
+      !!tree[pages[pages.length - i]]?.href
+    )
+      breadcrumbs.push({
+        label: tree[pages[pages.length - i]].label,
+        href: tree[pages[pages.length - i]].href,
+      })
+    else {
+      path.push(pages[pages.length - i])
+      breadcrumbs.push({
+        label: tree[pages[pages.length - i]],
+        href: "/" + path.join("/"),
+      })
+    }
   }
 
   const toggleExpand = () => {

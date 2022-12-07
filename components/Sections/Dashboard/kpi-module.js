@@ -36,7 +36,7 @@ const RenderKpi = ({ data }) => (
 )
 
 const Card = ({ title, ...props }) => (
-  <Stack padding={4}>
+  <Stack padding={2}>
     <Stack
       sx={{
         background: "rgb(0,0,0,0.3)",

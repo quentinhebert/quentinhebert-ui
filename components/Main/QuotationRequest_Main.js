@@ -13,6 +13,7 @@ import { UserContext } from "../../contexts/UserContext"
 import CommentIcon from "@mui/icons-material/Comment"
 import PillButton from "../Buttons/pill-button"
 import { useRouter } from "next/router"
+import useSWR from "swr"
 
 const InfoLine = ({ label, ...props }) => (
   <Stack width="100%" className="row gap-10">
@@ -42,6 +43,7 @@ export default function QuotationRequest_Main({ id }) {
 
   const { user } = useContext(UserContext)
   const router = useRouter()
+  const { mutate } = useSWR("dashboardNotifications")
 
   // Format date
   const formattedDate = formatDayDate({
@@ -60,8 +62,10 @@ export default function QuotationRequest_Main({ id }) {
     }
   }
 
-  const handleSetOpened = async () =>
+  const handleSetOpened = async () => {
     await apiCall.quotations.requests.setOpened({ id, opened: true })
+    mutate() // update notifications component (dashboard tabs)
+  }
 
   // INITIAL FETCH
   useEffect(() => {
