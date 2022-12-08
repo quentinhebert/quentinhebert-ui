@@ -48,6 +48,7 @@ const styles = {
         background: "#fff",
       },
     },
+    "&[data-weekend]": { color: theme.palette.text.secondary },
     "&[data-outside]": { color: theme.palette.text.grey },
   },
   calendarHeaderControl: {
