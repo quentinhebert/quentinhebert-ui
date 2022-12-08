@@ -11,6 +11,8 @@ export default function CustomDatePicker({
   value,
   handleChange,
   error,
+  noPicker,
+  disabled,
 }) {
   return (
     <Stack
@@ -23,6 +25,8 @@ export default function CustomDatePicker({
     >
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"fr"}>
         <DatePicker
+          disabled={disabled}
+          disableOpenPicker={noPicker}
           label={label || "Date"}
           value={value ? dayjs(value).format() : null}
           onChange={(newValue) => handleChange(dayjs(newValue).format())}

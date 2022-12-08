@@ -16,6 +16,7 @@ import apiCall from "../../../services/apiCalls/apiCall"
 import NoteAddIcon from "@mui/icons-material/NoteAdd"
 import EventIcon from "@mui/icons-material/Event"
 import useSWR from "swr"
+import UserAgenda from "../../Sections/Dashboard/user-agenda"
 
 const TABS = {
   stats: 0,
@@ -24,7 +25,7 @@ const TABS = {
   quotations: 3,
   invoices: 4,
   new_document: 5,
-  calendar: 5,
+  calendar: 6,
 }
 
 export default function AdminIndex_Main() {
@@ -117,6 +118,7 @@ export default function AdminIndex_Main() {
         {tab === 1 && <QuotationRequests_Main />}
         {tab === 3 && <Quotations_Main />}
         {tab === 5 && <NewDocModule />}
+        {tab === 6 && <UserAgenda />}
       </Stack>
     </>
   )
