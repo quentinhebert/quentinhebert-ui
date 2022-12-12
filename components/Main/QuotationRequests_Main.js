@@ -28,6 +28,18 @@ const QuotationRequestsCard = ({
   const router = useRouter()
   const { setSnackMessage, setSnackSeveerity } = useContext(AppContext)
 
+  const markAsRead = async () => {
+    const res = await apiCall.quotations.requests.setOpened({
+      id,
+      opened: true,
+    })
+    if (!res || !res.ok) {
+      setSnackMessage("Une erreur s'est produite")
+      setSnackSeveerity("error")
+    }
+    refreshData()
+  }
+
   const markAsUnread = async () => {
     const res = await apiCall.quotations.requests.setOpened({
       id,
@@ -42,8 +54,8 @@ const QuotationRequestsCard = ({
 
   const options = [
     {
-      label: "Marquer comme non lue",
-      handleClick: markAsUnread,
+      label: opened ? "Marquer comme non lue" : "Marquer comme lue",
+      handleClick: opened ? markAsUnread : markAsRead,
       icon: <MarkEmailUnreadIcon />,
     },
     {
