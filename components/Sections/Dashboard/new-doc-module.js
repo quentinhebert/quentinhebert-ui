@@ -4,7 +4,7 @@ import CustomCard from "../../Cards/custom-card"
 import EastIcon from "@mui/icons-material/East"
 import BodyText from "../../Text/body-text"
 import { useRouter } from "next/router"
-import NoteAddIcon from "@mui/icons-material/NoteAdd"
+import AddIcon from "@mui/icons-material/Add"
 
 export default function NewDocModule({}) {
   const router = useRouter()
@@ -27,7 +27,7 @@ export default function NewDocModule({}) {
           fontSize="1.5rem"
           lineHeight="2rem"
         >
-          <NoteAddIcon sx={{ display: "flex", fontSize: "2rem" }} /> Créer un
+          <AddIcon sx={{ display: "flex", fontSize: "2rem" }} /> Créer un
           document
         </BodyText>
         <Stack
@@ -40,13 +40,13 @@ export default function NewDocModule({}) {
             endIcon={<EastIcon />}
             onClick={() => router.push("/dashboard/quotations/create")}
           >
-            Nouveau devis
+            Devis
           </PillButton>
           <PillButton
             endIcon={<EastIcon />}
             onClick={() => router.push("/dashboard/invoices/new")}
           >
-            Nouvelle facture
+            Facture
           </PillButton>
         </Stack>
       </Stack>

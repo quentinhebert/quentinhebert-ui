@@ -33,6 +33,7 @@ export default function CustomDatePicker({
           inputFormat="DD/MM/YYYY"
           renderInput={(params) => {
             params.InputProps.disableUnderline = true
+            params.inputProps.placeholder = "jj/mm/aaaa"
             return <CustomFilledInput {...params} error={error} />
           }}
           PaperProps={{

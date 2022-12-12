@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react"
-import { Box, Grid, Stack, Typography } from "@mui/material"
+import { Box, Grid, Slider, Stack, Typography } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { AppContext } from "../../../contexts/AppContext"
 import CustomForm from "../custom-form"
@@ -39,6 +39,8 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime"
 import WarningAmberIcon from "@mui/icons-material/WarningAmber"
 import AddIcon from "@mui/icons-material/Add"
 import SaveAltIcon from "@mui/icons-material/SaveAlt"
+import SwitchButton from "../../Inputs/switch-button"
+import CustomFilledTextArea from "../../Inputs/custom-filled-text-area"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -68,6 +70,23 @@ const HEAD = [
   { label: "Prix unit. HT" },
   { label: "Total" },
 ]
+
+const noVatMention =
+  "* TVA non applicable, art. 293B du Code Général des Impôts (CGI)"
+
+const FormCard = ({ title, ...props }) => (
+  <Stack
+    sx={{
+      padding: "2rem",
+      backgroundColor: (theme) => theme.palette.background.main,
+      borderRadius: "30px",
+      gap: 2,
+    }}
+  >
+    <SmallTitle color="#fff">{title}</SmallTitle>
+    <Stack {...props} width="100%" gap={2} />
+  </Stack>
+)
 
 function QuotationForm({
   id,
@@ -103,6 +122,10 @@ function QuotationForm({
     },
     payment_conditions: "",
     additional_mentions: "",
+    deposit: 0,
+    balance: 100,
+    payment_delay_penalties:
+      "Une indemnité forfaitaire de 40€, à laquelle s'ajoute un taux d'Intérêt de retard de 15%. Calcul des intérêts de retard : Somme due TTC * jours de retard * taux d’intérêt / (365 * 100).",
   }
   const [quotation, setQuotation] = useState(initialQuotation)
   const [items, setItems] = useState([])
@@ -114,6 +137,7 @@ function QuotationForm({
   const [assignValue, setAssignValue] = useState("")
   const [assignInputValue, setAssignInputValue] = useState("")
   const [modal, setModal] = useState(null)
+  const [depositDisabled, setDepositDisabled] = useState(true)
   const [openModal, setOpenModal] = useState(false)
   const [errors, setErrors] = useState({
     date: false,
@@ -296,6 +320,10 @@ function QuotationForm({
 
   const recipientEmailsString = quotation.recipient_emails.join(", ")
 
+  useEffect(() => {
+    setQuotation({ ...quotation, balance: 100 - quotation.deposit })
+  }, [quotation.deposit])
+
   /********** SUB-COMPONENTS **********/
   const Status = () => {
     if (!quotation.id)
@@ -332,7 +360,7 @@ function QuotationForm({
         <BodyText
           marginLeft="1rem"
           sx={{
-            color: (theme) => theme.alert.title.success,
+            color: (theme) => theme.alert.title.success.color,
             display: "inline-flex",
             gap: ".5rem",
           }}
@@ -345,7 +373,7 @@ function QuotationForm({
       <BodyText
         marginLeft="1rem"
         sx={{
-          color: (theme) => theme.alert.title.success,
+          color: (theme) => theme.alert.title.success.color,
           display: "inline-flex",
           gap: ".5rem",
         }}
@@ -404,7 +432,9 @@ function QuotationForm({
         >
           {quotation.label || "Sans nom"}{" "}
           <Box component="span" color="#fff" fontStyle="italic">
-            {`(${QUOTATION_STATUS[quotation.status].label})`}
+            {QUOTATION_STATUS[quotation.status].id === QUOTATION_STATUS.DRAFT.id
+              ? `(${QUOTATION_STATUS[quotation.status].label})`
+              : ""}
           </Box>
         </BodyText>
         {!EDIT_STATUSES.includes(quotation.status) && (
@@ -471,7 +501,7 @@ function QuotationForm({
     return (
       <Stack
         sx={{
-          alignSelf: { xs: "end", md: "start" },
+          alignSelf: { xs: "end", md: "end" },
           border: (theme) => `1px solid ${theme.palette.secondary.main}`,
           borderRadius: "20px",
           padding: 2,
@@ -565,30 +595,17 @@ function QuotationForm({
                 />
               </Stack>
 
+              <TotalPrices />
+
+              {/********** CONDITIONS & MENTIONS **********/}
               <Stack
-                width="100%"
                 sx={{
-                  marginTop: 4,
-                  gap: 8,
-                  flexDirection: { xs: "column", md: "row-reverse" },
+                  padding: "2rem 1rem",
+                  gap: 4,
+                  maxWidth: "900px",
                 }}
               >
-                <TotalPrices />
-
-                {/********** CONDITIONS & MENTIONS **********/}
-                <Stack
-                  className="full-width"
-                  sx={{
-                    background: (theme) => theme.palette.background.main,
-                    padding: "2rem",
-                    borderRadius: "20px",
-                    gap: 4,
-                  }}
-                >
-                  <SmallTitle color="#fff">
-                    Conditions et mentions obligatoires
-                  </SmallTitle>
-
+                <FormCard title="Prestation">
                   <DualInputLine>
                     <FormStack>
                       <CustomDatePicker
@@ -598,17 +615,6 @@ function QuotationForm({
                         error={errors.date}
                       />
                     </FormStack>
-                    <FormStack>
-                      <CustomDatePicker
-                        label="Date de livraison estimée"
-                        value={quotation.delivery_date}
-                        handleChange={handleChangeDate("delivery_date")}
-                        error={errors.delivery_date}
-                      />
-                    </FormStack>
-                  </DualInputLine>
-
-                  <DualInputLine>
                     <CustomFilledInput
                       width={{ xs: "100%", md: "50%" }}
                       value={quotation.duration}
@@ -616,15 +622,75 @@ function QuotationForm({
                       label="Durée estimée (optionnel)"
                       placeholder="1 jour de tournage et 3 jours de montage"
                     />
-                    <FormStack>
-                      <CustomDatePicker
-                        label="Fin de validité du devis (optionnel)"
-                        value={quotation.validity_end_date}
-                        handleChange={handleChangeDate("validity_end_date")}
-                      />
-                    </FormStack>
                   </DualInputLine>
+                </FormCard>
 
+                <FormCard title="Livraison">
+                  <CustomDatePicker
+                    label="Date de livraison estimée"
+                    value={quotation.delivery_date}
+                    handleChange={handleChangeDate("delivery_date")}
+                    error={errors.delivery_date}
+                  />
+                </FormCard>
+
+                <FormCard title="Paiement">
+                  <SwitchButton
+                    checked={!depositDisabled}
+                    handleCheck={(bool) => {
+                      if (!bool)
+                        setQuotation({
+                          ...quotation,
+                          deposit: 0,
+                          balance: 100,
+                        })
+                      else
+                        setQuotation({
+                          ...quotation,
+                          deposit: 60,
+                          balance: 40,
+                        })
+                      setDepositDisabled(!bool)
+                    }}
+                    label="Paiment avec acompte"
+                  />
+                  {!depositDisabled ? (
+                    <Stack
+                      spacing={2}
+                      direction="row"
+                      sx={{ mb: 1 }}
+                      alignItems="center"
+                    >
+                      <Typography color="secondary">
+                        Acompte ({quotation.deposit}%)
+                      </Typography>
+                      <Slider
+                        disabled={depositDisabled}
+                        color="secondary"
+                        aria-label="Temperature"
+                        defaultValue={60}
+                        valueLabelDisplay="auto"
+                        onChange={(e, newValue) =>
+                          setQuotation({ ...quotation, deposit: newValue })
+                        }
+                        step={5}
+                        marks
+                        min={0}
+                        max={100}
+                      />
+                      <Typography color="secondary">
+                        Solde ({quotation.balance}%)
+                      </Typography>
+                    </Stack>
+                  ) : null}
+                  <CustomFilledInput
+                    label="Conditions de règlement"
+                    placeholder="Accompte de 60% lors de la signature du devis. Solde de 40% entre le jour de la prestation et la livraison."
+                    value={quotation.payment_conditions}
+                    onChange={handleChange("payment_conditions")}
+                    helperText="Accompte de 60% lors de la signature du devis. Solde de 40% entre le jour de la prestation et la livraison."
+                    error={errors.payment_conditions}
+                  />
                   <Stack
                     sx={{
                       background: "#000",
@@ -644,8 +710,9 @@ function QuotationForm({
                       }
                       fontSize="1rem"
                     >
-                      Moyen de paiement
+                      Moyen(s) de paiement
                     </BodyText>
+
                     <Grid container spacing={2}>
                       {PAYMENT_OPTIONS.map((opt) => (
                         <Grid item md={3} key={opt.id}>
@@ -658,15 +725,47 @@ function QuotationForm({
                       ))}
                     </Grid>
                   </Stack>
-                  <CustomFilledInput
-                    label="Conditions de règlement"
-                    placeholder="Accompte de 60% lors de la signature du devis. Solde de 40% entre le jour de la prestation et la livraison."
-                    value={quotation.payment_conditions}
-                    onChange={handleChange("payment_conditions")}
-                    helperText="Accompte de 60% lors de la signature du devis. Solde de 40% entre le jour de la prestation et la livraison."
-                    error={errors.payment_conditions}
+                  <CustomFilledTextArea
+                    required
+                    id="payment_delay_penalties"
+                    label="Pénalités de retard ou pour non paiement"
+                    value={quotation.payment_delay_penalties}
+                    onChange={handleChange("payment_delay_penalties")}
                   />
-                </Stack>
+                </FormCard>
+
+                <DualInputLine gap={4}>
+                  <Stack sx={{ width: { xs: "100%", md: "50%" } }}>
+                    <FormCard title="TVA">
+                      <SwitchButton
+                        checked={quotation.additional_mentions === noVatMention}
+                        handleCheck={(bool) => {
+                          if (bool)
+                            setQuotation({
+                              ...quotation,
+                              additional_mentions: noVatMention,
+                            })
+                          else
+                            setQuotation({
+                              ...quotation,
+                              additional_mentions: "",
+                            })
+                        }}
+                        label="TVA non applicable, article 293B du Code Général des Impôts (CGI)"
+                      />
+                    </FormCard>
+                  </Stack>
+
+                  <Stack sx={{ width: { xs: "100%", md: "50%" } }}>
+                    <FormCard title="Validité du devis">
+                      <CustomDatePicker
+                        label="Date de fin (optionnel)"
+                        value={quotation.validity_end_date}
+                        handleChange={handleChangeDate("validity_end_date")}
+                      />
+                    </FormCard>
+                  </Stack>
+                </DualInputLine>
               </Stack>
             </>
           )}
