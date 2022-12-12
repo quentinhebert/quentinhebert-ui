@@ -167,6 +167,8 @@ export default function QuotationRequests_Main({}) {
     fetchData()
   }, [])
 
+  const newNotifList = list.filter((item) => item.opened === false)
+
   return (
     <Stack
       gap={4}
@@ -185,7 +187,7 @@ export default function QuotationRequests_Main({}) {
         preventTransition
       >
         <MarkEmailUnreadOutlinedIcon sx={{ fontSize: "2rem" }} /> Demandes de
-        contact
+        contact {newNotifList.length ? `(${newNotifList.length})` : null}
       </BodyText>
 
       <Stack width="100%" alignItems="end">
