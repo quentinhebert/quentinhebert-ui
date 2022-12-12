@@ -75,6 +75,13 @@ export default function AdminIndex_Main() {
       notifications: notifications?.quotation_requests || 0,
     },
     {
+      id: "quotations",
+      title: "Devis",
+      icon: <TaskIcon className="full-width full-height" />,
+      onClick: () => navigate("quotations"),
+      notifications: 0,
+    },
+    {
       id: "orders",
       title: "Commandes",
       icon: <WorkOutlineOutlinedIcon className="full-width full-height" />,
@@ -93,13 +100,6 @@ export default function AdminIndex_Main() {
       title: "Agenda",
       icon: <EventIcon className="full-width full-height" />,
       onClick: () => navigate("calendar"),
-      notifications: 0,
-    },
-    {
-      id: "quotations",
-      title: "Devis",
-      icon: <TaskIcon className="full-width full-height" />,
-      onClick: () => navigate("quotations"),
       notifications: 0,
     },
     {

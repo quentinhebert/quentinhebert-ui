@@ -26,12 +26,14 @@ export default function Breadcrumbs(props) {
   if (panel === PANELTYPES.ACCOUNT) tree = accountTree
   if (panel === PANELTYPES.DASHOBARD) tree = dashboardTree
 
-  const breadcrumbs = []
+  let breadcrumbs = []
   const path = []
 
-  const { pathname } = useRouter() // get url path
+  const { pathname, asPath } = useRouter() // get url path
   const pages = pathname.split("/") // set an array where each row is the identifier of the page (ref: admin-tree)
+  const pagesWithQueryParams = asPath.split("/") // set an array where each row is the identifier of the page (ref: admin-tree)
   pages.shift() // remove first row of the array
+  pagesWithQueryParams.shift() // remove first row of the array
 
   for (let i = pages.length; i > 0; i--) {
     if (
@@ -49,7 +51,23 @@ export default function Breadcrumbs(props) {
         href: "/" + path.join("/"),
       })
     }
+    if (
+      !!tree[pagesWithQueryParams[pagesWithQueryParams.length - i]]?.label &&
+      !!tree[pagesWithQueryParams[pagesWithQueryParams.length - i]]?.href
+    )
+      breadcrumbs.push({
+        label:
+          tree[pagesWithQueryParams[pagesWithQueryParams.length - i]].label,
+        href: tree[pagesWithQueryParams[pagesWithQueryParams.length - i]].href,
+      })
   }
+  breadcrumbs = breadcrumbs.filter(
+    (value, index, self) =>
+      index ===
+      self.findIndex(
+        (t) => (t.href === value.href && t.label === value.label) || t === value
+      )
+  )
 
   const toggleExpand = () => {
     if (!sm) return
