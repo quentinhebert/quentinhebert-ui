@@ -1,12 +1,17 @@
 import { Grid, Stack } from "@mui/material"
 import BubbleCard from "./bubble-card"
 
-export default function OneActionBubblesGrid({ cards, layout, tab, ...props }) {
+export default function OneActionBubblesGrid({
+  cards,
+  layout,
+  activeTab,
+  ...props
+}) {
   if (!!layout && layout === "grid")
     return (
       <Grid container rowSpacing={4} columnSpacing={4}>
         {cards.map((card, key) => {
-          const active = tab === key
+          const active = card.id === activeTab
           return (
             <Grid item xs={4} sm={3} md={2} lg={1.5} key={key}>
               <BubbleCard
@@ -32,7 +37,7 @@ export default function OneActionBubblesGrid({ cards, layout, tab, ...props }) {
       paddingBottom={2}
     >
       {cards.map((card, key) => {
-        const active = tab === key
+        const active = card.id === activeTab
         return (
           <BubbleCard
             key={key}

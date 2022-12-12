@@ -17,25 +17,17 @@ import NoteAddIcon from "@mui/icons-material/NoteAdd"
 import EventIcon from "@mui/icons-material/Event"
 import useSWR from "swr"
 import UserAgenda from "../../Sections/Dashboard/user-agenda"
-
-const TABS = {
-  stats: 0,
-  prospects: 1,
-  orders: 2,
-  quotations: 3,
-  invoices: 4,
-  new_document: 5,
-  calendar: 6,
-}
+import AddIcon from "@mui/icons-material/Add"
 
 export default function AdminIndex_Main() {
   const router = useRouter()
-  const active_tab = router.query.active_tab
+  const queryTab = router.query.active_tab
+  const defaultTab = "stats"
 
-  const [tab, setTab] = useState(active_tab ? TABS[active_tab] : 0)
+  const [activeTab, setActiveTab] = useState(queryTab ? queryTab : defaultTab)
 
   useEffect(() => {
-    setTab(active_tab ? TABS[active_tab] : 0)
+    setActiveTab(queryTab ? queryTab : defaultTab)
   }, [router])
 
   const fetchNotifications = async () => {
@@ -62,47 +54,59 @@ export default function AdminIndex_Main() {
   )
   if (!!swr.data) notifications = swr.data
 
+  const navigate = (newTab) =>
+    router.push(`${router.basePath}?active_tab=${newTab}`, undefined, {
+      scroll: false,
+    })
+
   const CARDS = [
     {
+      id: "stats",
       title: "Stats",
       icon: <LeaderboardIcon className="full-width full-height" />,
-      onClick: () => router.push(`${router.basePath}?active_tab=stats`),
+      onClick: () => navigate("stats"),
       notifications: 0,
     },
     {
+      id: "prospects",
       title: "Prospects",
       icon: <MarkEmailUnreadOutlinedIcon className="full-width full-height" />,
-      onClick: () => router.push(`${router.basePath}?active_tab=prospects`),
+      onClick: () => navigate("prospects"),
       notifications: notifications?.quotation_requests || 0,
     },
     {
+      id: "orders",
       title: "Commandes",
       icon: <WorkOutlineOutlinedIcon className="full-width full-height" />,
       href: "/dashboard/orders",
       notifications: 0,
     },
     {
-      title: "Devis",
-      icon: <TaskIcon className="full-width full-height" />,
-      onClick: () => router.push(`${router.basePath}?active_tab=quotations`),
-      notifications: 0,
-    },
-    {
+      id: "invoices",
       title: "Factures",
       icon: <DescriptionOutlinedIcon className="full-width full-height" />,
       href: "/dashboard/invoices",
       notifications: 0,
     },
     {
-      title: "Créer",
-      icon: <NoteAddIcon className="full-width full-height" />,
-      onClick: () => router.push(`${router.basePath}?active_tab=new_document`),
+      id: "calendar",
+      title: "Agenda",
+      icon: <EventIcon className="full-width full-height" />,
+      onClick: () => navigate("calendar"),
       notifications: 0,
     },
     {
-      title: "Agenda",
-      icon: <EventIcon className="full-width full-height" />,
-      onClick: () => router.push(`${router.basePath}?active_tab=calendar`),
+      id: "quotations",
+      title: "Devis",
+      icon: <TaskIcon className="full-width full-height" />,
+      onClick: () => navigate("quotations"),
+      notifications: 0,
+    },
+    {
+      id: "new_document",
+      title: "Créer",
+      icon: <AddIcon className="full-width full-height" />,
+      onClick: () => navigate("new_document"),
       notifications: 0,
     },
   ]
@@ -112,13 +116,13 @@ export default function AdminIndex_Main() {
       <FixedBackground url="url(/medias/lines.jpg)" />
 
       <Stack zIndex={0} gap={4}>
-        <OneActionBubblesGrid cards={CARDS} tab={tab} />
+        <OneActionBubblesGrid cards={CARDS} activeTab={activeTab} />
 
-        {(active_tab === "stats" || !active_tab) && <KpiModule />}
-        {active_tab === "prospects" && <QuotationRequests_Main />}
-        {active_tab === "quotations" && <Quotations_Main />}
-        {active_tab === "new_document" && <NewDocModule />}
-        {active_tab === "calendar" && <UserAgenda />}
+        {(activeTab === "stats" || !activeTab) && <KpiModule />}
+        {activeTab === "calendar" && <UserAgenda />}
+        {activeTab === "prospects" && <QuotationRequests_Main />}
+        {activeTab === "quotations" && <Quotations_Main />}
+        {activeTab === "new_document" && <NewDocModule />}
       </Stack>
     </>
   )
