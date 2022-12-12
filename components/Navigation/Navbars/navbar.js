@@ -104,7 +104,7 @@ export default function Navbar(props) {
                 sx={{ flexDirection: "row", alignItems: "center" }}
               >
                 <Stack
-                  width={isReduced ? "45px" : "65px"}
+                  width={isReduced ? "45px" : "60px"}
                   height={isReduced ? "35px" : "50px"}
                   sx={{
                     transition:
