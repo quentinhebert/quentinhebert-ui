@@ -114,7 +114,7 @@ export default function AdminIndex_Main() {
       <Stack zIndex={0} gap={4}>
         <OneActionBubblesGrid cards={CARDS} tab={tab} />
 
-        {active_tab === "stats" && <KpiModule />}
+        {(active_tab === "stats" || !active_tab) && <KpiModule />}
         {active_tab === "prospects" && <QuotationRequests_Main />}
         {active_tab === "quotations" && <Quotations_Main />}
         {active_tab === "new_document" && <NewDocModule />}
