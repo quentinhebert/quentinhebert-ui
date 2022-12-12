@@ -41,6 +41,12 @@ import AddIcon from "@mui/icons-material/Add"
 import SaveAltIcon from "@mui/icons-material/SaveAlt"
 import SwitchButton from "../../Inputs/switch-button"
 import CustomFilledTextArea from "../../Inputs/custom-filled-text-area"
+import WorkHistoryIcon from "@mui/icons-material/WorkHistory"
+import LocalShippingIcon from "@mui/icons-material/LocalShipping"
+import EuroIcon from "@mui/icons-material/Euro"
+import PercentIcon from "@mui/icons-material/Percent"
+import SellIcon from "@mui/icons-material/Sell"
+import HourglassTopIcon from "@mui/icons-material/HourglassTop"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -74,16 +80,26 @@ const HEAD = [
 const noVatMention =
   "* TVA non applicable, art. 293B du Code Général des Impôts (CGI)"
 
-const FormCard = ({ title, ...props }) => (
+const FormCard = ({ title, width, icon, ...props }) => (
   <Stack
     sx={{
+      width: width || "100%",
       padding: "2rem",
       backgroundColor: (theme) => theme.palette.background.main,
       borderRadius: "30px",
       gap: 2,
     }}
   >
-    <SmallTitle color="#fff">{title}</SmallTitle>
+    <SmallTitle
+      color="#fff"
+      alignItems="center"
+      display="flex"
+      gap={2}
+      marginBottom={2}
+    >
+      {icon}
+      {title}
+    </SmallTitle>
     <Stack {...props} width="100%" gap={2} />
   </Stack>
 )
@@ -315,6 +331,19 @@ function QuotationForm({
     )
     setSnackSeverity("error")
   }
+  const handleVAT = (bool) => {
+    if (bool)
+      setQuotation({
+        ...quotation,
+        additional_mentions: noVatMention,
+      })
+    else
+      setQuotation({
+        ...quotation,
+        additional_mentions: "",
+      })
+    handleDetectChange()
+  }
 
   const emailError = emailInput.trim() !== "" && !checkEmail(emailInput)
 
@@ -530,6 +559,7 @@ function QuotationForm({
     <>
       <Stack width="100%" gap={4}>
         <CustomForm gap={4}>
+          {/********** TOOLBAR **********/}
           <Toolbar />
 
           {/* READ ONLY MODE */}
@@ -540,72 +570,15 @@ function QuotationForm({
           {/* EDIT MODE */}
           {EDIT_STATUSES.includes(quotation.status) && (
             <>
-              <Stack gap={2} width="100%" overflow="auto">
-                <Box
-                  component="table"
-                  sx={{
-                    width: "99%",
-                    margin: "0.5%",
-                    borderCollapse: "collapse",
-                    borderStyle: "hidden",
-                    borderRadius: "20px",
-                    boxShadow: (theme) =>
-                      `0 0 0 2px ${theme.palette.secondary.main}`,
-                    overflow: "hidden",
-                  }}
-                >
-                  {HEAD.map((item, key) => (
-                    <HeadCell key={key} width={item.width}>
-                      {item.label}
-                    </HeadCell>
-                  ))}
-
-                  {items.map((item, key) => (
-                    <Line key={key} onClick={() => handleEdit(item, key)}>
-                      <Cell>
-                        {
-                          QUOTATION_ITEM_TYPES.filter(
-                            (elt) => elt.id === item.type
-                          )[0].label
-                        }
-                      </Cell>
-                      <Cell>{item.label}</Cell>
-                      <Cell>{item.description}</Cell>
-                      <Cell>{item.quantity}</Cell>
-                      <Cell>{item.vat} %</Cell>
-                      <Cell>{item.no_vat_price / 100} €</Cell>
-                      <Cell>
-                        {(item.no_vat_price / 100) *
-                          item.quantity *
-                          (1 + item.vat / 100)}{" "}
-                        €
-                      </Cell>
-                    </Line>
-                  ))}
-                </Box>
-              </Stack>
-
-              <Stack className="flex-center" width="100%">
-                <SubmitButton
-                  background={(theme) => theme.palette.background.secondary}
-                  color="#000"
-                  icon={<AddIcon />}
-                  label="Nouvelle ligne"
-                  onClick={() => handleOpenModal(MODALS.CREATE_ITEM)}
-                />
-              </Stack>
-
-              <TotalPrices />
-
               {/********** CONDITIONS & MENTIONS **********/}
               <Stack
                 sx={{
                   padding: "2rem 1rem",
-                  gap: 4,
+                  gap: 8,
                   maxWidth: "900px",
                 }}
               >
-                <FormCard title="Prestation">
+                <FormCard title="Prestation (1/6)" icon={<WorkHistoryIcon />}>
                   <DualInputLine>
                     <FormStack>
                       <CustomDatePicker
@@ -625,7 +598,7 @@ function QuotationForm({
                   </DualInputLine>
                 </FormCard>
 
-                <FormCard title="Livraison">
+                <FormCard title="Livraison (2/6)" icon={<LocalShippingIcon />}>
                   <CustomDatePicker
                     label="Date de livraison estimée"
                     value={quotation.delivery_date}
@@ -634,7 +607,7 @@ function QuotationForm({
                   />
                 </FormCard>
 
-                <FormCard title="Paiement">
+                <FormCard title="Paiement (3/6)" icon={<EuroIcon />}>
                   <SwitchButton
                     checked={!depositDisabled}
                     handleCheck={(bool) => {
@@ -726,7 +699,6 @@ function QuotationForm({
                     </Grid>
                   </Stack>
                   <CustomFilledTextArea
-                    required
                     id="payment_delay_penalties"
                     label="Pénalités de retard ou pour non paiement"
                     value={quotation.payment_delay_penalties}
@@ -735,38 +707,100 @@ function QuotationForm({
                 </FormCard>
 
                 <DualInputLine gap={4}>
-                  <Stack sx={{ width: { xs: "100%", md: "50%" } }}>
-                    <FormCard title="TVA">
-                      <SwitchButton
-                        checked={quotation.additional_mentions === noVatMention}
-                        handleCheck={(bool) => {
-                          if (bool)
-                            setQuotation({
-                              ...quotation,
-                              additional_mentions: noVatMention,
-                            })
-                          else
-                            setQuotation({
-                              ...quotation,
-                              additional_mentions: "",
-                            })
-                        }}
-                        label="TVA non applicable, article 293B du Code Général des Impôts (CGI)"
-                      />
-                    </FormCard>
-                  </Stack>
+                  <FormCard
+                    title="TVA (4/6)"
+                    width={{ xs: "100%", md: "50%" }}
+                    icon={<PercentIcon />}
+                  >
+                    <SwitchButton
+                      checked={quotation.additional_mentions === noVatMention}
+                      handleCheck={handleVAT}
+                      label="TVA non applicable, article 293B du Code Général des Impôts (CGI)"
+                    />
+                  </FormCard>
 
-                  <Stack sx={{ width: { xs: "100%", md: "50%" } }}>
-                    <FormCard title="Validité du devis">
-                      <CustomDatePicker
-                        label="Date de fin (optionnel)"
-                        value={quotation.validity_end_date}
-                        handleChange={handleChangeDate("validity_end_date")}
-                      />
-                    </FormCard>
-                  </Stack>
+                  <FormCard
+                    title="Validité du devis (5/6)"
+                    icon={<HourglassTopIcon />}
+                    width={{ xs: "100%", md: "50%" }}
+                  >
+                    <CustomDatePicker
+                      label="Date de fin (optionnel)"
+                      value={quotation.validity_end_date}
+                      handleChange={handleChangeDate("validity_end_date")}
+                    />
+                  </FormCard>
                 </DualInputLine>
               </Stack>
+
+              {/********** ITEMS TABLE WITH PRICES / QTY. **********/}
+              <SmallTitle
+                color="#fff"
+                alignItems="center"
+                gap={2}
+                display="flex"
+              >
+                <SellIcon />
+                Détails des produits / services (6/6)
+              </SmallTitle>
+              <Stack gap={2} width="100%" overflow="auto">
+                <Box
+                  component="table"
+                  sx={{
+                    width: "99%",
+                    margin: "0.5%",
+                    borderCollapse: "collapse",
+                    borderStyle: "hidden",
+                    borderRadius: "20px",
+                    boxShadow: (theme) =>
+                      `0 0 0 2px ${theme.palette.secondary.main}`,
+                    overflow: "hidden",
+                  }}
+                >
+                  {HEAD.map((item, key) => (
+                    <HeadCell key={key} width={item.width}>
+                      {item.label}
+                    </HeadCell>
+                  ))}
+
+                  {items.map((item, key) => (
+                    <Line key={key} onClick={() => handleEdit(item, key)}>
+                      <Cell>
+                        {
+                          QUOTATION_ITEM_TYPES.filter(
+                            (elt) => elt.id === item.type
+                          )[0].label
+                        }
+                      </Cell>
+                      <Cell>{item.label}</Cell>
+                      <Cell>{item.description}</Cell>
+                      <Cell>{item.quantity}</Cell>
+                      <Cell>{item.vat} %</Cell>
+                      <Cell>{item.no_vat_price / 100} €</Cell>
+                      <Cell>
+                        {(item.no_vat_price / 100) *
+                          item.quantity *
+                          (1 + item.vat / 100)}{" "}
+                        €
+                      </Cell>
+                    </Line>
+                  ))}
+                </Box>
+              </Stack>
+
+              {/********** NEW LINE BUTTON **********/}
+              <Stack className="flex-center" width="100%">
+                <SubmitButton
+                  background={(theme) => theme.palette.background.secondary}
+                  color="#000"
+                  icon={<AddIcon />}
+                  label="Nouvelle ligne"
+                  onClick={() => handleOpenModal(MODALS.CREATE_ITEM)}
+                />
+              </Stack>
+
+              {/********** TOTAL PRICES **********/}
+              <TotalPrices />
             </>
           )}
         </CustomForm>
