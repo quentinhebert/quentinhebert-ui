@@ -302,6 +302,7 @@ export const EventPanel = withConfirmAction(
             startIcon={<ArrowBackIosIcon />}
             color="secondary"
             sx={{
+              borderRadius: "30px",
               borderColor: "transparent",
               position: "absolute",
               left: 0,
@@ -324,6 +325,7 @@ export const EventPanel = withConfirmAction(
             variant="outlined"
             color="secondary"
             sx={{
+              borderRadius: "30px",
               borderColor: "transparent",
               position: "absolute",
               right: 0,
