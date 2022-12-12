@@ -61,6 +61,7 @@ export default function Breadcrumbs(props) {
         href: tree[pagesWithQueryParams[pagesWithQueryParams.length - i]].href,
       })
   }
+  // Remode duplicated elements
   breadcrumbs = breadcrumbs.filter(
     (value, index, self) =>
       index ===
@@ -90,7 +91,7 @@ export default function Breadcrumbs(props) {
       {breadcrumbs.map((item, key) => {
         const isCurrentPage = key + 1 === pages.length // current page === last element of the breadcrumbs
         if (!item.label) return <Stack key={key} display="none"></Stack>
-        if (!item.label) return <></>
+
         if (isExpanded || isCurrentPage || !sm)
           return (
             <Link href={item.href} passHref key={key}>
