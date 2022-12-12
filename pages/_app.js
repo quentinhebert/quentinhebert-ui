@@ -33,8 +33,10 @@ function MyApp({ Component, pageProps, router }) {
       const userData = await res.json()
       if (!appLoading) setUser(userData)
     } else {
-      removeToken() // Local storage
-      setAccessToken(null) // Context
+      if (res && res.status === 401) {
+        removeToken() // Local storage
+        setAccessToken(null) // Context
+      }
     }
     setIsUserDataFetching(!!user)
   }
