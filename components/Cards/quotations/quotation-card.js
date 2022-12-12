@@ -110,6 +110,7 @@ function QuotationCard({
         position: "relative",
         padding: { xs: "1rem", sm: "1rem 2rem" },
         flexDirection: { xs: "row" },
+        alignItems: { xs: "", md: "center" },
         "&:hover": {
           background: "rgb(0,0,0,0.5)",
         },
@@ -151,8 +152,9 @@ function QuotationCard({
         >
           <Box
             sx={{
+              fontSize: "1rem",
               display: "-webkit-box",
-              WebkitLineClamp: 2,
+              WebkitLineClamp: mode === MODES.GRID ? 2 : { xs: 2, md: 1 },
               WebkitBoxOrient: "vertical",
               textOverflow: "ellipsis",
               overflow: "hidden",
@@ -168,8 +170,9 @@ function QuotationCard({
           className="row"
           gap={2}
           alignItems="center"
+          justifyContent="right"
           sx={{
-            width: { xs: "100%", sm: mode === MODES.LIST ? "auto" : "100%" },
+            width: { xs: "100%", sm: mode === MODES.LIST ? "100%" : "100%" },
           }}
         >
           {!!quotation.client && (
