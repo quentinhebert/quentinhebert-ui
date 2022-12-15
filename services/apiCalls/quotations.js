@@ -32,19 +32,9 @@ const quotations = {
     }
   },
   // Admin only
-  save: async ({
-    id,
-    label,
-    status,
-    items,
-    date,
-    delivery_date,
-    duration,
-    validity_end_date,
-    payment_options,
-    payment_conditions,
-  }) => {
-    const body = {
+  save: async (
+    body = {
+      id,
       label,
       status,
       items,
@@ -54,9 +44,15 @@ const quotations = {
       validity_end_date,
       payment_options,
       payment_conditions,
+      deposit,
+      balance,
+      additional_mentions,
+      no_vat,
+      payment_delay_penalties,
     }
+  ) => {
     try {
-      return await fetch(`${defaultConfig.apiUrl}/quotations/${id}`, {
+      return await fetch(`${defaultConfig.apiUrl}/quotations/${body.id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,

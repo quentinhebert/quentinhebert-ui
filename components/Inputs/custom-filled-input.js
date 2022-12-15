@@ -32,7 +32,7 @@ const CssFilledInput = styled(({ width, ...props }) => (
     },
   },
   "& .MuiFilledInput-input.Mui-disabled": {
-    background: `linear-gradient(-90deg, transparent 0%, ${theme.palette.background.main} 10%)`,
+    // background: `linear-gradient(-90deg, transparent 0%, ${theme.palette.background.main} 10%)`,
     color: "grey",
   },
   "& .MuiFormLabel-root.Mui-focused.Mui-error": {
@@ -43,6 +43,7 @@ const CssFilledInput = styled(({ width, ...props }) => (
   },
   "& .MuiFilledInput-root.Mui-error": {
     color: theme.palette.error.main,
+    borderColor: `${theme.palette.error.main} !important`,
     margin: 0,
     marginLeft: 0,
   },

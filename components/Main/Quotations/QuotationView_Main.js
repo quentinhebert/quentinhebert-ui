@@ -31,6 +31,7 @@ export default function QuotationView_Main({}) {
     last_update: null,
     status: "",
     recipient_emails: [],
+    payment_options: {},
     items: [],
     client: null,
   })
@@ -43,13 +44,6 @@ export default function QuotationView_Main({}) {
       const jsonRes = await res.json()
       setQuotation(jsonRes)
     }
-  }
-
-  const formRef = useRef()
-  const scrollTo = (ref) => {
-    ref.current.scrollIntoView({
-      behavior: "smooth",
-    })
   }
 
   const fetchQuotation = async () => {
@@ -73,7 +67,6 @@ export default function QuotationView_Main({}) {
   if (loading)
     return (
       <Stack padding="100px 1rem" gap={4}>
-        <PageTitle text="Aperçu du devis" />
         <PleaseWait />
       </Stack>
     )
@@ -105,31 +98,20 @@ export default function QuotationView_Main({}) {
     )
 
   return (
-    <Stack padding="100px 2rem" gap={2} width="100%">
-      <PageTitle text="Aperçu du devis" />
+    <Stack padding="2rem" gap={2} width="100%">
+      <PageTitle text="1. Détails du devis" />
       <AlertInfo
         content={{
           show: true,
           severity: "info",
-          text: "Ce devis en ligne n'a aucune valeur juridique ni commerciale. Pour être le cas, le devis définitif devra être généré, être imprimé en deux exemplaires et être signé par les deux parties.",
+          text: "Pour que le devis ait une valeur juridique et commerciale, il doit être généré avec les informations du client (étape 2.), être imprimé en deux exemplaires et être signé par les deux parties.",
         }}
       />
 
       <QuotationReadOnlySection items={quotation.items} quotation={quotation} />
 
-      <Stack alignSelf="end">
-        <PillButton onClick={() => scrollTo(formRef)} endIcon={<EastIcon />}>
-          Suivant
-        </PillButton>
-      </Stack>
-
-      <Stack
-        marginTop={4}
-        gap={2}
-        ref={formRef}
-        sx={{ scrollMarginTop: "100px" }}
-      >
-        <PageTitle text="Générer le devis définitif" />
+      <Stack marginTop={4} gap={2}>
+        <PageTitle text="2. Détails du client" />
 
         <AlertInfo
           content={{

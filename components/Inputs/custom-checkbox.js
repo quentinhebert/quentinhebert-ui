@@ -5,7 +5,7 @@ const CssCheckbox = styled((props) => (
   <Checkbox
     sx={{
       "&.MuiCheckbox-root": {
-        color: (theme) => theme.palette.text.secondary,
+        color: props.checkedcolor || ((theme) => theme.palette.text.secondary),
       },
       "&.Mui-checked": {
         color: props.checkedcolor || ((theme) => theme.palette.text.secondary),

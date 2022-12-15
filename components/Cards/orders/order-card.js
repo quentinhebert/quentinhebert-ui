@@ -8,19 +8,18 @@ import SmallTitle from "../../Titles/small-title"
 import DeleteIcon from "@mui/icons-material/Delete"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import { AppContext } from "../../../contexts/AppContext"
-import CustomCard from "../../Cards/custom-card"
+import CustomCard from "../custom-card"
 import { buildPublicURL } from "../../../services/utils"
 import DropdownOptions from "../../Dropdown/dropdown-options"
 import Pill from "../../Text/pill"
 import VisibilityIcon from "@mui/icons-material/Visibility"
+import { ORDERSTATES } from "../../../enums/orderStates"
 
 const MODES = { LIST: "list", GRID: "grid" }
 
 const Status = ({ status }) => {
   let severity = "disabled"
-  if (status === QUOTATION_STATUS.REFUSED.id) severity = "error"
-  if (status === QUOTATION_STATUS.ACCEPTED.id) severity = "success"
-  if (status === QUOTATION_STATUS.SENT.id) severity = "info"
+  severity = ORDERSTATES[status].severity
 
   return (
     <Stack display="inline-flex" component="span" marginRight="0.75rem">
@@ -36,18 +35,19 @@ const Status = ({ status }) => {
           fontSize="0.8rem"
           color={(theme) => theme.alert.title[severity].color}
           preventTransition
+          sx={{ whiteSpace: "nowrap" }}
         >
-          {QUOTATION_STATUS[status].label}
+          {ORDERSTATES[status].label}
         </BodyText>
       </Pill>
     </Stack>
   )
 }
 
-function QuotationCard({
+function OrderCard({
   optionsList,
   mode,
-  quotation,
+  order,
   timezone,
   setActionToFire,
   setOpenConfirmModal,
@@ -69,7 +69,7 @@ function QuotationCard({
     setSnackSeverity("error")
   }
   const deleteQuotation = async () => {
-    const res = await apiCall.quotations.delete({ id: quotation.id })
+    const res = await apiCall.quotations.delete({ id: order.id })
     if (res && res.ok) return handleSuccess()
     return handleError()
   }
@@ -79,13 +79,13 @@ function QuotationCard({
     setActionToFire(() => () => deleteQuotation())
     setOpenConfirmModal(true)
     setNextButtonText("Supprimer")
-    setConfirmTitle("Supprimer le devis")
+    setConfirmTitle("Supprimer la commande")
     setConfirmContent({
-      text: `Voulez vous vraiment supprimer le devis ${quotation.label} ?`,
+      text: `Voulez vous vraiment supprimer le devis ${order.label} ?`,
     })
   }
   const handleOpen = () =>
-    window.open(`/dashboard/quotations/${quotation.id}/edit`, "_ blank")
+    window.open(`/dashboard/quotations/${order.id}/edit`, "_ blank")
 
   const options = []
   if (optionsList?.includes("delete"))
@@ -133,9 +133,9 @@ function QuotationCard({
         }}
       >
         <Stack flexDirection="row" alignItems="center">
-          <Status status={quotation.status} />
+          <Status status={order.status} />
           <Typography fontSize="1rem" color="#fff">
-            {quotation.total_price / 100}€
+            {order.total_price / 100}€
           </Typography>
         </Stack>
 
@@ -160,7 +160,7 @@ function QuotationCard({
               overflow: "hidden",
             }}
           >
-            {quotation.label || "Sans nom"}
+            {order.label || "Sans nom"}
           </Box>
         </SmallTitle>
 
@@ -175,7 +175,7 @@ function QuotationCard({
             width: { xs: "100%", sm: mode === MODES.LIST ? "100%" : "100%" },
           }}
         >
-          {!!quotation.client && (
+          {!!order.client && (
             <Stack
               className="row"
               alignItems="center"
@@ -187,26 +187,26 @@ function QuotationCard({
                 },
               }}
             >
-              {!!quotation.client?.avatar_path ? (
+              {!!order.client?.avatar_path ? (
                 <Avatar
                   sx={{ width: 24, height: 24 }}
-                  alt={quotation.client.firstname}
-                  src={buildPublicURL(quotation.client.avatar_path)}
+                  alt={order.client.firstname}
+                  src={buildPublicURL(order.client.avatar_path)}
                 />
-              ) : quotation.client?.firstname?.length ? (
+              ) : order.client?.firstname?.length ? (
                 <Avatar sx={{ width: 24, height: 24 }}>
-                  {quotation.client?.firstname[0]}
+                  {order.client?.firstname[0]}
                 </Avatar>
               ) : null}
               <BodyText fontSize="0.8rem" preventTransition>
-                {quotation.client?.firstname} {quotation.client?.lastname || ""}
+                {order.client?.firstname} {order.client?.lastname || ""}
               </BodyText>
             </Stack>
           )}
 
           <BodyText preventTransition fontSize="0.8rem">
             {formatDayDate({
-              timestamp: quotation.last_update,
+              timestamp: order.last_update,
               timezone: timezone,
             })}
           </BodyText>
@@ -238,4 +238,4 @@ function QuotationCard({
   )
 }
 
-export default withConfirmAction(QuotationCard)
+export default withConfirmAction(OrderCard)

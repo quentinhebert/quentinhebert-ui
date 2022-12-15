@@ -13,7 +13,11 @@ export default function CustomDatePicker({
   error,
   noPicker,
   disabled,
+  disablePast,
 }) {
+  let minDate = null
+  if (disablePast) minDate = new Date()
+
   return (
     <Stack
       sx={{
@@ -25,6 +29,7 @@ export default function CustomDatePicker({
     >
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"fr"}>
         <DatePicker
+          minDate={minDate}
           disabled={disabled}
           disableOpenPicker={noPicker}
           label={label || "Date"}
@@ -55,6 +60,9 @@ export default function CustomDatePicker({
                 "&:hover.Mui-selected": {
                   backgroundColor: (theme) => theme.palette.text.secondary,
                   color: "#000",
+                },
+                "&.Mui-disabled": {
+                  color: "grey !important",
                 },
               },
             },

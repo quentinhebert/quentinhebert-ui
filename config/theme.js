@@ -75,7 +75,7 @@ const mainTheme = createTheme({
         color: "#4fc3f7",
         background: "#00013B",
       },
-      warning: "#ffb74d",
+      warning: { color: "#ffb74d", background: "transparent" },
       success: { color: "#7FF589", background: "#184A1D" },
       error: { color: "#FF6860", background: "#7D0000" },
       disabled: { color: "#fff", background: darkGrey },

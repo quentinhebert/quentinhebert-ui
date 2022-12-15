@@ -94,3 +94,10 @@ export const buildPublicURL = (path) => {
   if (!path) return null
   return `${defaultConfig.ftpPublicBasePath}${path}`
 }
+
+export const notEmptyString = (string) => {
+  if (!string) return false
+  if (typeof string !== "string") return false
+  if (string.trim() === "") return false
+  return true
+}

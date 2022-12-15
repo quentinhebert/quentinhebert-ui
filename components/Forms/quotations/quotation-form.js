@@ -13,7 +13,6 @@ import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
 import DropdownOptions from "../../Dropdown/dropdown-options"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import { useRouter } from "next/router"
-import PleaseWait from "../../Helpers/please-wait"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import { checkEmail } from "../../../services/utils"
 import QuotationReadOnlySection from "../../Sections/Quotations/quotation-read-only-section"
@@ -27,6 +26,9 @@ import CustomDatePicker from "../../Inputs/custom-date-picker"
 import DualInputLine from "../../Containers/dual-input-line"
 import CustomCheckbox from "../../Inputs/custom-checkbox"
 import SmallTitle from "../../Titles/small-title"
+import { checkBeforeGen } from "../../../services/quotations"
+import PillButton from "../../Buttons/pill-button"
+
 // Icons
 import SendIcon from "@mui/icons-material/Send"
 import DoneIcon from "@mui/icons-material/Done"
@@ -47,7 +49,7 @@ import EuroIcon from "@mui/icons-material/Euro"
 import PercentIcon from "@mui/icons-material/Percent"
 import SellIcon from "@mui/icons-material/Sell"
 import HourglassTopIcon from "@mui/icons-material/HourglassTop"
-
+import LaunchIcon from "@mui/icons-material/Launch"
 // CONSTANTS
 const PAYMENT_OPTIONS = [
   { id: "card", label: "Carte bancaire" },
@@ -77,9 +79,7 @@ const HEAD = [
   { label: "Total" },
 ]
 
-const noVatMention =
-  "* TVA non applicable, art. 293B du Code Général des Impôts (CGI)"
-
+/********** OTHER COMPONENTS **********/
 const FormCard = ({ title, width, icon, ...props }) => (
   <Stack
     sx={{
@@ -100,7 +100,7 @@ const FormCard = ({ title, width, icon, ...props }) => (
       {icon}
       {title}
     </SmallTitle>
-    <Stack {...props} width="100%" gap={2} />
+    <Stack {...props} width="100%" gap={4} />
   </Stack>
 )
 
@@ -117,7 +117,7 @@ function QuotationForm({
   /********** ROUTER **********/
   const router = useRouter()
 
-  /********** USE-STATES **********/
+  /********** INITIAL OBJECT **********/
   const initialQuotation = {
     id: id,
     label: "",
@@ -140,9 +140,12 @@ function QuotationForm({
     additional_mentions: "",
     deposit: 0,
     balance: 100,
+    no_vat: false,
     payment_delay_penalties:
-      "Une indemnité forfaitaire de 40€, à laquelle s'ajoute un taux d'Intérêt de retard de 15%. Calcul des intérêts de retard : Somme due TTC * jours de retard * taux d’intérêt / (365 * 100).",
+      "Une indemnité forfaitaire de 40€, à laquelle s'ajoute un taux d'Intérêt de retard de 15%. Calcul des intérêts de retard : Somme due TTC * jours de retard * taux d’intérêt / (365 * 100). Les jours de retard sont calculés à partir de la date de réception de la facture.",
   }
+
+  /********** USE-STATES **********/
   const [quotation, setQuotation] = useState(initialQuotation)
   const [items, setItems] = useState([])
   const [unsavedChanges, setUnsavedChanges] = useState(false)
@@ -183,7 +186,18 @@ function QuotationForm({
     fetchQuotation()
   }, [id])
 
+  /********** USE-EFFECTS **********/
+  useEffect(() => {
+    const balance = 100 - quotation.deposit
+    setQuotation({ ...quotation, balance })
+    if (balance === 100) setDepositDisabled(true)
+  }, [quotation.deposit])
+
   /********** HANDLERS **********/
+  const missingFieldsSnack = () => {
+    setSnackMessage(`Certains champs obligatoires sont manquants.`)
+    setSnackSeverity("error")
+  }
   const handleDetectChange = () => setUnsavedChanges(true)
   const handleOpenModal = (modalMode) => {
     setOpenModal(true)
@@ -289,6 +303,16 @@ function QuotationForm({
     }
   }
   const handleSend = async () => {
+    const localErrors = checkBeforeGen(quotation)
+    setErrors(localErrors)
+    const errorsCount = Object.values(localErrors).filter(
+      (elt) => elt === true
+    ).length
+
+    // No problem
+    if (errorsCount > 0 && !(errorsCount === 1 && localErrors.client))
+      return missingFieldsSnack()
+
     if (emailInput.trim() !== "" && !emailError) return await sendQuotation()
     handleOpenModal(MODALS.SEND)
   }
@@ -308,111 +332,92 @@ function QuotationForm({
     }
   }
   const handleGenerate = async () => {
-    let localErrors = errors
-    if (!quotation.date) localErrors.date = true
-    if (!quotation.delivery_date) localErrors.delivery_date = true
-    if (!quotation.payment_conditions) localErrors.payment_conditions = true
+    const localErrors = checkBeforeGen(quotation)
 
-    if (
-      !Object.values(quotation.payment_options).filter((opt) => opt === true)
-        .length
-    )
-      localErrors.payment_options = true
     setErrors(localErrors)
+    const errorsCount = Object.values(localErrors).filter(
+      (elt) => elt === true
+    ).length
 
-    if (!Object.values(localErrors).filter((elt) => elt === true).length) {
+    if (errorsCount === 0 || (errorsCount === 1 && localErrors.client)) {
       // Save before exit page
       const saved = await save()
       if (!saved) return
       return router.push(`/quotation-view/${quotation.id}`)
     }
+
     setSnackMessage(
       `Certains champs sont manquants dans les conditions et mentions obligatoires.`
     )
     setSnackSeverity("error")
   }
   const handleVAT = (bool) => {
-    if (bool)
-      setQuotation({
-        ...quotation,
-        additional_mentions: noVatMention,
-      })
-    else
-      setQuotation({
-        ...quotation,
-        additional_mentions: "",
-      })
+    setQuotation({
+      ...quotation,
+      no_vat: bool,
+    })
     handleDetectChange()
   }
 
   const emailError = emailInput.trim() !== "" && !checkEmail(emailInput)
-
   const recipientEmailsString = quotation.recipient_emails.join(", ")
-
-  useEffect(() => {
-    setQuotation({ ...quotation, balance: 100 - quotation.deposit })
-  }, [quotation.deposit])
 
   /********** SUB-COMPONENTS **********/
   const Status = () => {
+    const Container = ({ color, ...props }) => (
+      <BodyText
+        preventTransition
+        fontSize="1rem"
+        sx={{
+          color: color,
+          display: "inline-flex",
+          gap: ".5rem",
+          alignItems: "center",
+        }}
+        {...props}
+      />
+    )
+
     if (!quotation.id)
       return (
-        <BodyText
-          marginLeft="1rem"
-          sx={{
-            color: (theme) => theme.palette.error.main,
-            display: "inline-flex",
-            gap: ".5rem",
-          }}
-        >
+        <Container color={(theme) => theme.palette.error.main}>
           Pas enregistré <WarningAmberIcon />
-        </BodyText>
+        </Container>
       )
 
     if (unsavedChanges)
       return (
-        <BodyText
-          marginLeft="1rem"
-          sx={{
-            color: (theme) => theme.alert.title.warning,
-            display: "inline-flex",
-            gap: ".5rem",
-          }}
-        >
+        <Container color={(theme) => theme.alert.title.warning}>
           Modifications non sauvegardées{" "}
           <AccessTimeIcon sx={{ display: "inline-flex" }} />
-        </BodyText>
+        </Container>
       )
 
     if (quotation.status === QUOTATION_STATUS.ACCEPTED.id)
       return (
-        <BodyText
-          marginLeft="1rem"
-          sx={{
-            color: (theme) => theme.alert.title.success.color,
-            display: "inline-flex",
-            gap: ".5rem",
-          }}
-        >
+        <Container color={(theme) => theme.alert.title.success.color}>
           Accepté par le client <DoneAllIcon />
-        </BodyText>
+        </Container>
       )
 
     return (
-      <BodyText
-        marginLeft="1rem"
-        sx={{
-          color: (theme) => theme.alert.title.success.color,
-          display: "inline-flex",
-          gap: ".5rem",
-        }}
-      >
+      <Container color={(theme) => theme.alert.title.success.color}>
         Enregistré <DoneIcon />
-      </BodyText>
+      </Container>
     )
   }
   const Toolbar = () => {
     const options = [
+      {
+        label: "Enregistrer",
+        handleClick: () => handleSave(),
+        icon: <SaveAltIcon />,
+      },
+      {
+        label: "Envoyer le devis à un e-mail",
+        handleClick: () => handleSend(),
+        icon: <SendIcon />,
+      },
       {
         label: "Modifier le nom du devis",
         handleClick: () => handleOpenModal(MODALS.SAVE),
@@ -445,39 +450,49 @@ function QuotationForm({
     return (
       <Stack
         width="100%"
-        gap={4}
         sx={{
           position: "-webkit-sticky",
           position: "sticky",
           top: 60,
           background: "#000",
-          padding: "1rem 0",
           zIndex: 10,
+          padding: ".5rem 0",
         }}
       >
-        <BodyText
-          preventTransition
-          color={(theme) => theme.palette.text.secondary}
-        >
-          {quotation.label || "Sans nom"}{" "}
-          <Box component="span" color="#fff" fontStyle="italic">
-            {QUOTATION_STATUS[quotation.status].id === QUOTATION_STATUS.DRAFT.id
-              ? `(${QUOTATION_STATUS[quotation.status].label})`
-              : ""}
-          </Box>
-        </BodyText>
-        {!EDIT_STATUSES.includes(quotation.status) && (
-          <AlertInfo
-            content={{
-              show: true,
-              severity: "info",
-              title: "Lecture seule",
-              text: "Le devis est en mode lecture seule. Vous ne pouvez plus le modifier car le client l'a accepté. Il faut maintenant générer le devis définitif avec toutes les mentions légales. Enfin, les deux parties devront signer le devis.",
-            }}
-          />
-        )}
         <Stack alignItems="center" width="100%" flexDirection="row" gap={2}>
-          {EDIT_STATUSES.includes(quotation.status) && (
+          <Stack>
+            <BodyText
+              preventTransition
+              color={(theme) => theme.palette.text.secondary}
+            >
+              {quotation.label || "Sans nom"}{" "}
+              <Box component="span" color="#fff" fontStyle="italic">
+                {QUOTATION_STATUS[quotation.status].id ===
+                QUOTATION_STATUS.DRAFT.id
+                  ? `(${QUOTATION_STATUS[quotation.status].label})`
+                  : ""}
+              </Box>
+            </BodyText>
+            {!!quotation.client?.id && (
+              <BodyText preventTransition fontSize="1rem">
+                Pour {quotation.client?.firstname}{" "}
+                {quotation.client?.lastname || ""}
+              </BodyText>
+            )}
+          </Stack>
+
+          {!EDIT_STATUSES.includes(quotation.status) && (
+            <AlertInfo
+              content={{
+                show: true,
+                severity: "info",
+                title: "Lecture seule",
+                text: "Le devis est en mode lecture seule. Vous ne pouvez plus le modifier car le client l'a accepté. Il faut maintenant générer le devis définitif avec toutes les mentions légales. Enfin, les deux parties devront signer le devis.",
+              }}
+            />
+          )}
+          {/* <Stack alignItems="center" width="100%" flexDirection="row" gap={2}> */}
+          {/* {EDIT_STATUSES.includes(quotation.status) && (
             <>
               <SubmitButton
                 onClick={handleSave}
@@ -491,11 +506,18 @@ function QuotationForm({
                 preventTransition
               />
             </>
-          )}
-          <Status />
+          )} */}
+
           <Stack flexGrow={1} />
           <DropdownOptions options={options} />
         </Stack>
+        {loading ? (
+          <BodyText preventTransition color="#fff" fontSize="1rem">
+            Patientez...
+          </BodyText>
+        ) : (
+          <Status />
+        )}
       </Stack>
     )
   }
@@ -551,8 +573,18 @@ function QuotationForm({
     <Stack sx={{ width: { xs: "100%", md: "50%" } }} {...props} />
   )
 
-  /********** LOADING **********/
-  if (loading) return <PleaseWait />
+  if (quotation.file?.path)
+    return (
+      <Stack>
+        <PillButton
+          startIcon={<LaunchIcon />}
+          href={quotation.file?.path}
+          target="_blank"
+        >
+          Voir le devis
+        </PillButton>
+      </Stack>
+    )
 
   /********** RENDER **********/
   return (
@@ -582,6 +614,7 @@ function QuotationForm({
                   <DualInputLine>
                     <FormStack>
                       <CustomDatePicker
+                        disablePast
                         label="Date de la prestation"
                         value={quotation.date}
                         handleChange={handleChangeDate("date")}
@@ -600,6 +633,7 @@ function QuotationForm({
 
                 <FormCard title="Livraison (2/6)" icon={<LocalShippingIcon />}>
                   <CustomDatePicker
+                    disablePast
                     label="Date de livraison estimée"
                     value={quotation.delivery_date}
                     handleChange={handleChangeDate("delivery_date")}
@@ -661,7 +695,14 @@ function QuotationForm({
                     placeholder="Accompte de 60% lors de la signature du devis. Solde de 40% entre le jour de la prestation et la livraison."
                     value={quotation.payment_conditions}
                     onChange={handleChange("payment_conditions")}
-                    helperText="Accompte de 60% lors de la signature du devis. Solde de 40% entre le jour de la prestation et la livraison."
+                    helperText={
+                      <>
+                        Accompte de 60% lors de la signature du devis. Solde de
+                        40% entre le jour de la prestation et la livraison.
+                        <br />
+                        Paiement en une fois à la signature du devis.
+                      </>
+                    }
                     error={errors.payment_conditions}
                   />
                   <Stack
@@ -669,7 +710,9 @@ function QuotationForm({
                       background: "#000",
                       padding: ".75rem",
                       border: "1px solid",
-                      borderColor: theme.palette.secondary.main,
+                      borderColor: errors.payment_options
+                        ? theme.palette.error.main
+                        : theme.palette.secondary.main,
                       borderRadius: "10px",
                       gap: 2,
                     }}
@@ -690,6 +733,16 @@ function QuotationForm({
                       {PAYMENT_OPTIONS.map((opt) => (
                         <Grid item md={3} key={opt.id}>
                           <CustomCheckbox
+                            labelcolor={
+                              errors.payment_options
+                                ? (theme) => theme.palette.error.main
+                                : null
+                            }
+                            checkboxcolor={
+                              errors.payment_options
+                                ? (theme) => theme.palette.error.main
+                                : null
+                            }
                             label={opt.label}
                             checked={quotation.payment_options[opt.id]}
                             onChange={handleCheckPaymentOptions(opt.id)}
@@ -703,6 +756,7 @@ function QuotationForm({
                     label="Pénalités de retard ou pour non paiement"
                     value={quotation.payment_delay_penalties}
                     onChange={handleChange("payment_delay_penalties")}
+                    error={errors.payment_delay_penalties}
                   />
                 </FormCard>
 
@@ -713,7 +767,7 @@ function QuotationForm({
                     icon={<PercentIcon />}
                   >
                     <SwitchButton
-                      checked={quotation.additional_mentions === noVatMention}
+                      checked={quotation.no_vat}
                       handleCheck={handleVAT}
                       label="TVA non applicable, article 293B du Code Général des Impôts (CGI)"
                     />
@@ -725,6 +779,7 @@ function QuotationForm({
                     width={{ xs: "100%", md: "50%" }}
                   >
                     <CustomDatePicker
+                      disablePast
                       label="Date de fin (optionnel)"
                       value={quotation.validity_end_date}
                       handleChange={handleChangeDate("validity_end_date")}
@@ -810,6 +865,7 @@ function QuotationForm({
         {/* CREATE QUOTATION ITEM */}
         {modal === MODALS.CREATE_ITEM && (
           <CreateQuotationItemForm
+            noVat={quotation.no_vat}
             handleClose={handleCloseModal}
             items={items}
             setItems={setItems}
@@ -820,6 +876,7 @@ function QuotationForm({
         {/* EDIT QUOTATION ITEM */}
         {modal === MODALS.EDIT_ITEM && (
           <EditQuotationItemForm
+            noVat={quotation.no_vat}
             handleClose={handleCloseModal}
             incomingItem={selectedItem}
             items={items}
@@ -847,7 +904,7 @@ function QuotationForm({
                 <SubmitButton
                   onClick={handleSave}
                   icon={<SaveAltIcon />}
-                  disabled={quotation.label.trim() === ""}
+                  disabled={quotation.label?.trim() === ""}
                 />
               </Stack>
             </CustomForm>

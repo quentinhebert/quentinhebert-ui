@@ -12,6 +12,7 @@ import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
 import CustomSelectOption from "../../Inputs/custom-select-option"
 import DeleteIcon from "@mui/icons-material/Delete"
 import withConfirmAction from "../../hocs/withConfirmAction"
+import BasicTooltip from "../../Helpers/basic-tooltip"
 
 const INTEGER_FIELDS = ["quantity"]
 const FLOAT_FIELDS = ["no_vat_price", "vat"]
@@ -28,6 +29,7 @@ function EditQuotationItemForm({
   setNextButtonText,
   setConfirmContent,
   handleDetectChange,
+  noVat,
 }) {
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
@@ -193,23 +195,31 @@ function EditQuotationItemForm({
               />
             </Grid>
             <Grid item xs={3}>
-              <CustomFilledInput
-                inputProps={{
-                  // WARNING: inputProps !== InputProps
-                  inputmode: "decimal", // Numeric pad on mobile
-                }}
-                type="text"
-                label="TVA"
-                value={item.vat}
-                onChange={handleChange("vat")}
-                InputProps={{
-                  disableUnderline: true,
-                  endAdornment: (
-                    <InputAdornment position="start">%</InputAdornment>
-                  ),
-                }}
-                error={errors.vat}
-              />
+              <BasicTooltip
+                title={`Pour modifier la TVA, veuillez décocher "TVA non applicable" à l'étape (4/6).`}
+                disabled={!noVat}
+              >
+                <Stack>
+                  <CustomFilledInput
+                    disabled={noVat}
+                    inputProps={{
+                      // WARNING: inputProps !== InputProps
+                      inputmode: "decimal", // Numeric pad on mobile
+                    }}
+                    type="text"
+                    label="TVA"
+                    value={item.vat}
+                    onChange={handleChange("vat")}
+                    InputProps={{
+                      disableUnderline: true,
+                      endAdornment: (
+                        <InputAdornment position="start">%</InputAdornment>
+                      ),
+                    }}
+                    error={errors.vat}
+                  />
+                </Stack>
+              </BasicTooltip>
             </Grid>
             <Grid item xs={3}>
               <CustomFilledInput

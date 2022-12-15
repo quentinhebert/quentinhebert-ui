@@ -11,9 +11,9 @@ import KpiModule from "../../Sections/Dashboard/kpi-module"
 import LeaderboardIcon from "@mui/icons-material/Leaderboard"
 import { useEffect, useState } from "react"
 import Quotations_Main from "../Quotations/Quotations_Main"
+import Orders_Main from "../Orders/Orders_Main"
 import QuotationRequests_Main from "../QuotationRequests_Main"
 import apiCall from "../../../services/apiCalls/apiCall"
-import NoteAddIcon from "@mui/icons-material/NoteAdd"
 import EventIcon from "@mui/icons-material/Event"
 import useSWR from "swr"
 import UserAgenda from "../../Sections/Dashboard/user-agenda"
@@ -74,27 +74,27 @@ export default function AdminIndex_Main() {
       onClick: () => navigate("prospects"),
       notifications: notifications?.quotation_requests || 0,
     },
-    {
-      id: "quotations",
-      title: "Devis",
-      icon: <TaskIcon className="full-width full-height" />,
-      onClick: () => navigate("quotations"),
-      notifications: 0,
-    },
+    // {
+    //   id: "quotations",
+    //   title: "Devis",
+    //   icon: <TaskIcon className="full-width full-height" />,
+    //   onClick: () => navigate("quotations"),
+    //   notifications: 0,
+    // },
     {
       id: "orders",
       title: "Commandes",
       icon: <WorkOutlineOutlinedIcon className="full-width full-height" />,
-      href: "/dashboard/orders",
+      onClick: () => navigate("orders"),
       notifications: 0,
     },
-    {
-      id: "invoices",
-      title: "Factures",
-      icon: <DescriptionOutlinedIcon className="full-width full-height" />,
-      href: "/dashboard/invoices",
-      notifications: 0,
-    },
+    // {
+    //   id: "invoices",
+    //   title: "Factures",
+    //   icon: <DescriptionOutlinedIcon className="full-width full-height" />,
+    //   onClick: () => navigate("invoices"),
+    //   notifications: 0,
+    // },
     {
       id: "calendar",
       title: "Agenda",
@@ -102,13 +102,13 @@ export default function AdminIndex_Main() {
       onClick: () => navigate("calendar"),
       notifications: 0,
     },
-    {
-      id: "new_document",
-      title: "Créer",
-      icon: <AddIcon className="full-width full-height" />,
-      onClick: () => navigate("new_document"),
-      notifications: 0,
-    },
+    // {
+    //   id: "new_document",
+    //   title: "Créer",
+    //   icon: <AddIcon className="full-width full-height" />,
+    //   onClick: () => navigate("new_document"),
+    //   notifications: 0,
+    // },
   ]
 
   return (
@@ -121,8 +121,9 @@ export default function AdminIndex_Main() {
         {(activeTab === "stats" || !activeTab) && <KpiModule />}
         {activeTab === "calendar" && <UserAgenda />}
         {activeTab === "prospects" && <QuotationRequests_Main />}
-        {activeTab === "quotations" && <Quotations_Main />}
-        {activeTab === "new_document" && <NewDocModule />}
+        {activeTab === "orders" && <Orders_Main />}
+        {/* {activeTab === "quotations" && <Quotations_Main />}
+        {activeTab === "new_document" && <NewDocModule />} */}
       </Stack>
     </>
   )

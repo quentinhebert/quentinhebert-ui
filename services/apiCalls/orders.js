@@ -17,6 +17,20 @@ const orders = {
       console.error(err)
     }
   },
+  // Admin only
+  getAll: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/orders`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
   getAllByClient: async (client) => {
     const { id } = client
     try {

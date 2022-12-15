@@ -1,7 +1,10 @@
 import { Box, Grid, Stack } from "@mui/material"
-import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
 import { convertDateToLongString } from "../../../services/date-time"
 import BodyText from "../../Text/body-text"
+import SmallTitle from "../../Titles/small-title"
+import EuroIcon from "@mui/icons-material/Euro"
+import HourglassTopIcon from "@mui/icons-material/HourglassTop"
+import WorkHistoryIcon from "@mui/icons-material/WorkHistory"
 
 const PAYMENT_OPTIONS = [
   { id: "card", label: "Carte bancaire" },
@@ -9,7 +12,6 @@ const PAYMENT_OPTIONS = [
   { id: "check", label: "Chèque de banque" },
   { id: "cash", label: "Espèces" },
 ]
-
 const HEAD = [
   { label: "Type" },
   { label: "Intitulé" },
@@ -60,7 +62,7 @@ const Line = (props) => (
   />
 )
 const DateInfo = ({ label, ...props }) => (
-  <BodyText preventTransition>
+  <BodyText preventTransition fontSize="1rem">
     <Title>{label}</Title>
     <Box component="span" textTransform="capitalize" {...props} />
   </BodyText>
@@ -68,6 +70,7 @@ const DateInfo = ({ label, ...props }) => (
 const Title = (props) => (
   <Stack>
     <BodyText
+      fontSize="1rem"
       preventTransition
       color={(theme) => theme.palette.text.secondary}
       {...props}
@@ -75,10 +78,29 @@ const Title = (props) => (
   </Stack>
 )
 const Info = ({ title, ...props }) => (
-  <BodyText preventTransition>
+  <BodyText preventTransition fontSize="1rem">
     <Title>{title}</Title>
     <Box component="span" {...props} />
   </BodyText>
+)
+const Card = ({ title, icon, ...props }) => (
+  <Grid item xs={12} sm={6} md={4} lg={3} display="flex">
+    <Stack
+      width="100%"
+      sx={{
+        background: (theme) => theme.palette.background.main,
+        padding: 4,
+        gap: 4,
+        borderRadius: "30px",
+      }}
+    >
+      <SmallTitle alignItems="center" gap={1} display="flex">
+        {icon}
+        {title}
+      </SmallTitle>
+      <Stack {...props} gap={2} />
+    </Stack>
+  </Grid>
 )
 
 export default function QuotationReadOnlySection({ items, quotation }) {
@@ -145,45 +167,47 @@ export default function QuotationReadOnlySection({ items, quotation }) {
   // RENDER
   return (
     <Stack gap={4} width="100%">
-      <Stack
+      <Grid
+        container
+        spacing={2}
         sx={{
-          border: "1px solid",
-          borderColor: (theme) => theme.palette.secondary.main,
-          padding: 4,
           borderRadius: "20px",
-          gap: 2,
         }}
       >
-        <DateInfo label="Date de la prestation">
-          {convertDateToLongString(quotation.date)}
-        </DateInfo>
+        <Card title="Prestation" icon={<WorkHistoryIcon />}>
+          <DateInfo label="Date">
+            {convertDateToLongString(quotation.date)}
+          </DateInfo>
 
-        <DateInfo label="Date de livraison estimée">
-          {convertDateToLongString(quotation.delivery_date)}
-        </DateInfo>
+          <DateInfo label="Livraison (estimation)">
+            {convertDateToLongString(quotation.delivery_date)}
+          </DateInfo>
 
-        {/* Optional */}
-        {!!quotation.duration && quotation.duration.trim !== "" && (
-          <Info title="Durée estimée de la prestation">
-            {quotation.duration}
+          {/* Optional */}
+          {!!quotation.duration && quotation.duration.trim !== "" && (
+            <Info title="Durée estimée de la prestation">
+              {quotation.duration}
+            </Info>
+          )}
+        </Card>
+
+        <Card title="Règlement" icon={<EuroIcon />}>
+          <Info title="Moyen(s) de paiement au choix">
+            {paymentOptionsString}
           </Info>
-        )}
+
+          <Info title="Conditions">{quotation.payment_conditions}</Info>
+        </Card>
 
         {/* Optional */}
         {!!quotation.validity_end_date && (
-          <DateInfo label="Date de livraison estimée">
-            {convertDateToLongString(quotation.validity_end_date)}
-          </DateInfo>
+          <Card title="Validité" icon={<HourglassTopIcon />}>
+            <DateInfo label="Devis valable jusqu'au">
+              {convertDateToLongString(quotation.validity_end_date)}
+            </DateInfo>
+          </Card>
         )}
-
-        <Info title="Moyen(s) de règlement au choix">
-          {paymentOptionsString}
-        </Info>
-
-        <Info title="Conditions de règlement">
-          {quotation.payment_conditions}
-        </Info>
-      </Stack>
+      </Grid>
 
       <Stack overflow="auto">
         <Box

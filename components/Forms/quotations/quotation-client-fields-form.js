@@ -12,8 +12,22 @@ import BodyText from "../../Text/body-text"
 import CustomForm from "../custom-form"
 
 const SectionTitle = (props) => (
-  <Stack className="full-width" marginTop={2}>
+  <Stack className="full-width">
     <BodyText fontSize="1.5rem" {...props} />
+  </Stack>
+)
+const Card = ({ title, ...props }) => (
+  <Stack
+    width="100%"
+    sx={{
+      background: (theme) => theme.palette.background.main,
+      padding: 4,
+      gap: 4,
+      borderRadius: "30px",
+    }}
+  >
+    <SectionTitle>{title}</SectionTitle>
+    <Stack {...props} gap={2} />
   </Stack>
 )
 
@@ -66,104 +80,107 @@ export default function QuotationClientFieldsForm({ defaultClient }) {
   return (
     <CenteredMaxWidthContainer>
       <CustomForm>
-        <SectionTitle>Identité</SectionTitle>
-        <DualInputLine>
-          <CustomFilledInput
-            type="input"
-            id="firstname"
-            label="Prénom"
-            value={client.firstname}
-            onChange={handleChange("firstname")}
-            error={errors.firstname}
-            helperText={errors.firstname && "Vérifiez ce champ"}
-          />
-          <CustomFilledInput
-            type="input"
-            id="lastname"
-            label="Nom"
-            value={client.lastname}
-            onChange={handleChange("lastname")}
-            error={errors.lastname}
-            helperText={errors.lastname && "Vérifiez ce champ"}
-          />
-        </DualInputLine>
+        <Card title="Identité">
+          <DualInputLine>
+            <CustomFilledInput
+              type="input"
+              id="firstname"
+              label="Prénom"
+              value={client.firstname}
+              onChange={handleChange("firstname")}
+              error={errors.firstname}
+              helperText={errors.firstname && "Vérifiez ce champ"}
+            />
+            <CustomFilledInput
+              type="input"
+              id="lastname"
+              label="Nom"
+              value={client.lastname}
+              onChange={handleChange("lastname")}
+              error={errors.lastname}
+              helperText={errors.lastname && "Vérifiez ce champ"}
+            />
+          </DualInputLine>
+        </Card>
 
-        <SectionTitle>Contact</SectionTitle>
-        <DualInputLine>
-          <CustomFilledInput
-            type="email"
-            id="email"
-            label="E-mail"
-            value={client.email}
-            onChange={handleChange("email")}
-            error={liveCheck.email || errors.email}
-            helperText={liveCheck.email && "Cet e-mail n'est pas valide"}
-          />
-          <CustomFilledInput
-            type="phone"
-            id="phone"
-            label="Téléphone"
-            value={client.phone}
-            onChange={handleChange("phone")}
-            error={liveCheck.phone || errors.phone}
-            helperText={liveCheck.phone && "Ce téléphone n'est pas valide"}
-          />
-        </DualInputLine>
+        <Card title="Contact">
+          <DualInputLine>
+            <CustomFilledInput
+              type="email"
+              id="email"
+              label="E-mail"
+              value={client.email}
+              onChange={handleChange("email")}
+              error={liveCheck.email || errors.email}
+              helperText={liveCheck.email && "Cet e-mail n'est pas valide"}
+            />
+            <CustomFilledInput
+              type="phone"
+              id="phone"
+              label="Téléphone"
+              value={client.phone}
+              onChange={handleChange("phone")}
+              error={liveCheck.phone || errors.phone}
+              helperText={liveCheck.phone && "Ce téléphone n'est pas valide"}
+            />
+          </DualInputLine>
+        </Card>
 
-        <SectionTitle>Adresse postale</SectionTitle>
-        <DualInputLine>
-          <CustomFilledInput
-            className="full-width"
-            label="Ligne 1"
-            value={client.line1}
-            onChange={handleChange("line1")}
-            error={errors.line1}
-            helperText={errors.line1 && "Veuillez remplir ce champ"}
-          />
-          <CustomFilledInput
-            className="full-width"
-            label="Ligne 2 (optionnel)"
-            value={client.line2}
-            onChange={handleChange("line2")}
-          />
-        </DualInputLine>
+        <Card title="Adresse postale">
+          <DualInputLine>
+            <CustomFilledInput
+              className="full-width"
+              label="Ligne 1"
+              value={client.line1}
+              onChange={handleChange("line1")}
+              error={errors.line1}
+              helperText={errors.line1 && "Veuillez remplir ce champ"}
+            />
+            <CustomFilledInput
+              className="full-width"
+              label="Ligne 2 (optionnel)"
+              value={client.line2}
+              onChange={handleChange("line2")}
+            />
+          </DualInputLine>
 
-        <DualInputLine>
-          <CustomFilledInput
-            className="full-width"
-            label="Ville"
-            value={client.city}
-            onChange={handleChange("city")}
-            error={errors.city}
-            helperText={errors.city && "Veuillez remplir ce champ"}
-          />
-          <CustomFilledInput
-            className="full-width"
-            label="Code postal"
-            value={client.postal_code}
-            onChange={handleChange("postal_code")}
-            error={errors.postal_code}
-            helperText={errors.postal_code && "Veuillez remplir ce champ"}
-          />
-        </DualInputLine>
+          <DualInputLine>
+            <CustomFilledInput
+              className="full-width"
+              label="Ville"
+              value={client.city}
+              onChange={handleChange("city")}
+              error={errors.city}
+              helperText={errors.city && "Veuillez remplir ce champ"}
+            />
+            <CustomFilledInput
+              className="full-width"
+              label="Code postal"
+              value={client.postal_code}
+              onChange={handleChange("postal_code")}
+              error={errors.postal_code}
+              helperText={errors.postal_code && "Veuillez remplir ce champ"}
+            />
+          </DualInputLine>
 
-        <DualInputLine>
-          <CustomFilledInput
-            className="full-width"
-            label="Région (optionnel)"
-            value={client.region}
-            onChange={handleChange("region")}
-          />
-          <CustomFilledInput
-            required
-            className="full-width"
-            label="Pays"
-            value={client.country}
-            onChange={handleChange("country")}
-            error={errors.country}
-            helperText={errors.country && "Veuillez remplir ce champ"}
-          />
-        </DualInputLine>
+          <DualInputLine>
+            <CustomFilledInput
+              className="full-width"
+              label="Région (optionnel)"
+              value={client.region}
+              onChange={handleChange("region")}
+            />
+            <CustomFilledInput
+              required
+              className="full-width"
+              label="Pays"
+              value={client.country}
+              onChange={handleChange("country")}
+              error={errors.country}
+              helperText={errors.country && "Veuillez remplir ce champ"}
+            />
+          </DualInputLine>
+        </Card>
 
         <Stack width="100%">
           <CustomCheckbox

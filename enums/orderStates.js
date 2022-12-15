@@ -1,4 +1,20 @@
 export const ORDERSTATES = {
+  DRAFT: {
+    label: "Brouillon",
+    description: "Votre commande est en attente du paiement.",
+    severity: "disabled",
+  },
+  IN_PROCESS: {
+    label: "En cours",
+    description: "Votre commande est en cours.",
+    severity: "disabled",
+  },
+  FINISHED: {
+    label: "En cours",
+    description: "Votre commande est en cours.",
+    severity: "disabled",
+  },
+
   WAITING_FOR_PAYMENT: {
     label: "Non finalisée",
     description: "Votre commande est en attente du paiement.",
