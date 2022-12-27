@@ -94,7 +94,7 @@ const Card = ({ title, icon, ...props }) => (
         borderRadius: "30px",
       }}
     >
-      <SmallTitle alignItems="center" gap={1} display="flex">
+      <SmallTitle alignItems="center" gap={1} display="flex" color="#fff">
         {icon}
         {title}
       </SmallTitle>
@@ -109,6 +109,7 @@ export default function QuotationReadOnlySection({ items, quotation }) {
     let totalPrice = 0
     let totalNoVatPrice = 0
     let totalVat = 0
+
     items.map((item) => {
       totalPrice += item.quantity * item.no_vat_price * (1 + item.vat / 100)
       totalNoVatPrice += item.quantity * item.no_vat_price
@@ -118,7 +119,7 @@ export default function QuotationReadOnlySection({ items, quotation }) {
     totalNoVatPrice = totalNoVatPrice / 100
 
     const Label = (props) => (
-      <Grid item xs={6}>
+      <Grid item xs={8}>
         <BodyText
           preventTransition
           {...props}
@@ -128,7 +129,7 @@ export default function QuotationReadOnlySection({ items, quotation }) {
     )
 
     const Price = (props) => (
-      <Grid item xs={6}>
+      <Grid item xs={4}>
         <BodyText preventTransition {...props} />
       </Grid>
     )
@@ -142,13 +143,32 @@ export default function QuotationReadOnlySection({ items, quotation }) {
           padding: 2,
         }}
       >
-        <Grid container>
+        <Grid container maxWidth="400px">
           <Label>Total HT</Label>
           <Price>{totalNoVatPrice} €</Price>
           <Label>TVA</Label>
           <Price>{totalVat} €</Price>
           <Label>Total TTC</Label>
           <Price>{totalPrice} €</Price>
+          {Number(quotation.deposit) !== 0 && (
+            <>
+              <Stack
+                sx={{
+                  borderBottom: "1px solid rgb(256,256,256, 0.1)",
+                  width: "100%",
+                  margin: "1rem 0",
+                }}
+              />
+              <Label>Acompte TTC ({quotation.deposit}%)</Label>
+              <Price>
+                {Number((quotation.deposit / 100) * totalNoVatPrice)} €
+              </Price>
+              <Label>Solde TTC ({quotation.balance}%)</Label>
+              <Price>
+                {Number((quotation.balance / 100) * totalNoVatPrice)} €
+              </Price>
+            </>
+          )}
         </Grid>
       </Stack>
     )
@@ -197,6 +217,10 @@ export default function QuotationReadOnlySection({ items, quotation }) {
           </Info>
 
           <Info title="Conditions">{quotation.payment_conditions}</Info>
+
+          <Info title="Pénalités de retard">
+            {quotation.payment_delay_penalties}
+          </Info>
         </Card>
 
         {/* Optional */}

@@ -37,8 +37,8 @@ export default function EditQuotationPage() {
       {!user && <Login_Main />}
 
       {!!user && user.type === USERTYPES.ADMIN && (
-        <DashboardLayout title="Modifier le devis">
-          <OrderForm id={id} />
+        <DashboardLayout title="Ma commande">
+          <OrderForm id={id} defaultReadonly />
         </DashboardLayout>
       )}
     </PagesLayout>

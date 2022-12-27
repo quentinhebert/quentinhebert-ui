@@ -12,6 +12,8 @@ import PleaseWait from "../Helpers/please-wait"
 import CustomForm from "./custom-form"
 import RectangleButton from "../Buttons/rectangle-button"
 import CustomOutlinedInput from "../Inputs/custom-outlined-input"
+import { setRefreshToken, setToken } from "../../services/auth"
+import { UserContext } from "../../contexts/UserContext"
 
 const Custom401_Main = dynamic(() => import("../Main/Errors/Custom401_Main.js"))
 
@@ -55,6 +57,7 @@ export default function ResetPasswordForm(props) {
   )
 
   const router = useRouter()
+  const { setAccessToken } = useContext(UserContext)
 
   /********** FUNCTIONS **********/
   const initialCheck = async () => {
@@ -73,7 +76,11 @@ export default function ResetPasswordForm(props) {
       setIsFetching(false)
     }
   }
-  const handleSuccess = () => {
+  const handleSuccess = async (res) => {
+    const jsonRes = await res.json()
+    setToken(jsonRes.token) // Cookies
+    setRefreshToken(jsonRes.refreshToken) // Cookies
+    setAccessToken(jsonRes.token) // Context
     setSnackMessage("Votre mot de passe a bien été changé")
     setSnackSeverity("success")
 
@@ -84,11 +91,11 @@ export default function ResetPasswordForm(props) {
     })
     setPasswordResetSuccess(true)
 
-    setTimeout(() => {
-      router.push("/")
-    }, 5000)
+    const redirect = router.query?.redirect
+    router.push(redirect || "/")
   }
-  const handleError = (jsonRes) => {
+  const handleError = async (res) => {
+    const jsonRes = await res.json()
     setSnackMessage("Problème")
     setSnackSeverity("error")
     setShowAlert({
@@ -106,11 +113,8 @@ export default function ResetPasswordForm(props) {
       password,
       id: userId,
     })
-    if (res && res.ok) handleSuccess()
-    else {
-      const jsonRes = await res.json()
-      handleError(jsonRes)
-    }
+    if (res && res.ok) handleSuccess(res)
+    else handleError(res)
   }
 
   /********** INITIAL CHECK **********/
@@ -127,7 +131,7 @@ export default function ResetPasswordForm(props) {
   return (
     <AnimationRoot>
       <Stack width="100%" gap={4}>
-        <ModalTitle>Réinitialisez votre mot de passe</ModalTitle>
+        <ModalTitle>Choisissez votre mot de passe</ModalTitle>
 
         <CustomForm gap={4}>
           {passwordResetSuccess ? (

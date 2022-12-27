@@ -194,7 +194,7 @@ export default function EditUserForm(props) {
               { id: "professional", label: "Employé" },
             ]}
             value={user.type}
-            setValue={handleChange("type")}
+            customHandleChange={handleChange("type")}
           />
 
           <DualInputLine>

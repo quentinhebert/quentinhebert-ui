@@ -1,27 +1,40 @@
-import { useState } from "react"
-import { Grid, InputAdornment, Stack, Typography } from "@mui/material"
+import { useState, useContext } from "react"
+import { Button, Grid, InputAdornment, Stack } from "@mui/material"
 import AlertInfo from "../../Other/alert-info"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
+import { AppContext } from "../../../contexts/AppContext"
 import CustomForm from "../custom-form"
 import RectangleButton from "../../Buttons/rectangle-button"
 import CustomFilledTextArea from "../../Inputs/custom-filled-text-area"
 import CustomFilledInput from "../../Inputs/custom-filled-input"
-import CustomSelectOption from "../../Inputs/custom-select-option"
 import CustomFilledSelect from "../../Inputs/custom-filled-select"
 import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
+import CustomSelectOption from "../../Inputs/custom-select-option"
+import DeleteIcon from "@mui/icons-material/Delete"
+import withConfirmAction from "../../hocs/withConfirmAction"
 import BasicTooltip from "../../Helpers/basic-tooltip"
 
 const INTEGER_FIELDS = ["quantity"]
 const FLOAT_FIELDS = ["no_vat_price", "vat"]
 
-export default function CreateQuotationItemForm({
+function EditOrderItemForm({
   handleClose,
+  incomingItem,
+  itemIndex,
   items,
   setItems,
+  setActionToFire,
+  setOpenConfirmModal,
+  setConfirmTitle,
+  setNextButtonText,
+  setConfirmContent,
   handleDetectChange,
   noVat,
 }) {
+  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+
   /********** USE-STATES **********/
+  const [credits, setCredits] = useState("")
   const [showAlert, setShowAlert] = useState({
     show: false,
     severity: null,
@@ -29,12 +42,12 @@ export default function CreateQuotationItemForm({
     title: null,
   })
   const [item, setItem] = useState({
-    type: "",
-    label: "",
-    description: "",
-    quantity: 1,
-    vat: 0,
-    no_vat_price: 0,
+    type: incomingItem.type || "",
+    label: incomingItem.label || "",
+    description: incomingItem.description || "",
+    quantity: incomingItem.quantity || 1,
+    vat: incomingItem.vat || 0,
+    no_vat_price: incomingItem.no_vat_price / 100 || 0,
   })
 
   const handleChange = (attribute) => (e) => {
@@ -68,21 +81,38 @@ export default function CreateQuotationItemForm({
     setItem({ ...item, [attribute]: e.target.value })
   }
 
-  const handleAdd = async () => {
+  const handleSave = async () => {
     const localItems = items
-    const localItem = item
 
     // Format price from euros to cents
-    localItem.no_vat_price = localItem.no_vat_price * 100
+    const localItem = item
+    localItem.no_vat_price = item.no_vat_price * 100
 
-    localItems.push(item)
-    setItems(localItems)
+    localItems[itemIndex] = item
     handleDetectChange()
     if (handleClose) handleClose()
   }
 
   const handleCancel = async () => {
     if (handleClose) handleClose()
+  }
+
+  const deleteItem = () => {
+    const localItems = items
+    localItems.splice(itemIndex, 1) // remove item from array
+    setItems(localItems)
+    handleDetectChange()
+    if (handleClose) handleClose()
+  }
+
+  const handleDelete = () => {
+    setActionToFire(() => () => deleteItem())
+    setOpenConfirmModal(true)
+    setConfirmTitle("Supprimer la ligne")
+    setNextButtonText("Supprimer")
+    setConfirmContent({
+      text: "Voulez-vous vraiment supprimer la ligne du devis ?",
+    })
   }
 
   const tooManyDecimals = (numb) => numb.toString().split(".")[1]?.length > 2
@@ -104,13 +134,13 @@ export default function CreateQuotationItemForm({
   }
 
   const totalPrice =
-    Math.round(item.no_vat_price * 100 * item.quantity * (1 + item.vat / 100)) /
+    Math.round(item.no_vat_price * item.quantity * (1 + item.vat / 100) * 100) /
     100
 
   /********** RENDER **********/
   return (
     <Stack width="100%" gap={4}>
-      <ModalTitle>Nouvelle ligne de devis</ModalTitle>
+      <ModalTitle>Modifier la ligne de devis</ModalTitle>
 
       <CustomForm gap={4}>
         <Stack gap={2} width="100%">
@@ -154,15 +184,14 @@ export default function CreateQuotationItemForm({
           <Grid container spacing={2}>
             <Grid item xs={3}>
               <CustomFilledInput
-                type="text"
                 inputProps={{
                   // WARNING: inputProps !== InputProps
                   inputmode: "decimal", // Numeric pad on mobile
                 }}
+                type="text"
                 label="Quantité"
                 value={item.quantity}
                 onChange={handleChange("quantity")}
-                error={errors.quantity}
               />
             </Grid>
             <Grid item xs={3}>
@@ -223,11 +252,22 @@ export default function CreateQuotationItemForm({
           {showAlert.show ? <AlertInfo content={showAlert} /> : null}
         </Stack>
 
-        <Stack flexDirection="row" gap={2} justifyContent="end">
+        <Stack flexDirection="row" gap={2}>
+          <Button
+            color="secondary"
+            startIcon={<DeleteIcon />}
+            sx={{
+              borderRadius: "10px",
+            }}
+            onClick={handleDelete}
+          >
+            Supprimer
+          </Button>
+
           <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
           <RectangleButton
             secondary
-            onClick={handleAdd}
+            onClick={handleSave}
             disabled={
               errors.description ||
               errors.label ||
@@ -237,10 +277,12 @@ export default function CreateQuotationItemForm({
               errors.vat
             }
           >
-            Ajouter
+            Enregistrer
           </RectangleButton>
         </Stack>
       </CustomForm>
     </Stack>
   )
 }
+
+export default withConfirmAction(EditOrderItemForm)

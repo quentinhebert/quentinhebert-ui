@@ -6,6 +6,7 @@ import prepareProps from "../services/public-fetchers"
 import PagesLayout from "../components/Layouts/PagesLayout"
 import PleaseWait from "../components/Helpers/please-wait"
 import Redirect from "../components/Helpers/redirect"
+import { useRouter } from "next/router"
 
 const head = {
   // Main meta tags
@@ -24,10 +25,13 @@ export default function LoginPage({ navbar, footer }) {
   // Check if user is already logged in
   const { user } = useContext(UserContext)
 
+  const router = useRouter()
+  const redirect = router.query.redirect
+
   return (
     <PagesLayout head={head} navbarData={navbar} footerData={footer}>
       {!user ? (
-        <Login_Main redirect="/account" />
+        <Login_Main redirect={redirect || "/account"} />
       ) : !!user ? (
         <Redirect target="/account" />
       ) : (

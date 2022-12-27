@@ -60,7 +60,7 @@ function OrderCard({
   const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
 
   const handleSuccess = () => {
-    setSnackMessage("Devis supprimé")
+    setSnackMessage("Commande supprimées")
     setSnackSeverity("success")
     refreshData()
   }
@@ -68,20 +68,20 @@ function OrderCard({
     setSnackMessage("Un problème est survenu")
     setSnackSeverity("error")
   }
-  const deleteQuotation = async () => {
-    const res = await apiCall.quotations.delete({ id: order.id })
+  const deleteOrder = async () => {
+    const res = await apiCall.orders.delete(order)
     if (res && res.ok) return handleSuccess()
     return handleError()
   }
-  const handleDelete = async (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setActionToFire(() => () => deleteQuotation())
+  const handleDelete = async () => {
+    setActionToFire(() => () => deleteOrder())
     setOpenConfirmModal(true)
     setNextButtonText("Supprimer")
     setConfirmTitle("Supprimer la commande")
     setConfirmContent({
-      text: `Voulez vous vraiment supprimer le devis ${order.label} ?`,
+      text: `Voulez vous vraiment supprimer la commande ${
+        order.label || "Sans nom"
+      } ?`,
     })
   }
   const handleOpen = () =>
@@ -90,13 +90,13 @@ function OrderCard({
   const options = []
   if (optionsList?.includes("delete"))
     options.push({
-      label: "Supprimer le devis",
+      label: "Supprimer la commande",
       handleClick: handleDelete,
       icon: <DeleteIcon />,
     })
   if (optionsList?.includes("open"))
     options.push({
-      label: "Voir le devis",
+      label: "Voir la commande",
       handleClick: handleOpen,
       icon: <VisibilityIcon />,
     })

@@ -5,8 +5,8 @@ import { AppContext } from "../../../contexts/AppContext"
 import CustomForm from "../custom-form"
 import BodyText from "../../Text/body-text"
 import CustomModal from "../../Modals/custom-modal"
-import CreateQuotationItemForm from "./create-quotation-item-form"
-import EditQuotationItemForm from "./edit-quotation-item-form"
+import CreateOrderItemForm from "./create-order-item-form"
+import EditOrderItemForm from "./edit-order-item-form"
 import CustomFilledInput from "../../Inputs/custom-filled-input"
 import { QUOTATION_STATUS } from "../../../enums/quotationStatus"
 import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
@@ -14,9 +14,8 @@ import DropdownOptions from "../../Dropdown/dropdown-options"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import { useRouter } from "next/router"
 import withConfirmAction from "../../hocs/withConfirmAction"
-import { checkEmail } from "../../../services/utils"
+import { buildPublicURL, checkEmail } from "../../../services/utils"
 import QuotationReadOnlySection from "../../Sections/Quotations/quotation-read-only-section"
-import AlertInfo from "../../Other/alert-info"
 import ClientAutocomplete from "../admin/client-autocomplete"
 import SubmitButton from "../../Buttons/submit-button"
 import CancelButton from "../../Buttons/cancel-button"
@@ -28,6 +27,10 @@ import CustomCheckbox from "../../Inputs/custom-checkbox"
 import SmallTitle from "../../Titles/small-title"
 import { checkBeforeGen } from "../../../services/quotations"
 import PillButton from "../../Buttons/pill-button"
+import { ORDERSTATES } from "../../../enums/orderStates"
+import CancelTextButton from "../../Buttons/cancel-text-button"
+import QuotationClientFieldsForm from "../quotations/quotation-client-fields-form"
+import { formatDayDate } from "../../../services/date-time"
 
 // Icons
 import SendIcon from "@mui/icons-material/Send"
@@ -50,6 +53,11 @@ import PercentIcon from "@mui/icons-material/Percent"
 import SellIcon from "@mui/icons-material/Sell"
 import HourglassTopIcon from "@mui/icons-material/HourglassTop"
 import LaunchIcon from "@mui/icons-material/Launch"
+import EditIcon from "@mui/icons-material/Edit"
+import DescriptionIcon from "@mui/icons-material/Description"
+import DownloadIcon from "@mui/icons-material/Download"
+import AlertInfo from "../../Other/alert-info"
+
 // CONSTANTS
 const PAYMENT_OPTIONS = [
   { id: "card", label: "Carte bancaire" },
@@ -90,27 +98,271 @@ const FormCard = ({ title, width, icon, ...props }) => (
       gap: 2,
     }}
   >
-    <SmallTitle
-      color="#fff"
-      alignItems="center"
-      display="flex"
-      gap={2}
-      marginBottom={2}
-    >
-      {icon}
-      {title}
-    </SmallTitle>
+    {!!title && (
+      <SmallTitle
+        color="#fff"
+        alignItems="center"
+        display="flex"
+        gap={2}
+        marginBottom={2}
+      >
+        {icon}
+        {title}
+      </SmallTitle>
+    )}
     <Stack {...props} width="100%" gap={4} />
   </Stack>
 )
+const AddButton = ({ onClick }) => (
+  <PillButton
+    startIcon={<AddIcon />}
+    fontSize="0.8rem"
+    padding=".25rem 1rem"
+    preventTransition
+    onClick={onClick}
+  >
+    Ajouter
+  </PillButton>
+)
+const EditButton = ({ onClick, label }) => (
+  <PillButton
+    startIcon={<EditIcon />}
+    fontSize="0.8rem"
+    padding=".25rem 1rem"
+    preventTransition
+    onClick={onClick}
+  >
+    {label || "Modifier"}
+  </PillButton>
+)
+const DocumentType = (props) => (
+  <BodyText preventTransition display="flex" alignItems="center" {...props} />
+)
+const DocumentHeader = (props) => (
+  <Stack
+    className="row"
+    justifyContent="space-between"
+    alignItems="center"
+    padding={1.5}
+    sx={{ background: "rgb(0,0,0, 0.5)", borderRadius: "10px" }}
+    {...props}
+  />
+)
+const GridItem = ({ xs, textAlign, ...props }) => (
+  <Grid item xs={xs || 2.5} textAlign={textAlign || "left"}>
+    <BodyText {...props} preventTransition />
+  </Grid>
+)
+const QuotationsListHead = ({}) => (
+  <Grid container>
+    <GridItem color="grey" fontSize="1rem" xs={2}>
+      Version
+    </GridItem>
+    <GridItem color="grey" fontSize="1rem">
+      Status
+    </GridItem>
+    <GridItem color="grey" fontSize="1rem"></GridItem>
+    <GridItem color="grey" fontSize="1rem"></GridItem>
+    <GridItem color="grey" fontSize="1rem" textAlign="right">
+      Créé le
+    </GridItem>
+  </Grid>
+)
+const ActionButton = ({ onClick, label, icon }) => (
+  <GridItem
+    className="pointer flex gap-10 flex-center"
+    preventTransition
+    onClick={onClick}
+    sx={{
+      "&:hover": {
+        color: (theme) => theme.palette.text.secondary,
+      },
+    }}
+  >
+    {icon} {label}
+  </GridItem>
+)
+const QuotationsListItem = ({ quotation, router, handleSend }) => {
+  const color = (theme) =>
+    theme.alert.title[QUOTATION_STATUS[quotation.status].severity].color
+  const label = QUOTATION_STATUS[quotation.status].label
+  const version = `V${quotation.version}`
+  const handleDownload = () => {
+    if (quotation.path) return window.open(buildPublicURL(quotation.path))
+    router.push(`/quotation-view/${quotation.id}`)
+  }
+  return (
+    <Stack sx={{ justifyContent: "space-between" }} width="100%">
+      <Grid container>
+        <GridItem xs={2}>{version}</GridItem>
+        <GridItem color={color}>{label}</GridItem>
+        <GridItem>
+          <ActionButton
+            icon={<DownloadIcon />}
+            label="Télécharger"
+            onClick={handleDownload}
+          />
+        </GridItem>
+        <GridItem>
+          <ActionButton
+            icon={<SendIcon />}
+            label="Envoyer"
+            onClick={() => handleSend(quotation.id)}
+          />
+        </GridItem>
 
-function QuotationForm({
+        <GridItem color="grey" textAlign="right">
+          {formatDayDate({ timestamp: quotation.last_update })}
+        </GridItem>
+      </Grid>
+    </Stack>
+  )
+}
+const DocumentsSection = ({ order, handleGenerate, handleSend }) => {
+  const router = useRouter()
+  return (
+    <FormCard>
+      <Stack gap={2}>
+        <DocumentHeader>
+          <DocumentType>Devis</DocumentType>
+          <AddButton onClick={handleGenerate} />
+        </DocumentHeader>
+
+        <BodyText preventTransition fontSize="1rem">
+          Rappel : devis obligatoire pour les commandes dont le montant est
+          supérieur à 1500€.
+        </BodyText>
+
+        {order.quotations.length === 0 && (
+          <BodyText fontSize="1rem" color="grey" preventTransition>
+            Aucun devis.
+          </BodyText>
+        )}
+
+        <Stack gap={4} padding="0 2rem 2rem">
+          {order.quotations?.length > 0 && <QuotationsListHead />}
+          {order.quotations.map((quotation, key) => (
+            <QuotationsListItem
+              quotation={quotation}
+              router={router}
+              handleSend={handleSend}
+              key={key}
+            />
+          ))}
+        </Stack>
+      </Stack>
+
+      <Stack gap={2}>
+        <DocumentHeader>
+          <DocumentType>Factures</DocumentType>
+          <AddButton />
+        </DocumentHeader>
+
+        {(!order.invoices || order.invoices?.length === 0) && (
+          <BodyText fontSize="1rem" color="grey" preventTransition>
+            Aucune facture.
+          </BodyText>
+        )}
+        {!!order.invoices &&
+          order.invoices.map((invoice, key) => (
+            <BodyText preventTransition key={key}>
+              {invoice.id}
+            </BodyText>
+          ))}
+      </Stack>
+    </FormCard>
+  )
+}
+const ClientSection = ({ order, handleOpenAssign }) => {
+  const Title = (props) => (
+    <BodyText
+      preventTransition
+      fontSize="1rem"
+      {...props}
+      color={(theme) => theme.palette.secondary.main}
+    />
+  )
+  const Value = (props) => (
+    <BodyText preventTransition fontSize="1rem" {...props} />
+  )
+  const Identity = (props) => (
+    <BodyText preventTransition fontSize="1.2rem" {...props} />
+  )
+  return (
+    <FormCard>
+      <DocumentHeader>
+        <Identity>
+          {!order.client.id && "Aucun client associé"}
+          {order.client.firstname} {order.client.lastname}
+        </Identity>
+        <EditButton label="Assigner" onClick={handleOpenAssign} />
+      </DocumentHeader>
+
+      <Stack gap={2}>
+        <Stack>
+          <Title>E-mail</Title>
+          <Value>{order.client.email || ""}</Value>
+        </Stack>
+        <Stack>
+          <Title>Téléphone</Title>
+          <Value>{order.client.phone || ""}</Value>
+        </Stack>
+        <Stack>
+          <Title>Addresse</Title>
+          <Value>
+            {order.client.line1 || ""} {order.client.line2 || ""}{" "}
+            {order.client.postal_code || ""} {order.client.city || ""}{" "}
+            {order.client.region || ""} {order.client.country || ""}
+          </Value>
+        </Stack>
+      </Stack>
+    </FormCard>
+  )
+}
+const SectionTitle = ({ label, firstElement }) => (
+  <Stack
+    width="100%"
+    flexDirection="row"
+    gap={2}
+    alignItems="center"
+    margin={`${!!firstElement ? 0 : "4rem"} 0 1rem`}
+  >
+    <Stack
+      borderBottom="1px solid"
+      flexGrow={1}
+      sx={{ borderColor: (theme) => theme.palette.text.secondary }}
+    />
+    <SmallTitle>{label}</SmallTitle>
+    <Stack
+      borderBottom="1px solid"
+      flexGrow={1}
+      sx={{ borderColor: (theme) => theme.palette.text.secondary }}
+    />
+  </Stack>
+)
+const PaymentSection = ({}) => {
+  return (
+    <FormCard textAlign="center">
+      <PillButton>Générer un lien de paiement en ligne</PillButton>
+      <PillButton
+        background="transparent"
+        border={(theme) => `1px solid ${theme.palette.secondary.main}`}
+        color={(theme) => theme.palette.secondary.main}
+      >
+        Marquer comme payée
+      </PillButton>
+    </FormCard>
+  )
+}
+
+function OrderForm({
   id,
   setActionToFire,
   setOpenConfirmModal,
   setConfirmTitle,
   setConfirmContent,
   setNextButtonText,
+  defaultReadonly,
 }) {
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
@@ -118,7 +370,7 @@ function QuotationForm({
   const router = useRouter()
 
   /********** INITIAL OBJECT **********/
-  const initialQuotation = {
+  const initialOrder = {
     id: id,
     label: "",
     created_at: null,
@@ -143,10 +395,11 @@ function QuotationForm({
     no_vat: false,
     payment_delay_penalties:
       "Une indemnité forfaitaire de 40€, à laquelle s'ajoute un taux d'Intérêt de retard de 15%. Calcul des intérêts de retard : Somme due TTC * jours de retard * taux d’intérêt / (365 * 100). Les jours de retard sont calculés à partir de la date de réception de la facture.",
+    quotations: [],
   }
 
   /********** USE-STATES **********/
-  const [quotation, setQuotation] = useState(initialQuotation)
+  const [order, setOrder] = useState(initialOrder)
   const [items, setItems] = useState([])
   const [unsavedChanges, setUnsavedChanges] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
@@ -158,23 +411,26 @@ function QuotationForm({
   const [modal, setModal] = useState(null)
   const [depositDisabled, setDepositDisabled] = useState(true)
   const [openModal, setOpenModal] = useState(false)
+  const [readOnly, setReadOnly] = useState(defaultReadonly)
   const [errors, setErrors] = useState({
     date: false,
     delivery_date: false,
     payment_conditions: false,
     payment_options: false,
   })
+  const [newClient, setNewClient] = useState(false)
+  const [selectedQuotation, setSelectedQuotation] = useState(null)
 
   /********** FETCH DATA **********/
-  const fetchQuotation = async () => {
+  const fetchOrder = async () => {
     if (!id) return
     setLoading(true)
-    const res = await apiCall.quotations.get({ id })
+    const res = await apiCall.orders.get({ id })
     if (res && res.ok) {
       const jsonRes = await res.json()
-      // Populate quotation
-      setQuotation(jsonRes)
-      // Populate quotation items
+      // Populate order
+      setOrder(jsonRes)
+      // Populate order items
       setItems(jsonRes.items)
       setLoading(false)
       setUnsavedChanges(false)
@@ -183,17 +439,18 @@ function QuotationForm({
 
   /********** INITIAL FETCH (edit page only) **********/
   useEffect(() => {
-    fetchQuotation()
+    fetchOrder()
   }, [id])
 
   /********** USE-EFFECTS **********/
   useEffect(() => {
-    const balance = 100 - quotation.deposit
-    setQuotation({ ...quotation, balance })
+    const balance = 100 - order.deposit
+    setOrder({ ...order, balance })
     if (balance === 100) setDepositDisabled(true)
-  }, [quotation.deposit])
+  }, [order.deposit])
 
   /********** HANDLERS **********/
+  const toggleNewClient = (newValue) => setNewClient(newValue)
   const missingFieldsSnack = () => {
     setSnackMessage(`Certains champs obligatoires sont manquants.`)
     setSnackSeverity("error")
@@ -206,23 +463,24 @@ function QuotationForm({
   const handleCloseModal = () => {
     setOpenModal(false)
     setEmailInput("")
+    setNewClient(false)
   }
   const handleChange = (attribute) => (e) => {
-    setQuotation({ ...quotation, [attribute]: e.target.value })
+    setOrder({ ...order, [attribute]: e.target.value })
     if (errors[attribute]) setErrors({ ...errors, [attribute]: false })
     handleDetectChange()
   }
   const handleChangeDate = (attribute) => (newValue) => {
     if (errors[attribute]) setErrors({ ...errors, [attribute]: false })
-    setQuotation({ ...quotation, [attribute]: newValue })
+    setOrder({ ...order, [attribute]: newValue })
     handleDetectChange()
   }
   const handleCheckPaymentOptions = (attribute) => (e) => {
     if (errors.payment_options) setErrors({ ...errors, payment_options: false })
-    setQuotation({
-      ...quotation,
+    setOrder({
+      ...order,
       payment_options: {
-        ...quotation.payment_options,
+        ...order.payment_options,
         [attribute]: e.target.checked,
       },
     })
@@ -231,12 +489,12 @@ function QuotationForm({
   const save = async () => {
     let res = null
     if (!id) {
-      // If quotation is not created yet
-      res = await apiCall.quotations.create(quotation, items)
+      // If order is not created yet
+      res = await apiCall.orders.create(order, items)
     } else {
-      // If quotation is created and needs to be saved/updated
-      res = await apiCall.quotations.save({
-        ...quotation,
+      // If order is created and needs to be saved/updated
+      res = await apiCall.orders.save({
+        ...order,
         items,
         id,
       })
@@ -247,8 +505,9 @@ function QuotationForm({
       setSnackMessage("Le devis a bien été enregistré")
       setOpenModal(false)
       // if no id provided === user is on CreateQuotationPage (not EditQuotationPage), we redirect the user onto the edit page (with the same quotationForm component)
-      if (!id) return router.push(`/dashboard/quotations/${jsonRes.id}/edit`)
-      await fetchQuotation()
+      if (!id) return router.push(`/dashboard/orders/${jsonRes.id}/edit`)
+      await fetchOrder()
+      setReadOnly(true)
       return true
     } else {
       setSnackSeverity("error")
@@ -257,7 +516,7 @@ function QuotationForm({
     }
   }
   const handleSave = async () => {
-    if (quotation.label) return await save()
+    if (order.label) return await save()
     handleOpenModal(MODALS.SAVE)
   }
   const handleEdit = (item, key) => {
@@ -265,13 +524,13 @@ function QuotationForm({
     setSelectedItemIndex(key)
     handleOpenModal(MODALS.EDIT_ITEM)
   }
-  const deleteQuotation = async () => {
+  const deleteOrder = async () => {
     setLoading(true)
-    const res = await apiCall.quotations.delete({ id: quotation.id })
+    const res = await apiCall.orders.delete(order)
     if (res && res.ok) {
       setSnackMessage("Devis supprimé")
       setSnackSeverity("success")
-      router.push("/dashboard/quotations")
+      router.push("/dashboard?active_tab=orders")
     } else {
       setSnackMessage("Un problème est survenu")
       setSnackSeverity("error")
@@ -279,31 +538,31 @@ function QuotationForm({
     setLoading(false)
   }
   const handleDelete = async () => {
-    setActionToFire(() => () => deleteQuotation())
+    setActionToFire(() => () => deleteOrder())
     setOpenConfirmModal(true)
     setNextButtonText("Supprimer")
-    setConfirmTitle("Supprimer le devis")
+    setConfirmTitle("Supprimer la commande")
     setConfirmContent({
-      text: `Voulez vous vraiment supprimer le devis ${quotation.label} ?`,
+      text: `Voulez vous vraiment supprimer la commande ${order.label} ? Les devis et factures associés seront également supprimés.`,
     })
   }
-  const sendQuotation = async () => {
+  const sendQuotation = async (quotationId, email) => {
     const res = await apiCall.quotations.send({
-      id: quotation.id,
-      email: emailInput,
+      id: quotationId,
+      email: email || emailInput,
     })
     if (res && res.ok) {
       setSnackSeverity("success")
       setSnackMessage("Succès")
       handleCloseModal()
-      fetchQuotation()
+      fetchOrder()
     } else {
       setSnackSeverity("error")
       setSnackMessage("Erreur")
     }
   }
-  const handleSend = async () => {
-    const localErrors = checkBeforeGen(quotation)
+  const handleSend = async (quotationId, email) => {
+    const localErrors = checkBeforeGen(order)
     setErrors(localErrors)
     const errorsCount = Object.values(localErrors).filter(
       (elt) => elt === true
@@ -313,26 +572,40 @@ function QuotationForm({
     if (errorsCount > 0 && !(errorsCount === 1 && localErrors.client))
       return missingFieldsSnack()
 
-    if (emailInput.trim() !== "" && !emailError) return await sendQuotation()
+    if (!!email || (emailInput.trim() !== "" && !emailError))
+      return await sendQuotation(quotationId, email)
+
+    const res = await apiCall.quotations.get({ id: quotationId })
+    if (res && res.ok) {
+      const jsonRes = await res.json()
+      setSelectedQuotation(jsonRes)
+    }
     handleOpenModal(MODALS.SEND)
   }
   const handleAssign = async () => {
-    const res = await apiCall.quotations.assignClient({
-      id: quotation.id,
+    const res = await apiCall.orders.assignClient({
+      id: order.id,
       clientId: assignValue?.id || null,
     })
     if (res && res.ok) {
       setSnackMessage("Client associé au devis avec succès")
       setSnackSeverity("success")
       handleCloseModal()
-      fetchQuotation()
+      fetchOrder()
     } else {
       setSnackMessage("Une erreur est survenue")
       setSnackSeverity("error")
     }
   }
+  const handleVAT = (bool) => {
+    setOrder({
+      ...order,
+      no_vat: bool,
+    })
+    handleDetectChange()
+  }
   const handleGenerate = async () => {
-    const localErrors = checkBeforeGen(quotation)
+    const localErrors = checkBeforeGen(order)
 
     setErrors(localErrors)
     const errorsCount = Object.values(localErrors).filter(
@@ -343,24 +616,23 @@ function QuotationForm({
       // Save before exit page
       const saved = await save()
       if (!saved) return
-      return router.push(`/quotation-view/${quotation.id}`)
+      const res = await apiCall.orders.generateQuotation(order)
+      if (res && res.ok) {
+        const quotation = await res.json()
+        await fetchOrder()
+        // return router.push(`/quotation-view/${quotation.id}`)
+      }
+    } else {
+      setSnackMessage(
+        `Certains champs sont manquants dans les conditions et mentions obligatoires.`
+      )
+      setSnackSeverity("error")
+      setReadOnly(false)
     }
-
-    setSnackMessage(
-      `Certains champs sont manquants dans les conditions et mentions obligatoires.`
-    )
-    setSnackSeverity("error")
-  }
-  const handleVAT = (bool) => {
-    setQuotation({
-      ...quotation,
-      no_vat: bool,
-    })
-    handleDetectChange()
   }
 
   const emailError = emailInput.trim() !== "" && !checkEmail(emailInput)
-  const recipientEmailsString = quotation.recipient_emails.join(", ")
+  const getRecipientString = (recipientEmails) => recipientEmails.join(", ")
 
   /********** SUB-COMPONENTS **********/
   const Status = () => {
@@ -378,7 +650,7 @@ function QuotationForm({
       />
     )
 
-    if (!quotation.id)
+    if (!order.id)
       return (
         <Container color={(theme) => theme.palette.error.main}>
           Pas enregistré <WarningAmberIcon />
@@ -393,56 +665,75 @@ function QuotationForm({
         </Container>
       )
 
-    if (quotation.status === QUOTATION_STATUS.ACCEPTED.id)
+    if (order.status === ORDERSTATES.ACCEPTED?.id)
       return (
         <Container color={(theme) => theme.alert.title.success.color}>
           Accepté par le client <DoneAllIcon />
         </Container>
       )
 
-    return (
-      <Container color={(theme) => theme.alert.title.success.color}>
-        Enregistré <DoneIcon />
-      </Container>
-    )
+    // return (
+    //   <Container color={(theme) => theme.alert.title.success.color}>
+    //     Enregistré <DoneIcon />
+    //   </Container>
+    // )
+    return <></>
   }
   const Toolbar = () => {
     const options = [
       {
-        label: "Enregistrer",
+        label: "Sauvegarder",
         handleClick: () => handleSave(),
         icon: <SaveAltIcon />,
       },
       {
-        label: "Envoyer le devis à un e-mail",
-        handleClick: () => handleSend(),
-        icon: <SendIcon />,
-      },
-      {
-        label: "Modifier le nom du devis",
+        label: "Changer le nom",
         handleClick: () => handleOpenModal(MODALS.SAVE),
         icon: <TitleIcon />,
       },
-      {
-        label: "Assigner à un client existant",
-        handleClick: () => handleOpenModal(MODALS.ASSIGN),
-        icon: <AssignmentIndIcon />,
-      },
-      {
-        label: "Générer le devis PDF",
-        handleClick: handleGenerate,
-        icon: <PictureAsPdfIcon />,
-      },
-      {
-        label: "Générer la facture PDF",
-        handleClick: handleGenerate,
-        icon: <PictureAsPdfIcon />,
-      },
+      // {
+      //   label: "Envoyer le devis à un e-mail",
+      //   handleClick: () => handleSend(),
+      //   icon: <SendIcon />,
+      // },
     ]
+
+    if (readOnly)
+      options.push({
+        label: "Modifier",
+        handleClick: () => setReadOnly(false),
+        icon: <EditIcon />,
+      })
+
+    // if (order.quotations.length === 0)
+    options.push({
+      label: "Assigner à un client",
+      handleClick: () => handleOpenModal(MODALS.ASSIGN),
+      icon: <AssignmentIndIcon />,
+    })
+
+    // if (
+    //   order.quotations.filter(
+    //     (elt) =>
+    //       elt.status === QUOTATION_STATUS.ACCEPTED.id ||
+    //       elt.status === QUOTATION_STATUS.SIGNED.id
+    //   ).length === 0
+    // )
+    //   options.push({
+    //     label: "Nouveau devis",
+    //     handleClick: handleGenerate,
+    //     icon: <PictureAsPdfIcon />,
+    //   })
+
+    // options.push({
+    //   label: "Générer la facture",
+    //   handleClick: handleGenerate,
+    //   icon: <PictureAsPdfIcon />,
+    // })
 
     if (!!id)
       options.push({
-        label: "Supprimer le devis",
+        label: "Supprimer la commande",
         handleClick: handleDelete,
         icon: <DeleteIcon />,
       })
@@ -455,44 +746,49 @@ function QuotationForm({
           position: "sticky",
           top: 60,
           background: "#000",
+          // background: "red",
           zIndex: 10,
-          padding: ".5rem 0",
+          // padding: ".5rem 0",
+          padding: "1rem 0",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 4,
         }}
       >
-        <Stack alignItems="center" width="100%" flexDirection="row" gap={2}>
-          <Stack>
-            <BodyText
-              preventTransition
-              color={(theme) => theme.palette.text.secondary}
-            >
-              {quotation.label || "Sans nom"}{" "}
-              <Box component="span" color="#fff" fontStyle="italic">
-                {QUOTATION_STATUS[quotation.status].id ===
-                QUOTATION_STATUS.DRAFT.id
-                  ? `(${QUOTATION_STATUS[quotation.status].label})`
-                  : ""}
-              </Box>
-            </BodyText>
-            {!!quotation.client?.id && (
-              <BodyText preventTransition fontSize="1rem">
-                Pour {quotation.client?.firstname}{" "}
-                {quotation.client?.lastname || ""}
+        {readOnly ? (
+          <Stack alignItems="center" width="100%" flexDirection="row" gap={2}>
+            <Stack>
+              <BodyText
+                preventTransition
+                color={(theme) => theme.palette.text.secondary}
+              >
+                {order.label || "Sans nom"}{" "}
+                <Box component="span" color="#fff" fontStyle="italic">
+                  {ORDERSTATES[order.status].id === ORDERSTATES.DRAFT.id
+                    ? `(${ORDERSTATES[order.status].label})`
+                    : ""}{" "}
+                  – {getPriceDetails().totalPrice}€
+                </Box>
               </BodyText>
-            )}
-          </Stack>
+              {!!order.client?.id && (
+                <BodyText preventTransition fontSize="1rem">
+                  Pour {order.client?.firstname} {order.client?.lastname || ""}
+                </BodyText>
+              )}
 
-          {!EDIT_STATUSES.includes(quotation.status) && (
-            <AlertInfo
-              content={{
-                show: true,
-                severity: "info",
-                title: "Lecture seule",
-                text: "Le devis est en mode lecture seule. Vous ne pouvez plus le modifier car le client l'a accepté. Il faut maintenant générer le devis définitif avec toutes les mentions légales. Enfin, les deux parties devront signer le devis.",
-              }}
-            />
-          )}
-          {/* <Stack alignItems="center" width="100%" flexDirection="row" gap={2}> */}
-          {/* {EDIT_STATUSES.includes(quotation.status) && (
+              {/* {!EDIT_STATUSES.includes(order.status) && (
+              <AlertInfo
+                content={{
+                  show: true,
+                  severity: "info",
+                  title: "Lecture seule",
+                  text: "Le devis est en mode lecture seule. Vous ne pouvez plus le modifier car le client l'a accepté. Il faut maintenant générer le devis définitif avec toutes les mentions légales. Enfin, les deux parties devront signer le devis.",
+                }}
+              />
+            )} */}
+            </Stack>
+            {/* <Stack alignItems="center" width="100%" flexDirection="row" gap={2}> */}
+            {/* {EDIT_STATUSES.includes(order.status) && (
             <>
               <SubmitButton
                 onClick={handleSave}
@@ -508,9 +804,14 @@ function QuotationForm({
             </>
           )} */}
 
-          <Stack flexGrow={1} />
-          <DropdownOptions options={options} />
-        </Stack>
+            <Stack flexGrow={1} />
+            <DropdownOptions options={options} />
+          </Stack>
+        ) : (
+          <Stack>
+            <PillButton onClick={handleSave}>Enregistrer</PillButton>
+          </Stack>
+        )}
         {loading ? (
           <BodyText preventTransition color="#fff" fontSize="1rem">
             Patientez...
@@ -521,7 +822,7 @@ function QuotationForm({
       </Stack>
     )
   }
-  const TotalPrices = () => {
+  const getPriceDetails = () => {
     let totalPrice = 0
     let totalNoVatPrice = 0
     let totalVat = 0
@@ -532,6 +833,14 @@ function QuotationForm({
     })
     totalPrice = totalPrice / 100
     totalNoVatPrice = totalNoVatPrice / 100
+    return {
+      totalPrice,
+      totalNoVatPrice,
+      totalVat,
+    }
+  }
+  const TotalPrices = () => {
+    const { totalPrice, totalNoVatPrice, totalVat } = getPriceDetails()
 
     const Label = (props) => (
       <Grid item xs={6}>
@@ -573,12 +882,12 @@ function QuotationForm({
     <Stack sx={{ width: { xs: "100%", md: "50%" } }} {...props} />
   )
 
-  if (quotation.file?.path)
+  if (order.file?.path)
     return (
       <Stack>
         <PillButton
           startIcon={<LaunchIcon />}
-          href={quotation.file?.path}
+          href={order.file?.path}
           target="_blank"
         >
           Voir le devis
@@ -595,12 +904,28 @@ function QuotationForm({
           <Toolbar />
 
           {/* READ ONLY MODE */}
-          {!EDIT_STATUSES.includes(quotation.status) && (
-            <QuotationReadOnlySection items={items} quotation={quotation} />
+          {(!EDIT_STATUSES.includes(order.status) || readOnly) && (
+            <>
+              <SectionTitle label="Documents" firstElement />
+              <DocumentsSection
+                order={order}
+                handleGenerate={handleGenerate}
+                handleSend={handleSend}
+              />
+              <SectionTitle label="Client" />
+              <ClientSection
+                order={order}
+                handleOpenAssign={() => handleOpenModal(MODALS.ASSIGN)}
+              />
+              <SectionTitle label="Détails de la commande" />
+              <QuotationReadOnlySection items={items} quotation={order} />
+              <SectionTitle label="Paiement" />
+              <PaymentSection />
+            </>
           )}
 
           {/* EDIT MODE */}
-          {EDIT_STATUSES.includes(quotation.status) && (
+          {!readOnly && EDIT_STATUSES.includes(order.status) && (
             <>
               {/********** CONDITIONS & MENTIONS **********/}
               <Stack
@@ -610,20 +935,20 @@ function QuotationForm({
                   maxWidth: "900px",
                 }}
               >
-                <FormCard title="Prestation (1/6)" icon={<WorkHistoryIcon />}>
+                <FormCard title="Prestation (1/5)" icon={<WorkHistoryIcon />}>
                   <DualInputLine>
                     <FormStack>
                       <CustomDatePicker
                         disablePast
                         label="Date de la prestation"
-                        value={quotation.date}
+                        value={order.date}
                         handleChange={handleChangeDate("date")}
                         error={errors.date}
                       />
                     </FormStack>
                     <CustomFilledInput
                       width={{ xs: "100%", md: "50%" }}
-                      value={quotation.duration}
+                      value={order.duration}
                       onChange={handleChange("duration")}
                       label="Durée estimée (optionnel)"
                       placeholder="1 jour de tournage et 3 jours de montage"
@@ -631,29 +956,29 @@ function QuotationForm({
                   </DualInputLine>
                 </FormCard>
 
-                <FormCard title="Livraison (2/6)" icon={<LocalShippingIcon />}>
+                <FormCard title="Livraison (2/5)" icon={<LocalShippingIcon />}>
                   <CustomDatePicker
                     disablePast
                     label="Date de livraison estimée"
-                    value={quotation.delivery_date}
+                    value={order.delivery_date}
                     handleChange={handleChangeDate("delivery_date")}
                     error={errors.delivery_date}
                   />
                 </FormCard>
 
-                <FormCard title="Paiement (3/6)" icon={<EuroIcon />}>
+                <FormCard title="Paiement (3/5)" icon={<EuroIcon />}>
                   <SwitchButton
                     checked={!depositDisabled}
                     handleCheck={(bool) => {
                       if (!bool)
-                        setQuotation({
-                          ...quotation,
+                        setOrder({
+                          ...order,
                           deposit: 0,
                           balance: 100,
                         })
                       else
-                        setQuotation({
-                          ...quotation,
+                        setOrder({
+                          ...order,
                           deposit: 60,
                           balance: 40,
                         })
@@ -669,7 +994,7 @@ function QuotationForm({
                       alignItems="center"
                     >
                       <Typography color="secondary">
-                        Acompte ({quotation.deposit}%)
+                        Acompte ({order.deposit}%)
                       </Typography>
                       <Slider
                         disabled={depositDisabled}
@@ -678,7 +1003,7 @@ function QuotationForm({
                         defaultValue={60}
                         valueLabelDisplay="auto"
                         onChange={(e, newValue) =>
-                          setQuotation({ ...quotation, deposit: newValue })
+                          setOrder({ ...order, deposit: newValue })
                         }
                         step={5}
                         marks
@@ -686,14 +1011,14 @@ function QuotationForm({
                         max={100}
                       />
                       <Typography color="secondary">
-                        Solde ({quotation.balance}%)
+                        Solde ({order.balance}%)
                       </Typography>
                     </Stack>
                   ) : null}
                   <CustomFilledInput
                     label="Conditions de règlement"
                     placeholder="Accompte de 60% lors de la signature du devis. Solde de 40% entre le jour de la prestation et la livraison."
-                    value={quotation.payment_conditions}
+                    value={order.payment_conditions}
                     onChange={handleChange("payment_conditions")}
                     helperText={
                       <>
@@ -744,7 +1069,7 @@ function QuotationForm({
                                 : null
                             }
                             label={opt.label}
-                            checked={quotation.payment_options[opt.id]}
+                            checked={order.payment_options[opt.id]}
                             onChange={handleCheckPaymentOptions(opt.id)}
                           />
                         </Grid>
@@ -754,26 +1079,21 @@ function QuotationForm({
                   <CustomFilledTextArea
                     id="payment_delay_penalties"
                     label="Pénalités de retard ou pour non paiement"
-                    value={quotation.payment_delay_penalties}
+                    value={order.payment_delay_penalties}
                     onChange={handleChange("payment_delay_penalties")}
                     error={errors.payment_delay_penalties}
                   />
                 </FormCard>
 
-                <DualInputLine gap={4}>
-                  <FormCard
-                    title="TVA (4/6)"
-                    width={{ xs: "100%", md: "50%" }}
-                    icon={<PercentIcon />}
-                  >
-                    <SwitchButton
-                      checked={quotation.no_vat}
-                      handleCheck={handleVAT}
-                      label="TVA non applicable, article 293B du Code Général des Impôts (CGI)"
-                    />
-                  </FormCard>
+                <FormCard title="TVA (4/5)" icon={<PercentIcon />}>
+                  <SwitchButton
+                    checked={order.no_vat}
+                    handleCheck={handleVAT}
+                    label="TVA non applicable, article 293B du Code Général des Impôts (CGI)"
+                  />
+                </FormCard>
 
-                  <FormCard
+                {/* <FormCard
                     title="Validité du devis (5/6)"
                     icon={<HourglassTopIcon />}
                     width={{ xs: "100%", md: "50%" }}
@@ -781,11 +1101,10 @@ function QuotationForm({
                     <CustomDatePicker
                       disablePast
                       label="Date de fin (optionnel)"
-                      value={quotation.validity_end_date}
+                      value={order.validity_end_date}
                       handleChange={handleChangeDate("validity_end_date")}
                     />
-                  </FormCard>
-                </DualInputLine>
+                  </FormCard> */}
               </Stack>
 
               {/********** ITEMS TABLE WITH PRICES / QTY. **********/}
@@ -796,7 +1115,7 @@ function QuotationForm({
                 display="flex"
               >
                 <SellIcon />
-                Détails des produits / services (6/6)
+                Détails des produits / services (5/5)
               </SmallTitle>
               <Stack gap={2} width="100%" overflow="auto">
                 <Box
@@ -862,10 +1181,10 @@ function QuotationForm({
       </Stack>
 
       <CustomModal open={openModal} handleClose={handleCloseModal} gap={4}>
-        {/* CREATE QUOTATION ITEM */}
+        {/* CREATE ORDER ITEM */}
         {modal === MODALS.CREATE_ITEM && (
-          <CreateQuotationItemForm
-            noVat={quotation.no_vat}
+          <CreateOrderItemForm
+            noVat={order.no_vat}
             handleClose={handleCloseModal}
             items={items}
             setItems={setItems}
@@ -873,10 +1192,10 @@ function QuotationForm({
           />
         )}
 
-        {/* EDIT QUOTATION ITEM */}
+        {/* EDIT ORDER ITEM */}
         {modal === MODALS.EDIT_ITEM && (
-          <EditQuotationItemForm
-            noVat={quotation.no_vat}
+          <EditOrderItemForm
+            noVat={order.no_vat}
             handleClose={handleCloseModal}
             incomingItem={selectedItem}
             items={items}
@@ -886,26 +1205,29 @@ function QuotationForm({
           />
         )}
 
-        {/* SAVE QUOTATION / EDIT QUOTATION NAME */}
+        {/* SAVE ORDER / EDIT ORDER NAME */}
         {modal === MODALS.SAVE && (
           <>
-            <ModalTitle>Enregistrer le devis</ModalTitle>
-            <BodyText preventTransition>
-              Vous pourrez retrouver le devis sur la page "Mes devis".
+            <ModalTitle alignItems="center" display="flex" gap={1}>
+              <SaveAltIcon /> Sauvegarder la commande
+            </ModalTitle>
+            <BodyText preventTransition fontSize="1rem">
+              Vous retrouverez la commande sur la page "Mes devis".
             </BodyText>
             <CustomForm gap={4}>
               <CustomFilledInput
-                value={quotation.label}
+                value={order.label}
                 onChange={handleChange("label")}
-                label="Nom du devis"
+                label="Nom de la commande"
               />
-              <Stack className="row" gap={2}>
-                <CancelButton handleCancel={handleCloseModal} />
-                <SubmitButton
+              <Stack className="row" gap={2} alignSelf="end">
+                <CancelTextButton handleCancel={handleCloseModal} />
+                <PillButton
                   onClick={handleSave}
-                  icon={<SaveAltIcon />}
-                  disabled={quotation.label?.trim() === ""}
-                />
+                  disabled={order.label?.trim() === ""}
+                >
+                  Enregistrer
+                </PillButton>
               </Stack>
             </CustomForm>
           </>
@@ -915,25 +1237,62 @@ function QuotationForm({
         {modal === MODALS.SEND && (
           <>
             <ModalTitle>Envoyer le devis</ModalTitle>
-            {!!quotation.recipient_emails.length && (
+            {!!selectedQuotation?.recipient_emails?.length && (
               <AlertInfo
                 content={{
-                  text: `Vous avez déjà envoyé le devis à ${recipientEmailsString}`,
+                  // js: `Vous avez déjà envoyé le devis à ${getRecipientString(
+                  //   selectedQuotation.recipient_emails
+                  // )}`,
+                  js: (
+                    <span>
+                      Vous avez déjà envoyé le devis à{" "}
+                      {selectedQuotation.recipient_emails.map((email, key) => {
+                        const isLastEmail =
+                          key === selectedQuotation.recipient_emails.length - 1
+                        return (
+                          <>
+                            <Box
+                              key={key}
+                              component="span"
+                              onClick={() => setEmailInput(email)}
+                              sx={{
+                                textDecoration: "underline",
+                                cursor: "pointer",
+                                "&:hover": {
+                                  color: (theme) =>
+                                    theme.palette.text.secondary,
+                                },
+                              }}
+                            >
+                              {email}
+                            </Box>
+                            {isLastEmail ? "." : ", "}
+                          </>
+                        )
+                      })}
+                    </span>
+                  ),
                 }}
               />
             )}
-            {!!quotation.client?.email && (
-              <BodyText preventTransition display="inline-flex" gap={1}>
-                Le devis est destiné à
-                <Box
-                  component="div"
-                  sx={{ color: (theme) => theme.palette.text.secondary }}
-                >
-                  {quotation.client?.email}
-                </Box>
-              </BodyText>
-            )}
             <CustomForm gap={4}>
+              {!!selectedQuotation?.client?.email && (
+                <PillButton
+                  textTransform="capitalize"
+                  onClick={() => {
+                    handleSend(
+                      selectedQuotation.id,
+                      selectedQuotation.client.email
+                    )
+                  }}
+                >
+                  Envoyer à <br />
+                  {selectedQuotation.client.email}
+                </PillButton>
+              )}
+
+              <BodyText>ou</BodyText>
+
               <CustomFilledInput
                 value={emailInput}
                 onChange={(e) => setEmailInput(e.target.value)}
@@ -943,32 +1302,44 @@ function QuotationForm({
               />
               <Stack className="row" gap={2}>
                 <CancelButton handleCancel={handleCloseModal} />
-                <SubmitButton onClick={handleSend} />
+                <SubmitButton
+                  onClick={() => handleSend(selectedQuotation.id)}
+                  label="Envoyer"
+                />
               </Stack>
             </CustomForm>
           </>
         )}
 
-        {/* ASSIGN CLIENT TO QUOTATION */}
+        {/* ASSIGN CLIENT TO ORDER */}
         {modal === MODALS.ASSIGN && (
           <>
-            <ModalTitle>Assigner le devis à un client</ModalTitle>
-            <BodyText>
-              Cherchez un client à partir de son prénom, nom ou e-mail.
-            </BodyText>
-            <CustomForm gap={4}>
-              <ClientAutocomplete
-                value={assignValue}
-                setValue={setAssignValue}
-                inputValue={assignInputValue}
-                setInputValue={setAssignInputValue}
-                defaultValue={quotation.client}
-              />
-              <Stack className="row" gap={2}>
-                <CancelButton handleCancel={handleCloseModal} />
-                <SubmitButton onClick={handleAssign} />
-              </Stack>
-            </CustomForm>
+            <ModalTitle>Assigner la commande à un client</ModalTitle>
+
+            <SwitchButton
+              checked={newClient}
+              handleCheck={toggleNewClient}
+              label="Nouveau client"
+            />
+
+            {newClient ? (
+              <QuotationClientFieldsForm />
+            ) : (
+              <CustomForm gap={4}>
+                <ClientAutocomplete
+                  value={assignValue}
+                  setValue={setAssignValue}
+                  inputValue={assignInputValue}
+                  setInputValue={setAssignInputValue}
+                  defaultValue={order.client}
+                  placeholder="Prénom, Nom ou E-mail"
+                />
+                <Stack className="row" gap={2}>
+                  <CancelButton handleCancel={handleCloseModal} />
+                  <SubmitButton onClick={handleAssign} />
+                </Stack>
+              </CustomForm>
+            )}
           </>
         )}
       </CustomModal>
@@ -976,4 +1347,4 @@ function QuotationForm({
   )
 }
 
-export default withConfirmAction(QuotationForm)
+export default withConfirmAction(OrderForm)

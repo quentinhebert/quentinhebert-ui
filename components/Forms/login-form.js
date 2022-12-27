@@ -54,6 +54,10 @@ export default function LoginForm(props) {
     title: null,
   })
 
+  useEffect(() => {
+    if (!!router.query?.email) setEmailInput(router.query?.email)
+  }, [router.query])
+
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
   const variants = (key) => ({

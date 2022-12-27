@@ -1,15 +1,31 @@
 import { Autocomplete } from "@mui/material"
 import { styled } from "@mui/system"
+import CustomFilledInput from "./custom-filled-input"
 import CustomOutlinedInput from "./custom-outlined-input"
 
 const Grouped = styled(
-  ({ options, groupBy, getOptionLabel, label, renderOption, ...props }) => (
+  ({
+    options,
+    groupBy,
+    getOptionLabel,
+    label,
+    renderOption,
+    placeholder,
+    ...props
+  }) => (
     <Autocomplete
       options={options}
       groupBy={groupBy}
       getOptionLabel={getOptionLabel}
       renderInput={(params) => {
-        return <CustomOutlinedInput {...params} label={label} />
+        params.InputProps.disableUnderline = true
+        return (
+          <CustomFilledInput
+            {...params}
+            label={label}
+            placeholder={placeholder || ""}
+          />
+        )
       }}
       renderOption={renderOption}
       ListboxProps={{
@@ -37,6 +53,7 @@ export default function CustomOutlinedAutocomplete(props) {
       getOptionLabel={props.getOptionLabel}
       label={props.label}
       renderOption={props.renderOption}
+      placeholder={props.placeholder}
       {...props}
     />
   )

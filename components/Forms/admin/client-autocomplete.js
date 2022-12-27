@@ -5,6 +5,7 @@ import CustomOutlinedAutocomplete from "../../Inputs/custom-outlined-autocomplet
 
 export default function ClientAutocomplete({
   value,
+  placeholder,
   setValue,
   inputValue,
   setInputValue,
@@ -31,7 +32,7 @@ export default function ClientAutocomplete({
   }, [inputValue])
 
   useEffect(() => {
-    if (defaultValue.email) setInputValue(defaultValue.email)
+    if (defaultValue?.email) setInputValue(defaultValue?.email)
   }, [defaultValue])
 
   return (
@@ -53,7 +54,8 @@ export default function ClientAutocomplete({
       loading={loading}
       noOptionsText={"Aucun client"}
       loadingText="Veuillez patienter..."
-      defaultValue={defaultValue.email ? defaultValue : null}
+      defaultValue={defaultValue?.email ? defaultValue : null}
+      placeholder={placeholder || ""}
     />
   )
 }

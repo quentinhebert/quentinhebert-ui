@@ -14,6 +14,7 @@ import { UserContext } from "../../../contexts/UserContext"
 import { USERTYPES } from "../../../enums/userTypes"
 import PleaseWait from "../../Helpers/please-wait"
 import QuotationReadOnlySection from "../../Sections/Quotations/quotation-read-only-section"
+import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 
 export default function QuotationView_Main({}) {
   const router = useRouter()
@@ -60,6 +61,15 @@ export default function QuotationView_Main({}) {
     setLoading(false)
   }
 
+  const handleRefuse = async () => {
+    const res = await apiCall.quotations.refuse(quotation)
+    if (res && res.ok) {
+      window.opener = null
+      window.open("", "_self")
+      window.close()
+    }
+  }
+
   useEffect(() => {
     fetchQuotation()
   }, [user, id])
@@ -99,7 +109,7 @@ export default function QuotationView_Main({}) {
 
   return (
     <Stack padding="2rem" gap={2} width="100%">
-      <PageTitle text="1. Détails du devis" />
+      <PageTitle text="1. Récapitulatif du devis" />
       <AlertInfo
         content={{
           show: true,
@@ -110,8 +120,12 @@ export default function QuotationView_Main({}) {
 
       <QuotationReadOnlySection items={quotation.items} quotation={quotation} />
 
+      <PillButton onClick={handleRefuse}>Refuser</PillButton>
+      <PillButton onClick={handleRefuse}>Suivant</PillButton>
+
       <Stack marginTop={4} gap={2}>
-        <PageTitle text="2. Détails du client" />
+        <PageTitle text="2. Récapitulatif du client" />
+        <BodyText>{">"} Envoyer ce formulaire directement au client</BodyText>
 
         <AlertInfo
           content={{
@@ -120,7 +134,13 @@ export default function QuotationView_Main({}) {
             text: "Les informations suivantes ci-dessous sont nécessaires la génération du devis définitif. Ce sont les mentions légales obligatoires à faire apparaître sur un devis.",
           }}
         />
-        <QuotationClientFieldsForm defaultClient={quotation.client} />
+        <CenteredMaxWidthContainer>
+          <QuotationClientFieldsForm defaultClient={quotation.client} />
+        </CenteredMaxWidthContainer>
+      </Stack>
+
+      <Stack marginTop={4} gap={2}>
+        <PageTitle text="3. Générer le PDF" />
       </Stack>
     </Stack>
   )

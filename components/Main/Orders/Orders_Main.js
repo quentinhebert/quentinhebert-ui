@@ -1,4 +1,4 @@
-import { Grid, Stack } from "@mui/material"
+import { Box, Grid, Stack, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../../../contexts/UserContext"
 import apiCall from "../../../services/apiCalls/apiCall"
@@ -11,12 +11,24 @@ import OrderCard from "../../Cards/orders/order-card"
 import ModesToggle from "../../Navigation/modes-toggle"
 import { MODES_ENUM } from "../../../enums/modesEnum"
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined"
+import CustomPillSelect from "../../Inputs/custom-pill-select"
+import CustomSelectOption from "../../Inputs/custom-select-option"
+
+const STATUS_OPTIONS = [
+  { id: "ALL", label: "toutes" },
+  { id: "DRAFT", label: "brouillon" },
+  { id: "IN_PROGRESS", label: "en cours" },
+  { id: "FINISHED", label: "terminées" },
+  { id: "ARCHIVED", label: "archivées" },
+]
 
 export default function Orders_Main({}) {
   /******* USE-STATES *******/
   const [orders, setOrders] = useState([])
+  const [filteredOrders, setFilteredOrders] = useState(orders) // Default filter === show all orders
   const [loading, setLoading] = useState(false)
   const [mode, setMode] = useState(MODES_ENUM.LIST)
+  const [selectedStatus, setSelectedStatus] = useState(STATUS_OPTIONS[0].id)
 
   const router = useRouter()
   const { user } = useContext(UserContext)
@@ -27,7 +39,8 @@ export default function Orders_Main({}) {
     const res = await apiCall.orders.getAll()
     if (res && res.ok) {
       const jsonRes = await res.json()
-      setOrders(jsonRes)
+      setOrders(jsonRes) // Populate orders
+      setFilteredOrders(jsonRes) // Populate filtered orders
     }
     setLoading(false)
   }
@@ -37,7 +50,17 @@ export default function Orders_Main({}) {
     fetchOrders()
   }, [])
 
-  const handleNewQuotation = () => router.push("/dashboard/quotations/create")
+  const handleNew = () => router.push("/dashboard/orders/create")
+  const handleChangeStatus = (e) => setSelectedStatus(e.target.value)
+
+  useEffect(() => {
+    if (selectedStatus === "ALL") return setFilteredOrders(orders)
+    const localOrders = orders
+    const localFilteredOrders = localOrders.filter(
+      (elt) => elt.status === selectedStatus
+    )
+    setFilteredOrders(localFilteredOrders)
+  }, [selectedStatus])
 
   return (
     <Stack
@@ -57,11 +80,31 @@ export default function Orders_Main({}) {
         preventTransition
       >
         <WorkOutlineOutlinedIcon sx={{ fontSize: "2rem" }} /> Commandes
+        <CustomPillSelect
+          required
+          value={selectedStatus}
+          onChange={handleChangeStatus}
+        >
+          {STATUS_OPTIONS.map((option, key) => (
+            <CustomSelectOption value={option.id} key={key}>
+              <Box
+                component="span"
+                sx={{
+                  "&:first-letter": {
+                    textTransform: "capitalize",
+                  },
+                }}
+              >
+                {option.label}
+              </Box>
+            </CustomSelectOption>
+          ))}
+        </CustomPillSelect>
       </BodyText>
 
       <Stack className="row" alignItems="center" width="100%">
         <ModesToggle mode={mode} setMode={setMode} />
-        <PillButton startIcon={<AddIcon />} onClick={handleNewQuotation}>
+        <PillButton startIcon={<AddIcon />} onClick={handleNew}>
           Nouvelle commande
         </PillButton>
       </Stack>
@@ -70,7 +113,7 @@ export default function Orders_Main({}) {
         <PleaseWait />
       ) : (
         <Grid container spacing={1}>
-          {orders.map((order, key) => (
+          {filteredOrders.map((order, key) => (
             <Grid
               key={key}
               item
@@ -84,7 +127,7 @@ export default function Orders_Main({}) {
                 refreshData={fetchOrders}
                 mode={mode}
                 onClick={() =>
-                  router.push(`/dashboard/quotations/${order.id}/edit`)
+                  router.push(`/dashboard/orders/${order.id}/edit`)
                 }
                 optionsList={["delete"]}
               />

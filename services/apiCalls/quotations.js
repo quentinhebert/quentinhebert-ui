@@ -3,68 +3,6 @@ import { getFreshToken } from "../utils"
 
 const quotations = {
   // Admin only
-  create: async (
-    quotation = {
-      label,
-      items,
-      date,
-      delivery_date,
-      duration,
-      validity_end_date,
-      payment_options,
-      payment_conditions,
-      additional_mentions,
-    },
-    items
-  ) => {
-    const body = { ...quotation, items }
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/quotations`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${await getFreshToken()}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      })
-    } catch (err) {
-      console.error(err)
-    }
-  },
-  // Admin only
-  save: async (
-    body = {
-      id,
-      label,
-      status,
-      items,
-      date,
-      delivery_date,
-      duration,
-      validity_end_date,
-      payment_options,
-      payment_conditions,
-      deposit,
-      balance,
-      additional_mentions,
-      no_vat,
-      payment_delay_penalties,
-    }
-  ) => {
-    try {
-      return await fetch(`${defaultConfig.apiUrl}/quotations/${body.id}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${await getFreshToken()}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      })
-    } catch (err) {
-      console.error(err)
-    }
-  },
-  // Admin only
   get: async ({ id }) => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/quotations/${id}`, {
@@ -186,21 +124,15 @@ const quotations = {
       console.error(err)
     }
   },
-  // Admin only
-  assignClient: async ({ id, clientId }) => {
-    const body = { client_id: clientId }
+  // Public
+  refuse: async ({ id }) => {
     try {
-      return await fetch(
-        `${defaultConfig.apiUrl}/quotations/${id}/assign-client`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${await getFreshToken()}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        }
-      )
+      return await fetch(`${defaultConfig.apiUrl}/quotations/${id}/refuse`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
     } catch (err) {
       console.error(err)
     }

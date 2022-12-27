@@ -16,10 +16,12 @@ import RefreshButton from "../../Buttons/refresh-button"
 
 const StatusChip = ({ order }) => (
   <Pill
-    bgColor={(theme) => theme.alert.title[ORDERSTATES[order.state].severity]}
+    bgColor={(theme) =>
+      theme.alert.title[ORDERSTATES[order.status].severity].color
+    }
   >
     <BodyText fontSize="1rem" color="#000">
-      {ORDERSTATES[order.state].label}
+      {ORDERSTATES[order.status].label}
     </BodyText>
   </Pill>
 )
@@ -97,6 +99,7 @@ export default function Orders_Main() {
                 background: (theme) => theme.palette.background.main,
                 borderRadius: "60px",
                 padding: 2,
+                alignItems: "center",
               }}
             >
               <GridItem sx={{ paddingLeft: 0 }}>

@@ -54,7 +54,7 @@ export default function Navbar(props) {
         position="sticky"
         component="nav"
         sx={{
-          background: "transparent",
+          background: "#000",
           width: "100%",
           boxShadow: "none",
         }}
@@ -149,7 +149,7 @@ export default function Navbar(props) {
       </AppBar>
 
       {/* Trick to have a linear gradient behind the navbar but not when burger menu is open */}
-      <Stack
+      {/* <Stack
         className="full-width fixed"
         zIndex={101}
         sx={{
@@ -158,7 +158,7 @@ export default function Navbar(props) {
             "linear-gradient(0deg, transparent 0%, rgb(0,0,0,0.9) 90%)",
           opacity: 0,
         }}
-      />
+      /> */}
     </>
   )
 }

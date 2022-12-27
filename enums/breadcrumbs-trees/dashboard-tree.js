@@ -16,6 +16,10 @@ const dashboardTree = {
     label: "Stats",
     href: "/dashboard?active_tab=stats",
   },
+  "dashboard?active_tab=orders": {
+    label: "Commandes",
+    href: "/dashboard?active_tab=orders",
+  },
   "dashboard?active_tab=calendar": {
     label: "Agenda",
     href: "/dashboard?active_tab=calendar",
@@ -28,12 +32,16 @@ const dashboardTree = {
     label: "Devis",
     href: "/dashboard?active_tab=quotations",
   },
+  orders: {
+    label: "Commandes",
+    href: "/dashboard?active_tab=orders",
+  },
   "quotation-requests": {
     label: "Demandes de contact",
     href: "/dashboard?active_tab=prospects",
   },
-  create: "Nouveau devis",
-  edit: "Modifier un devis",
+  create: "Nouvelle commande",
+  edit: "Ma commande",
   new: "Nouvelle facture",
 }
 

@@ -1,16 +1,15 @@
-import PagesLayout from "../../../../components/Layouts/PagesLayout"
-import Redirect from "../../../../components/Helpers/redirect"
-import Login_Main from "../../../../components/Main/Login_Main"
+import PagesLayout from "../../../components/Layouts/PagesLayout"
+import Redirect from "../../../components/Helpers/redirect"
+import Login_Main from "../../../components/Main/Login_Main"
 import { useContext } from "react"
-import { UserContext } from "../../../../contexts/UserContext"
-import { USERTYPES } from "../../../../enums/userTypes"
-import DashboardLayout from "../../../../components/Layouts/DashboardLayout"
-import OrderForm from "../../../../components/Forms/orders/order-form"
-import { useRouter } from "next/router"
+import { UserContext } from "../../../contexts/UserContext"
+import { USERTYPES } from "../../../enums/userTypes"
+import DashboardLayout from "../../../components/Layouts/DashboardLayout"
+import OrderForm from "../../../components/Forms/orders/order-form"
 
 const head = {
   // Main meta tags
-  title: "Modifier un devis",
+  title: "Créer un devis",
   description: "Vidéaste et Développeur Web : disponible dans toute la France.",
   // SEO helpers
   follow: false,
@@ -21,12 +20,9 @@ const head = {
   ogImg: "/medias/ogimg.png",
 }
 
-export default function EditQuotationPage() {
+export default function CreateQuotationPage() {
   // Check if user has grant to access that page
   const { user } = useContext(UserContext)
-
-  const router = useRouter()
-  const id = router.query.id
 
   // If user is logged in but not as an admin, the user is redirected to his/her account page
   if (!!user && user.type !== USERTYPES.ADMIN)
@@ -37,8 +33,8 @@ export default function EditQuotationPage() {
       {!user && <Login_Main />}
 
       {!!user && user.type === USERTYPES.ADMIN && (
-        <DashboardLayout title="Modifier le devis">
-          <OrderForm id={id} />
+        <DashboardLayout title="Nouvelle commande (brouillon)">
+          <OrderForm />
         </DashboardLayout>
       )}
     </PagesLayout>

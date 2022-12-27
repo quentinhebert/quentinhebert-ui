@@ -1,16 +1,18 @@
 import { Box, Stack } from "@mui/material"
-import { useEffect, useState } from "react"
-import apiCall from "../../../services/apiCalls/apiCall"
-import Custom404_Main from "../../Main/Errors/Custom404_Main"
 import { useRouter } from "next/router"
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
-import { ORDERSTATES } from "../../../enums/orderStates"
-import ReceiptIcon from "@mui/icons-material/Receipt"
+import { useContext, useState } from "react"
+import apiCall from "../../../services/apiCalls/apiCall"
 import PillButton from "../../Buttons/pill-button"
-import PleaseWait from "../../Helpers/please-wait"
+import CustomForm from "../../Forms/custom-form"
+import CustomFilledInput from "../../Inputs/custom-filled-input"
 import BodyText from "../../Text/body-text"
+import PageTitle from "../../Titles/page-title"
+import { UserContext } from "../../../contexts/UserContext"
+import PleaseWait from "../../Helpers/please-wait"
+import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
+import { ORDERSTATES } from "../../../enums/orderStates"
 import Pill from "../../Text/pill"
-import RefreshButton from "../../Buttons/refresh-button"
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 
 const allowedStatesForPaying = ["WAITING_FOR_PAYMENT", "PAYMENT_FAILED"]
 
@@ -63,49 +65,87 @@ const StatusChip = ({ order }) => (
   </Pill>
 )
 
-export default function Order_Main({ orderId }) {
-  const initialOrder = {
-    id: null,
-    created_at: null,
-    state: null,
-    client_id: null,
-    total_price: null,
-    items: [],
-  }
-  const [order, setOrder] = useState(initialOrder)
-  const [loading, setLoading] = useState(false)
-
-  const fetchOrder = async () => {
-    setLoading(true)
-    if (orderId) {
-      const res = await apiCall.orders.get({ id: orderId })
-      if (res && res.ok) {
-        const jsonRes = await res.json()
-        setOrder(jsonRes)
-      }
-    }
-    setLoading(false)
-  }
-
-  useEffect(() => {
-    fetchOrder()
-  }, [])
-
+export default function OrderView_Main({}) {
   const router = useRouter()
+  const id = router.query.id
 
-  if (!order.id && !loading) return <Custom404_Main />
+  const { user } = useContext(UserContext)
+
+  const [email, setEmail] = useState("")
+  const [access, setAccess] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [order, setOrder] = useState({
+    id: id,
+    label: "",
+    created_at: null,
+    last_update: null,
+    status: "WAITING_FOR_PAYMENT",
+    recipient_emails: [],
+    payment_options: {},
+    items: [],
+    client: null,
+  })
+
+  const handleSubmit = async () => {
+    if (!email || !id) return
+    const res = await apiCall.orders.view({ id, email, auth: false })
+    if (res && res.ok) {
+      setAccess(true)
+      const jsonRes = await res.json()
+      setOrder(jsonRes)
+    }
+  }
+
+  const handleNext = () => {
+    if (!!user && user.id === order.client.id)
+      return router.push(`/account/orders/${id}/checkout/before-checkout-steps`)
+
+    // TODO: open modal login or SignUp
+  }
+
+  if (loading)
+    return (
+      <Stack padding="100px 1rem" gap={4}>
+        <PleaseWait />
+      </Stack>
+    )
+
+  if (!access)
+    return (
+      <CenteredMaxWidthContainer>
+        <Stack padding="0 1rem" gap={4}>
+          <PageTitle text="Votre commande" />
+          <BodyText>
+            Afin d'accéder à votre commande, veuillez renseigner votre adresse
+            e-mail (l'adresse e-mail à partir de laquelle vous avez cliqué sur
+            ce lien).
+          </BodyText>
+
+          <CustomForm>
+            <Stack className="row gap-10 full-width flex-center">
+              <Stack maxWidth="300px">
+                <CustomFilledInput
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  label="Mon adresse e-mail"
+                />
+              </Stack>
+              <PillButton type="submit" onClick={handleSubmit}>
+                Voir ma commande
+              </PillButton>
+            </Stack>
+          </CustomForm>
+        </Stack>
+      </CenteredMaxWidthContainer>
+    )
 
   return (
-    <>
-      {loading && <PleaseWait />}
-
+    <Stack padding="2rem" gap={2} width="100%">
       {order.id && !loading && (
         <Stack gap={4}>
           <Stack className="row gap-10" alignItems="center">
             <StatusChip order={order} />
-            <BodyText>{ORDERSTATES[order.status].description}</BodyText>
-            <Stack flexGrow={1} />
-            <RefreshButton refresh={fetchOrder} />
+            <BodyText>{ORDERSTATES[order.status]?.description}</BodyText>
           </Stack>
 
           <Stack gap={2}>
@@ -151,11 +191,7 @@ export default function Order_Main({ orderId }) {
                 {allowedStatesForPaying.includes(order.status) && (
                   <PillButton
                     startIcon={<ShoppingCartIcon />}
-                    onClick={() =>
-                      router.push(
-                        `/account/orders/${orderId}/checkout/before-checkout-steps`
-                      )
-                    }
+                    onClick={handleNext}
                   >
                     Finaliser la commande
                   </PillButton>
@@ -165,6 +201,6 @@ export default function Order_Main({ orderId }) {
           </Stack>
         </Stack>
       )}
-    </>
+    </Stack>
   )
 }
