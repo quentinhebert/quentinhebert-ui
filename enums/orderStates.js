@@ -26,9 +26,14 @@ export const ORDERSTATES = {
     severity: "warning",
   },
   PAYMENT_SUCCEEDED: {
-    label: "Paiement réussi",
+    label: "Payée",
     description: "Votre commande est payée.",
     severity: "success",
+  },
+  DEPOSIT_PAID: {
+    label: "Acompté payé",
+    description: "Il vous reste à payer le solde",
+    severity: "disabled",
   },
   PAYMENT_FAILED: {
     label: "Bloquée",

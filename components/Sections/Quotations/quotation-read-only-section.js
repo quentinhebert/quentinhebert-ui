@@ -218,6 +218,14 @@ export default function QuotationReadOnlySection({ items, quotation }) {
 
           <Info title="Conditions">{quotation.payment_conditions}</Info>
 
+          {Number(quotation.deposit) !== 0 && (
+            <>
+              <Info title="Acompte / Solde">
+                {quotation.deposit}% / {quotation.balance}%
+              </Info>
+            </>
+          )}
+
           <Info title="Pénalités de retard">
             {quotation.payment_delay_penalties}
           </Info>

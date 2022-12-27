@@ -57,6 +57,7 @@ import EditIcon from "@mui/icons-material/Edit"
 import DescriptionIcon from "@mui/icons-material/Description"
 import DownloadIcon from "@mui/icons-material/Download"
 import AlertInfo from "../../Other/alert-info"
+import { INVOICETYPES } from "../../../enums/invoiceTypes"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -153,6 +154,21 @@ const GridItem = ({ xs, textAlign, ...props }) => (
     <BodyText {...props} preventTransition />
   </Grid>
 )
+const OrderListHead = ({}) => (
+  <Grid container>
+    <GridItem color="grey" fontSize="1rem" xs={2}>
+      Numéro
+    </GridItem>
+    <GridItem color="grey" fontSize="1rem">
+      Type
+    </GridItem>
+    <GridItem color="grey" fontSize="1rem"></GridItem>
+    <GridItem color="grey" fontSize="1rem"></GridItem>
+    <GridItem color="grey" fontSize="1rem" textAlign="right">
+      Émise le
+    </GridItem>
+  </Grid>
+)
 const QuotationsListHead = ({}) => (
   <Grid container>
     <GridItem color="grey" fontSize="1rem" xs={2}>
@@ -182,6 +198,33 @@ const ActionButton = ({ onClick, label, icon }) => (
     {icon} {label}
   </GridItem>
 )
+const OrderListItem = ({ invoice }) => {
+  const handleDownload = () => {
+    if (invoice.path) return window.open(buildPublicURL(invoice.path))
+  }
+  return (
+    <Stack sx={{ justifyContent: "space-between" }} width="100%">
+      <Grid container>
+        <GridItem xs={2}>{invoice.number}</GridItem>
+        <GridItem textTransform="capitalize">
+          {INVOICETYPES[invoice.type]}
+        </GridItem>
+        <GridItem>
+          <ActionButton
+            icon={<DownloadIcon />}
+            label="Télécharger"
+            onClick={handleDownload}
+          />
+        </GridItem>
+        <GridItem></GridItem>
+
+        <GridItem color="grey" textAlign="right">
+          {formatDayDate({ timestamp: invoice.created_at })}
+        </GridItem>
+      </Grid>
+    </Stack>
+  )
+}
 const QuotationsListItem = ({ quotation, router, handleSend }) => {
   const color = (theme) =>
     theme.alert.title[QUOTATION_STATUS[quotation.status].severity].color
@@ -263,12 +306,13 @@ const DocumentsSection = ({ order, handleGenerate, handleSend }) => {
             Aucune facture.
           </BodyText>
         )}
-        {!!order.invoices &&
-          order.invoices.map((invoice, key) => (
-            <BodyText preventTransition key={key}>
-              {invoice.id}
-            </BodyText>
-          ))}
+        <Stack gap={4} padding="0 2rem 2rem">
+          {order.invoices?.length > 0 && <OrderListHead />}
+          {!!order.invoices &&
+            order.invoices.map((invoice, key) => (
+              <OrderListItem invoice={invoice} router={router} key={key} />
+            ))}
+        </Stack>
       </Stack>
     </FormCard>
   )

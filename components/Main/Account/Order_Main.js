@@ -15,7 +15,11 @@ import SmallTitle from "../../Titles/small-title"
 import { formatDayDate } from "../../../services/date-time"
 import { buildPublicURL } from "../../../services/utils"
 
-const allowedStatesForPaying = ["WAITING_FOR_PAYMENT", "PAYMENT_FAILED"]
+const allowedStatesForPaying = [
+  "WAITING_FOR_PAYMENT",
+  "PAYMENT_FAILED",
+  "DEPOSIT_PAID",
+]
 
 const TotalPrice = ({ totalPrice }) => (
   <BodyText display="inline-flex">
@@ -28,11 +32,11 @@ const HeadItem = (props) => (
     component="th"
     textAlign="left"
     sx={{
-      border: (theme) => `2px solid ${theme.palette.secondary.main}`,
+      border: (theme) => `1px solid #000`,
       padding: 2,
     }}
   >
-    <BodyText color={(theme) => theme.palette.text.secondary} {...props} />
+    <BodyText color={(theme) => theme.palette.text.grey} {...props} />
   </Box>
 )
 
@@ -42,7 +46,7 @@ const Value = ({ data }) => (
   <Box
     component="td"
     sx={{
-      border: (theme) => `2px solid ${theme.palette.secondary.main}`,
+      border: (theme) => `1px solid #000`,
       padding: 2,
     }}
   >
@@ -117,41 +121,47 @@ export default function Order_Main({ orderId }) {
           </Stack>
 
           <Stack gap={2}>
-            {order.invoice && (
+            <SmallTitle>Récapitulatif</SmallTitle>
+            <Stack sx={{ overflowX: "auto" }}>
               <Box
-                component="a"
-                href={order.invoice}
-                download="facture.pdf"
-                target="_blank"
+                component="table"
+                sx={{
+                  borderCollapse: "collapse",
+                  background: (theme) => theme.palette.background.main,
+                }}
               >
-                <PillButton startIcon={<ReceiptIcon />}>Facture</PillButton>
+                <HeadItem>Type</HeadItem>
+                {/* <HeadItem>Item</HeadItem> */}
+                <HeadItem>Description</HeadItem>
+                <HeadItem>Qté</HeadItem>
+                <HeadItem>TVA</HeadItem>
+                <HeadItem>Prix HT</HeadItem>
+                {order.items.map((item, key) => (
+                  <Row key={key}>
+                    <Value data={item.type} />
+                    {/* <Value data={item.label} /> */}
+                    <Value
+                      data={
+                        <>
+                          {item.label}
+                          <br />
+                          <Box
+                            component="span"
+                            fontSize="1rem"
+                            sx={{ color: (theme) => theme.palette.text.grey }}
+                          >
+                            {item.description}
+                          </Box>
+                        </>
+                      }
+                    />
+                    <Value data={item.quantity} />
+                    <Value data={`${item.vat}%`} />
+                    <Value data={`${item.no_vat_price / 100}€`} />
+                  </Row>
+                ))}
               </Box>
-            )}
-            <BodyText>Récapitulatif :</BodyText>
-            <Box
-              component="table"
-              sx={{
-                border: "1px solid #fff",
-                borderCollapse: "collapse",
-              }}
-            >
-              <HeadItem>Type</HeadItem>
-              <HeadItem>Item</HeadItem>
-              <HeadItem>Description</HeadItem>
-              <HeadItem>Quantité</HeadItem>
-              <HeadItem>TVA</HeadItem>
-              <HeadItem>Prix HT</HeadItem>
-              {order.items.map((item, key) => (
-                <Row key={key}>
-                  <Value data={item.type} />
-                  <Value data={item.label} />
-                  <Value data={item.description} />
-                  <Value data={item.quantity} />
-                  <Value data={`${item.vat}%`} />
-                  <Value data={`${item.no_vat_price / 100}€`} />
-                </Row>
-              ))}
-            </Box>
+            </Stack>
 
             <Stack width="100%" alignItems="end">
               <Stack direction="row" alignItems="center" gap={5}>
@@ -165,14 +175,16 @@ export default function Order_Main({ orderId }) {
                       )
                     }
                   >
-                    Finaliser la commande
+                    {order.status === "DEPOSIT_PAID"
+                      ? "Payer le reste"
+                      : "Finaliser la commande"}
                   </PillButton>
                 )}
               </Stack>
             </Stack>
           </Stack>
 
-          <SmallTitle>Vos factures</SmallTitle>
+          {order.invoices?.length > 0 && <SmallTitle>Vos factures</SmallTitle>}
           {order.invoices.map((invoice, key) => (
             <Stack flexDirection="row" gap={2} key={key} alignItems="center">
               <BodyText>
