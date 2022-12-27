@@ -153,7 +153,7 @@ function UsersPanel_Main(props) {
   const deleteUsers = async (usersToDelete) => {
     // usersToDelete must be an array of user ids (we get it from handleDeleteUser())
 
-    const errorsCount = usersToDelete.length
+    let errorsCount = usersToDelete.length
     const [errors] = await Promise.all(
       usersToDelete.map(async (userId) => {
         const res = await apiCall.users.delete(userId)

@@ -77,7 +77,7 @@ function FilmsPanelSection(props) {
   /***************** FUNCTIONS *****************/
   const deleteFilms = async (filmsToDelete) => {
     // filmsToDelete must be an array of videos ids (we get it from handleDeleteFilms())
-    const errorsCount = filmsToDelete.length
+    let errorsCount = filmsToDelete.length
     const [errors] = await Promise.all(
       filmsToDelete.map(async (videoId) => {
         const res = await apiCall.films.delete({ id: videoId })

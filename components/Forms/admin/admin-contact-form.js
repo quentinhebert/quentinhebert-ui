@@ -92,7 +92,7 @@ const Caroussel = ({
   const handleEnableSort = () => setSortDisabled(false)
   const handleApplySortToState = () => {
     // Get a copy
-    const localContactItems = contactItems
+    let localContactItems = contactItems
 
     // Perform changes for each group (not only the first slide)
     cards.map((card) => {

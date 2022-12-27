@@ -91,7 +91,7 @@ function AddFilmModal(props) {
   const handleChangeMultipleCheckbox = (attribute, item) => (event) => {
     event.stopPropagation()
     event.preventDefault()
-    const localAttribute = film[attribute]
+    let localAttribute = film[attribute]
     if (event.target.checked) {
       localAttribute.push(item)
     } else {

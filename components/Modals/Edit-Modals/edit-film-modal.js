@@ -99,7 +99,7 @@ function EditFilmModal(props) {
     else setFilm({ ...film, [attribute]: e.target.value })
   }
   const handleChangeMultipleCheckbox = (attribute, item) => (event) => {
-    const localAttribute = film[attribute]
+    let localAttribute = film[attribute]
     if (event.target.checked) {
       localAttribute.push(item)
     } else {

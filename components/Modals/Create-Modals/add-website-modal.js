@@ -80,7 +80,7 @@ function AddWebsiteModal(props) {
   const handleChangeMultipleCheckbox = (attribute, item) => (event) => {
     event.stopPropagation()
     event.preventDefault()
-    const localAttribute = website[attribute]
+    let localAttribute = website[attribute]
     if (event.target.checked) {
       localAttribute.push(item)
     } else {

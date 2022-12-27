@@ -95,7 +95,7 @@ function FilesPanel_Main(props) {
   const fetchFiles = async () => {
     const res = await apiCall.files.getAll()
     if (res && res.ok) {
-      const localTotalSize = 0
+      let localTotalSize = 0
       const localArray = []
       const result = await res.json()
       await result.map((file, key) => {
@@ -118,7 +118,7 @@ function FilesPanel_Main(props) {
   const deleteFiles = async (filesToDelete) => {
     // filesToDelete must be an array of user ids (we get it from handleDeleteFile())
 
-    const errorsCount = filesToDelete.length
+    let errorsCount = filesToDelete.length
     const [errors] = await Promise.all(
       filesToDelete.map(async (imageId) => {
         const res = await apiCall.files.delete({ id: imageId })

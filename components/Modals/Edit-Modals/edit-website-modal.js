@@ -88,7 +88,7 @@ function EditWebsiteModal(props) {
     else setWebsite({ ...website, [attribute]: e.target.value })
   }
   const handleChangeMultipleCheckbox = (attribute, item) => (event) => {
-    const localAttribute = website[attribute]
+    let localAttribute = website[attribute]
     if (event.target.checked) {
       localAttribute.push(item)
     } else {

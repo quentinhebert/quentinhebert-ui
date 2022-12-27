@@ -71,7 +71,7 @@ function WebsitesSlidesPanel_Main(props) {
   /***************** FUNCTIONS *****************/
   const deleteWebsiteSlides = async (slidesToDelete) => {
     // slidesToDelete must be an array of website ids (we get it from handleDeleteWebsiteSlides())
-    const errorsCount = slidesToDelete.length
+    let errorsCount = slidesToDelete.length
     const [errors] = await Promise.all(
       slidesToDelete.map(async (slideId) => {
         const res = await apiCall.websites.slides.delete({ id: slideId })

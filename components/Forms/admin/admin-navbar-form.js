@@ -140,7 +140,7 @@ function AdminNavbarForm(props) {
   }
 
   const handleAddItem = () => {
-    const localItems = navbarItems
+    let localItems = navbarItems
     const totalItems = localItems.length
 
     /** Trick to reload component when array changes **/
@@ -166,7 +166,7 @@ function AdminNavbarForm(props) {
   const handleDeleteItem = (item, row) => {
     const deleteItem = () => {
       // Get copy
-      const localItems = navbarItems
+      let localItems = navbarItems
       const localIdsToDelete = idsToDelete
 
       // Save the item id to delete

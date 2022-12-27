@@ -78,7 +78,7 @@ function WebsitesPanelSection(props) {
   /***************** FUNCTIONS *****************/
   const deleteWebsites = async (websitesToDelete) => {
     // websitesToDelete must be an array of website ids (we get it from handleDeleteWebsites())
-    const errorsCount = websitesToDelete.length
+    let errorsCount = websitesToDelete.length
     const [errors] = await Promise.all(
       websitesToDelete.map(async (websiteId) => {
         const res = await apiCall.websites.delete({ id: websiteId })
