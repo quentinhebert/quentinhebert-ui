@@ -8,6 +8,7 @@ import SelectPaymentMethodSection from "../../Sections/Account/Orders/select-pay
 import PleaseWait from "../../Helpers/please-wait"
 import CustomStepper from "../../Navigation/custom-stepper"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
+import Custom401_Main from "../Errors/Custom401_Main"
 
 const steps = [
   "Adresse de facturation",
@@ -28,6 +29,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
   const [loading, setLoading] = useState(false)
   const [invoiceAddress, setInvoiceAddress] = useState(null)
   const [deliveryAddress, setDeliveryAddress] = useState(null)
+  const [is401, setIs401] = useState(false)
 
   // Stepper utils
   const [activeStep, setActiveStep] = useState(0)
@@ -48,6 +50,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
     setLoading(true)
     if (orderId) {
       const res = await apiCall.orders.get({ id: orderId })
+      if (res && res.status === 401) setIs401(true)
       if (res && res.ok) {
         const jsonRes = await res.json()
         setOrder(jsonRes)
@@ -60,6 +63,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
     fetchOrder()
   }, [])
 
+  if (is401) return <Custom401_Main redirect={`/order-view/${orderId}`} />
   if (!order.id && !loading) return <Custom404_Main />
 
   return (

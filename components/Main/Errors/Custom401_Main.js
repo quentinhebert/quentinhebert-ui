@@ -4,7 +4,7 @@ import RectangleButton from "../../Buttons/rectangle-button"
 import BodyText from "../../Text/body-text"
 import CustomH1 from "../../Titles/custom-h1"
 
-export default function Custom401_Main() {
+export default function Custom401_Main({ redirect }) {
   const router = useRouter()
   return (
     <Stack
@@ -17,7 +17,7 @@ export default function Custom401_Main() {
 
       <BodyText>Accès refusé... La police est en route !</BodyText>
 
-      <RectangleButton secondary onClick={() => router.push("/")}>
+      <RectangleButton secondary onClick={() => router.push(redirect || "/")}>
         Faire demi-tour
       </RectangleButton>
     </Stack>

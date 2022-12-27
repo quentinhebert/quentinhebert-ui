@@ -11,6 +11,7 @@ const CssFilledInput = styled((props) => (
       textDecoration: "none",
       color: (theme) => theme.palette.text.white,
       border: (theme) => `1px solid ${theme.palette.secondary.main}`,
+      background: "#000",
     }}
     {...props}
   />

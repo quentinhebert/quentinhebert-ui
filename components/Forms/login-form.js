@@ -22,7 +22,7 @@ import CustomLink from "../Links/custom-link"
 import CustomForm from "./custom-form"
 import CustomFilledInput from "../Inputs/custom-filled-input"
 import CustomFilledInputIcon from "../Inputs/custom-filled-input-icon"
-import RightSubmitButton from "../Buttons/right-submit-button"
+import PillButton from "../Buttons/pill-button"
 
 export default function LoginForm(props) {
   /********** PROPS **********/
@@ -31,6 +31,7 @@ export default function LoginForm(props) {
     handleClickPasswordForgotten,
     passwordForgottenDefaultEmail,
     setPasswordForgottenDefaultEmail,
+    background,
   } = props
 
   const router = useRouter()
@@ -228,6 +229,7 @@ export default function LoginForm(props) {
         padding: "2rem",
         border: `1px solid #fff`,
         borderRadius: "10px",
+        background: background || "transparent",
       }}
     >
       <Stack width="100%" gap={4} ref={ref}>
@@ -294,43 +296,45 @@ export default function LoginForm(props) {
             </Stack>
           </motion.div>
 
-          <motion.div
-            initial="hidden"
-            variants={variants(3)}
-            animate={controls}
-            style={{ width: "100%", textAlign: "center" }}
-          >
-            <Typography>
-              <CustomLink
-                sx={{ color: (theme) => theme.palette.text.white }}
-                onClick={handleClickPasswordForgotten}
-                className="cool-button"
-              >
-                Mot de passe oublié ?
-              </CustomLink>
-            </Typography>
-          </motion.div>
-
-          <motion.div
-            initial="hidden"
-            variants={variants(4)}
-            animate={controls}
-            style={{ width: "100%" }}
-          >
-            <RightSubmitButton
-              type="submit"
-              onClick={login}
-              disabled={
-                loading ||
-                !passwordInput ||
-                !emailInput ||
-                passwordInput.trim() === "" ||
-                emailInput.trim() === ""
-              }
+          <Stack gap={2}>
+            <motion.div
+              initial="hidden"
+              variants={variants(4)}
+              animate={controls}
+              style={{ display: "flex", justifyContent: "center" }}
             >
-              {loading ? "Patientez..." : "Se connecter"}
-            </RightSubmitButton>
-          </motion.div>
+              <PillButton
+                type="submit"
+                onClick={login}
+                disabled={
+                  loading ||
+                  !passwordInput ||
+                  !emailInput ||
+                  passwordInput.trim() === "" ||
+                  emailInput.trim() === ""
+                }
+              >
+                {loading ? "Patientez..." : "Se connecter"}
+              </PillButton>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              variants={variants(3)}
+              animate={controls}
+              style={{ width: "100%", textAlign: "center" }}
+            >
+              <Typography>
+                <CustomLink
+                  sx={{ color: (theme) => theme.palette.text.secondary }}
+                  onClick={handleClickPasswordForgotten}
+                  className="cool-button"
+                >
+                  J'ai oublié mon mot de passe
+                </CustomLink>
+              </Typography>
+            </motion.div>
+          </Stack>
         </CustomForm>
       </Stack>
     </motion.div>

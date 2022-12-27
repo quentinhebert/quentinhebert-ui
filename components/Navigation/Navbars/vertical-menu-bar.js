@@ -44,11 +44,17 @@ const AdminItems = [
 ]
 
 const ClientItems = [
-  { label: "Mon compte", icon: <PersonIcon />, url: "/account" },
+  {
+    label: "Mon compte",
+    icon: <PersonIcon />,
+    url: "/account",
+    section: "account",
+  },
   {
     label: "Mes commandes",
     icon: <ShoppingCartIcon />,
     url: "/account/orders",
+    section: "orders",
   },
   // { label: "Messages", icon: <EmailIcon />, url: "#" },
 ]
@@ -131,8 +137,10 @@ export function VerticalMenuBar({}) {
   }
 
   const pageSection = router.pathname.split("/")[1]
+  const pageSubSection = router.pathname.split("/")[2]
   const isActive = (section) => {
-    if (pageSection === section) return true
+    if (pageSection === section && pageSubSection !== "orders") return true
+    if (section !== "account" && pageSubSection === "orders") return true
     return false
   }
 

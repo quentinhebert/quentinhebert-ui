@@ -1,6 +1,6 @@
 import { Box, Stack } from "@mui/material"
 import { useRouter } from "next/router"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import PillButton from "../../Buttons/pill-button"
 import CustomForm from "../../Forms/custom-form"
@@ -13,7 +13,17 @@ import CenteredMaxWidthContainer from "../../Containers/centered-max-width-conta
 import { ORDERSTATES } from "../../../enums/orderStates"
 import Pill from "../../Text/pill"
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
+import CustomModal from "../../Modals/custom-modal"
+import LoginForm from "../../Forms/login-form"
+import SignUpForm from "../../Forms/signup-form"
+import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
+import PasswordForgottenForm from "../../Forms/password-forgotten-form"
 
+const MODES = {
+  login: "LOGIN",
+  signup: "SIGNUP",
+  passwordForgotten: "PASSWORD_FORGOTTEN",
+}
 const allowedStatesForPaying = ["WAITING_FOR_PAYMENT", "PAYMENT_FAILED"]
 
 const TotalPrice = ({ totalPrice }) => (
@@ -68,10 +78,17 @@ const StatusChip = ({ order }) => (
 export default function OrderView_Main({}) {
   const router = useRouter()
   const id = router.query.id
+  const defaultEmail = router.query.default_email
+
+  useEffect(() => {
+    if (defaultEmail) handleSubmit(defaultEmail)
+  }, defaultEmail)
 
   const { user } = useContext(UserContext)
 
-  const [email, setEmail] = useState("")
+  const [mode, setMode] = useState(null)
+  const [openAuthModal, setOpenAuthModal] = useState(false)
+  const [email, setEmail] = useState(defaultEmail || "")
   const [access, setAccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [order, setOrder] = useState({
@@ -86,21 +103,44 @@ export default function OrderView_Main({}) {
     client: null,
   })
 
-  const handleSubmit = async () => {
-    if (!email || !id) return
-    const res = await apiCall.orders.view({ id, email, auth: false })
+  const handleOpenAuth = () => setOpenAuthModal(true)
+  const handleCloseAuth = () => {
+    setMode(null)
+    setOpenAuthModal(false)
+  }
+
+  const handleSubmit = async (value) => {
+    if ((!email && !value) || !id) return
+    setLoading(true)
+    const res = await apiCall.orders.view({
+      id,
+      email: value || email,
+      auth: false,
+    })
     if (res && res.ok) {
       setAccess(true)
       const jsonRes = await res.json()
       setOrder(jsonRes)
     }
+    setLoading(false)
   }
 
-  const handleNext = () => {
-    if (!!user && user.id === order.client.id)
-      return router.push(`/account/orders/${id}/checkout/before-checkout-steps`)
-
-    // TODO: open modal login or SignUp
+  const handleNext = async () => {
+    if (!!user) {
+      // Await assign client to order, then if success :
+      // Bcs fetching next page is only allowed for order's client
+      const res = await apiCall.orders.autoAssign({
+        id: order.id,
+      })
+      if (res && res.ok)
+        return router.push(
+          `/account/orders/${id}/checkout/before-checkout-steps`
+        )
+      else {
+        alert("erreur")
+      }
+    }
+    return handleOpenAuth()
   }
 
   if (loading)
@@ -201,6 +241,89 @@ export default function OrderView_Main({}) {
           </Stack>
         </Stack>
       )}
+
+      <CustomModal
+        open={openAuthModal}
+        handleClose={handleCloseAuth}
+        background="#000"
+        justifyContent="center"
+      >
+        <Stack gap={6}>
+          <Stack gap={4} marginBottom="1rem">
+            <ModalTitle
+              alignItems="center"
+              display="flex"
+              gap={2}
+              margin="0 auto"
+            >
+              <ShoppingCartIcon />
+              Finalisez votre commande
+            </ModalTitle>
+
+            {mode === null && (
+              <BodyText preventTransition fontSize="1rem" textAlign="center">
+                Veuillez vous identifier ou créer votre compte.
+              </BodyText>
+            )}
+          </Stack>
+
+          {mode === MODES.login && (
+            <LoginForm
+              handleClickPasswordForgotten={() =>
+                setMode(MODES.passwordForgotten)
+              }
+            />
+          )}
+          {mode === MODES.signup && (
+            <Stack
+              gap={4}
+              sx={{
+                border: `1px solid #fff`,
+                borderRadius: "10px",
+                padding: "2rem",
+              }}
+            >
+              <ModalTitle>Créer mon compte</ModalTitle>
+              <SignUpForm handleClose={handleCloseAuth} />
+            </Stack>
+          )}
+          {mode === MODES.passwordForgotten && (
+            <PasswordForgottenForm
+              handleCancel={() => setMode(MODES.login)}
+              defaultEmail={""}
+            />
+          )}
+
+          <Stack gap={2}>
+            {mode !== MODES.login && mode !== MODES.passwordForgotten && (
+              <PillButton margin="0 auto" onClick={() => setMode(MODES.login)}>
+                Me connecter
+              </PillButton>
+            )}
+            {mode !== MODES.signup && (
+              <PillButton
+                margin="0 auto"
+                onClick={() => setMode(MODES.signup)}
+                border={(theme) => `1px solid ${theme.palette.secondary.main}`}
+                color={(theme) => theme.palette.secondary.main}
+                background="transparent"
+              >
+                Je n'ai pas de compte
+              </PillButton>
+            )}
+
+            <BodyText
+              fontSize="1rem"
+              onClick={handleCloseAuth}
+              textAlign="center"
+              color={(theme) => theme.palette.secondary.main}
+              className="cool-button pointer"
+            >
+              Annuler
+            </BodyText>
+          </Stack>
+        </Stack>
+      </CustomModal>
     </Stack>
   )
 }

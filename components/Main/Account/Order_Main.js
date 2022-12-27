@@ -11,6 +11,9 @@ import PleaseWait from "../../Helpers/please-wait"
 import BodyText from "../../Text/body-text"
 import Pill from "../../Text/pill"
 import RefreshButton from "../../Buttons/refresh-button"
+import SmallTitle from "../../Titles/small-title"
+import { formatDayDate } from "../../../services/date-time"
+import { buildPublicURL } from "../../../services/utils"
 
 const allowedStatesForPaying = ["WAITING_FOR_PAYMENT", "PAYMENT_FAILED"]
 
@@ -71,6 +74,7 @@ export default function Order_Main({ orderId }) {
     client_id: null,
     total_price: null,
     items: [],
+    invoices: [],
   }
   const [order, setOrder] = useState(initialOrder)
   const [loading, setLoading] = useState(false)
@@ -92,6 +96,10 @@ export default function Order_Main({ orderId }) {
   }, [])
 
   const router = useRouter()
+
+  const handleDownload = async ({ name, url }) => {
+    //
+  }
 
   if (!order.id && !loading) return <Custom404_Main />
 
@@ -163,6 +171,23 @@ export default function Order_Main({ orderId }) {
               </Stack>
             </Stack>
           </Stack>
+
+          <SmallTitle>Vos factures</SmallTitle>
+          {order.invoices.map((invoice, key) => (
+            <Stack flexDirection="row" gap={2} key={key} alignItems="center">
+              <BodyText>
+                {formatDayDate({ timestamp: invoice.created_at })}
+              </BodyText>
+              <BodyText>{invoice.number}</BodyText>
+              <Box
+                component="a"
+                href={buildPublicURL(invoice.path)}
+                target="_blank"
+              >
+                <PillButton startIcon={<ReceiptIcon />}>Facture</PillButton>
+              </Box>
+            </Stack>
+          ))}
         </Stack>
       )}
     </>
