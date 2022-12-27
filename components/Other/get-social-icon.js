@@ -1,13 +1,13 @@
-import YoutubeIcon from "../../public/medias/social_icons/youtube.svg"
-import FacebookIcon from "../../public/medias/social_icons/facebook.svg"
-import InstagramIcon from "../../public/medias/social_icons/instagram.svg"
-import TiktokIcon from "../../public/medias/social_icons/tiktok.svg"
-import LinkedinIcon from "../../public/medias/social_icons/linkedin.svg"
-import SnapchatIcon from "../../public/medias/social_icons/snapchat.svg"
-import PinterestIcon from "../../public/medias/social_icons/pinterest.svg"
-import WhatsappIcon from "../../public/medias/social_icons/whatsapp.svg"
-import VimeoIcon from "../../public/medias/social_icons/vimeo.svg"
-import TwitterIcon from "../../public/medias/social_icons/twitter.svg"
+const YoutubeIcon = "/medias/social_icons/youtube.svg"
+const FacebookIcon = "/medias/social_icons/facebook.svg"
+const InstagramIcon = "/medias/social_icons/instagram.svg"
+const TiktokIcon = "/medias/social_icons/tiktok.svg"
+const LinkedinIcon = "/medias/social_icons/linkedin.svg"
+const SnapchatIcon = "/medias/social_icons/snapchat.svg"
+const PinterestIcon = "/medias/social_icons/pinterest.svg"
+const WhatsappIcon = "/medias/social_icons/whatsapp.svg"
+const VimeoIcon = "/medias/social_icons/vimeo.svg"
+const TwitterIcon = "/medias/social_icons/twitter.svg"
 
 export default function getSocialIcon(type) {
   switch (type) {

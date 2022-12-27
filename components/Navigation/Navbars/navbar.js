@@ -112,12 +112,12 @@ export default function Navbar(props) {
                   }}
                 >
                   {data?.logo?.URL && (
-                    <Image
+                    <Box
+                      component="img"
                       src={data.logo.URL}
                       width="100%"
                       height="100%"
-                      priority={true}
-                      // className={page === "/" ? styles.shine : null}
+                      zIndex={1000}
                     />
                   )}
                 </Stack>

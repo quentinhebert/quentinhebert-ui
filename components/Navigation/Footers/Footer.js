@@ -98,7 +98,10 @@ const SocialMedias = ({ items }) => {
       {items.map((social, key) => (
         <ScaleUpOnHoverStack key={key}>
           <CustomLink href={social.value} target="_blank">
-            <Image src={getSocialIcon(social.type)} height="40%" width="40%" />
+            <img
+              src={getSocialIcon(social.type)}
+              style={{ height: "40px", width: "40px" }}
+            />
           </CustomLink>
         </ScaleUpOnHoverStack>
       ))}
@@ -110,7 +113,16 @@ const LogoQH = ({ logoUrl }) => (
   <ScaleUpOnHoverStack direction="row" justifyContent="center">
     <Link href="/" passHref>
       <Box component="a">
-        {logoUrl && <Image src={logoUrl} width="100%" height="80%" />}
+        {/* {logoUrl && <Image src={logoUrl} width="100%" height="80%" />} */}
+        {logoUrl && (
+          <Box
+            component="img"
+            src={logoUrl}
+            width="80px"
+            height="65px"
+            zIndex={100000}
+          />
+        )}
       </Box>
     </Link>
   </ScaleUpOnHoverStack>
