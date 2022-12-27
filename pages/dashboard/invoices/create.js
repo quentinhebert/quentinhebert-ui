@@ -5,7 +5,7 @@ import { useContext } from "react"
 import { UserContext } from "../../../contexts/UserContext"
 import { USERTYPES } from "../../../enums/userTypes"
 import DashboardLayout from "../../../components/Layouts/DashboardLayout"
-import QuotationForm from "../../../components/Forms/quotations/quotation-form"
+import QuotationForm from "../../../components/Forms/orders/order-form"
 import { useRouter } from "next/router"
 
 const head = {
