@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import BodyText from "../../Text/body-text"
 import { Parallax } from "react-scroll-parallax"
 import styles from "../../../styles/TextShine.module.css"
+import PillButton from "../../Buttons/pill-button"
 
 export default function WelcomeSection(props) {
   const { scrollTo, topRef, refForScroll } = props
@@ -175,23 +176,10 @@ export default function WelcomeSection(props) {
                 mesure.
               </BodyText>
 
-              <Box width="100%" className={styles.shine}>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    borderRadius: "30px",
-                    color: "#fff",
-                    borderColor: "#fff",
-                    padding: "0.5rem 2rem",
-                    letterSpacing: 1,
-                    "&:hover": {
-                      borderColor: (theme) => theme.palette.secondary.main,
-                    },
-                  }}
-                  onClick={() => scrollTo(refForScroll)}
-                >
+              <Box width="100%">
+                <PillButton onClick={() => scrollTo(refForScroll)}>
                   Mes services
-                </Button>
+                </PillButton>
               </Box>
             </motion.div>
           </Stack>
