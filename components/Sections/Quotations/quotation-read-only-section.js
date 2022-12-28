@@ -14,7 +14,6 @@ const PAYMENT_OPTIONS = [
 ]
 const HEAD = [
   { label: "Type" },
-  { label: "Intitulé" },
   { label: "Description", width: { xs: "200px", md: "20%" } },
   { label: "Qté." },
   { label: "TVA" },
@@ -26,15 +25,15 @@ const HeadCell = ({ width, ...props }) => (
     component="th"
     textAlign="left"
     sx={{
-      border: (theme) => `2px solid ${theme.palette.secondary.main}`,
+      border: (theme) => `1px solid #000`,
       padding: 2,
       minWidth: width || "10%",
-      background: (theme) => theme.palette.background.main,
     }}
   >
     <BodyText
       preventTransition
-      color={(theme) => theme.palette.text.secondary}
+      color={(theme) => theme.palette.text.grey}
+      fontSize="1rem"
       {...props}
     />
   </Box>
@@ -44,18 +43,18 @@ const Cell = (props) => (
     component="td"
     textAlign="left"
     sx={{
-      border: (theme) => `2px solid ${theme.palette.secondary.main}`,
+      border: (theme) => `1px solid #000`,
       padding: 2,
     }}
   >
-    <BodyText preventTransition color="#fff" {...props} />
+    <BodyText preventTransition color="#fff" {...props} fontSize="1rem" />
   </Box>
 )
 const Line = (props) => (
   <Box
     component="tr"
     sx={{
-      border: (theme) => `2px solid ${theme.palette.secondary.main}`,
+      border: (theme) => `1px solid #000`,
       padding: 2,
     }}
     {...props}
@@ -72,7 +71,7 @@ const Title = (props) => (
     <BodyText
       fontSize="1rem"
       preventTransition
-      color={(theme) => theme.palette.text.secondary}
+      color={(theme) => theme.palette.text.grey}
       {...props}
     />
   </Stack>
@@ -123,14 +122,15 @@ export default function QuotationReadOnlySection({ items, quotation }) {
         <BodyText
           preventTransition
           {...props}
-          color={(theme) => theme.palette.text.secondary}
+          color={(theme) => theme.palette.text.grey}
+          fontSize="1rem"
         />
       </Grid>
     )
 
     const Price = (props) => (
       <Grid item xs={4}>
-        <BodyText preventTransition {...props} />
+        <BodyText preventTransition {...props} fontSize="1rem" />
       </Grid>
     )
 
@@ -138,7 +138,8 @@ export default function QuotationReadOnlySection({ items, quotation }) {
       <Stack
         sx={{
           alignSelf: "end",
-          border: (theme) => `1px solid ${theme.palette.secondary.main}`,
+          // border: (theme) => `1px solid ${theme.palette.secondary.main}`,
+          background: (theme) => theme.palette.background.main,
           borderRadius: "20px",
           padding: 2,
         }}
@@ -245,12 +246,13 @@ export default function QuotationReadOnlySection({ items, quotation }) {
         <Box
           component="table"
           sx={{
+            background: (theme) => theme.palette.background.main,
             width: "99%",
             margin: "0.5%",
             borderCollapse: "collapse",
             borderStyle: "hidden",
             borderRadius: "20px",
-            boxShadow: (theme) => `0 0 0 2px ${theme.palette.secondary.main}`,
+            boxShadow: (theme) => `0 0 0 2px #000`,
             overflow: "hidden",
           }}
         >
@@ -269,8 +271,16 @@ export default function QuotationReadOnlySection({ items, quotation }) {
                   item.type
                 }
               </Cell>
-              <Cell>{item.label}</Cell>
-              <Cell>{item.description}</Cell>
+              <Cell>
+                {item.label}
+                <br />
+                <Box
+                  component="span"
+                  color={(theme) => theme.palette.text.grey}
+                >
+                  {item.description}
+                </Box>
+              </Cell>
               <Cell>{item.quantity}</Cell>
               <Cell>{item.vat} %</Cell>
               <Cell>{item.no_vat_price / 100} €</Cell>

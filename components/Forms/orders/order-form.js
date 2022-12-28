@@ -323,7 +323,7 @@ const ClientSection = ({ order, handleOpenAssign }) => {
       preventTransition
       fontSize="1rem"
       {...props}
-      color={(theme) => theme.palette.secondary.main}
+      color={(theme) => theme.palette.text.grey}
     />
   )
   const Value = (props) => (
@@ -661,11 +661,7 @@ function OrderForm({
       const saved = await save()
       if (!saved) return
       const res = await apiCall.orders.generateQuotation(order)
-      if (res && res.ok) {
-        const quotation = await res.json()
-        await fetchOrder()
-        // return router.push(`/quotation-view/${quotation.id}`)
-      }
+      if (res && res.ok) await fetchOrder()
     } else {
       setSnackMessage(
         `Certains champs sont manquants dans les conditions et mentions obligatoires.`

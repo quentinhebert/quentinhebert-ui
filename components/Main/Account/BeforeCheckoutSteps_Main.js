@@ -138,6 +138,15 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
                 </Stack>
               </>
             )}
+            {Number(order.deposit) === 0 && Number(order.balance) === 100 && (
+              <>
+                <SmallTitle>Je règle maintenant</SmallTitle>
+                <BodyText>
+                  Le total de la facture :{" "}
+                  {((order.total_price / 100) * order.balance) / 100}€
+                </BodyText>
+              </>
+            )}
           </Stack>
         </CenteredMaxWidthContainer>
 

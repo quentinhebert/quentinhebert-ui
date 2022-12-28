@@ -124,7 +124,7 @@ export default function Orders_Main() {
                 <BodyText>
                   {
                     convertToShortString(
-                      getLocaleDateTime(order.created_at, user.timezone)
+                      getLocaleDateTime(order.created_at)
                     ).split(" ")[0]
                   }
                 </BodyText>

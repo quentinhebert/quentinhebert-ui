@@ -81,7 +81,7 @@ export default function OrderView_Main({}) {
   const defaultEmail = router.query.default_email
 
   useEffect(() => {
-    if (defaultEmail) handleSubmit(defaultEmail)
+    if (defaultEmail) handleSubmit()
   }, defaultEmail)
 
   const { user } = useContext(UserContext)
@@ -109,12 +109,12 @@ export default function OrderView_Main({}) {
     setOpenAuthModal(false)
   }
 
-  const handleSubmit = async (value) => {
-    if ((!email && !value) || !id) return
+  const handleSubmit = async () => {
+    if ((!defaultEmail && !email) || !id) return
     setLoading(true)
     const res = await apiCall.orders.view({
       id,
-      email: value || email,
+      email: defaultEmail || email,
       auth: false,
     })
     if (res && res.ok) {
@@ -145,9 +145,11 @@ export default function OrderView_Main({}) {
 
   if (loading)
     return (
-      <Stack padding="100px 1rem" gap={4}>
-        <PleaseWait />
-      </Stack>
+      <CenteredMaxWidthContainer>
+        <Stack padding="0 1rem" gap={4}>
+          <PleaseWait />
+        </Stack>
+      </CenteredMaxWidthContainer>
     )
 
   if (!access)
