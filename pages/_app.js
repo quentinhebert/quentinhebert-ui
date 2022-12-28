@@ -19,6 +19,7 @@ function MyApp({ Component, pageProps, router }) {
   // Loading
   const [appLoading, setAppLoading] = useState(false)
   const [isUserDataFetching, setIsUserDataFetching] = useState(false)
+  const [isAnimationProcessing, setIsAnimationProcessing] = useState(false)
 
   // Snacks
   const [snackSeverity, setSnackSeverity] = useState("error")
@@ -27,40 +28,37 @@ function MyApp({ Component, pageProps, router }) {
   // In case user is logged in and app is restarted
   const fetchUser = async () => {
     setIsUserDataFetching(true)
-    const userFromToken = getUser(accessToken)
+
+    const userFromToken = getUser(getToken())
     const res = await apiCall.users.get(userFromToken.id)
     if (res && res.ok) {
       const userData = await res.json()
-      if (!appLoading) setUser(userData)
-    } else {
-      if (res && res.status === 401) {
-        removeToken() // Local storage
-        setAccessToken(null) // Context
-      }
+      setUser(userData)
+      setAccessToken(getToken()) // Context
+    } else if (res && res.status === 401) {
+      removeToken() // Local storage
+      setAccessToken(null) // Context
     }
-    setIsUserDataFetching(!!user)
+
+    setIsUserDataFetching(false)
   }
 
   // Everytime the app is restarted, we look for a token stocked in cookies. If the user context has no user but cookies do, we fetch up-to-date user info to set the user from the context
   useEffect(() => {
-    // Get token from cookies
-    if (window && getToken()) setAccessToken(getToken())
+    if (!!getToken() && getToken() !== "" && !user) fetchUser()
+  }, [])
 
-    // If user from context is null, but there is a token in cookies
-    if (!user && !!accessToken && accessToken !== "") fetchUser()
-  }, [user, accessToken])
-
-  // Let the loading animation finish if it started
   useEffect(() => {
-    if (isUserDataFetching) setAppLoading(true)
-    if (appLoading)
-      setTimeout(() => {
-        setAppLoading(isUserDataFetching)
-      }, 600)
-  }, [appLoading, isUserDataFetching])
+    if (!isAnimationProcessing && !isUserDataFetching) setAppLoading(false)
+    else {
+      setAppLoading(true)
+      setIsAnimationProcessing(true)
+      setTimeout(() => setIsAnimationProcessing(false), 800)
+    }
+  }, [isAnimationProcessing, isUserDataFetching])
 
   // Loading page
-  if (appLoading) return <AnimatedLogoLayout />
+  if ((!!getToken && !user) || appLoading) return <AnimatedLogoLayout />
 
   return (
     <AnimatePresence exitBeforeEnter>
