@@ -34,6 +34,7 @@ const jobs = {
 
 const WordCaroussel = ({ defaultService }) => (
   <Typography
+    component="div"
     color="#fff"
     flexGrow={1}
     textAlign="left"
@@ -44,7 +45,8 @@ const WordCaroussel = ({ defaultService }) => (
   >
     Vous cherchez un{" "}
     <Box
-      component="span"
+      component="div"
+      display="inline"
       sx={{ color: (theme) => theme.palette.text.secondary }}
     >
       {defaultService === "film" && (
@@ -60,7 +62,7 @@ const WordCaroussel = ({ defaultService }) => (
         <Stack className={styles.scroller}>
           <Box className={styles.wrapper}>
             {jobs.developper.map((job, key) => (
-              <Box key={key}>{job}</Box>
+              <Box key={key}>{job} ?</Box>
             ))}
           </Box>
         </Stack>
@@ -226,7 +228,6 @@ export default function ContactForm(props) {
       <Stack width="100%" sx={{ gap: { xs: 1, md: 2 } }}>
         <DualInputLine direction={defaultDirection}>
           <CustomFilledInput
-            required
             type="input"
             id="firstname"
             label="Prénom"
@@ -239,7 +240,7 @@ export default function ContactForm(props) {
           <CustomFilledInput
             type="input"
             id="lastname"
-            label="Nom"
+            label="Nom (Optionnel)"
             placeholder={formData.services.film ? "Vuitton" : "Etchebest"}
             value={formData.lastname}
             onChange={handleChange("lastname")}
@@ -250,7 +251,6 @@ export default function ContactForm(props) {
 
         <DualInputLine direction={defaultDirection}>
           <CustomFilledInput
-            required
             type="email"
             id="email"
             label="E-mail"
@@ -267,7 +267,7 @@ export default function ContactForm(props) {
           <CustomFilledInput
             type="phone"
             id="phone"
-            label="Téléphone"
+            label="Téléphone (Optionnel)"
             placeholder="06XXXXXXXX"
             value={formData.phone}
             onChange={handleChange("phone")}
@@ -278,7 +278,7 @@ export default function ContactForm(props) {
           <CustomFilledInput
             type="input"
             id="company"
-            label="Entreprise"
+            label="Entreprise (Optionnel)"
             placeholder={
               formData.services.film ? "Louis Vuitton" : "Philippe Etchebest"
             }
@@ -289,7 +289,6 @@ export default function ContactForm(props) {
           />
           <Stack width="100%">
             <CustomFilledSelect
-              required
               id="budget"
               value={formData.budget}
               onChange={handleChange("budget")}
@@ -301,7 +300,7 @@ export default function ContactForm(props) {
                       <Typography
                         color={errors.budget ? "error.main" : "secondary"}
                       >
-                        Mon budget *
+                        Mon budget
                       </Typography>
                     )
               }
@@ -325,7 +324,6 @@ export default function ContactForm(props) {
 
         <Stack width="100%">
           <CustomFilledTextArea
-            required
             id="description"
             label="À propos de mon projet..."
             placeholder={

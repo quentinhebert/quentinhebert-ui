@@ -43,6 +43,7 @@ export default function HeroSection(props) {
   const [playing, setPlaying] = useState(false)
   const [volume, setVolume] = useState(1)
   const [showControls, setShowControls] = useState(true)
+  const [rendered, setRendered] = useState(false)
 
   const handleClick = () => {
     setPlaying(!playing)
@@ -53,6 +54,7 @@ export default function HeroSection(props) {
   }
 
   useEffect(() => {
+    setRendered(true) // Trick to avoid nextjs hydration error
     let timeout = 0
 
     const handleMouseMove = () => {
@@ -76,7 +78,7 @@ export default function HeroSection(props) {
         background: "#000",
         backgroundRepeat: "no-repeat",
         width: "100%",
-        height: { xs: "calc(90vh - 80px)", md: "calc(100vh - 100px)" },
+        height: { xs: "calc(90vh - 80px)", md: "calc(100vh - 80px)" },
         // maxHeight: "600px", // TODO: Remove that line when suscribed to vimeo plan
         overflow: "hidden",
         objectFit: "cover",
@@ -86,32 +88,34 @@ export default function HeroSection(props) {
         sx={{ position: "relative", height: "100%" }}
         className="flex-center"
       >
-        <ReactPlayer
-          url="https://player.vimeo.com/video/759263656"
-          controls={false}
-          playing={playing}
-          volume={volume}
-          loop={true}
-          width={portrait ? "250.78vh" : "100vw"}
-          height={landscape ? "56.25vw" : "120vh"}
-          onPause={() => setPlaying(false)}
-          style={{
-            position: "absolute",
-            display: "flex",
-            opacity: playing ? 1 : 0,
-            transition: "opacity 0.7s ease-in-out",
-          }}
-        />
+        {rendered && ( // Trick to avoid nextjs hydration error
+          <ReactPlayer
+            url="https://player.vimeo.com/video/759263656"
+            controls={false}
+            playing={playing}
+            volume={volume}
+            loop={true}
+            width={portrait ? "250.78vh" : "100vw"}
+            height={landscape ? "56.25vw" : "120vh"}
+            onPause={() => setPlaying(false)}
+            style={{
+              position: "absolute",
+              display: "flex",
+              opacity: playing ? 1 : 0,
+              transition: "opacity 0.7s ease-in-out",
+            }}
+          />
+        )}
       </Stack>
 
       <Stack
         className="absolute full-width flex-center gap-2 no-select top left"
-        height="100%"
+        height="calc(100% - 90px)"
         zIndex={101}
         flexGrow={1}
       >
         <Stack
-          className="full-width flex-center gap-2 no-select top left"
+          className="full-width flex-center gap-2 no-select"
           sx={{
             opacity: playing ? 0 : 1,
             transition: "opacity 0.2s ease-in-out",
