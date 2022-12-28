@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  crossOrigin: "anonymous",
+  experimental: {
+    optimizeCss: true,
+  },
   images: {
     domains: ["creaqor.com"],
   },
