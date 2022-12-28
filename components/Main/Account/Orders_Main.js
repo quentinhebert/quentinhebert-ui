@@ -45,7 +45,9 @@ const GridHead = () => {
     >
       {headItems.map((label, key) => (
         <GridItem paddingLeft={key === 0 ? "1rem" : 0}>
-          <BodyText>{label}</BodyText>
+          <BodyText fontSize="1rem" color={(theme) => theme.palette.text.grey}>
+            {label}
+          </BodyText>
         </GridItem>
       ))}
     </Grid>

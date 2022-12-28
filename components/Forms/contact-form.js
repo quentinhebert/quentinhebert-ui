@@ -42,7 +42,7 @@ const WordCaroussel = ({ defaultService }) => (
       letterSpacing: { xs: 1.5, sm: 2, md: 2 },
     }}
   >
-    Je recherche un{" "}
+    Vous cherchez un{" "}
     <Box
       component="span"
       sx={{ color: (theme) => theme.palette.text.secondary }}
@@ -51,7 +51,7 @@ const WordCaroussel = ({ defaultService }) => (
         <Stack className={styles.scroller}>
           <Box className={styles.wrapper}>
             {jobs.filmmaker.map((job, key) => (
-              <Box key={key}>{job}</Box>
+              <Box key={key}>{job} ?</Box>
             ))}
           </Box>
         </Stack>
@@ -185,7 +185,7 @@ export default function ContactForm(props) {
               color={errors.services ? "error.main" : "#fff"}
               letterSpacing={1}
             >
-              Je recherche un <em>freelance</em> pour réaliser un... *
+              Vous cherchez <em>freelance</em> pour réaliser un... *
             </Typography>
             <Stack flexDirection="row" gap={4}>
               <CustomCheckbox

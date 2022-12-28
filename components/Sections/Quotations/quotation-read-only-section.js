@@ -93,7 +93,13 @@ const Card = ({ title, icon, ...props }) => (
         borderRadius: "30px",
       }}
     >
-      <SmallTitle alignItems="center" gap={1} display="flex" color="#fff">
+      <SmallTitle
+        alignItems="center"
+        gap={1}
+        display="flex"
+        color="#fff"
+        textTransform="capitalize"
+      >
         {icon}
         {title}
       </SmallTitle>
