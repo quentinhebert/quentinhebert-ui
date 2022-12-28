@@ -101,6 +101,7 @@ export default function Breadcrumbs(props) {
                 transition={{ delay: key / 10, duration: 0.5 }}
                 style={{
                   zIndex: -key,
+                  position: "relative",
                 }}
               >
                 <Stack
