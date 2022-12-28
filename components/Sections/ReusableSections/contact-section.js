@@ -46,17 +46,10 @@ export default function ContactSection(props) {
     >
       <CenteredMaxWidthContainer pixels="800px" percents="80%" gap={2}>
         <Typography
-          className={styles.shine}
           color="secondary"
           sx={{ fontSize: { xs: "2rem", md: "3rem" } }}
         >
-          <StrokeText
-            color={(theme) => theme.palette.secondary.main}
-            className="no-select"
-          >
-            ME
-          </StrokeText>{" "}
-          <Box component="span">CONTACTER</Box>
+          Vous avez un projet...
         </Typography>
 
         <motion.div

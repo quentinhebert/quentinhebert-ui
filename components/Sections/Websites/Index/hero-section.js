@@ -34,9 +34,9 @@ export default function HeroSection(props) {
             position: "relative",
             zIndex: 0,
             padding: {
-              xs: "7rem 1.5rem 0 1rem",
+              xs: "4rem 1.5rem 0 1rem",
               sm: "7rem 1.5rem 0 1rem",
-              md: "7rem 1.5rem 0 5rem",
+              md: "5rem 1.5rem 0 5rem",
             },
           }}
         >
@@ -115,20 +115,21 @@ export default function HeroSection(props) {
             backgroundImage: "url(/medias/developper-alpha.png)",
             backgroundSize: {
               xs: "200%",
-              sm: "200%",
-              md: "170%",
-              lg: "150%",
-              xl: "120%",
+              sm: "230%",
+              md: "200%",
+              lg: "220%",
             },
             backgroundPosition: {
               xs: "30% 10rem",
-              sm: "50% -10vw",
-              md: "50% 20%",
-              lg: "30% 30%",
-              xl: "30% 10%",
+              sm: "30% 10%",
+              md: "10% 10%",
+              lg: "20% 30%",
             },
             backgroundRepeat: "no-repeat",
-            width: "100%",
+            width: "70%",
+            pointerEvents: "none",
+            left: 0,
+            bottom: 0,
             minHeight: { xs: "500px", md: "600px" },
             height: { xs: "calc(70vh - 80px)", md: "calc(100vh - 80px)" },
             zIndex: 1,
@@ -136,21 +137,12 @@ export default function HeroSection(props) {
         />
       </Slide>
 
-      <Box
-        width="100%"
-        height="100%"
-        sx={{
-          zIndex: 11,
-        }}
-      ></Box>
-
       <Stack
         zIndex={10}
         justifyContent="end"
         alignItems="center"
         sx={{
           width: "100%",
-          minHeight: { xs: "500px", md: "600px" },
           height: { xs: "100vh", md: "100vh" },
         }}
       >

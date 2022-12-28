@@ -13,6 +13,8 @@ import RightSubmitButton from "../Buttons/right-submit-button"
 import CustomFilledSelect from "../Inputs/custom-filled-select"
 import CustomSelectOption from "../Inputs/custom-select-option"
 import CustomCheckbox from "../Inputs/custom-checkbox"
+import BodyText from "../Text/body-text"
+import RedoRoundedIcon from "@mui/icons-material/RedoRounded"
 
 /** CONSTANTS **/
 
@@ -43,7 +45,7 @@ const WordCaroussel = ({ defaultService }) => (
       letterSpacing: { xs: 1.5, sm: 2, md: 2 },
     }}
   >
-    Vous cherchez un{" "}
+    ...et vous cherchez un{" "}
     <Box
       component="div"
       display="inline"
@@ -187,8 +189,9 @@ export default function ContactForm(props) {
               color={errors.services ? "error.main" : "#fff"}
               letterSpacing={1}
             >
-              Vous cherchez <em>freelance</em> pour réaliser un... *
+              Vous cherchez un <em>freelance</em> pour réaliser un... *
             </Typography>
+
             <Stack flexDirection="row" gap={4}>
               <CustomCheckbox
                 label="Film"
@@ -223,6 +226,15 @@ export default function ContactForm(props) {
         ) : (
           <WordCaroussel defaultService={defaultService} />
         )}
+      </Stack>
+
+      <Stack width="100%" alignItems="end" marginBottom={2}>
+        <BodyText preventTransition gap={2} display="flex">
+          Laissez-moi un message{" "}
+          <RedoRoundedIcon
+            sx={{ rotate: "45deg", margin: ".2rem .2rem 0 0" }}
+          />
+        </BodyText>
       </Stack>
 
       <Stack width="100%" sx={{ gap: { xs: 1, md: 2 } }}>
