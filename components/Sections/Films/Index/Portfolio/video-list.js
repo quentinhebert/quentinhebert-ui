@@ -590,7 +590,7 @@ export default function VideoList({ height, setHeight, ...props }) {
       />
 
       <Stack width="100%" ref={ref} padding="0 0 2rem">
-        <FilterSection ref={heightRef} handleFilter={handleFilter} />
+        {/* <FilterSection ref={heightRef} handleFilter={handleFilter} /> */}
 
         <ImageList
           rowHeight={xs ? 150 : md ? 150 : 200}
@@ -749,7 +749,7 @@ export default function VideoList({ height, setHeight, ...props }) {
           className="flex-center"
           display={hasMoreFilms ? "flex" : "none"}
         >
-          <Box>
+          <Box component="div">
             <PillButton
               color="#000"
               onClick={handleShowMore}
