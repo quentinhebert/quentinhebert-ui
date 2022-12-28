@@ -151,7 +151,6 @@ export function VerticalMenuBar({}) {
         {setOfItems.map((item, key) => (
           <Link key={key} href={item.url} passHref>
             <Stack
-              component="a"
               sx={{
                 width: { xs: "auto", md: "100%" },
                 order: { xs: item.orderMobile, md: 0 },

@@ -55,7 +55,7 @@ const Credits = ({ text }) => {
       padding="0 1rem"
     >
       <SmallText>
-        © Quentin Hébert {year} · {text} ·{" "}
+        {/* © Quentin Hébert {year} · {text} ·{" "} */}
         <InTextLink href="/terms-of-use" text="CGU" /> ·{" "}
         <InTextLink
           href="/terms-and-conditions"
@@ -112,18 +112,16 @@ const SocialMedias = ({ items }) => {
 const LogoQH = ({ logoUrl }) => (
   <ScaleUpOnHoverStack direction="row" justifyContent="center">
     <Link href="/" passHref>
-      <Box component="a">
-        {/* {logoUrl && <Image src={logoUrl} width="100%" height="80%" />} */}
-        {logoUrl && (
-          <Box
-            component="img"
-            src={logoUrl}
-            width="80px"
-            height="65px"
-            zIndex={100000}
-          />
-        )}
-      </Box>
+      {/* {logoUrl && <Image src={logoUrl} width="100%" height="80%" />} */}
+      {logoUrl && (
+        <Box
+          component="img"
+          src={logoUrl}
+          width="80px"
+          height="65px"
+          zIndex={100000}
+        />
+      )}
     </Link>
   </ScaleUpOnHoverStack>
 )

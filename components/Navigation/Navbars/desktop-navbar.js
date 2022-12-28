@@ -34,7 +34,6 @@ export default function DesktopNavbar(props) {
                   className="cool-button no-select"
                   textTransform="uppercase"
                   letterSpacing={2}
-                  component="a"
                   sx={{
                     color: active
                       ? (theme) => theme.palette.secondary.main

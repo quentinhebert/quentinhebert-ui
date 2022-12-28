@@ -100,7 +100,6 @@ export default function Navbar(props) {
           >
             <Link href="/" passHref>
               <ScaleUpOnHoverStack
-                component="a"
                 sx={{ flexDirection: "row", alignItems: "center" }}
               >
                 <Stack

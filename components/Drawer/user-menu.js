@@ -55,7 +55,7 @@ const ProfessionalItems = [
 const renderMenuItems = (setOfItems) => {
   return setOfItems.map((item, key) => (
     <Link href={item.url} passHref key={key}>
-      <Box component="a">
+      <Box>
         <ListItem button sx={{ color: (theme) => theme.palette.text.white }}>
           <ListItemIcon>{item.icon}</ListItemIcon>
           <ListItemText primary={item.label} />
