@@ -31,13 +31,7 @@ export default function PagesLayout({
 
   return (
     <>
-      <motion.div
-        exit={{ opacity: 0 }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <Navbar staticData={navbarData} />
-      </motion.div>
+      <Navbar staticData={navbarData} />
       <Stack ref={topRef} />
 
       <motion.div
