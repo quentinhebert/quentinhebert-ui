@@ -31,8 +31,8 @@ export default function PagesLayout({
 
   return (
     <>
-      <Navbar staticData={navbarData} />
       <Stack ref={topRef} />
+      <Navbar staticData={navbarData} />
 
       <motion.div
         exit={{ opacity: 0 }}

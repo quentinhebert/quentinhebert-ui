@@ -17,7 +17,7 @@ export default function LoggedPagesLayout({
   const topRef = useRef()
 
   return (
-    <Stack width="100%" className="row">
+    <Stack width="100%" className="row" ref={topRef}>
       <VerticalMenuBar />
 
       <Stack
@@ -27,7 +27,6 @@ export default function LoggedPagesLayout({
         }}
       >
         <Navbar staticData={navbarData} />
-        <Stack ref={topRef} />
 
         <motion.div
           exit={{ opacity: 0 }}
