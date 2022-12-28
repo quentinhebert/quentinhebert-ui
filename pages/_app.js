@@ -57,8 +57,13 @@ function MyApp({ Component, pageProps, router }) {
     }
   }, [isAnimationProcessing, isUserDataFetching])
 
+  // Initial state
+  useEffect(() => {
+    setAppLoading(!!getToken() && getToken() !== "" && !user)
+  }, [])
+
   // Loading page
-  if ((!!getToken && !user) || appLoading) return <AnimatedLogoLayout />
+  if (appLoading) return <AnimatedLogoLayout />
 
   return (
     <AnimatePresence exitBeforeEnter>
