@@ -36,7 +36,7 @@ export function formatDescription(htmlString) {
     .replaceAll("<br>", "<br />")
   return `
     <CenteredMaxWidthContainer marginTop="1rem">
-        <BodyText textAlign="center" className="no-select">
+        <BodyText textAlign="center" className="no-select"  lineHeight="2rem">
             ${formattedString}
         </BodyText>
     </CenteredMaxWidthContainer>

@@ -70,7 +70,7 @@ const Caroussel = () => {
   }
 
   return (
-    <Stack ref={ref}>
+    <Stack ref={ref} gap={2}>
       <SwipeableViews
         index={index}
         disableLazyLoading
