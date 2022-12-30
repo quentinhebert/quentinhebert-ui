@@ -77,6 +77,7 @@ const MODALS = {
   ASSIGN: "ASSIGN",
   CREATE_ITEM: "CREATE_ITEM",
   EDIT_ITEM: "EDIT_ITEM",
+  PAYMENT: "PAYMENT",
 }
 const HEAD = [
   { label: "Type" },
@@ -384,10 +385,12 @@ const SectionTitle = ({ label, firstElement }) => (
     />
   </Stack>
 )
-const PaymentSection = ({}) => {
+const PaymentSection = ({ handleGenerate }) => {
   return (
     <FormCard textAlign="center">
-      <PillButton>Générer un lien de paiement en ligne</PillButton>
+      <PillButton onClick={handleGenerate}>
+        Générer un lien de paiement en ligne
+      </PillButton>
       <PillButton
         background="transparent"
         border={(theme) => `1px solid ${theme.palette.secondary.main}`}
@@ -464,6 +467,7 @@ function OrderForm({
   })
   const [newClient, setNewClient] = useState(false)
   const [selectedQuotation, setSelectedQuotation] = useState(null)
+  const [paymentEmail, setPaymentEmail] = useState(null)
 
   /********** FETCH DATA **********/
   const fetchOrder = async () => {
@@ -670,6 +674,14 @@ function OrderForm({
       setReadOnly(false)
     }
   }
+  const handleGeneratePaymentLink = async () => {
+    setPaymentEmail(order.client?.email)
+    handleOpenModal(MODALS.PAYMENT)
+    const res = await apiCall.orders.sendPaymentLink({
+      id: order.id,
+      email: paymentEmail,
+    })
+  }
 
   const emailError = emailInput.trim() !== "" && !checkEmail(emailInput)
   const getRecipientString = (recipientEmails) => recipientEmails.join(", ")
@@ -752,25 +764,6 @@ function OrderForm({
       icon: <AssignmentIndIcon />,
     })
 
-    // if (
-    //   order.quotations.filter(
-    //     (elt) =>
-    //       elt.status === QUOTATION_STATUS.ACCEPTED.id ||
-    //       elt.status === QUOTATION_STATUS.SIGNED.id
-    //   ).length === 0
-    // )
-    //   options.push({
-    //     label: "Nouveau devis",
-    //     handleClick: handleGenerate,
-    //     icon: <PictureAsPdfIcon />,
-    //   })
-
-    // options.push({
-    //   label: "Générer la facture",
-    //   handleClick: handleGenerate,
-    //   icon: <PictureAsPdfIcon />,
-    // })
-
     if (!!id)
       options.push({
         label: "Supprimer la commande",
@@ -786,9 +779,7 @@ function OrderForm({
           position: "sticky",
           top: 60,
           background: "#000",
-          // background: "red",
           zIndex: 10,
-          // padding: ".5rem 0",
           padding: "1rem 0",
           flexDirection: "row",
           alignItems: "center",
@@ -960,7 +951,7 @@ function OrderForm({
               <SectionTitle label="Détails de la commande" />
               <QuotationReadOnlySection items={items} quotation={order} />
               <SectionTitle label="Paiement" />
-              <PaymentSection />
+              <PaymentSection handleGenerate={handleGeneratePaymentLink} />
             </>
           )}
 
@@ -1380,6 +1371,29 @@ function OrderForm({
                 </Stack>
               </CustomForm>
             )}
+          </>
+        )}
+
+        {/* SEND PAYMENT LINK */}
+        {modal === MODALS.PAYMENT && (
+          <>
+            <ModalTitle>Envoyer un lien de paiement</ModalTitle>
+            <CustomForm gap={4}>
+              <CustomFilledInput
+                value={paymentEmail}
+                onChange={(e) => setPaymentEmail(e.target.value)}
+                label="Destinataire (e-mail)"
+                error={emailError} // FIXME: email error is not correct => need to separate logic for different emails
+                helperText={emailError && "Adresse e-mail invalide"}
+              />
+              <Stack className="row" gap={2}>
+                <CancelButton handleCancel={handleCloseModal} />
+                <SubmitButton
+                  onClick={handleGeneratePaymentLink}
+                  label="Envoyer"
+                />
+              </Stack>
+            </CustomForm>
           </>
         )}
       </CustomModal>

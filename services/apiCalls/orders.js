@@ -18,6 +18,22 @@ const orders = {
     }
   },
   // Admin only
+  sendPaymentLink: async ({ id, email }) => {
+    const body = { email }
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/orders/${id}/payment-link`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  // Admin only
   assignClient: async ({ id, clientId }) => {
     const body = { client_id: clientId }
     try {

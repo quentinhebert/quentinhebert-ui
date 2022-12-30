@@ -8,6 +8,7 @@ import Custom401_Main from "../Errors/Custom401_Main"
 import BodyText from "../../Text/body-text"
 import SmallTitle from "../../Titles/small-title"
 import OutlinedButton from "../../Buttons/outlined-button"
+import { setRefreshToken, setToken } from "../../../services/auth"
 
 export default function EmailConfirmation_Main(props) {
   /********** PROPS **********/
@@ -30,8 +31,15 @@ export default function EmailConfirmation_Main(props) {
         const res = await apiCall.users.security.email.confirm(token)
         if (!res || !res.ok) setError(true)
 
-        if (res.status && res.status === 204) setEmailConfirmed(true)
-        else {
+        if (res.status && res.ok) {
+          setEmailConfirmed(true)
+          const jsonRes = await res.json()
+          if (jsonRes.token && jsonRes.refresh_token) {
+            setToken(jsonRes.token)
+            setRefreshToken(jsonRes.refresh_token)
+            window.location.href = "/"
+          }
+        } else {
           const jsonRes = await res.json()
           if (jsonRes.code === errorCodes.EMAIL_CONFIRM_INVALID_TOKEN)
             return setError(true)

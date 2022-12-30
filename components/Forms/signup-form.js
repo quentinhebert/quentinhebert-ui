@@ -17,7 +17,7 @@ import BodyText from "../Text/body-text"
 
 export default function SignUpForm(props) {
   /********** PROPS **********/
-  const { handleClose } = props
+  const { handleClose, setIsCompleted } = props
 
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
@@ -47,6 +47,7 @@ export default function SignUpForm(props) {
     setSignupErrors(initialSignUpErrors)
     setAccept({ policy: false })
     setSignupCompleted(false)
+    if (!!setIsCompleted) setIsCompleted(false)
     setShowAlert({
       show: false,
       severity: null,
@@ -100,6 +101,7 @@ export default function SignUpForm(props) {
 
   const handleSignUpComplete = () => {
     setSignupCompleted(true)
+    if (!!setIsCompleted) setIsCompleted(true)
     setSnackSeverity("success")
     setSnackMessage("Inscription réussie !")
     setShowAlert({

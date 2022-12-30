@@ -18,6 +18,8 @@ import LoginForm from "../../Forms/login-form"
 import SignUpForm from "../../Forms/signup-form"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import PasswordForgottenForm from "../../Forms/password-forgotten-form"
+import AlertInfo from "../../Other/alert-info"
+import RefreshButton from "../../Buttons/refresh-button"
 
 const MODES = {
   login: "LOGIN",
@@ -91,6 +93,7 @@ export default function OrderView_Main({}) {
   const [email, setEmail] = useState(defaultEmail || "")
   const [access, setAccess] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [isCompleted, setIsCompleted] = useState(false)
   const [order, setOrder] = useState({
     id: id,
     label: "",
@@ -286,7 +289,29 @@ export default function OrderView_Main({}) {
               }}
             >
               <ModalTitle>Créer mon compte</ModalTitle>
-              <SignUpForm handleClose={handleCloseAuth} />
+              {!isCompleted ? (
+                <SignUpForm
+                  handleClose={handleCloseAuth}
+                  setIsCompleted={setIsCompleted}
+                />
+              ) : (
+                <>
+                  <AlertInfo
+                    content={{
+                      show: true,
+                      severity: "success",
+                      text: "Veuillez cliquer sur le lien de confirmation qui vous a été envoyé par email. Vous pourrez ensuite rafraîchir cette page pour finaliser la commande.",
+                      title: "Votre inscription est presque terminée",
+                    }}
+                  />
+                  <Stack alignItems="center">
+                    <RefreshButton
+                      label="Rafraîchir la page"
+                      refresh={() => location.reload()}
+                    />
+                  </Stack>
+                </>
+              )}
             </Stack>
           )}
           {mode === MODES.passwordForgotten && (
@@ -297,11 +322,16 @@ export default function OrderView_Main({}) {
           )}
 
           <Stack gap={2}>
-            {mode !== MODES.login && mode !== MODES.passwordForgotten && (
-              <PillButton margin="0 auto" onClick={() => setMode(MODES.login)}>
-                Me connecter
-              </PillButton>
-            )}
+            {mode !== MODES.login &&
+              mode !== MODES.passwordForgotten &&
+              !isCompleted && (
+                <PillButton
+                  margin="0 auto"
+                  onClick={() => setMode(MODES.login)}
+                >
+                  Me connecter
+                </PillButton>
+              )}
             {mode !== MODES.signup && (
               <PillButton
                 margin="0 auto"
