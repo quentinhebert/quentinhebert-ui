@@ -160,10 +160,12 @@ const OrderListHead = ({}) => (
     <GridItem color="grey" fontSize="1rem" xs={2}>
       Numéro
     </GridItem>
-    <GridItem color="grey" fontSize="1rem">
+    <GridItem color="grey" fontSize="1rem" xs={2}>
       Type
     </GridItem>
-    <GridItem color="grey" fontSize="1rem"></GridItem>
+    <GridItem color="grey" fontSize="1rem">
+      Montant
+    </GridItem>
     <GridItem color="grey" fontSize="1rem"></GridItem>
     <GridItem color="grey" fontSize="1rem" textAlign="right">
       Émise le
@@ -207,9 +209,10 @@ const OrderListItem = ({ invoice }) => {
     <Stack sx={{ justifyContent: "space-between" }} width="100%">
       <Grid container>
         <GridItem xs={2}>{invoice.number}</GridItem>
-        <GridItem textTransform="capitalize">
+        <GridItem textTransform="capitalize" xs={2}>
           {INVOICETYPES[invoice.type]}
         </GridItem>
+        <GridItem>{invoice.amount_paid / 100}€</GridItem>
         <GridItem>
           <ActionButton
             icon={<DownloadIcon />}
@@ -217,7 +220,6 @@ const OrderListItem = ({ invoice }) => {
             onClick={handleDownload}
           />
         </GridItem>
-        <GridItem></GridItem>
 
         <GridItem color="grey" textAlign="right">
           {formatDayDate({ timestamp: invoice.created_at })}
