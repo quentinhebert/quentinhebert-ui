@@ -14,45 +14,13 @@ import RefreshButton from "../../Buttons/refresh-button"
 import SmallTitle from "../../Titles/small-title"
 import { formatDayDate } from "../../../services/date-time"
 import { buildPublicURL } from "../../../services/utils"
+import QuotationReadOnlySection from "../../Sections/Quotations/quotation-read-only-section"
 
 const allowedStatesForPaying = [
   "WAITING_FOR_PAYMENT",
   "PAYMENT_FAILED",
   "DEPOSIT_PAID",
 ]
-
-const TotalPrice = ({ totalPrice }) => (
-  <BodyText display="inline-flex">
-    Prix TTC :<div style={{ marginLeft: ".5rem" }}>{totalPrice / 100}€</div>
-  </BodyText>
-)
-
-const HeadItem = (props) => (
-  <Box
-    component="th"
-    textAlign="left"
-    sx={{
-      border: (theme) => `1px solid #000`,
-      padding: 2,
-    }}
-  >
-    <BodyText color={(theme) => theme.palette.text.grey} {...props} />
-  </Box>
-)
-
-const Row = (props) => <Box component="tr" {...props} />
-
-const Value = ({ data }) => (
-  <Box
-    component="td"
-    sx={{
-      border: (theme) => `1px solid #000`,
-      padding: 2,
-    }}
-  >
-    <BodyText>{data}</BodyText>
-  </Box>
-)
 
 const StatusChip = ({ order }) => (
   <Pill
@@ -117,55 +85,32 @@ export default function Order_Main({ orderId }) {
             <StatusChip order={order} />
             <BodyText>{ORDERSTATES[order.status].description}</BodyText>
             <Stack flexGrow={1} />
-            <RefreshButton refresh={fetchOrder} />
+            {/* <RefreshButton refresh={fetchOrder} /> */}
+            {allowedStatesForPaying.includes(order.status) && (
+              <PillButton
+                startIcon={<ShoppingCartIcon />}
+                onClick={() =>
+                  router.push(
+                    `/account/orders/${orderId}/checkout/before-checkout-steps`
+                  )
+                }
+              >
+                {order.status === "DEPOSIT_PAID"
+                  ? "Payer le reste"
+                  : Number(order.deposit) > 0
+                  ? `Payer l'acompte`
+                  : "Payer"}
+              </PillButton>
+            )}
           </Stack>
 
-          <Stack gap={2}>
+          <Stack gap={4}>
             <SmallTitle>Récapitulatif</SmallTitle>
-            <Stack sx={{ overflowX: "auto" }}>
-              <Box
-                component="table"
-                sx={{
-                  borderCollapse: "collapse",
-                  background: (theme) => theme.palette.background.main,
-                }}
-              >
-                <HeadItem>Type</HeadItem>
-                {/* <HeadItem>Item</HeadItem> */}
-                <HeadItem>Description</HeadItem>
-                <HeadItem>Qté</HeadItem>
-                <HeadItem>TVA</HeadItem>
-                <HeadItem>Prix HT</HeadItem>
-                {order.items.map((item, key) => (
-                  <Row key={key}>
-                    <Value data={item.type} />
-                    {/* <Value data={item.label} /> */}
-                    <Value
-                      data={
-                        <>
-                          {item.label}
-                          <br />
-                          <Box
-                            component="span"
-                            fontSize="1rem"
-                            sx={{ color: (theme) => theme.palette.text.grey }}
-                          >
-                            {item.description}
-                          </Box>
-                        </>
-                      }
-                    />
-                    <Value data={item.quantity} />
-                    <Value data={`${item.vat}%`} />
-                    <Value data={`${item.no_vat_price / 100}€`} />
-                  </Row>
-                ))}
-              </Box>
-            </Stack>
+
+            <QuotationReadOnlySection items={order.items} quotation={order} />
 
             <Stack width="100%" alignItems="end">
               <Stack direction="row" alignItems="center" gap={5}>
-                <TotalPrice totalPrice={order.total_price} />
                 {allowedStatesForPaying.includes(order.status) && (
                   <PillButton
                     startIcon={<ShoppingCartIcon />}
@@ -177,7 +122,9 @@ export default function Order_Main({ orderId }) {
                   >
                     {order.status === "DEPOSIT_PAID"
                       ? "Payer le reste"
-                      : "Finaliser la commande"}
+                      : Number(order.deposit) > 0
+                      ? `Payer l'acompte`
+                      : "Payer"}
                   </PillButton>
                 )}
               </Stack>
