@@ -100,7 +100,7 @@ export default function Breadcrumbs(props) {
                 animate={{ opacity: 1 }}
                 transition={{ delay: key / 10, duration: 0.5 }}
                 style={{
-                  zIndex: -key,
+                  zIndex: breadcrumbs.length - key,
                   position: "relative",
                 }}
               >
