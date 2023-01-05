@@ -5,6 +5,7 @@ import SmallTitle from "../../Titles/small-title"
 import EuroIcon from "@mui/icons-material/Euro"
 import HourglassTopIcon from "@mui/icons-material/HourglassTop"
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory"
+import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
 
 const PAYMENT_OPTIONS = [
   { id: "card", label: "Carte bancaire" },
@@ -118,10 +119,11 @@ export default function QuotationReadOnlySection({ items, quotation }) {
     items.map((item) => {
       totalPrice += item.quantity * item.no_vat_price * (1 + item.vat / 100)
       totalNoVatPrice += item.quantity * item.no_vat_price
-      totalVat += item.quantity * item.vat
+      totalVat += (item.quantity * item.vat * item.no_vat_price) / 100
     })
     totalPrice = totalPrice / 100
     totalNoVatPrice = totalNoVatPrice / 100
+    totalVat = totalVat / 100
 
     const Label = (props) => (
       <Grid item xs={8}>
@@ -135,7 +137,7 @@ export default function QuotationReadOnlySection({ items, quotation }) {
     )
 
     const Price = (props) => (
-      <Grid item xs={4}>
+      <Grid item xs={4} textAlign="right">
         <BodyText preventTransition {...props} fontSize="1rem" />
       </Grid>
     )
@@ -144,19 +146,16 @@ export default function QuotationReadOnlySection({ items, quotation }) {
       <Stack
         sx={{
           alignSelf: "end",
-          // border: (theme) => `1px solid ${theme.palette.secondary.main}`,
           background: (theme) => theme.palette.background.main,
           borderRadius: "20px",
           padding: 2,
         }}
       >
-        <Grid container maxWidth="400px">
-          <Label>Total HT</Label>
-          <Price>{totalNoVatPrice} €</Price>
-          <Label>TVA</Label>
-          <Price>{totalVat} €</Price>
-          <Label>Total TTC</Label>
+        <Grid container width="300px">
+          <Label color="#fff">Total TTC</Label>
           <Price>{totalPrice} €</Price>
+          <Label>Dont TVA</Label>
+          <Price color="grey">{totalVat} €</Price>
           {Number(quotation.deposit) !== 0 && (
             <>
               <Stack
@@ -272,9 +271,8 @@ export default function QuotationReadOnlySection({ items, quotation }) {
             <Line key={key}>
               <Cell>
                 {
-                  // QUOTATION_ITEM_TYPES.filter((elt) => elt.id === item.type)[0]
-                  //   .label
-                  item.type
+                  QUOTATION_ITEM_TYPES.filter((elt) => elt.id === item.type)[0]
+                    .label
                 }
               </Cell>
               <Cell>

@@ -657,6 +657,11 @@ function OrderForm({
     }
   }
   const handleVAT = (bool) => {
+    if (bool) {
+      const localItems = items
+      localItems.map((item) => (item.vat = 0))
+      setItems(localItems)
+    }
     setOrder({
       ...order,
       no_vat: bool,
@@ -779,7 +784,7 @@ function OrderForm({
       // },
     ]
 
-    if (readOnly)
+    if (readOnly && EDIT_STATUSES.includes(order.status))
       options.push({
         label: "Modifier",
         handleClick: () => setReadOnly(false),
@@ -905,10 +910,11 @@ function OrderForm({
     items.map((item) => {
       totalPrice += item.quantity * item.no_vat_price * (1 + item.vat / 100)
       totalNoVatPrice += item.quantity * item.no_vat_price
-      totalVat += item.quantity * item.vat
+      totalVat += item.quantity * (item.vat / 100) * item.no_vat_price
     })
     totalPrice = totalPrice / 100
     totalNoVatPrice = totalNoVatPrice / 100
+    totalVat = totalVat / 100
     return {
       totalPrice,
       totalNoVatPrice,
