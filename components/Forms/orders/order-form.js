@@ -152,7 +152,7 @@ const DocumentHeader = (props) => (
 )
 const GridItem = ({ xs, textAlign, ...props }) => (
   <Grid item xs={xs || 2.5} textAlign={textAlign || "left"}>
-    <BodyText {...props} preventTransition />
+    <BodyText {...props} preventTransition fontSize="1rem" />
   </Grid>
 )
 const OrderListHead = ({}) => (
@@ -262,60 +262,69 @@ const QuotationsListItem = ({ quotation, router, handleSend }) => {
     </Stack>
   )
 }
-const DocumentsSection = ({ order, handleGenerate, handleSend }) => {
+const DocumentsSection = ({
+  order,
+  handleGenerate,
+  handleGenerateInvoice,
+  handleSend,
+}) => {
   const router = useRouter()
   return (
-    <FormCard>
-      <Stack gap={2}>
-        <DocumentHeader>
-          <DocumentType>Devis</DocumentType>
-          <AddButton onClick={handleGenerate} />
-        </DocumentHeader>
+    <>
+      <FormCard>
+        <Stack gap={2}>
+          <DocumentHeader>
+            <DocumentType>Devis</DocumentType>
+            <AddButton onClick={handleGenerate} />
+          </DocumentHeader>
 
-        <BodyText preventTransition fontSize="1rem">
-          Rappel : devis obligatoire pour les commandes dont le montant est
-          supérieur à 1500€.
-        </BodyText>
-
-        {order.quotations.length === 0 && (
-          <BodyText fontSize="1rem" color="grey" preventTransition>
-            Aucun devis.
+          <BodyText preventTransition fontSize="1rem">
+            Rappel : devis obligatoire pour les commandes dont le montant est
+            supérieur à 1500€.
           </BodyText>
-        )}
 
-        <Stack gap={4} padding="0 2rem 2rem">
-          {order.quotations?.length > 0 && <QuotationsListHead />}
-          {order.quotations.map((quotation, key) => (
-            <QuotationsListItem
-              quotation={quotation}
-              router={router}
-              handleSend={handleSend}
-              key={key}
-            />
-          ))}
-        </Stack>
-      </Stack>
+          {order.quotations.length === 0 && (
+            <BodyText fontSize="1rem" color="grey" preventTransition>
+              Aucun devis.
+            </BodyText>
+          )}
 
-      <Stack gap={2}>
-        <DocumentHeader>
-          <DocumentType>Factures</DocumentType>
-          <AddButton />
-        </DocumentHeader>
-
-        {(!order.invoices || order.invoices?.length === 0) && (
-          <BodyText fontSize="1rem" color="grey" preventTransition>
-            Aucune facture.
-          </BodyText>
-        )}
-        <Stack gap={4} padding="0 2rem 2rem">
-          {order.invoices?.length > 0 && <OrderListHead />}
-          {!!order.invoices &&
-            order.invoices.map((invoice, key) => (
-              <OrderListItem invoice={invoice} router={router} key={key} />
+          <Stack gap={2} padding="0" marginTop={2}>
+            {order.quotations?.length > 0 && <QuotationsListHead />}
+            {order.quotations.map((quotation, key) => (
+              <QuotationsListItem
+                quotation={quotation}
+                router={router}
+                handleSend={handleSend}
+                key={key}
+              />
             ))}
+          </Stack>
         </Stack>
-      </Stack>
-    </FormCard>
+      </FormCard>
+
+      <FormCard>
+        <Stack gap={2}>
+          <DocumentHeader>
+            <DocumentType>Factures</DocumentType>
+            <AddButton onClick={handleGenerateInvoice} />
+          </DocumentHeader>
+
+          {(!order.invoices || order.invoices?.length === 0) && (
+            <BodyText fontSize="1rem" color="grey" preventTransition>
+              Aucune facture.
+            </BodyText>
+          )}
+          <Stack gap={2}>
+            {order.invoices?.length > 0 && <OrderListHead />}
+            {!!order.invoices &&
+              order.invoices.map((invoice, key) => (
+                <OrderListItem invoice={invoice} router={router} key={key} />
+              ))}
+          </Stack>
+        </Stack>
+      </FormCard>
+    </>
   )
 }
 const ClientSection = ({ order, handleOpenAssign }) => {
@@ -677,10 +686,28 @@ function OrderForm({
   const handleGeneratePaymentLink = async () => {
     setPaymentEmail(order.client?.email)
     handleOpenModal(MODALS.PAYMENT)
+  }
+  const generatePaymentLink = async () => {
+    setPaymentEmail(order.client?.email)
+    handleOpenModal(MODALS.PAYMENT)
     const res = await apiCall.orders.sendPaymentLink({
       id: order.id,
       email: paymentEmail,
     })
+    if (res && res.ok) {
+      setSnackMessage("Lien de paiement envoyé")
+      setSnackSeverity("success")
+      handleCloseModal()
+    } else {
+      setSnackMessage("Erreur")
+      setSnackSeverity("error")
+    }
+  }
+  const handleGenerateInvoice = async () => {
+    // TODO:
+    // if no quotation => ok
+    // if quotation => quotation need to be accepted
+    // Warning: if invoice generated manually => order is considered paid
   }
 
   const emailError = emailInput.trim() !== "" && !checkEmail(emailInput)
@@ -784,8 +811,16 @@ function OrderForm({
           flexDirection: "row",
           alignItems: "center",
           gap: 4,
+          justifyContent: "space-between",
         }}
       >
+        {loading ? (
+          <BodyText preventTransition color="#fff" fontSize="1rem">
+            Patientez...
+          </BodyText>
+        ) : (
+          <Status />
+        )}
         {readOnly ? (
           <Stack alignItems="center" width="100%" flexDirection="row" gap={2}>
             <Stack>
@@ -839,16 +874,24 @@ function OrderForm({
             <DropdownOptions options={options} />
           </Stack>
         ) : (
-          <Stack>
-            <PillButton onClick={handleSave}>Enregistrer</PillButton>
-          </Stack>
-        )}
-        {loading ? (
-          <BodyText preventTransition color="#fff" fontSize="1rem">
-            Patientez...
-          </BodyText>
-        ) : (
-          <Status />
+          <>
+            <Stack flexGrow={1} />
+            <Stack className="row" alignItems="center" gap={2}>
+              <BodyText
+                preventTransition
+                fontSize="1rem"
+                color={(theme) => theme.palette.text.secondary}
+                className="cool-button pointer"
+                onClick={() => {
+                  setReadOnly(true)
+                  fetchOrder()
+                }}
+              >
+                Annuler
+              </BodyText>
+              <PillButton onClick={handleSave}>Enregistrer</PillButton>
+            </Stack>
+          </>
         )}
       </Stack>
     )
@@ -941,6 +984,7 @@ function OrderForm({
               <DocumentsSection
                 order={order}
                 handleGenerate={handleGenerate}
+                handleGenerateInvoice={handleGenerateInvoice}
                 handleSend={handleSend}
               />
               <SectionTitle label="Client" />
@@ -1388,10 +1432,7 @@ function OrderForm({
               />
               <Stack className="row" gap={2}>
                 <CancelButton handleCancel={handleCloseModal} />
-                <SubmitButton
-                  onClick={handleGeneratePaymentLink}
-                  label="Envoyer"
-                />
+                <SubmitButton onClick={generatePaymentLink} label="Envoyer" />
               </Stack>
             </CustomForm>
           </>

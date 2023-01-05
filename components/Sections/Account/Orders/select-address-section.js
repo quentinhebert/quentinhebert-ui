@@ -39,6 +39,7 @@ function SelectAddressSection({
   const initialAddress = {
     id: null,
     fullname: `${user.firstname || ""} ${user.lastname || ""}`,
+    email: user.email,
     phone: "",
     line1: "",
     line2: "",
@@ -82,6 +83,7 @@ function SelectAddressSection({
           setAddress({
             id: jsonRes[0].id,
             fullname: `${user.firstname || ""} ${user.lastname || ""}`,
+            email: user.email,
             phone: jsonRes[0].phone,
             line1: jsonRes[0].line1,
             line2: jsonRes[0].line2,

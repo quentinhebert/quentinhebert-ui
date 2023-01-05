@@ -213,6 +213,7 @@ const orders = {
     const { id } = order
     const invoice_address = {
       fullname: invoiceAddress.fullname,
+      email: invoiceAddress.email,
       phone: invoiceAddress.phone,
       line1: invoiceAddress.line1,
       line2: invoiceAddress.line2,
