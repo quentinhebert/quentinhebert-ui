@@ -171,7 +171,7 @@ export default function QuotationRequest_Main({ id }) {
         >
           Retour
         </PillButton>
-        <Box component="a" href="/dashboard/quotations/create" target="_blank">
+        <Box component="a" href="/dashboard/orders/create" target="_blank">
           <PillButton endIcon={<OpenInNewIcon />}>Créer un devis</PillButton>
         </Box>
       </Stack>
