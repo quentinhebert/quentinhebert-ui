@@ -396,20 +396,25 @@ const SectionTitle = ({ label, firstElement }) => (
     />
   </Stack>
 )
-const PaymentSection = ({ handleGenerate }) => {
+const PaymentSection = ({ handleGenerate, order }) => {
+  // If mission paid, payment section not displayed
+  if (order.status === "PAYMENT_SUCCEEDED") return <></>
   return (
-    <FormCard textAlign="center">
-      <PillButton onClick={handleGenerate}>
-        Générer un lien de paiement en ligne
-      </PillButton>
-      <PillButton
-        background="transparent"
-        border={(theme) => `1px solid ${theme.palette.secondary.main}`}
-        color={(theme) => theme.palette.secondary.main}
-      >
-        Marquer comme payée
-      </PillButton>
-    </FormCard>
+    <>
+      <SectionTitle label="Paiement" />
+      <FormCard textAlign="center">
+        <PillButton onClick={handleGenerate}>
+          Générer un lien de paiement en ligne
+        </PillButton>
+        <PillButton
+          background="transparent"
+          border={(theme) => `1px solid ${theme.palette.secondary.main}`}
+          color={(theme) => theme.palette.secondary.main}
+        >
+          Marquer comme payée
+        </PillButton>
+      </FormCard>
+    </>
   )
 }
 
@@ -978,8 +983,10 @@ function OrderForm({
               />
               <SectionTitle label="Détails de la commande" />
               <QuotationReadOnlySection items={items} quotation={order} />
-              <SectionTitle label="Paiement" />
-              <PaymentSection handleGenerate={handleGeneratePaymentLink} />
+              <PaymentSection
+                handleGenerate={handleGeneratePaymentLink}
+                order={order}
+              />
             </>
           )}
 
