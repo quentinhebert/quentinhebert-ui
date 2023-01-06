@@ -89,17 +89,22 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
     } else alert("Problème")
   }
 
+  // TODO: factorize that shit
   const amountToPay = (order) => {
     // Case 0: Payment in once
     let amountToPay = order.total_price
 
     // Case 1: Deposit to be paid
     if (Number(order.deposit) !== 0 && order.invoices?.length === 0)
-      amountToPay = (Number(order.deposit) / 100) * order.total_price
+      amountToPay = Math.round(
+        (Number(order.deposit) / 100) * order.total_price
+      )
 
     // Case 2: Balance to be paid
     if (Number(order.balance) !== 100 && order.invoices?.length === 1)
-      amountToPay = (Number(order.balance) / 100) * order.total_price
+      amountToPay = Math.round(
+        (Number(order.balance) / 100) * order.total_price
+      )
 
     return amountToPay / 100
   }

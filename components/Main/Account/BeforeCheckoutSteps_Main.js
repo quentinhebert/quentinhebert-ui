@@ -13,12 +13,20 @@ import HourglassBottomRoundedIcon from "@mui/icons-material/HourglassBottomRound
 import BodyText from "../../Text/body-text"
 import SmallTitle from "../../Titles/small-title"
 import DoneRoundedIcon from "@mui/icons-material/DoneRounded"
+import PriceDetails from "../../Sections/Account/Orders/price-details"
 
 const steps = [
   "Adresse de facturation",
-  "Adresse de livraison",
+  // "Adresse de livraison",
   "Moyen de paiement",
 ]
+
+const ActionTitle = (props) => (
+  <SmallTitle textTransform="initial" fontSize="1rem" color="#fff" {...props} />
+)
+const ActionText = (props) => (
+  <BodyText {...props} preventTransition fontSize="1rem" />
+)
 
 export default function BeforeCheckoutSteps_Main({ orderId }) {
   const initialOrder = {
@@ -71,50 +79,51 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
   if (!order.id && !loading) return <Custom404_Main />
 
   return (
-    <>
+    <Stack gap={8}>
       {loading && <PleaseWait />}
 
-      <Stack gap={8}>
-        <CenteredMaxWidthContainer>
+      {/********** PRICE & ACTION DETAILS **********/}
+      <CenteredMaxWidthContainer>
+        <Stack sx={{ flexDirection: { xs: "column", md: "row" } }} gap={2}>
           <Stack
             sx={{
-              padding: 4,
-              gap: 4,
-              borderRadius: "30px",
+              width: "50%",
+              padding: 3,
+              gap: 2,
+              borderRadius: "20px",
               background: (theme) => theme.palette.background.main,
             }}
           >
             {Number(order.deposit) !== 0 && order.invoices?.length === 0 && (
               <>
                 <Stack>
-                  <SmallTitle>Je paye maintenant</SmallTitle>
-                  <BodyText>
-                    Acompte de {order.deposit}% (
-                    {((order.total_price / 100) * order.deposit) / 100}€)
-                  </BodyText>
+                  <ActionTitle>Je paye maintenant</ActionTitle>
+                  <ActionText>
+                    <Box
+                      color={(theme) => theme.palette.text.secondary}
+                      component="span"
+                    >
+                      {((order.total_price / 100) * order.deposit) / 100}€ TTC
+                    </Box>
+                  </ActionText>
                 </Stack>
 
                 <Stack>
-                  <SmallTitle
-                    color="grey"
-                    display="flex"
-                    alignItems="center"
-                    gap={2}
-                  >
+                  <ActionTitle color="grey" gap={2}>
                     Restera à payer
-                    <HourglassBottomRoundedIcon />
-                  </SmallTitle>
-                  <BodyText color="grey">
-                    Solde de {order.balance}% (
-                    {((order.total_price / 100) * order.balance) / 100}€)
-                  </BodyText>
+                  </ActionTitle>
+                  <ActionText color="grey">
+                    <Box color="grey" component="span">
+                      {((order.total_price / 100) * order.balance) / 100}€ TTC
+                    </Box>
+                  </ActionText>
                 </Stack>
               </>
             )}
             {Number(order.deposit) !== 0 && order.invoices?.length === 1 && (
               <>
                 <Stack>
-                  <SmallTitle
+                  <ActionTitle
                     color="grey"
                     display="flex"
                     alignItems="center"
@@ -122,50 +131,55 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
                   >
                     J'ai déjà payé
                     <DoneRoundedIcon />
-                  </SmallTitle>
-                  <BodyText color="grey">
-                    Acompte de {order.deposit}% (
-                    {((order.total_price / 100) * order.deposit) / 100}€)
-                  </BodyText>
+                  </ActionTitle>
+                  <ActionText color="grey">
+                    {((order.total_price / 100) * order.deposit) / 100}€ TTC
+                  </ActionText>
                 </Stack>
 
                 <Stack>
-                  <SmallTitle>Je règle le reste</SmallTitle>
-                  <BodyText>
-                    Solde de {order.balance}% (
-                    {((order.total_price / 100) * order.balance) / 100}€)
-                  </BodyText>
+                  <ActionTitle>Je règle le reste</ActionTitle>
+                  <ActionText>
+                    <Box
+                      color={(theme) => theme.palette.text.secondary}
+                      component="span"
+                    >
+                      {((order.total_price / 100) * order.balance) / 100}€ TTC
+                    </Box>
+                  </ActionText>
                 </Stack>
               </>
             )}
             {Number(order.deposit) === 0 && Number(order.balance) === 100 && (
               <>
-                <SmallTitle>Je règle maintenant</SmallTitle>
-                <BodyText>
-                  Le total de la facture :{" "}
-                  {((order.total_price / 100) * order.balance) / 100}€
-                </BodyText>
+                <ActionTitle>Je règle maintenant</ActionTitle>
+                <ActionText>
+                  <Box
+                    color={(theme) => theme.palette.text.secondary}
+                    component="span"
+                  >
+                    {((order.total_price / 100) * order.balance) / 100}€ TTC
+                  </Box>
+                </ActionText>
               </>
             )}
           </Stack>
-        </CenteredMaxWidthContainer>
 
+          <PriceDetails items={order.items} order={order} />
+        </Stack>
+      </CenteredMaxWidthContainer>
+
+      <Stack gap={4}>
+        {/********** STEPPER **********/}
         <CustomStepper
           steps={steps}
           activeStep={activeStep}
           setActiveStep={setActiveStep}
         />
+
+        {/********** FORMS **********/}
         {activeStep === 0 && (
           <>
-            <CenteredMaxWidthContainer>
-              <AlertInfo
-                content={{
-                  title: "Pourquoi dois-je renseigner mon adresse ?",
-                  severity: "info",
-                  text: "Vos informations sont nécessaires pour l'édition de la facture de votre commande.",
-                }}
-              />
-            </CenteredMaxWidthContainer>
             <SelectAddressSection
               defaultId={invoiceAddress?.id}
               handleNext={handleNext}
@@ -173,7 +187,8 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
             />
           </>
         )}
-        {activeStep === 1 && (
+
+        {/* {activeStep === 1 && (
           <>
             <CenteredMaxWidthContainer>
               <AlertInfo
@@ -193,8 +208,9 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
               delivery
             />
           </>
-        )}
-        {activeStep === 2 && (
+        )} */}
+
+        {activeStep === 1 && (
           <SelectPaymentMethodSection
             orderId={orderId}
             invoiceAddress={invoiceAddress}
@@ -202,6 +218,6 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
           />
         )}
       </Stack>
-    </>
+    </Stack>
   )
 }

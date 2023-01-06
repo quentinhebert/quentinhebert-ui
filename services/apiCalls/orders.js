@@ -223,15 +223,15 @@ const orders = {
       country: invoiceAddress.country,
     }
     const delivery_address = {
-      fullname: deliveryAddress.fullname,
-      phone: deliveryAddress.phone,
-      line1: deliveryAddress.line1,
-      line2: deliveryAddress.line2,
-      postal_code: deliveryAddress.postalCode,
-      city: deliveryAddress.city,
-      region: deliveryAddress.region,
-      country: deliveryAddress.country,
-      details: deliveryAddress.details || "",
+      fullname: deliveryAddress?.fullname,
+      phone: deliveryAddress?.phone,
+      line1: deliveryAddress?.line1,
+      line2: deliveryAddress?.line2,
+      postal_code: deliveryAddress?.postalCode,
+      city: deliveryAddress?.city,
+      region: deliveryAddress?.region,
+      country: deliveryAddress?.country,
+      details: deliveryAddress?.details || "",
     }
     const body = { invoice_address, delivery_address }
     try {

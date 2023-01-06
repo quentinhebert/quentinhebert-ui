@@ -54,10 +54,10 @@ import SellIcon from "@mui/icons-material/Sell"
 import HourglassTopIcon from "@mui/icons-material/HourglassTop"
 import LaunchIcon from "@mui/icons-material/Launch"
 import EditIcon from "@mui/icons-material/Edit"
-import DescriptionIcon from "@mui/icons-material/Description"
 import DownloadIcon from "@mui/icons-material/Download"
 import AlertInfo from "../../Other/alert-info"
 import { INVOICETYPES } from "../../../enums/invoiceTypes"
+import PriceDetails from "../../Sections/Account/Orders/price-details"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -272,7 +272,7 @@ const DocumentsSection = ({
 }) => {
   const router = useRouter()
   return (
-    <>
+    <Stack width="100%" gap={2}>
       <FormCard>
         <Stack gap={2}>
           <DocumentHeader>
@@ -326,7 +326,7 @@ const DocumentsSection = ({
           </Stack>
         </Stack>
       </FormCard>
-    </>
+    </Stack>
   )
 }
 const ClientSection = ({ order, handleOpenAssign }) => {
@@ -381,7 +381,7 @@ const SectionTitle = ({ label, firstElement }) => (
     flexDirection="row"
     gap={2}
     alignItems="center"
-    margin={`${!!firstElement ? 0 : "4rem"} 0 1rem`}
+    margin={`${!!firstElement ? 0 : "4rem"} 0 0`}
   >
     <Stack
       borderBottom="1px solid"
@@ -691,11 +691,26 @@ function OrderForm({
     }
   }
   const handleGeneratePaymentLink = async () => {
-    setPaymentEmail(order.client?.email)
-    handleOpenModal(MODALS.PAYMENT)
+    const localErrors = checkBeforeGen(order)
+
+    setErrors(localErrors)
+    const errorsCount = Object.values(localErrors).filter(
+      (elt) => elt === true
+    ).length
+
+    if (errorsCount === 0 || (errorsCount === 1 && localErrors.client)) {
+      setPaymentEmail(order.client?.email)
+      handleOpenModal(MODALS.PAYMENT)
+    } else {
+      setSnackMessage(
+        `Certains champs sont manquants dans les conditions et mentions obligatoires.`
+      )
+      setSnackSeverity("error")
+      setReadOnly(false)
+    }
   }
   const generatePaymentLink = async () => {
-    setPaymentEmail(order.client?.email)
+    if (paymentEmail.trim === "") setPaymentEmail(order.client?.email)
     handleOpenModal(MODALS.PAYMENT)
     const res = await apiCall.orders.sendPaymentLink({
       id: order.id,
@@ -920,45 +935,6 @@ function OrderForm({
       totalNoVatPrice,
       totalVat,
     }
-  }
-  const TotalPrices = () => {
-    const { totalPrice, totalNoVatPrice, totalVat } = getPriceDetails()
-
-    const Label = (props) => (
-      <Grid item xs={6}>
-        <BodyText
-          preventTransition
-          {...props}
-          color={(theme) => theme.palette.text.secondary}
-        />
-      </Grid>
-    )
-
-    const Price = (props) => (
-      <Grid item xs={6}>
-        <BodyText preventTransition {...props} />
-      </Grid>
-    )
-
-    return (
-      <Stack
-        sx={{
-          alignSelf: { xs: "end", md: "end" },
-          border: (theme) => `1px solid ${theme.palette.secondary.main}`,
-          borderRadius: "20px",
-          padding: 2,
-        }}
-      >
-        <Grid container>
-          <Label>Total HT</Label>
-          <Price>{totalNoVatPrice} €</Price>
-          <Label>TVA</Label>
-          <Price>{totalVat} €</Price>
-          <Label>Total TTC</Label>
-          <Price>{totalPrice} €</Price>
-        </Grid>
-      </Stack>
-    )
   }
   const FormStack = (props) => (
     <Stack sx={{ width: { xs: "100%", md: "50%" } }} {...props} />
@@ -1257,7 +1233,7 @@ function OrderForm({
               </Stack>
 
               {/********** TOTAL PRICES **********/}
-              <TotalPrices />
+              <PriceDetails order={order} items={items} />
             </>
           )}
         </CustomForm>

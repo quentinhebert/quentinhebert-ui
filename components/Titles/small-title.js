@@ -1,18 +1,24 @@
 import { Typography } from "@mui/material"
 
-export default function SmallTitle({ padding, ...props }) {
+export default function SmallTitle({
+  color,
+  textTransform,
+  padding,
+  fontSize,
+  ...props
+}) {
   return (
     <Typography
       componenent="h2"
       variant="h3"
-      textTransform={props.textTransform || "uppercase"}
+      textTransform={textTransform || "uppercase"}
       letterSpacing={2}
       fontWeight="bold"
       zIndex={1}
       className="no-select"
       sx={{
-        color: props.color || ((theme) => theme.palette.text.secondary),
-        fontSize: "1.2rem",
+        color: color || ((theme) => theme.palette.text.secondary),
+        fontSize: fontSize || "1.2rem",
         padding: padding || 0,
       }}
       {...props}

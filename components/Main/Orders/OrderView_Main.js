@@ -20,6 +20,8 @@ import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import PasswordForgottenForm from "../../Forms/password-forgotten-form"
 import AlertInfo from "../../Other/alert-info"
 import RefreshButton from "../../Buttons/refresh-button"
+import PriceDetails from "../../Sections/Account/Orders/price-details"
+import QuotationReadOnlySection from "../../Sections/Quotations/quotation-read-only-section"
 
 const MODES = {
   login: "LOGIN",
@@ -27,12 +29,6 @@ const MODES = {
   passwordForgotten: "PASSWORD_FORGOTTEN",
 }
 const allowedStatesForPaying = ["WAITING_FOR_PAYMENT", "PAYMENT_FAILED"]
-
-const TotalPrice = ({ totalPrice }) => (
-  <BodyText display="inline-flex">
-    Prix TTC :<div style={{ marginLeft: ".5rem" }}>{totalPrice / 100}€</div>
-  </BodyText>
-)
 
 const HeadItem = (props) => (
   <Box
@@ -193,7 +189,7 @@ export default function OrderView_Main({}) {
             <BodyText>{ORDERSTATES[order.status]?.description}</BodyText>
           </Stack>
 
-          <Stack gap={2}>
+          <Stack gap={4}>
             {order.invoice && (
               <Box
                 component="a"
@@ -204,44 +200,18 @@ export default function OrderView_Main({}) {
                 <PillButton startIcon={<ReceiptIcon />}>Facture</PillButton>
               </Box>
             )}
-            <BodyText>Récapitulatif :</BodyText>
-            <Box
-              component="table"
-              sx={{
-                border: "1px solid #fff",
-                borderCollapse: "collapse",
-              }}
-            >
-              <HeadItem>Type</HeadItem>
-              <HeadItem>Item</HeadItem>
-              <HeadItem>Description</HeadItem>
-              <HeadItem>Quantité</HeadItem>
-              <HeadItem>TVA</HeadItem>
-              <HeadItem>Prix HT</HeadItem>
-              {order.items.map((item, key) => (
-                <Row key={key}>
-                  <Value data={item.type} />
-                  <Value data={item.label} />
-                  <Value data={item.description} />
-                  <Value data={item.quantity} />
-                  <Value data={`${item.vat}%`} />
-                  <Value data={`${item.no_vat_price / 100}€`} />
-                </Row>
-              ))}
-            </Box>
+
+            <QuotationReadOnlySection items={order.items} quotation={order} />
 
             <Stack width="100%" alignItems="end">
-              <Stack direction="row" alignItems="center" gap={5}>
-                <TotalPrice totalPrice={order.total_price} />
-                {allowedStatesForPaying.includes(order.status) && (
-                  <PillButton
-                    startIcon={<ShoppingCartIcon />}
-                    onClick={handleNext}
-                  >
-                    Finaliser la commande
-                  </PillButton>
-                )}
-              </Stack>
+              {allowedStatesForPaying.includes(order.status) && (
+                <PillButton
+                  startIcon={<ShoppingCartIcon />}
+                  onClick={handleNext}
+                >
+                  Finaliser la commande
+                </PillButton>
+              )}
             </Stack>
           </Stack>
         </Stack>

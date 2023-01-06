@@ -15,6 +15,7 @@ import SmallTitle from "../../Titles/small-title"
 import { formatDayDate } from "../../../services/date-time"
 import { buildPublicURL } from "../../../services/utils"
 import QuotationReadOnlySection from "../../Sections/Quotations/quotation-read-only-section"
+import { INVOICETYPES } from "../../../enums/invoiceTypes"
 
 const allowedStatesForPaying = [
   "WAITING_FOR_PAYMENT",
@@ -80,7 +81,7 @@ export default function Order_Main({ orderId }) {
       {loading && <PleaseWait />}
 
       {order.id && !loading && (
-        <Stack gap={4}>
+        <Stack gap={8}>
           <Stack className="row gap-10" alignItems="center">
             <StatusChip order={order} />
             <BodyText>{ORDERSTATES[order.status].description}</BodyText>
@@ -103,6 +104,38 @@ export default function Order_Main({ orderId }) {
               </PillButton>
             )}
           </Stack>
+
+          {order.invoices?.length > 0 && (
+            <Stack gap={2}>
+              <SmallTitle>Vos factures</SmallTitle>
+
+              {order.invoices.map((invoice, key) => (
+                <Stack
+                  flexDirection="row"
+                  gap={2}
+                  key={key}
+                  alignItems="center"
+                >
+                  <BodyText>
+                    {formatDayDate({ timestamp: invoice.created_at })}
+                  </BodyText>
+                  <BodyText>{invoice.number}</BodyText>
+                  <BodyText textTransform="capitalize">
+                    {INVOICETYPES[invoice.type]}
+                  </BodyText>
+                  <Box
+                    component="a"
+                    href={buildPublicURL(invoice.path)}
+                    target="_blank"
+                  >
+                    <PillButton startIcon={<ReceiptIcon />}>
+                      Télécharger
+                    </PillButton>
+                  </Box>
+                </Stack>
+              ))}
+            </Stack>
+          )}
 
           <Stack gap={4}>
             <SmallTitle>Récapitulatif</SmallTitle>
@@ -130,23 +163,6 @@ export default function Order_Main({ orderId }) {
               </Stack>
             </Stack>
           </Stack>
-
-          {order.invoices?.length > 0 && <SmallTitle>Vos factures</SmallTitle>}
-          {order.invoices.map((invoice, key) => (
-            <Stack flexDirection="row" gap={2} key={key} alignItems="center">
-              <BodyText>
-                {formatDayDate({ timestamp: invoice.created_at })}
-              </BodyText>
-              <BodyText>{invoice.number}</BodyText>
-              <Box
-                component="a"
-                href={buildPublicURL(invoice.path)}
-                target="_blank"
-              >
-                <PillButton startIcon={<ReceiptIcon />}>Facture</PillButton>
-              </Box>
-            </Stack>
-          ))}
         </Stack>
       )}
     </>

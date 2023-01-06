@@ -1,7 +1,8 @@
 export const ORDERSTATES = {
   DRAFT: {
     label: "Brouillon",
-    description: "Votre commande est en attente du paiement.",
+    description:
+      "Votre commande est encore un brouillon. Un administrateur doit valider la commande.",
     severity: "disabled",
   },
   IN_PROCESS: {

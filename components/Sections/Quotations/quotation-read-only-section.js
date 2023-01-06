@@ -6,6 +6,7 @@ import EuroIcon from "@mui/icons-material/Euro"
 import HourglassTopIcon from "@mui/icons-material/HourglassTop"
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory"
 import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
+import PriceDetails from "../Account/Orders/price-details"
 
 const PAYMENT_OPTIONS = [
   { id: "card", label: "Carte bancaire" },
@@ -84,7 +85,8 @@ const Info = ({ title, ...props }) => (
   </BodyText>
 )
 const Card = ({ title, icon, ...props }) => (
-  <Grid item xs={12} sm={6} md={4} lg={3} display="flex">
+  // <Grid item xs={12} sm={6} md={4} lg={3} display="flex">
+  <Grid item xs={12} display="flex">
     <Stack
       width="100%"
       sx={{
@@ -110,76 +112,6 @@ const Card = ({ title, icon, ...props }) => (
 )
 
 export default function QuotationReadOnlySection({ items, quotation }) {
-  // SUB-COMPONENTS
-  const TotalPrices = () => {
-    let totalPrice = 0
-    let totalNoVatPrice = 0
-    let totalVat = 0
-
-    items.map((item) => {
-      totalPrice += item.quantity * item.no_vat_price * (1 + item.vat / 100)
-      totalNoVatPrice += item.quantity * item.no_vat_price
-      totalVat += (item.quantity * item.vat * item.no_vat_price) / 100
-    })
-    totalPrice = totalPrice / 100
-    totalNoVatPrice = totalNoVatPrice / 100
-    totalVat = totalVat / 100
-
-    const Label = (props) => (
-      <Grid item xs={8}>
-        <BodyText
-          preventTransition
-          {...props}
-          color={(theme) => theme.palette.text.grey}
-          fontSize="1rem"
-        />
-      </Grid>
-    )
-
-    const Price = (props) => (
-      <Grid item xs={4} textAlign="right">
-        <BodyText preventTransition {...props} fontSize="1rem" />
-      </Grid>
-    )
-
-    return (
-      <Stack
-        sx={{
-          alignSelf: "end",
-          background: (theme) => theme.palette.background.main,
-          borderRadius: "20px",
-          padding: 2,
-        }}
-      >
-        <Grid container width="300px">
-          <Label color="#fff">Total TTC</Label>
-          <Price>{totalPrice} €</Price>
-          <Label>Dont TVA</Label>
-          <Price color="grey">{totalVat} €</Price>
-          {Number(quotation.deposit) !== 0 && (
-            <>
-              <Stack
-                sx={{
-                  borderBottom: "1px solid rgb(256,256,256, 0.1)",
-                  width: "100%",
-                  margin: "1rem 0",
-                }}
-              />
-              <Label>Acompte TTC ({quotation.deposit}%)</Label>
-              <Price>
-                {Number((quotation.deposit / 100) * totalNoVatPrice)} €
-              </Price>
-              <Label>Solde TTC ({quotation.balance}%)</Label>
-              <Price>
-                {Number((quotation.balance / 100) * totalNoVatPrice)} €
-              </Price>
-            </>
-          )}
-        </Grid>
-      </Stack>
-    )
-  }
-
   let paymentOptionsArray = []
   Object.keys(quotation.payment_options).map((opt) => {
     if (quotation.payment_options[opt] === true) {
@@ -192,7 +124,7 @@ export default function QuotationReadOnlySection({ items, quotation }) {
 
   // RENDER
   return (
-    <Stack gap={4} width="100%">
+    <Stack gap={2} width="100%">
       <Grid
         container
         spacing={2}
@@ -253,7 +185,7 @@ export default function QuotationReadOnlySection({ items, quotation }) {
           sx={{
             background: (theme) => theme.palette.background.main,
             width: "99%",
-            margin: "0.5%",
+            margin: "0 0.5%",
             borderCollapse: "collapse",
             borderStyle: "hidden",
             borderRadius: "20px",
@@ -299,7 +231,7 @@ export default function QuotationReadOnlySection({ items, quotation }) {
         </Box>
       </Stack>
 
-      <TotalPrices />
+      <PriceDetails items={items} order={quotation} />
     </Stack>
   )
 }
