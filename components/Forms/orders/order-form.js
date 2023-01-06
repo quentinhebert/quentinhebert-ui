@@ -160,7 +160,7 @@ const OrderListHead = ({}) => (
     <GridItem color="grey" fontSize="1rem" xs={2}>
       Numéro
     </GridItem>
-    <GridItem color="grey" fontSize="1rem" xs={2}>
+    <GridItem color="grey" fontSize="1rem">
       Type
     </GridItem>
     <GridItem color="grey" fontSize="1rem">
@@ -209,7 +209,7 @@ const OrderListItem = ({ invoice }) => {
     <Stack sx={{ justifyContent: "space-between" }} width="100%">
       <Grid container>
         <GridItem xs={2}>{invoice.number}</GridItem>
-        <GridItem textTransform="capitalize" xs={2}>
+        <GridItem textTransform="capitalize">
           {INVOICETYPES[invoice.type]}
         </GridItem>
         <GridItem>{invoice.amount_paid / 100}€</GridItem>
