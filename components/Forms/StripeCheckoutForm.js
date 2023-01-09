@@ -89,7 +89,7 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
     } else alert("Problème")
   }
 
-  // TODO: factorize that shit
+  // TODO: factorize that shit + check from payments not invoices
   const amountToPay = (order) => {
     // Case 0: Payment in once
     let amountToPay = order.total_price
