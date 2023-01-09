@@ -14,6 +14,7 @@ import DropdownOptions from "../../Dropdown/dropdown-options"
 import Pill from "../../Text/pill"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import { ORDERSTATES } from "../../../enums/orderStates"
+import { parseOrderPrice } from "../../../services/orders"
 
 const MODES = { LIST: "list", GRID: "grid" }
 
@@ -101,6 +102,8 @@ function OrderCard({
       icon: <VisibilityIcon />,
     })
 
+  const { totalPrice } = parseOrderPrice(order)
+
   return (
     <CustomCard
       background={(theme) => theme.palette.background.main}
@@ -135,7 +138,7 @@ function OrderCard({
         <Stack flexDirection="row" alignItems="center">
           <Status status={order.status} />
           <Typography fontSize="1rem" color="#fff">
-            {order.total_price / 100}€
+            {totalPrice / 100}€
           </Typography>
         </Stack>
 
