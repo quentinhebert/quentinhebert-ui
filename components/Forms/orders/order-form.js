@@ -734,7 +734,7 @@ function OrderForm({
     // TODO:
     // if no quotation => ok
     // if quotation => quotation need to be accepted
-    // Warning: if invoice generated manually => order is considered paid
+    // Warning: if invoice generated manually => order is considered as paid
   }
 
   const emailError = emailInput.trim() !== "" && !checkEmail(emailInput)
