@@ -30,7 +30,7 @@ export default function FullWidthTabs({ tabs, activeTab, setActiveTab }) {
               color:
                 activeTab === key
                   ? (theme) => theme.palette.text.secondary
-                  : "#fff",
+                  : "grey",
             }}
           />
         ))}

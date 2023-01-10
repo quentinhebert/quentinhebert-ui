@@ -95,8 +95,8 @@ const HEAD = [
 const TABS = [
   { label: "Détails" },
   { label: "Client" },
-  { label: "Paiement" },
-  { label: "Documents" },
+  { label: "Paiement(s)" },
+  { label: "Document(s)" },
 ]
 
 /********** OTHER COMPONENTS **********/
