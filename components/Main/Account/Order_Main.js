@@ -10,11 +10,10 @@ import PillButton from "../../Buttons/pill-button"
 import PleaseWait from "../../Helpers/please-wait"
 import BodyText from "../../Text/body-text"
 import Pill from "../../Text/pill"
-import RefreshButton from "../../Buttons/refresh-button"
 import SmallTitle from "../../Titles/small-title"
 import { formatDayDate } from "../../../services/date-time"
 import { buildPublicURL } from "../../../services/utils"
-import QuotationReadOnlySection from "../../Sections/Quotations/quotation-read-only-section"
+import QuotationReadOnlySection from "../../Sections/Orders/order-read-only-section"
 import { INVOICETYPES } from "../../../enums/invoiceTypes"
 
 const allowedStatesForPaying = [

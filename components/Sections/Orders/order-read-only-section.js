@@ -111,7 +111,7 @@ const Card = ({ title, icon, ...props }) => (
   </Grid>
 )
 
-export default function QuotationReadOnlySection({ items, quotation }) {
+export default function OrderReadOnlySection({ items, quotation }) {
   let paymentOptionsArray = []
   Object.keys(quotation.payment_options).map((opt) => {
     if (quotation.payment_options[opt] === true) {
@@ -189,7 +189,7 @@ export default function QuotationReadOnlySection({ items, quotation }) {
             borderCollapse: "collapse",
             borderStyle: "hidden",
             borderRadius: "20px",
-            boxShadow: (theme) => `0 0 0 2px #000`,
+            boxShadow: "0 0 0 2px #000",
             overflow: "hidden",
           }}
         >

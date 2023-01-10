@@ -13,7 +13,7 @@ import EastIcon from "@mui/icons-material/East"
 import { UserContext } from "../../../contexts/UserContext"
 import { USERTYPES } from "../../../enums/userTypes"
 import PleaseWait from "../../Helpers/please-wait"
-import QuotationReadOnlySection from "../../Sections/Quotations/quotation-read-only-section"
+import QuotationReadOnlySection from "../../Sections/Orders/order-read-only-section"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 
 export default function QuotationView_Main({}) {

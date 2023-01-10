@@ -37,7 +37,7 @@ export default function EditQuotationPage() {
       {!user && <Login_Main />}
 
       {!!user && user.type === USERTYPES.ADMIN && (
-        <DashboardLayout title="Ma commande">
+        <DashboardLayout marginTop={"-1rem"}>
           <OrderForm id={id} defaultReadonly />
         </DashboardLayout>
       )}

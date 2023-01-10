@@ -15,7 +15,7 @@ import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import { useRouter } from "next/router"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import { buildPublicURL, checkEmail } from "../../../services/utils"
-import QuotationReadOnlySection from "../../Sections/Quotations/quotation-read-only-section"
+import QuotationReadOnlySection from "../../Sections/Orders/order-read-only-section"
 import ClientAutocomplete from "../admin/client-autocomplete"
 import SubmitButton from "../../Buttons/submit-button"
 import CancelButton from "../../Buttons/cancel-button"
@@ -51,20 +51,23 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping"
 import EuroIcon from "@mui/icons-material/Euro"
 import PercentIcon from "@mui/icons-material/Percent"
 import SellIcon from "@mui/icons-material/Sell"
-import HourglassTopIcon from "@mui/icons-material/HourglassTop"
 import LaunchIcon from "@mui/icons-material/Launch"
 import EditIcon from "@mui/icons-material/Edit"
 import DownloadIcon from "@mui/icons-material/Download"
 import AlertInfo from "../../Other/alert-info"
 import { INVOICETYPES } from "../../../enums/invoiceTypes"
 import PriceDetails from "../../Sections/Account/Orders/price-details"
+import CustomRadio from "../../Inputs/custom-radio"
+import Pill from "../../Text/pill"
+import FullWidthTabs from "../../Navigation/full-width-tabs"
+import { parseOrderPrice } from "../../../services/orders"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
-  { id: "card", label: "Carte bancaire" },
-  { id: "transfer", label: "Virement bancaire" },
-  { id: "check", label: "Chèque de banque" },
-  { id: "cash", label: "Espèces" },
+  { id: "CARD", label: "Carte bancaire" },
+  { id: "BANK_TRANSFER", label: "Virement bancaire" },
+  { id: "BANK_CHECK", label: "Chèque de banque" },
+  { id: "CASH", label: "Espèces" },
 ]
 const EDIT_STATUSES = [
   QUOTATION_STATUS.DRAFT.id,
@@ -78,6 +81,7 @@ const MODALS = {
   CREATE_ITEM: "CREATE_ITEM",
   EDIT_ITEM: "EDIT_ITEM",
   PAYMENT: "PAYMENT",
+  TAG: "TAG",
 }
 const HEAD = [
   { label: "Type" },
@@ -87,6 +91,12 @@ const HEAD = [
   { label: "TVA" },
   { label: "Prix unit. HT" },
   { label: "Total" },
+]
+const TABS = [
+  { label: "Détails" },
+  { label: "Client" },
+  { label: "Paiement" },
+  { label: "Documents" },
 ]
 
 /********** OTHER COMPONENTS **********/
@@ -156,7 +166,7 @@ const GridItem = ({ xs, textAlign, ...props }) => (
   </Grid>
 )
 const OrderListHead = ({}) => (
-  <Grid container>
+  <Grid container marginTop={2}>
     <GridItem color="grey" fontSize="1rem" xs={2}>
       Numéro
     </GridItem>
@@ -173,7 +183,7 @@ const OrderListHead = ({}) => (
   </Grid>
 )
 const QuotationsListHead = ({}) => (
-  <Grid container>
+  <Grid container marginTop={2}>
     <GridItem color="grey" fontSize="1rem" xs={2}>
       Version
     </GridItem>
@@ -291,7 +301,7 @@ const DocumentsSection = ({
             </BodyText>
           )}
 
-          <Stack gap={2} padding="0" marginTop={2}>
+          <Stack gap={2} padding="0">
             {order.quotations?.length > 0 && <QuotationsListHead />}
             {order.quotations.map((quotation, key) => (
               <QuotationsListItem
@@ -349,7 +359,10 @@ const ClientSection = ({ order, handleOpenAssign }) => {
       <DocumentHeader>
         <Identity>
           {!order.client.id && "Aucun client associé"}
-          {order.client.firstname} {order.client.lastname}
+          {order.client.firstname} {order.client.lastname}{" "}
+          <Box component="span" color="grey">
+            {!!order.client.company && ` / ${order.client.company}`}
+          </Box>
         </Identity>
         <EditButton label="Assigner" onClick={handleOpenAssign} />
       </DocumentHeader>
@@ -375,33 +388,11 @@ const ClientSection = ({ order, handleOpenAssign }) => {
     </FormCard>
   )
 }
-const SectionTitle = ({ label, firstElement }) => (
-  <Stack
-    width="100%"
-    flexDirection="row"
-    gap={2}
-    alignItems="center"
-    margin={`${!!firstElement ? 0 : "4rem"} 0 0`}
-  >
-    <Stack
-      borderBottom="1px solid"
-      flexGrow={1}
-      sx={{ borderColor: (theme) => theme.palette.text.secondary }}
-    />
-    <SmallTitle>{label}</SmallTitle>
-    <Stack
-      borderBottom="1px solid"
-      flexGrow={1}
-      sx={{ borderColor: (theme) => theme.palette.text.secondary }}
-    />
-  </Stack>
-)
-const PaymentSection = ({ handleGenerate, order }) => {
+const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
   // If mission paid, payment section not displayed
   if (order.status === "PAYMENT_SUCCEEDED") return <></>
   return (
     <>
-      <SectionTitle label="Paiement" />
       <FormCard textAlign="center">
         <PillButton onClick={handleGenerate}>
           Générer un lien de paiement en ligne
@@ -410,6 +401,7 @@ const PaymentSection = ({ handleGenerate, order }) => {
           background="transparent"
           border={(theme) => `1px solid ${theme.palette.secondary.main}`}
           color={(theme) => theme.palette.secondary.main}
+          onClick={handleOpenTag}
         >
           Marquer comme payée
         </PillButton>
@@ -484,6 +476,8 @@ function OrderForm({
   const [newClient, setNewClient] = useState(false)
   const [selectedQuotation, setSelectedQuotation] = useState(null)
   const [paymentEmail, setPaymentEmail] = useState(null)
+  const [paymentMethod, setPaymentMethod] = useState(null)
+  const [activeTab, setActiveTab] = useState(0)
 
   /********** FETCH DATA **********/
   const fetchOrder = async () => {
@@ -714,6 +708,21 @@ function OrderForm({
       setReadOnly(false)
     }
   }
+  const handleTag = async () => {
+    const res = await apiCall.orders.tagAsPaid({
+      orderId: order.id,
+      paymentMethod,
+    })
+    if (res && res.ok) {
+      setSnackMessage("La commande a bien été marquée comme payée !")
+      setSnackSeverity("success")
+      fetchOrder()
+      handleCloseModal()
+    } else {
+      setSnackMessage("Erreur")
+      setSnackSeverity("error")
+    }
+  }
   const generatePaymentLink = async () => {
     if (paymentEmail.trim === "") setPaymentEmail(order.client?.email)
     handleOpenModal(MODALS.PAYMENT)
@@ -741,7 +750,7 @@ function OrderForm({
   const getRecipientString = (recipientEmails) => recipientEmails.join(", ")
 
   /********** SUB-COMPONENTS **********/
-  const Status = () => {
+  const State = () => {
     const Container = ({ color, ...props }) => (
       <BodyText
         preventTransition
@@ -785,6 +794,24 @@ function OrderForm({
     // )
     return <></>
   }
+  const Status = () => (
+    <Pill
+      border="1px solid"
+      borderColor={theme.alert.title[ORDERSTATES[order.status].severity].color}
+      bgColor={theme.alert.title[ORDERSTATES[order.status].severity].background}
+      preventTransition
+      padding="0 .75rem"
+      lineHeight={0}
+    >
+      <BodyText
+        color={theme.alert.title[ORDERSTATES[order.status].severity].color}
+        fontSize="0.8rem"
+        preventTransition
+      >
+        {ORDERSTATES[order.status].label}
+      </BodyText>
+    </Pill>
+  )
   const Toolbar = () => {
     const options = [
       {
@@ -835,71 +862,67 @@ function OrderForm({
           background: "#000",
           zIndex: 10,
           padding: "1rem 0",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 4,
-          justifyContent: "space-between",
+          alignItems: "left",
         }}
       >
-        {loading ? (
-          <BodyText preventTransition color="#fff" fontSize="1rem">
-            Patientez...
-          </BodyText>
-        ) : (
-          <Status />
-        )}
         {readOnly ? (
-          <Stack alignItems="center" width="100%" flexDirection="row" gap={2}>
-            <Stack>
-              <BodyText
-                preventTransition
-                color={(theme) => theme.palette.text.secondary}
-              >
-                {order.label || "Sans nom"}{" "}
-                <Box component="span" color="#fff" fontStyle="italic">
-                  {ORDERSTATES[order.status].id === ORDERSTATES.DRAFT.id
-                    ? `(${ORDERSTATES[order.status].label})`
-                    : ""}{" "}
-                  – {getPriceDetails().totalPrice}€
-                </Box>
+          <>
+            <Stack
+              flexDirection="row"
+              // justifyContent="space-between"
+              alignItems="center"
+              gap={1}
+            >
+              <BodyText preventTransition color="grey" fontSize="1rem">
+                Commande
+                {!!order.client.firstname
+                  ? ` de ${order.client.firstname} ${
+                      order.client.lastname || ""
+                    }`
+                  : null}
+                {!!order.client.company && ` / ${order.client.company}`}
               </BodyText>
-              {!!order.client?.id && (
-                <BodyText preventTransition fontSize="1rem">
-                  Pour {order.client?.firstname} {order.client?.lastname || ""}
-                </BodyText>
-              )}
 
-              {/* {!EDIT_STATUSES.includes(order.status) && (
-              <AlertInfo
-                content={{
-                  show: true,
-                  severity: "info",
-                  title: "Lecture seule",
-                  text: "Le devis est en mode lecture seule. Vous ne pouvez plus le modifier car le client l'a accepté. Il faut maintenant générer le devis définitif avec toutes les mentions légales. Enfin, les deux parties devront signer le devis.",
-                }}
-              />
-            )} */}
+              <Status />
             </Stack>
-            {/* <Stack alignItems="center" width="100%" flexDirection="row" gap={2}> */}
-            {/* {EDIT_STATUSES.includes(order.status) && (
-            <>
-              <SubmitButton
-                onClick={handleSave}
-                icon={<SaveAltIcon />}
-                preventTransition
-              />
-              <SubmitButton
-                onClick={handleSend}
-                label="Envoyer"
-                icon={<SendIcon />}
-                preventTransition
-              />
-            </>
-          )} */}
 
-            <Stack flexGrow={1} />
-            <DropdownOptions options={options} />
-          </Stack>
+            <Stack
+              alignItems="end"
+              width="100%"
+              flexDirection="row"
+              justifyContent="space-between"
+              gap={2}
+            >
+              <Stack gap={1}>
+                <BodyText
+                  preventTransition
+                  fontSize="1.5rem"
+                  color={(theme) => theme.palette.text.secondary}
+                >
+                  {order.label || "Sans nom"}
+                </BodyText>
+
+                <BodyText fontSize="1.5rem" preventTransition>
+                  {(
+                    Math.round(parseOrderPrice({ order, items }).totalPrice) /
+                    100
+                  ).toFixed(2)}
+                  €
+                  {parseOrderPrice({ order, items }).deposit > 0 && (
+                    <Box component="span" color="grey" fontSize="1.2rem">
+                      {" ("}
+                      {parseOrderPrice({ order, items }).deposit / 100}
+                      {"€ + "}
+                      {parseOrderPrice({ order, items }).balance / 100}
+                      {"€)"}
+                    </Box>
+                  )}
+                </BodyText>
+              </Stack>
+
+              <DropdownOptions options={options} />
+            </Stack>
+          </>
         ) : (
           <>
             <Stack flexGrow={1} />
@@ -922,24 +945,6 @@ function OrderForm({
         )}
       </Stack>
     )
-  }
-  const getPriceDetails = () => {
-    let totalPrice = 0
-    let totalNoVatPrice = 0
-    let totalVat = 0
-    items.map((item) => {
-      totalPrice += item.quantity * item.no_vat_price * (1 + item.vat / 100)
-      totalNoVatPrice += item.quantity * item.no_vat_price
-      totalVat += item.quantity * (item.vat / 100) * item.no_vat_price
-    })
-    totalPrice = totalPrice / 100
-    totalNoVatPrice = totalNoVatPrice / 100
-    totalVat = totalVat / 100
-    return {
-      totalPrice,
-      totalNoVatPrice,
-      totalVat,
-    }
   }
   const FormStack = (props) => (
     <Stack sx={{ width: { xs: "100%", md: "50%" } }} {...props} />
@@ -969,24 +974,36 @@ function OrderForm({
           {/* READ ONLY MODE */}
           {(!EDIT_STATUSES.includes(order.status) || readOnly) && (
             <>
-              <SectionTitle label="Documents" firstElement />
-              <DocumentsSection
-                order={order}
-                handleGenerate={handleGenerate}
-                handleGenerateInvoice={handleGenerateInvoice}
-                handleSend={handleSend}
+              <FullWidthTabs
+                tabs={TABS}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
               />
-              <SectionTitle label="Client" />
-              <ClientSection
-                order={order}
-                handleOpenAssign={() => handleOpenModal(MODALS.ASSIGN)}
-              />
-              <SectionTitle label="Détails de la commande" />
-              <QuotationReadOnlySection items={items} quotation={order} />
-              <PaymentSection
-                handleGenerate={handleGeneratePaymentLink}
-                order={order}
-              />
+
+              {activeTab === 0 && (
+                <QuotationReadOnlySection items={items} quotation={order} />
+              )}
+              {activeTab === 1 && (
+                <ClientSection
+                  order={order}
+                  handleOpenAssign={() => handleOpenModal(MODALS.ASSIGN)}
+                />
+              )}
+              {activeTab === 2 && (
+                <PaymentSection
+                  handleGenerate={handleGeneratePaymentLink}
+                  order={order}
+                  handleOpenTag={() => handleOpenModal(MODALS.TAG)}
+                />
+              )}
+              {activeTab === 3 && (
+                <DocumentsSection
+                  order={order}
+                  handleGenerate={handleGenerate}
+                  handleGenerateInvoice={handleGenerateInvoice}
+                  handleSend={handleSend}
+                />
+              )}
             </>
           )}
 
@@ -1424,6 +1441,30 @@ function OrderForm({
               <Stack className="row" gap={2}>
                 <CancelButton handleCancel={handleCloseModal} />
                 <SubmitButton onClick={generatePaymentLink} label="Envoyer" />
+              </Stack>
+            </CustomForm>
+          </>
+        )}
+
+        {/* SAVE ORDER / EDIT ORDER NAME */}
+        {modal === MODALS.TAG && (
+          <>
+            <ModalTitle alignItems="center" display="flex" gap={1}>
+              <DoneIcon /> Marquer la commande comme payée
+            </ModalTitle>
+            <BodyText preventTransition fontSize="1rem">
+              Spécifiez le moyen de paiement de la commande.
+            </BodyText>
+
+            <CustomForm gap={4}>
+              <CustomRadio
+                options={PAYMENT_OPTIONS}
+                setValue={setPaymentMethod}
+              />
+
+              <Stack className="row" gap={2} alignSelf="end">
+                <CancelTextButton handleCancel={handleCloseModal} />
+                <PillButton onClick={handleTag}>Marquer comme payée</PillButton>
               </Stack>
             </CustomForm>
           </>

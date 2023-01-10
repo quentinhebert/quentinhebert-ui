@@ -20,8 +20,7 @@ import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import PasswordForgottenForm from "../../Forms/password-forgotten-form"
 import AlertInfo from "../../Other/alert-info"
 import RefreshButton from "../../Buttons/refresh-button"
-import PriceDetails from "../../Sections/Account/Orders/price-details"
-import QuotationReadOnlySection from "../../Sections/Quotations/quotation-read-only-section"
+import QuotationReadOnlySection from "../../Sections/Orders/order-read-only-section"
 
 const MODES = {
   login: "LOGIN",

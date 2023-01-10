@@ -268,6 +268,21 @@ const orders = {
       console.error(err)
     }
   },
+  tagAsPaid: async ({ orderId, paymentMethod }) => {
+    const body = { payment_method: paymentMethod }
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/orders/${orderId}/paid`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
 }
 
 export default orders
