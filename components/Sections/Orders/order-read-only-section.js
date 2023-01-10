@@ -2,9 +2,7 @@ import { Box, Grid, Stack } from "@mui/material"
 import { convertDateToLongString } from "../../../services/date-time"
 import BodyText from "../../Text/body-text"
 import SmallTitle from "../../Titles/small-title"
-import EuroIcon from "@mui/icons-material/Euro"
 import HourglassTopIcon from "@mui/icons-material/HourglassTop"
-import WorkHistoryIcon from "@mui/icons-material/WorkHistory"
 import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
 import PriceDetails from "../Account/Orders/price-details"
 
@@ -26,9 +24,11 @@ const HeadCell = ({ width, ...props }) => (
   <Box
     component="th"
     textAlign="left"
+    alignItems="center"
+    justifyContent="center"
     sx={{
       border: (theme) => `1px solid #000`,
-      padding: 2,
+      padding: ".5rem 1rem",
       minWidth: width || "10%",
     }}
   >
@@ -36,6 +36,7 @@ const HeadCell = ({ width, ...props }) => (
       preventTransition
       color={(theme) => theme.palette.text.grey}
       fontSize="1rem"
+      display="flex"
       {...props}
     />
   </Box>
@@ -46,7 +47,7 @@ const Cell = (props) => (
     textAlign="left"
     sx={{
       border: (theme) => `1px solid #000`,
-      padding: 2,
+      padding: ".5rem 1rem",
     }}
   >
     <BodyText preventTransition color="#fff" {...props} fontSize="1rem" />
@@ -96,22 +97,29 @@ const Card = ({ title, icon, ...props }) => (
         borderRadius: "30px",
       }}
     >
-      <SmallTitle
-        alignItems="center"
-        gap={1}
-        display="flex"
-        color="#fff"
-        textTransform="capitalize"
-      >
-        {icon}
-        {title}
-      </SmallTitle>
+      {!!title && (
+        <SmallTitle
+          alignItems="center"
+          gap={1}
+          display="flex"
+          color="#fff"
+          textTransform="capitalize"
+        >
+          {icon}
+          {title}
+        </SmallTitle>
+      )}
       <Stack {...props} gap={2} />
     </Stack>
   </Grid>
 )
 
-export default function OrderReadOnlySection({ items, quotation }) {
+export default function OrderReadOnlySection({
+  items,
+  quotation,
+  hideDetails,
+  hideModalities,
+}) {
   let paymentOptionsArray = []
   Object.keys(quotation.payment_options).map((opt) => {
     if (quotation.payment_options[opt] === true) {
@@ -125,113 +133,112 @@ export default function OrderReadOnlySection({ items, quotation }) {
   // RENDER
   return (
     <Stack gap={2} width="100%">
-      <Grid
-        container
-        spacing={2}
-        sx={{
-          borderRadius: "20px",
-        }}
-      >
-        <Card title="Prestation" icon={<WorkHistoryIcon />}>
-          <DateInfo label="Date">
-            {convertDateToLongString(quotation.date)}
-          </DateInfo>
-
-          <DateInfo label="Livraison (estimation)">
-            {convertDateToLongString(quotation.delivery_date)}
-          </DateInfo>
-
-          {/* Optional */}
-          {!!quotation.duration && quotation.duration.trim !== "" && (
-            <Info title="Durée estimée de la prestation">
-              {quotation.duration}
-            </Info>
-          )}
-        </Card>
-
-        <Card title="Règlement" icon={<EuroIcon />}>
-          <Info title="Moyen(s) de paiement au choix">
-            {paymentOptionsString}
-          </Info>
-
-          <Info title="Conditions">{quotation.payment_conditions}</Info>
-
-          {Number(quotation.deposit) !== 0 && (
-            <>
-              <Info title="Acompte / Solde">
-                {quotation.deposit}% / {quotation.balance}%
-              </Info>
-            </>
-          )}
-
-          <Info title="Pénalités de retard">
-            {quotation.payment_delay_penalties}
-          </Info>
-        </Card>
-
-        {/* Optional */}
-        {!!quotation.validity_end_date && (
-          <Card title="Validité" icon={<HourglassTopIcon />}>
-            <DateInfo label="Devis valable jusqu'au">
-              {convertDateToLongString(quotation.validity_end_date)}
-            </DateInfo>
-          </Card>
-        )}
-      </Grid>
-
-      <Stack overflow="auto">
-        <Box
-          component="table"
+      {(hideDetails || (!hideDetails && !hideModalities)) && (
+        <Grid
+          container
+          spacing={2}
           sx={{
-            background: (theme) => theme.palette.background.main,
-            width: "99%",
-            margin: "0 0.5%",
-            borderCollapse: "collapse",
-            borderStyle: "hidden",
             borderRadius: "20px",
-            boxShadow: "0 0 0 2px #000",
-            overflow: "hidden",
           }}
         >
-          {HEAD.map((item, key) => (
-            <HeadCell key={key} width={item.width}>
-              {item.label}
-            </HeadCell>
-          ))}
+          <Card>
+            <DateInfo label="Date de la prestation">
+              {convertDateToLongString(quotation.date)}
+            </DateInfo>
 
-          {items.map((item, key) => (
-            <Line key={key}>
-              <Cell>
-                {
-                  QUOTATION_ITEM_TYPES.filter((elt) => elt.id === item.type)[0]
-                    .label
-                }
-              </Cell>
-              <Cell>
-                {item.label}
-                <br />
-                <Box
-                  component="span"
-                  color={(theme) => theme.palette.text.grey}
-                >
-                  {item.description}
-                </Box>
-              </Cell>
-              <Cell>{item.quantity}</Cell>
-              <Cell>{item.vat} %</Cell>
-              <Cell>{item.no_vat_price / 100} €</Cell>
-              <Cell>
-                {(item.no_vat_price / 100) *
-                  item.quantity *
-                  (1 + item.vat / 100)}{" "}
-                €
-              </Cell>
-            </Line>
-          ))}
-        </Box>
-      </Stack>
+            <DateInfo label="Date de livraison estimée">
+              {convertDateToLongString(quotation.delivery_date)}
+            </DateInfo>
 
-      <PriceDetails items={items} order={quotation} />
+            {/* Optional */}
+            {!!quotation.duration && quotation.duration.trim !== "" && (
+              <Info title="Durée estimée de la prestation">
+                {quotation.duration}
+              </Info>
+            )}
+          </Card>
+
+          <Card>
+            <Info title="Moyen(s) de paiement au choix">
+              {paymentOptionsString}
+            </Info>
+
+            <Info title="Conditions">{quotation.payment_conditions}</Info>
+
+            <Info title="Pénalités de retard">
+              {quotation.payment_delay_penalties}
+            </Info>
+          </Card>
+
+          {/* Optional */}
+          {!!quotation.validity_end_date && (
+            <Card title="Validité" icon={<HourglassTopIcon />}>
+              <DateInfo label="Devis valable jusqu'au">
+                {convertDateToLongString(quotation.validity_end_date)}
+              </DateInfo>
+            </Card>
+          )}
+        </Grid>
+      )}
+
+      {(hideModalities || (!hideDetails && !hideModalities)) && (
+        <>
+          <Stack overflow="auto">
+            <Box
+              component="table"
+              sx={{
+                background: (theme) => theme.palette.background.main,
+                width: "99%",
+                margin: "0 0.5%",
+                borderCollapse: "collapse",
+                borderStyle: "hidden",
+                borderRadius: "20px",
+                boxShadow: "0 0 0 2px #000",
+                overflow: "hidden",
+              }}
+            >
+              {HEAD.map((item, key) => (
+                <HeadCell key={key} width={item.width}>
+                  {item.label}
+                </HeadCell>
+              ))}
+
+              {items.map((item, key) => (
+                <Line key={key}>
+                  <Cell>
+                    {
+                      QUOTATION_ITEM_TYPES.filter(
+                        (elt) => elt.id === item.type
+                      )[0].label
+                    }
+                  </Cell>
+                  <Cell>
+                    {item.label}
+                    <br />
+                    <Box
+                      component="span"
+                      color={(theme) => theme.palette.text.grey}
+                    >
+                      {item.description}
+                    </Box>
+                  </Cell>
+                  <Cell>{item.quantity}</Cell>
+                  <Cell>{item.vat} %</Cell>
+                  <Cell>{item.no_vat_price / 100} €</Cell>
+                  <Cell>
+                    {(item.no_vat_price / 100) *
+                      item.quantity *
+                      (1 + item.vat / 100)}{" "}
+                    €
+                  </Cell>
+                </Line>
+              ))}
+            </Box>
+          </Stack>
+
+          <PriceDetails items={items} order={quotation} />
+        </>
+      )}
     </Stack>
   )
 }

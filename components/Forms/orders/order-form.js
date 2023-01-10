@@ -94,6 +94,7 @@ const HEAD = [
 ]
 const TABS = [
   { label: "Détails" },
+  { label: "Modalités" },
   { label: "Client" },
   { label: "Paiement(s)" },
   { label: "Document(s)" },
@@ -981,22 +982,33 @@ function OrderForm({
               />
 
               {activeTab === 0 && (
-                <QuotationReadOnlySection items={items} quotation={order} />
+                <QuotationReadOnlySection
+                  items={items}
+                  quotation={order}
+                  hideModalities
+                />
               )}
               {activeTab === 1 && (
+                <QuotationReadOnlySection
+                  items={items}
+                  quotation={order}
+                  hideDetails
+                />
+              )}
+              {activeTab === 2 && (
                 <ClientSection
                   order={order}
                   handleOpenAssign={() => handleOpenModal(MODALS.ASSIGN)}
                 />
               )}
-              {activeTab === 2 && (
+              {activeTab === 3 && (
                 <PaymentSection
                   handleGenerate={handleGeneratePaymentLink}
                   order={order}
                   handleOpenTag={() => handleOpenModal(MODALS.TAG)}
                 />
               )}
-              {activeTab === 3 && (
+              {activeTab === 4 && (
                 <DocumentsSection
                   order={order}
                   handleGenerate={handleGenerate}

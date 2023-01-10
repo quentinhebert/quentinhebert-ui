@@ -12,6 +12,7 @@ const Text = styled(
     preventTransitionOut,
     animDelay,
     textAlign,
+    letterSpacing,
     ...props
   }) => {
     /********** ANIMATION **********/
@@ -52,7 +53,7 @@ const Text = styled(
                 xs: "1rem",
                 md: "1.2rem",
               },
-              letterSpacing: props.letterSpacing || 1,
+              letterSpacing: letterSpacing || 1,
               lineHeight: props.lineHeight || {
                 xs: "1rem",
                 sm: "1.2rem",
@@ -69,7 +70,13 @@ const Text = styled(
 )(() => ({}))
 
 export default function BodyText(
-  props = { fontFamily, color, preventTransitionOut, preventTransition }
+  props = {
+    fontFamily,
+    color,
+    preventTransitionOut,
+    preventTransition,
+    letterSpacing,
+  }
 ) {
   return <Text {...props} />
 }
