@@ -61,6 +61,7 @@ export default function PillButton({
             boxShadow: boxShadow || "5px 10px 30px 5px rgb(0,0,0,0.3)",
             textTransform: textTransform || "uppercase",
             transition: "transform 0.2s ease-in-out",
+            // letterSpacing: 1,
             "&:hover": {
               background:
                 background || ((theme) => theme.palette.secondary.main),

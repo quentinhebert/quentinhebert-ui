@@ -395,10 +395,11 @@ const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
   return (
     <>
       <FormCard textAlign="center">
-        <PillButton onClick={handleGenerate}>
+        <PillButton onClick={handleGenerate} textTransform="initial">
           Générer un lien de paiement en ligne
         </PillButton>
         <PillButton
+          textTransform="initial"
           background="transparent"
           border={(theme) => `1px solid ${theme.palette.secondary.main}`}
           color={(theme) => theme.palette.secondary.main}
@@ -1450,8 +1451,8 @@ function OrderForm({
                 error={emailError} // FIXME: email error is not correct => need to separate logic for different emails
                 helperText={emailError && "Adresse e-mail invalide"}
               />
-              <Stack className="row" gap={2}>
-                <CancelButton handleCancel={handleCloseModal} />
+              <Stack className="row" gap={2} alignItems="center">
+                <CancelTextButton handleCancel={handleCloseModal} />
                 <SubmitButton onClick={generatePaymentLink} label="Envoyer" />
               </Stack>
             </CustomForm>

@@ -4,10 +4,9 @@ export default function CancelTextButton({ handleCancel }) {
   return (
     <Box
       component="span"
+      className="cool-button"
       onClick={handleCancel}
-      display="flex"
-      alignItems="center"
-      sx={{ cursor: "pointer", "&:hover": { opacity: 0.5 } }}
+      sx={{ cursor: "pointer" }}
     >
       <Typography color="secondary">Annuler</Typography>
     </Box>

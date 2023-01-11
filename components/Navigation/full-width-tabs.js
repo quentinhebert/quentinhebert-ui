@@ -36,6 +36,7 @@ export default function FullWidthTabs({ tabs, activeTab, setActiveTab }) {
           <Tab
             label={tab.label}
             key={key}
+            disableRipple={true}
             sx={{
               textTransform: "initial",
               letterSpacing: 1,
