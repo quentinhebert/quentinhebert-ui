@@ -1,7 +1,7 @@
 export const PAYMENT_TYPES = {
-  STRIPE: "STRIPE",
-  PAYPAL: "PAYPAL",
-  CASH: "CASH",
-  BANK_CHECK: "BANK_CHECK",
-  BANK_TRANSFER: "BANK_TRANSFER",
+  STRIPE: { id: "STRIPE", label: "Carte ou virement bancaire (Stripe)" },
+  PAYPAL: { id: "PAYPAL", label: "Paypal" },
+  CASH: { id: "CASH", label: "Espèces" },
+  BANK_CHECK: { id: "BANK_CHECK", label: "Chèque" },
+  BANK_TRANSFER: { id: "BANK_TRANSFER", label: "Virement bancaire manuel" },
 }

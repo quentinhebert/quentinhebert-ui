@@ -34,7 +34,10 @@ export default function CustomDatePicker({
           disableOpenPicker={noPicker}
           label={label || "Date"}
           value={value ? dayjs(value).format() : null}
-          onChange={(newValue) => handleChange(dayjs(newValue).format())}
+          onChange={(newValue) => {
+            if (!newValue) return handleChange(null)
+            handleChange(dayjs(newValue).format())
+          }}
           inputFormat="DD/MM/YYYY"
           renderInput={(params) => {
             params.InputProps.disableUnderline = true

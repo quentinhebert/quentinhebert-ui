@@ -1,6 +1,7 @@
 import Tabs from "@mui/material/Tabs"
 import Tab from "@mui/material/Tab"
-import { Box } from "@mui/material"
+import { Badge, Box, Stack } from "@mui/material"
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline"
 
 export default function FullWidthTabs({ tabs, activeTab, setActiveTab }) {
   const handleChange = (event, newValue) => setActiveTab(newValue)
@@ -34,7 +35,25 @@ export default function FullWidthTabs({ tabs, activeTab, setActiveTab }) {
       >
         {tabs.map((tab, key) => (
           <Tab
-            label={tab.label}
+            label={
+              <Stack flexDirection="row" gap={1} alignItems="center">
+                {tab.label}
+                {tab.badge > 0 && (
+                  <Badge
+                    badgeContent={tab.badge}
+                    color="secondary"
+                    sx={{
+                      marginLeft: 1,
+                      "& .MuiBadge-badge": {
+                        right: 0,
+                        top: "50%",
+                      },
+                    }}
+                  />
+                )}
+                {tab.warning && <ErrorOutlineIcon />}
+              </Stack>
+            }
             key={key}
             disableRipple={true}
             sx={{

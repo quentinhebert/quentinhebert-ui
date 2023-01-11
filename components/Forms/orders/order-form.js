@@ -61,6 +61,8 @@ import CustomRadio from "../../Inputs/custom-radio"
 import Pill from "../../Text/pill"
 import FullWidthTabs from "../../Navigation/full-width-tabs"
 import { parseOrderPrice } from "../../../services/orders"
+import { PAYMENTSTATES } from "../../../enums/paymentStates"
+import { PAYMENT_TYPES } from "../../../enums/paymentTypes"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -91,13 +93,6 @@ const HEAD = [
   { label: "TVA" },
   { label: "Prix unit. HT" },
   { label: "Total" },
-]
-const TABS = [
-  { label: "Détails" },
-  { label: "Modalités" },
-  { label: "Client" },
-  { label: "Paiement(s)" },
-  { label: "Document(s)" },
 ]
 
 /********** OTHER COMPONENTS **********/
@@ -356,44 +351,119 @@ const ClientSection = ({ order, handleOpenAssign }) => {
     <BodyText preventTransition fontSize="1.2rem" {...props} />
   )
   return (
-    <FormCard>
-      <DocumentHeader>
-        <Identity>
-          {!order.client.id && "Aucun client associé"}
-          {order.client.firstname} {order.client.lastname}{" "}
-          <Box component="span" color="grey">
-            {!!order.client.company && ` / ${order.client.company}`}
-          </Box>
-        </Identity>
-        <EditButton label="Assigner" onClick={handleOpenAssign} />
-      </DocumentHeader>
+    <>
+      {!order.client?.id && (
+        <AlertInfo
+          content={{
+            severity: "warning",
+            text: "Veuillez assigner un client à la commande.",
+          }}
+        />
+      )}
+      <FormCard>
+        <DocumentHeader>
+          <Identity>
+            {!order.client.id && "Aucun client associé"}
+            {order.client.firstname} {order.client.lastname}{" "}
+            <Box component="span" color="grey">
+              {!!order.client.company && ` / ${order.client.company}`}
+            </Box>
+          </Identity>
+          <EditButton label="Assigner" onClick={handleOpenAssign} />
+        </DocumentHeader>
 
-      <Stack gap={2}>
-        <Stack>
-          <Title>E-mail</Title>
-          <Value>{order.client.email || ""}</Value>
+        <Stack gap={2}>
+          <Stack>
+            <Title>E-mail</Title>
+            <Value>{order.client.email || ""}</Value>
+          </Stack>
+          <Stack>
+            <Title>Téléphone</Title>
+            <Value>{order.client.phone || ""}</Value>
+          </Stack>
+          <Stack>
+            <Title>Addresse</Title>
+            <Value>
+              {order.client.line1 || ""} {order.client.line2 || ""}{" "}
+              {order.client.postal_code || ""} {order.client.city || ""}{" "}
+              {order.client.region || ""} {order.client.country || ""}
+            </Value>
+          </Stack>
         </Stack>
-        <Stack>
-          <Title>Téléphone</Title>
-          <Value>{order.client.phone || ""}</Value>
-        </Stack>
-        <Stack>
-          <Title>Addresse</Title>
-          <Value>
-            {order.client.line1 || ""} {order.client.line2 || ""}{" "}
-            {order.client.postal_code || ""} {order.client.city || ""}{" "}
-            {order.client.region || ""} {order.client.country || ""}
-          </Value>
-        </Stack>
-      </Stack>
-    </FormCard>
+      </FormCard>
+    </>
   )
 }
 const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
+  const PaymentDetails = () => (
+    <FormCard>
+      <BodyText preventTransition fontSize="1rem" color="grey">
+        Récapitulatif des paiements
+      </BodyText>
+
+      <Stack gap={1}>
+        {order.payments.map((payment, key) => {
+          const bgColor = (theme) =>
+            theme.alert.title[PAYMENTSTATES[payment.status].severity].background
+          const color = (theme) =>
+            theme.alert.title[PAYMENTSTATES[payment.status].severity].color
+          const border = (theme) =>
+            `1px solid ${
+              theme.alert.title[PAYMENTSTATES[payment.status].severity].color
+            }`
+          return (
+            <Stack
+              key={key}
+              flexDirection="row"
+              gap={1}
+              justifyContent="space-between"
+              alignItems="center"
+              sx={{
+                background: "rgb(0,0,0,0.3)",
+                padding: ".5rem 1.5rem",
+                borderRadius: "30px",
+              }}
+            >
+              <Stack flexDirection="row" gap={2} alignItems="center">
+                <Pill
+                  preventTransition
+                  bgColor={bgColor}
+                  border={border}
+                  padding="0rem .75rem"
+                  lineHeight="0"
+                >
+                  <BodyText fontSize="1rem" color={color} preventTransition>
+                    {PAYMENTSTATES[payment.status].label}
+                  </BodyText>
+                </Pill>
+                <BodyText preventTransition fontSize="1rem">
+                  {payment.amount / 100}€
+                </BodyText>
+                <BodyText
+                  preventTransition
+                  fontSize="1rem"
+                  color="grey"
+                  fontStyle="italic"
+                >
+                  {PAYMENT_TYPES[payment.type].label}
+                </BodyText>
+              </Stack>
+              <BodyText fontSize="1rem" color="grey" preventTransition>
+                {formatDayDate({ timestamp: payment.created_at })}
+              </BodyText>
+            </Stack>
+          )
+        })}
+      </Stack>
+    </FormCard>
+  )
+
   // If mission paid, payment section not displayed
-  if (order.status === "PAYMENT_SUCCEEDED") return <></>
+  if (order.status === "PAYMENT_SUCCEEDED") return <PaymentDetails />
   return (
     <>
+      <PaymentDetails />
+
       <FormCard textAlign="center">
         <PillButton onClick={handleGenerate} textTransform="initial">
           Générer un lien de paiement en ligne
@@ -453,6 +523,7 @@ function OrderForm({
     payment_delay_penalties:
       "Une indemnité forfaitaire de 40€, à laquelle s'ajoute un taux d'Intérêt de retard de 15%. Calcul des intérêts de retard : Somme due TTC * jours de retard * taux d’intérêt / (365 * 100). Les jours de retard sont calculés à partir de la date de réception de la facture.",
     quotations: [],
+    payments: [],
   }
 
   /********** USE-STATES **********/
@@ -508,6 +579,17 @@ function OrderForm({
     setOrder({ ...order, balance })
     if (balance === 100) setDepositDisabled(true)
   }, [order.deposit])
+
+  const TABS = [
+    { label: "Détails" },
+    { label: "Modalités" },
+    { label: "Client", warning: !order.client?.id },
+    { label: "Paiement(s)", badge: order.payments?.length },
+    {
+      label: "Document(s)",
+      badge: order.quotations?.length + order.invoices?.length,
+    },
+  ]
 
   /********** HANDLERS **********/
   const toggleNewClient = (newValue) => setNewClient(newValue)
@@ -969,7 +1051,7 @@ function OrderForm({
   return (
     <>
       <Stack width="100%" gap={4}>
-        <CustomForm gap={4}>
+        <CustomForm gap={2}>
           {/********** TOOLBAR **********/}
           <Toolbar />
 
