@@ -32,3 +32,46 @@ export function parseOrderPrice({ order, items }) {
     return response
   }
 }
+
+export function getPaymentFractionsDetails({ order }) {
+  const totalPrice = order.total_price
+  const paymentFractions = order.payment_fractions
+  const fractions = []
+
+  // Populate payments' amount
+  paymentFractions.map((fraction, index) => {
+    let label
+    if (paymentFractions.length === 1) label = "facture" // one elt only
+    if (index === 0) label = "accompte" // first elt
+    else if (index === paymentFractions.length - 1) label = "solde" // last elt
+    else label = "échéance" // middle elts
+    fractions.push({
+      amount: Math.round((fraction / 100) * totalPrice * 100) / 100,
+      percent: `${fraction}%`,
+      label,
+      paymentStep: `${index + 1}/${paymentFractions.length}`,
+      index,
+      paid: false,
+    })
+  })
+
+  // We browse all fractions and remove matching payments + add attribute paid (boolean)
+  const payments = order.payments.filter((p) => p.status !== "failed")
+  fractions.map((f) => {
+    if (f.amount === payments[payments.length - 1]?.amount) {
+      f.paid = true
+      payments.pop()
+    }
+  })
+
+  return fractions
+}
+
+export function getNextPaymentDetails({ order }) {
+  const payments = order.payments.filter((p) => p.status !== "failed")
+  const fractions = getPaymentFractionsDetails({ order })
+
+  const response = fractions.filter((f) => !f.paid)[0]
+
+  return response
+}

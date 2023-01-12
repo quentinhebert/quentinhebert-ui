@@ -37,9 +37,8 @@ export const ORDERSTATES = {
     severity: "disabled",
   },
   PAYMENT_FAILED: {
-    label: "Bloquée",
-    description:
-      "Votre commande a été bloquée car le paiement a été refusé. Veuillez procéder au paiement à nouveau.",
+    label: "Échec de paiement",
+    description: "Veuillez procéder au paiement à nouveau.",
     severity: "error",
   },
   CANCELLED: {

@@ -15,6 +15,10 @@ import { formatDayDate } from "../../../services/date-time"
 import { buildPublicURL } from "../../../services/utils"
 import QuotationReadOnlySection from "../../Sections/Orders/order-read-only-section"
 import { INVOICETYPES } from "../../../enums/invoiceTypes"
+import {
+  getNextPaymentDetails,
+  getPaymentFractionsDetails,
+} from "../../../services/orders"
 
 const allowedStatesForPaying = [
   "WAITING_FOR_PAYMENT",
@@ -63,6 +67,8 @@ export default function Order_Main({ orderId }) {
     setLoading(false)
   }
 
+  const nextPayment = getNextPaymentDetails({ order })
+
   useEffect(() => {
     fetchOrder()
   }, [])
@@ -95,11 +101,14 @@ export default function Order_Main({ orderId }) {
                   )
                 }
               >
-                {order.status === "DEPOSIT_PAID"
+                {/* {order.status === "PAYMENT_FAILED"
+                  ? "Payer"
+                  : order.status === "DEPOSIT_PAID"
                   ? "Payer le reste"
                   : Number(order.deposit) > 0
                   ? `Payer l'acompte`
-                  : "Payer"}
+                  : "Payer"} */}
+                Payer {nextPayment.amount / 100}€ ({nextPayment.label})
               </PillButton>
             )}
           </Stack>
@@ -152,11 +161,14 @@ export default function Order_Main({ orderId }) {
                       )
                     }
                   >
-                    {order.status === "DEPOSIT_PAID"
+                    {/* {order.status === "PAYMENT_FAILED"
+                      ? "Payer"
+                      : order.status === "DEPOSIT_PAID"
                       ? "Payer le reste"
                       : Number(order.deposit) > 0
                       ? `Payer l'acompte`
-                      : "Payer"}
+                      : "Payer"} */}
+                    Payer {nextPayment.amount / 100}€ ({nextPayment.label})
                   </PillButton>
                 )}
               </Stack>

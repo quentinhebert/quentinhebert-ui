@@ -14,6 +14,10 @@ import BodyText from "../../Text/body-text"
 import SmallTitle from "../../Titles/small-title"
 import DoneRoundedIcon from "@mui/icons-material/DoneRounded"
 import PriceDetails from "../../Sections/Account/Orders/price-details"
+import {
+  getNextPaymentDetails,
+  getPaymentFractionsDetails,
+} from "../../../services/orders"
 
 const steps = [
   "Adresse de facturation",
@@ -22,7 +26,13 @@ const steps = [
 ]
 
 const ActionTitle = (props) => (
-  <SmallTitle textTransform="initial" fontSize="1rem" color="#fff" {...props} />
+  <SmallTitle
+    textTransform="initial"
+    fontSize="1rem"
+    color="#fff"
+    fontWeight="normal"
+    {...props}
+  />
 )
 const ActionText = (props) => (
   <BodyText {...props} preventTransition fontSize="1rem" />
@@ -36,6 +46,8 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
     client_id: null,
     total_price: null,
     items: [],
+    payments: [],
+    payment_fractions: [],
   }
   const [order, setOrder] = useState(initialOrder)
   const [loading, setLoading] = useState(false)
@@ -75,6 +87,9 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
     fetchOrder()
   }, [])
 
+  const nextPayment = getNextPaymentDetails({ order })
+  const paymentFractions = getPaymentFractionsDetails({ order })
+
   if (is401) return <Custom401_Main redirect={`/order-view/${orderId}`} />
   if (!order.id && !loading) return <Custom404_Main />
 
@@ -94,75 +109,36 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
               background: (theme) => theme.palette.background.main,
             }}
           >
-            {Number(order.deposit) !== 0 && order.invoices?.length === 0 && (
-              <>
-                <Stack>
-                  <ActionTitle>Je paye maintenant</ActionTitle>
-                  <ActionText>
-                    <Box
-                      color={(theme) => theme.palette.text.secondary}
-                      component="span"
-                    >
-                      {((order.total_price / 100) * order.deposit) / 100}€ TTC
-                    </Box>
-                  </ActionText>
-                </Stack>
-
-                <Stack>
-                  <ActionTitle color="grey" gap={2}>
-                    Restera à payer
-                  </ActionTitle>
-                  <ActionText color="grey">
+            {paymentFractions.length > 0 &&
+              paymentFractions.map((f, key) => {
+                const isNextPayment = key === nextPayment.index
+                return f.paid ? (
+                  <ActionText key={key}>
                     <Box color="grey" component="span">
-                      {((order.total_price / 100) * order.balance) / 100}€ TTC
+                      {f.amount / 100}€ TTC ({f.label} {f.percent} payé)
                     </Box>
                   </ActionText>
-                </Stack>
-              </>
-            )}
-            {Number(order.deposit) !== 0 && order.invoices?.length === 1 && (
-              <>
-                <Stack>
-                  <ActionTitle
-                    color="grey"
-                    display="flex"
-                    alignItems="center"
-                    gap={2}
-                  >
-                    J'ai déjà payé
-                    <DoneRoundedIcon />
-                  </ActionTitle>
-                  <ActionText color="grey">
-                    {((order.total_price / 100) * order.deposit) / 100}€ TTC
-                  </ActionText>
-                </Stack>
-
-                <Stack>
-                  <ActionTitle>Je règle le reste</ActionTitle>
-                  <ActionText>
-                    <Box
-                      color={(theme) => theme.palette.text.secondary}
-                      component="span"
-                    >
-                      {((order.total_price / 100) * order.balance) / 100}€ TTC
-                    </Box>
-                  </ActionText>
-                </Stack>
-              </>
-            )}
-            {Number(order.deposit) === 0 && Number(order.balance) === 100 && (
-              <>
-                <ActionTitle>Je règle maintenant</ActionTitle>
-                <ActionText>
-                  <Box
-                    color={(theme) => theme.palette.text.secondary}
-                    component="span"
-                  >
-                    {((order.total_price / 100) * order.balance) / 100}€ TTC
-                  </Box>
-                </ActionText>
-              </>
-            )}
+                ) : (
+                  <Stack paddingLeft={isNextPayment ? 2 : 0}>
+                    {isNextPayment && (
+                      <ActionTitle>Je règle maintenant</ActionTitle>
+                    )}
+                    <ActionText key={key}>
+                      <Box
+                        color={(theme) =>
+                          isNextPayment ? theme.palette.text.secondary : "grey"
+                        }
+                        component="span"
+                      >
+                        {f.amount / 100}€ TTC{" "}
+                        <Box component="span" color="grey">
+                          ({f.label} {f.percent})
+                        </Box>
+                      </Box>
+                    </ActionText>
+                  </Stack>
+                )
+              })}
           </Stack>
 
           <PriceDetails items={order.items} order={order} />

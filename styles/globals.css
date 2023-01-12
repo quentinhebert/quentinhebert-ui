@@ -202,6 +202,9 @@ input[type=number] {
 .MuiInput-input::placeholder {
   color: #C6900E;
 }
+.initial-cap::first-letter{
+    text-transform: "capitalize"
+  }
 
 @font-face {
   font-family: 'Ethereal';

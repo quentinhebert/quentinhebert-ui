@@ -60,9 +60,13 @@ import PriceDetails from "../../Sections/Account/Orders/price-details"
 import CustomRadio from "../../Inputs/custom-radio"
 import Pill from "../../Text/pill"
 import FullWidthTabs from "../../Navigation/full-width-tabs"
-import { parseOrderPrice } from "../../../services/orders"
+import {
+  getNextPaymentDetails,
+  getPaymentFractionsDetails,
+  parseOrderPrice,
+} from "../../../services/orders"
 import { PAYMENTSTATES } from "../../../enums/paymentStates"
-import { PAYMENT_TYPES } from "../../../enums/paymentTypes"
+import { PAYMENT_TYPES, STRIPE_PM } from "../../../enums/paymentTypes"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -439,18 +443,29 @@ const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
                 <BodyText preventTransition fontSize="1rem">
                   {payment.amount / 100}€
                 </BodyText>
+                <BodyText preventTransition fontSize="1rem" color="grey">
+                  {STRIPE_PM[payment.metadata?.type]}:{" "}
+                  {payment.metadata?.type === "card" &&
+                    `**** **** **** ${payment.metadata?.last4}`}
+                  {payment.metadata?.type === "sepa_debit" &&
+                    `FR** **** **** **** **** ***${payment.metadata?.last4}`}
+                  {/* FIXME: FR is hard written, should be dynamic */}
+                </BodyText>
+              </Stack>
+
+              <Stack flexDirection="row" gap={2}>
                 <BodyText
-                  preventTransition
                   fontSize="1rem"
                   color="grey"
+                  preventTransition
                   fontStyle="italic"
                 >
                   {PAYMENT_TYPES[payment.type].label}
                 </BodyText>
+                <BodyText fontSize="1rem" color="grey" preventTransition>
+                  {formatDayDate({ timestamp: payment.created_at })}
+                </BodyText>
               </Stack>
-              <BodyText fontSize="1rem" color="grey" preventTransition>
-                {formatDayDate({ timestamp: payment.created_at })}
-              </BodyText>
             </Stack>
           )
         })}
@@ -517,13 +532,14 @@ function OrderForm({
     },
     payment_conditions: "",
     additional_mentions: "",
-    deposit: 0,
-    balance: 100,
     no_vat: false,
     payment_delay_penalties:
       "Une indemnité forfaitaire de 40€, à laquelle s'ajoute un taux d'Intérêt de retard de 15%. Calcul des intérêts de retard : Somme due TTC * jours de retard * taux d’intérêt / (365 * 100). Les jours de retard sont calculés à partir de la date de réception de la facture.",
     quotations: [],
     payments: [],
+    deposit: 0,
+    balance: 100,
+    payment_fractions: [],
   }
 
   /********** USE-STATES **********/
@@ -551,6 +567,10 @@ function OrderForm({
   const [paymentEmail, setPaymentEmail] = useState(null)
   const [paymentMethod, setPaymentMethod] = useState(null)
   const [activeTab, setActiveTab] = useState(0)
+
+  // DEBUG
+  const nextPayment = getNextPaymentDetails({ order })
+  const paymentFractions = getPaymentFractionsDetails({ order })
 
   /********** FETCH DATA **********/
   const fetchOrder = async () => {
@@ -936,6 +956,9 @@ function OrderForm({
         icon: <DeleteIcon />,
       })
 
+    let amountSumArray = []
+    paymentFractions.map((elt) => amountSumArray.push(`${elt.amount / 100}€`))
+
     return (
       <Stack
         width="100%"
@@ -945,8 +968,18 @@ function OrderForm({
           top: 60,
           background: "#000",
           zIndex: 10,
-          padding: "1rem 0",
+          padding: "1rem 0 1.5rem",
           alignItems: "left",
+          margin: "1rem 0",
+          "&::after": {
+            width: "200%",
+            position: "absolute",
+            bottom: 0,
+            left: "-50%",
+            borderBottom: (theme) =>
+              `1px solid ${theme.palette.secondary.main}`,
+            content: `'.'`,
+          },
         }}
       >
         {readOnly ? (
@@ -992,13 +1025,11 @@ function OrderForm({
                     100
                   ).toFixed(2)}
                   €
-                  {parseOrderPrice({ order, items }).deposit > 0 && (
+                  {paymentFractions.length > 0 && (
                     <Box component="span" color="grey" fontSize="1.2rem">
                       {" ("}
-                      {parseOrderPrice({ order, items }).deposit / 100}
-                      {"€ + "}
-                      {parseOrderPrice({ order, items }).balance / 100}
-                      {"€)"}
+                      {amountSumArray.join(" + ")}
+                      {")"}
                     </Box>
                   )}
                 </BodyText>

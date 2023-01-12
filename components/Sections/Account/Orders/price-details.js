@@ -1,14 +1,27 @@
-import { Grid, Stack } from "@mui/material"
-import { parseOrderPrice } from "../../../../services/orders"
+import { Box, Grid, Stack } from "@mui/material"
+import { Fragment } from "react"
+import {
+  getPaymentFractionsDetails,
+  parseOrderPrice,
+} from "../../../../services/orders"
 import BodyText from "../../../Text/body-text"
 
 const Label = (props) => (
-  <Grid item xs={8}>
+  <Grid
+    item
+    xs={8}
+    sx={{
+      "&:first-letter": {
+        textTransform: "capitalize",
+      },
+    }}
+  >
     <BodyText
+      className="initial-cap"
       preventTransition
-      {...props}
       color={(theme) => theme.palette.text.grey}
       fontSize="1rem"
+      {...props}
     />
   </Grid>
 )
@@ -24,6 +37,7 @@ export default function PriceDetails({ items, order }) {
     order,
     items,
   }) // all prices in cents
+  const paymentFractions = getPaymentFractionsDetails({ order })
 
   return (
     <Stack
@@ -39,7 +53,7 @@ export default function PriceDetails({ items, order }) {
         <Price>{totalPrice / 100} €</Price>
         <Label>Dont TVA</Label>
         <Price color="grey">{totalVAT / 100} €</Price>
-        {deposit > 0 && (
+        {paymentFractions.length > 0 && (
           <>
             <Stack
               sx={{
@@ -48,10 +62,14 @@ export default function PriceDetails({ items, order }) {
                 margin: "1rem 0",
               }}
             />
-            <Label>Acompte TTC ({order.deposit}%)</Label>
-            <Price>{deposit / 100} €</Price>
-            <Label>Solde TTC ({order.balance}%)</Label>
-            <Price>{balance / 100} €</Price>
+            {paymentFractions.map((f, key) => (
+              <Fragment key={key}>
+                <Label>
+                  {f.label} TTC ({f.percent})
+                </Label>
+                <Price>{f.amount / 100} €</Price>
+              </Fragment>
+            ))}
           </>
         )}
       </Grid>
