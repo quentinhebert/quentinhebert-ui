@@ -101,13 +101,6 @@ export default function Order_Main({ orderId }) {
                   )
                 }
               >
-                {/* {order.status === "PAYMENT_FAILED"
-                  ? "Payer"
-                  : order.status === "DEPOSIT_PAID"
-                  ? "Payer le reste"
-                  : Number(order.deposit) > 0
-                  ? `Payer l'acompte`
-                  : "Payer"} */}
                 Payer {nextPayment.amount / 100}€ ({nextPayment.label})
               </PillButton>
             )}
@@ -161,13 +154,6 @@ export default function Order_Main({ orderId }) {
                       )
                     }
                   >
-                    {/* {order.status === "PAYMENT_FAILED"
-                      ? "Payer"
-                      : order.status === "DEPOSIT_PAID"
-                      ? "Payer le reste"
-                      : Number(order.deposit) > 0
-                      ? `Payer l'acompte`
-                      : "Payer"} */}
                     Payer {nextPayment.amount / 100}€ ({nextPayment.label})
                   </PillButton>
                 )}

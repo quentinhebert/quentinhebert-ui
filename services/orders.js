@@ -39,7 +39,7 @@ export function getPaymentFractionsDetails({ order }) {
   const fractions = []
 
   // Populate payments' amount
-  paymentFractions.map((fraction, index) => {
+  paymentFractions?.map((fraction, index) => {
     let label
     if (paymentFractions.length === 1) label = "facture" // one elt only
     if (index === 0) label = "accompte" // first elt
@@ -56,7 +56,10 @@ export function getPaymentFractionsDetails({ order }) {
   })
 
   // We browse all fractions and remove matching payments + add attribute paid (boolean)
-  const payments = order.payments.filter((p) => p.status !== "failed")
+  const ignoredStatuses = ["failed", "canceled", "requires_payment_method"]
+  const payments = order.payments?.filter(
+    (p) => !ignoredStatuses.includes(p.status)
+  )
   fractions.map((f) => {
     if (f.amount === payments[payments.length - 1]?.amount) {
       f.paid = true
@@ -68,9 +71,7 @@ export function getPaymentFractionsDetails({ order }) {
 }
 
 export function getNextPaymentDetails({ order }) {
-  const payments = order.payments.filter((p) => p.status !== "failed")
   const fractions = getPaymentFractionsDetails({ order })
-
   const response = fractions.filter((f) => !f.paid)[0]
 
   return response

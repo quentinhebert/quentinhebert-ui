@@ -3,6 +3,7 @@ import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import apiCall from "../../services/apiCalls/apiCall"
+import { getNextPaymentDetails } from "../../services/orders"
 import { formatPaymentErrors } from "../../services/stripe-utils"
 import PillButton from "../Buttons/pill-button"
 import CustomCard from "../Cards/custom-card"
@@ -90,24 +91,7 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
   }
 
   // TODO: factorize that shit + check from payments not invoices
-  const amountToPay = (order) => {
-    // Case 0: Payment in once
-    let amountToPay = order.total_price
-
-    // Case 1: Deposit to be paid
-    if (Number(order.deposit) !== 0 && order.invoices?.length === 0)
-      amountToPay = Math.round(
-        (Number(order.deposit) / 100) * order.total_price
-      )
-
-    // Case 2: Balance to be paid
-    if (Number(order.balance) !== 100 && order.invoices?.length === 1)
-      amountToPay = Math.round(
-        (Number(order.balance) / 100) * order.total_price
-      )
-
-    return amountToPay / 100
-  }
+  const amountToPay = order ? getNextPaymentDetails({ order }).amount / 100 : 0
 
   return (
     <Stack margin="100px 0" className="flex-center">
@@ -116,7 +100,7 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
         {order && (
           <CustomCard>
             <CustomForm onSubmit={handleSubmit}>
-              <MediumTitle>Payer {amountToPay(order)}€</MediumTitle>
+              <MediumTitle>Payer {amountToPay}€</MediumTitle>
               {showAlert.show && (
                 <Stack textAlign="left" maxWidth="300px" width="100%">
                   <AlertInfo content={showAlert} />
