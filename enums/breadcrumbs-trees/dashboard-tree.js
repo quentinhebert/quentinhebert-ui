@@ -41,7 +41,7 @@ const dashboardTree = {
     href: "/dashboard?active_tab=prospects",
   },
   create: "Nouvelle commande",
-  edit: "Ma commande",
+  edit: { label: "Ma commande", href: "#" },
   new: "Nouvelle facture",
 }
 
