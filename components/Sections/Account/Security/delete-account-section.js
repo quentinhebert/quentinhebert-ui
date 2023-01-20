@@ -38,7 +38,7 @@ const DeleteButton = (props) => (
       letterSpacing: "1.5px",
       fontSize: props.fontSize || "",
       "&:hover": {
-        border: (theme) => theme.palette.error.main,
+        border: (theme) => `2px solid ${theme.palette.error.main}`,
         backgroundColor: (theme) => theme.palette.error.main,
         color: (theme) => theme.palette.text.primary,
       },
