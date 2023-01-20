@@ -32,7 +32,7 @@ export const ORDERSTATES = {
     severity: "success",
   },
   DEPOSIT_PAID: {
-    label: "Acompté payé",
+    label: "Acompte payé",
     description: "Passez au paiement suivant.",
     severity: "disabled",
   },

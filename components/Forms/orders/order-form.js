@@ -80,10 +80,10 @@ import DownloadIcon from "@mui/icons-material/Download"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
-  { id: "CARD", label: "CB" },
-  { id: "TRANSFER", label: "Virement" },
-  { id: "CHECK", label: "Chèque" },
   { id: "CASH", label: "Espèces" },
+  { id: "CHECK", label: "Chèque" },
+  { id: "TRANSFER", label: "Virement" },
+  { id: "CARD", label: "CB" },
 ]
 const EDIT_STATUSES = [
   QUOTATION_STATUS.DRAFT.id,
@@ -455,13 +455,17 @@ const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
                   {payment.amount / 100}€
                 </BodyText>
                 <BodyText preventTransition fontSize="1rem" color="grey">
-                  {STRIPE_PM[payment.metadata?.type]}:{" "}
-                  {payment.metadata?.type === "card" &&
-                    `**** **** **** ${payment.metadata?.last4}`}
-                  {payment.metadata?.type === "sepa_debit" &&
-                    `FR** **** **** **** **** ***${
-                      payment.metadata?.last4[0]
-                    } ${payment.metadata?.last4.slice(1)}`}
+                  {!!payment.metadata?.type && (
+                    <>
+                      {STRIPE_PM[payment.metadata?.type]}:{" "}
+                      {payment.metadata?.type === "card" &&
+                        `**** **** **** ${payment.metadata?.last4}`}
+                      {payment.metadata?.type === "sepa_debit" &&
+                        `FR** **** **** **** **** ***${
+                          payment.metadata?.last4[0]
+                        } ${payment.metadata?.last4.slice(1)}`}
+                    </>
+                  )}
                   {/* FIXME: FR is hard written, should be dynamic */}
                 </BodyText>
               </Stack>
@@ -503,7 +507,7 @@ const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
           color={(theme) => theme.palette.secondary.main}
           onClick={handleOpenTag}
         >
-          Marquer comme payée
+          Marquer le prochain paiement comme réglé
         </PillButton>
       </FormCard>
     </>
@@ -578,6 +582,7 @@ function OrderForm({
   const [paymentMethod, setPaymentMethod] = useState(null)
   const [activeTab, setActiveTab] = useState(0)
   const [paymentMode, setPaymentMode] = useState(PAYMENT_MODES.ONCE)
+  const [processing, setProcessing] = useState(false)
 
   // DEBUG
   const nextPayment = getNextPaymentDetails({ order })
@@ -830,6 +835,7 @@ function OrderForm({
     }
   }
   const handleTag = async () => {
+    setProcessing(true)
     const res = await apiCall.orders.tagAsPaid({
       orderId: order.id,
       paymentMethod,
@@ -843,6 +849,7 @@ function OrderForm({
       setSnackMessage("Erreur")
       setSnackSeverity("error")
     }
+    setProcessing(false)
   }
   const generatePaymentLink = async () => {
     if (paymentEmail.trim === "") setPaymentEmail(order.client?.email)
@@ -1131,8 +1138,6 @@ function OrderForm({
     (a, b) => Number(a) + Number(b),
     0
   )
-
-  console.log(fractionSum)
 
   if (order.file?.path)
     return (
@@ -1592,7 +1597,12 @@ function OrderForm({
                 onChange={handleChange("label")}
                 label="Nom de la commande"
               />
-              <Stack className="row" gap={2} alignSelf="end">
+              <Stack
+                className="row"
+                gap={2}
+                alignSelf="end"
+                alignItems="center"
+              >
                 <CancelTextButton handleCancel={handleCloseModal} />
                 <PillButton
                   onClick={handleSave}
@@ -1735,14 +1745,14 @@ function OrderForm({
           </>
         )}
 
-        {/* SAVE ORDER / EDIT ORDER NAME */}
+        {/* TAG AS PAID */}
         {modal === MODALS.TAG && (
           <>
             <ModalTitle alignItems="center" display="flex" gap={1}>
-              <DoneIcon /> Marquer la commande comme payée
+              <DoneIcon /> Marquer le prochain paiement comme réglé
             </ModalTitle>
             <BodyText preventTransition fontSize="1rem">
-              Spécifiez le moyen de paiement de la commande.
+              Quel a été le moyen de paiement utilisé ?
             </BodyText>
 
             <CustomForm gap={4}>
@@ -1758,7 +1768,9 @@ function OrderForm({
                 alignItems="center"
               >
                 <CancelTextButton handleCancel={handleCloseModal} />
-                <PillButton onClick={handleTag}>Marquer comme payée</PillButton>
+                <PillButton onClick={handleTag} disabled={processing}>
+                  {processing ? "Patientez..." : "Marquer comme payé"}
+                </PillButton>
               </Stack>
             </CustomForm>
           </>

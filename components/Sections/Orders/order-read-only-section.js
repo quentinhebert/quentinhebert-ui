@@ -11,6 +11,7 @@ const PAYMENT_OPTIONS = [
   { id: "TRANSFER", label: "Virement" },
   { id: "CHECK", label: "Chèque" },
   { id: "CASH", label: "Espèces" },
+  { id: "STRIPE", label: "Paiement en ligne" },
 ]
 const HEAD = [
   { label: "Type" },
