@@ -550,8 +550,6 @@ function OrderForm({
       "Une indemnité forfaitaire de 40€, à laquelle s'ajoute un taux d'Intérêt de retard de 15%. Calcul des intérêts de retard : Somme due TTC * jours de retard * taux d’intérêt / (365 * 100). Les jours de retard sont calculés à partir de la date de réception de la facture.",
     quotations: [],
     payments: [],
-    deposit: 0,
-    balance: 100,
     payment_fractions: [100],
   }
 
@@ -566,7 +564,6 @@ function OrderForm({
   const [assignValue, setAssignValue] = useState("")
   const [assignInputValue, setAssignInputValue] = useState("")
   const [modal, setModal] = useState(null)
-  const [depositDisabled, setDepositDisabled] = useState(true)
   const [openModal, setOpenModal] = useState(false)
   const [readOnly, setReadOnly] = useState(defaultReadonly)
   const [errors, setErrors] = useState({
@@ -619,13 +616,6 @@ function OrderForm({
   useEffect(() => {
     fetchOrder()
   }, [id])
-
-  /********** USE-EFFECTS **********/
-  useEffect(() => {
-    const balance = 100 - order.deposit
-    setOrder({ ...order, balance })
-    if (balance === 100) setDepositDisabled(true)
-  }, [order.deposit])
 
   const TABS = [
     { label: "Détails" },

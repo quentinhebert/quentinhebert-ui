@@ -127,8 +127,6 @@ const orders = {
       validity_end_date,
       payment_options,
       payment_conditions,
-      deposit,
-      balance,
       additional_mentions,
       no_vat,
       payment_delay_penalties,

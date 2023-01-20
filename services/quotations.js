@@ -11,8 +11,6 @@ export const checkBeforeGen = (
     payment_options,
     payment_conditions,
     additional_mentions,
-    deposit,
-    balance,
     no_vat,
     payment_delay_penalties,
   }
@@ -28,8 +26,6 @@ export const checkBeforeGen = (
   if (!quotation.delivery_date) errors.delivery_date = true
   if (!notEmptyString(quotation.payment_conditions))
     errors.payment_conditions = true
-  if (parseInt(quotation.deposit) + parseInt(quotation.balance) !== 100)
-    errors.deposit = true
   if (!notEmptyString(quotation.payment_delay_penalties))
     errors.payment_delay_penalties = true
   if (

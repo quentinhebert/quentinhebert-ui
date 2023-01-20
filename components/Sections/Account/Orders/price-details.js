@@ -33,7 +33,7 @@ const Price = (props) => (
 )
 
 export default function PriceDetails({ items, order }) {
-  const { totalVAT, totalPrice, deposit, balance } = parseOrderPrice({
+  const { totalVAT, totalPrice } = parseOrderPrice({
     order,
     items,
   }) // all prices in cents
