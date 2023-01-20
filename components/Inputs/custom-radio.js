@@ -22,7 +22,7 @@ export default function CustomRadio({ options, label, setValue }) {
             color: "#fff",
           },
           "& .Mui-checked": {
-            color: (theme) => theme.palette.text.secondary,
+            color: (theme) => `${theme.palette.text.secondary} !important`,
           },
           "& .Mui-active": {
             color: (theme) => theme.palette.text.secondary,

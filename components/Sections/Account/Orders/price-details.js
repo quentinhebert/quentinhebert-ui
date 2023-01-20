@@ -53,7 +53,7 @@ export default function PriceDetails({ items, order }) {
         <Price>{totalPrice / 100} €</Price>
         <Label>Dont TVA</Label>
         <Price color="grey">{totalVAT / 100} €</Price>
-        {paymentFractions.length > 0 && (
+        {paymentFractions.length > 1 && (
           <>
             <Stack
               sx={{

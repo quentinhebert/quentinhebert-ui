@@ -80,10 +80,10 @@ import DownloadIcon from "@mui/icons-material/Download"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
-  { id: "card", label: "CB" },
-  { id: "transfer", label: "Virement" },
-  { id: "check", label: "Chèque" },
-  { id: "cash", label: "Espèces" },
+  { id: "CARD", label: "CB" },
+  { id: "TRANSFER", label: "Virement" },
+  { id: "CHECK", label: "Chèque" },
+  { id: "CASH", label: "Espèces" },
 ]
 const EDIT_STATUSES = [
   QUOTATION_STATUS.DRAFT.id,
@@ -1751,7 +1751,12 @@ function OrderForm({
                 setValue={setPaymentMethod}
               />
 
-              <Stack className="row" gap={2} alignSelf="end">
+              <Stack
+                className="row"
+                gap={2}
+                alignSelf="end"
+                alignItems="center"
+              >
                 <CancelTextButton handleCancel={handleCloseModal} />
                 <PillButton onClick={handleTag}>Marquer comme payée</PillButton>
               </Stack>

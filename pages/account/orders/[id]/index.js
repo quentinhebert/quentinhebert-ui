@@ -38,7 +38,7 @@ export default function OrderPage() {
 
       {/* GOOD CREDENTIALS */}
       {!!user && user.type === USERTYPES.CLIENT && (
-        <AccountLayout title={orderId ? `Commande n° ${orderId}` : "Commande"}>
+        <AccountLayout>
           <Order_Main orderId={orderId} />
         </AccountLayout>
       )}

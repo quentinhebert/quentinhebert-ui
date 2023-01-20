@@ -1,24 +1,21 @@
-import { Box, Stack } from "@mui/material"
+import { Box, Stack, Tooltip, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import Custom404_Main from "../../Main/Errors/Custom404_Main"
 import { useRouter } from "next/router"
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import { ORDERSTATES } from "../../../enums/orderStates"
-import ReceiptIcon from "@mui/icons-material/Receipt"
 import PillButton from "../../Buttons/pill-button"
 import PleaseWait from "../../Helpers/please-wait"
 import BodyText from "../../Text/body-text"
 import Pill from "../../Text/pill"
-import SmallTitle from "../../Titles/small-title"
 import { formatDayDate } from "../../../services/date-time"
 import { buildPublicURL } from "../../../services/utils"
-import QuotationReadOnlySection from "../../Sections/Orders/order-read-only-section"
+import OrderReadOnlySection from "../../Sections/Orders/order-read-only-section"
 import { INVOICETYPES } from "../../../enums/invoiceTypes"
-import {
-  getNextPaymentDetails,
-  getPaymentFractionsDetails,
-} from "../../../services/orders"
+import { getNextPaymentDetails } from "../../../services/orders"
+import RefreshButton from "../../Buttons/refresh-button"
+import DownloadIcon from "@mui/icons-material/Download"
 
 const allowedStatesForPaying = [
   "WAITING_FOR_PAYMENT",
@@ -29,18 +26,27 @@ const allowedStatesForPaying = [
 
 const StatusChip = ({ order }) => (
   <Pill
+    preventTransition
     bgColor={(theme) =>
       theme.alert.title[ORDERSTATES[order.status].severity].color
     }
+    padding="0 1rem"
+    lineHeight={0}
   >
     <BodyText
+      preventTransition
+      fontSize="1rem"
       color={(theme) =>
         theme.alert.title[ORDERSTATES[order.status].severity].background
       }
+      textTransform="initial"
     >
       {ORDERSTATES[order.status].label}
     </BodyText>
   </Pill>
+)
+const H2 = (props) => (
+  <BodyText preventTransition color="grey" fontSize="1.5rem" {...props} />
 )
 
 export default function Order_Main({ orderId }) {
@@ -80,6 +86,23 @@ export default function Order_Main({ orderId }) {
     //
   }
 
+  const CheckoutBtn = () =>
+    allowedStatesForPaying.includes(order.status) && (
+      <Stack alignItems="center">
+        <PillButton
+          startIcon={<ShoppingCartIcon />}
+          textTransform="initial"
+          onClick={() =>
+            router.push(
+              `/account/orders/${orderId}/checkout/before-checkout-steps`
+            )
+          }
+        >
+          Payer {nextPayment.amount / 100}€ ({nextPayment.label})
+        </PillButton>
+      </Stack>
+    )
+
   if (!order.id && !loading) return <Custom404_Main />
 
   return (
@@ -87,29 +110,27 @@ export default function Order_Main({ orderId }) {
       {loading && <PleaseWait />}
 
       {order.id && !loading && (
-        <Stack gap={8}>
-          <Stack className="row gap-10" alignItems="center">
-            <StatusChip order={order} />
-            <BodyText>{ORDERSTATES[order.status].description}</BodyText>
-            <Stack flexGrow={1} />
-            {/* <RefreshButton refresh={fetchOrder} /> */}
-            {allowedStatesForPaying.includes(order.status) && (
-              <PillButton
-                startIcon={<ShoppingCartIcon />}
-                onClick={() =>
-                  router.push(
-                    `/account/orders/${orderId}/checkout/before-checkout-steps`
-                  )
-                }
-              >
-                Payer {nextPayment.amount / 100}€ ({nextPayment.label})
-              </PillButton>
-            )}
+        <Stack gap={10}>
+          <Stack gap={2}>
+            <Stack className="row gap-10" alignItems="center">
+              <StatusChip order={order} />
+              <BodyText color="grey" fontSize="1rem" preventTransition>
+                {ORDERSTATES[order.status].description}
+              </BodyText>
+              <Stack flexGrow={1} />
+              <RefreshButton refresh={fetchOrder} />
+            </Stack>
+
+            <BodyText fontSize="2rem" preventTransition>
+              {order?.label || ""}
+            </BodyText>
           </Stack>
+
+          <CheckoutBtn />
 
           {order.invoices?.length > 0 && (
             <Stack gap={2}>
-              <SmallTitle>Vos factures</SmallTitle>
+              <H2>Mes factures</H2>
 
               {order.invoices.map((invoice, key) => (
                 <Stack
@@ -118,47 +139,47 @@ export default function Order_Main({ orderId }) {
                   key={key}
                   alignItems="center"
                 >
-                  <BodyText>
-                    {formatDayDate({ timestamp: invoice.created_at })}
-                  </BodyText>
-                  <BodyText>{invoice.number}</BodyText>
-                  <BodyText textTransform="capitalize">
-                    {INVOICETYPES[invoice.type]}
-                  </BodyText>
-                  <Box
-                    component="a"
-                    href={buildPublicURL(invoice.path)}
-                    target="_blank"
+                  <Tooltip
+                    title={formatDayDate({ timestamp: invoice.created_at })}
                   >
-                    <PillButton startIcon={<ReceiptIcon />}>
-                      Télécharger
-                    </PillButton>
-                  </Box>
+                    <Box
+                      component="a"
+                      href={buildPublicURL(invoice.path)}
+                      target="_blank"
+                    >
+                      <Stack className="flex-center row gap-10">
+                        <DownloadIcon color="secondary" />
+                        <Typography
+                          color="secondary"
+                          letterSpacing={1}
+                          className="cool-button"
+                        >
+                          Télécharger {INVOICETYPES[invoice.type]}
+                        </Typography>
+                      </Stack>
+                    </Box>
+                  </Tooltip>
                 </Stack>
               ))}
             </Stack>
           )}
 
           <Stack gap={4}>
-            <SmallTitle>Récapitulatif</SmallTitle>
+            <H2>Détail de ma commande</H2>
 
-            <QuotationReadOnlySection items={order.items} quotation={order} />
+            <OrderReadOnlySection
+              items={order.items}
+              quotation={order}
+              hideDetails
+            />
+            <OrderReadOnlySection
+              items={order.items}
+              quotation={order}
+              hideModalities
+            />
 
             <Stack width="100%" alignItems="end">
-              <Stack direction="row" alignItems="center" gap={5}>
-                {allowedStatesForPaying.includes(order.status) && (
-                  <PillButton
-                    startIcon={<ShoppingCartIcon />}
-                    onClick={() =>
-                      router.push(
-                        `/account/orders/${orderId}/checkout/before-checkout-steps`
-                      )
-                    }
-                  >
-                    Payer {nextPayment.amount / 100}€ ({nextPayment.label})
-                  </PillButton>
-                )}
-              </Stack>
+              <CheckoutBtn />
             </Stack>
           </Stack>
         </Stack>

@@ -7,10 +7,10 @@ import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
 import PriceDetails from "../Account/Orders/price-details"
 
 const PAYMENT_OPTIONS = [
-  { id: "card", label: "Carte bancaire" },
-  { id: "transfer", label: "Virement bancaire" },
-  { id: "check", label: "Chèque de banque" },
-  { id: "cash", label: "Espèces" },
+  { id: "CARD", label: "CB" },
+  { id: "TRANSFER", label: "Virement" },
+  { id: "CHECK", label: "Chèque" },
+  { id: "CASH", label: "Espèces" },
 ]
 const HEAD = [
   { label: "Type" },
