@@ -878,50 +878,6 @@ function OrderForm({
   const getRecipientString = (recipientEmails) => recipientEmails.join(", ")
 
   /********** SUB-COMPONENTS **********/
-  const State = () => {
-    const Container = ({ color, ...props }) => (
-      <BodyText
-        preventTransition
-        fontSize="1rem"
-        sx={{
-          color: color,
-          display: "inline-flex",
-          gap: ".5rem",
-          alignItems: "center",
-        }}
-        {...props}
-      />
-    )
-
-    if (!order.id)
-      return (
-        <Container color={(theme) => theme.palette.error.main}>
-          Pas enregistré <WarningAmberIcon />
-        </Container>
-      )
-
-    if (unsavedChanges)
-      return (
-        <Container color={(theme) => theme.alert.title.warning}>
-          Modifications non sauvegardées{" "}
-          <AccessTimeIcon sx={{ display: "inline-flex" }} />
-        </Container>
-      )
-
-    if (order.status === ORDERSTATES.ACCEPTED?.id)
-      return (
-        <Container color={(theme) => theme.alert.title.success.color}>
-          Accepté par le client <DoneAllIcon />
-        </Container>
-      )
-
-    // return (
-    //   <Container color={(theme) => theme.alert.title.success.color}>
-    //     Enregistré <DoneIcon />
-    //   </Container>
-    // )
-    return <></>
-  }
   const Status = () => (
     <Pill
       border="1px solid"
