@@ -24,6 +24,7 @@ const allowedStatesForPaying = [
   "WAITING_FOR_PAYMENT",
   "PAYMENT_FAILED",
   "DEPOSIT_PAID",
+  "PARTIALLY_PAID",
 ]
 
 const StatusChip = ({ order }) => (

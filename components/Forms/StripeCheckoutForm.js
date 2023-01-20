@@ -111,7 +111,7 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
                 <PillButton
                   disabled={!stripe}
                   onClick={handleCancel}
-                  background="tarnsparent"
+                  background="transparent"
                   color={(theme) => theme.palette.text.secondary}
                   border={(theme) =>
                     `1px solid ${theme.palette.secondary.main}`

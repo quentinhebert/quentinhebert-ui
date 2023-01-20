@@ -1,5 +1,14 @@
 import { useState, useContext, useEffect } from "react"
-import { Box, Grid, Slider, Stack, Typography } from "@mui/material"
+import {
+  Box,
+  Grid,
+  InputAdornment,
+  Slider,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+} from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { AppContext } from "../../../contexts/AppContext"
 import CustomForm from "../custom-form"
@@ -31,6 +40,20 @@ import { ORDERSTATES } from "../../../enums/orderStates"
 import CancelTextButton from "../../Buttons/cancel-text-button"
 import QuotationClientFieldsForm from "../quotations/quotation-client-fields-form"
 import { formatDayDate } from "../../../services/date-time"
+import AlertInfo from "../../Other/alert-info"
+import { INVOICETYPES } from "../../../enums/invoiceTypes"
+import PriceDetails from "../../Sections/Account/Orders/price-details"
+import CustomRadio from "../../Inputs/custom-radio"
+import Pill from "../../Text/pill"
+import FullWidthTabs from "../../Navigation/full-width-tabs"
+import {
+  getNextPaymentDetails,
+  getPaymentFractionsDetails,
+  parseOrderPrice,
+} from "../../../services/orders"
+import { PAYMENTSTATES } from "../../../enums/paymentStates"
+import { PAYMENT_TYPES, STRIPE_PM } from "../../../enums/paymentTypes"
+import CustomOutlinedInput from "../../Inputs/custom-outlined-input"
 
 // Icons
 import SendIcon from "@mui/icons-material/Send"
@@ -54,26 +77,13 @@ import SellIcon from "@mui/icons-material/Sell"
 import LaunchIcon from "@mui/icons-material/Launch"
 import EditIcon from "@mui/icons-material/Edit"
 import DownloadIcon from "@mui/icons-material/Download"
-import AlertInfo from "../../Other/alert-info"
-import { INVOICETYPES } from "../../../enums/invoiceTypes"
-import PriceDetails from "../../Sections/Account/Orders/price-details"
-import CustomRadio from "../../Inputs/custom-radio"
-import Pill from "../../Text/pill"
-import FullWidthTabs from "../../Navigation/full-width-tabs"
-import {
-  getNextPaymentDetails,
-  getPaymentFractionsDetails,
-  parseOrderPrice,
-} from "../../../services/orders"
-import { PAYMENTSTATES } from "../../../enums/paymentStates"
-import { PAYMENT_TYPES, STRIPE_PM } from "../../../enums/paymentTypes"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
-  { id: "CARD", label: "Carte bancaire" },
-  { id: "BANK_TRANSFER", label: "Virement bancaire" },
-  { id: "BANK_CHECK", label: "Chèque de banque" },
-  { id: "CASH", label: "Espèces" },
+  { id: "card", label: "CB" },
+  { id: "transfer", label: "Virement" },
+  { id: "check", label: "Chèque" },
+  { id: "cash", label: "Espèces" },
 ]
 const EDIT_STATUSES = [
   QUOTATION_STATUS.DRAFT.id,
@@ -98,6 +108,7 @@ const HEAD = [
   { label: "Prix unit. HT" },
   { label: "Total" },
 ]
+const PAYMENT_MODES = { ONCE: "ONCE", TWICE: "TWICE", MULTIPLE: "MULTIPLE" }
 
 /********** OTHER COMPONENTS **********/
 const FormCard = ({ title, width, icon, ...props }) => (
@@ -448,7 +459,9 @@ const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
                   {payment.metadata?.type === "card" &&
                     `**** **** **** ${payment.metadata?.last4}`}
                   {payment.metadata?.type === "sepa_debit" &&
-                    `FR** **** **** **** **** ***${payment.metadata?.last4}`}
+                    `FR** **** **** **** **** ***${
+                      payment.metadata?.last4[0]
+                    } ${payment.metadata?.last4.slice(1)}`}
                   {/* FIXME: FR is hard written, should be dynamic */}
                 </BodyText>
               </Stack>
@@ -539,7 +552,7 @@ function OrderForm({
     payments: [],
     deposit: 0,
     balance: 100,
-    payment_fractions: [],
+    payment_fractions: [100],
   }
 
   /********** USE-STATES **********/
@@ -567,6 +580,7 @@ function OrderForm({
   const [paymentEmail, setPaymentEmail] = useState(null)
   const [paymentMethod, setPaymentMethod] = useState(null)
   const [activeTab, setActiveTab] = useState(0)
+  const [paymentMode, setPaymentMode] = useState(PAYMENT_MODES.ONCE)
 
   // DEBUG
   const nextPayment = getNextPaymentDetails({ order })
@@ -583,6 +597,19 @@ function OrderForm({
       setOrder(jsonRes)
       // Populate order items
       setItems(jsonRes.items)
+      // Set payment mode
+      switch (jsonRes.payment_fractions.length) {
+        case 1:
+          setPaymentMode(PAYMENT_MODES.ONCE)
+          break
+        case 2:
+          setPaymentMode(PAYMENT_MODES.TWICE)
+          break
+        default:
+          setPaymentMode(PAYMENT_MODES.MULTIPLE)
+          break
+      }
+
       setLoading(false)
       setUnsavedChanges(false)
     }
@@ -1048,6 +1075,8 @@ function OrderForm({
                 color={(theme) => theme.palette.text.secondary}
                 className="cool-button pointer"
                 onClick={() => {
+                  if (!order.id)
+                    return router.push("/dashboard?active_tab=orders")
                   setReadOnly(true)
                   fetchOrder()
                 }}
@@ -1064,6 +1093,56 @@ function OrderForm({
   const FormStack = (props) => (
     <Stack sx={{ width: { xs: "100%", md: "50%" } }} {...props} />
   )
+  const TogglePaymentMode = () => (
+    <ToggleButtonGroup
+      color="primary"
+      value={paymentMode}
+      exclusive
+      onChange={(e, val) => {
+        switch (val) {
+          case PAYMENT_MODES.ONCE:
+            setOrder({ ...order, payment_fractions: [100] })
+            break
+          case PAYMENT_MODES.TWICE:
+            setOrder({ ...order, payment_fractions: [60, 40] })
+            break
+          case PAYMENT_MODES.MULTIPLE:
+            setOrder({ ...order, payment_fractions: [40, 30, 30] })
+            break
+        }
+        setPaymentMode(val)
+      }}
+      sx={{
+        justifyContent: "center",
+        "& .Mui-selected": {
+          backgroundColor: (theme) =>
+            `${theme.palette.secondary.main} !important`,
+        },
+        "&>.MuiToggleButton-root": {
+          borderRadius: "30px",
+          backgroundColor: "rgb(0,0,0,0.2)",
+          padding: ".5rem 1rem",
+          textTransform: "initial",
+          "&:hover": {
+            color: (theme) => theme.palette.text.primary,
+            backgroundColor: (theme) => theme.palette.secondary.main,
+            opacity: 0.7,
+          },
+        },
+      }}
+    >
+      <ToggleButton value={PAYMENT_MODES.ONCE}>Paiement unique</ToggleButton>
+      <ToggleButton value={PAYMENT_MODES.TWICE}>Acompte / solde</ToggleButton>
+      <ToggleButton value={PAYMENT_MODES.MULTIPLE}>Plusieurs fois</ToggleButton>
+    </ToggleButtonGroup>
+  )
+
+  const fractionSum = order.payment_fractions.reduce(
+    (a, b) => Number(a) + Number(b),
+    0
+  )
+
+  console.log(fractionSum)
 
   if (order.file?.path)
     return (
@@ -1176,26 +1255,8 @@ function OrderForm({
                 </FormCard>
 
                 <FormCard title="Paiement (3/5)" icon={<EuroIcon />}>
-                  <SwitchButton
-                    checked={!depositDisabled}
-                    handleCheck={(bool) => {
-                      if (!bool)
-                        setOrder({
-                          ...order,
-                          deposit: 0,
-                          balance: 100,
-                        })
-                      else
-                        setOrder({
-                          ...order,
-                          deposit: 60,
-                          balance: 40,
-                        })
-                      setDepositDisabled(!bool)
-                    }}
-                    label="Paiment avec acompte"
-                  />
-                  {!depositDisabled ? (
+                  <TogglePaymentMode />
+                  {paymentMode === PAYMENT_MODES.TWICE ? (
                     <Stack
                       spacing={2}
                       direction="row"
@@ -1203,16 +1264,18 @@ function OrderForm({
                       alignItems="center"
                     >
                       <Typography color="secondary">
-                        Acompte ({order.deposit}%)
+                        Acompte ({order.payment_fractions[0]}%)
                       </Typography>
                       <Slider
-                        disabled={depositDisabled}
                         color="secondary"
                         aria-label="Temperature"
-                        defaultValue={60}
+                        value={order.payment_fractions[0] || 60}
                         valueLabelDisplay="auto"
                         onChange={(e, newValue) =>
-                          setOrder({ ...order, deposit: newValue })
+                          setOrder({
+                            ...order,
+                            payment_fractions: [newValue, 100 - newValue],
+                          })
                         }
                         step={5}
                         marks
@@ -1220,22 +1283,124 @@ function OrderForm({
                         max={100}
                       />
                       <Typography color="secondary">
-                        Solde ({order.balance}%)
+                        Solde ({100 - order.payment_fractions[0]}%)
                       </Typography>
                     </Stack>
                   ) : null}
+
+                  {paymentMode === PAYMENT_MODES.MULTIPLE ? (
+                    <Stack spacing={2}>
+                      <PillButton
+                        onClick={() => {
+                          const localFractions = order.payment_fractions
+                          localFractions.push(0)
+                          setOrder({
+                            ...order,
+                            payment_fractions: localFractions,
+                          })
+                        }}
+                      >
+                        <AddIcon />
+                      </PillButton>
+                      <Stack>
+                        {order.payment_fractions.map((fraction, key) => (
+                          <Stack
+                            flexDirection="row"
+                            alignItems="center"
+                            gap={1}
+                            padding=".5rem 1.5rem"
+                            justifyContent="space-between"
+                            sx={{
+                              background: key % 2 === 0 ? "rgb(0,0,0,0.2)" : "",
+                            }}
+                          >
+                            <BodyText
+                              preventTransition
+                              fontSize="1rem"
+                              color="grey"
+                            >
+                              {key === 0
+                                ? "Acompte"
+                                : key === order.payment_fractions.length - 1
+                                ? "Solde"
+                                : `Échéance ${key + 1}/${
+                                    order.payment_fractions.length
+                                  }`}
+                            </BodyText>
+                            <Stack
+                              flexDirection="row"
+                              alignItems="center"
+                              gap={2}
+                            >
+                              <CustomOutlinedInput
+                                type="phone"
+                                sx={{ width: "70px" }}
+                                InputProps={{
+                                  disableUnderline: true,
+                                  endAdornment: (
+                                    <InputAdornment position="end">
+                                      %
+                                    </InputAdornment>
+                                  ),
+                                }}
+                                value={fraction}
+                                onChange={(e) => {
+                                  const payment_fractions =
+                                    order.payment_fractions
+                                  payment_fractions[key] = Number(
+                                    e.target.value
+                                  )
+                                  setOrder({ ...order, payment_fractions })
+                                }}
+                              />
+                              <DeleteIcon
+                                color="secondary"
+                                sx={{
+                                  "&:hover": { opacity: 0.5 },
+                                  cursor: "pointer",
+                                }}
+                                onClick={() => {
+                                  const payment_fractions =
+                                    order.payment_fractions
+                                  payment_fractions.splice(key, 1)
+                                  setOrder({ ...order, payment_fractions })
+                                }}
+                              />
+                            </Stack>
+                          </Stack>
+                        ))}
+                      </Stack>
+                    </Stack>
+                  ) : null}
+
+                  {fractionSum !== 100 && (
+                    <AlertInfo
+                      content={{
+                        severity: "error",
+                        title: `Somme de ${fractionSum}%`,
+                        text: `La somme des échéances doit être égale à 100%. Elle est actuellement de ${fractionSum}%.`,
+                      }}
+                    />
+                  )}
+
                   <CustomFilledInput
                     label="Conditions de règlement"
                     placeholder="Accompte de 60% lors de la signature du devis. Solde de 40% entre le jour de la prestation et la livraison."
                     value={order.payment_conditions}
                     onChange={handleChange("payment_conditions")}
                     helperText={
-                      <>
-                        Accompte de 60% lors de la signature du devis. Solde de
-                        40% entre le jour de la prestation et la livraison.
-                        <br />
-                        Paiement en une fois à la signature du devis.
-                      </>
+                      <ul style={{ padding: ".25rem 1rem", color: "grey" }}>
+                        <li>
+                          Accompte de 40% lors de la signature du devis.
+                          Échéance de 30% le jour de la prestation. Solde de 30%
+                          entre le jour de la prestation et la livraison.
+                        </li>
+                        <li>
+                          Accompte de 60% lors de la signature du devis. Solde
+                          de 40% entre le jour de la prestation et la livraison.
+                        </li>
+                        <li>Paiement en une fois à la signature du devis.</li>
+                      </ul>
                     }
                     error={errors.payment_conditions}
                   />
@@ -1263,27 +1428,48 @@ function OrderForm({
                       Moyen(s) de paiement
                     </BodyText>
 
-                    <Grid container spacing={2}>
+                    <Stack flexDirection="row" gap={1}>
                       {PAYMENT_OPTIONS.map((opt) => (
-                        <Grid item md={3} key={opt.id}>
-                          <CustomCheckbox
-                            labelcolor={
-                              errors.payment_options
-                                ? (theme) => theme.palette.error.main
-                                : null
+                        <Stack
+                          sx={{
+                            padding: ".5rem 1rem",
+                            borderRadius: "10px",
+                            background: (theme) =>
+                              order.payment_options[opt.id]
+                                ? theme.palette.background.secondary
+                                : theme.palette.background.main,
+                            cursor: "pointer",
+                            "&:hover": {
+                              background: (theme) =>
+                                theme.palette.text.secondary,
+                              opacity: 0.7,
+                            },
+                          }}
+                          onClick={() => {
+                            let value = true
+                            if (order.payment_options[opt.id]) value = false
+
+                            setOrder({
+                              ...order,
+                              payment_options: {
+                                ...order.payment_options,
+                                [opt.id]: value,
+                              },
+                            })
+                          }}
+                        >
+                          <BodyText
+                            color={(theme) =>
+                              order.payment_options[opt.id]
+                                ? theme.palette.text.primary
+                                : "#fff"
                             }
-                            checkboxcolor={
-                              errors.payment_options
-                                ? (theme) => theme.palette.error.main
-                                : null
-                            }
-                            label={opt.label}
-                            checked={order.payment_options[opt.id]}
-                            onChange={handleCheckPaymentOptions(opt.id)}
-                          />
-                        </Grid>
+                          >
+                            {opt.label}
+                          </BodyText>
+                        </Stack>
                       ))}
-                    </Grid>
+                    </Stack>
                   </Stack>
                   <CustomFilledTextArea
                     id="payment_delay_penalties"
@@ -1301,19 +1487,6 @@ function OrderForm({
                     label="TVA non applicable, article 293B du Code Général des Impôts (CGI)"
                   />
                 </FormCard>
-
-                {/* <FormCard
-                    title="Validité du devis (5/6)"
-                    icon={<HourglassTopIcon />}
-                    width={{ xs: "100%", md: "50%" }}
-                  >
-                    <CustomDatePicker
-                      disablePast
-                      label="Date de fin (optionnel)"
-                      value={order.validity_end_date}
-                      handleChange={handleChangeDate("validity_end_date")}
-                    />
-                  </FormCard> */}
               </Stack>
 
               {/********** ITEMS TABLE WITH PRICES / QTY. **********/}

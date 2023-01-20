@@ -33,7 +33,12 @@ export const ORDERSTATES = {
   },
   DEPOSIT_PAID: {
     label: "Acompté payé",
-    description: "Il vous reste à payer le solde",
+    description: "Passez au paiement suivant.",
+    severity: "disabled",
+  },
+  PARTIALLY_PAID: {
+    label: "Partiellement payée",
+    description: "La commande n'est pas entièrement payée.",
     severity: "disabled",
   },
   PAYMENT_FAILED: {
