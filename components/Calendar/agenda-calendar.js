@@ -41,15 +41,15 @@ const styles = {
     "&:hover": {
       color: "#000",
     },
+    "&[data-weekend]": { color: theme.palette.text.secondary },
+    "&[data-outside]": { color: theme.palette.text.grey },
     "&[data-selected]": {
       background: "white",
-      color: "#000",
+      color: "#000 !important",
       "&:hover": {
         background: "#fff",
       },
     },
-    "&[data-weekend]": { color: theme.palette.text.secondary },
-    "&[data-outside]": { color: theme.palette.text.grey },
   },
   calendarHeaderControl: {
     background: theme.palette.secondary.main,
@@ -130,6 +130,7 @@ export default function AgendaCalendar({ events }) {
                 : hasRangeEvent
                 ? "rgb(0,0,0,0.5)"
                 : "",
+              color: isToday ? "#000" : null,
             }}
           >
             <Indicator size={8} color={"red"} offset={10} disabled={!hasEvent}>
