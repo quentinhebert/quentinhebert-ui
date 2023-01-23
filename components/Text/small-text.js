@@ -8,6 +8,7 @@ export default function SmallText({
 }) {
   return (
     <Typography
+      component="div"
       sx={{
         color: (theme) => color || theme.palette.text.white,
         fontSize: fontSize || { xs: "0.6rem", md: "0.8rem" },

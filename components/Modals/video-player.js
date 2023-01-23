@@ -171,7 +171,12 @@ const PillsList = ({ title, list }) => {
   return (
     <>
       <SectionTitle>{title}</SectionTitle>
-      <Typography color="text.white" fontFamily="Ethereal" marginTop={1}>
+      <Typography
+        component="div"
+        color="text.white"
+        fontFamily="Ethereal"
+        marginTop={1}
+      >
         {list.map((role, key) => (
           <Pill key={key}>{role}</Pill>
         ))}

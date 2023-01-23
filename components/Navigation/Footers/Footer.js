@@ -74,6 +74,7 @@ const Credits = ({ text }) => {
 
 const Email = ({ email }) => (
   <Typography
+    component="div"
     display="flex"
     alignItems="center"
     gap={1}

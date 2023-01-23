@@ -442,6 +442,7 @@ const FilterSection = ({ handleFilter }) => {
   return (
     <Stack className="full-width flex-center">
       <Typography
+        component="div"
         marginBottom={4}
         sx={{
           textAlign: "center",
@@ -590,7 +591,7 @@ export default function VideoList({ height, setHeight, ...props }) {
       />
 
       <Stack width="100%" ref={ref} padding="0 0 2rem">
-        {/* <FilterSection ref={heightRef} handleFilter={handleFilter} /> */}
+        <FilterSection ref={heightRef} handleFilter={handleFilter} />
 
         <ImageList
           rowHeight={xs ? 150 : md ? 150 : 200}
