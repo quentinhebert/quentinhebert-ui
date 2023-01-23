@@ -115,7 +115,7 @@ const FormCard = ({ title, width, icon, gap, ...props }) => (
       width: width || "100%",
       padding: "2rem",
       backgroundColor: (theme) => theme.palette.background.main,
-      borderRadius: "30px",
+      borderRadius: "20px",
       gap: 2,
     }}
   >
@@ -450,7 +450,7 @@ const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
                 sx={{
                   background: "rgb(0,0,0,0.3)",
                   padding: ".5rem 1.5rem",
-                  borderRadius: "30px",
+                  borderRadius: "20px",
                 }}
               >
                 <Stack flexDirection="row" gap={2} alignItems="center">

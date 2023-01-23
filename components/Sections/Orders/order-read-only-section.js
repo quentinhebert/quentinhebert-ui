@@ -39,7 +39,7 @@ const HeadCell = ({ width, ...props }) => (
     <BodyText
       preventTransition
       color={(theme) => theme.palette.text.grey}
-      fontSize="1rem"
+      fontSize={{ xs: "0.8rem", md: "1rem" }}
       display="flex"
       {...props}
     />
@@ -69,7 +69,7 @@ const Line = (props) => (
 )
 const DateInfo = ({ label, textAlign, ...props }) => (
   <Stack sx={{ textAlign: { xs: "left", sm: textAlign || "left" } }}>
-    <Title>{label}</Title>
+    <Title textAlign={{ xs: "left", sm: textAlign || "left" }}>{label}</Title>
     <BodyText
       preventTransition
       fontSize="1rem"
@@ -106,9 +106,9 @@ const Card = ({ title, icon, fullwidth, ...props }) => (
       width="100%"
       sx={{
         background: (theme) => theme.palette.background.main,
-        padding: 4,
+        padding: 2,
         gap: 4,
-        borderRadius: "30px",
+        borderRadius: "20px",
       }}
     >
       {!!title && (
@@ -169,9 +169,9 @@ export default function OrderReadOnlySection({
 
               {/* Optional */}
               {!!quotation.duration && quotation.duration.trim !== "" && (
-                <Info title="Durée estimée de la prestation">
+                <DateInfo label="Durée estimée de la prestation">
                   {quotation.duration}
-                </Info>
+                </DateInfo>
               )}
 
               <DateInfo label="Livraison prévue le" textAlign="right">
