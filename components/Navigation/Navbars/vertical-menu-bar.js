@@ -156,7 +156,7 @@ export function VerticalMenuBar({}) {
               }}
             >
               <BasicTooltip title={item.label} disabled={isExpanded}>
-                <ListItem button>
+                <ListItem>
                   <Stack
                     flexDirection="row"
                     gap={2}
@@ -196,9 +196,9 @@ export function VerticalMenuBar({}) {
       <Stack
         component="nav"
         position="fixed"
-        alignItems="center"
         zIndex={1101}
         sx={{
+          alignItems: { xs: "center", md: "start" },
           width: { xs: "100%", md: isExpanded ? "300px" : "55px" },
           top: { xs: null, md: 0 },
           bottom: { xs: 0, md: null },

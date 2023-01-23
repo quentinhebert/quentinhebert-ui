@@ -5,6 +5,9 @@ import {
   InputAdornment,
   Slider,
   Stack,
+  Table,
+  TableCell,
+  TableRow,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
@@ -32,7 +35,6 @@ import { Cell, HeadCell, Line } from "../../Tables/table-components"
 import theme from "../../../config/theme"
 import CustomDatePicker from "../../Inputs/custom-date-picker"
 import DualInputLine from "../../Containers/dual-input-line"
-import CustomCheckbox from "../../Inputs/custom-checkbox"
 import SmallTitle from "../../Titles/small-title"
 import { checkBeforeGen } from "../../../services/quotations"
 import PillButton from "../../Buttons/pill-button"
@@ -58,13 +60,9 @@ import CustomOutlinedInput from "../../Inputs/custom-outlined-input"
 // Icons
 import SendIcon from "@mui/icons-material/Send"
 import DoneIcon from "@mui/icons-material/Done"
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf"
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd"
-import DoneAllIcon from "@mui/icons-material/DoneAll"
 import TitleIcon from "@mui/icons-material/Title"
 import DeleteIcon from "@mui/icons-material/Delete"
-import AccessTimeIcon from "@mui/icons-material/AccessTime"
-import WarningAmberIcon from "@mui/icons-material/WarningAmber"
 import AddIcon from "@mui/icons-material/Add"
 import SaveAltIcon from "@mui/icons-material/SaveAlt"
 import SwitchButton from "../../Inputs/switch-button"
@@ -111,7 +109,7 @@ const HEAD = [
 const PAYMENT_MODES = { ONCE: "ONCE", TWICE: "TWICE", MULTIPLE: "MULTIPLE" }
 
 /********** OTHER COMPONENTS **********/
-const FormCard = ({ title, width, icon, ...props }) => (
+const FormCard = ({ title, width, icon, gap, ...props }) => (
   <Stack
     sx={{
       width: width || "100%",
@@ -133,7 +131,7 @@ const FormCard = ({ title, width, icon, ...props }) => (
         {title}
       </SmallTitle>
     )}
-    <Stack {...props} width="100%" gap={4} />
+    <Stack {...props} width="100%" gap={gap || 4} />
   </Stack>
 )
 const AddButton = ({ onClick }) => (
@@ -352,15 +350,19 @@ const DocumentsSection = ({
 }
 const ClientSection = ({ order, handleOpenAssign }) => {
   const Title = (props) => (
-    <BodyText
-      preventTransition
-      fontSize="1rem"
-      {...props}
-      color={(theme) => theme.palette.text.grey}
-    />
+    <TableCell>
+      <BodyText
+        preventTransition
+        fontSize="1rem"
+        {...props}
+        color={(theme) => theme.palette.text.grey}
+      />
+    </TableCell>
   )
   const Value = (props) => (
-    <BodyText preventTransition fontSize="1rem" {...props} />
+    <TableCell>
+      <BodyText preventTransition fontSize="1rem" {...props} />
+    </TableCell>
   )
   const Identity = (props) => (
     <BodyText preventTransition fontSize="1.2rem" {...props} />
@@ -387,114 +389,127 @@ const ClientSection = ({ order, handleOpenAssign }) => {
           <EditButton label="Assigner" onClick={handleOpenAssign} />
         </DocumentHeader>
 
-        <Stack gap={2}>
-          <Stack>
+        <Table
+          sx={{
+            width: "fit-content",
+            "& .MuiTableCell-root": {
+              borderBottom: "none",
+              padding: ".5rem .25rem",
+              paddingRight: "1rem",
+            },
+          }}
+        >
+          <TableRow>
             <Title>E-mail</Title>
             <Value>{order.client.email || ""}</Value>
-          </Stack>
-          <Stack>
+          </TableRow>
+          <TableRow>
             <Title>Téléphone</Title>
             <Value>{order.client.phone || ""}</Value>
-          </Stack>
-          <Stack>
+          </TableRow>
+          <TableRow>
             <Title>Addresse</Title>
             <Value>
               {order.client.line1 || ""} {order.client.line2 || ""}{" "}
               {order.client.postal_code || ""} {order.client.city || ""}{" "}
               {order.client.region || ""} {order.client.country || ""}
             </Value>
-          </Stack>
-        </Stack>
+          </TableRow>
+        </Table>
       </FormCard>
     </>
   )
 }
 const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
-  const PaymentDetails = () => (
-    <FormCard>
-      <BodyText preventTransition fontSize="1rem" color="grey">
-        Récapitulatif des paiements
-      </BodyText>
+  const PaymentsList = () => {
+    if (!order.payments.length) return <></>
+    return (
+      <FormCard gap={2}>
+        <BodyText preventTransition fontSize="1rem" color="grey">
+          Récapitulatif des paiements
+        </BodyText>
 
-      <Stack gap={1}>
-        {order.payments.map((payment, key) => {
-          const bgColor = (theme) =>
-            theme.alert.title[PAYMENTSTATES[payment.status].severity].background
-          const color = (theme) =>
-            theme.alert.title[PAYMENTSTATES[payment.status].severity].color
-          const border = (theme) =>
-            `1px solid ${
+        <Stack gap={1}>
+          {order.payments.map((payment, key) => {
+            const bgColor = (theme) =>
+              theme.alert.title[PAYMENTSTATES[payment.status].severity]
+                .background
+            const color = (theme) =>
               theme.alert.title[PAYMENTSTATES[payment.status].severity].color
-            }`
-          return (
-            <Stack
-              key={key}
-              flexDirection="row"
-              gap={1}
-              justifyContent="space-between"
-              alignItems="center"
-              sx={{
-                background: "rgb(0,0,0,0.3)",
-                padding: ".5rem 1.5rem",
-                borderRadius: "30px",
-              }}
-            >
-              <Stack flexDirection="row" gap={2} alignItems="center">
-                <Pill
-                  preventTransition
-                  bgColor={bgColor}
-                  border={border}
-                  padding="0rem .75rem"
-                  lineHeight="0"
-                >
-                  <BodyText fontSize="1rem" color={color} preventTransition>
-                    {PAYMENTSTATES[payment.status].label}
+            const border = (theme) =>
+              `1px solid ${
+                theme.alert.title[PAYMENTSTATES[payment.status].severity].color
+              }`
+            return (
+              <Stack
+                key={key}
+                flexDirection="row"
+                gap={1}
+                justifyContent="space-between"
+                alignItems="center"
+                sx={{
+                  background: "rgb(0,0,0,0.3)",
+                  padding: ".5rem 1.5rem",
+                  borderRadius: "30px",
+                }}
+              >
+                <Stack flexDirection="row" gap={2} alignItems="center">
+                  <Pill
+                    preventTransition
+                    bgColor={bgColor}
+                    border={border}
+                    padding="0rem .75rem"
+                    lineHeight="0"
+                  >
+                    <BodyText fontSize="1rem" color={color} preventTransition>
+                      {PAYMENTSTATES[payment.status].label}
+                    </BodyText>
+                  </Pill>
+                  <BodyText preventTransition fontSize="1rem">
+                    {payment.amount / 100}€
                   </BodyText>
-                </Pill>
-                <BodyText preventTransition fontSize="1rem">
-                  {payment.amount / 100}€
-                </BodyText>
-                <BodyText preventTransition fontSize="1rem" color="grey">
-                  {!!payment.metadata?.type && (
-                    <>
-                      {STRIPE_PM[payment.metadata?.type]}:{" "}
-                      {payment.metadata?.type === "card" &&
-                        `**** **** **** ${payment.metadata?.last4}`}
-                      {payment.metadata?.type === "sepa_debit" &&
-                        `FR** **** **** **** **** ***${
-                          payment.metadata?.last4[0]
-                        } ${payment.metadata?.last4.slice(1)}`}
-                    </>
-                  )}
-                  {/* FIXME: FR is hard written, should be dynamic */}
-                </BodyText>
-              </Stack>
+                  <BodyText preventTransition fontSize="1rem" color="grey">
+                    {!!payment.metadata?.type && (
+                      <>
+                        {STRIPE_PM[payment.metadata?.type]}:{" "}
+                        {payment.metadata?.type === "card" &&
+                          `**** **** **** ${payment.metadata?.last4}`}
+                        {payment.metadata?.type === "sepa_debit" &&
+                          `FR** **** **** **** **** ***${
+                            payment.metadata?.last4[0]
+                          } ${payment.metadata?.last4.slice(1)}`}
+                      </>
+                    )}
+                    {/* FIXME: FR is hard written, should be dynamic */}
+                  </BodyText>
+                </Stack>
 
-              <Stack flexDirection="row" gap={2}>
-                <BodyText
-                  fontSize="1rem"
-                  color="grey"
-                  preventTransition
-                  fontStyle="italic"
-                >
-                  {PAYMENT_TYPES[payment.type].label}
-                </BodyText>
-                <BodyText fontSize="1rem" color="grey" preventTransition>
-                  {formatDayDate({ timestamp: payment.created_at })}
-                </BodyText>
+                <Stack flexDirection="row" gap={2}>
+                  <BodyText
+                    fontSize="1rem"
+                    color="grey"
+                    preventTransition
+                    fontStyle="italic"
+                  >
+                    {PAYMENT_TYPES[payment.type].label}
+                  </BodyText>
+                  <BodyText fontSize="1rem" color="grey" preventTransition>
+                    {formatDayDate({ timestamp: payment.created_at })}
+                  </BodyText>
+                </Stack>
               </Stack>
-            </Stack>
-          )
-        })}
-      </Stack>
-    </FormCard>
-  )
+            )
+          })}
+        </Stack>
+      </FormCard>
+    )
+  }
 
   // If mission paid, payment section not displayed
-  if (order.status === "PAYMENT_SUCCEEDED") return <PaymentDetails />
+  if (order.status === "PAYMENT_SUCCEEDED") return <PaymentsList />
   return (
     <>
-      <PaymentDetails />
+      <PaymentsList />
 
       <FormCard textAlign="center">
         <PillButton onClick={handleGenerate} textTransform="initial">
@@ -952,13 +967,13 @@ function OrderForm({
           alignItems: "left",
           margin: "1rem 0",
           "&::after": {
-            width: "200%",
+            width: "146vw",
             position: "absolute",
             bottom: 0,
-            left: "-50%",
+            left: "-50vw",
             borderBottom: (theme) =>
               `1px solid ${theme.palette.secondary.main}`,
-            content: `'.'`,
+            content: `''`,
           },
         }}
       >

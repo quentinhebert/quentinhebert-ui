@@ -28,7 +28,10 @@ const StatusChip = ({ order }) => (
   <Pill
     preventTransition
     bgColor={(theme) =>
-      theme.alert.title[ORDERSTATES[order.status].severity].color
+      theme.alert.title[ORDERSTATES[order.status].severity].background
+    }
+    border={(theme) =>
+      `1px solid ${theme.alert.title[ORDERSTATES[order.status].severity].color}`
     }
     padding="0 1rem"
     lineHeight={0}
@@ -37,7 +40,7 @@ const StatusChip = ({ order }) => (
       preventTransition
       fontSize="1rem"
       color={(theme) =>
-        theme.alert.title[ORDERSTATES[order.status].severity].background
+        theme.alert.title[ORDERSTATES[order.status].severity].color
       }
       textTransform="initial"
     >

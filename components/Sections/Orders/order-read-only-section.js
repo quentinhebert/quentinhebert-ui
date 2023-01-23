@@ -1,5 +1,8 @@
-import { Box, Grid, Stack } from "@mui/material"
-import { convertDateToLongString } from "../../../services/date-time"
+import { Box, Grid, Stack, Table, TableCell, TableRow } from "@mui/material"
+import {
+  convertDateToLongString,
+  convertDateToShortString,
+} from "../../../services/date-time"
 import BodyText from "../../Text/body-text"
 import SmallTitle from "../../Titles/small-title"
 import HourglassTopIcon from "@mui/icons-material/HourglassTop"
@@ -64,11 +67,17 @@ const Line = (props) => (
     {...props}
   />
 )
-const DateInfo = ({ label, ...props }) => (
-  <BodyText preventTransition fontSize="1rem">
+const DateInfo = ({ label, textAlign, ...props }) => (
+  <Stack sx={{ textAlign: { xs: "left", sm: textAlign || "left" } }}>
     <Title>{label}</Title>
-    <Box component="span" textTransform="capitalize" {...props} />
-  </BodyText>
+    <BodyText
+      preventTransition
+      fontSize="1rem"
+      textTransform="capitalize"
+      {...props}
+      textAlign={{ xs: "left", sm: textAlign || "left" }}
+    />
+  </Stack>
 )
 const Title = (props) => (
   <Stack>
@@ -81,12 +90,16 @@ const Title = (props) => (
   </Stack>
 )
 const Info = ({ title, ...props }) => (
-  <BodyText preventTransition fontSize="1rem">
-    <Title>{title}</Title>
-    <Box component="span" {...props} />
-  </BodyText>
+  <TableRow>
+    <TableCell>
+      <Title>{title}</Title>
+    </TableCell>
+    <TableCell>
+      <BodyText preventTransition fontSize="1rem" {...props} />
+    </TableCell>
+  </TableRow>
 )
-const Card = ({ title, icon, ...props }) => (
+const Card = ({ title, icon, fullwidth, ...props }) => (
   // <Grid item xs={12} sm={6} md={4} lg={3} display="flex">
   <Grid item xs={12} display="flex">
     <Stack
@@ -143,32 +156,52 @@ export default function OrderReadOnlySection({
           }}
         >
           <Card>
-            <DateInfo label="Date de la prestation">
-              {convertDateToLongString(quotation.date)}
-            </DateInfo>
+            <Stack
+              gap={2}
+              sx={{
+                justifyContent: "space-between",
+                flexDirection: { xs: "column", sm: "row" },
+              }}
+            >
+              <DateInfo label="Prestation">
+                {convertDateToShortString(quotation.date)}
+              </DateInfo>
 
-            <DateInfo label="Date de livraison estimée">
-              {convertDateToLongString(quotation.delivery_date)}
-            </DateInfo>
+              {/* Optional */}
+              {!!quotation.duration && quotation.duration.trim !== "" && (
+                <Info title="Durée estimée de la prestation">
+                  {quotation.duration}
+                </Info>
+              )}
 
-            {/* Optional */}
-            {!!quotation.duration && quotation.duration.trim !== "" && (
-              <Info title="Durée estimée de la prestation">
-                {quotation.duration}
-              </Info>
-            )}
+              <DateInfo label="Livraison prévue le" textAlign="right">
+                {convertDateToShortString(quotation.delivery_date)}
+              </DateInfo>
+            </Stack>
           </Card>
 
           <Card>
-            <Info title="Moyen(s) de paiement au choix">
-              {paymentOptionsString}
-            </Info>
+            <Table
+              sx={{
+                "& .MuiTableCell-root": {
+                  verticalAlign: "initial",
+                  borderBottom: "none",
+                  padding: ".5rem .25rem",
+                  paddingRight: "1rem",
+                  paddingBottom: "1rem",
+                },
+              }}
+            >
+              <Info title="Moyen(s) de paiement au choix">
+                {paymentOptionsString}
+              </Info>
 
-            <Info title="Conditions">{quotation.payment_conditions}</Info>
+              <Info title="Conditions">{quotation.payment_conditions}</Info>
 
-            <Info title="Pénalités de retard">
-              {quotation.payment_delay_penalties}
-            </Info>
+              <Info title="Pénalités de retard">
+                {quotation.payment_delay_penalties}
+              </Info>
+            </Table>
           </Card>
 
           {/* Optional */}
@@ -192,9 +225,7 @@ export default function OrderReadOnlySection({
                 width: "99%",
                 margin: "0 0.5%",
                 borderCollapse: "collapse",
-                borderStyle: "hidden",
                 borderRadius: "20px",
-                boxShadow: "0 0 0 2px #000",
                 overflow: "hidden",
               }}
             >
