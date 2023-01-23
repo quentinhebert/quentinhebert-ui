@@ -1005,7 +1005,7 @@ function OrderForm({
                     100
                   ).toFixed(2)}
                   €
-                  {paymentFractions.length > 0 && (
+                  {paymentFractions.length > 1 && (
                     <Box component="span" color="grey" fontSize="1.2rem">
                       {" ("}
                       {amountSumArray.join(" + ")}
