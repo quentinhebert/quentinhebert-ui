@@ -175,6 +175,9 @@ body {
 .uppercase {
   text-transform: uppercase;
 }
+.space-between {
+  justify-content: space-between;
+}
 
 /* Hide input type numbers arrows */
 input::-webkit-outer-spin-button,

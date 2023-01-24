@@ -15,6 +15,7 @@ export default function Pill({
   margin,
   fontSize,
   padding,
+  display,
   ...props
 }) {
   /********** ANIMATION **********/
@@ -47,10 +48,10 @@ export default function Pill({
       >
         <Box
           component="span"
-          className="inline-flex"
           lineHeight="2rem"
           textTransform="capitalize"
           sx={{
+            display: display || "inline-flex",
             cursor: cursor || "default",
             padding: padding || { xs: "0rem 1rem", md: "0.1rem 1rem" },
             margin: margin || { xs: "0.25rem", md: "0.25rem" },

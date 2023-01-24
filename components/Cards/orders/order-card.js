@@ -1,6 +1,5 @@
 import { Avatar, Box, Stack, Typography } from "@mui/material"
 import { useContext } from "react"
-import { QUOTATION_STATUS } from "../../../enums/quotationStatus"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { formatDayDate } from "../../../services/date-time"
 import BodyText from "../../Text/body-text"

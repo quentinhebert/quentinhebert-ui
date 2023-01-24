@@ -1,58 +1,116 @@
-import { Grid, Stack } from "@mui/material"
+import { Stack } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
-import { useRouter } from "next/router"
 import { UserContext } from "../../../contexts/UserContext"
 import {
   convertToShortString,
   getLocaleDateTime,
 } from "../../../services/date-time"
 import { ORDERSTATES } from "../../../enums/orderStates"
-import PillButton from "../../Buttons/pill-button"
-import PleaseWait from "../../Helpers/please-wait"
 import BodyText from "../../Text/body-text"
 import Pill from "../../Text/pill"
 import RefreshButton from "../../Buttons/refresh-button"
+import Link from "next/link"
 
-const StatusChip = ({ order }) => (
+const StatusChip = ({ order, display }) => (
   <Pill
     bgColor={(theme) =>
-      theme.alert.title[ORDERSTATES[order.status].severity].color
+      theme.alert.title[ORDERSTATES[order.status].severity].background
     }
+    border={(theme) =>
+      `1px solid ${theme.alert.title[ORDERSTATES[order.status].severity].color}`
+    }
+    padding="0 .75rem"
+    lineHeight={2}
+    display={display}
   >
-    <BodyText fontSize="1rem" color="#000">
+    <BodyText
+      fontSize=".9rem"
+      color={(theme) =>
+        theme.alert.title[ORDERSTATES[order.status].severity].color
+      }
+    >
       {ORDERSTATES[order.status].label}
     </BodyText>
   </Pill>
 )
+const OrdersCards = ({ orders }) => (
+  <Stack gap={2}>
+    {!!orders?.length &&
+      orders.map((order, key) => (
+        <Link key={key} href={`/account/orders/${order.id}`} passHref>
+          <Stack
+            sx={{
+              background: (theme) => theme.palette.background.main,
+              borderRadius: "30px",
+              padding: 2,
+              gap: 2,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              cursor: "pointer",
+              "&:hover": {
+                background: "rgb(256,256,256,0.1)",
+              },
+            }}
+          >
+            <Stack
+              className="row"
+              alignItems="center"
+              justifyContent="space-between"
+              width="100%"
+            >
+              <Stack marginRight="1.5rem" gap={1}>
+                <BodyText fontSize="1rem" color="grey">
+                  {
+                    convertToShortString(
+                      getLocaleDateTime(order.created_at)
+                    ).split(" ")[0]
+                  }
+                </BodyText>
+                <BodyText
+                  fontSize="1rem"
+                  sx={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: { xs: 2, md: 1 },
+                    WebkitBoxOrient: "vertical",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                  }}
+                >
+                  {order.label}
+                </BodyText>
+                <StatusChip
+                  order={order}
+                  display={{ xs: "inline-flex", md: "none" }}
+                />
+              </Stack>
+              <StatusChip
+                order={order}
+                display={{ xs: "none", md: "inline-flex" }}
+              />
+            </Stack>
 
-const GridItem = ({ ...props }) => (
-  <Grid item md={2.4} {...props} paddingLeft="2rem" />
-)
-
-const GridHead = () => {
-  const headItems = ["Status", "Description", "Date", "Montant", ""]
-  return (
-    <Grid
-      container
-      sx={{
-        flexDirection: { xs: "column", sm: "row" },
-        background: (theme) => theme.palette.background.main,
-        borderRadius: "60px",
-        padding: 2,
-        justifyContent: "space-between",
-      }}
-    >
-      {headItems.map((label, key) => (
-        <GridItem paddingLeft={key === 0 ? "1rem" : 0}>
-          <BodyText fontSize="1rem" color={(theme) => theme.palette.text.grey}>
-            {label}
-          </BodyText>
-        </GridItem>
+            <Stack
+              sx={{
+                borderLeft: "3px dotted grey",
+                padding: "1.5rem 1rem",
+                minWidth: "110px",
+              }}
+            >
+              <BodyText
+                fontSize="1.5rem"
+                textAlign="right"
+                sx={{ whiteSpace: "nowrap" }}
+              >
+                {order.total_price / 100} €
+              </BodyText>
+            </Stack>
+          </Stack>
+        </Link>
       ))}
-    </Grid>
-  )
-}
+  </Stack>
+)
 
 export default function Orders_Main() {
   const [orders, setOrders] = useState([])
@@ -74,78 +132,18 @@ export default function Orders_Main() {
     fetchOrders()
   }, [])
 
-  const router = useRouter()
-
   return (
-    <Stack gap={4}>
+    <Stack gap={2}>
       <Stack className="row full-width">
         <Stack flexGrow={1} />
-        <RefreshButton refresh={fetchOrders} />
+        <RefreshButton refresh={fetchOrders} loading={loading} />
       </Stack>
-
-      {loading && <PleaseWait />}
 
       {orders.length < 1 && !loading && (
         <BodyText>Pas de commande pour le moment</BodyText>
       )}
-      <Stack sx={{ gap: { xs: 10, sm: 2 } }}>
-        <GridHead />
-        {!loading &&
-          orders.map((order, key) => (
-            <Grid
-              container
-              key={key}
-              sx={{
-                flexDirection: { xs: "column", sm: "row" },
-                border: (theme) => `1px solid ${theme.palette.secondary.main}`,
-                background: (theme) => theme.palette.background.main,
-                borderRadius: "60px",
-                padding: 2,
-                alignItems: "center",
-              }}
-            >
-              <GridItem sx={{ paddingLeft: 0 }}>
-                <StatusChip order={order} />
-              </GridItem>
-              <GridItem>
-                <BodyText
-                  sx={{
-                    display: "-webkit-box",
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: "vertical",
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                  }}
-                >
-                  {order.label && order.label !== ""
-                    ? order.label
-                    : "Pas de description"}
-                </BodyText>
-              </GridItem>
-              <GridItem>
-                <BodyText>
-                  {
-                    convertToShortString(
-                      getLocaleDateTime(order.created_at)
-                    ).split(" ")[0]
-                  }
-                </BodyText>
-              </GridItem>
-              <GridItem>
-                <BodyText>{order.total_price / 100}€</BodyText>
-              </GridItem>
-              <GridItem textAlign="right">
-                <Stack className="full-height">
-                  <PillButton
-                    onClick={() => router.push(`/account/orders/${order.id}`)}
-                  >
-                    + d'infos
-                  </PillButton>
-                </Stack>
-              </GridItem>
-            </Grid>
-          ))}
-      </Stack>
+
+      <OrdersCards orders={orders} loading={loading} />
     </Stack>
   )
 }
