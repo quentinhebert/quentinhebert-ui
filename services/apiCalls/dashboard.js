@@ -18,6 +18,21 @@ const dashboard = {
       }
     },
   },
+  kpi: {
+    get: async () => {
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/dashboard/kpi`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (err) {
+        console.error(err)
+      }
+    },
+  },
 }
 
 export default dashboard

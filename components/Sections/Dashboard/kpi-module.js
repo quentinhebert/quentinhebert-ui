@@ -4,8 +4,9 @@ import CustomCard from "../../Cards/custom-card"
 import DescriptionIcon from "@mui/icons-material/Description"
 import EastIcon from "@mui/icons-material/East"
 import BodyText from "../../Text/body-text"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../../../contexts/UserContext"
+import apiCall from "../../../services/apiCalls/apiCall"
 
 const Label = (props) => (
   <Grid item xs={8}>
@@ -25,13 +26,13 @@ const Value = (props) => (
 const RenderKpi = ({ data }) => (
   <Grid container spacing={2}>
     <Label>Prospects</Label>
-    <Value>0</Value>
+    <Value>{data.prospects}</Value>
     <Label>Commandes en cours</Label>
-    <Value>0</Value>
+    <Value>{data.orders}</Value>
     <Label>Projets livrés</Label>
     <Value>0</Value>
     <Label>C.A.</Label>
-    <Value>0 €</Value>
+    <Value>{data.turnover / 100}€</Value>
   </Grid>
 )
 
@@ -54,7 +55,34 @@ const Card = ({ title, ...props }) => (
 )
 
 export default function KpiModule({}) {
+  const [kpi, setKpi] = useState({
+    this_week: {
+      prospects: 0,
+      orders: 0,
+    },
+    this_month: {
+      prospects: 0,
+      orders: 0,
+    },
+    this_year: {
+      prospects: 0,
+      orders: 0,
+    },
+  })
+
   const { user } = useContext(UserContext)
+
+  async function fetchKpi() {
+    const res = await apiCall.dashboard.kpi.get()
+    if (res && res.ok) {
+      const jsonRes = await res.json()
+      setKpi(jsonRes)
+    }
+  }
+
+  useEffect(() => {
+    fetchKpi()
+  }, [])
 
   return (
     <CustomCard
@@ -89,15 +117,15 @@ export default function KpiModule({}) {
           }}
         >
           <Card title="Cette semaine">
-            <RenderKpi />
+            <RenderKpi data={kpi.this_week} />
           </Card>
 
           <Card title="Ce mois-ci">
-            <RenderKpi />
+            <RenderKpi data={kpi.this_month} />
           </Card>
 
           <Card title="Cette année">
-            <RenderKpi />
+            <RenderKpi data={kpi.this_year} />
           </Card>
         </Stack>
       </Stack>

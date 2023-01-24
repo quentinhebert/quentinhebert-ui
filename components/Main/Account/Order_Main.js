@@ -89,22 +89,26 @@ export default function Order_Main({ orderId }) {
     //
   }
 
-  const CheckoutBtn = () =>
-    allowedStatesForPaying.includes(order.status) && (
-      <Stack alignItems="center">
-        <PillButton
-          startIcon={<ShoppingCartIcon />}
-          textTransform="initial"
-          onClick={() =>
-            router.push(
-              `/account/orders/${orderId}/checkout/before-checkout-steps`
-            )
-          }
-        >
-          Payer {nextPayment.amount / 100}€ ({nextPayment.label})
-        </PillButton>
-      </Stack>
+  const CheckoutBtn = () => {
+    if (!nextPayment) return <></>
+    return (
+      allowedStatesForPaying.includes(order.status) && (
+        <Stack alignItems="center">
+          <PillButton
+            startIcon={<ShoppingCartIcon />}
+            textTransform="initial"
+            onClick={() =>
+              router.push(
+                `/account/orders/${orderId}/checkout/before-checkout-steps`
+              )
+            }
+          >
+            Payer {nextPayment.amount / 100}€ ({nextPayment.label})
+          </PillButton>
+        </Stack>
+      )
     )
+  }
 
   if (!order.id && !loading) return <Custom404_Main />
 
@@ -113,19 +117,24 @@ export default function Order_Main({ orderId }) {
       {loading && <PleaseWait />}
 
       {order.id && !loading && (
-        <Stack gap={10}>
+        <Stack gap={4}>
           <Stack gap={2}>
-            <Stack className="row gap-10" alignItems="center">
+            <BodyText
+              fontSize="2rem"
+              preventTransition
+              alignItems="center"
+              display="inline-flex"
+              gap={2}
+              width="100%"
+            >
+              {order?.label || ""}
               <StatusChip order={order} />
-              <BodyText color="grey" fontSize="1rem" preventTransition>
-                {ORDERSTATES[order.status].description}
-              </BodyText>
               <Stack flexGrow={1} />
               <RefreshButton refresh={fetchOrder} />
-            </Stack>
+            </BodyText>
 
-            <BodyText fontSize="2rem" preventTransition>
-              {order?.label || ""}
+            <BodyText color="grey" fontSize="1rem" preventTransition>
+              {ORDERSTATES[order.status].description}
             </BodyText>
           </Stack>
 
