@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { styled } from "@mui/system"
 import { useEffect } from "react"
 import { motion, useAnimation } from "framer-motion"
@@ -13,6 +13,8 @@ const Text = styled(
     animDelay,
     textAlign,
     letterSpacing,
+    fontSize,
+    lineHeight,
     ...props
   }) => {
     /********** ANIMATION **********/
@@ -49,12 +51,12 @@ const Text = styled(
             component={"span"}
             fontFamily={fontFamily || "Helmet"}
             sx={{
-              fontSize: props.fontSize || {
-                xs: "1rem",
-                md: "1.2rem",
+              fontSize: fontSize || {
+                xs: "0.8rem",
+                md: "1rem",
               },
               letterSpacing: letterSpacing || 1,
-              lineHeight: props.lineHeight || {
+              lineHeight: lineHeight || {
                 xs: "1rem",
                 sm: "1.2rem",
                 md: "1.6rem",
