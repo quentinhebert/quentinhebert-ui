@@ -227,6 +227,19 @@ input[type=number] {
   font-weight: 400;
   src: local('Helmet'), url('https://fonts.cdnfonts.com/s/18191/Helmet-Regular.woff') format('woff');
 }
+@font-face {
+  font-family: 'Kardust';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Kardust'), url('https://fonts.cdnfonts.com/s/30680/Kardust TS Condensed Bold Italic.woff') format('woff');
+}
+@font-face {
+  font-family: 'Paradise Garden Personal Use';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Paradise Garden Personal Use'), url('https://fonts.cdnfonts.com/s/90821/ParadiseGardenPersonalUse-9YJAL.woff') format('woff');
+}
+
 
 a {
   color: inherit;

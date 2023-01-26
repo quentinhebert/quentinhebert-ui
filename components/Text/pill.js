@@ -16,6 +16,7 @@ export default function Pill({
   fontSize,
   padding,
   display,
+  boxShadow,
   ...props
 }) {
   /********** ANIMATION **********/
@@ -56,10 +57,10 @@ export default function Pill({
             padding: padding || { xs: "0rem 1rem", md: "0.1rem 1rem" },
             margin: margin || { xs: "0.25rem", md: "0.25rem" },
             fontSize: fontSize || { xs: "0.8rem", md: "1rem" },
-            backgroundColor: bgColor || "#fff",
+            background: bgColor || "#fff",
             color: color || "#000",
-            borderRadius: "20px",
-            boxShadow: "5px 5px 20px 1px rgb(0,0,0,0.2)",
+            borderRadius: "50px",
+            boxShadow: boxShadow || "5px 5px 20px 1px rgb(0,0,0,0.2)",
             transition: "transform 0.2s ease-in-out",
             "&:hover": {
               transform: scaleUpOnHover ? "scale(1.1)" : "",

@@ -54,7 +54,8 @@ export default function Navbar(props) {
         position="sticky"
         component="nav"
         sx={{
-          background: "#000",
+          // background: "#000",
+          background: "transparent",
           width: "100%",
           boxShadow: "none",
         }}
