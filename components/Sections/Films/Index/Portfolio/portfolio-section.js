@@ -41,7 +41,7 @@ export default function PortfolioSection(props) {
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
-    gap: "2rem",
+    gap: "1rem",
   }
 
   return (
@@ -66,10 +66,7 @@ export default function PortfolioSection(props) {
       >
         <CenteredMaxWidthStack pixels="1200px" percents="90%">
           <Stack width="100%" alignItems="start">
-            <Stack
-              width="100%"
-              sx={{ padding: { xs: "2rem 1rem", md: "6rem 2rem 4rem" } }}
-            >
+            <Stack width="100%" sx={{ padding: "2rem 1rem" }}>
               <motion.div
                 initial="hidden"
                 variants={variants(2)}
