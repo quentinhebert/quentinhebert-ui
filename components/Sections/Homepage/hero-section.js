@@ -79,7 +79,7 @@ export default function HeroSection(props) {
             color="secondary"
             fontSize="10vw"
             lineHeight="10vw"
-            fontFamily="Paradise Garden Personal Use"
+            // fontFamily="Paradise Garden Personal Use"
             sx={{
               textShadow: `0px 0px 20px #000`,
             }}
@@ -117,7 +117,7 @@ export default function HeroSection(props) {
             color="secondary"
             fontSize="10vw"
             lineHeight="10vw"
-            fontFamily="Paradise Garden Personal Use"
+            // fontFamily="Paradise Garden Personal Use"
             sx={{
               textShadow: `0px 0px 50px #000`,
             }}
