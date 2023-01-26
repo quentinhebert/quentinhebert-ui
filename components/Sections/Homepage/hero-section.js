@@ -169,7 +169,11 @@ export default function HeroSection(props) {
         <CTAButton label="Vidéo" href="/films" delay={1.5} />
         <Divider
           orientation="vertical"
-          sx={{ borderRight: "1px solid grey" }}
+          sx={{
+            borderColor: "rgb(256,256,256,0.3)",
+            borderWidth: "1px",
+            height: "auto",
+          }}
         />
         <CTAButton label="Web" href="/websites" delay={2} />
       </CTAIsland>
