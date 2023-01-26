@@ -36,7 +36,7 @@ const CTAButton = (props) => (
       background: "#000",
       cursor: "pointer",
       borderRadius: "50px",
-      boxShadow: (theme) => `0px 0px 50px 10px ${theme.palette.secondary.main}`,
+      boxShadow: (theme) => `0px 0px 30px 5px ${theme.palette.secondary.main}`,
       textShadow: (theme) => `0px 0px 20px ${theme.palette.secondary.main}`,
       "& > .MuiSvgIcon-root": {
         transition: ".3s ease-out",

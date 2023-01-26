@@ -15,7 +15,7 @@ export default function SubmitButton({ disabled, label, icon, ...props }) {
         borderRadius: "30px",
         letterSpacing: "1.5px",
         boxShadow: (theme) =>
-          `0px 0px 20px 10px ${theme.palette.secondary.main}`,
+          `0px 0px 30px 5px ${theme.palette.secondary.main}`,
         textShadow: (theme) => `0px 0px 10px ${theme.palette.secondary.main}`,
         "& > .MuiTypography-root": {
           scale: "1",
