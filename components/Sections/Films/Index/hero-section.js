@@ -2,7 +2,7 @@ import { Stack, Typography, useMediaQuery } from "@mui/material"
 import BouncingArrow from "../../../Navigation/BouncingArrow"
 import PlayCircleFilledWhiteOutlinedIcon from "@mui/icons-material/PlayCircleFilledWhiteOutlined"
 import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline"
-import { motion } from "framer-motion"
+import { motion, useAnimation } from "framer-motion"
 import ReactPlayer from "react-player"
 import VolumeUpIcon from "@mui/icons-material/VolumeUp"
 import VolumeOffIcon from "@mui/icons-material/VolumeOff"
@@ -10,18 +10,55 @@ import { useEffect, useState } from "react"
 import BodyText from "../../../Text/body-text"
 import PillButton from "../../../Buttons/pill-button"
 import ScaleUpOnHoverStack from "../../../Animation/scale-up-on-hover-stack"
+import { useInView } from "react-intersection-observer"
 
 const Title = (props) => (
   <Typography
     variant="h1"
     color="secondary"
-    fontFamily="Ethereal"
-    fontWeight="bold"
+    fontFamily="POPFINE"
     sx={{
-      fontSize: { xs: "1.75rem", md: "3rem" },
+      fontSize: { xs: "1.75rem", md: "7rem" },
       zIndex: 0,
       textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
     }}
+    {...props}
+  />
+)
+
+const CTAButton = (props) => (
+  <Stack
+    background="transparent"
+    padding="1rem 4rem"
+    color={(theme) => theme.palette.text.secondary}
+    alignItems="center"
+    flexDirection="row"
+    sx={{
+      cursor: "pointer",
+      borderRadius: "50px",
+      boxShadow: (theme) => `0px 0px 50px 10px ${theme.palette.secondary.main}`,
+      textShadow: (theme) => `0px 0px 20px ${theme.palette.secondary.main}`,
+      "& > .MuiSvgIcon-root": {
+        transition: ".3s ease-out",
+        fontSize: "2rem",
+        translate: "0px",
+        rotate: "0deg",
+        filter: (theme) =>
+          `drop-shadow(0px 0px 10px ${theme.palette.secondary.main})`,
+      },
+      "&:hover": {
+        "& > .MuiTypography-root": {
+          transition: ".3s ease-in-out",
+          transform: "scale(1.1)",
+        },
+        "& > .MuiSvgIcon-root": {
+          translate: "30px",
+          rotate: "180deg",
+        },
+      },
+    }}
+    margin="1rem"
+    gap={2}
     {...props}
   />
 )
@@ -70,8 +107,27 @@ export default function HeroSection(props) {
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
+  /********** ANIMATION **********/
+  const [ref, inView] = useInView()
+  const controls = useAnimation()
+  const variants = {
+    visible: {
+      opacity: 1,
+      transition: { duration: 1, delay: 1.2 },
+    },
+    hidden: { opacity: 0 },
+  }
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible")
+    } else {
+      controls.start("hidden")
+    }
+  }, [controls, inView])
+
   return (
     <Stack
+      ref={ref}
       zIndex={1}
       position="relative"
       sx={{
@@ -102,17 +158,18 @@ export default function HeroSection(props) {
               position: "absolute",
               display: "flex",
               opacity: playing ? 1 : 0,
-              transition: "opacity 0.7s ease-in-out",
+              transition: "opacity .7s ease-in-out",
             }}
           />
         )}
       </Stack>
 
       <Stack
-        className="absolute full-width flex-center gap-2 no-select top left"
+        className="absolute full-width flex-center no-select top left"
         height="calc(100% - 90px)"
         zIndex={101}
         flexGrow={1}
+        gap={8}
       >
         <Stack
           className="full-width flex-center gap-2 no-select"
@@ -149,16 +206,11 @@ export default function HeroSection(props) {
             transition: "opacity 0.2s ease-in-out",
           }}
         >
-          <ScaleUpOnHoverStack>
-            <PillButton
-              padding="0.15rem 2rem"
-              color="#000"
-              margin="1rem"
-              onClick={handleClick}
-              animDelay={playing ? 0 : 1.25}
-              gap={2}
-            >
-              {playing ? "Pause" : "Jouer"}
+          <motion.div initial="hidden" variants={variants} animate={controls}>
+            <CTAButton onClick={handleClick} animDelay={playing ? 0 : 1.25}>
+              <Typography fontFamily="Trophy">
+                {playing ? "Pause" : "Lire la vidéo"}
+              </Typography>
               {playing ? (
                 <PauseCircleOutlineIcon sx={{ marginLeft: ".25rem" }} />
               ) : (
@@ -166,8 +218,8 @@ export default function HeroSection(props) {
                   sx={{ marginLeft: ".25rem" }}
                 />
               )}
-            </PillButton>
-          </ScaleUpOnHoverStack>
+            </CTAButton>
+          </motion.div>
 
           {playing && (
             <ScaleUpOnHoverStack>

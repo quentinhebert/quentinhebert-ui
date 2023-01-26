@@ -77,10 +77,9 @@ export default function PortfolioSection(props) {
                 style={motionDivStyle}
               >
                 <Typography
+                  variant="h2"
                   color="secondary"
-                  fontFamily="Ethereal"
-                  fontWeight="bold"
-                  sx={{ fontSize: { xs: "2rem", md: "3rem" } }}
+                  sx={{ fontSize: { xs: "4rem", md: "5rem" } }}
                 >
                   Mes réalisations
                 </Typography>

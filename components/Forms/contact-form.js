@@ -15,6 +15,7 @@ import CustomSelectOption from "../Inputs/custom-select-option"
 import CustomCheckbox from "../Inputs/custom-checkbox"
 import BodyText from "../Text/body-text"
 import RedoRoundedIcon from "@mui/icons-material/RedoRounded"
+import SendIcon from "@mui/icons-material/Send"
 
 /** CONSTANTS **/
 
@@ -368,6 +369,7 @@ export default function ContactForm(props) {
 
       <RightSubmitButton onClick={handleSendRequest} disabled={isFetching}>
         {isFetching ? "Envoi en cours" : "Envoyer"}
+        <SendIcon />
       </RightSubmitButton>
     </CustomForm>
   )

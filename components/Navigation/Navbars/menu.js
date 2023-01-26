@@ -75,12 +75,13 @@ export default function Menu(props) {
                 >
                   <Link href={item.href} passHref>
                     <Typography
+                      fontFamily="trophy"
                       className="no-select"
                       key={key}
                       padding=".5rem 0"
                       fontWeight="bold"
                       sx={{
-                        fontSize: { xs: "6vw", md: "min(8vw, 12vh)" },
+                        fontSize: { xs: "4vw", md: "min(6vw, 8vh)" },
                         lineHeight: { xs: "9vw", md: "min(8vw, 10vh)" },
                         letterSpacing: { xs: 1, md: 2 },
                         textTransform: "uppercase",
@@ -90,6 +91,11 @@ export default function Menu(props) {
                             ? (theme) => theme.palette.text.secondary
                             : (theme) => theme.palette.text.white,
                         transition: "transform 0.4s ease-in-out",
+                        textShadow:
+                          page === item.href
+                            ? (theme) =>
+                                `0px 0px 30px ${theme.palette.secondary.main}`
+                            : "",
                         "&:hover": {
                           transform: "translateX(1rem)",
                         },
@@ -107,7 +113,11 @@ export default function Menu(props) {
                       >
                         {item.label}
                       </Box>
-                      <Box component="span" fontSize="3rem" marginLeft="2rem">
+                      <Box
+                        component="span"
+                        sx={{ fontSize: { xs: "3rem", md: "1rem" } }}
+                        marginLeft="2rem"
+                      >
                         0{key + 1}
                       </Box>
                     </Typography>

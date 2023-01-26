@@ -49,7 +49,7 @@ const Text = styled(
         >
           <Typography
             component={"span"}
-            fontFamily={fontFamily || "Helmet"}
+            fontFamily={fontFamily || ((theme) => theme.typography.fontFamily)}
             sx={{
               fontSize: fontSize || {
                 xs: "0.8rem",

@@ -15,6 +15,7 @@ const CTAButton = ({ label, href }) => (
         color="secondary"
         className="flex-center"
         display="flex"
+        fontFamily="Trophy"
         gap={1}
         sx={{
           cursor: "pointer",
@@ -26,7 +27,7 @@ const CTAButton = ({ label, href }) => (
             transform: "scale(1.1)",
             "& > .MuiSvgIcon-root": {
               transition: "0.3s ease-in-out",
-              translate: "5px",
+              translate: "15px",
             },
           },
         }}
@@ -34,6 +35,49 @@ const CTAButton = ({ label, href }) => (
         {label} <ArrowRightAltIcon />
       </Typography>
     </Link>
+  </Stack>
+)
+const CTAIsland = ({ ...props }) => (
+  <Stack
+    width="40%"
+    minWidth="300px"
+    margin="auto"
+    padding="1rem 2rem"
+    sx={{
+      background: "#000",
+      flexDirection: "row",
+      borderRadius: "100px",
+      boxShadow: (theme) => `0px 0px 30px 5px ${theme.palette.secondary.main}`,
+      textShadow: (theme) => `0px 0px 20px ${theme.palette.secondary.main}`,
+    }}
+    {...props}
+  />
+)
+const JobTitle = ({ label }) => (
+  <Stack alignItems="center">
+    <Typography
+      color="secondary"
+      fontSize="10vw"
+      lineHeight="10vw"
+      fontFamily="POPFINE"
+    >
+      {label}
+    </Typography>
+  </Stack>
+)
+const Identity = ({ label }) => (
+  <Stack textAlign="center">
+    <Typography
+      textTransform="uppercase"
+      color="#fff"
+      fontSize="1.5rem"
+      fontFamily="Kardust"
+      sx={{
+        textShadow: (theme) => `0px 0px 40px ${theme.palette.secondary.main}`,
+      }}
+    >
+      {label}
+    </Typography>
   </Stack>
 )
 
@@ -74,89 +118,32 @@ export default function HeroSection(props) {
       }}
     >
       <Stack>
+        <JobTitle label="Réalisateur" />
+
         <Stack alignItems="center">
           <Typography
-            color="secondary"
-            fontSize="10vw"
-            lineHeight="10vw"
-            // fontFamily="Paradise Garden Personal Use"
-            sx={{
-              textShadow: `0px 0px 20px #000`,
-            }}
+            color="#fff"
+            fontSize="4vw"
+            lineHeight="2vw"
+            marginBottom="2rem"
           >
-            Réalisateur
-          </Typography>
-        </Stack>
-        <Stack alignItems="center">
-          <Typography color="secondary" fontSize="4vw" lineHeight="2vw">
             +
           </Typography>
         </Stack>
-        {/* <Stack alignItems="center">
-          <Typography
-            color="#000"
-            fontSize="40vw"
-            lineHeight="8vw"
-            sx={{
-              translate: "0 -4vw",
-              zIndex: -1,
-              position: "absolute",
-              color: "#fff",
-              WebkitTextFillColor: "#000",
-              WebkitTextStrokeWidth: "1px",
-              WebkitTextStrokeColor: "rgb(255, 226, 183, 0.5)",
-              textShadow: (theme) =>
-                `0px 0px 20px ${theme.palette.secondary.main}`,
-            }}
-          >
-            X
-          </Typography>
-        </Stack> */}
-        <Stack alignItems="center">
-          <Typography
-            color="secondary"
-            fontSize="10vw"
-            lineHeight="10vw"
-            // fontFamily="Paradise Garden Personal Use"
-            sx={{
-              textShadow: `0px 0px 50px #000`,
-            }}
-          >
-            Développeur web
-          </Typography>
-        </Stack>
+
+        <JobTitle label="Développeur web" />
       </Stack>
 
-      <Stack textAlign="center" marginTop="2rem">
-        <Typography
-          textTransform="uppercase"
-          color="secondary"
-          fontSize="1.5rem"
-          // letterSpacing={8}
-          fontFamily="Kardust"
-        >
-          Quentin Hébert
-        </Typography>
-      </Stack>
+      <Identity label="Quentin Hébert" />
 
-      <Stack
-        width="40%"
-        minWidth="300px"
-        margin="auto"
-        padding="1rem 2rem"
-        sx={{
-          background: "#000",
-          flexDirection: "row",
-          borderRadius: "100px",
-          boxShadow: (theme) =>
-            `0px 0px 30px 5px ${theme.palette.secondary.main}`,
-          textShadow: (theme) => `0px 0px 20px ${theme.palette.secondary.main}`,
-        }}
-      >
+      <CTAIsland>
         <CTAButton label="Vidéo" href="/films" />
-        <Divider orientation="vertical" />
+        <Divider
+          orientation="vertical"
+          sx={{ borderRight: "1px solid grey" }}
+        />
         <CTAButton label="Web" href="/websites" />
-      </Stack>
+      </CTAIsland>
 
       <BouncingArrow scrollTo={scrollTo} refForScroll={refForScroll} />
     </Stack>

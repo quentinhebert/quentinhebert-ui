@@ -48,10 +48,10 @@ const mainTheme = createTheme({
   typography: {
     fontFamily: "Helmet",
     h1: {
-      fontFamily: "Helmet",
+      fontFamily: "POPFINE",
     },
     h2: {
-      fontFamily: "Helmet",
+      fontFamily: "POPFINE !important",
     },
     h3: {
       fontFamily: "Helmet",

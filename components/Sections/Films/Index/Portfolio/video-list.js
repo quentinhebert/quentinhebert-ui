@@ -716,22 +716,22 @@ export default function VideoList({ height, setHeight, ...props }) {
                               {item.type}
                             </Typography> */}
                             <Typography
+                              fontFamily="POPFINE"
                               color="secondary"
-                              fontWeight="bold"
                               sx={{
                                 textAlign: "center",
                                 fontSize: {
-                                  xs: "1rem",
-                                  sm: "1.2rem",
-                                  md: "1.7rem",
+                                  xs: "1.3rem",
+                                  sm: "2rem",
+                                  md: "2.5rem",
                                 },
+                                letterSpacing: "2px",
                                 lineHeight: {
                                   xs: "1.3rem",
                                   sm: "1.5rem",
-                                  md: "2rem",
+                                  md: "3rem",
                                 },
-                                textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
-                                textTransform: "uppercase",
+                                textShadow: "2px 2px 6px rgb(0,0,0,0.5)",
                               }}
                             >
                               {item.title}

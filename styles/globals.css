@@ -239,7 +239,30 @@ input[type=number] {
   font-weight: 400;
   src: local('Paradise Garden Personal Use'), url('https://fonts.cdnfonts.com/s/90821/ParadiseGardenPersonalUse-9YJAL.woff') format('woff');
 }
-
+@font-face {
+  font-family: 'Trophy';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Trophy'), url('https://fonts.cdnfonts.com/s/84900/TrophyRegular-qZ9Gl.woff') format('woff');
+}
+@font-face {
+  font-family: 'POPFINE';
+  font-style: normal;
+  font-weight: 400;
+  src: local('POPFINE'), url('https://fonts.cdnfonts.com/s/83327/POPFINE Italic.woff') format('woff');
+}
+@font-face {
+  font-family: 'Zebulon';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Zebulon'), url('https://fonts.cdnfonts.com/s/73486/Zebulon.woff') format('woff');
+}
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Be Vietnam Pro'), url('https://fonts.cdnfonts.com/s/93361/BeVietnamPro-Regular.woff') format('woff');
+}
 
 a {
   color: inherit;

@@ -3,21 +3,28 @@ import { styled } from "@mui/system"
 
 const SubmitButton = styled((props) => (
   <Button
-    variant="outlined"
-    size="large"
     sx={{
-      minWidth: "200px",
+      gap: 2,
+      marginTop: "2rem",
+      fontFamily: "trophy",
+      padding: ".75rem 4rem",
+      fontSize: ".8rem",
+      textTransform: "capitalize",
       color: (theme) => theme.palette.secondary.main,
       backgroundColor: "transparent",
-      border: (theme) => `2px solid ${theme.palette.secondary.main}`,
       borderRadius: "30px",
       letterSpacing: "1.5px",
-      boxShadow: (theme) => `0px 0px 20px 2px ${theme.palette.secondary.main}`,
+      boxShadow: (theme) => `0px 0px 20px 10px ${theme.palette.secondary.main}`,
       "&:hover": {
-        border: (theme) => `2px solid ${theme.palette.secondary.main}`,
-        backgroundColor: (theme) => theme.palette.secondary.main,
-        color: "#000",
-        fontWeight: "bold",
+        boxShadow: (theme) =>
+          `0px 0px 20px 5px ${theme.palette.secondary.main}`,
+        "& > .MuiSvgIcon-root": {
+          transition: "0.2s ease-in-out",
+          translate: "40px",
+        },
+      },
+      "& > .MuiSvgIcon-root": {
+        transition: "0.2s ease-in-out",
       },
     }}
     {...props}

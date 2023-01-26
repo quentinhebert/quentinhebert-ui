@@ -10,11 +10,11 @@ const Keyword = ({ text }) => (
     component="span"
     sx={{
       color: (theme) => theme.palette.text.secondary,
-      fontSize: { xs: "1rem", md: "1.75rem" },
+      fontSize: { xs: "1rem", md: "1.25rem" },
       margin: { md: "0 .1rem", md: "0 .25rem" },
       fontWeight: "bold",
       textTransform: "uppercase",
-      textShadow: "rgb(0,0,0,0.3) 2px 2px 10px",
+      textShadow: "rgb(0,0,0,0.5) 1px 1px 15px",
     }}
   >
     {text}
@@ -98,15 +98,18 @@ export default function FocusSection(props) {
             }}
           >
             <Typography
-              fontFamily="Ethereal"
-              fontWeight="bold"
+              variant="h2"
               textAlign="center"
-              sx={{ fontSize: { xs: "2rem", md: "3rem" }, color: "#000" }}
+              color="secondary"
+              sx={{
+                fontSize: { xs: "4rem", md: "5rem" },
+                textShadow: "0px 0px 20px rgb(0,0,0,0.5)",
+              }}
             >
               Focus
             </Typography>
 
-            <BodyText textAlign="center" color="#000" fontWeight="bold">
+            <BodyText textAlign="center" color="#fff" fontWeight="bold">
               <Keyword text="Passionné" /> depuis {expNbYears} années, j'ai fait
               de la vidéo mon métier car c'est grâce au son et à l'image que je
               parviens à m'exprimer avec le plus de <Keyword text="sincérité" />
