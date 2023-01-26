@@ -28,13 +28,22 @@ export default function EndCardButton({ href, text, onClick, icon, ...props }) {
       {href ? (
         <Link href={href} passHref>
           <SubmitButton>
-            <Typography>{text}</Typography> {icon}
+            <Typography
+              sx={{
+                fontSize: { xs: ".6rem", md: ".8rem" },
+              }}
+            >
+              {text}
+            </Typography>{" "}
+            {icon}
           </SubmitButton>
         </Link>
       ) : (
-        <CssButton onClick={onClick}>
-          <Typography>{text}</Typography>
-        </CssButton>
+        <SubmitButton onClick={onClick}>
+          <Typography sx={{ fontSize: { xs: ".6rem", md: ".8rem" } }}>
+            {text}
+          </Typography>
+        </SubmitButton>
       )}
     </Box>
   )

@@ -165,7 +165,14 @@ export default function WelcomeSection(props) {
 
               <Box width="100%">
                 <LeftSubmitButton onClick={() => scrollTo(refForScroll)}>
-                  <Typography>Mes services</Typography> <ArrowRightAltIcon />
+                  <Typography
+                    sx={{
+                      fontSize: { xs: ".6rem", md: ".8rem" },
+                    }}
+                  >
+                    Mes services
+                  </Typography>{" "}
+                  <ArrowRightAltIcon />
                 </LeftSubmitButton>
               </Box>
             </motion.div>

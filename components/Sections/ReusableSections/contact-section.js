@@ -45,11 +45,7 @@ export default function ContactSection(props) {
       ref={ref}
     >
       <CenteredMaxWidthContainer pixels="800px" percents="80%" gap={2}>
-        <Typography
-          variant="h2"
-          color="secondary"
-          sx={{ fontSize: { xs: "2rem", md: "5rem" } }}
-        >
+        <Typography variant="h2" color="secondary">
           Vous avez un projet...
         </Typography>
 

@@ -17,13 +17,14 @@ const CTAButton = ({ label, href, delay }) => (
         transition={{ delay: delay, duration: 1 }}
       >
         <Typography
-          fontSize="1.5rem"
           color="secondary"
           className="flex-center"
           display="flex"
           fontFamily="Trophy"
           gap={1}
           sx={{
+            padding: "0 1rem",
+            fontSize: { xs: ".6rem", sm: ".8rem", md: "1.5rem" },
             cursor: "pointer",
             transition: "0.3s ease-in-out",
             "& > .MuiSvgIcon-root": {
@@ -33,7 +34,7 @@ const CTAButton = ({ label, href, delay }) => (
               transform: "scale(1.1)",
               "& > .MuiSvgIcon-root": {
                 transition: "0.3s ease-in-out",
-                translate: "15px",
+                translate: { xs: "5px", md: "10px", lg: "15px" },
               },
             },
           }}
@@ -52,11 +53,11 @@ const CTAIsland = ({ ...props }) => (
     style={{ margin: "2rem 0" }}
   >
     <Stack
-      width="40%"
-      minWidth="300px"
       margin="auto"
       padding="1rem 2rem"
       sx={{
+        width: { xs: "60%", sm: "50%", lg: "40%" },
+        minWidth: "300px",
         background: "#000",
         flexDirection: "row",
         borderRadius: "100px",
@@ -72,9 +73,11 @@ const JobTitle = ({ label }) => (
   <Stack alignItems="center">
     <Typography
       color="secondary"
-      fontSize="10vw"
-      lineHeight="10vw"
       fontFamily="POPFINE"
+      sx={{
+        fontSize: { xs: "18vw", md: "10vw" },
+        lineHeight: { xs: "18vw", md: "10vw" },
+      }}
     >
       {label}
     </Typography>
@@ -90,9 +93,9 @@ const Identity = ({ label }) => (
       <Typography
         textTransform="uppercase"
         color="#fff"
-        fontSize="1.5rem"
         fontFamily="Kardust"
         sx={{
+          fontSize: { xs: "1.2rem", md: "1.5rem" },
           textShadow: (theme) => `0px 0px 40px ${theme.palette.secondary.main}`,
         }}
       >
@@ -123,7 +126,7 @@ export default function HeroSection(props) {
   return (
     <Stack
       ref={animationRef}
-      gap="2rem"
+      gap="1rem"
       sx={{
         background: (theme) => theme.palette.background.secondary,
         height: "100vh",
@@ -152,7 +155,9 @@ export default function HeroSection(props) {
           style={{ marginBottom: "2rem" }}
         >
           <Stack alignItems="center">
-            <AddIcon fontSize="4vw" sx={{ color: "#fff", fontSize: "3vw" }} />
+            <AddIcon
+              sx={{ color: "#fff", fontSize: { xs: "10vw", md: "3vw" } }}
+            />
           </Stack>
         </motion.div>
 

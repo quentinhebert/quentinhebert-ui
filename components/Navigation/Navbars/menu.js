@@ -91,10 +91,12 @@ export default function Menu(props) {
                             ? (theme) => theme.palette.text.secondary
                             : (theme) => theme.palette.text.white,
                         transition: "transform 0.4s ease-in-out",
-                        textShadow:
+                        textShadow: (theme) =>
                           page === item.href
-                            ? (theme) =>
-                                `0px 0px 30px ${theme.palette.secondary.main}`
+                            ? {
+                                xs: `0px 0px 10px #C6900E8C`,
+                                md: `0px 0px 30px ${theme.palette.secondary.main}`,
+                              }
                             : "",
                         "&:hover": {
                           transform: "translateX(1rem)",

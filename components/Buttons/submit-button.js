@@ -8,7 +8,7 @@ export default function SubmitButton({ disabled, label, icon, ...props }) {
         marginTop: "2rem",
         fontFamily: "trophy",
         padding: ".75rem 4rem",
-        fontSize: ".8rem",
+        fontSize: { xs: ".6rem", md: ".8rem" },
         textTransform: "capitalize",
         color: (theme) => theme.palette.secondary.main,
         backgroundColor: "#000",

@@ -18,7 +18,7 @@ const Title = (props) => (
     color="secondary"
     fontFamily="POPFINE"
     sx={{
-      fontSize: { xs: "1.75rem", md: "7rem" },
+      fontSize: { xs: "4rem", md: "7rem" },
       zIndex: 0,
       textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
     }}
@@ -208,7 +208,10 @@ export default function HeroSection(props) {
         >
           <motion.div initial="hidden" variants={variants} animate={controls}>
             <CTAButton onClick={handleClick} animDelay={playing ? 0 : 1.25}>
-              <Typography fontFamily="Trophy">
+              <Typography
+                fontFamily="Trophy"
+                sx={{ fontSize: { xs: ".6rem", md: "1rem" } }}
+              >
                 {playing ? "Pause" : "Lire la vidéo"}
               </Typography>
               {playing ? (
