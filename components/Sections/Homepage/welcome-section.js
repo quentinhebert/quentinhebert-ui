@@ -1,11 +1,11 @@
-import { Box, Button, Stack, Typography, useMediaQuery } from "@mui/material"
+import { Box, Stack, Typography, useMediaQuery } from "@mui/material"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
 import BodyText from "../../Text/body-text"
 import { Parallax } from "react-scroll-parallax"
-import styles from "../../../styles/TextShine.module.css"
-import PillButton from "../../Buttons/pill-button"
+import LeftSubmitButton from "../../Buttons/left-submit-button"
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 
 export default function WelcomeSection(props) {
   const { scrollTo, topRef, refForScroll } = props
@@ -133,15 +133,9 @@ export default function WelcomeSection(props) {
               initial="hidden"
               variants={textVariant(0)}
             >
-              <Typography
-                color="#fff"
-                letterSpacing={2}
-                sx={{
-                  fontSize: { xs: "2rem", md: "4rem" },
-                  lineHeight: { xs: "2rem", md: "3rem" },
-                }}
-              >
-                Créons ensemble, voyons plus loin
+              <Typography variant="h2" fontFamily="POPFINE" color="secondary">
+                <span style={{ color: "#FFF" }}>Créons</span> ensemble,{" "}
+                <span style={{ color: "#FFF" }}>voyons</span> plus loin
               </Typography>
             </motion.div>
 
@@ -162,24 +156,17 @@ export default function WelcomeSection(props) {
                 }}
               >
                 Je suis Quentin HÉBERT, vidéaste professionnel et développeur
-                web.
+                web en freelance.
                 <br />
                 <br />
-                {/* Artisan, j'allie ma créativité à mon savoir-faire pour vous
-                aider à mieux communiquer une idée, à vendre un bien ou un
-                service. */}
-                Propulsons vos idées sur le web et en vidéo.
-                <br />
-                <br />
-                Ne cherchez plus, vous trouverez tout ici. Image de marque,
-                branding, site web, film promotionnel ou artistique, le tout sur
-                mesure.
+                Donnons du sens à vos idées, que ce soit en vidéo ou sur le web,
+                et réalisons ensemble un film ou un site qui vous ressemble.
               </BodyText>
 
               <Box width="100%">
-                <PillButton onClick={() => scrollTo(refForScroll)}>
-                  Mes services
-                </PillButton>
+                <LeftSubmitButton onClick={() => scrollTo(refForScroll)}>
+                  <Typography>Mes services</Typography> <ArrowRightAltIcon />
+                </LeftSubmitButton>
               </Box>
             </motion.div>
           </Stack>

@@ -1,6 +1,6 @@
-import { Box, Button } from "@mui/material"
+import { Box, Button, Typography } from "@mui/material"
 import Link from "next/link"
-import ScaleUpOnHoverStack from "../Animation/scale-up-on-hover-stack"
+import SubmitButton from "./submit-button"
 
 const CssButton = (props) => (
   <Button
@@ -22,20 +22,20 @@ const CssButton = (props) => (
   />
 )
 
-export default function EndCardButton(props) {
-  const { href, text, onClick } = props
-
+export default function EndCardButton({ href, text, onClick, icon, ...props }) {
   return (
-    <ScaleUpOnHoverStack height="100%" justifyContent="end">
-      <Box>
-        {href ? (
-          <Link href={href} passHref>
-            <CssButton>{text}</CssButton>
-          </Link>
-        ) : (
-          <CssButton onClick={onClick}>{text}</CssButton>
-        )}
-      </Box>
-    </ScaleUpOnHoverStack>
+    <Box>
+      {href ? (
+        <Link href={href} passHref>
+          <SubmitButton>
+            <Typography>{text}</Typography> {icon}
+          </SubmitButton>
+        </Link>
+      ) : (
+        <CssButton onClick={onClick}>
+          <Typography>{text}</Typography>
+        </CssButton>
+      )}
+    </Box>
   )
 }

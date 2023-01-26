@@ -1,4 +1,4 @@
-import { Stack, useMediaQuery } from "@mui/material"
+import { Stack, Typography, useMediaQuery } from "@mui/material"
 import theme from "../../../config/theme"
 import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
@@ -35,20 +35,20 @@ export default function ReferencesSection(props) {
     <Stack
       className="full-width flex-center"
       sx={{
-        backgroundColor: "#000",
+        // backgroundColor: "#000",
+        background: (theme) =>
+          `linear-gradient(${theme.palette.secondary.main} 15%, #000 50%)`,
         height: "auto",
-        padding: "6rem 0",
+        padding: "6rem 0 12rem",
         zIndex: 0,
       }}
     >
-      <MediumTitle
-        textAlign="center"
-        className={styles.shine}
-        color="#fff"
-        sx={{ fontSize: { xs: "1.5rem", md: "2rem" }, lineHeight: "2rem" }}
+      <Typography
+        variant="h2"
+        sx={{ textShadow: "0px 0px 2px rgb(0,0,0,0.5)" }}
       >
-        Nous avons travaillé ensemble
-      </MediumTitle>
+        Ils m'ont fait confiance
+      </Typography>
       <Stack
         paddingBottom="2rem"
         width="100%"

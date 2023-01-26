@@ -3,10 +3,10 @@ import { styled } from "@mui/system"
 import SubmitButton from "./submit-button"
 
 const ButtonContainer = styled((props) => (
-  <Stack sx={{ width: "100%", alignItems: "end" }} {...props} />
+  <Stack sx={{ width: "100%", alignItems: "start" }} {...props} />
 ))(() => ({}))
 
-export default function RightSubmitButton(props) {
+export default function LeftSubmitButton(props) {
   return (
     <ButtonContainer>
       <SubmitButton {...props} />

@@ -48,7 +48,7 @@ const CTAIsland = ({ ...props }) => (
   <motion.div
     initial={{ opacity: 0, y: -5 }}
     animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 1.5, duration: 1 }}
+    transition={{ delay: 1, duration: 1 }}
     style={{ margin: "2rem 0" }}
   >
     <Stack
@@ -85,7 +85,7 @@ const Identity = ({ label }) => (
     <motion.div
       initial={{ opacity: 0, y: -5 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1, duration: 1 }}
+      transition={{ delay: 0.5, duration: 1 }}
     >
       <Typography
         textTransform="uppercase"
@@ -138,10 +138,10 @@ export default function HeroSection(props) {
         padding: "8rem 2.5rem 2rem",
       }}
     >
-      <Stack>
+      <Stack component="h1">
         <Slide direction="right" {...{ timeout: 500 }} in>
           <div>
-            <JobTitle label="Réalisateur" />
+            <JobTitle label="Réalisateur " />
           </div>
         </Slide>
 
@@ -166,7 +166,7 @@ export default function HeroSection(props) {
       <Identity label="Quentin Hébert" />
 
       <CTAIsland>
-        <CTAButton label="Vidéo" href="/films" delay={1.5} />
+        <CTAButton label="Vidéo" href="/films" delay={1} />
         <Divider
           orientation="vertical"
           sx={{
@@ -175,7 +175,7 @@ export default function HeroSection(props) {
             height: "auto",
           }}
         />
-        <CTAButton label="Web" href="/websites" delay={2} />
+        <CTAButton label="Web" href="/websites" delay={1.5} />
       </CTAIsland>
 
       <BouncingArrow scrollTo={scrollTo} refForScroll={refForScroll} />

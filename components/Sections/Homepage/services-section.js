@@ -18,6 +18,8 @@ import FlashingRec from "../../Animation/FlashingRec"
 import { fetchers } from "../../../services/public-fetchers"
 import { HomePageContext } from "../../../contexts/PagesContexts"
 import BodyText from "../../Text/body-text"
+import AddIcon from "@mui/icons-material/Add"
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 
 const ListItem = (props) => (
   <BodyText
@@ -33,18 +35,18 @@ const ListItem = (props) => (
 
 const ListIcon = () => (
   <>
-    <svg width={0} height={0}>
+    {/* <svg width={0} height={0}>
       <linearGradient id="linearColors" x1={0} y1={1} x2={0.8} y2={0.2}>
         <stop offset={0} stopColor={theme.palette.tersary.main} />
         <stop offset={1} stopColor={theme.palette.secondary.main} />
       </linearGradient>
-    </svg>
-    <TaskAltOutlinedIcon
-      // color="secondary"
+    </svg> */}
+    <AddIcon
+      color="secondary"
       sx={{
         marginRight: "0.5rem",
         fontSize: { xs: "1.2rem", md: "1.4rem" },
-        fill: "url(#linearColors)",
+        // fill: "url(#linearColors)",
       }}
     />
   </>
@@ -66,7 +68,9 @@ const ServiceCard = ({ service, href, animationElement, orientation }) => {
         className="no-select"
         color={(theme) => theme.palette.secondary.main}
       >
-        {service?.name || ""}
+        <Typography variant="h3" fontFamily="POPFINE">
+          {service?.name || ""}
+        </Typography>
         {animationElement}
       </CustomCardTitle>
 
@@ -74,7 +78,11 @@ const ServiceCard = ({ service, href, animationElement, orientation }) => {
         <List items={service.service_items} />
       </Box>
 
-      <EndCardButton href={href} text="Découvrir +" />
+      <EndCardButton
+        href={href}
+        text="Découvrir"
+        icon={<ArrowRightAltIcon />}
+      />
     </CustomCard>
   )
 }
@@ -205,7 +213,8 @@ export default function ServicesSection(props) {
       <Stack
         sx={{
           zIndex: 1,
-          backgroundColor: "#000",
+          background: (theme) =>
+            `linear-gradient(#000 50%, ${theme.palette.secondary.main} 100%)`,
         }}
       >
         <CenteredMaxWidthContainer>
@@ -215,10 +224,13 @@ export default function ServicesSection(props) {
             justifyContent="center"
             ref={ref}
             sx={{
-              margin: { xs: "8rem 0 8rem", md: "12rem 0 12rem" },
+              margin: { xs: "8rem 0 8rem", md: "6rem 0 12rem" },
               gap: { xs: 1, md: 2 },
             }}
           >
+            <Typography variant="h2" color="secondary">
+              Les services que je propose
+            </Typography>
             <Stack
               width="100%"
               justifyContent="center"

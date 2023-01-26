@@ -1,9 +1,9 @@
 import { styled, Typography } from "@mui/material"
 
-const CardTitle = styled((props) => {
+const CardTitle = styled(({ variant, ...props }) => {
   return (
     <Typography
-      variant="h4"
+      variant={variant || ""}
       fontWeight="bold"
       display="flex"
       alignItems="center"

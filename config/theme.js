@@ -8,6 +8,8 @@ const errorColor = "#AE1B1E"
 const grey = "#696969"
 const darkGrey = "#161616"
 
+let theme = createTheme({})
+
 const mainTheme = createTheme({
   palette: {
     mode: "dark",
@@ -52,6 +54,12 @@ const mainTheme = createTheme({
     },
     h2: {
       fontFamily: "POPFINE !important",
+      [theme.breakpoints.up("xs")]: {
+        fontSize: "3rem",
+      },
+      [theme.breakpoints.up("md")]: {
+        fontSize: "5rem",
+      },
     },
     h3: {
       fontFamily: "Helmet",
