@@ -28,12 +28,12 @@ const Title = (props) => (
 
 const CTAButton = (props) => (
   <Stack
-    background="transparent"
     padding="1rem 4rem"
     color={(theme) => theme.palette.text.secondary}
     alignItems="center"
     flexDirection="row"
     sx={{
+      background: "#000",
       cursor: "pointer",
       borderRadius: "50px",
       boxShadow: (theme) => `0px 0px 50px 10px ${theme.palette.secondary.main}`,
@@ -223,11 +223,7 @@ export default function HeroSection(props) {
 
           {playing && (
             <ScaleUpOnHoverStack>
-              <PillButton
-                padding="0.35rem 1rem"
-                color="#000"
-                onClick={handleMute}
-              >
+              <PillButton padding="1.2rem" color="#000" onClick={handleMute}>
                 {volume === 1 ? (
                   <VolumeUpIcon sx={{ marginLeft: ".25rem" }} />
                 ) : (
