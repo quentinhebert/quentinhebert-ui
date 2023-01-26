@@ -6,52 +6,67 @@ import { useInView } from "react-intersection-observer"
 import { useEffect } from "react"
 import { useRouter } from "next/router"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
+import AddIcon from "@mui/icons-material/Add"
 
-const CTAButton = ({ label, href }) => (
+const CTAButton = ({ label, href, delay }) => (
   <Stack width="50%" textAlign="center">
     <Link href={href} passHref>
-      <Typography
-        fontSize="1.5rem"
-        color="secondary"
-        className="flex-center"
-        display="flex"
-        fontFamily="Trophy"
-        gap={1}
-        sx={{
-          cursor: "pointer",
-          transition: "0.3s ease-in-out",
-          "& > .MuiSvgIcon-root": {
+      <motion.div
+        initial={{ opacity: 0, y: -5 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: delay, duration: 1 }}
+      >
+        <Typography
+          fontSize="1.5rem"
+          color="secondary"
+          className="flex-center"
+          display="flex"
+          fontFamily="Trophy"
+          gap={1}
+          sx={{
+            cursor: "pointer",
             transition: "0.3s ease-in-out",
-          },
-          "&:hover": {
-            transform: "scale(1.1)",
             "& > .MuiSvgIcon-root": {
               transition: "0.3s ease-in-out",
-              translate: "15px",
             },
-          },
-        }}
-      >
-        {label} <ArrowRightAltIcon />
-      </Typography>
+            "&:hover": {
+              transform: "scale(1.1)",
+              "& > .MuiSvgIcon-root": {
+                transition: "0.3s ease-in-out",
+                translate: "15px",
+              },
+            },
+          }}
+        >
+          {label} <ArrowRightAltIcon />
+        </Typography>
+      </motion.div>
     </Link>
   </Stack>
 )
 const CTAIsland = ({ ...props }) => (
-  <Stack
-    width="40%"
-    minWidth="300px"
-    margin="auto"
-    padding="1rem 2rem"
-    sx={{
-      background: "#000",
-      flexDirection: "row",
-      borderRadius: "100px",
-      boxShadow: (theme) => `0px 0px 30px 5px ${theme.palette.secondary.main}`,
-      textShadow: (theme) => `0px 0px 20px ${theme.palette.secondary.main}`,
-    }}
-    {...props}
-  />
+  <motion.div
+    initial={{ opacity: 0, y: -5 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 1.5, duration: 1 }}
+    style={{ margin: "2rem 0" }}
+  >
+    <Stack
+      width="40%"
+      minWidth="300px"
+      margin="auto"
+      padding="1rem 2rem"
+      sx={{
+        background: "#000",
+        flexDirection: "row",
+        borderRadius: "100px",
+        boxShadow: (theme) =>
+          `0px 0px 30px 5px ${theme.palette.secondary.main}`,
+        textShadow: (theme) => `0px 0px 20px ${theme.palette.secondary.main}`,
+      }}
+      {...props}
+    />
+  </motion.div>
 )
 const JobTitle = ({ label }) => (
   <Stack alignItems="center">
@@ -67,17 +82,23 @@ const JobTitle = ({ label }) => (
 )
 const Identity = ({ label }) => (
   <Stack textAlign="center">
-    <Typography
-      textTransform="uppercase"
-      color="#fff"
-      fontSize="1.5rem"
-      fontFamily="Kardust"
-      sx={{
-        textShadow: (theme) => `0px 0px 40px ${theme.palette.secondary.main}`,
-      }}
+    <motion.div
+      initial={{ opacity: 0, y: -5 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1, duration: 1 }}
     >
-      {label}
-    </Typography>
+      <Typography
+        textTransform="uppercase"
+        color="#fff"
+        fontSize="1.5rem"
+        fontFamily="Kardust"
+        sx={{
+          textShadow: (theme) => `0px 0px 40px ${theme.palette.secondary.main}`,
+        }}
+      >
+        {label}
+      </Typography>
+    </motion.div>
   </Stack>
 )
 
@@ -118,31 +139,39 @@ export default function HeroSection(props) {
       }}
     >
       <Stack>
-        <JobTitle label="Réalisateur" />
+        <Slide direction="right" {...{ timeout: 500 }} in>
+          <div>
+            <JobTitle label="Réalisateur" />
+          </div>
+        </Slide>
 
-        <Stack alignItems="center">
-          <Typography
-            color="#fff"
-            fontSize="4vw"
-            lineHeight="2vw"
-            marginBottom="2rem"
-          >
-            +
-          </Typography>
-        </Stack>
+        <motion.div
+          initial={{ opacity: 0, rotate: "0deg" }}
+          animate={{ opacity: 1, rotate: "360deg" }}
+          transition={{ duration: 1, ease: [0.32, 0, 0.67, 0] }}
+          style={{ marginBottom: "2rem" }}
+        >
+          <Stack alignItems="center">
+            <AddIcon fontSize="4vw" sx={{ color: "#fff", fontSize: "3vw" }} />
+          </Stack>
+        </motion.div>
 
-        <JobTitle label="Développeur web" />
+        <Slide direction="left" {...{ timeout: 500 }} in>
+          <div>
+            <JobTitle label="Développeur web" />
+          </div>
+        </Slide>
       </Stack>
 
       <Identity label="Quentin Hébert" />
 
       <CTAIsland>
-        <CTAButton label="Vidéo" href="/films" />
+        <CTAButton label="Vidéo" href="/films" delay={1.5} />
         <Divider
           orientation="vertical"
           sx={{ borderRight: "1px solid grey" }}
         />
-        <CTAButton label="Web" href="/websites" />
+        <CTAButton label="Web" href="/websites" delay={2} />
       </CTAIsland>
 
       <BouncingArrow scrollTo={scrollTo} refForScroll={refForScroll} />

@@ -27,7 +27,6 @@ export default function BouncingArrow({
           cursor: "pointer",
           display: "flex",
           flexDirection: "column",
-          paddingBottom: { xs: 0, md: 2 },
           "&:hover": {
             "&>p, &>svg": {
               color: `${theme.palette.secondary.main} !important`,
