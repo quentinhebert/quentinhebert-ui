@@ -148,7 +148,11 @@ export default function HeroSection(props) {
               />
               <CTAButton
                 delay={0.5}
-                onClick={() => scrollTo(refsForScroll.portfolio)}
+                onClick={() =>
+                  alert(
+                    "C'est pas encore codé ! Tout vient à point à qui sait attendre"
+                  )
+                }
                 label="CV"
               />
             </CTAIsland>
