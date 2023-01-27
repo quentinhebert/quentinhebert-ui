@@ -212,7 +212,7 @@ export default function HeroSection(props) {
                 fontFamily="Trophy"
                 sx={{ fontSize: { xs: ".6rem", md: "1rem" } }}
               >
-                {playing ? "Pause" : "Lire la vidéo"}
+                {playing ? "Pause" : "Bande démo"}
               </Typography>
               {playing ? (
                 <PauseCircleOutlineIcon sx={{ marginLeft: ".25rem" }} />
