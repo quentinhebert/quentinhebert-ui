@@ -170,7 +170,7 @@ export default function WelcomeSection(props) {
                       fontSize: { xs: ".6rem", md: ".8rem" },
                     }}
                   >
-                    Mes services
+                    Services
                   </Typography>{" "}
                   <ArrowRightAltIcon />
                 </LeftSubmitButton>

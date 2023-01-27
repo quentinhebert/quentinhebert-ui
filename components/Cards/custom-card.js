@@ -25,7 +25,7 @@ const Card = styled(
           //   `linear-gradient(to ${gradientOrientation || "left"}, ${
           //     theme.palette.secondary.main
           //   }, ${theme.palette.tersary.main})`),
-          boxShadow: (theme) => `10px 10px 20px 2px rgb(0,0,0,0.5)`,
+          boxShadow: (theme) => `0px 0px 20px 2px rgb(0,0,0,0.5)`,
           // border: border || "",
           color: color || "#fff",
           // padding: padding || "2px",

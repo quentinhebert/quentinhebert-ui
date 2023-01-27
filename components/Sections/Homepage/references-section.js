@@ -43,12 +43,31 @@ export default function ReferencesSection(props) {
         zIndex: 0,
       }}
     >
-      <Typography
-        variant="h2"
-        sx={{ textShadow: "0px 0px 2px rgb(0,0,0,0.5)" }}
-      >
-        Ils m'ont fait confiance
-      </Typography>
+      <Stack position="relative">
+        <Typography variant="h2">Ils m'ont fait confiance</Typography>
+
+        <Stack
+          sx={{
+            padding: "0rem 1rem .25rem",
+            borderRadius: "50px",
+            background: (theme) => theme.palette.background.secondary,
+            boxShadow: "0px 10px 30px 4px rgb(0,0,0,0.5)",
+            rotate: "-5deg",
+            position: "absolute",
+            bottom: "-.6rem",
+            right: { xs: "-2rem", md: "-5rem" },
+          }}
+        >
+          <Typography
+            fontFamily="Kardust"
+            color="#000"
+            sx={{ fontSize: { xs: "1rem", md: "1.5rem" } }}
+          >
+            Merci à eux !
+          </Typography>
+        </Stack>
+      </Stack>
+
       <Stack
         paddingBottom="2rem"
         width="100%"

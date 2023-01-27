@@ -40,10 +40,10 @@ export default function About_Main() {
       >
         <Stack width="48%" gap={2}>
           <Typography
-            color="#fff"
-            letterSpacing={2}
+            variant="h1"
+            color="secondary"
             sx={{
-              fontSize: { xs: "2rem", md: "4rem" },
+              fontSize: { xs: "4rem", md: "7rem" },
             }}
           >
             À propos

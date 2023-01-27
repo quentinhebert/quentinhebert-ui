@@ -71,7 +71,9 @@ const ServiceCard = ({ service, href, animationElement, orientation }) => {
         <Typography variant="h3" fontFamily="POPFINE">
           {service?.name || ""}
         </Typography>
-        {animationElement}
+        <Typography variant="h4" component="div">
+          {animationElement}
+        </Typography>
       </CustomCardTitle>
 
       <Box textAlign="left" flexGrow={1} letterSpacing={1}>
@@ -94,6 +96,21 @@ const Caroussel = ({ services }) => {
   }
   return (
     <>
+      <Stack
+        alignItems="center"
+        justifyContent="center"
+        sx={{ color: (theme) => theme.palette.text.white }}
+        flexDirection="row"
+        gap={1}
+        className={styles.shine}
+      >
+        <SwipeIcon sx={{ rotate: "180deg" }} />
+        <Typography fontStyle="italic" letterSpacing={1}>
+          Faire défiler
+        </Typography>
+      </Stack>
+      <Stepper totalSteps={2} activeStep={index} setActiveStep={setIndex} />
+
       <SwipeableViews
         index={index}
         disableLazyLoading
@@ -139,22 +156,6 @@ const Caroussel = ({ services }) => {
           />
         </Stack>
       </SwipeableViews>
-
-      <Stack
-        alignItems="center"
-        justifyContent="center"
-        sx={{ color: (theme) => theme.palette.text.white }}
-        flexDirection="row"
-        gap={1}
-        className={styles.shine}
-      >
-        <SwipeIcon />
-        <Typography fontStyle="italic" letterSpacing={1}>
-          Faire défiler
-        </Typography>
-      </Stack>
-
-      <Stepper totalSteps={2} activeStep={index} setActiveStep={setIndex} />
     </>
   )
 }
