@@ -113,7 +113,7 @@ export default function HeroSection(props) {
   const variants = {
     visible: {
       opacity: 1,
-      transition: { duration: 1, delay: 1.2 },
+      transition: { duration: 1, delay: 0 },
     },
     hidden: { opacity: 0 },
   }
@@ -178,7 +178,7 @@ export default function HeroSection(props) {
             transition: "opacity 0.2s ease-in-out",
           }}
         >
-          <BodyText>Je suis</BodyText>
+          <BodyText animDelay={0.5}>Je suis</BodyText>
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -193,9 +193,9 @@ export default function HeroSection(props) {
               textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
             }}
           >
-            <BodyText animDelay={0.5}>Réalisateur</BodyText>
-            <BodyText animDelay={0.75}>Cadreur</BodyText>
-            <BodyText animDelay={1}>Monteur</BodyText>
+            <BodyText animDelay={0.75}>Réalisateur</BodyText>
+            <BodyText animDelay={1}>Cadreur</BodyText>
+            <BodyText animDelay={1.25}>Monteur</BodyText>
           </Stack>
         </Stack>
 

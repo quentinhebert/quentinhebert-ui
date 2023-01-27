@@ -49,7 +49,7 @@ const CTAIsland = ({ ...props }) => (
   <motion.div
     initial={{ opacity: 0, y: -5 }}
     animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 1, duration: 1 }}
+    transition={{ delay: 0.5, duration: 1 }}
     style={{ margin: "2rem 0" }}
   >
     <Stack
@@ -171,7 +171,7 @@ export default function HeroSection(props) {
       <Identity label="Quentin Hébert" />
 
       <CTAIsland>
-        <CTAButton label="Vidéo" href="/films" delay={1} />
+        <CTAButton label="Vidéo" href="/films" delay={0.75} />
         <Divider
           orientation="vertical"
           sx={{
@@ -180,7 +180,7 @@ export default function HeroSection(props) {
             height: "auto",
           }}
         />
-        <CTAButton label="Web" href="/websites" delay={1.5} />
+        <CTAButton label="Web" href="/websites" delay={1} />
       </CTAIsland>
 
       <BouncingArrow scrollTo={scrollTo} refForScroll={refForScroll} />

@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps, router }) {
     else {
       setAppLoading(true)
       setIsAnimationProcessing(true)
-      setTimeout(() => setIsAnimationProcessing(false), 800)
+      setTimeout(() => setIsAnimationProcessing(false), 1000)
     }
   }, [isAnimationProcessing, isUserDataFetching])
 
