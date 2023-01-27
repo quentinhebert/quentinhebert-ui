@@ -12,7 +12,6 @@ import VideoPlayer from "../../../../Modals/video-player"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
-import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 import PlayCircleIcon from "@mui/icons-material/PlayCircle"
 import useSWR from "swr"
 import { fetchers } from "../../../../../services/public-fetchers"
@@ -468,6 +467,153 @@ const FilterSection = ({ handleFilter }) => {
     </Stack>
   )
 }
+const PlayBtn = () => (
+  <Box
+    sx={{
+      position: "absolute",
+      color: (theme) => theme.palette.text.secondary,
+      opacity: 0,
+      textAlign: "center",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
+      gap: 3,
+      fontSize: "1.5rem",
+      textTransform: "uppercase",
+    }}
+  >
+    <PlayCircleIcon
+      sx={{
+        fontSize: "4rem",
+      }}
+    />
+  </Box>
+)
+const Thumbnail = (props) => (
+  <Box
+    component="img"
+    width="100%"
+    height="100%"
+    sx={{
+      borderRadius: "100%",
+      zIndex: 0,
+      objectFit: "cover",
+      objectPosition: "50% 50%",
+      WebkitTransition: "transform 0.4s ease-in-out",
+      msTransition: "transform 0.4s ease-in-out",
+      transition: "transform 0.4s ease-in-out, filter 0.4s ease-in-out",
+    }}
+    {...props}
+  />
+)
+const ImgList = (props) => {
+  /********** THEME **********/
+  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
+  const xs = useMediaQuery((theme) => theme.breakpoints.down("xs"))
+
+  return (
+    <ImageList
+      // rowHeight={xs ? 150 : md ? 150 : 200}
+      rowHeight="100%"
+      gap={20}
+      cols={xs ? 1 : sm ? 2 : 3}
+      sx={{
+        padding: 2,
+        marginBottom: "2rem",
+        "& .MuiImageListItem-root": {
+          marginBottom: "0 !important",
+        },
+      }}
+      {...props}
+    />
+  )
+}
+const ImgListItem = (props) => (
+  <ImageListItem
+    sx={{
+      width: "100%",
+      height: "100% !important",
+      cursor: "pointer",
+      overflow: "hidden",
+      "&:hover": {
+        "& .MuiBox-root": {
+          transform: "scale(1.05)",
+          filter: "grayscale(1)",
+        },
+      },
+    }}
+    {...props}
+  />
+)
+const Overlay = (props) => (
+  <Stack
+    justifyContent="center"
+    alignItems="center"
+    sx={{
+      width: "100%",
+      height: "100%",
+      position: "absolute",
+      top: 0,
+      zIndex: 100,
+      WebkitTransition: "background 200ms linear",
+      msTransition: "background 200ms linear",
+      transition: "background 200ms linear",
+      padding: "1rem",
+      background: `linear-gradient(120deg, rgb(0, 0, 0, 0.2) 50%, rgb(0, 0, 0, 0.9) 100%)`,
+      borderRadius: "100%",
+      "&:hover": {
+        background: "rgb(0, 0, 0, 0.4)",
+        "& .MuiTypography-root": {
+          opacity: 0,
+          textShadow: "none",
+        },
+        "& .MuiBox-root": {
+          textShadow: "none",
+          filter: "none",
+          opacity: 1,
+          transition: "opacity 0.4s ease-in-out",
+        },
+      },
+    }}
+    {...props}
+  />
+)
+const VideoTitle = (props) => (
+  <Typography
+    fontFamily="POPFINE"
+    color="secondary"
+    sx={{
+      textAlign: "center",
+      fontSize: {
+        xs: "1.8rem",
+        sm: "2rem",
+        md: "2.5rem",
+      },
+      letterSpacing: "2px",
+      lineHeight: {
+        xs: "1.8rem",
+        sm: "2rem",
+        md: "3rem",
+      },
+      textShadow: "2px 2px 10px rgb(0,0,0,0.5)",
+    }}
+    {...props}
+  />
+)
+const ClickListener = (props) => (
+  <Link
+    sx={{
+      // CSS to overflow hidden on (hover + scale up)
+      height: "100%",
+      display: "block",
+      borderRadius: "100%",
+      overflow: "hidden",
+      boxShadow: "0px 0px 20px 2px rgb(0,0,0,0.5)",
+    }}
+    {...props}
+  />
+)
 
 export default function VideoList({ height, setHeight, ...props }) {
   const {} = props
@@ -496,16 +642,13 @@ export default function VideoList({ height, setHeight, ...props }) {
   /********** REFS **********/
   const heightRef = useRef()
 
-  /********** THEME **********/
-  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
-  const xs = useMediaQuery((theme) => theme.breakpoints.down("xs"))
-
   /********** HANDLERS **********/
   const handleCloseVideoPlayer = () => {
     setVideoClicked(null)
     setOpenVideoPlayer(false)
   }
   const handleFilter = (category) => {
+    if (category === "Tout" && data === filteredData) return
     // Systematically remove the show more button
     setHasMoreFilms(false)
     // Hide all the videos (UX transition)
@@ -534,6 +677,10 @@ export default function VideoList({ height, setHeight, ...props }) {
         scrollTo(TopRef)
       }, 200)
     }
+  }
+  const handleVideoClick = (item) => {
+    setVideoClicked(item)
+    setOpenVideoPlayer(true)
   }
 
   /********** USE EFFECTS **********/
@@ -565,7 +712,7 @@ export default function VideoList({ height, setHeight, ...props }) {
       opacity: 1,
       transition: {
         duration: 0.5,
-        delay: xs ? key / (data.length * 3) : key / 10,
+        delay: key / 10,
       },
     },
     hidden: { opacity: 0 },
@@ -591,27 +738,16 @@ export default function VideoList({ height, setHeight, ...props }) {
       />
 
       <Stack
+        ref={ref}
         width="100%"
         maxWidth="800px"
         margin="auto"
-        ref={ref}
         padding="0 0 2rem"
         gap={2}
       >
         <FilterSection ref={heightRef} handleFilter={handleFilter} />
 
-        <ImageList
-          // rowHeight={xs ? 150 : md ? 150 : 200}
-          rowHeight="100%"
-          gap={20}
-          cols={xs ? 1 : sm ? 2 : 3}
-          sx={{
-            marginBottom: "2rem",
-            "& .MuiImageListItem-root": {
-              marginBottom: "0 !important",
-            },
-          }}
-        >
+        <ImgList>
           {filteredData?.length
             ? filteredData?.map((item, key) => {
                 if (key < limit)
@@ -623,138 +759,31 @@ export default function VideoList({ height, setHeight, ...props }) {
                       animate={controls}
                       style={{
                         width: "100%",
-                        aspectRatio: "1/1",
                         height: "100%",
+                        aspectRatio: "1/1",
                       }}
                     >
-                      <Link
-                        onClick={() => {
-                          setVideoClicked(item)
-                          setOpenVideoPlayer(true)
-                        }}
+                      <ClickListener
                         key={item.img}
-                        style={{
-                          height: "100%",
-                          display: "block",
-                          borderRadius: "100%",
-                          overflow: "hidden",
-                        }}
+                        onClick={() => handleVideoClick(item)}
                       >
-                        <ImageListItem
-                          sx={{
-                            width: "100%",
-                            height: "100% !important",
-                            cursor: "pointer",
-                            overflow: "hidden",
-                            "&:hover": {
-                              "& .MuiBox-root": {
-                                transform: "scale(1.05)",
-                                filter: "grayscale(1)",
-                              },
-                            },
-                          }}
-                          key={item.img}
-                        >
-                          <Box
-                            component="img"
+                        <ImgListItem>
+                          <Thumbnail
                             src={item.img}
                             srcSet={item.img}
                             alt={item.title}
-                            width="100%"
-                            height="100%"
-                            sx={{
-                              borderRadius: "100%",
-                              zIndex: 0,
-                              objectFit: "cover",
-                              objectPosition: "50% 50%",
-                              WebkitTransition: "transform 0.4s ease-in-out",
-                              msTransition: "transform 0.4s ease-in-out",
-                              transition:
-                                "transform 0.4s ease-in-out, filter 0.4s ease-in-out",
-                            }}
                           />
-                          <Stack
-                            justifyContent="center"
-                            alignItems="center"
-                            sx={{
-                              width: "100%",
-                              height: "100%",
-                              position: "absolute",
-                              top: 0,
-                              zIndex: 100,
-                              WebkitTransition: "background 200ms linear",
-                              msTransition: "background 200ms linear",
-                              transition: "background 200ms linear",
-                              padding: "1rem",
-                              // background: "rgb(0, 0, 0, 0.2)",
-                              background: (theme) =>
-                                `linear-gradient(120deg, rgb(0, 0, 0, 0.2) 50%, rgb(0, 0, 0, 0.9) 100%)`,
-                              borderRadius: "100%",
-                              "&:hover": {
-                                background: "rgb(0, 0, 0, 0.4)",
-                                "& .MuiTypography-root": {
-                                  opacity: 0,
-                                  textShadow: "none",
-                                },
-                                "& .MuiBox-root": {
-                                  textShadow: "none",
-                                  filter: "none",
-                                  opacity: 1,
-                                  transition: "opacity 0.4s ease-in-out",
-                                },
-                              },
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                position: "absolute",
-                                color: (theme) => theme.palette.text.secondary,
-                                opacity: 0,
-                                textAlign: "center",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexDirection: "column",
-                                gap: 3,
-                                fontSize: "1.5rem",
-                                textTransform: "uppercase",
-                              }}
-                            >
-                              <PlayCircleIcon
-                                sx={{
-                                  fontSize: "4rem",
-                                }}
-                              />
-                            </Box>
-                            <Typography
-                              fontFamily="POPFINE"
-                              color="secondary"
-                              sx={{
-                                textAlign: "center",
-                                fontSize: {
-                                  xs: "1.8rem",
-                                  sm: "2rem",
-                                  md: "2.5rem",
-                                },
-                                letterSpacing: "2px",
-                                lineHeight: {
-                                  xs: "1.8rem",
-                                  sm: "2rem",
-                                  md: "3rem",
-                                },
-                                textShadow: "2px 2px 10px rgb(0,0,0,0.5)",
-                              }}
-                            >
-                              {item.title}
-                            </Typography>
-                          </Stack>
-                        </ImageListItem>
-                      </Link>
+                          <Overlay>
+                            <PlayBtn />
+                            <VideoTitle>{item.title}</VideoTitle>
+                          </Overlay>
+                        </ImgListItem>
+                      </ClickListener>
                     </motion.div>
                   )
               })
             : null}
-        </ImageList>
+        </ImgList>
 
         <Stack
           width="100%"
@@ -763,7 +792,6 @@ export default function VideoList({ height, setHeight, ...props }) {
         >
           <Box component="div">
             <PillButton
-              color="#000"
               onClick={handleShowMore}
               endIcon={
                 <KeyboardArrowDownIcon
