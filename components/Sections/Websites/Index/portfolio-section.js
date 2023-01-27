@@ -36,21 +36,22 @@ export default function PortfolioSection(props) {
       position="relative"
       sx={{
         background: (theme) =>
-          `linear-gradient(220deg, ${theme.palette.tersary.main} 10%, ${theme.palette.background.secondary} 100%)`,
+          // `linear-gradient(220deg, ${theme.palette.tersary.main} 10%, ${theme.palette.background.secondary} 100%)`,
+          // `linear-gradient(220deg, #000 10%, ${theme.palette.background.secondary} 100%)`,
+          `#000`,
       }}
     >
       <Stack ref={topRef} />
 
-      <Stack gap="5rem" margin="5rem 0">
+      <Stack gap="8rem" margin="5rem 0">
         <MediumTitle
           preventTransitionOut={desktop}
           textAlign="center"
-          // className={styles.shine}
           fontFamily="Zacbel X"
           letterSpacing={1}
           lineHeight={{ xs: "15vw", sm: "10vw" }}
         >
-          <StrokeText>Mes </StrokeText>projets
+          Mes projets web
         </MediumTitle>
 
         {data.map((website, key) => (
@@ -103,9 +104,13 @@ export default function PortfolioSection(props) {
                       animDelay={key}
                       key={key}
                       preventTransitionOut={desktop}
-                      padding={{ xs: ".1rem 1rem", md: ".25rem 1.5rem" }}
+                      padding={{ xs: ".1rem 1rem", md: "0rem 1rem" }}
                     >
-                      <BodyText color="#000" preventTransitionOut={desktop}>
+                      <BodyText
+                        color="#000"
+                        preventTransitionOut={desktop}
+                        linHeight="0"
+                      >
                         /{tag}
                       </BodyText>
                     </Pill>
@@ -125,7 +130,10 @@ export default function PortfolioSection(props) {
                   {website.description}
                 </BodyText>
                 <Stack className="full-width" alignItems="end">
-                  <BodyText preventTransitionOut={desktop}>
+                  <BodyText
+                    preventTransitionOut={desktop}
+                    className={styles.shine}
+                  >
                     – Réalisé en {website.year}
                   </BodyText>
                 </Stack>
@@ -133,13 +141,16 @@ export default function PortfolioSection(props) {
                 <ScaleUpOnHoverStack>
                   <PillButton
                     background={(theme) =>
-                      `linear-gradient(10deg, ${theme.palette.tersary.main} 0%, ${theme.palette.background.secondary} 100%)`
+                      // `linear-gradient(10deg, ${theme.palette.tersary.main} 0%, ${theme.palette.background.secondary} 100%)`
+                      theme.palette.background.secondary
                     }
                   >
                     <Stack className="row flex-center" gap={1}>
                       <Box
                         component="a"
                         target="_blank"
+                        textTransform="capitalize"
+                        fontFamily="trophy"
                         href={
                           website.url.startsWith("https")
                             ? website.url

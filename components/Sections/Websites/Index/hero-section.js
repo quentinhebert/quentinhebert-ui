@@ -82,8 +82,10 @@ export default function HeroSection(props) {
     <Stack
       zIndex={1}
       sx={{
-        marginTop: "-80px",
-        background: "#000",
+        position: "relative",
+        marginTop: "-82px",
+        background: (theme) =>
+          `linear-gradient(170deg, ${theme.palette.secondary.main} 0%, #000 60%)`,
         width: "100%",
         minHeight: { xs: "500px", md: "600px" },
         height: { xs: "70vh", md: "100vh" },
@@ -180,7 +182,7 @@ export default function HeroSection(props) {
             width: "70%",
             pointerEvents: "none",
             left: 0,
-            top: -15,
+            top: 0,
             minHeight: { xs: "500px", md: "600px" },
             height: { xs: "70vh", md: "100vh" },
             zIndex: 1,
@@ -194,7 +196,7 @@ export default function HeroSection(props) {
         alignItems="center"
         sx={{
           position: "absolute",
-          bottom: 0,
+          bottom: 20,
           width: "100%",
         }}
       >

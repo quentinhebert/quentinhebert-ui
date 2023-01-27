@@ -39,15 +39,17 @@ export default function MediumTitle({ preventTransitionOut, ...props }) {
         style={motionDivStyle}
       >
         <Typography
+          variant="h2"
           color="secondary"
           zIndex={1}
           sx={{
-            fontSize: { xs: "12vw", sm: "9vw", md: "5vw" },
+            fontSize: { xs: "12vw", sm: "9vw", md: "7vw" },
             lineHeight: props.lineHeight || {
-              xs: "10vw",
-              sm: "7vw",
-              md: "5vw",
+              xs: "12vw",
+              sm: "9w",
+              md: "7vw",
             },
+            paddingRight: "1%",
           }}
           {...props}
         />

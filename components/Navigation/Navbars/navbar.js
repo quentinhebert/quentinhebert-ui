@@ -54,7 +54,6 @@ export default function Navbar(props) {
         position="sticky"
         component="nav"
         sx={{
-          // background: "#000",
           background: "transparent",
           width: "100%",
           boxShadow: "none",
@@ -69,7 +68,7 @@ export default function Navbar(props) {
             top: 0,
             left: 0,
             opacity: isReduced ? 1 : 0,
-            transition: "0.2s ease-in-out",
+            transition: "0.5s ease-in-out",
           }}
         />
         <Stack padding="1rem 0.75rem" alignItems="center">
