@@ -31,14 +31,16 @@ export default function About_Main() {
       }}
     >
       <CenteredMaxWidthContainer
-        padding="10rem 0"
         percents="80%"
         pixels="1600px"
-        gap="4%"
-        flexDirection="row"
+        gap="2rem"
+        sx={{
+          flexDirection: { xs: "column", md: "row" },
+          padding: { xs: "2rem 0 4rem", md: "8rem 0" },
+        }}
         alignItems="center"
       >
-        <Stack width="48%" gap={2}>
+        <Stack sx={{ width: { xs: "100%", md: "48%" } }} gap={2}>
           <Typography
             variant="h1"
             color="secondary"
@@ -92,7 +94,7 @@ export default function About_Main() {
           </Stack>
         </Stack>
 
-        <Stack width="48%">
+        <Stack sx={{ width: { xs: "100%", md: "48%" } }}>
           <iframe
             src="https://www.youtube.com/embed/PAhiebzm0pk"
             title="YouTube video player"
