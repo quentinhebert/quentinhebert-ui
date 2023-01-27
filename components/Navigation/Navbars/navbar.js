@@ -77,6 +77,7 @@ export default function Navbar(props) {
             <Button
               variant="outlined"
               sx={{
+                background: "#000",
                 borderRadius: "30px",
                 position: "absolute",
                 left: { xs: 20, md: 50 },
@@ -86,6 +87,7 @@ export default function Navbar(props) {
                 padding: { xs: "0.25rem 0.75rem", md: "0.5rem 2rem" },
                 letterSpacing: 1,
                 "&:hover": {
+                  background: "#000",
                   borderColor: (theme) => theme.palette.secondary.main,
                 },
               }}

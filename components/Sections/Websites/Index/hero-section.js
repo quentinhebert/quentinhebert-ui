@@ -1,8 +1,73 @@
-import { Box, Slide, Stack, Typography } from "@mui/material"
+import { Box, Slide, Stack, Typography, Divider } from "@mui/material"
 import PillButton from "../../../Buttons/pill-button"
 import BouncingArrow from "../../../Navigation/BouncingArrow"
 import StrokeText from "../../../Text/stroke-text"
 import styles from "../../../../styles/TextShine.module.css"
+import { motion, useAnimation } from "framer-motion"
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
+
+const CTAIsland = ({ ...props }) => (
+  <motion.div
+    initial={{ opacity: 0, y: -5 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.5, duration: 1 }}
+    style={{ margin: "2rem 0" }}
+  >
+    <Stack
+      margin="auto"
+      padding="1rem 2rem"
+      sx={{
+        // width: { xs: "60%", sm: "50%", lg: "40%" },
+        // width: { xs: "60%", sm: "50%", lg: "80%" },
+        minWidth: "300px",
+        background: "#000",
+        flexDirection: "row",
+        borderRadius: "100px",
+        boxShadow: (theme) =>
+          `0px 0px 30px 5px ${theme.palette.secondary.main}`,
+        textShadow: (theme) => `0px 0px 20px ${theme.palette.secondary.main}`,
+        marginTop: { xs: "8vh", md: 0 },
+      }}
+      {...props}
+    />
+  </motion.div>
+)
+const CTAButton = ({ onClick, label, delay }) => (
+  <Stack width="50%" textAlign="center">
+    <motion.div
+      initial={{ opacity: 0, y: -5 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: delay || 0, duration: 1 }}
+    >
+      <Typography
+        color="secondary"
+        className="flex-center"
+        display="flex"
+        fontFamily="Trophy"
+        gap={1}
+        sx={{
+          padding: "0 1rem",
+          fontSize: { xs: ".6rem", sm: ".8rem", md: "1.3rem" },
+          cursor: "pointer",
+          transition: "0.3s ease-in-out",
+          "& > .MuiSvgIcon-root": {
+            transition: "0.3s ease-in-out",
+          },
+          "&:hover": {
+            transform: "scale(1.1)",
+            "& > .MuiSvgIcon-root": {
+              transition: "0.3s ease-in-out",
+              translate: { xs: "5px", md: "10px", lg: "15px" },
+            },
+          },
+        }}
+        onClick={onClick}
+      >
+        {label} <ArrowRightAltIcon />
+      </Typography>
+    </motion.div>
+  </Stack>
+)
 
 export default function HeroSection(props) {
   const { refsForScroll } = props
@@ -16,88 +81,75 @@ export default function HeroSection(props) {
   return (
     <Stack
       zIndex={1}
-      position="relative"
       sx={{
-        background: (theme) =>
-          `linear-gradient(220deg, #000 40%, ${theme.palette.background.main} 100%)`,
+        marginTop: "-80px",
+        background: "#000",
         width: "100%",
         minHeight: { xs: "500px", md: "600px" },
-        height: { xs: "calc(70vh - 80px)", md: "calc(100vh - 80px)" },
-        alignItems: "end",
-        position: "relative",
+        height: { xs: "70vh", md: "100vh" },
       }}
     >
       {/* Right Text */}
       <Slide direction="left" {...{ timeout: 1000 }} in>
         <Stack
           sx={{
-            position: "relative",
-            zIndex: 0,
+            alignSelf: "end",
+            width: { xs: "100%", sm: "80%", md: "60%" },
+            height: "100%",
             padding: {
-              xs: "4rem 1.5rem 0 1rem",
-              sm: "7rem 1.5rem 0 1rem",
-              md: "5rem 1.5rem 0 5rem",
+              xs: "1rem 1.5rem 0 1rem",
+              sm: "1rem 1.5rem 0 1rem",
+              md: "1rem 1.5rem 0 5rem",
             },
+            justifyContent: "center",
           }}
         >
-          <Typography
-            variant="h1"
-            color="secondary"
-            fontFamily="Zacbel X"
-            sx={{
-              textAlign: "right",
-              fontSize: {
-                xs: "13vw",
-                sm: "11vw",
-              },
-              lineHeight: {
-                xs: "13vw",
-                sm: "11vw",
-              },
-            }}
-          >
-            Developpeur
-            <br />
-            <StrokeText className={styles.shine}>Freelance</StrokeText>
-          </Typography>
+          <Stack>
+            <Typography
+              variant="h1"
+              color="secondary"
+              sx={{
+                textAlign: "right",
+                paddingRight: { xs: 0, md: 5 },
+                fontSize: {
+                  xs: "18vw",
+                  sm: "12vw",
+                  md: "10vw",
+                },
+                lineHeight: {
+                  xs: "18vw",
+                  sm: "12vw",
+                  md: "10vw",
+                },
+              }}
+            >
+              Developpeur web
+              <br />
+              <StrokeText className={styles.shine} padding="5%">
+                Freelance
+              </StrokeText>
+            </Typography>
 
-          <Stack
-            justifyContent="right"
-            sx={{
-              fontFamily: "Helmet",
-              position: "relative",
-              width: "100%",
-              gap: { xs: 1, md: 2 },
-              flexDirection: "row",
-              marginTop: "3rem",
-            }}
-          >
-            <PillButton
-              animDelay={0.2}
-              background="transparent"
-              boxShadow="!important"
-              scaleUpOnHover
-              color={(theme) => theme.palette.secondary.main}
-              border={(theme) => `3px solid ${theme.palette.secondary.main}`}
-              fontSize={{ xs: "1rem", sm: "1.2rem", md: "1.25vw" }}
-              padding={{ xs: "0.2rem 1.5rem", md: "0.5vw 2vw" }}
-              borderRadius="30vw"
-              onClick={() => scrollTo(refsForScroll.portfolio)}
-            >
-              Mes projets
-            </PillButton>
-            <PillButton
-              animDelay={0.5}
-              boxShadow="!important"
-              scaleUpOnHover
-              border={(theme) => `3px solid ${theme.palette.secondary.main}`}
-              fontSize={{ xs: "1rem", sm: "1.2rem", md: "1.25vw" }}
-              padding={{ xs: "0.2rem 1.5rem", md: "0.5vw 2vw" }}
-              borderRadius="30vw"
-              onClick={() => scrollTo(refsForScroll.portfolio)}
-            >
-              Mon Cv
-            </PillButton>
+            {/* CTA BUTTONS */}
+            <CTAIsland>
+              <CTAButton
+                onClick={() => scrollTo(refsForScroll.portfolio)}
+                label="Projets"
+              />
+              <Divider
+                orientation="vertical"
+                sx={{
+                  borderColor: "rgb(256,256,256,0.3)",
+                  borderWidth: "1px",
+                  height: "auto",
+                }}
+              />
+              <CTAButton
+                delay={0.5}
+                onClick={() => scrollTo(refsForScroll.portfolio)}
+                label="CV"
+              />
+            </CTAIsland>
           </Stack>
         </Stack>
       </Slide>
@@ -114,24 +166,23 @@ export default function HeroSection(props) {
             position: "absolute",
             backgroundImage: "url(/medias/developper-alpha.png)",
             backgroundSize: {
-              xs: "200%",
+              xs: "220%",
               sm: "230%",
               md: "200%",
               lg: "220%",
             },
             backgroundPosition: {
-              xs: "30% 10rem",
-              sm: "30% 10%",
-              md: "10% 10%",
-              lg: "20% 30%",
+              xs: "40% 20%",
+              sm: "40% 60%",
+              md: "30% 40%",
             },
             backgroundRepeat: "no-repeat",
             width: "70%",
             pointerEvents: "none",
             left: 0,
-            bottom: 0,
+            top: -15,
             minHeight: { xs: "500px", md: "600px" },
-            height: { xs: "calc(70vh - 80px)", md: "calc(100vh - 80px)" },
+            height: { xs: "70vh", md: "100vh" },
             zIndex: 1,
           }}
         />
@@ -142,8 +193,9 @@ export default function HeroSection(props) {
         justifyContent="end"
         alignItems="center"
         sx={{
+          position: "absolute",
+          bottom: 0,
           width: "100%",
-          height: { xs: "100vh", md: "100vh" },
         }}
       >
         <BouncingArrow
