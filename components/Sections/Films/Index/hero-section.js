@@ -131,10 +131,12 @@ export default function HeroSection(props) {
       zIndex={1}
       position="relative"
       sx={{
+        marginTop: "-82px",
         background: "#000",
         backgroundRepeat: "no-repeat",
         width: "100%",
-        height: { xs: "calc(90vh - 80px)", md: "calc(100vh - 80px)" },
+        // height: { xs: "calc(90vh - 80px)", md: "calc(100vh - 80px)" },
+        height: { xs: "calc(90vh - 80px)", md: "100vh" },
         // maxHeight: "600px", // TODO: Remove that line when suscribed to vimeo plan
         overflow: "hidden",
         objectFit: "cover",
@@ -143,6 +145,7 @@ export default function HeroSection(props) {
       <Stack
         sx={{ position: "relative", height: "100%" }}
         className="flex-center"
+        overflow="hidden"
       >
         {rendered && ( // Trick to avoid nextjs hydration error
           <ReactPlayer
@@ -155,6 +158,7 @@ export default function HeroSection(props) {
             height={landscape ? "56.25vw" : "120vh"}
             onPause={() => setPlaying(false)}
             style={{
+              transform: "scale(1.2)",
               position: "absolute",
               display: "flex",
               opacity: playing ? 1 : 0,
@@ -166,7 +170,8 @@ export default function HeroSection(props) {
 
       <Stack
         className="absolute full-width flex-center no-select top left"
-        height="calc(100% - 90px)"
+        // height="calc(100% - 90px)"
+        height="100%"
         zIndex={101}
         flexGrow={1}
         gap={8}

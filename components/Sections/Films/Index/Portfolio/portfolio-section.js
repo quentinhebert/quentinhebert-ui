@@ -55,7 +55,7 @@ export default function PortfolioSection(props) {
       }}
     >
       {/* TOP Anchor */}
-      <Stack ref={refForScroll} />
+      <Stack ref={refForScroll} sx={{ scrollMarginTop: "80px" }} />
 
       <Stack
         sx={{
