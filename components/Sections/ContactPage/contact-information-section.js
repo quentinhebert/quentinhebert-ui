@@ -173,7 +173,6 @@ export default function ContactInformationSection(props) {
       <PageTitle
         text="Contact"
         color={(theme) => theme.palette.secondary.main}
-        className={styles.shine}
       />
 
       <SmallTitle>Suis-moi, je te fuis !</SmallTitle>

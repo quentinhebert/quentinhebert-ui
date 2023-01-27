@@ -201,7 +201,8 @@ export default function ContactForm(props) {
                 labelcolor={theme.palette.text.secondary} // label
                 checkedcolor={theme.palette.text.secondary} // checked
                 checkboxcolor="#fff" // unchecked
-                fontFamily="Ethereal"
+                fontFamily="kardust"
+                fontSize="1.5rem"
                 fontWeight="bold"
                 onChange={handleChangeServices("film")}
               />
@@ -211,7 +212,8 @@ export default function ContactForm(props) {
                 labelcolor={theme.palette.text.secondary} // label
                 checkedcolor={theme.palette.text.secondary} // checked
                 checkboxcolor="#fff" // unchecked
-                fontFamily="Zacbel X"
+                fontFamily="kardust"
+                fontSize="1.5rem"
                 onChange={handleChangeServices("website")}
               />
             </Stack>

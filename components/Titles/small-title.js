@@ -5,12 +5,14 @@ export default function SmallTitle({
   textTransform,
   padding,
   fontSize,
+  fontFamily,
   ...props
 }) {
   return (
     <Typography
-      componenent="h2"
+      component="h2"
       variant="h3"
+      fontFamily={fontFamily || "kardust"}
       textTransform={textTransform || "uppercase"}
       letterSpacing={2}
       fontWeight="bold"

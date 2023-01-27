@@ -37,10 +37,11 @@ export default function Contact_Main(props) {
   }
 
   return (
-    <Stack ref={ref} overflow="hidden">
+    <Stack ref={ref} overflow="hidden" sx={{ marginTop: "-82px" }}>
       <FixedBackground
         background={(theme) =>
-          `linear-gradient(150deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`
+          // `linear-gradient(150deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`
+          `#000`
         }
       />
 
