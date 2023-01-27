@@ -13,6 +13,7 @@ import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
+import PlayCircleIcon from "@mui/icons-material/PlayCircle"
 import useSWR from "swr"
 import { fetchers } from "../../../../../services/public-fetchers"
 import { FilmsHomePageContext } from "../../../../../contexts/PagesContexts"
@@ -496,7 +497,7 @@ export default function VideoList({ height, setHeight, ...props }) {
   const heightRef = useRef()
 
   /********** THEME **********/
-  const md = useMediaQuery((theme) => theme.breakpoints.down("md"))
+  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
   const xs = useMediaQuery((theme) => theme.breakpoints.down("xs"))
 
   /********** HANDLERS **********/
@@ -589,13 +590,21 @@ export default function VideoList({ height, setHeight, ...props }) {
         }}
       />
 
-      <Stack width="100%" ref={ref} padding="0 0 2rem" gap={2}>
+      <Stack
+        width="100%"
+        maxWidth="800px"
+        margin="auto"
+        ref={ref}
+        padding="0 0 2rem"
+        gap={2}
+      >
         <FilterSection ref={heightRef} handleFilter={handleFilter} />
 
         <ImageList
-          rowHeight={xs ? 150 : md ? 150 : 200}
-          gap={0}
-          cols={xs ? 1 : md ? 2 : 3}
+          // rowHeight={xs ? 150 : md ? 150 : 200}
+          rowHeight="100%"
+          gap={20}
+          cols={xs ? 1 : sm ? 2 : 3}
           sx={{
             marginBottom: "2rem",
             "& .MuiImageListItem-root": {
@@ -608,13 +617,15 @@ export default function VideoList({ height, setHeight, ...props }) {
                 if (key < limit)
                   return (
                     <motion.div
+                      key={key}
                       initial="hidden"
                       variants={variants(key)}
                       animate={controls}
                       style={{
                         width: "100%",
+                        aspectRatio: "1/1",
+                        height: "100%",
                       }}
-                      key={key}
                     >
                       <Link
                         onClick={() => {
@@ -622,16 +633,22 @@ export default function VideoList({ height, setHeight, ...props }) {
                           setOpenVideoPlayer(true)
                         }}
                         key={item.img}
+                        style={{
+                          height: "100%",
+                          display: "block",
+                          borderRadius: "100%",
+                          overflow: "hidden",
+                        }}
                       >
                         <ImageListItem
                           sx={{
                             width: "100%",
-                            height: "100%",
+                            height: "100% !important",
                             cursor: "pointer",
                             overflow: "hidden",
                             "&:hover": {
                               "& .MuiBox-root": {
-                                transform: "scale(1.1)",
+                                transform: "scale(1.05)",
                                 filter: "grayscale(1)",
                               },
                             },
@@ -646,6 +663,7 @@ export default function VideoList({ height, setHeight, ...props }) {
                             width="100%"
                             height="100%"
                             sx={{
+                              borderRadius: "100%",
                               zIndex: 0,
                               objectFit: "cover",
                               objectPosition: "50% 50%",
@@ -668,7 +686,10 @@ export default function VideoList({ height, setHeight, ...props }) {
                               msTransition: "background 200ms linear",
                               transition: "background 200ms linear",
                               padding: "1rem",
-                              background: "rgb(0, 0, 0, 0.2)",
+                              // background: "rgb(0, 0, 0, 0.2)",
+                              background: (theme) =>
+                                `linear-gradient(120deg, rgb(0, 0, 0, 0.2) 50%, rgb(0, 0, 0, 0.9) 100%)`,
+                              borderRadius: "100%",
                               "&:hover": {
                                 background: "rgb(0, 0, 0, 0.4)",
                                 "& .MuiTypography-root": {
@@ -695,42 +716,33 @@ export default function VideoList({ height, setHeight, ...props }) {
                                 justifyContent: "center",
                                 flexDirection: "column",
                                 gap: 3,
-                                fontFamily: "Helmet",
                                 fontSize: "1.5rem",
                                 textTransform: "uppercase",
                               }}
                             >
-                              <PlayArrowIcon sx={{ fontSize: "4rem" }} />
+                              <PlayCircleIcon
+                                sx={{
+                                  fontSize: "4rem",
+                                }}
+                              />
                             </Box>
-                            {/* <Typography
-                              color="secondary"
-                              fontStyle="italic"
-                              fontFamily="Ethereal"
-                              letterSpacing={1}
-                              sx={{
-                                textAlign: "center",
-                                textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
-                              }}
-                            >
-                              {item.type}
-                            </Typography> */}
                             <Typography
                               fontFamily="POPFINE"
                               color="secondary"
                               sx={{
                                 textAlign: "center",
                                 fontSize: {
-                                  xs: "1.3rem",
+                                  xs: "1.8rem",
                                   sm: "2rem",
                                   md: "2.5rem",
                                 },
                                 letterSpacing: "2px",
                                 lineHeight: {
-                                  xs: "1.3rem",
-                                  sm: "1.5rem",
+                                  xs: "1.8rem",
+                                  sm: "2rem",
                                   md: "3rem",
                                 },
-                                textShadow: "2px 2px 6px rgb(0,0,0,0.5)",
+                                textShadow: "2px 2px 10px rgb(0,0,0,0.5)",
                               }}
                             >
                               {item.title}
