@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material"
+import { Grid, Stack } from "@mui/material"
 import BodyText from "../Text/body-text"
 import CustomCard from "./custom-card"
 import styles from "../../styles/TextShine.module.css"
@@ -19,7 +19,10 @@ export default function OneActionCardsGrid(props) {
           key={key}
           sx={{ margin: { xs: "0 auto", sm: "0" } }}
         >
-          <CustomCard>
+          <CustomCard
+            background="red"
+            border={(theme) => `1px solid ${theme.palette.secondary.main}`}
+          >
             <CustomCardTitle className={styles.shine} color="#fff">
               {cardItem.icon}
             </CustomCardTitle>

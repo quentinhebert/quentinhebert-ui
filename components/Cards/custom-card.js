@@ -9,6 +9,7 @@ const Card = styled(
     padding,
     gradientOrientation,
     gap,
+    boxShadow,
     ...props
   }) => {
     return (
@@ -19,14 +20,14 @@ const Card = styled(
         borderRadius="30px"
         sx={{
           // background: (theme) => theme.palette.secondary.main,
-          // background: "transparent",
+          background: background || "transparent",
           // background ||
           // ((theme) =>
           //   `linear-gradient(to ${gradientOrientation || "left"}, ${
           //     theme.palette.secondary.main
           //   }, ${theme.palette.tersary.main})`),
-          boxShadow: (theme) => `0px 0px 20px 2px rgb(0,0,0,0.5)`,
-          // border: border || "",
+          boxShadow: boxShadow || `0px 0px 20px 2px rgb(0,0,0,0.5)`,
+          border: border || "",
           color: color || "#fff",
           // padding: padding || "2px",
           gap: { xs: 2, md: 4 },

@@ -107,6 +107,7 @@ function OrderCard({
     <CustomCard
       background={(theme) => theme.palette.background.main}
       backgroundColor="rgb(0,0,0,0.3)"
+      boxShadow="none"
       sx={{
         cursor: "pointer",
         position: "relative",
@@ -141,10 +142,10 @@ function OrderCard({
           </Typography>
         </Stack>
 
-        <SmallTitle
-          textTransform="initial"
+        <Typography
+          color="secondary"
+          fontWeight="bold"
           textAlign="left"
-          letterSpacing={0}
           lineHeight={2}
           padding={mode === MODES.GRID ? { xs: 0, sm: "0 0.5rem 0 0" } : 0}
           display="flex"
@@ -164,7 +165,7 @@ function OrderCard({
           >
             {order.label || "Sans nom"}
           </Box>
-        </SmallTitle>
+        </Typography>
 
         <Stack flexGrow={1} />
 

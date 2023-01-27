@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material"
+import { Box, Button, Stack, Typography } from "@mui/material"
 import Link from "next/link"
 import SubmitButton from "./submit-button"
 
@@ -24,27 +24,29 @@ const CssButton = (props) => (
 
 export default function EndCardButton({ href, text, onClick, icon, ...props }) {
   return (
-    <Box>
-      {href ? (
-        <Link href={href} passHref>
-          <SubmitButton>
-            <Typography
-              sx={{
-                fontSize: { xs: ".6rem", md: ".8rem" },
-              }}
-            >
+    <Stack sx={{ height: "100%", justifyContent: "end" }}>
+      <Box>
+        {href ? (
+          <Link href={href} passHref>
+            <SubmitButton>
+              <Typography
+                sx={{
+                  fontSize: { xs: ".6rem", md: ".8rem" },
+                }}
+              >
+                {text}
+              </Typography>{" "}
+              {icon}
+            </SubmitButton>
+          </Link>
+        ) : (
+          <SubmitButton onClick={onClick}>
+            <Typography sx={{ fontSize: { xs: ".6rem", md: ".8rem" } }}>
               {text}
-            </Typography>{" "}
-            {icon}
+            </Typography>
           </SubmitButton>
-        </Link>
-      ) : (
-        <SubmitButton onClick={onClick}>
-          <Typography sx={{ fontSize: { xs: ".6rem", md: ".8rem" } }}>
-            {text}
-          </Typography>
-        </SubmitButton>
-      )}
-    </Box>
+        )}
+      </Box>
+    </Stack>
   )
 }

@@ -109,7 +109,7 @@ export default function PortfolioSection(props) {
                       <BodyText
                         color="#000"
                         preventTransitionOut={desktop}
-                        linHeight="0"
+                        lineHeight="0"
                       >
                         /{tag}
                       </BodyText>

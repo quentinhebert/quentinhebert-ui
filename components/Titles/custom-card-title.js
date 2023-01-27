@@ -3,7 +3,8 @@ import { styled, Typography } from "@mui/material"
 const CardTitle = styled(({ variant, ...props }) => {
   return (
     <Typography
-      variant={variant || ""}
+      variant={variant || "h3"}
+      component="div"
       fontWeight="bold"
       display="flex"
       alignItems="center"
