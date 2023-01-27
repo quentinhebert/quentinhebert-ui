@@ -39,22 +39,21 @@ const CloseBtn = (props) => (
     </Stack>
   </Box>
 )
-
 const VideoTitle = (props) => (
   <Typography
+    variant="h1"
     className="baseline uppercase"
     color="secondary"
     letterSpacing={1}
     sx={{
-      fontSize: { xs: "1.3rem", md: "3rem" },
+      fontSize: { xs: "3rem", md: "5rem" },
       whiteSpace: "break-spaces",
       wordBreak: "break-word",
-      lineHeight: { xs: "1.5rem", md: "2.6rem" },
+      lineHeight: { xs: "2rem", md: "4rem" },
     }}
     {...props}
   />
 )
-
 const Header = ({ video }) => (
   <Stack>
     <Stack
@@ -72,20 +71,15 @@ const Header = ({ video }) => (
           fontSize={{ xs: "0.8rem", md: "1rem" }}
           textTransform="capitalize"
         >
-          {video?.year || ""}
-          {video?.year && video?.type && " – "}
           {video?.type || ""}
+          {!!video?.year && !!video?.type && ` (${video?.year})`}
+          {!!video?.year && !video?.type && ` ${video?.year}`}
         </BodyText>
       </VideoTitle>
     </Stack>
-    {video?.client && (
-      <BodyText fontFamily="Ethereal" fontWeight="bold">
-        Pour {video?.client}
-      </BodyText>
-    )}
+    {video?.client && <BodyText>Pour {video?.client}</BodyText>}
   </Stack>
 )
-
 const RenderPlayer = ({ player, videoId }) => {
   if (!player || !videoId) return <></>
 
@@ -117,41 +111,34 @@ const RenderPlayer = ({ player, videoId }) => {
 
   return <Player />
 }
-
 function arePropsEqual(prevProps, nextProps) {
   return prevProps.videoId === nextProps.videoId
 }
 // Prevent from re-rendering on window resize
 const MemoPlayer = memo((props) => <RenderPlayer {...props} />, arePropsEqual)
-
 const SectionTitle = (props) => (
   <Typography
+    variant="h2"
     color="secondary"
-    variant="h5"
     marginTop={8}
     marginBottom={1}
-    textTransform="uppercase"
-    letterSpacing={1}
+    sx={{ fontSize: { xs: "2rem", md: "3rem" } }}
     {...props}
   />
 )
-
 const Description = ({ content }) => {
   if (!content) return <></>
   return (
     <>
       <SectionTitle>Quelques mots</SectionTitle>
-      <BodyText fontFamily="Ethereal" fontWeight="bold">
-        {content}
-      </BodyText>
+      <BodyText>{content}</BodyText>
     </>
   )
 }
-
 const Pill = (props) => (
   <Box
     component="span"
-    className="bold inline-flex"
+    className="inline-flex"
     padding="0.1rem 1rem"
     margin="0.25rem"
     lineHeight="2rem"
@@ -165,18 +152,12 @@ const Pill = (props) => (
     {...props}
   />
 )
-
 const PillsList = ({ title, list }) => {
   if (!list?.length) return <></>
   return (
     <>
       <SectionTitle>{title}</SectionTitle>
-      <Typography
-        component="div"
-        color="text.white"
-        fontFamily="Ethereal"
-        marginTop={1}
-      >
+      <Typography component="div" color="text.white" marginTop={1}>
         {list.map((role, key) => (
           <Pill key={key}>{role}</Pill>
         ))}
@@ -184,7 +165,6 @@ const PillsList = ({ title, list }) => {
     </>
   )
 }
-
 const ScrollToTopBtn = (props) => (
   <Stack
     alignItems="center"
