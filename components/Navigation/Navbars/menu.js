@@ -48,8 +48,8 @@ export default function Menu(props) {
       sx={{
         zIndex: 1000,
         ".MuiPaper-root": {
-          justifyContent: "center",
-          alignItems: "center",
+          // justifyContent: "center",
+          // alignItems: "center",
           background: "#000",
         },
       }}
@@ -59,11 +59,11 @@ export default function Menu(props) {
         sx={{
           width: "100%",
         }}
-        marginTop="2rem"
+        margin="max(20vh, 80px) auto 2rem"
         justifyContent="center"
         alignItems="center"
       >
-        <Stack textAlign="right" ref={viewRef}>
+        <Stack textAlign="right" ref={viewRef} gap={2}>
           {list?.length > 0 &&
             list.map((item, key) => {
               return (
