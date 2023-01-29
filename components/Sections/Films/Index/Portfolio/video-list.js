@@ -511,19 +511,16 @@ const ImgList = (props) => {
   /********** THEME **********/
   const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
   const xs = useMediaQuery((theme) => theme.breakpoints.down("xs"))
+  const md = useMediaQuery((theme) => theme.breakpoints.down("md"))
 
   return (
     <ImageList
       // rowHeight={xs ? 150 : md ? 150 : 200}
-      rowHeight="100%"
       gap={20}
       cols={xs ? 1 : sm ? 2 : 3}
       sx={{
         padding: 2,
         marginBottom: "2rem",
-        "& .MuiImageListItem-root": {
-          marginBottom: "0 !important",
-        },
       }}
       {...props}
     />
@@ -532,10 +529,9 @@ const ImgList = (props) => {
 const ImgListItem = (props) => (
   <ImageListItem
     sx={{
-      width: "100%",
+      width: "100% !important",
       height: "100% !important",
       cursor: "pointer",
-      overflow: "hidden",
       "&:hover": {
         "& .MuiBox-root": {
           transform: "scale(1.05)",
@@ -609,7 +605,7 @@ const ClickListener = (props) => (
       display: "block",
       borderRadius: "100%",
       overflow: "hidden",
-      boxShadow: "0px 0px 20px 2px rgb(0,0,0,0.5)",
+      transform: "translateZ(0)", // Safari fix
     }}
     {...props}
   />
@@ -758,9 +754,12 @@ export default function VideoList({ height, setHeight, ...props }) {
                       variants={variants(key)}
                       animate={controls}
                       style={{
+                        position: "relative",
                         width: "100%",
                         height: "100%",
                         aspectRatio: "1/1",
+                        boxShadow: "0px 0px 20px 2px rgb(0,0,0,0.5)",
+                        borderRadius: "100%",
                       }}
                     >
                       <ClickListener
