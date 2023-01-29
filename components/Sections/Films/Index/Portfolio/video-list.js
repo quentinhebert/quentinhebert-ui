@@ -508,7 +508,7 @@ const Thumbnail = (props) => (
     {...props}
   />
 )
-const ImgList = (props) => <Grid container {...props} />
+const ImgList = (props) => <Grid container {...props} spacing="1rem" />
 
 const ImgListItem = (props) => (
   <Grid
@@ -747,7 +747,7 @@ export default function VideoList({ height, setHeight, ...props }) {
                         animate={controls}
                         style={{
                           width: "100%",
-                          height: "100%",
+                          height: "calc(100% - .5rem)",
                           overflow: "hidden",
                           borderRadius: "100%",
                           display: "block",
