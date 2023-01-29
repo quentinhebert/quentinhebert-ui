@@ -585,19 +585,6 @@ const VideoTitle = (props) => (
     {...props}
   />
 )
-const ClickListener = (props) => (
-  <Link
-    sx={{
-      // CSS to overflow hidden on (hover + scale up)
-      height: "100%",
-      display: "block",
-      borderRadius: "100%",
-      overflow: "hidden",
-      transform: "translateZ(0)", // Safari fix
-    }}
-    {...props}
-  />
-)
 
 export default function VideoList({ height, setHeight, ...props }) {
   const {} = props
