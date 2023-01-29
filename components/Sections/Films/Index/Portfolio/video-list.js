@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react"
 import {
   Box,
+  Grid,
   ImageList,
   ImageListItem,
   Link,
@@ -507,31 +508,18 @@ const Thumbnail = (props) => (
     {...props}
   />
 )
-const ImgList = (props) => {
-  /********** THEME **********/
-  const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
-  const xs = useMediaQuery((theme) => theme.breakpoints.down("xs"))
-  const md = useMediaQuery((theme) => theme.breakpoints.down("md"))
+const ImgList = (props) => <Grid container {...props} />
 
-  return (
-    <ImageList
-      // rowHeight={xs ? 150 : md ? 150 : 200}
-      gap={20}
-      cols={xs ? 1 : sm ? 2 : 3}
-      sx={{
-        padding: 2,
-        marginBottom: "2rem",
-      }}
-      {...props}
-    />
-  )
-}
 const ImgListItem = (props) => (
-  <ImageListItem
+  <Grid
+    item
+    xs={6}
+    md={4}
     sx={{
-      width: "100% !important",
-      height: "100% !important",
+      position: "relative",
       cursor: "pointer",
+      aspectRatio: "1",
+      height: "100%",
       "&:hover": {
         "& .MuiBox-root": {
           transform: "scale(1.05)",
@@ -547,15 +535,15 @@ const Overlay = (props) => (
     justifyContent="center"
     alignItems="center"
     sx={{
-      width: "100%",
       height: "100%",
+      width: "100%",
       position: "absolute",
       top: 0,
       zIndex: 100,
       WebkitTransition: "background 200ms linear",
       msTransition: "background 200ms linear",
       transition: "background 200ms linear",
-      padding: "1rem",
+      padding: ".5rem",
       background: `linear-gradient(120deg, rgb(0, 0, 0, 0.2) 50%, rgb(0, 0, 0, 0.9) 100%)`,
       borderRadius: "100%",
       "&:hover": {
@@ -748,37 +736,35 @@ export default function VideoList({ height, setHeight, ...props }) {
             ? filteredData?.map((item, key) => {
                 if (key < limit)
                   return (
-                    <motion.div
-                      key={key}
-                      initial="hidden"
-                      variants={variants(key)}
-                      animate={controls}
-                      style={{
-                        position: "relative",
-                        width: "100%",
-                        height: "100%",
-                        aspectRatio: "1/1",
-                        boxShadow: "0px 0px 20px 2px rgb(0,0,0,0.5)",
-                        borderRadius: "100%",
-                      }}
+                    <ImgListItem
+                      key={item.img}
+                      onClick={() => handleVideoClick(item)}
                     >
-                      <ClickListener
-                        key={item.img}
-                        onClick={() => handleVideoClick(item)}
+                      <motion.div
+                        key={key}
+                        initial="hidden"
+                        variants={variants(key)}
+                        animate={controls}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          overflow: "hidden",
+                          borderRadius: "100%",
+                          display: "block",
+                          transform: "translateZ(0)",
+                        }}
                       >
-                        <ImgListItem>
-                          <Thumbnail
-                            src={item.img}
-                            srcSet={item.img}
-                            alt={item.title}
-                          />
-                          <Overlay>
-                            <PlayBtn />
-                            <VideoTitle>{item.title}</VideoTitle>
-                          </Overlay>
-                        </ImgListItem>
-                      </ClickListener>
-                    </motion.div>
+                        <Thumbnail
+                          src={item.img}
+                          srcSet={item.img}
+                          alt={item.title}
+                        />
+                        <Overlay>
+                          <PlayBtn />
+                          <VideoTitle>{item.title}</VideoTitle>
+                        </Overlay>
+                      </motion.div>
+                    </ImgListItem>
                   )
               })
             : null}
