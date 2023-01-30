@@ -30,8 +30,9 @@ export default function ImageCard({
     }
   }, [controls, inView])
   const motionDivStyle = {
-    flexGrow: 1,
+    height: "100%",
     width: "100%",
+    flexGrow: 1,
   }
 
   return (

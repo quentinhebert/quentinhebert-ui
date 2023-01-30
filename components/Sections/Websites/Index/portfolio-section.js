@@ -27,9 +27,50 @@ const ProjectClient = (props) => (
     {...props}
   />
 )
-const Pictures = ({ data = { thumbnail_url } }) => (
-  <Grid item xs={0} lg={6} sx={{ display: { xs: "none", lg: "flex" } }}>
-    <ImageCard img={data.thumbnail_url} preventTransitionOut />
+const Thumbnail = ({ active, ...props }) => (
+  <Box
+    component="img"
+    width="25%"
+    height="6rem"
+    sx={{
+      objectFit: "cover",
+      objectPosition: "50%",
+      filter: active ? "" : `brightness(0.4)`,
+      cursor: active ? "default" : `pointer`,
+      transition: ".2s ease-in-out",
+      "&:hover": {
+        filter: active ? "" : `brightness(0.8)`,
+      },
+    }}
+    {...props}
+  />
+)
+const Pictures = ({ thumbnail_url }) => (
+  <Grid
+    item
+    xs={0}
+    lg={6}
+    sx={{
+      display: { xs: "none", lg: "flex" },
+      flexDirection: "column",
+    }}
+  >
+    <Stack gap={2} height="100%">
+      <ImageCard img={thumbnail_url} preventTransitionOut minHeight="0px" />
+
+      <Stack
+        sx={{
+          flexDirection: "row",
+          borderRadius: "20px",
+          overflow: "hidden",
+        }}
+      >
+        <Thumbnail src={thumbnail_url} active />
+        <Thumbnail src={thumbnail_url} />
+        <Thumbnail src={thumbnail_url} />
+        <Thumbnail src={thumbnail_url} />
+      </Stack>
+    </Stack>
   </Grid>
 )
 
@@ -53,11 +94,10 @@ export default function PortfolioSection(props) {
     <Stack
       sx={{
         position: "relative",
-        background: (theme) =>
-          `linear-gradient(120deg, #000 0%, #151210 50%, #000 100%)`,
+        background: `linear-gradient(120deg, #000 0%, #151210 50%, #000 100%)`,
       }}
     >
-      <Stack ref={topRef} />
+      <Stack ref={topRef} sx={{ scrollMarginTop: "60px" }} />
 
       <CenteredMaxWidthContainer
         percents="80%"
@@ -79,7 +119,7 @@ export default function PortfolioSection(props) {
           {data.map((website, key) => (
             <>
               {key % 2 === 0 && (
-                <Pictures data={{ thumbnail_url: website.thumbnail_url }} />
+                <Pictures thumbnail_url={website.thumbnail_url} />
               )}
 
               <Grid
@@ -161,7 +201,7 @@ export default function PortfolioSection(props) {
               </Grid>
 
               {key % 2 !== 0 && (
-                <Pictures data={{ thumbnail_url: website.thumbnail_url }} />
+                <Pictures thumbnail_url={website.thumbnail_url} />
               )}
             </>
           ))}
