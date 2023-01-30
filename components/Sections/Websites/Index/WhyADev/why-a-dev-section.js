@@ -1,15 +1,14 @@
-import { Box, Stack, Typography } from "@mui/material"
-import styles from "../../../../../styles/TextShine.module.css"
+import { Box, Stack } from "@mui/material"
 import SwipeableViews from "../../../../Other/SwipeableViews"
 import { useContext, useEffect, useState } from "react"
 import Stepper from "../../../../Navigation/stepper"
-import SwipeIcon from "@mui/icons-material/Swipe"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { WebsitesHomePageContext } from "../../../../../contexts/PagesContexts"
 import { fetchers } from "../../../../../services/public-fetchers"
 import useSWR from "swr"
 import { formatDescription, formatTitle, ParseJsx } from "./why-a-dev--style"
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 
 const Step = ({ slide }) => (
   <Stack alignItems="center" justifyContent="center">
@@ -18,6 +17,46 @@ const Step = ({ slide }) => (
     <ParseJsx jsx={formatDescription(slide.description)} />
   </Stack>
 )
+const ArrowBtn = ({ left, right, index, steps, ...props }) => {
+  const hasPrevious = !!left && index !== 0
+  const hasNext = !!right && index < steps.length - 1
+  return (
+    <Stack
+      sx={{
+        background: "transparent",
+        boxShadow: (theme) =>
+          `0px 0px 30px 1px ${theme.palette.secondary.main}`,
+        position: "absolute",
+        top: "50%",
+        right: right ? "2rem" : "",
+        left: left ? "2rem" : "",
+        width: "50px",
+        height: "50px",
+        borderRadius: "100%",
+        textAlign: "center",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "#000",
+        cursor: "pointer",
+        rotate: !!left ? "180deg" : "",
+        opacity: hasPrevious || hasNext ? 1 : 0,
+        pointerEvents: hasPrevious || hasNext ? "auto" : "none",
+        transition: ".4s ease-in-out",
+        "& .MuiSvgIcon-root": {
+          transition: ".2s ease-in-out",
+        },
+        "&:hover": {
+          "& .MuiSvgIcon-root": {
+            translate: "5px",
+          },
+        },
+      }}
+      {...props}
+    >
+      <ArrowRightAltIcon color="secondary" />
+    </Stack>
+  )
+}
 
 const Caroussel = () => {
   /********* StaticProps cached at build time **********/
@@ -68,9 +107,17 @@ const Caroussel = () => {
     alignItems: "center",
     justifyContent: "center",
   }
+  function handleNext() {
+    if (index === WhySteps.length - 1) return
+    return setIndex(index + 1)
+  }
+  function handlePrevious() {
+    if (index === 0) return
+    return setIndex(index - 1)
+  }
 
   return (
-    <Stack ref={ref} gap={2}>
+    <Stack ref={ref} gap={2} position="relative">
       <SwipeableViews
         index={index}
         disableLazyLoading
@@ -106,26 +153,14 @@ const Caroussel = () => {
         ))}
       </SwipeableViews>
 
-      <Stack
-        marginTop="2rem"
-        alignItems="center"
-        justifyContent="center"
-        sx={{ color: (theme) => theme.palette.text.white }}
-        flexDirection="row"
-        gap={1}
-        className={styles.shine}
-      >
-        <SwipeIcon />
-        <Typography fontStyle="italic" letterSpacing={1} fontSize=".8rem">
-          Faire défiler
-        </Typography>
-      </Stack>
-
       <Stepper
         totalSteps={WhySteps.length}
         activeStep={index}
         setActiveStep={setIndex}
       />
+
+      <ArrowBtn left onClick={handlePrevious} index={index} steps={WhySteps} />
+      <ArrowBtn right onClick={handleNext} index={index} steps={WhySteps} />
     </Stack>
   )
 }
@@ -174,10 +209,9 @@ export default function WhyADevSection(props) {
         sx={{
           width: "100%",
           height: "100%",
-          // background: "#000",
           background: (theme) =>
             `linear-gradient(${theme.palette.secondary.main} 0%, #000 70%)`,
-          padding: { xs: "1rem", md: "6rem" },
+          padding: { xs: "1rem", md: "10rem" },
         }}
       >
         <Stack
