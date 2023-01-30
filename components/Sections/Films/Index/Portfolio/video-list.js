@@ -1,14 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react"
-import {
-  Box,
-  Grid,
-  ImageList,
-  ImageListItem,
-  Link,
-  Stack,
-  Typography,
-  useMediaQuery,
-} from "@mui/material"
+import { Box, Container, Grid, Stack, Typography } from "@mui/material"
 import VideoPlayer from "../../../../Modals/video-player"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
@@ -482,6 +473,7 @@ const PlayBtn = () => (
       gap: 3,
       fontSize: "1.5rem",
       textTransform: "uppercase",
+      transition: ".1s ease-in-out",
     }}
   >
     <PlayCircleIcon
@@ -501,9 +493,9 @@ const Thumbnail = (props) => (
       zIndex: 0,
       objectFit: "cover",
       objectPosition: "50% 50%",
-      WebkitTransition: "transform 0.4s ease-in-out",
-      msTransition: "transform 0.4s ease-in-out",
-      transition: "transform 0.4s ease-in-out, filter 0.4s ease-in-out",
+      WebkitTransition: ".4s ease-in-out",
+      msTransition: ".4s ease-in-out",
+      transition: ".4s ease-in-out",
     }}
     {...props}
   />
@@ -520,10 +512,23 @@ const ImgListItem = (props) => (
       cursor: "pointer",
       aspectRatio: "1",
       height: "100%",
+      borderRadius: "100%",
       "&:hover": {
         "& .MuiBox-root": {
           transform: "scale(1.05)",
           filter: "grayscale(1)",
+        },
+        "& .MuiContainer-root": {
+          background: "rgb(0, 0, 0, 0.4)",
+          "& .MuiTypography-root": {
+            opacity: 0,
+            textShadow: "none",
+          },
+          "& .MuiBox-root": {
+            textShadow: "none",
+            filter: "none",
+            opacity: 1,
+          },
         },
       },
     }}
@@ -531,34 +536,19 @@ const ImgListItem = (props) => (
   />
 )
 const Overlay = (props) => (
-  <Stack
-    justifyContent="center"
-    alignItems="center"
+  <Container
     sx={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
       height: "100%",
       width: "100%",
       position: "absolute",
       top: 0,
       zIndex: 100,
-      WebkitTransition: "background 200ms linear",
-      msTransition: "background 200ms linear",
-      transition: "background 200ms linear",
       padding: ".5rem",
       background: `linear-gradient(120deg, rgb(0, 0, 0, 0.2) 50%, rgb(0, 0, 0, 0.9) 100%)`,
       borderRadius: "100%",
-      "&:hover": {
-        background: "rgb(0, 0, 0, 0.4)",
-        "& .MuiTypography-root": {
-          opacity: 0,
-          textShadow: "none",
-        },
-        "& .MuiBox-root": {
-          textShadow: "none",
-          filter: "none",
-          opacity: 1,
-          transition: "opacity 0.4s ease-in-out",
-        },
-      },
     }}
     {...props}
   />
@@ -581,6 +571,7 @@ const VideoTitle = (props) => (
         md: "3rem",
       },
       textShadow: "2px 2px 10px rgb(0,0,0,0.5)",
+      transition: ".1s ease-in-out",
     }}
     {...props}
   />
