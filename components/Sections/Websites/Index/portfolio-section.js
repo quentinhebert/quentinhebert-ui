@@ -151,6 +151,7 @@ export default function PortfolioSection(props) {
                       textTransform="capitalize"
                       gap={1}
                       fontFamily="trophy"
+                      fontSize={{ xs: ".6rem", md: "1rem" }}
                     >
                       Accéder au site
                       <OpenInNewIcon />
