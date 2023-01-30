@@ -105,7 +105,7 @@ const Caroussel = ({ services }) => {
         className={styles.shine}
       >
         <SwipeIcon sx={{ rotate: "180deg" }} />
-        <Typography fontStyle="italic" letterSpacing={1}>
+        <Typography fontStyle="italic" letterSpacing={1} fontSize=".8rem">
           Faire défiler
         </Typography>
       </Stack>

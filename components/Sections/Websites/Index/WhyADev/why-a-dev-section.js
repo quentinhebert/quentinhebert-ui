@@ -116,7 +116,7 @@ const Caroussel = () => {
         className={styles.shine}
       >
         <SwipeIcon />
-        <Typography fontStyle="italic" letterSpacing={1}>
+        <Typography fontStyle="italic" letterSpacing={1} fontSize=".8rem">
           Faire défiler
         </Typography>
       </Stack>

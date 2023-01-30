@@ -34,7 +34,7 @@ export default function SwipeableViewsReadyToUse({
           sx={{ color: (theme) => theme.palette.text.white }}
         >
           <SwipeIcon />
-          <Typography fontStyle="italic" letterSpacing={1}>
+          <Typography fontStyle="italic" letterSpacing={1} fontSize=".8rem">
             Faire défiler
           </Typography>
         </Stack>
