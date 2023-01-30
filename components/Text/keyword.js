@@ -6,8 +6,8 @@ export default function Keyword(props) {
       component="span"
       sx={{
         color: (theme) => `${theme.palette.text.secondary} !important`,
-        fontStyle: "italic",
-        fontSize: { xs: "1.2rem", md: "1.4rem" },
+        // fontStyle: "italic",
+        fontSize: { xs: "1.1rem", md: "1.2rem" },
       }}
       {...props}
     />

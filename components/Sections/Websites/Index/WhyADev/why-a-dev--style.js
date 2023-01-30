@@ -30,7 +30,7 @@ export function formatTitle(htmlString) {
 export function formatDescription(htmlString) {
   let formattedString = htmlString
     .replaceAll("<p", "<BodyText")
-    .replaceAll("p>", "BodyText><br />")
+    .replaceAll("p>", "BodyText><br /><br />")
     .replaceAll("<strong", "<Keyword")
     .replaceAll("strong>", "Keyword>")
     .replaceAll("<br>", "<br />")

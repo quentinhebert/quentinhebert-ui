@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import styles from "../../../../../styles/TextShine.module.css"
 import SwipeableViews from "../../../../Other/SwipeableViews"
 import { useContext, useEffect, useState } from "react"
@@ -130,19 +130,76 @@ const Caroussel = () => {
   )
 }
 
+const BrowserNav = () => (
+  <Stack
+    sx={{
+      padding: 2,
+      background: (theme) => theme.palette.background.main,
+    }}
+  >
+    <Stack flexDirection="row" gap={1}>
+      <Box
+        width="20px"
+        height="20px"
+        bgcolor="red"
+        sx={{ borderRadius: "100%" }}
+      />
+      <Box
+        width="20px"
+        height="20px"
+        bgcolor="orange"
+        sx={{ borderRadius: "100%" }}
+      />
+      <Box
+        width="20px"
+        height="20px"
+        bgcolor="green"
+        sx={{ borderRadius: "100%" }}
+      />
+    </Stack>
+  </Stack>
+)
+
 export default function WhyADevSection(props) {
   const { topRef } = props
 
   return (
     <Stack
-      height="101vh"
-      minHeight="600px"
       justifyContent="center"
       ref={topRef}
+      position="relative"
       sx={{ scrollMarginTop: -1 }}
     >
-      <Stack padding="0rem 1rem" gap="1rem">
-        <Caroussel />
+      <Stack
+        sx={{
+          width: "100%",
+          height: "100%",
+          // background: "#000",
+          background: (theme) =>
+            `linear-gradient(${theme.palette.secondary.main} 0%, #000 70%)`,
+          padding: { xs: "1rem", md: "6rem" },
+        }}
+      >
+        <Stack
+          sx={{
+            height: "100%",
+            borderRadius: "1rem",
+            overflow: "hidden",
+            background: (theme) => theme.palette.background.main,
+          }}
+        >
+          <BrowserNav />
+
+          <Stack
+            sx={{
+              padding: "2rem 0",
+              background:
+                "linear-gradient( rgb(0,0,0,0.9) 0%, rgb(0,0,0,0.7) 100%)",
+            }}
+          >
+            <Caroussel />
+          </Stack>
+        </Stack>
       </Stack>
     </Stack>
   )

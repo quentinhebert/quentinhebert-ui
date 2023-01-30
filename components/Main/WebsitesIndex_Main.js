@@ -19,23 +19,16 @@ export default function WebsitesIndexLayout(props) {
 
   return (
     <>
-      {/* Fixed Background for the page */}
-      <FixedBackground
-        background={(theme) =>
-          `url(/medias/code.svg), radial-gradient(${theme.palette.background.main} 0%, #000 50%)`
-        }
-      />
-
       {/* HERO */}
       <HeroSection refsForScroll={refsForScroll} />
-
-      {/* WHY A DEV */}
-      <WhyADevSection topRef={refsForScroll.whyADev} />
 
       {/* PORTFOLIO */}
       <PortfolioSection topRef={refsForScroll.portfolio} />
 
       {/* <WebsiteFocusPart refsForScroll={refsForScroll} /> */}
+
+      {/* WHY A DEV */}
+      <WhyADevSection topRef={refsForScroll.whyADev} />
 
       <ContactSection defaultService="website" />
     </>

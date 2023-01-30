@@ -10,6 +10,7 @@ export default function FixedBackground({ url, background }) {
         sx={{
           background: background,
           backgroundSize: "cover",
+          backgroundPosition: "50%",
         }}
       />
     )
@@ -21,6 +22,7 @@ export default function FixedBackground({ url, background }) {
       sx={{
         backgroundImage: url,
         backgroundSize: "cover",
+        backgroundPosition: "50%",
       }}
     />
   )
