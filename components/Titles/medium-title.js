@@ -49,7 +49,7 @@ export default function MediumTitle({ preventTransitionOut, ...props }) {
               sm: "9w",
               md: "7vw",
             },
-            paddingRight: "1%",
+            padding: "0 .5rem",
           }}
           {...props}
         />
