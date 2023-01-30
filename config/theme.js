@@ -104,6 +104,15 @@ const mainTheme = createTheme({
       ],
     },
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 700,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
 })
 
 const lightTheme = createTheme({
@@ -117,6 +126,8 @@ const lightTheme = createTheme({
     },
   },
 })
+
+mainTheme.breakpoints.values.md = 780
 
 export { lightTheme }
 export default mainTheme
