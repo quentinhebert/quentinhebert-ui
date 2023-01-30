@@ -23,8 +23,9 @@ export default function ReferencesSection(props) {
   /********** STYLE **********/
   const md = useMediaQuery(theme.breakpoints.down("md"))
   const sm = useMediaQuery(theme.breakpoints.down("sm"))
+  const lg = useMediaQuery(theme.breakpoints.down("lg"))
 
-  const noOfCards = md ? (sm ? 3 : 4) : 6
+  const noOfCards = lg ? (sm ? 3 : 4) : 6
 
   const ReferencesImgList = () => {
     if (!references.length) return <></>

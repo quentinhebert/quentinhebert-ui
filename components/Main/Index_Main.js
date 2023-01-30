@@ -23,30 +23,24 @@ export default function Index_Main(props) {
   }
 
   return (
-    <>
-      <ParallaxProvider>
-        <Stack flexGrow={1}>
-          {/* HERO */}
-          <HeroSection
-            scrollTo={scrollTo}
-            refForScroll={refsForScroll.welcome}
-          />
+    <ParallaxProvider>
+      <Stack flexGrow={1}>
+        {/* HERO */}
+        <HeroSection scrollTo={scrollTo} refForScroll={refsForScroll.welcome} />
 
-          {/* INTRODUCTION */}
-          <WelcomeSection
-            scrollTo={scrollTo}
-            topRef={refsForScroll.welcome}
-            refForScroll={refsForScroll.services}
-          />
+        {/* INTRODUCTION */}
+        <WelcomeSection
+          scrollTo={scrollTo}
+          topRef={refsForScroll.welcome}
+          refForScroll={refsForScroll.services}
+        />
 
-          {/* SERVICES */}
-          <ServicesSection refForScroll={refsForScroll.services} />
+        {/* SERVICES */}
+        <ServicesSection refForScroll={refsForScroll.services} />
 
-          {/* REFERENCES */}
-          <ReferencesSection />
-        </Stack>
-      </ParallaxProvider>
-      <BodyText fontSize=".5rem">Test</BodyText>
-    </>
+        {/* REFERENCES */}
+        <ReferencesSection />
+      </Stack>
+    </ParallaxProvider>
   )
 }

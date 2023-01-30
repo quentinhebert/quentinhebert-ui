@@ -61,6 +61,7 @@ export default function PortfolioSection(props) {
 
       <CenteredMaxWidthContainer
         percents="80%"
+        pixels="1200px"
         margin="5rem auto"
         sx={{ gap: { xs: "3rem", lg: "5rem" } }}
       >

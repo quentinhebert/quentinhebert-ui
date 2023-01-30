@@ -47,7 +47,7 @@ export default class AutoPlayCarousel extends React.Component {
                 src={ref.logo_url}
                 alt={ref.label}
                 sx={{
-                  width: { xs: "5rem", md: "7rem", lg: "6rem" },
+                  width: { xs: "5rem", md: "6rem" },
                   filter: "grayscale(100%)",
                   "&:hover": { filter: "grayscale(0)" },
                 }}
