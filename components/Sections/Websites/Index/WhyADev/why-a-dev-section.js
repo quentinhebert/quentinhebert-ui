@@ -23,11 +23,13 @@ const ArrowBtn = ({ left, right, index, steps, ...props }) => {
   return (
     <Stack
       sx={{
+        display: { xs: "none", md: "flex" },
         background: "transparent",
         boxShadow: (theme) =>
           `0px 0px 30px 1px ${theme.palette.secondary.main}`,
         position: "absolute",
         top: "50%",
+        translate: "0 -25%",
         right: right ? "2rem" : "",
         left: left ? "2rem" : "",
         width: "50px",
@@ -115,6 +117,14 @@ const Caroussel = () => {
     if (index === 0) return
     return setIndex(index - 1)
   }
+  // Auto swipe to tease second slide (when element is in viewport)
+  useEffect(() => {
+    if (index === 0 && inView) {
+      setTimeout(() => {
+        setIndex(1)
+      }, 10000)
+    }
+  }, [inView])
 
   return (
     <Stack ref={ref} gap={2} position="relative">
@@ -145,7 +155,7 @@ const Caroussel = () => {
               value={0}
               alignItems="center"
               justifyContent="center"
-              sx={{ width: "90%" }}
+              sx={{ width: { xs: "80%", lg: "90%" } }}
             >
               {step}
             </Stack>
@@ -211,7 +221,13 @@ export default function WhyADevSection(props) {
           height: "100%",
           background: (theme) =>
             `linear-gradient(${theme.palette.secondary.main} 0%, #000 70%)`,
-          padding: { xs: "1rem", md: "10rem" },
+          padding: {
+            xs: "1rem",
+            sm: "2rem",
+            md: "4rem",
+            lg: "8rem",
+            xl: "10rem",
+          },
         }}
       >
         <Stack
