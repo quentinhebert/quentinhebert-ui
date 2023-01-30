@@ -18,6 +18,8 @@ export default function PillButton({
   boxShadow,
   scaleUpOnHover,
   borderRadius,
+  fontFamily,
+  gap,
   ...props
 }) {
   /********** ANIMATION **********/
@@ -62,6 +64,8 @@ export default function PillButton({
             textTransform: textTransform || "uppercase",
             transition: "transform 0.2s ease-in-out",
             // letterSpacing: 1,
+            fontFamily: fontFamily || "",
+            gap: gap || 0,
             "&:hover": {
               background:
                 background || ((theme) => theme.palette.secondary.main),

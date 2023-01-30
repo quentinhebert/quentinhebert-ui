@@ -1,5 +1,5 @@
 import styles from "../../../../styles/TextShine.module.css"
-import { Box, Stack, Typography, useMediaQuery } from "@mui/material"
+import { Box, Grid, Stack, Typography, useMediaQuery } from "@mui/material"
 import OpenInNewIcon from "@mui/icons-material/OpenInNew"
 import { useContext } from "react"
 import { WebsitesHomePageContext } from "../../../../contexts/PagesContexts"
@@ -10,13 +10,28 @@ import PillButton from "../../../Buttons/pill-button"
 import Pill from "../../../Text/pill"
 import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
 import MediumTitle from "../../../Titles/medium-title"
-import GradientTitleCard from "../../../Titles/gradient-title-card"
 import BodyText from "../../../Text/body-text"
 
 import dynamic from "next/dynamic"
+import Link from "next/link"
 const ImageCard = dynamic(() => import("../../../Cards/image-card"), {
   ssr: false,
 })
+
+const ProjectClient = (props) => (
+  <Typography
+    variant="h3"
+    className={styles.shine}
+    color="#fff"
+    padding="0 .5rem"
+    {...props}
+  />
+)
+const Pictures = ({ data = { thumbnail_url } }) => (
+  <Grid item xs={0} lg={6} sx={{ display: { xs: "none", lg: "flex" } }}>
+    <ImageCard img={data.thumbnail_url} preventTransitionOut />
+  </Grid>
+)
 
 export default function PortfolioSection(props) {
   const { topRef } = props
@@ -35,139 +50,111 @@ export default function PortfolioSection(props) {
   const desktop = useMediaQuery((theme) => theme.breakpoints.up("lg"))
 
   return (
-    <Stack
-      position="relative"
-      sx={{
-        background: (theme) =>
-          // `linear-gradient(220deg, ${theme.palette.tersary.main} 10%, ${theme.palette.background.secondary} 100%)`,
-          // `linear-gradient(220deg, #000 10%, ${theme.palette.background.secondary} 100%)`,
-          `#000`,
-      }}
-    >
+    <CenteredMaxWidthContainer percents="80%" sx={{ background: "#000" }}>
       <Stack ref={topRef} />
 
-      <Stack margin="5rem 0" sx={{ gap: { xs: 2, lg: 10 } }}>
+      <Stack margin="5rem 0" sx={{ gap: { xs: "3rem", lg: "5rem" } }}>
         <MediumTitle preventTransitionOut={desktop} textAlign="center">
           Mes projets web
         </MediumTitle>
 
-        <Stack sx={{ gap: { xs: "4rem", lg: 15 } }}>
+        <Grid
+          container
+          rowSpacing={{ xs: 12, lg: 16 }}
+          columnSpacing={{ xs: 0, lg: 4 }}
+          width="100%"
+          alignSelf="center"
+        >
           {data.map((website, key) => (
-            <CenteredMaxWidthContainer pixels="1200px" percents="80%" key={key}>
-              <Stack
-                zIndex={1}
-                flexDirection={
-                  key % 2 === 0
-                    ? { xs: "column", lg: "row" }
-                    : { xs: "column", lg: "row-reverse" }
-                }
-                sx={{
-                  alignItems: "stretch",
-                  flexWrap: "wrap",
-                  justifyContent: "center",
-                  gap: { xs: "10rem", lg: "2rem" },
-                }}
+            <>
+              {key % 2 === 0 && (
+                <Pictures data={{ thumbnail_url: website.thumbnail_url }} />
+              )}
+
+              <Grid
+                item
+                xs={0}
+                lg={6}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                textAlign="center"
+                gap={2}
               >
-                <Stack
-                  sx={{
-                    width: { xs: "100%", lg: "calc(50% - 2rem)" },
-                    display: { xs: "none", lg: "flex" },
-                    justifyContent: "center",
-                  }}
-                >
-                  <ImageCard img={website.thumbnail_url} preventTransitionOut />
-                </Stack>
+                <ProjectClient>{website.client}</ProjectClient>
 
-                <Stack
-                  zIndex={3}
-                  alignItems="center"
-                  textAlign="center"
-                  gap={2}
-                  sx={{ width: { xs: "100%", lg: "calc(50% - 2rem)" } }}
-                >
-                  <Typography
-                    variant="h3"
-                    className={styles.shine}
-                    color="#fff"
-                    padding="0 .5rem"
-                  >
-                    {website.client}
-                  </Typography>
-
-                  <Box component="span" textAlign="center">
-                    {website.tags.map((tag, key) => (
-                      <Pill
-                        animDelay={key}
-                        key={key}
-                        preventTransitionOut={desktop}
-                        lineHeight={0}
-                        padding={{ xs: ".1rem 1rem", lg: "0rem .75rem" }}
-                      >
-                        <BodyText
-                          color="#000"
-                          preventTransitionOut={desktop}
-                          textTransform="initial"
-                          fontSize=".8rem"
-                        >
-                          /{tag}
-                        </BodyText>
-                      </Pill>
-                    ))}
-                  </Box>
-
-                  <Stack sx={{ width: { xs: "100%", lg: "49%" } }}>
-                    <ImageCard
-                      img={website.thumbnail_url}
-                      display={{ xs: "flex", lg: "none" }}
-                      width={{ xs: "100%", lg: "49%" }}
-                      minHeight={{ xs: "200px", sm: "400px" }}
-                    />
-                  </Stack>
-
-                  <BodyText preventTransitionOut={desktop} textAlign="justify">
-                    {website.description}
-                  </BodyText>
-
-                  <Stack className="full-width" alignItems="end">
-                    <BodyText
+                <Box component="span" textAlign="center">
+                  {website.tags.map((tag, key) => (
+                    <Pill
+                      animDelay={key}
+                      key={key}
                       preventTransitionOut={desktop}
-                      className={styles.shine}
+                      lineHeight={0}
+                      padding={{ xs: ".1rem 1rem", lg: "0rem .75rem" }}
                     >
-                      – Réalisé en {website.year}
-                    </BodyText>
-                  </Stack>
+                      <BodyText
+                        color="#000"
+                        preventTransitionOut={desktop}
+                        textTransform="initial"
+                        fontSize=".8rem"
+                      >
+                        /{tag}
+                      </BodyText>
+                    </Pill>
+                  ))}
+                </Box>
 
-                  <ScaleUpOnHoverStack>
-                    <PillButton
-                      background={(theme) =>
-                        // `linear-gradient(10deg, ${theme.palette.tersary.main} 0%, ${theme.palette.background.secondary} 100%)`
-                        theme.palette.background.secondary
-                      }
-                    >
-                      <Stack className="row flex-center" gap={1}>
-                        <Box
-                          component="a"
-                          target="_blank"
-                          textTransform="capitalize"
-                          fontFamily="trophy"
-                          href={
-                            website.url.startsWith("https")
-                              ? website.url
-                              : `https://${website.url}`
-                          }
-                        >
-                          Accéder au site
-                        </Box>
-                        <OpenInNewIcon />
-                      </Stack>
-                    </PillButton>
-                  </ScaleUpOnHoverStack>
+                <Stack width="100%">
+                  <ImageCard
+                    img={website.thumbnail_url}
+                    display={{ xs: "flex", lg: "none" }}
+                    minHeight={{ xs: "200px", md: "300px" }}
+                  />
                 </Stack>
-              </Stack>
-            </CenteredMaxWidthContainer>
+
+                <BodyText preventTransitionOut={desktop} textAlign="justify">
+                  {website.description}
+                </BodyText>
+
+                <Stack className="full-width" alignItems="end">
+                  <BodyText
+                    preventTransitionOut={desktop}
+                    className={styles.shine}
+                  >
+                    – Réalisé en {website.year}
+                  </BodyText>
+                </Stack>
+
+                <ScaleUpOnHoverStack>
+                  <Link
+                    href={
+                      website.url.startsWith("https")
+                        ? website.url
+                        : `https://${website.url}`
+                    }
+                    target="_blank"
+                    passHref
+                  >
+                    <PillButton
+                      background={(theme) => theme.palette.background.secondary}
+                      textTransform="capitalize"
+                      gap={1}
+                      fontFamily="trophy"
+                    >
+                      Accéder au site
+                      <OpenInNewIcon />
+                    </PillButton>
+                  </Link>
+                </ScaleUpOnHoverStack>
+              </Grid>
+
+              {key % 2 !== 0 && (
+                <Pictures data={{ thumbnail_url: website.thumbnail_url }} />
+              )}
+            </>
           ))}
-        </Stack>
+        </Grid>
       </Stack>
-    </Stack>
+    </CenteredMaxWidthContainer>
   )
 }
