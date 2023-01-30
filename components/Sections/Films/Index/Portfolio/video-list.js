@@ -725,7 +725,7 @@ export default function VideoList({ height, setHeight, ...props }) {
                         animate={controls}
                         style={{
                           width: "100%",
-                          height: "calc(100% - .5rem)",
+                          height: "calc(100% - 1rem)",
                           overflow: "hidden",
                           borderRadius: "100%",
                           display: "block",
