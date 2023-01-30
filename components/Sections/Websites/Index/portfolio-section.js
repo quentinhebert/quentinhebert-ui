@@ -50,10 +50,20 @@ export default function PortfolioSection(props) {
   const desktop = useMediaQuery((theme) => theme.breakpoints.up("lg"))
 
   return (
-    <CenteredMaxWidthContainer percents="80%" sx={{ background: "#000" }}>
+    <Stack
+      sx={{
+        position: "relative",
+        background: (theme) =>
+          `linear-gradient(120deg, #000 0%, #151210 50%, #000 100%)`,
+      }}
+    >
       <Stack ref={topRef} />
 
-      <Stack margin="5rem 0" sx={{ gap: { xs: "3rem", lg: "5rem" } }}>
+      <CenteredMaxWidthContainer
+        percents="80%"
+        margin="5rem auto"
+        sx={{ gap: { xs: "3rem", lg: "5rem" } }}
+      >
         <MediumTitle preventTransitionOut={desktop} textAlign="center">
           Mes projets web
         </MediumTitle>
@@ -154,7 +164,7 @@ export default function PortfolioSection(props) {
             </>
           ))}
         </Grid>
-      </Stack>
-    </CenteredMaxWidthContainer>
+      </CenteredMaxWidthContainer>
+    </Stack>
   )
 }

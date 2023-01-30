@@ -2,12 +2,12 @@ import { Stack, Typography } from "@mui/material"
 import { styled } from "@mui/system"
 
 const Container = styled((props) => {
-  const { pixels, percents, flexDirection, gap } = props
+  const { pixels, percents, flexDirection, gap, margin } = props
 
   return (
     <Stack
       maxWidth={pixels || "880px"}
-      margin="auto"
+      margin={margin || "auto"}
       zIndex={1}
       sx={{
         width: percents || { xs: "100%", sm: "80%" },
@@ -19,7 +19,7 @@ const Container = styled((props) => {
 })(() => ({}))
 
 export default function CenteredMaxWidthContainer(
-  props = { pixels, percents, flexDirection, gap }
+  props = { pixels, percents, flexDirection, gap, margin }
 ) {
   return <Container {...props} />
 }
