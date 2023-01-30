@@ -207,7 +207,7 @@ export default function HeroSection(props) {
         <BouncingArrow
           text=""
           scrollTo={scrollTo}
-          refForScroll={refsForScroll.whyADev}
+          refForScroll={refsForScroll.portfolio}
         />
       </Stack>
     </Stack>
