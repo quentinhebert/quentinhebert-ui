@@ -102,7 +102,7 @@ export default function PortfolioSection(props) {
       <CenteredMaxWidthContainer
         percents="80%"
         pixels="1200px"
-        margin="5rem auto"
+        margin="5rem auto 10rem"
         sx={{ gap: { xs: "3rem", lg: "5rem" } }}
       >
         <MediumTitle preventTransitionOut={desktop} textAlign="center">
@@ -111,8 +111,8 @@ export default function PortfolioSection(props) {
 
         <Grid
           container
-          rowSpacing={{ xs: 12, lg: 16 }}
-          columnSpacing={{ xs: 0, lg: 4 }}
+          rowSpacing={{ xs: 12, lg: 25 }}
+          columnSpacing={{ xs: 0, lg: 8 }}
           width="100%"
           alignSelf="center"
         >
