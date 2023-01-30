@@ -50,7 +50,7 @@ const CTAIsland = ({ ...props }) => (
     initial={{ opacity: 0, y: -5 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 0.5, duration: 1 }}
-    style={{ margin: "2rem 0" }}
+    style={{ margin: "2rem 0", display: "flex", width: "100%" }}
   >
     <Stack
       margin="auto"
@@ -132,13 +132,15 @@ export default function HeroSection(props) {
         height: "100vh",
         minHeight: "-webkit-fill-available",
         marginTop: "-82px",
-        minHeight: "650px",
+        minHeight: "600px",
         background:
           "linear-gradient(#000 0%, transparent 40%, #000 100%), url(/medias/film_grain.jpg)",
         backgroundSize: "cover",
         zIndex: 1,
         overflow: "hidden",
         padding: "8rem 2.5rem 2rem",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <Stack component="h1">
@@ -183,7 +185,9 @@ export default function HeroSection(props) {
         <CTAButton label="Web" href="/websites" delay={1} />
       </CTAIsland>
 
-      <BouncingArrow scrollTo={scrollTo} refForScroll={refForScroll} />
+      <Stack marginTop={4}>
+        <BouncingArrow scrollTo={scrollTo} refForScroll={refForScroll} />
+      </Stack>
     </Stack>
   )
 }
