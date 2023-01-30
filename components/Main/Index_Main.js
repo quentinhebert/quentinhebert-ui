@@ -5,7 +5,6 @@ import WelcomeSection from "../Sections/Homepage/welcome-section"
 import ServicesSection from "../Sections/Homepage/services-section"
 import ReferencesSection from "../Sections/Homepage/references-section"
 import { ParallaxProvider } from "react-scroll-parallax"
-import BodyText from "../Text/body-text"
 
 export default function Index_Main(props) {
   const {} = props
