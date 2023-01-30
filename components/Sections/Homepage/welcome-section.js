@@ -133,7 +133,12 @@ export default function WelcomeSection(props) {
               initial="hidden"
               variants={textVariant(0)}
             >
-              <Typography variant="h2" fontFamily="POPFINE" color="secondary">
+              <Typography
+                variant="h2"
+                fontFamily="POPFINE"
+                color="secondary"
+                lineHeight={{ xs: "10vw", md: "6vw" }}
+              >
                 <span style={{ color: "#FFF" }}>Créons</span> ensemble,{" "}
                 <span style={{ color: "#FFF" }}>voyons</span> plus loin
               </Typography>
