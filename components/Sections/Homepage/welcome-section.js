@@ -54,7 +54,7 @@ export default function WelcomeSection(props) {
         zIndex={0}
         position="relative"
         sx={{
-          height: { xs: "auto", md: "150vh" },
+          height: { xs: "auto", lg: "150vh" },
         }}
       >
         {/* Tracking ref for visibility inView */}
@@ -81,15 +81,15 @@ export default function WelcomeSection(props) {
         <Stack
           className="full-width bottom left"
           sx={{
-            position: { xs: "relative", md: "fixed" },
-            flexDirection: { xs: "column", md: "row" },
-            height: { xs: "auto", md: "100vh" },
+            position: { xs: "relative", lg: "fixed" },
+            flexDirection: { xs: "column", lg: "row" },
+            height: { xs: "auto", lg: "100vh" },
           }}
         >
           <Stack
             sx={{
-              width: { xs: "100%", md: "50%" },
-              height: { xs: "auto", md: "100%" },
+              width: { xs: "100%", lg: "50%" },
+              height: { xs: "auto", lg: "100%" },
               zIndex: 1,
             }}
           >
@@ -97,9 +97,9 @@ export default function WelcomeSection(props) {
               width="100%"
               minHeight="400px"
               sx={{
-                height: { xs: "auto", md: "100%" },
-                marginTop: { xs: "0", md: "30px" },
-                opacity: { xs: 1, md: opacity },
+                height: { xs: "auto", lg: "100%" },
+                marginTop: { xs: "0", lg: "30px" },
+                opacity: { xs: 1, lg: opacity },
                 transition: "opacity 0.4s ease",
                 backgroundImage: "url(/medias/portrait.jpg)",
                 backgroundSize: "cover",
@@ -116,9 +116,9 @@ export default function WelcomeSection(props) {
             justifyContent="center"
             zIndex={0}
             sx={{
-              width: { xs: "100%", md: "50%" },
+              width: { xs: "100%", lg: "50%" },
               height: "100%",
-              opacity: { xs: 1, md: opacity },
+              opacity: { xs: 1, lg: opacity },
               transition: "opacity 0.4s ease",
               backgroundImage:
                 "linear-gradient(#000 40%, rgb(0,0,0,0.5)), url(/medias/bubbles.svg)",
@@ -137,7 +137,7 @@ export default function WelcomeSection(props) {
                 variant="h2"
                 fontFamily="POPFINE"
                 color="secondary"
-                lineHeight={{ xs: "10vw", md: "6vw" }}
+                lineHeight={{ xs: "10vw", lg: "6vw" }}
               >
                 <span style={{ color: "#FFF" }}>Créons</span> ensemble,{" "}
                 <span style={{ color: "#FFF" }}>voyons</span> plus loin
@@ -153,13 +153,7 @@ export default function WelcomeSection(props) {
                 gap: "2rem",
               }}
             >
-              <BodyText
-                preventTransition
-                fontSize={{
-                  xs: "1rem",
-                  md: "1.2rem",
-                }}
-              >
+              <BodyText preventTransition>
                 Je suis Quentin HÉBERT, vidéaste professionnel et développeur
                 web en freelance.
                 <br />

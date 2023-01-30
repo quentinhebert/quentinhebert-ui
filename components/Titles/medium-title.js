@@ -42,6 +42,7 @@ export default function MediumTitle({ preventTransitionOut, ...props }) {
           variant="h2"
           color="secondary"
           zIndex={1}
+          letterSpacing={1}
           sx={{
             fontSize: { xs: "12vw", sm: "9vw", md: "7vw" },
             lineHeight: props.lineHeight || {

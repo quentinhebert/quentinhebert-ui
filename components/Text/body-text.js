@@ -58,7 +58,6 @@ const Text = styled(
               letterSpacing: letterSpacing || 1,
               lineHeight: lineHeight || {
                 xs: "1rem",
-                sm: "1.2rem",
                 md: "1.6rem",
               },
               color: color || ((theme) => theme.palette.text.white),

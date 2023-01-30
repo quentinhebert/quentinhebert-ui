@@ -36,16 +36,7 @@ const jobs = {
 }
 
 const WordCaroussel = ({ defaultService }) => (
-  <Typography
-    component="div"
-    color="#fff"
-    flexGrow={1}
-    textAlign="left"
-    sx={{
-      fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" },
-      letterSpacing: { xs: 1.5, sm: 2, md: 2 },
-    }}
-  >
+  <BodyText>
     ...et vous cherchez un{" "}
     <Box
       component="div"
@@ -71,7 +62,7 @@ const WordCaroussel = ({ defaultService }) => (
         </Stack>
       )}
     </Box>
-  </Typography>
+  </BodyText>
 )
 
 export default function ContactForm(props) {

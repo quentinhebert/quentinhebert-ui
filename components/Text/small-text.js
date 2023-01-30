@@ -11,7 +11,7 @@ export default function SmallText({
       component="div"
       sx={{
         color: (theme) => color || theme.palette.text.white,
-        fontSize: fontSize || { xs: "0.6rem", md: "0.8rem" },
+        fontSize: fontSize || { xs: "0.6rem", lg: "0.8rem" },
         letterSpacing: letterSpacing || 1,
       }}
       {...props}

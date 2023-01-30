@@ -174,7 +174,7 @@ export default function ServicesSection(props) {
   })
   if (!!swr.data) data = swr.data // When user loads the page, data is updated by fallbackData (cached === static data), then updated by fetched up-to-date data
 
-  const sm = useMediaQuery(theme.breakpoints.down("sm"))
+  const lg = useMediaQuery(theme.breakpoints.down("lg"))
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
@@ -195,7 +195,7 @@ export default function ServicesSection(props) {
     } else {
       controls.start("hidden")
     }
-  }, [controls, inView, sm])
+  }, [controls, inView, lg])
   const motionDivStyle0 = {
     width: "100%",
     display: "flex",
@@ -240,7 +240,7 @@ export default function ServicesSection(props) {
                 flexDirection: { xs: "column", sm: "row" },
               }}
             >
-              {sm ? (
+              {lg ? (
                 <motion.div
                   initial="hidden"
                   variants={variants(0)}

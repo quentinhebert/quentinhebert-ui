@@ -85,9 +85,9 @@ const Email = ({ email }) => (
     <InTextLink
       href={`mailto:${email || ""}`}
       text={email || ""}
-      letterSpacing={2}
-      textTransform="uppercase"
-      sx={{ fontSize: "0.9rem" }}
+      letterSpacing={1}
+      textTransform="initial"
+      sx={{ fontSize: "1rem" }}
     />
   </Typography>
 )

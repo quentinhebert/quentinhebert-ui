@@ -63,7 +63,15 @@ const mainTheme = createTheme({
       },
     },
     h3: {
-      fontFamily: "Helmet",
+      fontFamily: "POPFINE !important",
+      [theme.breakpoints.up("xs")]: {
+        fontSize: "3rem",
+        lineHeight: "3rem",
+      },
+      [theme.breakpoints.up("md")]: {
+        fontSize: "5rem",
+        lineHeight: "5rem",
+      },
     },
     h4: {
       fontFamily: "Helmet",
@@ -107,10 +115,10 @@ const mainTheme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
-      sm: 600,
+      sm: 500,
       md: 700,
-      lg: 1200,
-      xl: 1536,
+      lg: 900,
+      xl: 1400,
     },
   },
 })

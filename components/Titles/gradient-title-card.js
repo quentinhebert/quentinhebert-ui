@@ -38,7 +38,6 @@ const Title = styled(({ preventTransitionOut, ...props }) => {
     <Stack
       borderRadius="10px"
       width="100%"
-      padding="1rem"
       sx={{
         background: (theme) =>
           `linear-gradient(${props.inversed ? "-" : ""}50deg, ${
@@ -52,6 +51,7 @@ const Title = styled(({ preventTransitionOut, ...props }) => {
           textAlign="center"
           variant="h2"
           sx={{
+            padding: "0 1rem",
             fontSize: props.fontSize || { xs: "2rem", md: "4rem" },
             color: props.color || ((theme) => theme.palette.secondary.main),
           }}

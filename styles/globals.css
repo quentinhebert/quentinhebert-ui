@@ -3,6 +3,7 @@ html {
   margin: 0;
   scrollbar-color: #C6900E #3D403E;
   background-color: #000000;
+  -webkit-text-size-adjust: 100%;
 }
 body {
   padding: 0;

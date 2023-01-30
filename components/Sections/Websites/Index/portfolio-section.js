@@ -1,5 +1,5 @@
 import styles from "../../../../styles/TextShine.module.css"
-import { Box, Stack, useMediaQuery } from "@mui/material"
+import { Box, Stack, Typography, useMediaQuery } from "@mui/material"
 import OpenInNewIcon from "@mui/icons-material/OpenInNew"
 import { useContext } from "react"
 import { WebsitesHomePageContext } from "../../../../contexts/PagesContexts"
@@ -12,8 +12,11 @@ import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-co
 import MediumTitle from "../../../Titles/medium-title"
 import GradientTitleCard from "../../../Titles/gradient-title-card"
 import BodyText from "../../../Text/body-text"
-import StrokeText from "../../../Text/stroke-text"
-import ImageCard from "../../../Cards/image-card"
+
+import dynamic from "next/dynamic"
+const ImageCard = dynamic(() => import("../../../Cards/image-card"), {
+  ssr: false,
+})
 
 export default function PortfolioSection(props) {
   const { topRef } = props
@@ -29,7 +32,7 @@ export default function PortfolioSection(props) {
   })
   if (!!swr.data) data = swr.data // When user loads the page, data is updated by fallbackData (cached === static data), then updated by fetched up-to-date data
 
-  const desktop = useMediaQuery((theme) => theme.breakpoints.up("md"))
+  const desktop = useMediaQuery((theme) => theme.breakpoints.up("lg"))
 
   return (
     <Stack
@@ -43,130 +46,127 @@ export default function PortfolioSection(props) {
     >
       <Stack ref={topRef} />
 
-      <Stack gap="8rem" margin="5rem 0">
-        <MediumTitle
-          preventTransitionOut={desktop}
-          textAlign="center"
-          fontFamily="Zacbel X"
-          letterSpacing={1}
-          lineHeight={{ xs: "15vw", sm: "10vw" }}
-        >
+      <Stack margin="5rem 0" sx={{ gap: { xs: 2, lg: 10 } }}>
+        <MediumTitle preventTransitionOut={desktop} textAlign="center">
           Mes projets web
         </MediumTitle>
 
-        {data.map((website, key) => (
-          <CenteredMaxWidthContainer pixels="1200px" percents="80%" key={key}>
-            <Stack
-              zIndex={1}
-              gap="4rem"
-              flexDirection={
-                key % 2 === 0
-                  ? { xs: "column", md: "row" }
-                  : { xs: "column", md: "row-reverse" }
-              }
-              sx={{
-                alignItems: "stretch",
-                flexWrap: "wrap",
-                justifyContent: "center",
-              }}
-            >
+        <Stack sx={{ gap: { xs: "4rem", lg: 15 } }}>
+          {data.map((website, key) => (
+            <CenteredMaxWidthContainer pixels="1200px" percents="80%" key={key}>
               <Stack
+                zIndex={1}
+                flexDirection={
+                  key % 2 === 0
+                    ? { xs: "column", lg: "row" }
+                    : { xs: "column", lg: "row-reverse" }
+                }
                 sx={{
-                  width: { xs: "100%", md: "calc(50% - 2rem)" },
+                  alignItems: "stretch",
+                  flexWrap: "wrap",
                   justifyContent: "center",
+                  gap: { xs: "10rem", lg: "2rem" },
                 }}
               >
-                <ImageCard img={website.thumbnail_url} preventTransitionOut />
-              </Stack>
-
-              <Stack
-                zIndex={3}
-                alignItems="center"
-                gap={2}
-                sx={{ width: { xs: "100%", md: "calc(50% - 2rem)" } }}
-              >
-                <GradientTitleCard
-                  preventTransitionOut={desktop}
-                  bgcolor="transparent"
-                  textTransform="uppercase"
-                  fontFamily="Zacbel X"
-                  letterSpacing={2}
-                  fontSize="2rem"
-                  className={styles.shine}
-                  color={(theme) => theme.palette.text.white}
+                <Stack
+                  sx={{
+                    width: { xs: "100%", lg: "calc(50% - 2rem)" },
+                    display: { xs: "none", lg: "flex" },
+                    justifyContent: "center",
+                  }}
                 >
-                  {website.client}
-                </GradientTitleCard>
-
-                <Box component="span" textAlign="center">
-                  {website.tags.map((tag, key) => (
-                    <Pill
-                      animDelay={key}
-                      key={key}
-                      preventTransitionOut={desktop}
-                      padding={{ xs: ".1rem 1rem", md: "0rem 1rem" }}
-                    >
-                      <BodyText
-                        color="#000"
-                        preventTransitionOut={desktop}
-                        lineHeight="0"
-                      >
-                        /{tag}
-                      </BodyText>
-                    </Pill>
-                  ))}
-                </Box>
-
-                <Stack sx={{ width: { xs: "100%", md: "49%" } }}>
-                  <ImageCard
-                    img={website.thumbnail_url}
-                    display={{ xs: "flex", md: "none" }}
-                    width={{ xs: "100%", md: "49%" }}
-                    minHeight={{ xs: "200px", sm: "400px" }}
-                  />
+                  <ImageCard img={website.thumbnail_url} preventTransitionOut />
                 </Stack>
 
-                <BodyText preventTransitionOut={desktop} textAlign="justify">
-                  {website.description}
-                </BodyText>
-                <Stack className="full-width" alignItems="end">
-                  <BodyText
-                    preventTransitionOut={desktop}
+                <Stack
+                  zIndex={3}
+                  alignItems="center"
+                  textAlign="center"
+                  gap={2}
+                  sx={{ width: { xs: "100%", lg: "calc(50% - 2rem)" } }}
+                >
+                  <Typography
+                    variant="h3"
                     className={styles.shine}
+                    color="#fff"
+                    padding="0 .5rem"
                   >
-                    – Réalisé en {website.year}
-                  </BodyText>
-                </Stack>
+                    {website.client}
+                  </Typography>
 
-                <ScaleUpOnHoverStack>
-                  <PillButton
-                    background={(theme) =>
-                      // `linear-gradient(10deg, ${theme.palette.tersary.main} 0%, ${theme.palette.background.secondary} 100%)`
-                      theme.palette.background.secondary
-                    }
-                  >
-                    <Stack className="row flex-center" gap={1}>
-                      <Box
-                        component="a"
-                        target="_blank"
-                        textTransform="capitalize"
-                        fontFamily="trophy"
-                        href={
-                          website.url.startsWith("https")
-                            ? website.url
-                            : `https://${website.url}`
-                        }
+                  <Box component="span" textAlign="center">
+                    {website.tags.map((tag, key) => (
+                      <Pill
+                        animDelay={key}
+                        key={key}
+                        preventTransitionOut={desktop}
+                        lineHeight={0}
+                        padding={{ xs: ".1rem 1rem", lg: "0rem .75rem" }}
                       >
-                        Accéder au site
-                      </Box>
-                      <OpenInNewIcon sx={{ display: "flex" }} />
-                    </Stack>
-                  </PillButton>
-                </ScaleUpOnHoverStack>
+                        <BodyText
+                          color="#000"
+                          preventTransitionOut={desktop}
+                          textTransform="initial"
+                          fontSize=".8rem"
+                        >
+                          /{tag}
+                        </BodyText>
+                      </Pill>
+                    ))}
+                  </Box>
+
+                  <Stack sx={{ width: { xs: "100%", lg: "49%" } }}>
+                    <ImageCard
+                      img={website.thumbnail_url}
+                      display={{ xs: "flex", lg: "none" }}
+                      width={{ xs: "100%", lg: "49%" }}
+                      minHeight={{ xs: "200px", sm: "400px" }}
+                    />
+                  </Stack>
+
+                  <BodyText preventTransitionOut={desktop} textAlign="justify">
+                    {website.description}
+                  </BodyText>
+
+                  <Stack className="full-width" alignItems="end">
+                    <BodyText
+                      preventTransitionOut={desktop}
+                      className={styles.shine}
+                    >
+                      – Réalisé en {website.year}
+                    </BodyText>
+                  </Stack>
+
+                  <ScaleUpOnHoverStack>
+                    <PillButton
+                      background={(theme) =>
+                        // `linear-gradient(10deg, ${theme.palette.tersary.main} 0%, ${theme.palette.background.secondary} 100%)`
+                        theme.palette.background.secondary
+                      }
+                    >
+                      <Stack className="row flex-center" gap={1}>
+                        <Box
+                          component="a"
+                          target="_blank"
+                          textTransform="capitalize"
+                          fontFamily="trophy"
+                          href={
+                            website.url.startsWith("https")
+                              ? website.url
+                              : `https://${website.url}`
+                          }
+                        >
+                          Accéder au site
+                        </Box>
+                        <OpenInNewIcon />
+                      </Stack>
+                    </PillButton>
+                  </ScaleUpOnHoverStack>
+                </Stack>
               </Stack>
-            </Stack>
-          </CenteredMaxWidthContainer>
-        ))}
+            </CenteredMaxWidthContainer>
+          ))}
+        </Stack>
       </Stack>
     </Stack>
   )
