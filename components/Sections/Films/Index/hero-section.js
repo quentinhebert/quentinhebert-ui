@@ -48,7 +48,6 @@ const CTAButton = (props) => (
       },
       "&:hover": {
         "& > .MuiTypography-root": {
-          transition: ".3s ease-in-out",
           transform: "scale(1.1)",
         },
         "& > .MuiSvgIcon-root": {
@@ -215,7 +214,10 @@ export default function HeroSection(props) {
             <CTAButton onClick={handleClick} animDelay={playing ? 0 : 1.25}>
               <Typography
                 fontFamily="Trophy"
-                sx={{ fontSize: { xs: ".6rem", md: "1rem" } }}
+                sx={{
+                  fontSize: { xs: ".6rem", md: "1rem" },
+                  transition: ".3s ease-in-out",
+                }}
               >
                 {playing ? "Pause" : "Bande démo"}
               </Typography>
