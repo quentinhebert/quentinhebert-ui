@@ -87,7 +87,7 @@ export default function HeroSection(props) {
         background: (theme) =>
           `linear-gradient(170deg, ${theme.palette.secondary.main} 0%, #000 60%)`,
         width: "100%",
-        minHeight: { xs: "500px", md: "600px" },
+        minHeight: "600px",
         height: { xs: "70vh", md: "100vh" },
       }}
     >
