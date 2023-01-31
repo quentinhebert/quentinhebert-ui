@@ -9,6 +9,9 @@ import { fetchers } from "../../../../../services/public-fetchers"
 import useSWR from "swr"
 import { formatDescription, formatTitle, ParseJsx } from "./why-a-dev--style"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
+import { autoPlay } from "react-swipeable-views-utils"
+
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
 const Step = ({ slide }) => (
   <Stack alignItems="center" justifyContent="center">
@@ -128,7 +131,8 @@ const Caroussel = () => {
 
   return (
     <Stack ref={ref} gap={2} position="relative">
-      <SwipeableViews
+      <AutoPlaySwipeableViews
+        interval={10000}
         index={index}
         disableLazyLoading
         enableMouseEvents
@@ -161,7 +165,7 @@ const Caroussel = () => {
             </Stack>
           </motion.div>
         ))}
-      </SwipeableViews>
+      </AutoPlaySwipeableViews>
 
       <Stepper
         totalSteps={WhySteps.length}
