@@ -1,7 +1,7 @@
 import styles from "../../../../styles/TextShine.module.css"
 import { Box, Grid, Stack, Typography, useMediaQuery } from "@mui/material"
 import OpenInNewIcon from "@mui/icons-material/OpenInNew"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { WebsitesHomePageContext } from "../../../../contexts/PagesContexts"
 import useSWR from "swr"
 import { fetchers } from "../../../../services/public-fetchers"
@@ -14,6 +14,7 @@ import BodyText from "../../../Text/body-text"
 
 import dynamic from "next/dynamic"
 import Link from "next/link"
+import BrowserUiModal from "../../../Modals/browser-ui-modal"
 const ImageCard = dynamic(() => import("../../../Cards/image-card"), {
   ssr: false,
 })
@@ -88,125 +89,136 @@ export default function PortfolioSection(props) {
   })
   if (!!swr.data) data = swr.data // When user loads the page, data is updated by fallbackData (cached === static data), then updated by fetched up-to-date data
 
+  const [selectedWebsite, setSelectedWebsite] = useState({})
+  const [openWebview, setOpenWebsiew] = useState(false)
+  const handleOpenWebview = () => setOpenWebsiew(true)
+  const handleCloseWebview = () => {
+    setSelectedWebsite({})
+    setOpenWebsiew(false)
+  }
+
   const desktop = useMediaQuery((theme) => theme.breakpoints.up("lg"))
 
   return (
-    <Stack
-      sx={{
-        position: "relative",
-        background: `linear-gradient(120deg, #000 0%, #151210 50%, #000 100%)`,
-      }}
-    >
-      <Stack ref={topRef} sx={{ scrollMarginTop: "60px" }} />
-
-      <CenteredMaxWidthContainer
-        percents="80%"
-        pixels="1200px"
-        margin="5rem auto 10rem"
-        sx={{ gap: { xs: "3rem", lg: "5rem" } }}
+    <>
+      <Stack
+        sx={{
+          position: "relative",
+          background: `linear-gradient(120deg, #000 0%, #151210 50%, #000 100%)`,
+        }}
       >
-        <MediumTitle preventTransitionOut={desktop} textAlign="center">
-          Mes projets web
-        </MediumTitle>
+        <Stack ref={topRef} sx={{ scrollMarginTop: "60px" }} />
 
-        <Grid
-          container
-          rowSpacing={{ xs: 12, lg: 25 }}
-          columnSpacing={{ xs: 0, lg: 8 }}
-          width="100%"
-          alignSelf="center"
+        <CenteredMaxWidthContainer
+          percents="80%"
+          pixels="1200px"
+          margin="5rem auto 10rem"
+          sx={{ gap: { xs: "3rem", lg: "5rem" } }}
         >
-          {data.map((website, key) => (
-            <>
-              {key % 2 === 0 && (
-                <Pictures thumbnail_url={website.thumbnail_url} />
-              )}
+          <MediumTitle preventTransitionOut={desktop} textAlign="center">
+            Mes projets web
+          </MediumTitle>
 
-              <Grid
-                item
-                xs={0}
-                lg={6}
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                textAlign="center"
-                gap={2}
-              >
-                <ProjectClient>{website.client}</ProjectClient>
+          <Grid
+            container
+            rowSpacing={{ xs: 12, lg: 25 }}
+            columnSpacing={{ xs: 0, lg: 8 }}
+            width="100%"
+            alignSelf="center"
+          >
+            {data.map((website, key) => (
+              <>
+                {key % 2 === 0 && (
+                  <Pictures thumbnail_url={website.thumbnail_url} />
+                )}
 
-                <Box component="span" textAlign="center">
-                  {website.tags.map((tag, key) => (
-                    <Pill
-                      animDelay={key}
-                      key={key}
-                      preventTransitionOut={desktop}
-                      lineHeight={0}
-                      padding={{ xs: ".1rem 1rem", lg: "0rem .75rem" }}
-                    >
-                      <BodyText
-                        color="#000"
+                <Grid
+                  item
+                  xs={0}
+                  lg={6}
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                  textAlign="center"
+                  gap={2}
+                >
+                  <ProjectClient>{website.client}</ProjectClient>
+
+                  <Box component="span" textAlign="center">
+                    {website.tags.map((tag, key) => (
+                      <Pill
+                        animDelay={key}
+                        key={key}
                         preventTransitionOut={desktop}
-                        textTransform="initial"
-                        fontSize=".8rem"
+                        lineHeight={0}
+                        padding={{ xs: ".1rem 1rem", lg: "0rem .75rem" }}
                       >
-                        /{tag}
-                      </BodyText>
-                    </Pill>
-                  ))}
-                </Box>
+                        <BodyText
+                          color="#000"
+                          preventTransitionOut={desktop}
+                          textTransform="initial"
+                          fontSize=".8rem"
+                        >
+                          /{tag}
+                        </BodyText>
+                      </Pill>
+                    ))}
+                  </Box>
 
-                <Stack width="100%">
-                  <ImageCard
-                    img={website.thumbnail_url}
-                    display={{ xs: "flex", lg: "none" }}
-                    minHeight={{ xs: "200px", md: "300px" }}
-                  />
-                </Stack>
+                  <Stack width="100%">
+                    <ImageCard
+                      img={website.thumbnail_url}
+                      display={{ xs: "flex", lg: "none" }}
+                      minHeight={{ xs: "200px", md: "300px" }}
+                    />
+                  </Stack>
 
-                <BodyText preventTransitionOut={desktop} textAlign="justify">
-                  {website.description}
-                </BodyText>
-
-                <Stack className="full-width" alignItems="end">
-                  <BodyText
-                    preventTransitionOut={desktop}
-                    className={styles.shine}
-                  >
-                    – Réalisé en {website.year}
+                  <BodyText preventTransitionOut={desktop} textAlign="justify">
+                    {website.description}
                   </BodyText>
-                </Stack>
 
-                <ScaleUpOnHoverStack>
-                  <Link
-                    href={
-                      website.url.startsWith("https")
-                        ? website.url
-                        : `https://${website.url}`
-                    }
-                    target="_blank"
-                    passHref
-                  >
-                    <PillButton
-                      background={(theme) => theme.palette.background.secondary}
-                      textTransform="capitalize"
-                      gap={1}
-                      fontFamily="trophy"
-                      fontSize={{ xs: ".6rem", md: "1rem" }}
+                  <Stack className="full-width" alignItems="end">
+                    <BodyText
+                      preventTransitionOut={desktop}
+                      className={styles.shine}
                     >
-                      Accéder au site
-                      <OpenInNewIcon />
-                    </PillButton>
-                  </Link>
-                </ScaleUpOnHoverStack>
-              </Grid>
+                      – Réalisé en {website.year}
+                    </BodyText>
+                  </Stack>
 
-              {key % 2 !== 0 && (
-                <Pictures thumbnail_url={website.thumbnail_url} />
-              )}
-            </>
-          ))}
-        </Grid>
-      </CenteredMaxWidthContainer>
-    </Stack>
+                  <PillButton
+                    scaleUpOnHover
+                    disabled={!website.url}
+                    background={(theme) => theme.palette.background.secondary}
+                    textTransform="capitalize"
+                    gap={1}
+                    fontFamily="trophy"
+                    fontSize={{ xs: ".6rem", md: "1rem" }}
+                    onClick={() => {
+                      setSelectedWebsite(website)
+                      handleOpenWebview()
+                    }}
+                  >
+                    Accéder au site
+                    <OpenInNewIcon />
+                  </PillButton>
+                </Grid>
+
+                {key % 2 !== 0 && (
+                  <Pictures thumbnail_url={website.thumbnail_url} />
+                )}
+              </>
+            ))}
+          </Grid>
+        </CenteredMaxWidthContainer>
+      </Stack>
+
+      <BrowserUiModal
+        title={selectedWebsite.client}
+        src={selectedWebsite.url}
+        open={openWebview}
+        handleClose={handleCloseWebview}
+      />
+    </>
   )
 }

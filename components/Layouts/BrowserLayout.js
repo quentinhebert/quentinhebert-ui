@@ -2,15 +2,19 @@ import { Box } from "@mui/material"
 import { Stack } from "@mui/system"
 import BodyText from "../Text/body-text"
 
-const ColorCircle = ({ color }) => (
+const ColorCircle = ({ color, clickable }) => (
   <Box
     width="20px"
     height="20px"
     bgcolor={color}
-    sx={{ borderRadius: "100%" }}
+    sx={{
+      borderRadius: "100%",
+      "&:hover": { opacity: clickable ? 0.5 : 1 },
+      cursor: clickable ? "pointer" : "default",
+    }}
   />
 )
-const BrowserNav = ({ title }) => {
+const BrowserNav = ({ title, onBtnClicks }) => {
   const colors = ["red", "orange", "green"]
   return (
     <Stack
@@ -21,7 +25,18 @@ const BrowserNav = ({ title }) => {
     >
       <Stack flexDirection="row" gap={1}>
         {colors.map((color) => (
-          <ColorCircle color={color} />
+          <Box
+            onClick={
+              !!onBtnClicks && !!onBtnClicks[color]
+                ? () => onBtnClicks[color]()
+                : () => {}
+            }
+          >
+            <ColorCircle
+              color={color}
+              clickable={!!onBtnClicks && !!onBtnClicks[color]}
+            />
+          </Box>
         ))}
       </Stack>
 
@@ -29,7 +44,8 @@ const BrowserNav = ({ title }) => {
         sx={{
           position: "absolute",
           width: "50%",
-          translate: "50% 25%",
+          top: "50%",
+          translate: "50% -50%",
         }}
       >
         <BodyText
@@ -54,14 +70,12 @@ const BrowserWindow = (props) => (
     sx={{
       width: "100%",
       height: "100%",
-      background: (theme) =>
-        `linear-gradient(${theme.palette.secondary.main} 0%, #000 70%)`,
       padding: {
         xs: "1rem",
         sm: "2rem",
         md: "4rem",
-        lg: "8rem",
-        xl: "10rem",
+        lg: "5rem",
+        xl: "6rem",
       },
     }}
   >
@@ -81,24 +95,18 @@ const BrowserMainZone = (props) => (
     sx={{
       position: "relative",
       padding: "2rem 0",
+      height: "100%",
       background: "linear-gradient( rgb(0,0,0,0.9) 0%, rgb(0,0,0,0.7) 100%)",
     }}
     {...props}
   />
 )
-const GradientBg = (props) => (
-  <Stack justifyContent="center" position="relative" {...props} />
-)
 
-export default function BrowserLayout({ title, ...props }) {
-  const { topRef } = props
-
+export default function BrowserLayout({ title, onBtnClicks, ...props }) {
   return (
-    <GradientBg ref={topRef}>
-      <BrowserWindow>
-        <BrowserNav title={title} />
-        <BrowserMainZone {...props} />
-      </BrowserWindow>
-    </GradientBg>
+    <BrowserWindow>
+      <BrowserNav title={title} onBtnClicks={onBtnClicks} />
+      <BrowserMainZone {...props} />
+    </BrowserWindow>
   )
 }

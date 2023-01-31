@@ -153,7 +153,15 @@ const Caroussel = () => {
   )
 }
 const GradientBg = (props) => (
-  <Stack justifyContent="center" position="relative" {...props} />
+  <Stack
+    justifyContent="center"
+    position="relative"
+    {...props}
+    sx={{
+      background: (theme) =>
+        `linear-gradient(${theme.palette.secondary.main} 0%, #000 70%)`,
+    }}
+  />
 )
 
 export default function WhyADevSection(props) {

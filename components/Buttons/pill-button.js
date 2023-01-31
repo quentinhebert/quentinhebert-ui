@@ -19,6 +19,7 @@ export default function PillButton({
   scaleUpOnHover,
   borderRadius,
   fontFamily,
+  disabled,
   gap,
   ...props
 }) {
@@ -52,6 +53,7 @@ export default function PillButton({
       >
         <Button
           variant="contained"
+          disabled={disabled}
           sx={{
             background: background || ((theme) => theme.palette.secondary.main),
             color: color || "#000",
@@ -68,9 +70,10 @@ export default function PillButton({
             gap: gap || 0,
             "&:hover": {
               background:
-                background || ((theme) => theme.palette.secondary.main),
-              opacity: 0.8,
-              transform: scaleUpOnHover ? "scale(1.1)" : "",
+                (!disabled && background) ||
+                ((theme) => theme.palette.secondary.main),
+              opacity: !disabled && 0.8,
+              transform: !disabled && scaleUpOnHover ? "scale(1.05)" : "",
             },
           }}
           onClick={onClick || (() => {})}
