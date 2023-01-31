@@ -1,5 +1,7 @@
-import { Dialog, Slide, Stack, Typography } from "@mui/material"
+import { Box, Dialog, Slide, Stack, Typography } from "@mui/material"
+import { set } from "date-fns"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { forwardRef, useRef, useState } from "react"
 import PillButton from "../Buttons/pill-button"
 import BrowserLayout from "../Layouts/BrowserLayout"
@@ -19,10 +21,30 @@ export default function BrowserUiModal({ open, handleClose, src, title }) {
     red: () => handleClose(),
   }
 
-  const [loadError, setLoadError] = useState(false)
+  const router = useRouter()
+  const count = ["3...", "2...", "1...", "BON VOL !"]
+  const [loadError, setLoadError] = useState(true)
+  const [countdown, setCountdown] = useState(count[0])
+  const [showMsg, setShowMsg] = useState(false)
   const ref = useRef()
-  const chkFrame = () => {
-    if (ref.current?.contentWindow?.length < 1) setLoadError(true)
+  const chkFrame = async () => {
+    if (ref.current?.contentWindow?.length < 1) {
+      setShowMsg(true)
+      LaunchCountdown()
+      return setTimeout(() => {
+        window.open(formattedSrc, "_blank").focus()
+        // handleClose()
+      }, 5000)
+    }
+    setLoadError(false)
+  }
+
+  async function LaunchCountdown() {
+    let i = 0
+    setInterval(() => {
+      setCountdown(count[i])
+      i += 1
+    }, 1000)
   }
 
   return (
@@ -40,20 +62,22 @@ export default function BrowserUiModal({ open, handleClose, src, title }) {
       }}
     >
       <BrowserLayout title={title} height="100%" onBtnClicks={onBtnClicks}>
-        {loadError && (
+        {showMsg && (
           <Stack
             className="flex-center full-width full-height"
             gap={4}
             padding={4}
           >
-            <Typography variant="h3">Oops...</Typography>
-            <BodyText>
-              Il semblerait que ce site ne puisse pas s'afficher dans le
-              navigateur virtuel. Ouvrez-le dans un nouvel onglet !
-            </BodyText>
-            <Link href={formattedSrc} passHref target="_blank">
-              <PillButton>Afficher dans un nouvel onglet</PillButton>
-            </Link>
+            <Typography variant="h3">
+              Décollage imminent ! {countdown}
+            </Typography>
+            <Stack width={{ xs: "100%", lg: "50%" }}>
+              <BodyText textAlign="center">
+                Ce site ne peut maheureusement pas s'afficher dans le navigateur
+                virtuel. Un nouvel onglet va s'ouvrir... Prêt au décollage ?
+              </BodyText>
+            </Stack>
+            <Box component="img" src="/medias/rocket.png" />
           </Stack>
         )}
         <iframe
@@ -66,7 +90,8 @@ export default function BrowserUiModal({ open, handleClose, src, title }) {
             width: "100%",
             height: "100%",
             top: 0,
-            display: loadError ? "none" : "block",
+            opacity: loadError ? 0 : 1,
+            transition: "3s ease-in-out",
           }}
         />
       </BrowserLayout>
