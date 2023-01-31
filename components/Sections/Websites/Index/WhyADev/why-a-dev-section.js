@@ -10,6 +10,7 @@ import useSWR from "swr"
 import { formatDescription, formatTitle, ParseJsx } from "./why-a-dev--style"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import { autoPlay } from "react-swipeable-views-utils"
+import BrowserLayout from "../../../../Layouts/BrowserLayout"
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
@@ -30,11 +31,6 @@ const ArrowBtn = ({ left, right, index, steps, ...props }) => {
         background: "transparent",
         boxShadow: (theme) =>
           `0px 0px 30px 1px ${theme.palette.secondary.main}`,
-        position: "absolute",
-        top: "50%",
-        translate: "0 -25%",
-        right: right ? "2rem" : "",
-        left: left ? "2rem" : "",
         width: "50px",
         height: "50px",
         borderRadius: "100%",
@@ -46,11 +42,13 @@ const ArrowBtn = ({ left, right, index, steps, ...props }) => {
         rotate: !!left ? "180deg" : "",
         opacity: hasPrevious || hasNext ? 1 : 0,
         pointerEvents: hasPrevious || hasNext ? "auto" : "none",
-        transition: ".4s ease-in-out",
+        transition: ".5s ease-in-out, box-shadow .2s",
         "& .MuiSvgIcon-root": {
           transition: ".2s ease-in-out",
         },
         "&:hover": {
+          boxShadow: (theme) =>
+            `0px 0px 15px 1px ${theme.palette.secondary.main}`,
           "& .MuiSvgIcon-root": {
             translate: "5px",
           },
@@ -137,73 +135,23 @@ const Caroussel = () => {
         ))}
       </AutoPlaySwipeableViews>
 
-      <Stepper
-        totalSteps={WhySteps.length}
-        activeStep={index}
-        setActiveStep={setIndex}
-      />
-
-      <ArrowBtn left onClick={handlePrevious} index={index} steps={WhySteps} />
-      <ArrowBtn right onClick={handleNext} index={index} steps={WhySteps} />
-    </Stack>
-  )
-}
-const BrowserNav = () => {
-  const colors = ["red", "orange", "green"]
-  const ColorCircle = ({ color }) => (
-    <Box
-      width="20px"
-      height="20px"
-      bgcolor={color}
-      sx={{ borderRadius: "100%" }}
-    />
-  )
-  return (
-    <Stack bgcolor="primary" padding={2}>
-      <Stack flexDirection="row" gap={1}>
-        {colors.map((color) => (
-          <ColorCircle color={color} />
-        ))}
+      <Stack className="row" gap={8} width="100%" justifyContent="center">
+        <ArrowBtn
+          left
+          onClick={handlePrevious}
+          index={index}
+          steps={WhySteps}
+        />
+        <Stepper
+          totalSteps={WhySteps.length}
+          activeStep={index}
+          setActiveStep={setIndex}
+        />
+        <ArrowBtn right onClick={handleNext} index={index} steps={WhySteps} />
       </Stack>
     </Stack>
   )
 }
-const BrowserWindow = (props) => (
-  <Stack
-    sx={{
-      width: "100%",
-      height: "100%",
-      background: (theme) =>
-        `linear-gradient(${theme.palette.secondary.main} 0%, #000 70%)`,
-      padding: {
-        xs: "1rem",
-        sm: "2rem",
-        md: "4rem",
-        lg: "8rem",
-        xl: "10rem",
-      },
-    }}
-  >
-    <Stack
-      sx={{
-        height: "100%",
-        borderRadius: "1rem",
-        overflow: "hidden",
-        background: (theme) => theme.palette.background.main,
-      }}
-      {...props}
-    />
-  </Stack>
-)
-const BrowserMainZone = (props) => (
-  <Stack
-    sx={{
-      padding: "2rem 0",
-      background: "linear-gradient( rgb(0,0,0,0.9) 0%, rgb(0,0,0,0.7) 100%)",
-    }}
-    {...props}
-  />
-)
 const GradientBg = (props) => (
   <Stack justifyContent="center" position="relative" {...props} />
 )
@@ -213,12 +161,9 @@ export default function WhyADevSection(props) {
 
   return (
     <GradientBg ref={topRef}>
-      <BrowserWindow>
-        <BrowserNav />
-        <BrowserMainZone>
-          <Caroussel />
-        </BrowserMainZone>
-      </BrowserWindow>
+      <BrowserLayout>
+        <Caroussel />
+      </BrowserLayout>
     </GradientBg>
   )
 }
