@@ -1,11 +1,10 @@
 import styles from "../../../../styles/TextShine.module.css"
 import { Box, Grid, Stack, Typography, useMediaQuery } from "@mui/material"
-import OpenInNewIcon from "@mui/icons-material/OpenInNew"
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye"
 import { useContext, useState } from "react"
 import { WebsitesHomePageContext } from "../../../../contexts/PagesContexts"
 import useSWR from "swr"
 import { fetchers } from "../../../../services/public-fetchers"
-import ScaleUpOnHoverStack from "../../../Animation/scale-up-on-hover-stack"
 import PillButton from "../../../Buttons/pill-button"
 import Pill from "../../../Text/pill"
 import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
@@ -13,7 +12,6 @@ import MediumTitle from "../../../Titles/medium-title"
 import BodyText from "../../../Text/body-text"
 
 import dynamic from "next/dynamic"
-import Link from "next/link"
 import BrowserUiModal from "../../../Modals/browser-ui-modal"
 const ImageCard = dynamic(() => import("../../../Cards/image-card"), {
   ssr: false,
@@ -46,13 +44,13 @@ const Thumbnail = ({ active, ...props }) => (
     {...props}
   />
 )
-const Pictures = ({ thumbnail_url }) => (
+const Pictures = ({ display, thumbnail_url }) => (
   <Grid
     item
     xs={0}
     lg={6}
     sx={{
-      display: { xs: "none", lg: "flex" },
+      display: display || { xs: "none", lg: "flex" },
       flexDirection: "column",
     }}
   >
@@ -171,6 +169,11 @@ export default function PortfolioSection(props) {
                       display={{ xs: "flex", lg: "none" }}
                       minHeight={{ xs: "200px", md: "300px" }}
                     />
+
+                    <Pictures
+                      display={{ xs: "flex", lg: "none" }}
+                      thumbnail_url={website.thumbnail_url}
+                    />
                   </Stack>
 
                   <BodyText preventTransitionOut={desktop} textAlign="justify">
@@ -199,8 +202,8 @@ export default function PortfolioSection(props) {
                       handleOpenWebview()
                     }}
                   >
-                    Accéder au site
-                    <OpenInNewIcon />
+                    Afficher le site
+                    <RemoveRedEyeIcon />
                   </PillButton>
                 </Grid>
 

@@ -49,7 +49,7 @@ export default function ImageCard({
             height: "100%",
             width: width || "100%",
             minHeight: minHeight || "400px",
-            display: display || { xs: "none", md: "flex" },
+            display: display || "flex",
             backgroundImage: `url(${img})`,
             backgroundSize: "cover",
             backgroundPosition: "50% 50%",
