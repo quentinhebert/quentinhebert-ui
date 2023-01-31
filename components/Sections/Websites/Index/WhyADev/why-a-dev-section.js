@@ -88,30 +88,6 @@ const Caroussel = () => {
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
-  const controls = useAnimation()
-  const variants = (key) => {
-    return {
-      visible: {
-        opacity: 1,
-        y: 1,
-        transition: { duration: 1, delay: key / 10 },
-      },
-      hidden: { opacity: 0, y: -25 },
-    }
-  }
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible")
-    } else {
-      controls.start("hidden")
-    }
-  }, [controls, inView])
-  const motionDivStyle = {
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }
   function handleNext() {
     if (index === WhySteps.length - 1) return
     return setIndex(index + 1)
@@ -132,38 +108,34 @@ const Caroussel = () => {
   return (
     <Stack ref={ref} gap={2} position="relative">
       <AutoPlaySwipeableViews
-        interval={10000}
-        index={index}
-        disableLazyLoading
-        enableMouseEvents
-        onChangeIndex={handleChangeIndex}
-        axis="x"
+        axis="x" // horizontal
+        autoplay={true} // enables autoplay
+        interval={10000} // interval between slides autonext
+        threshold={3} // power needed to swipe
+        resistance // bounds outside on first and last elements
+        disableLazyLoading // loads all slides at first render
+        enableMouseEvents // enables mouse interractions with slides
         springConfig={{
           duration: "1s",
           easeFunction: "cubic-bezier(0.1, 0.8, 0.3, 1)",
           delay: "0s",
         }}
+        index={index}
+        onChangeIndex={handleChangeIndex}
       >
         {WhySteps.map((step, key) => (
-          <motion.div
-            initial="hidden"
-            variants={variants(0)}
-            animate={controls}
-            style={motionDivStyle}
+          <Stack
             key={key}
+            role="tabpanel"
+            id={`full-width-tabpanel-${key}`}
+            aria-controls={`full-width-tab-${key}`}
+            value={0}
+            alignItems="center"
+            justifyContent="center"
+            sx={{ width: { xs: "80%", lg: "90%" } }}
           >
-            <Stack
-              role="tabpanel"
-              id={`full-width-tabpanel-${key}`}
-              aria-controls={`full-width-tab-${key}`}
-              value={0}
-              alignItems="center"
-              justifyContent="center"
-              sx={{ width: { xs: "80%", lg: "90%" } }}
-            >
-              {step}
-            </Stack>
-          </motion.div>
+            {step}
+          </Stack>
         ))}
       </AutoPlaySwipeableViews>
 
@@ -179,35 +151,26 @@ const Caroussel = () => {
   )
 }
 
-const BrowserNav = () => (
-  <Stack
-    sx={{
-      padding: 2,
-      background: (theme) => theme.palette.background.main,
-    }}
-  >
-    <Stack flexDirection="row" gap={1}>
-      <Box
-        width="20px"
-        height="20px"
-        bgcolor="red"
-        sx={{ borderRadius: "100%" }}
-      />
-      <Box
-        width="20px"
-        height="20px"
-        bgcolor="orange"
-        sx={{ borderRadius: "100%" }}
-      />
-      <Box
-        width="20px"
-        height="20px"
-        bgcolor="green"
-        sx={{ borderRadius: "100%" }}
-      />
+const BrowserNav = () => {
+  const colors = ["red", "orange", "green"]
+  const ColorCircle = ({ color }) => (
+    <Box
+      width="20px"
+      height="20px"
+      bgcolor={color}
+      sx={{ borderRadius: "100%" }}
+    />
+  )
+  return (
+    <Stack bgcolor="primary" padding={2}>
+      <Stack flexDirection="row" gap={1}>
+        {colors.map((color) => (
+          <ColorCircle color={color} />
+        ))}
+      </Stack>
     </Stack>
-  </Stack>
-)
+  )
+}
 
 export default function WhyADevSection(props) {
   const { topRef } = props
