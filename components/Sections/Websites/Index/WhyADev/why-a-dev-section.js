@@ -62,7 +62,6 @@ const ArrowBtn = ({ left, right, index, steps, ...props }) => {
     </Stack>
   )
 }
-
 const Caroussel = () => {
   /********* StaticProps cached at build time **********/
   const { staticData } = useContext(WebsitesHomePageContext)
@@ -86,7 +85,6 @@ const Caroussel = () => {
     WhySteps.push(<Step slide={slide} />)
   })
 
-  /********** ANIMATION **********/
   const [ref, inView] = useInView()
   function handleNext() {
     if (index === WhySteps.length - 1) return
@@ -150,7 +148,6 @@ const Caroussel = () => {
     </Stack>
   )
 }
-
 const BrowserNav = () => {
   const colors = ["red", "orange", "green"]
   const ColorCircle = ({ color }) => (
@@ -171,53 +168,57 @@ const BrowserNav = () => {
     </Stack>
   )
 }
+const BrowserWindow = (props) => (
+  <Stack
+    sx={{
+      width: "100%",
+      height: "100%",
+      background: (theme) =>
+        `linear-gradient(${theme.palette.secondary.main} 0%, #000 70%)`,
+      padding: {
+        xs: "1rem",
+        sm: "2rem",
+        md: "4rem",
+        lg: "8rem",
+        xl: "10rem",
+      },
+    }}
+  >
+    <Stack
+      sx={{
+        height: "100%",
+        borderRadius: "1rem",
+        overflow: "hidden",
+        background: (theme) => theme.palette.background.main,
+      }}
+      {...props}
+    />
+  </Stack>
+)
+const BrowserMainZone = (props) => (
+  <Stack
+    sx={{
+      padding: "2rem 0",
+      background: "linear-gradient( rgb(0,0,0,0.9) 0%, rgb(0,0,0,0.7) 100%)",
+    }}
+    {...props}
+  />
+)
+const GradientBg = (props) => (
+  <Stack justifyContent="center" position="relative" {...props} />
+)
 
 export default function WhyADevSection(props) {
   const { topRef } = props
 
   return (
-    <Stack
-      justifyContent="center"
-      ref={topRef}
-      position="relative"
-      sx={{ scrollMarginTop: -1 }}
-    >
-      <Stack
-        sx={{
-          width: "100%",
-          height: "100%",
-          background: (theme) =>
-            `linear-gradient(${theme.palette.secondary.main} 0%, #000 70%)`,
-          padding: {
-            xs: "1rem",
-            sm: "2rem",
-            md: "4rem",
-            lg: "8rem",
-            xl: "10rem",
-          },
-        }}
-      >
-        <Stack
-          sx={{
-            height: "100%",
-            borderRadius: "1rem",
-            overflow: "hidden",
-            background: (theme) => theme.palette.background.main,
-          }}
-        >
-          <BrowserNav />
-
-          <Stack
-            sx={{
-              padding: "2rem 0",
-              background:
-                "linear-gradient( rgb(0,0,0,0.9) 0%, rgb(0,0,0,0.7) 100%)",
-            }}
-          >
-            <Caroussel />
-          </Stack>
-        </Stack>
-      </Stack>
-    </Stack>
+    <GradientBg ref={topRef}>
+      <BrowserWindow>
+        <BrowserNav />
+        <BrowserMainZone>
+          <Caroussel />
+        </BrowserMainZone>
+      </BrowserWindow>
+    </GradientBg>
   )
 }
