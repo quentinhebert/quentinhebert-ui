@@ -7,6 +7,11 @@ import { Parallax } from "react-scroll-parallax"
 import LeftSubmitButton from "../../Buttons/left-submit-button"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 
+const birthdate = new Date("1998/1/15")
+const cur = new Date()
+const diff = cur - birthdate
+const age = Math.floor(diff / 31536000000)
+
 export default function WelcomeSection(props) {
   const { scrollTo, topRef, refForScroll } = props
 
@@ -154,8 +159,8 @@ export default function WelcomeSection(props) {
               }}
             >
               <BodyText preventTransition>
-                Je suis Quentin HÉBERT, vidéaste professionnel et développeur
-                web en freelance.
+                Je m'appelle Quentin, j'ai {age} ans et je suis vidéaste
+                professionnel et développeur web en freelance.
                 <br />
                 <br />
                 Donnons du sens à vos idées, que ce soit en vidéo ou sur le web,
