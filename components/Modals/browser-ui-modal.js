@@ -29,6 +29,7 @@ export default function BrowserUiModal({ open, handleClose, src, title }) {
   const [loadError, setLoadError] = useState(true)
   const [countdown, setCountdown] = useState(count[0])
   const [showMsg, setShowMsg] = useState(false)
+  const [showWelcomeMsg, setShowWelcomeMsg] = useState(false)
   const [catchphrase, setCatchphrase] = useState("Décollage imminent")
   const [showCloseBtn, setShowCloseBtn] = useState(false)
   const [animPosition, setAnimPosition] = useState(null)
@@ -42,6 +43,7 @@ export default function BrowserUiModal({ open, handleClose, src, title }) {
         window.open(formattedSrc, "_blank").focus()
       }, 6000)
     }
+    setShowWelcomeMsg(true)
     setLoadError(false)
   }
 
@@ -62,6 +64,10 @@ export default function BrowserUiModal({ open, handleClose, src, title }) {
       setShowCloseBtn(true)
     }
   }, [countdown])
+
+  useEffect(() => {
+    if (showWelcomeMsg) setTimeout(() => setShowWelcomeMsg(false), 1000)
+  }, [showWelcomeMsg])
 
   return (
     <Dialog
@@ -90,9 +96,23 @@ export default function BrowserUiModal({ open, handleClose, src, title }) {
             height: "100%",
             top: 0,
             opacity: loadError ? 0 : 1,
-            transition: "3s ease-in-out",
+            transition: "4s 1s ease", // duration delay mode
           }}
         />
+        <Stack
+          width="100%"
+          height="100%"
+          className="flex-center"
+          zIndex={1}
+          sx={{
+            pointerEvents: "none",
+            display: loadError ? "none" : showWelcomeMsg ? "flex" : "none",
+          }}
+        >
+          <Typography variant="h3" color="secondary">
+            Bon visionnage !
+          </Typography>
+        </Stack>
 
         {showMsg && (
           <Stack
