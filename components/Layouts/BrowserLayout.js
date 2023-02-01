@@ -18,10 +18,11 @@ const BrowserNav = ({ title, onBtnClicks }) => {
   const colors = ["red", "orange", "green"]
   return (
     <Stack
-      bgcolor="primary"
       padding={2}
       flexDirection="row"
       position="relative"
+      zIndex={1}
+      sx={{ background: (theme) => theme.palette.background.primary }}
     >
       <Stack flexDirection="row" gap={1}>
         {colors.map((color) => (
