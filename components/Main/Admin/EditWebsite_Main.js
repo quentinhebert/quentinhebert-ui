@@ -173,46 +173,38 @@ function EditWebsite_Main({
       text: "La suppression est définitive et affectera tous les sites web reliés à ce tag.",
     })
   }
-  const processImages = async () => {
-    const response = []
-    if (!!files.length) {
-      await Promise.all(
-        files.map(async (file) => {
-          const compressedImage = await compressImage(file)
-          if (!compressedImage) return handleError()
-          const uploadRes = await apiCall.websites.addImage(compressedImage)
-          if (uploadRes && uploadRes.ok) {
-            const uploadJson = await uploadRes.json()
-            return response.push(uploadJson.id)
-          }
-          // else {
-          //   alert("erreur")
-          //   return []
-          // }
-        })
-      )
-      return response
-    } else return []
-  }
-  const throttledProcess = async (items, interval) => {
+  const throttledProcess = async (items, interval, response) => {
     if (items.length == 0) {
       console.log("ALL DONE")
+      const localWebsite = website
+      localWebsite.images = response
+      const res = await apiCall.websites.linkImages(website)
+      if (res && res.ok) {
+        handleCloseModal()
+        fetchData()
+        setIsLoading(false)
+      }
       return
     }
-    console.log("PROCESSING", items[0], Date())
-    setTimeout(() => throttledProcess(items.slice(1), interval), interval)
+
+    // Process iteration
+    const compressedImage = await compressImage(items[0])
+    if (!compressedImage) return handleError()
+    const uploadRes = await apiCall.websites.addImage(compressedImage)
+    if (uploadRes && uploadRes.ok) {
+      const uploadJson = await uploadRes.json()
+      response.push(uploadJson.id)
+    }
+
+    setTimeout(
+      () => throttledProcess(items.slice(1), interval, response),
+      interval
+    )
   }
   const handleSubmit = async () => {
     setIsLoading(true)
-    const uploadedImages = await processImages()
-    const localWebsite = website
-    localWebsite.images = uploadedImages
-    const res = await apiCall.websites.linkImages(website)
-    if (res && res.ok) {
-      handleCloseModal()
-      fetchData()
-    }
-    setIsLoading(false)
+    let response = []
+    await throttledProcess(files, 1000, response)
   }
 
   // SUB-COMPONENTS
