@@ -1,5 +1,12 @@
 import styles from "../../../../styles/TextShine.module.css"
-import { Box, Grid, Stack, Typography, useMediaQuery } from "@mui/material"
+import {
+  Box,
+  Grid,
+  Stack,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from "@mui/material"
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye"
 import { useContext, useState } from "react"
 import { WebsitesHomePageContext } from "../../../../contexts/PagesContexts"
@@ -10,6 +17,7 @@ import Pill from "../../../Text/pill"
 import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
 import MediumTitle from "../../../Titles/medium-title"
 import BodyText from "../../../Text/body-text"
+import LaunchIcon from "@mui/icons-material/Launch"
 
 import dynamic from "next/dynamic"
 import BrowserUiModal from "../../../Modals/browser-ui-modal"
@@ -189,22 +197,38 @@ export default function PortfolioSection(props) {
                     </BodyText>
                   </Stack>
 
-                  <PillButton
-                    scaleUpOnHover
-                    disabled={!website.url}
-                    background={(theme) => theme.palette.background.secondary}
-                    textTransform="capitalize"
-                    gap={1}
-                    fontFamily="trophy"
-                    fontSize={{ xs: ".6rem", md: "1rem" }}
-                    onClick={() => {
-                      setSelectedWebsite(website)
-                      handleOpenWebview()
-                    }}
-                  >
-                    Afficher le site
-                    <RemoveRedEyeIcon />
-                  </PillButton>
+                  <Stack className="flex-center row" gap={2}>
+                    <PillButton
+                      scaleUpOnHover
+                      disabled={!website.url}
+                      background={(theme) => theme.palette.background.secondary}
+                      textTransform="capitalize"
+                      gap={1}
+                      fontFamily="trophy"
+                      fontSize={{ xs: ".6rem", md: "1rem" }}
+                      onClick={() => {
+                        setSelectedWebsite(website)
+                        handleOpenWebview()
+                      }}
+                    >
+                      Afficher le site
+                      <RemoveRedEyeIcon />
+                    </PillButton>
+                    <Tooltip title="Ouvrir dans un nouvel onglet">
+                      <LaunchIcon
+                        color={!website.url ? "primary" : "secondary"}
+                        sx={{
+                          "&:hover": { opacity: !website.url ? 1 : 0.5 },
+                          cursor: !website.url ? "default" : "pointer",
+                        }}
+                        onClick={
+                          !website.url
+                            ? () => {}
+                            : () => window.open(website.url)
+                        }
+                      />
+                    </Tooltip>
+                  </Stack>
                 </Grid>
 
                 {key % 2 !== 0 && (
