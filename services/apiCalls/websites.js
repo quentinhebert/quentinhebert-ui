@@ -61,6 +61,44 @@ const websites = {
     }
   },
   // Admin only
+  addImage: async (image) => {
+    try {
+      let formData = new FormData()
+      formData.append("image", image)
+      return await fetch(`${defaultConfig.apiUrl}/websites/images`, {
+        method: "POST",
+        body: formData,
+        mode: "cors",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  // Admin only
+  linkImages: async (website = { images, id }) => {
+    const body = {
+      images: website.images,
+    }
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/websites/${website.id}/images`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(body),
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  // Admin only
   add: async (website) => {
     const body = {
       description: website.description,

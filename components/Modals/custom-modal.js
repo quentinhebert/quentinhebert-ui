@@ -6,14 +6,21 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-export default function CustomModal(props) {
+export default function CustomModal({
+  fullscreen,
+  open,
+  handleClose,
+  background,
+  ...props
+}) {
   const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
+
   return (
     <Dialog
-      fullScreen={props.fullscreen || sm}
+      fullScreen={fullscreen || sm}
       fullWidth
-      open={props.open}
-      onClose={props.handleClose}
+      open={open}
+      onClose={handleClose}
       TransitionComponent={Transition}
       // keepMounted
       sx={{
@@ -28,10 +35,10 @@ export default function CustomModal(props) {
         sx={{
           padding: { xs: 2, md: 4 },
           margin: "auto 0",
-          height: props.fullscreen ? "auto" : { xs: "100vh", md: "" },
-          flexGrow: props.fullscreen ? 1 : null,
+          height: fullscreen ? "auto" : { xs: "100vh", md: "" },
+          flexGrow: fullscreen ? 1 : null,
           background:
-            props.background ||
+            background ||
             ((theme) =>
               `linear-gradient(100deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`),
         }}
