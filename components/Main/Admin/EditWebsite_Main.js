@@ -204,7 +204,7 @@ function EditWebsite_Main({
   const handleSubmit = async () => {
     setIsLoading(true)
     let response = []
-    await throttledProcess(files, 1000, response)
+    await throttledProcess(files, 1000, response) // FIXME: use promise await instead of throttle
   }
 
   // SUB-COMPONENTS
@@ -388,7 +388,7 @@ function EditWebsite_Main({
                 component="img"
                 width="100%"
                 height="100%"
-                src={buildPublicURL(image.path)}
+                src={buildPublicURL(image.path, { imgSize: "small" })}
                 sx={{ objectFit: "cover", objectPosition: "50%" }}
               />
             </Grid>

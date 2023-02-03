@@ -90,8 +90,12 @@ export function removeHtmlTags(htmlString) {
   return htmlString.replace(/(<([^>]+)>)/gi, "")
 }
 
-export const buildPublicURL = (path) => {
+export const buildPublicURL = (path, opt = { imgSize: null }) => {
   if (!path) return null
+  if (!!opt.imgSize)
+    return `${defaultConfig.ftpPublicBasePath}${path.split(".")[0]}-${
+      opt.imgSize
+    }.${path.split(".")[1]}`
   return `${defaultConfig.ftpPublicBasePath}${path}`
 }
 
