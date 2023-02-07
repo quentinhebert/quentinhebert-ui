@@ -201,10 +201,36 @@ function EditWebsite_Main({
       interval
     )
   }
+  const asyncProcess = async (items) => {
+    const finishedItems = []
+
+    await Promise.all(
+      items.map(async (item) => {
+        const compressedImage = await compressImage(item)
+        if (!compressedImage) return handleError()
+        const uploadRes = await apiCall.websites.addImage(compressedImage)
+        if (uploadRes && uploadRes.ok) {
+          const uploadJson = await uploadRes.json()
+          finishedItems.push(uploadJson.id)
+        }
+      })
+    )
+
+    const localWebsite = website
+    localWebsite.images = finishedItems
+    const res = await apiCall.websites.linkImages(website)
+    if (res && res.ok) {
+      handleCloseModal()
+      fetchData()
+      setIsLoading(false)
+    }
+  }
   const handleSubmit = async () => {
     setIsLoading(true)
     let response = []
-    await throttledProcess(files, 1000, response) // FIXME: use promise await instead of throttle
+    // FIXME: use promise await instead of throttle
+    // await throttledProcess(files, 1000, response)
+    await asyncProcess(files)
   }
 
   // SUB-COMPONENTS
