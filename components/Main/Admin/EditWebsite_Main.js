@@ -229,8 +229,8 @@ function EditWebsite_Main({
     setIsLoading(true)
     let response = []
     // FIXME: use promise await instead of throttle
-    // await throttledProcess(files, 1000, response)
-    await asyncProcess(files)
+    await throttledProcess(files, 1000, response)
+    // await asyncProcess(files)
   }
 
   // SUB-COMPONENTS
