@@ -53,39 +53,54 @@ const Thumbnail = ({ active, ...props }) => (
     {...props}
   />
 )
-const Pictures = ({ display, thumbnail_url, images }) => (
-  <Grid
-    item
-    xs={0}
-    lg={6}
-    sx={{
-      display: display || { xs: "none", lg: "flex" },
-      flexDirection: "column",
-    }}
-  >
-    <Stack gap={2} height="100%">
-      <ImageCard img={thumbnail_url} preventTransitionOut minHeight="0px" />
+const Pictures = ({ display, thumbnail_url, images }) => {
+  const [displayedPath, setDisplayedPath] = useState(thumbnail_url)
+  return (
+    <Grid
+      item
+      xs={0}
+      lg={6}
+      sx={{
+        display: display || { xs: "none", lg: "flex" },
+        flexDirection: "column",
+      }}
+    >
+      <Stack gap={2} height="100%">
+        <ImageCard img={displayedPath} preventTransitionOut minHeight="0px" />
 
-      <Stack
-        sx={{
-          flexDirection: "row",
-          borderRadius: "20px",
-          overflow: "hidden",
-          background: "rgb(256,256,256,0.025)",
-        }}
-      >
-        <Thumbnail src={thumbnail_url} active />
-        {!!images.length &&
-          images.map((img, key) => {
-            if (key > 2) return <></>
-            return (
-              <Thumbnail src={buildPublicURL(img.path, { imgSize: "small" })} />
-            )
-          })}
+        <Stack
+          sx={{
+            flexDirection: "row",
+            borderRadius: "20px",
+            overflow: "hidden",
+            background: "rgb(256,256,256,0.025)",
+          }}
+        >
+          <Thumbnail
+            src={thumbnail_url}
+            active={displayedPath === thumbnail_url}
+            onClick={() => {
+              setDisplayedPath(thumbnail_url)
+            }}
+          />
+          {!!images.length &&
+            images.map((img, key) => {
+              if (key > 2) return <></>
+              return (
+                <Thumbnail
+                  src={buildPublicURL(img.path, { imgSize: "small" })}
+                  active={displayedPath === buildPublicURL(img.path)}
+                  onClick={() => {
+                    setDisplayedPath(buildPublicURL(img.path))
+                  }}
+                />
+              )
+            })}
+        </Stack>
       </Stack>
-    </Stack>
-  </Grid>
-)
+    </Grid>
+  )
+}
 
 export default function PortfolioSection(props) {
   const { topRef } = props
