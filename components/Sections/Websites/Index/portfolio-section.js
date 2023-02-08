@@ -21,6 +21,7 @@ import LaunchIcon from "@mui/icons-material/Launch"
 
 import dynamic from "next/dynamic"
 import BrowserUiModal from "../../../Modals/browser-ui-modal"
+import { buildPublicURL } from "../../../../services/utils"
 const ImageCard = dynamic(() => import("../../../Cards/image-card"), {
   ssr: false,
 })
@@ -52,7 +53,7 @@ const Thumbnail = ({ active, ...props }) => (
     {...props}
   />
 )
-const Pictures = ({ display, thumbnail_url }) => (
+const Pictures = ({ display, thumbnail_url, images }) => (
   <Grid
     item
     xs={0}
@@ -70,12 +71,17 @@ const Pictures = ({ display, thumbnail_url }) => (
           flexDirection: "row",
           borderRadius: "20px",
           overflow: "hidden",
+          background: "rgb(256,256,256,0.025)",
         }}
       >
         <Thumbnail src={thumbnail_url} active />
-        <Thumbnail src={thumbnail_url} />
-        <Thumbnail src={thumbnail_url} />
-        <Thumbnail src={thumbnail_url} />
+        {!!images.length &&
+          images.map((img, key) => {
+            if (key > 2) return <></>
+            return (
+              <Thumbnail src={buildPublicURL(img.path, { imgSize: "small" })} />
+            )
+          })}
       </Stack>
     </Stack>
   </Grid>
@@ -135,7 +141,10 @@ export default function PortfolioSection(props) {
             {data.map((website, key) => (
               <>
                 {key % 2 === 0 && (
-                  <Pictures thumbnail_url={website.thumbnail_url} />
+                  <Pictures
+                    thumbnail_url={website.thumbnail_url}
+                    images={website.images}
+                  />
                 )}
 
                 <Grid
@@ -181,6 +190,7 @@ export default function PortfolioSection(props) {
                     <Pictures
                       display={{ xs: "flex", lg: "none" }}
                       thumbnail_url={website.thumbnail_url}
+                      images={website.images}
                     />
                   </Stack>
 
@@ -232,7 +242,10 @@ export default function PortfolioSection(props) {
                 </Grid>
 
                 {key % 2 !== 0 && (
-                  <Pictures thumbnail_url={website.thumbnail_url} />
+                  <Pictures
+                    thumbnail_url={website.thumbnail_url}
+                    images={website.images}
+                  />
                 )}
               </>
             ))}
