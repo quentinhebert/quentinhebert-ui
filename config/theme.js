@@ -52,6 +52,14 @@ const mainTheme = createTheme({
     fontFamily: "Helmet",
     h1: {
       fontFamily: "POPFINE",
+      [theme.breakpoints.up("xs")]: {
+        fontSize: "4rem",
+        lineHeight: "4rem",
+      },
+      [theme.breakpoints.up("md")]: {
+        fontSize: "6rem",
+        lineHeight: "6rem",
+      },
     },
     h2: {
       fontFamily: "POPFINE !important",

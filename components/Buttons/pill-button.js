@@ -63,9 +63,8 @@ export default function PillButton({
             border: border || "",
             padding: padding || { xs: ".5rem 1.25rem", md: ".5rem 2rem" },
             boxShadow: boxShadow || "5px 10px 30px 5px rgb(0,0,0,0.3)",
-            textTransform: textTransform || "uppercase",
+            textTransform: textTransform || "initial",
             transition: "transform 0.2s ease-in-out",
-            // letterSpacing: 1,
             fontFamily: fontFamily || "",
             gap: gap || 0,
             "&:hover": {

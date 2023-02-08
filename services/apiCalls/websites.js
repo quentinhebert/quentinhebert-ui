@@ -78,6 +78,27 @@ const websites = {
     }
   },
   // Admin only
+  deleteImages: async (website = { imgIds, id }) => {
+    const body = {
+      images: website.imgIds,
+    }
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/websites/${website.id}/images`,
+        {
+          method: "DELETE",
+          body: JSON.stringify(body),
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  // Admin only
   linkImages: async (website = { images, id }) => {
     const body = {
       images: website.images,

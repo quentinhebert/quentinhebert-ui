@@ -2,7 +2,6 @@ import withConfirmAction from "../../hocs/withConfirmAction"
 import { Grid, Stack, Typography, Box } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
-import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import CustomForm from "../../Forms/custom-form"
 import TextArea from "../../Inputs/custom-outlined-text-area"
 import CustomOutlinedInput from "../../Inputs/custom-outlined-input"
@@ -17,10 +16,49 @@ import PillButton from "../../Buttons/pill-button"
 import DeleteIcon from "@mui/icons-material/Delete"
 import RectangleButton from "../../Buttons/rectangle-button"
 import CustomCircularProgress from "../../Helpers/custom-circular-progress"
-import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 import CustomModal from "../../Modals/custom-modal"
 import Dropzone from "../../Images/drop-zone"
 import { buildPublicURL } from "../../../services/utils"
+import CheckCircleIcon from "@mui/icons-material/CheckCircle"
+import CancelButton from "../../Buttons/cancel-button"
+import AddIcon from "@mui/icons-material/Add"
+
+const AddImageGridItem = (props) => (
+  <Grid
+    item
+    xs={6}
+    md={4}
+    lg={3}
+    xl={2}
+    sx={{
+      aspectRatio: "1",
+    }}
+  >
+    <Stack
+      width="100%"
+      height="100%"
+      alignItems="center"
+      justifyContent="center"
+      sx={{
+        background: (theme) => theme.palette.background.secondary,
+        borderRadius: "15px",
+        cursor: "pointer",
+        gap: 2,
+        "& > .MuiSvgIcon-root": {
+          transition: "0.2s ease",
+        },
+        transition: "0.2s ease",
+        "&:hover": {
+          filter: "brightness(1.2)",
+          "& > .MuiSvgIcon-root": {
+            fontSize: "2rem",
+          },
+        },
+      }}
+      {...props}
+    />
+  </Grid>
+)
 
 const currentYear = new Date().getFullYear()
 
@@ -30,6 +68,7 @@ function EditWebsite_Main({
   setOpenConfirmModal,
   setConfirmTitle,
   setConfirmContent,
+  setNextButtonText,
 }) {
   // APP CONTEXT
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
@@ -51,6 +90,7 @@ function EditWebsite_Main({
   const [files, setFiles] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [newTag, setNewTag] = useState(null)
+  const [imgToDelete, setImgToDelete] = useState([])
   const [openAddModal, setOpenAddModal] = useState(false)
   const handleCloseModal = () => setOpenAddModal(false)
 
@@ -99,8 +139,8 @@ function EditWebsite_Main({
     }
     setWebsite({ ...website, [attribute]: localAttribute })
   }
-  const handleCancel = () => {
-    handleCloseEditModal()
+  const handleCancel = async () => {
+    await fetchData()
   }
   const handleSuccess = () => {
     setSnackSeverity("success")
@@ -232,6 +272,35 @@ function EditWebsite_Main({
     await throttledProcess(files, 1000, response)
     // await asyncProcess(files)
   }
+  const deleteImg = async () => {
+    const res = await apiCall.websites.deleteImages({
+      imgIds: imgToDelete,
+      id: website.id,
+    })
+    if (res && res.ok) {
+      setSnackMessage("Image(s) supprimée(s)")
+      setSnackSeverity("success")
+      fetchData()
+      setImgToDelete([])
+    } else {
+      setSnackMessage("Erreur")
+      setSnackSeverity("error")
+    }
+  }
+  const handleDeleteImg = async () => {
+    setConfirmTitle(`Supprimer ${imgToDelete.length} élément(s)`)
+    setConfirmContent({
+      text: "Voulez-vous supprimer les éléments sélectionnés ? Cette action est irréversible.",
+    })
+    setNextButtonText("Supprimer")
+    setActionToFire(() => async () => await deleteImg())
+    setOpenConfirmModal(true)
+  }
+  const handleSelect = (id) => () => {
+    if (imgToDelete.includes(id))
+      return setImgToDelete([...imgToDelete.filter((elt) => elt !== id)])
+    setImgToDelete([...imgToDelete, id])
+  }
 
   // SUB-COMPONENTS
   const YearInput = () => (
@@ -282,12 +351,21 @@ function EditWebsite_Main({
   )
 
   return (
-    <Stack zIndex={0} gap={4}>
-      <CenteredMaxWidthContainer>
+    <Stack zIndex={0} gap={8}>
+      <Stack>
+        <Typography variant="h2" color="secondary">
+          Photo principale
+        </Typography>
+        <Stack maxWidth="400px">
+          <ThumbnailInput />
+        </Stack>
+      </Stack>
+
+      <Stack>
         <Typography variant="h2" color="secondary">
           Informations
         </Typography>
-        <CustomForm gap={3}>
+        <CustomForm gap={3} maxWidth="800px">
           <IdInput />
 
           <CustomOutlinedInput
@@ -339,10 +417,13 @@ function EditWebsite_Main({
               </Stack>
               {websiteTags &&
                 websiteTags.map((item, key) => (
-                  <Stack className="row full-width" alignItems="center">
+                  <Stack
+                    className="row full-width"
+                    alignItems="center"
+                    key={key}
+                  >
                     <Stack flexGrow={1}>
                       <CustomCheckbox
-                        key={key}
                         checked={
                           (website.tags &&
                             website.tags.filter(
@@ -366,61 +447,86 @@ function EditWebsite_Main({
             </CustomAccordion>
           </Stack>
 
-          <Stack flexDirection="row" gap={2} justifyContent="end" width="100%">
-            <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
-            <RectangleButton
-              secondary="true"
-              onClick={handleUpdate}
-              disabled={isLoading}
-            >
+          <Stack flexDirection="row" gap={2} width="100%">
+            <PillButton onClick={handleUpdate} disabled={isLoading}>
               {isLoading ? <CustomCircularProgress /> : "Enregistrer"}
-            </RectangleButton>
+            </PillButton>
+            <CancelButton handleCancel={handleCancel} />
           </Stack>
         </CustomForm>
-      </CenteredMaxWidthContainer>
+      </Stack>
 
-      <CenteredMaxWidthContainer>
-        <Typography variant="h2" color="secondary">
-          Photo principale
-        </Typography>
-        <Stack maxWidth="400px">
-          <ThumbnailInput />
-        </Stack>
-      </CenteredMaxWidthContainer>
-
-      <CenteredMaxWidthContainer>
+      <Stack>
         <Typography variant="h2" color="secondary">
           Galerie
         </Typography>
-        <Stack maxWidth="400px">
-          <PillButton onClick={() => setOpenAddModal(true)}>
-            Ajouter des photos
-          </PillButton>
+        <Stack flexDirection="row" gap={2}>
+          {!!imgToDelete.length && (
+            <>
+              <PillButton onClick={handleDeleteImg} startIcon={<DeleteIcon />}>
+                Supprimer {imgToDelete.length} éléments(s)
+              </PillButton>
+              <CancelButton handleCancel={() => setImgToDelete([])} />
+            </>
+          )}
         </Stack>
         <Grid container spacing={1} padding="1rem 0">
-          {website.images.map((image, key) => (
-            <Grid
-              item
-              xs={6}
-              md={4}
-              lg={3}
-              xl={2}
-              key={key}
-              sx={{
-                aspectRatio: "1",
-              }}
-            >
-              <Box
-                component="img"
-                width="100%"
-                height="100%"
-                src={buildPublicURL(image.path, { imgSize: "small" })}
-                sx={{ objectFit: "cover", objectPosition: "50%" }}
-              />
-            </Grid>
-          ))}
+          <AddImageGridItem onClick={() => setOpenAddModal(true)}>
+            <Typography fontWeight="bold">Ajouter des photos</Typography>
+            <AddIcon />
+          </AddImageGridItem>
+          {website.images.map((image, key) => {
+            const isSelected = imgToDelete.includes(image.id)
+            return (
+              <Grid
+                item
+                xs={6}
+                md={4}
+                lg={3}
+                xl={2}
+                key={key}
+                sx={{
+                  aspectRatio: "1",
+                  position: "relative",
+                }}
+              >
+                <Box
+                  width="100%"
+                  height="100%"
+                  sx={{
+                    borderRadius: "15px",
+                    overflow: "hidden",
+                    border: isSelected
+                      ? (theme) => `2px solid ${theme.palette.secondary.main}`
+                      : "",
+                  }}
+                >
+                  <Box
+                    component="img"
+                    width="100%"
+                    height="100%"
+                    src={buildPublicURL(image.path, { imgSize: "small" })}
+                    sx={{
+                      objectFit: "cover",
+                      objectPosition: "50%",
+                      transition: "0.1s ease",
+                      filter: isSelected ? "contrast(0.5) brightness(0.5)" : "",
+                      cursor: "pointer",
+                      "&:hover": {
+                        filter: "contrast(0.5)",
+                      },
+                    }}
+                    onClick={handleSelect(image.id)}
+                  />
+                  <Box sx={{ position: "absolute", top: 20, right: 10 }}>
+                    {isSelected ? <CheckCircleIcon color="secondary" /> : <></>}
+                  </Box>
+                </Box>
+              </Grid>
+            )
+          })}
         </Grid>
-      </CenteredMaxWidthContainer>
+      </Stack>
 
       <CustomModal
         open={openAddModal}
