@@ -66,12 +66,12 @@ const BrowserNav = ({ title, onBtnClicks }) => {
     </Stack>
   )
 }
-const BrowserWindow = (props) => (
+const BrowserWindow = ({ rootPadding, ...props }) => (
   <Stack
     sx={{
       width: "100%",
       height: "100%",
-      padding: {
+      padding: rootPadding || {
         xs: "1rem",
         sm: "2rem",
         md: "4rem",
@@ -83,6 +83,7 @@ const BrowserWindow = (props) => (
     <Stack
       sx={{
         height: "100%",
+        width: "100%",
         borderRadius: "1rem",
         overflow: "hidden",
         background: (theme) => theme.palette.background.main,
@@ -95,17 +96,21 @@ const BrowserMainZone = (props) => (
   <Stack
     sx={{
       position: "relative",
-      padding: "2rem 0",
       height: "100%",
-      background: "linear-gradient( rgb(0,0,0,0.9) 0%, rgb(0,0,0,0.7) 100%)",
+      background: "linear-gradient( rgb(0,0,0,0.7) 0%, rgb(0,0,0,0.6) 100%)",
     }}
     {...props}
   />
 )
 
-export default function BrowserLayout({ title, onBtnClicks, ...props }) {
+export default function BrowserLayout({
+  title,
+  onBtnClicks,
+  rootPadding,
+  ...props
+}) {
   return (
-    <BrowserWindow>
+    <BrowserWindow rootPadding={rootPadding}>
       <BrowserNav title={title} onBtnClicks={onBtnClicks} />
       <BrowserMainZone {...props} />
     </BrowserWindow>

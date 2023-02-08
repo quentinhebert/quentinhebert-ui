@@ -9,6 +9,7 @@ import BodyText from "../Text/body-text"
 import CustomModal from "./custom-modal"
 import VimeoPlayer from "../VideoPlayers/vimeo-player"
 import YoutubePlayer from "../VideoPlayers/youtube-player"
+import TopRightCloseButton from "../Buttons/top-right-close-button"
 
 const CloseBtn = (props) => (
   <Box
@@ -231,7 +232,8 @@ export default function VideoPlayer(props) {
       <Stack flexGrow={1}>
         {/* Sticky property to prevent the close button from displaying over the scrollbar */}
         <Stack alignItems="center" minHeight="100vh" className="sticky">
-          <CloseBtn onClick={handleClose} />
+          {/* <CloseBtn onClick={handleClose} /> */}
+          <TopRightCloseButton onClick={handleClose} />
 
           {/****** FILM INFO ******/}
 

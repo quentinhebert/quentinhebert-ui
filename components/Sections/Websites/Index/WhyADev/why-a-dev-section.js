@@ -1,8 +1,7 @@
-import { Box, Stack } from "@mui/material"
+import { Stack } from "@mui/material"
 import SwipeableViews from "../../../../Other/SwipeableViews"
 import { useContext, useEffect, useState } from "react"
 import Stepper from "../../../../Navigation/stepper"
-import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { WebsitesHomePageContext } from "../../../../../contexts/PagesContexts"
 import { fetchers } from "../../../../../services/public-fetchers"
@@ -11,6 +10,7 @@ import { formatDescription, formatTitle, ParseJsx } from "./why-a-dev--style"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import { autoPlay } from "react-swipeable-views-utils"
 import BrowserLayout from "../../../../Layouts/BrowserLayout"
+import ArrowButton from "../../../../Buttons/arrow-button"
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
@@ -21,9 +21,9 @@ const Step = ({ slide }) => (
     <ParseJsx jsx={formatDescription(slide.description)} />
   </Stack>
 )
-const ArrowBtn = ({ left, right, index, steps, ...props }) => {
+const ArrowBtn = ({ left, right, index, totalItems, ...props }) => {
   const hasPrevious = !!left && index !== 0
-  const hasNext = !!right && index < steps.length - 1
+  const hasNext = !!right && index < totalItems - 1
   return (
     <Stack
       sx={{
@@ -102,7 +102,7 @@ const Caroussel = () => {
   }, [inView])
 
   return (
-    <Stack ref={ref} gap={2} position="relative">
+    <Stack ref={ref} gap={2} position="relative" padding="2rem 0">
       <AutoPlaySwipeableViews
         axis="x" // horizontal
         autoplay={true} // enables autoplay
@@ -136,18 +136,23 @@ const Caroussel = () => {
       </AutoPlaySwipeableViews>
 
       <Stack className="row" gap={8} width="100%" justifyContent="center">
-        <ArrowBtn
+        <ArrowButton
           left
           onClick={handlePrevious}
           index={index}
-          steps={WhySteps}
+          totalItems={WhySteps.length}
         />
         <Stepper
           totalSteps={WhySteps.length}
           activeStep={index}
           setActiveStep={setIndex}
         />
-        <ArrowBtn right onClick={handleNext} index={index} steps={WhySteps} />
+        <ArrowButton
+          right
+          onClick={handleNext}
+          index={index}
+          totalItems={WhySteps.length}
+        />
       </Stack>
     </Stack>
   )

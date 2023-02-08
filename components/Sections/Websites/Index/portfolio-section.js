@@ -1,6 +1,7 @@
 import styles from "../../../../styles/TextShine.module.css"
 import {
   Box,
+  Dialog,
   Grid,
   Stack,
   Tooltip,
@@ -18,10 +19,13 @@ import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-co
 import MediumTitle from "../../../Titles/medium-title"
 import BodyText from "../../../Text/body-text"
 import LaunchIcon from "@mui/icons-material/Launch"
+import OpenInFullIcon from "@mui/icons-material/OpenInFull"
 
 import dynamic from "next/dynamic"
 import BrowserUiModal from "../../../Modals/browser-ui-modal"
 import { buildPublicURL } from "../../../../services/utils"
+import CustomModal from "../../../Modals/custom-modal"
+import ImageViewer from "../../../Modals/image-viewer"
 const ImageCard = dynamic(() => import("../../../Cards/image-card"), {
   ssr: false,
 })
@@ -53,8 +57,31 @@ const Thumbnail = ({ active, ...props }) => (
     {...props}
   />
 )
-const Pictures = ({ display, thumbnail_url, images }) => {
+const Overlay = (props) => (
+  <Stack
+    className="full-width full-height flex-center absolute top left pointer"
+    sx={{
+      transition: ".2s .25s ease",
+      "& .MuiSvgIcon-root": {
+        opacity: "0",
+        transition: ".2s .25s ease",
+      },
+      "&:hover": {
+        backdropFilter: "blur(3px) brightness(0.3)",
+        "& .MuiSvgIcon-root": { opacity: "1", fontSize: "3rem" },
+      },
+    }}
+    {...props}
+  />
+)
+const Pictures = ({ display, thumbnail_url, images, title }) => {
   const [displayedPath, setDisplayedPath] = useState(thumbnail_url)
+  const [index, setIndex] = useState(0)
+  const [openFullscreen, setOpenFullscreen] = useState(false)
+  const handleFullscreen = () => setOpenFullscreen(true)
+  const handleCloseFullscreen = () => {
+    setOpenFullscreen(false)
+  }
   return (
     <Grid
       item
@@ -66,7 +93,19 @@ const Pictures = ({ display, thumbnail_url, images }) => {
       }}
     >
       <Stack gap={2} height="100%">
-        <ImageCard img={displayedPath} preventTransitionOut minHeight="0px" />
+        <Stack
+          height="100%"
+          position="relative"
+          sx={{
+            borderRadius: "20px",
+            overflow: "hidden",
+          }}
+        >
+          <ImageCard img={displayedPath} preventTransitionOut minHeight="0px" />
+          <Overlay onClick={handleFullscreen}>
+            <OpenInFullIcon color="secondary" sx={{ fontSize: "0rem" }} />
+          </Overlay>
+        </Stack>
 
         <Stack
           sx={{
@@ -81,6 +120,7 @@ const Pictures = ({ display, thumbnail_url, images }) => {
             active={displayedPath === thumbnail_url}
             onClick={() => {
               setDisplayedPath(thumbnail_url)
+              setIndex(0)
             }}
           />
           {!!images.length &&
@@ -92,11 +132,21 @@ const Pictures = ({ display, thumbnail_url, images }) => {
                   active={displayedPath === buildPublicURL(img.path)}
                   onClick={() => {
                     setDisplayedPath(buildPublicURL(img.path))
+                    setIndex(key + 1)
                   }}
                 />
               )
             })}
         </Stack>
+
+        <ImageViewer
+          title={title}
+          open={openFullscreen}
+          handleClose={handleCloseFullscreen}
+          images={[thumbnail_url, ...images]}
+          index={index}
+          setIndex={setIndex}
+        />
       </Stack>
     </Grid>
   )
@@ -157,6 +207,7 @@ export default function PortfolioSection(props) {
               <>
                 {key % 2 === 0 && (
                   <Pictures
+                    title={website.client}
                     thumbnail_url={website.thumbnail_url}
                     images={website.images}
                   />
@@ -203,6 +254,7 @@ export default function PortfolioSection(props) {
                     />
 
                     <Pictures
+                      title={website.client}
                       display={{ xs: "flex", lg: "none" }}
                       thumbnail_url={website.thumbnail_url}
                       images={website.images}
@@ -258,6 +310,7 @@ export default function PortfolioSection(props) {
 
                 {key % 2 !== 0 && (
                   <Pictures
+                    title={website.client}
                     thumbnail_url={website.thumbnail_url}
                     images={website.images}
                   />
