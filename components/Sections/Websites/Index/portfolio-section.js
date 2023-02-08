@@ -85,7 +85,7 @@ const Pictures = ({ display, thumbnail_url, images, title }) => {
   return (
     <Grid
       item
-      xs={0}
+      xs={12}
       lg={6}
       sx={{
         display: display || { xs: "none", lg: "flex" },
@@ -101,7 +101,11 @@ const Pictures = ({ display, thumbnail_url, images, title }) => {
             overflow: "hidden",
           }}
         >
-          <ImageCard img={displayedPath} preventTransitionOut minHeight="0px" />
+          <ImageCard
+            img={displayedPath}
+            preventTransitionOut
+            minHeight="200px"
+          />
           <Overlay onClick={handleFullscreen}>
             <OpenInFullIcon color="secondary" sx={{ fontSize: "0rem" }} />
           </Overlay>
@@ -146,6 +150,7 @@ const Pictures = ({ display, thumbnail_url, images, title }) => {
           images={[thumbnail_url, ...images]}
           index={index}
           setIndex={setIndex}
+          setCurrentPath={setDisplayedPath}
         />
       </Stack>
     </Grid>
@@ -247,12 +252,6 @@ export default function PortfolioSection(props) {
                   </Box>
 
                   <Stack width="100%">
-                    <ImageCard
-                      img={website.thumbnail_url}
-                      display={{ xs: "flex", lg: "none" }}
-                      minHeight={{ xs: "200px", md: "300px" }}
-                    />
-
                     <Pictures
                       title={website.client}
                       display={{ xs: "flex", lg: "none" }}

@@ -21,14 +21,29 @@ export default function ImageViewer({
   images,
   index,
   setIndex,
+  setCurrentPath,
 }) {
   const handleNext = () => {
     if (index < 0) return
     setIndex(index + 1)
+    !!setCurrentPath
+      ? setCurrentPath(
+          !!images[index + 1]?.path
+            ? buildPublicURL(images[index + 1].path)
+            : images[index + 1]
+        )
+      : null
   }
   const handlePrevious = () => {
     if (index < 0) return
     setIndex(index - 1)
+    !!setCurrentPath
+      ? setCurrentPath(
+          !!images[index + 1]?.path
+            ? buildPublicURL(images[index + 1].path)
+            : images[index + 1]
+        )
+      : null
   }
 
   return (
