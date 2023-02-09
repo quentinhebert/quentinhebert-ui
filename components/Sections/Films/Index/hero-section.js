@@ -18,6 +18,7 @@ const Title = (props) => (
     color="secondary"
     fontFamily="POPFINE"
     sx={{
+      marginTop: 2,
       fontSize: { xs: "4rem", md: "7rem" },
       zIndex: 0,
       textShadow: "2px 2px 4px rgb(0,0,0,0.5)",

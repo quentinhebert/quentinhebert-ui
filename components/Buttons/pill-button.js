@@ -4,7 +4,17 @@ import Link from "next/link"
 import { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 
-export default function PillButton({
+export default function PillButton({ href, ...props }) {
+  if (!!href)
+    return (
+      <Link href={href} passHref>
+        <Btn {...props} />
+      </Link>
+    )
+  return <Btn {...props} />
+}
+
+function Btn({
   background,
   padding,
   color,
@@ -22,7 +32,6 @@ export default function PillButton({
   fontFamily,
   disabled,
   gap,
-  href,
   ...props
 }) {
   /********** ANIMATION **********/
@@ -46,44 +55,41 @@ export default function PillButton({
   }, [controls, inView])
 
   return (
-    <Link href={href || {}} passHref>
-      <Box margin={margin || 0} ref={ref}>
-        <motion.div
-          initial={preventTransition ? "visible" : "hidden"}
-          variants={variants}
-          animate={controls}
-          style={{ width: "100%" }}
-        >
-          <Button
-            variant="contained"
-            disabled={disabled}
-            sx={{
+    <Box margin={margin || 0} ref={ref}>
+      <motion.div
+        initial={preventTransition ? "visible" : "hidden"}
+        variants={variants}
+        animate={controls}
+        style={{ width: "100%" }}
+      >
+        <Button
+          variant="contained"
+          disabled={disabled}
+          sx={{
+            background: background || ((theme) => theme.palette.secondary.main),
+            color: color || "#000",
+            fontWeight: "bold",
+            fontSize: fontSize || { xs: "0.9rem", md: "1rem" },
+            borderRadius: borderRadius || "30px",
+            border: border || "",
+            padding: padding || { xs: ".5rem 1.25rem", md: ".5rem 2rem" },
+            boxShadow: boxShadow || "5px 10px 30px 5px rgb(0,0,0,0.3)",
+            textTransform: textTransform || "initial",
+            transition: "transform 0.2s ease-in-out",
+            fontFamily: fontFamily || "",
+            gap: gap || 0,
+            "&:hover": {
               background:
-                background || ((theme) => theme.palette.secondary.main),
-              color: color || "#000",
-              fontWeight: "bold",
-              fontSize: fontSize || { xs: "0.9rem", md: "1rem" },
-              borderRadius: borderRadius || "30px",
-              border: border || "",
-              padding: padding || { xs: ".5rem 1.25rem", md: ".5rem 2rem" },
-              boxShadow: boxShadow || "5px 10px 30px 5px rgb(0,0,0,0.3)",
-              textTransform: textTransform || "initial",
-              transition: "transform 0.2s ease-in-out",
-              fontFamily: fontFamily || "",
-              gap: gap || 0,
-              "&:hover": {
-                background:
-                  (!disabled && background) ||
-                  ((theme) => theme.palette.secondary.main),
-                opacity: !disabled && 0.8,
-                transform: !disabled && scaleUpOnHover ? "scale(1.05)" : "",
-              },
-            }}
-            onClick={onClick || (() => {})}
-            {...props}
-          />
-        </motion.div>
-      </Box>
-    </Link>
+                (!disabled && background) ||
+                ((theme) => theme.palette.secondary.main),
+              opacity: !disabled && 0.8,
+              transform: !disabled && scaleUpOnHover ? "scale(1.05)" : "",
+            },
+          }}
+          onClick={onClick || (() => {})}
+          {...props}
+        />
+      </motion.div>
+    </Box>
   )
 }

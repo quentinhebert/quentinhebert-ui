@@ -695,7 +695,7 @@ export default function VideoList({ height, setHeight, ...props }) {
       <Stack
         ref={TopRef}
         sx={{
-          scrollMarginTop: "60px",
+          scrollMarginTop: "80px",
         }}
       />
 
