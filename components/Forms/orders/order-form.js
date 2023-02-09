@@ -56,6 +56,7 @@ import {
 import { PAYMENTSTATES } from "../../../enums/paymentStates"
 import { PAYMENT_TYPES, STRIPE_PM } from "../../../enums/paymentTypes"
 import CustomOutlinedInput from "../../Inputs/custom-outlined-input"
+import CustomFilledTextArea from "../../Inputs/custom-filled-text-area"
 
 // Icons
 import SendIcon from "@mui/icons-material/Send"
@@ -66,7 +67,6 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import AddIcon from "@mui/icons-material/Add"
 import SaveAltIcon from "@mui/icons-material/SaveAlt"
 import SwitchButton from "../../Inputs/switch-button"
-import CustomFilledTextArea from "../../Inputs/custom-filled-text-area"
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory"
 import LocalShippingIcon from "@mui/icons-material/LocalShipping"
 import EuroIcon from "@mui/icons-material/Euro"
@@ -109,7 +109,7 @@ const HEAD = [
 const PAYMENT_MODES = { ONCE: "ONCE", TWICE: "TWICE", MULTIPLE: "MULTIPLE" }
 
 /********** OTHER COMPONENTS **********/
-const FormCard = ({ title, width, icon, gap, ...props }) => (
+const FormCard = ({ title, width, icon, gap, step, totalSteps, ...props }) => (
   <Stack
     sx={{
       width: width || "100%",
@@ -121,14 +121,19 @@ const FormCard = ({ title, width, icon, gap, ...props }) => (
   >
     {!!title && (
       <SmallTitle
+        variant="h4"
+        textTransform="initial"
         color="#fff"
-        alignItems="center"
+        alignItems="end"
         display="flex"
         gap={2}
         marginBottom={2}
       >
         {icon}
         {title}
+        <Box sx={{ color: "grey", fontSize: "0.8em" }}>
+          {step}/{totalSteps}
+        </Box>
       </SmallTitle>
     )}
     <Stack {...props} width="100%" gap={gap || 4} />
@@ -1189,7 +1194,12 @@ function OrderForm({
                   maxWidth: "900px",
                 }}
               >
-                <FormCard title="Prestation (1/5)" icon={<WorkHistoryIcon />}>
+                <FormCard
+                  title="Prestation"
+                  step={1}
+                  totalSteps={5}
+                  icon={<WorkHistoryIcon />}
+                >
                   <DualInputLine>
                     <FormStack>
                       <CustomDatePicker
@@ -1210,7 +1220,12 @@ function OrderForm({
                   </DualInputLine>
                 </FormCard>
 
-                <FormCard title="Livraison (2/5)" icon={<LocalShippingIcon />}>
+                <FormCard
+                  title="Livraison"
+                  step={2}
+                  totalSteps={5}
+                  icon={<LocalShippingIcon />}
+                >
                   <CustomDatePicker
                     disablePast
                     label="Date de livraison estimée"
@@ -1220,7 +1235,12 @@ function OrderForm({
                   />
                 </FormCard>
 
-                <FormCard title="Paiement (3/5)" icon={<EuroIcon />}>
+                <FormCard
+                  title="Paiement"
+                  step={3}
+                  totalSteps={5}
+                  icon={<EuroIcon />}
+                >
                   <TogglePaymentMode />
                   {paymentMode === PAYMENT_MODES.TWICE ? (
                     <Stack
@@ -1446,7 +1466,12 @@ function OrderForm({
                   />
                 </FormCard>
 
-                <FormCard title="TVA (4/5)" icon={<PercentIcon />}>
+                <FormCard
+                  title="TVA"
+                  step={4}
+                  totalSteps={5}
+                  icon={<PercentIcon />}
+                >
                   <SwitchButton
                     checked={order.no_vat}
                     handleCheck={handleVAT}
@@ -1514,11 +1539,11 @@ function OrderForm({
               <Stack className="flex-center" width="100%">
                 <SubmitButton
                   background={(theme) => theme.palette.background.secondary}
-                  color="#000"
-                  icon={<AddIcon />}
-                  label="Nouvelle ligne"
                   onClick={() => handleOpenModal(MODALS.CREATE_ITEM)}
-                />
+                >
+                  Nouvelle ligne
+                  <AddIcon />
+                </SubmitButton>
               </Stack>
 
               {/********** TOTAL PRICES **********/}
@@ -1593,9 +1618,6 @@ function OrderForm({
             {!!selectedQuotation?.recipient_emails?.length && (
               <AlertInfo
                 content={{
-                  // js: `Vous avez déjà envoyé le devis à ${getRecipientString(
-                  //   selectedQuotation.recipient_emails
-                  // )}`,
                   js: (
                     <span>
                       Vous avez déjà envoyé le devis à{" "}
@@ -1655,10 +1677,9 @@ function OrderForm({
               />
               <Stack className="row" gap={2}>
                 <CancelButton handleCancel={handleCloseModal} />
-                <SubmitButton
-                  onClick={() => handleSend(selectedQuotation.id)}
-                  label="Envoyer"
-                />
+                <PillButton onClick={() => handleSend(selectedQuotation.id)}>
+                  Envoyer
+                </PillButton>
               </Stack>
             </CustomForm>
           </>
@@ -1689,7 +1710,7 @@ function OrderForm({
                 />
                 <Stack className="row" gap={2}>
                   <CancelButton handleCancel={handleCloseModal} />
-                  <SubmitButton onClick={handleAssign} />
+                  <PillButton onClick={handleAssign}>Assigner</PillButton>
                 </Stack>
               </CustomForm>
             )}
@@ -1710,7 +1731,7 @@ function OrderForm({
               />
               <Stack className="row" gap={2} alignItems="center">
                 <CancelTextButton handleCancel={handleCloseModal} />
-                <SubmitButton onClick={generatePaymentLink} label="Envoyer" />
+                <PillButton onClick={generatePaymentLink}>Envoyer</PillButton>
               </Stack>
             </CustomForm>
           </>

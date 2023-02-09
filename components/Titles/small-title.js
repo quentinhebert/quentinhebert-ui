@@ -6,12 +6,13 @@ export default function SmallTitle({
   padding,
   fontSize,
   fontFamily,
+  variant,
   ...props
 }) {
   return (
     <Typography
       component="h2"
-      variant="h3"
+      variant={variant || "h3"}
       fontFamily={fontFamily || "kardust"}
       textTransform={textTransform || "uppercase"}
       letterSpacing={2}

@@ -1,6 +1,13 @@
 import { Button } from "@mui/material"
 
-export default function SubmitButton({ disabled, label, icon, ...props }) {
+export default function SubmitButton({
+  disabled,
+  label,
+  icon,
+  color,
+  fontSize,
+  ...props
+}) {
   return (
     <Button
       sx={{
@@ -8,9 +15,9 @@ export default function SubmitButton({ disabled, label, icon, ...props }) {
         marginTop: "2rem",
         fontFamily: "trophy",
         padding: ".75rem 4rem",
-        fontSize: { xs: ".6rem", md: ".8rem" },
+        fontSize: fontSize || { xs: ".6rem", md: ".8rem" },
         textTransform: "capitalize",
-        color: (theme) => theme.palette.secondary.main,
+        color: color || ((theme) => theme.palette.secondary.main),
         backgroundColor: "#000",
         borderRadius: "30px",
         letterSpacing: "1.5px",

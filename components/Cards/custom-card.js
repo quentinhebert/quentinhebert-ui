@@ -6,10 +6,12 @@ const Card = styled(
     background,
     border,
     color,
-    padding,
     gradientOrientation,
     gap,
     boxShadow,
+    padding,
+    borderRadius,
+    hoverProps,
     ...props
   }) => {
     return (
@@ -17,7 +19,7 @@ const Card = styled(
         textAlign="center"
         width="100%"
         height="100%"
-        borderRadius="30px"
+        borderRadius={borderRadius || "30px"}
         sx={{
           // background: (theme) => theme.palette.secondary.main,
           background: background || "transparent",
@@ -29,7 +31,6 @@ const Card = styled(
           boxShadow: boxShadow || `0px 0px 20px 2px rgb(0,0,0,0.5)`,
           border: border || "",
           color: color || "#fff",
-          // padding: padding || "2px",
           gap: { xs: 2, md: 4 },
           marginBottom: "2rem",
         }}
@@ -37,11 +38,12 @@ const Card = styled(
         <Stack
           textAlign="center"
           height="100%"
-          borderRadius="30px"
+          borderRadius={borderRadius || "30px"}
           sx={{
             background: backgroundColor || "#000",
-            padding: "2rem",
-            gap: gap || { xs: 2, md: 4 },
+            padding: padding || "2rem",
+            gap: gap || { xs: 1, md: 2 },
+            "&:hover": hoverProps || {},
           }}
           {...props}
         />

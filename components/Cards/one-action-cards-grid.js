@@ -3,7 +3,8 @@ import BodyText from "../Text/body-text"
 import CustomCard from "./custom-card"
 import styles from "../../styles/TextShine.module.css"
 import CustomCardTitle from "../Titles/custom-card-title"
-import EndCardButton from "../Buttons/end-card-button"
+import PillButton from "../Buttons/pill-button"
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 
 export default function OneActionCardsGrid(props) {
   const { cards } = props
@@ -20,23 +21,28 @@ export default function OneActionCardsGrid(props) {
           sx={{ margin: { xs: "0 auto", sm: "0" } }}
         >
           <CustomCard
-            background="red"
-            border={(theme) => `1px solid ${theme.palette.secondary.main}`}
+            // border={(theme) => `2px solid ${theme.palette.secondary.main}`}
+            backgroundColor={(theme) => theme.palette.background.main}
           >
-            <CustomCardTitle className={styles.shine} color="#fff">
-              {cardItem.icon}
-            </CustomCardTitle>
-            <CustomCardTitle className={styles.shine} color="#fff">
+            <CustomCardTitle color="#fff">{cardItem.icon}</CustomCardTitle>
+            <CustomCardTitle color="#fff" variant="h5">
               {cardItem.title}
             </CustomCardTitle>
-            <BodyText lineHeight="1.5rem" fontSize="1rem">
-              {cardItem.description}
-            </BodyText>
-            <EndCardButton
-              text={cardItem.button.text}
-              href={cardItem.button.href}
-              onClick={cardItem.button.onClick}
-            />
+            {!!cardItem.description && (
+              <BodyText lineHeight="1.5rem" fontSize="1rem">
+                {cardItem.description}
+              </BodyText>
+            )}
+
+            <Stack height="100%" justifyContent="end">
+              <PillButton
+                onClick={cardItem.button.onClick}
+                href={cardItem.button.href}
+                endIcon={<ArrowRightAltIcon />}
+              >
+                {cardItem.button.text}
+              </PillButton>
+            </Stack>
           </CustomCard>
         </Grid>
       ))}
