@@ -102,7 +102,7 @@ const Caroussel = () => {
   }, [inView])
 
   return (
-    <Stack ref={ref} gap={2} position="relative" padding="2rem 0">
+    <Stack ref={ref} gap={4} position="relative" padding="2rem 0 4rem">
       <AutoPlaySwipeableViews
         axis="x" // horizontal
         autoplay={true} // enables autoplay
