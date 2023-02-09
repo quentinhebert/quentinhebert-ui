@@ -186,20 +186,8 @@ export default function ImageViewer({ open, handleClose, title, images }) {
         onBtnClicks={{ red: handleClose }}
         rootPadding={{ xs: ".25rem .1rem", md: "1rem 2rem" }}
       >
-        {/* <Box
-          className="absolute"
-          sx={{ margin: "auto 20px", top: "calc(50% - 50px)" }}
-        >
-          <ArrowButton
-            left
-            onClick={handlePrevious}
-            index={index}
-            totalItems={images.length}
-          />
-        </Box> */}
-
-        <div
-          style={{
+        <Stack
+          sx={{
             position: "relative",
             width: "auto",
             height: "100%",
@@ -226,19 +214,7 @@ export default function ImageViewer({ open, handleClose, title, images }) {
               />
             ))}
           </Carousel>
-        </div>
-
-        {/* <Box
-          className="absolute"
-          sx={{ margin: "auto 20px", top: "calc(50% - 50px)", right: 0 }}
-        >
-          <ArrowButton
-            right
-            onClick={handleNext}
-            index={index}
-            totalItems={images.length}
-          />
-        </Box> */}
+        </Stack>
       </BrowserLayout>
     </Dialog>
   )
