@@ -15,103 +15,105 @@ const Transition = forwardRef(function Transition(props, ref) {
   )
 })
 
-export default function ImageViewer({
-  open,
-  handleClose,
-  title,
-  images,
-  index,
-  setIndex,
-  setCurrentPath,
-}) {
+export default function ImageViewer({ open, handleClose, title, images }) {
   const [triggerNext, setTriggerN] = useState(false)
   const [triggerPrevious, setTriggerP] = useState(false)
+
+  // Handle key press for arrow keys navigation
   useEffect(() => {
     const handleKeyPress = (e) => {
       e = e || window.event
-      if (e.keyCode === 37) {
-        // arrow left key pressed
-        setTriggerP(true)
-      } else if (e.keyCode === 39) {
-        // arrow right key pressed
-        setTriggerN(true)
-      }
+      if (e.keyCode === 37) setTriggerP(true) // arrow left key pressed
+      else if (e.keyCode === 39) setTriggerN(true) // arrow right key pressed
     }
 
     if (!open) return // To avoid adding listeners for image viewers not opened
+
     window.addEventListener("keydown", handleKeyPress)
     return () => window.removeEventListener("keydown", handleKeyPress)
   }, [open])
 
-  const renderDots = ({ activeIndex, setActiveIndex }) => (
-    <Stack
-      width="100%"
-      className="absolute full-width flex-center"
-      bottom="calc(7% + 0.5rem)"
-      sx={{
-        padding: "0 .5rem",
-        opacity: 0,
-        transition: ".3s ease",
-        "&:hover": {
-          opacity: 1,
-        },
-      }}
-    >
+  // Render functions for carousel controls customization
+  const renderDots = ({ activeIndex, setActiveIndex }) => {
+    const [dotsOpacity, setDotsOpacity] = useState(0)
+
+    useEffect(() => {
+      setDotsOpacity(1)
+      setTimeout(() => {
+        setDotsOpacity(0)
+      }, 3000)
+    }, [])
+
+    return (
       <Stack
+        width="100%"
+        className="absolute full-width flex-center"
+        bottom="calc(7% + 0.5rem)"
         sx={{
-          overflow: "hidden",
-          background: (theme) => theme.palette.background.main,
-          borderRadius: "15px",
-          padding: "0 1rem",
-          maxWidth: "100%",
+          padding: "0 .5rem",
+          opacity: dotsOpacity,
+          transition: ".3s ease",
+          "&:hover": {
+            opacity: 1,
+          },
         }}
       >
-        <Box
+        <Stack
           sx={{
-            gap: 1,
-            overflowX: "scroll",
-            padding: "17px 0",
-            marginBottom: "-17px",
-            boxSizing: "content-box",
-            display: "-webkit-box",
+            overflow: "hidden",
+            background: (theme) => theme.palette.background.main,
+            borderRadius: "15px",
+            padding: "0 1rem",
+            maxWidth: "100%",
           }}
-          maxWidth="100%"
-          height="100%"
-          margin="auto auto 0 auto"
         >
-          {images.map((image, key) => (
-            <Box
-              key={key}
-              onClick={() => setActiveIndex(key)}
-              width="5rem"
-              height="4rem"
-              sx={{
-                display: "inline-block",
-                background: `url(${
-                  !!image.path
-                    ? buildPublicURL(image.path, { imgSize: "small" })
-                    : image
-                })`,
-                float: "left",
-                backgroundSize: "cover",
-                opacity: activeIndex === key ? "1" : "0.5",
-                borderRadius: "10px",
-                cursor: "pointer",
-                transition: ".3s ease",
-                border:
-                  activeIndex === key
-                    ? (theme) => `2px solid ${theme.palette.secondary.main}`
-                    : "none",
-                "&:hover": {
-                  opacity: "1",
-                },
-              }}
-            />
-          ))}
-        </Box>
+          <Box
+            sx={{
+              gap: 1,
+              overflowX: "scroll",
+              padding: "17px 0",
+              marginBottom: "-17px",
+              boxSizing: "content-box",
+              display: "-webkit-box",
+            }}
+            maxWidth="100%"
+            height="100%"
+            margin="auto auto 0 auto"
+          >
+            {images.map((image, key) => (
+              <Box
+                key={key}
+                onClick={() => setActiveIndex(key)}
+                width="5rem"
+                height="4rem"
+                sx={{
+                  display: "inline-block",
+                  background: `url(${
+                    !!image.path
+                      ? buildPublicURL(image.path, { imgSize: "small" })
+                      : image
+                  })`,
+                  float: "left",
+                  backgroundSize: "cover",
+                  opacity: activeIndex === key ? "1" : "0.5",
+                  borderRadius: "10px",
+                  cursor: "pointer",
+                  transition: ".3s ease",
+                  border:
+                    activeIndex === key
+                      ? (theme) => `2px solid ${theme.palette.secondary.main}`
+                      : "none",
+                  "&:hover": {
+                    opacity: "1",
+                  },
+                }}
+              />
+            ))}
+          </Box>
+        </Stack>
       </Stack>
-    </Stack>
-  )
+    )
+  }
   const renderArrowLeft = ({ handlePrev, activeIndex }) => {
     useEffect(() => {
       if (triggerPrevious) {

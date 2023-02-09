@@ -76,11 +76,9 @@ const Overlay = (props) => (
 )
 const Pictures = ({ display, thumbnail_url, images, title }) => {
   const [displayedPath, setDisplayedPath] = useState(thumbnail_url)
-  const [index, setIndex] = useState(0)
   const [openFullscreen, setOpenFullscreen] = useState(false)
   const handleFullscreen = () => setOpenFullscreen(true)
   const handleCloseFullscreen = () => {
-    setIndex(0)
     setDisplayedPath(thumbnail_url)
     setOpenFullscreen(false)
   }
@@ -124,10 +122,7 @@ const Pictures = ({ display, thumbnail_url, images, title }) => {
           <Thumbnail
             src={thumbnail_url}
             active={displayedPath === thumbnail_url}
-            onClick={() => {
-              setDisplayedPath(thumbnail_url)
-              setIndex(0)
-            }}
+            onClick={() => setDisplayedPath(thumbnail_url)}
           />
           {!!images.length &&
             images.map((img, key) => {
@@ -137,10 +132,7 @@ const Pictures = ({ display, thumbnail_url, images, title }) => {
                     key={key}
                     src={buildPublicURL(img.path, { imgSize: "small" })}
                     active={displayedPath === buildPublicURL(img.path)}
-                    onClick={() => {
-                      setDisplayedPath(buildPublicURL(img.path))
-                      setIndex(key + 1)
-                    }}
+                    onClick={() => setDisplayedPath(buildPublicURL(img.path))}
                   />
                 )
             })}
@@ -152,9 +144,6 @@ const Pictures = ({ display, thumbnail_url, images, title }) => {
             open={openFullscreen}
             handleClose={handleCloseFullscreen}
             images={[thumbnail_url, ...images]}
-            index={index}
-            setIndex={setIndex}
-            setCurrentPath={setDisplayedPath}
           />
         )}
       </Stack>
