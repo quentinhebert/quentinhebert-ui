@@ -1,8 +1,9 @@
 import { Box, Dialog, Grow, Stack } from "@mui/material"
-import { forwardRef, useState } from "react"
+import { forwardRef, useEffect, useRef, useState } from "react"
 import { buildPublicURL } from "../../services/utils"
 import ArrowButton from "../Buttons/arrow-button"
 import BrowserLayout from "../Layouts/BrowserLayout"
+import Carousel from "framer-motion-carousel"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return (
@@ -23,27 +24,139 @@ export default function ImageViewer({
   setIndex,
   setCurrentPath,
 }) {
-  const handleNext = () => {
-    if (index < 0) return
-    setIndex(index + 1)
-    !!setCurrentPath
-      ? setCurrentPath(
-          !!images[index + 1]?.path
-            ? buildPublicURL(images[index + 1].path)
-            : images[index + 1]
-        )
-      : null
+  const [triggerNext, setTriggerN] = useState(false)
+  const [triggerPrevious, setTriggerP] = useState(false)
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      e = e || window.event
+      if (e.keyCode === 37) {
+        // arrow left key pressed
+        setTriggerP(true)
+      } else if (e.keyCode === 39) {
+        // arrow right key pressed
+        setTriggerN(true)
+      }
+    }
+
+    if (!open) return // To avoid adding listeners for image viewers not opened
+    window.addEventListener("keydown", handleKeyPress)
+    return () => window.removeEventListener("keydown", handleKeyPress)
+  }, [open])
+
+  const renderDots = ({ activeIndex, setActiveIndex }) => (
+    <Stack
+      width="100%"
+      className="absolute full-width flex-center"
+      bottom="calc(7% + 0.5rem)"
+      sx={{
+        padding: "0 .5rem",
+        opacity: 0,
+        transition: ".3s ease",
+        "&:hover": {
+          opacity: 1,
+        },
+      }}
+    >
+      <Stack
+        sx={{
+          overflow: "hidden",
+          background: (theme) => theme.palette.background.main,
+          borderRadius: "15px",
+          padding: "0 1rem",
+          maxWidth: "100%",
+        }}
+      >
+        <Box
+          sx={{
+            gap: 1,
+            overflowX: "scroll",
+            padding: "17px 0",
+            marginBottom: "-17px",
+            boxSizing: "content-box",
+            display: "-webkit-box",
+          }}
+          maxWidth="100%"
+          height="100%"
+          margin="auto auto 0 auto"
+        >
+          {images.map((image, key) => (
+            <Box
+              key={key}
+              onClick={() => setActiveIndex(key)}
+              width="5rem"
+              height="4rem"
+              sx={{
+                display: "inline-block",
+                background: `url(${
+                  !!image.path
+                    ? buildPublicURL(image.path, { imgSize: "small" })
+                    : image
+                })`,
+                float: "left",
+                backgroundSize: "cover",
+                opacity: activeIndex === key ? "1" : "0.5",
+                borderRadius: "10px",
+                cursor: "pointer",
+                transition: ".3s ease",
+                border:
+                  activeIndex === key
+                    ? (theme) => `2px solid ${theme.palette.secondary.main}`
+                    : "none",
+                "&:hover": {
+                  opacity: "1",
+                },
+              }}
+            />
+          ))}
+        </Box>
+      </Stack>
+    </Stack>
+  )
+  const renderArrowLeft = ({ handlePrev, activeIndex }) => {
+    useEffect(() => {
+      if (triggerPrevious) {
+        handlePrev()
+        setTriggerP(false)
+      }
+    }, [triggerPrevious])
+
+    return (
+      <Box
+        className="absolute"
+        zIndex={1}
+        sx={{ margin: "auto 20px", top: "calc(50% - 50px)" }}
+      >
+        <ArrowButton
+          left
+          onClick={handlePrev}
+          index={activeIndex}
+          totalItems={images.length}
+        />
+      </Box>
+    )
   }
-  const handlePrevious = () => {
-    if (index < 0) return
-    setIndex(index - 1)
-    !!setCurrentPath
-      ? setCurrentPath(
-          !!images[index + 1]?.path
-            ? buildPublicURL(images[index + 1].path)
-            : images[index + 1]
-        )
-      : null
+  const renderArrowRight = ({ handleNext, activeIndex }) => {
+    useEffect(() => {
+      if (triggerNext) {
+        handleNext()
+        setTriggerN(false)
+      }
+    }, [triggerNext])
+
+    return (
+      <Box
+        className="absolute"
+        zIndex={1}
+        sx={{ margin: "auto 20px", right: 0, top: "calc(50% - 50px)" }}
+      >
+        <ArrowButton
+          right
+          onClick={handleNext}
+          index={activeIndex}
+          totalItems={images.length}
+        />
+      </Box>
+    )
   }
 
   return (
@@ -55,13 +168,13 @@ export default function ImageViewer({
       onClose={handleClose}
       TransitionComponent={Transition}
       sx={{
-        backgroundColor: "rgb(0,0,0, 0.7)",
+        backgroundColor: "rgb(0,0,0, 0.8)",
         backdropFilter: "blur(3px)",
         "& .MuiDialog-paper": {
           margin: "2vw",
           background: "none",
           minHeight: 0,
-          maxWidth: "100vw",
+          maxWidth: "100%",
           height: "100%",
         },
       }}
@@ -71,7 +184,7 @@ export default function ImageViewer({
         onBtnClicks={{ red: handleClose }}
         rootPadding={{ xs: ".25rem .1rem", md: "1rem 2rem" }}
       >
-        <Box
+        {/* <Box
           className="absolute"
           sx={{ margin: "auto 20px", top: "calc(50% - 50px)" }}
         >
@@ -81,21 +194,39 @@ export default function ImageViewer({
             index={index}
             totalItems={images.length}
           />
-        </Box>
-        <Stack
-          component="img"
-          src={
-            !!images[index]?.path
-              ? buildPublicURL(images[index].path)
-              : images[index]
-          }
-          sx={{
-            objectFit: "contain",
+        </Box> */}
+
+        <div
+          style={{
+            position: "relative",
+            width: "auto",
             height: "100%",
-            width: "100%",
+            margin: "0 auto",
           }}
-        />
-        <Box
+        >
+          <Carousel
+            autoPlay={false}
+            renderDots={renderDots}
+            renderArrowLeft={renderArrowLeft}
+            renderArrowRight={renderArrowRight}
+          >
+            {images.map((img, key) => (
+              <img
+                draggable="false"
+                src={!!img.path ? buildPublicURL(img.path) : img}
+                key={key}
+                width="100%"
+                height="98%"
+                alt=""
+                style={{
+                  objectFit: "contain",
+                }}
+              />
+            ))}
+          </Carousel>
+        </div>
+
+        {/* <Box
           className="absolute"
           sx={{ margin: "auto 20px", top: "calc(50% - 50px)", right: 0 }}
         >
@@ -105,7 +236,7 @@ export default function ImageViewer({
             index={index}
             totalItems={images.length}
           />
-        </Box>
+        </Box> */}
       </BrowserLayout>
     </Dialog>
   )

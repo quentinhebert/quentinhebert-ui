@@ -25,8 +25,9 @@ const BrowserNav = ({ title, onBtnClicks }) => {
       sx={{ background: (theme) => theme.palette.background.primary }}
     >
       <Stack flexDirection="row" gap={1}>
-        {colors.map((color) => (
+        {colors.map((color, key) => (
           <Box
+            key={key}
             onClick={
               !!onBtnClicks && !!onBtnClicks[color]
                 ? () => onBtnClicks[color]()

@@ -9,7 +9,7 @@ import {
   useMediaQuery,
 } from "@mui/material"
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye"
-import { useContext, useState } from "react"
+import { Fragment, useContext, useState } from "react"
 import { WebsitesHomePageContext } from "../../../../contexts/PagesContexts"
 import useSWR from "swr"
 import { fetchers } from "../../../../services/public-fetchers"
@@ -131,29 +131,32 @@ const Pictures = ({ display, thumbnail_url, images, title }) => {
           />
           {!!images.length &&
             images.map((img, key) => {
-              if (key > 2) return <></>
-              return (
-                <Thumbnail
-                  src={buildPublicURL(img.path, { imgSize: "small" })}
-                  active={displayedPath === buildPublicURL(img.path)}
-                  onClick={() => {
-                    setDisplayedPath(buildPublicURL(img.path))
-                    setIndex(key + 1)
-                  }}
-                />
-              )
+              if (key <= 2)
+                return (
+                  <Thumbnail
+                    key={key}
+                    src={buildPublicURL(img.path, { imgSize: "small" })}
+                    active={displayedPath === buildPublicURL(img.path)}
+                    onClick={() => {
+                      setDisplayedPath(buildPublicURL(img.path))
+                      setIndex(key + 1)
+                    }}
+                  />
+                )
             })}
         </Stack>
 
-        <ImageViewer
-          title={title}
-          open={openFullscreen}
-          handleClose={handleCloseFullscreen}
-          images={[thumbnail_url, ...images]}
-          index={index}
-          setIndex={setIndex}
-          setCurrentPath={setDisplayedPath}
-        />
+        {openFullscreen && (
+          <ImageViewer
+            title={title}
+            open={openFullscreen}
+            handleClose={handleCloseFullscreen}
+            images={[thumbnail_url, ...images]}
+            index={index}
+            setIndex={setIndex}
+            setCurrentPath={setDisplayedPath}
+          />
+        )}
       </Stack>
     </Grid>
   )
@@ -211,7 +214,7 @@ export default function PortfolioSection(props) {
             alignSelf="center"
           >
             {data.map((website, key) => (
-              <>
+              <Fragment key={key}>
                 {key % 2 === 0 && (
                   <Pictures
                     title={website.client}
@@ -316,7 +319,7 @@ export default function PortfolioSection(props) {
                     images={website.images}
                   />
                 )}
-              </>
+              </Fragment>
             ))}
           </Grid>
         </CenteredMaxWidthContainer>
