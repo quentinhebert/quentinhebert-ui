@@ -42,7 +42,7 @@ const Card = styled(
           sx={{
             background: backgroundColor || "#000",
             padding: padding || "2rem",
-            gap: gap || { xs: 1, md: 2 },
+            gap: gap || { xs: 1, md: 4 },
             "&:hover": hoverProps || {},
           }}
           {...props}

@@ -62,12 +62,12 @@ const List = ({ items }) =>
 const ServiceCard = ({ service, href, animationElement, orientation }) => {
   if (!service?.service_items) return null
   return (
-    <CustomCard gradientOrientation={orientation}>
+    <CustomCard gradientOrientation={orientation} gap={4} padding={4}>
       <CustomCardTitle
         className="no-select"
         color={(theme) => theme.palette.secondary.main}
       >
-        <Typography variant="h3" fontFamily="POPFINE">
+        <Typography variant="h3" fontFamily="POPFINE" fontSize="3rem">
           {service?.name || ""}
         </Typography>
         <Typography variant="h4" component="div">
