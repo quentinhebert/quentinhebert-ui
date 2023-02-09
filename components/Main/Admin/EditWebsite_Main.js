@@ -146,7 +146,6 @@ function EditWebsite_Main({
     setSnackSeverity("success")
     setSnackMessage("Le site web a été mis à jour !")
     setFile(null)
-    handleCloseEditModal()
   }
   const handleError = () => {
     setSnackSeverity("error")
@@ -466,7 +465,10 @@ function EditWebsite_Main({
               <PillButton onClick={handleDeleteImg} startIcon={<DeleteIcon />}>
                 Supprimer {imgToDelete.length} éléments(s)
               </PillButton>
-              <CancelButton handleCancel={() => setImgToDelete([])} />
+              <CancelButton
+                handleCancel={() => setImgToDelete([])}
+                label="Désélectionner tout"
+              />
             </>
           )}
         </Stack>

@@ -1,6 +1,6 @@
 import PillButton from "./pill-button"
 
-export default function CancelButton({ handleCancel }) {
+export default function CancelButton({ handleCancel, label }) {
   return (
     <PillButton
       color={"#fff"}
@@ -8,7 +8,7 @@ export default function CancelButton({ handleCancel }) {
       background="transparent"
       onClick={handleCancel}
     >
-      Annuler
+      {label || "Annuler"}
     </PillButton>
   )
 }

@@ -80,6 +80,8 @@ const Pictures = ({ display, thumbnail_url, images, title }) => {
   const [openFullscreen, setOpenFullscreen] = useState(false)
   const handleFullscreen = () => setOpenFullscreen(true)
   const handleCloseFullscreen = () => {
+    setIndex(0)
+    setDisplayedPath(thumbnail_url)
     setOpenFullscreen(false)
   }
   return (
