@@ -111,21 +111,21 @@ const Pictures = ({ display, thumbnail_url, images, title }) => {
           </Overlay>
         </Stack>
 
-        <Stack
-          sx={{
-            flexDirection: "row",
-            borderRadius: "20px",
-            overflow: "hidden",
-            background: "rgb(256,256,256,0.025)",
-          }}
-        >
-          <Thumbnail
-            src={thumbnail_url}
-            active={displayedPath === thumbnail_url}
-            onClick={() => setDisplayedPath(thumbnail_url)}
-          />
-          {!!images.length &&
-            images.map((img, key) => {
+        {!!images.length && images.length > 1 && (
+          <Stack
+            sx={{
+              flexDirection: "row",
+              borderRadius: "20px",
+              overflow: "hidden",
+              background: "rgb(256,256,256,0.025)",
+            }}
+          >
+            <Thumbnail
+              src={thumbnail_url}
+              active={displayedPath === thumbnail_url}
+              onClick={() => setDisplayedPath(thumbnail_url)}
+            />
+            {images.map((img, key) => {
               if (key <= 2)
                 return (
                   <Thumbnail
@@ -136,7 +136,8 @@ const Pictures = ({ display, thumbnail_url, images, title }) => {
                   />
                 )
             })}
-        </Stack>
+          </Stack>
+        )}
 
         {openFullscreen && (
           <ImageViewer
