@@ -60,6 +60,7 @@ export default function ScrollToTopBtn(props) {
             fontWeight: "bold",
             boxShadow: "5px 10px 30px 5px rgb(0,0,0,0.3)",
             opacity: 0.7,
+            textTransform: "initial",
             "&:hover": {
               opacity: 1,
               background: (theme) => theme.palette.secondary.main,
