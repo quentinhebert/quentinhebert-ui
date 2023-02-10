@@ -46,33 +46,20 @@ export default function WelcomeSection(props) {
 
       <Stack
         width="100%"
-        minHeight="600px"
         justifyContent="center"
         zIndex={0}
         position="relative"
         sx={{
-          height: { xs: "auto", lg: "150vh" },
+          height: { xs: "auto", lg: "100vh" },
           backgroundImage:
-            "linear-gradient(#000 40%, rgb(0,0,0,0.5)), url(/medias/bubbles.svg)",
+            "linear-gradient(rgb(0,0,0,0.5) 0%, #000 100%), url(/medias/bubbles.svg)",
           backgroundSize: "cover",
           backgroundPosition: `50%`,
         }}
       >
-        {/* Tracking ref for visibility inView */}
-        <Stack
-          ref={ref}
-          height="700px"
-          width="100%"
-          sx={{
-            marginTop: "100px",
-            zIndex: 100,
-          }}
-        />
-
         <Stack
           className="full-width bottom left"
           sx={{
-            position: { xs: "relative", lg: "fixed" },
             flexDirection: { xs: "column", lg: "row" },
             height: { xs: "auto", lg: "100vh" },
           }}
@@ -82,12 +69,16 @@ export default function WelcomeSection(props) {
               width: { xs: "100%", lg: "50%" },
               height: { xs: "auto", lg: "100%" },
               zIndex: 1,
+              overflow: "hidden",
             }}
           >
             <Parallax
-              translateX={[-50, 0]}
+              speed={10}
+              scale={[0.4, 0.7]}
+              translateX={[30, -30]}
               translateY={[0, 0]}
-              // opacity={[0, 1]}
+              easing="easeInQuad"
+              rotate={[0, -20]}
               style={{ height: "100%" }}
             >
               <Stack
@@ -95,13 +86,12 @@ export default function WelcomeSection(props) {
                 minHeight="400px"
                 sx={{
                   height: { xs: "auto", lg: "100%" },
-                  marginTop: { xs: "0", lg: "30px" },
                   backgroundImage: "url(/medias/portrait.jpg)",
                   backgroundSize: "cover",
                   backgroundPosition: {
                     xs: "50%",
                     sm: "0% 10%",
-                    lg: "50%",
+                    lg: "40%",
                   },
                 }}
               />
@@ -109,6 +99,7 @@ export default function WelcomeSection(props) {
           </Stack>
 
           <Stack
+            ref={ref}
             justifyContent="center"
             zIndex={0}
             sx={{
@@ -120,10 +111,11 @@ export default function WelcomeSection(props) {
               gap: "2rem",
             }}
           >
-            <motion.div
-              animate={controls}
-              initial="hidden"
-              variants={textVariant(0)}
+            <Parallax
+              speed={0}
+              translateX={[0, -10]}
+              translateY={[0, 0]}
+              easing="easeInQuad"
             >
               <Typography
                 variant="h2"
@@ -134,7 +126,7 @@ export default function WelcomeSection(props) {
                 <span style={{ color: "#FFF" }}>Créons</span> ensemble,{" "}
                 <span style={{ color: "#FFF" }}>voyons</span> plus loin
               </Typography>
-            </motion.div>
+            </Parallax>
 
             <motion.div
               className="flex column"
