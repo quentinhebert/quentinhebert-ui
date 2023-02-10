@@ -100,12 +100,6 @@ export default function WelcomeSection(props) {
                     sm: "0% 10%",
                     lg: "0%",
                   },
-                  // clipPath: `polygon(
-                  //   calc(24% + 20% * ${progressValue}) 0,
-                  //   calc(24% + 50% + 20% * ${progressValue}) 0,
-                  //   80% 100%,
-                  //   0 100%
-                  // )`,
                 }}
               />
             </Parallax>

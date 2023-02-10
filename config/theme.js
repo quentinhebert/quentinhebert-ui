@@ -75,10 +75,12 @@ const mainTheme = createTheme({
       [theme.breakpoints.up("xs")]: {
         fontSize: "2rem",
         lineHeight: "2rem",
+        fontWeight: "normal",
       },
       [theme.breakpoints.up("md")]: {
         fontSize: "3rem",
         lineHeight: "3rem",
+        fontWeight: "normal",
       },
     },
     h4: {
