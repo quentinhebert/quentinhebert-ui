@@ -40,6 +40,11 @@ export default function WelcomeSection(props) {
 
   const md = useMediaQuery((theme) => theme.breakpoints.down("md"))
 
+  const [progressValue, setProgressValue] = useState(0)
+  function handleProgress(progress) {
+    return setProgressValue(progress)
+  }
+
   return (
     <>
       <Stack ref={topRef} sx={{ scrollMarginTop: "60px" }} />
@@ -73,12 +78,14 @@ export default function WelcomeSection(props) {
             }}
           >
             <Parallax
-              speed={10}
-              scale={[0.4, 0.7]}
-              translateX={[30, -30]}
-              translateY={[0, 0]}
+              // speed={10}
+              onProgressChange={(progress) => handleProgress(progress)}
+              scale={[0.6, 0.9]}
+              translateY={[50, -100]}
+              translateX={[0, 0]}
               easing="easeInQuad"
-              rotate={[0, -20]}
+              // rotate={[0, -10]}
+              // rotate={[90, -270]}
               style={{ height: "100%" }}
             >
               <Stack
@@ -91,8 +98,14 @@ export default function WelcomeSection(props) {
                   backgroundPosition: {
                     xs: "50%",
                     sm: "0% 10%",
-                    lg: "40%",
+                    lg: "0%",
                   },
+                  // clipPath: `polygon(
+                  //   calc(24% + 20% * ${progressValue}) 0,
+                  //   calc(24% + 50% + 20% * ${progressValue}) 0,
+                  //   80% 100%,
+                  //   0 100%
+                  // )`,
                 }}
               />
             </Parallax>
@@ -111,11 +124,10 @@ export default function WelcomeSection(props) {
               gap: "2rem",
             }}
           >
-            <Parallax
-              speed={0}
-              translateX={[0, -10]}
-              translateY={[0, 0]}
-              easing="easeInQuad"
+            <motion.div
+              animate={controls}
+              initial="hidden"
+              variants={textVariant(0)}
             >
               <Typography
                 variant="h2"
@@ -126,7 +138,7 @@ export default function WelcomeSection(props) {
                 <span style={{ color: "#FFF" }}>Créons</span> ensemble,{" "}
                 <span style={{ color: "#FFF" }}>voyons</span> plus loin
               </Typography>
-            </Parallax>
+            </motion.div>
 
             <motion.div
               className="flex column"
