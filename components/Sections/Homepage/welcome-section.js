@@ -40,24 +40,6 @@ export default function WelcomeSection(props) {
 
   const md = useMediaQuery((theme) => theme.breakpoints.down("md"))
 
-  const [opacity, setOpacity] = useState(0)
-  const [width, setWidth] = useState(0)
-  const handleOpacity = (progress) => {
-    // FIXME: on safari, handleOpacity bugs. Fix : try throttle or another library
-    if (md) return
-
-    if (progress < 0.5) {
-      setOpacity(progress * 2)
-      setWidth(progress * 100)
-    } else if (progress > 0.75) {
-      setOpacity(-4 * progress + 4)
-      setWidth(50)
-    } else {
-      setOpacity(1)
-      setWidth(50)
-    }
-  }
-
   return (
     <>
       <Stack ref={topRef} sx={{ scrollMarginTop: "60px" }} />
@@ -70,29 +52,22 @@ export default function WelcomeSection(props) {
         position="relative"
         sx={{
           height: { xs: "auto", lg: "150vh" },
+          backgroundImage:
+            "linear-gradient(#000 40%, rgb(0,0,0,0.5)), url(/medias/bubbles.svg)",
+          backgroundSize: "cover",
+          backgroundPosition: `50%`,
         }}
       >
         {/* Tracking ref for visibility inView */}
-        <Parallax
-          speed={15}
-          onProgressChange={(progress) => handleOpacity(progress)}
-          style={{
+        <Stack
+          ref={ref}
+          height="700px"
+          width="100%"
+          sx={{
+            marginTop: "100px",
             zIndex: 100,
-            position: "absolute",
-            top: 0,
-            height: "1000px",
           }}
-        >
-          <Stack
-            ref={ref}
-            height="700px"
-            width="100%"
-            sx={{
-              marginTop: "100px",
-              zIndex: 100,
-            }}
-          />
-        </Parallax>
+        />
 
         <Stack
           className="full-width bottom left"
@@ -104,29 +79,33 @@ export default function WelcomeSection(props) {
         >
           <Stack
             sx={{
-              width: { xs: "100%", lg: width + "%" },
+              width: { xs: "100%", lg: "50%" },
               height: { xs: "auto", lg: "100%" },
               zIndex: 1,
-              transition: "0s linear",
             }}
           >
-            <Stack
-              width="100%"
-              minHeight="400px"
-              sx={{
-                height: { xs: "auto", lg: "100%" },
-                marginTop: { xs: "0", lg: "30px" },
-                opacity: { xs: 1, lg: opacity },
-                transition: "opacity 0.4s ease",
-                backgroundImage: "url(/medias/portrait.jpg)",
-                backgroundSize: "cover",
-                backgroundPosition: {
-                  xs: "50%",
-                  sm: "0% 10%",
-                  lg: "50%",
-                },
-              }}
-            />
+            <Parallax
+              translateX={[-50, 0]}
+              translateY={[0, 0]}
+              // opacity={[0, 1]}
+              style={{ height: "100%" }}
+            >
+              <Stack
+                width="100%"
+                minHeight="400px"
+                sx={{
+                  height: { xs: "auto", lg: "100%" },
+                  marginTop: { xs: "0", lg: "30px" },
+                  backgroundImage: "url(/medias/portrait.jpg)",
+                  backgroundSize: "cover",
+                  backgroundPosition: {
+                    xs: "50%",
+                    sm: "0% 10%",
+                    lg: "50%",
+                  },
+                }}
+              />
+            </Parallax>
           </Stack>
 
           <Stack
@@ -135,12 +114,8 @@ export default function WelcomeSection(props) {
             sx={{
               width: { xs: "100%", lg: "50%" },
               height: "100%",
-              opacity: { xs: 1, lg: opacity },
+              opacity: { xs: 1, lg: 1 },
               transition: "opacity 0.4s ease",
-              backgroundImage:
-                "linear-gradient(#000 40%, rgb(0,0,0,0.5)), url(/medias/bubbles.svg)",
-              backgroundSize: "cover",
-              backgroundPosition: `50%`,
               padding: "2rem",
               gap: "2rem",
             }}
