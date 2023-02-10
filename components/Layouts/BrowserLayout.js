@@ -22,7 +22,10 @@ const BrowserNav = ({ title, onBtnClicks }) => {
       flexDirection="row"
       position="relative"
       zIndex={1}
-      sx={{ background: (theme) => theme.palette.background.primary }}
+      sx={{
+        background: (theme) => theme.palette.background.primary,
+        borderRadius: "1rem",
+      }}
     >
       <Stack flexDirection="row" gap={1}>
         {colors.map((color, key) => (

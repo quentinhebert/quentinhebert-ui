@@ -68,16 +68,17 @@ export default function ImageViewer({ open, handleClose, title, images }) {
             maxWidth: "100%",
           }}
         >
-          <Box
+          <Stack
+            className="row"
             sx={{
               gap: 1,
               overflowX: "scroll",
               padding: "17px 0",
               marginBottom: "-17px",
-              boxSizing: "content-box",
-              display: "-webkit-box",
+              flexWrap: "no-wrap",
             }}
             maxWidth="100%"
+            width="100%"
             height="100%"
             margin="auto auto 0 auto"
           >
@@ -88,7 +89,6 @@ export default function ImageViewer({ open, handleClose, title, images }) {
                 width="5rem"
                 height="4rem"
                 sx={{
-                  display: "inline-block",
                   background: `url(${
                     !!image.path
                       ? buildPublicURL(image.path, { imgSize: "small" })
@@ -100,6 +100,8 @@ export default function ImageViewer({ open, handleClose, title, images }) {
                   borderRadius: "10px",
                   cursor: "pointer",
                   transition: ".3s ease",
+                  flex: "0 0 5rem",
+                  flexWrap: "no-wrap",
                   border:
                     activeIndex === key
                       ? (theme) => `2px solid ${theme.palette.secondary.main}`
@@ -110,7 +112,7 @@ export default function ImageViewer({ open, handleClose, title, images }) {
                 }}
               />
             ))}
-          </Box>
+          </Stack>
         </Stack>
       </Stack>
     )
