@@ -4,6 +4,7 @@ import { buildPublicURL } from "../../services/utils"
 import ArrowButton from "../Buttons/arrow-button"
 import BrowserLayout from "../Layouts/BrowserLayout"
 import Carousel from "framer-motion-carousel"
+import ProgressiveImage from "react-progressive-image"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return (
@@ -201,17 +202,29 @@ export default function ImageViewer({ open, handleClose, title, images }) {
             renderArrowRight={renderArrowRight}
           >
             {images.map((img, key) => (
-              <img
-                draggable="false"
+              <ProgressiveImage
                 src={!!img.path ? buildPublicURL(img.path) : img}
-                key={key}
-                width="100%"
-                height="98%"
-                alt=""
-                style={{
-                  objectFit: "contain",
-                }}
-              />
+                placeholder={
+                  !!img.path
+                    ? buildPublicURL(img.path, { imgSize: "small" })
+                    : img
+                }
+              >
+                {(src) => (
+                  <img
+                    src={src}
+                    draggable="false"
+                    key={key}
+                    width="100%"
+                    height="98%"
+                    alt=""
+                    loading="lazy"
+                    style={{
+                      objectFit: "contain",
+                    }}
+                  />
+                )}
+              </ProgressiveImage>
             ))}
           </Carousel>
         </Stack>
