@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps, router }) {
   const [accessToken, setAccessToken] = useState(null)
 
   // Loading
-  const [appLoading, setAppLoading] = useState(false)
+  const [appLoading, setAppLoading] = useState(true)
   const [isUserDataFetching, setIsUserDataFetching] = useState(false)
   const [isAnimationProcessing, setIsAnimationProcessing] = useState(false)
 
