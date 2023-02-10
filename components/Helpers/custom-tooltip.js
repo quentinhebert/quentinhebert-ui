@@ -40,12 +40,12 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }))
 
-export default function CustomTooltip(props) {
+export default function CustomTooltip({ show, ...props }) {
   return (
     <Box>
       <HtmlTooltip
         title={
-          props.show ? (
+          show ? (
             <>
               <Stack
                 alignItems="center"

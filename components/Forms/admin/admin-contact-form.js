@@ -259,6 +259,11 @@ export default function AdminContactForm(props) {
     if (res && res.ok) {
       const jsonRes = await res.json()
       setContactItems(jsonRes)
+
+      // Populate intermediate states (useful for reordering)
+      setAddressItems(jsonRes.address)
+      setSocialMediaItems(jsonRes.social_medias)
+      setTraditionalContactItems(jsonRes.contact)
     }
     setIsFetching(false)
   }
@@ -267,13 +272,6 @@ export default function AdminContactForm(props) {
   useEffect(() => {
     fetchContact()
   }, [])
-
-  // Populate intermediate states (useful for reordering)
-  useEffect(() => {
-    setAddressItems(contactItems.address)
-    setSocialMediaItems(contactItems.social_medias)
-    setTraditionalContactItems(contactItems.contact)
-  }, [contactItems])
 
   const handleSuccess = () => {
     setSnackSeverity("success")

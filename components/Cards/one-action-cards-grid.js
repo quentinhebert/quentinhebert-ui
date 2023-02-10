@@ -29,7 +29,7 @@ export default function OneActionCardsGrid(props) {
               {cardItem.title}
             </CustomCardTitle>
             {!!cardItem.description && (
-              <BodyText lineHeight="1.5rem" fontSize="1rem">
+              <BodyText lineHeight="1.5rem" fontSize="1rem" color="grey">
                 {cardItem.description}
               </BodyText>
             )}
