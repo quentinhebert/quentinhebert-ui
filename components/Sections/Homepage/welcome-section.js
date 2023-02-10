@@ -41,11 +41,21 @@ export default function WelcomeSection(props) {
   const md = useMediaQuery((theme) => theme.breakpoints.down("md"))
 
   const [opacity, setOpacity] = useState(0)
+  const [width, setWidth] = useState(0)
   const handleOpacity = (progress) => {
+    // FIXME: on safari, handleOpacity bugs. Fix : try throttle or another library
     if (md) return
-    if (progress < 0.5) setOpacity(progress * 2)
-    else if (progress > 0.75) setOpacity(-4 * progress + 4)
-    else setOpacity(1)
+
+    if (progress < 0.5) {
+      setOpacity(progress * 2)
+      setWidth(progress * 100)
+    } else if (progress > 0.75) {
+      setOpacity(-4 * progress + 4)
+      setWidth(50)
+    } else {
+      setOpacity(1)
+      setWidth(50)
+    }
   }
 
   return (
@@ -64,6 +74,7 @@ export default function WelcomeSection(props) {
       >
         {/* Tracking ref for visibility inView */}
         <Parallax
+          speed={15}
           onProgressChange={(progress) => handleOpacity(progress)}
           style={{
             zIndex: 100,
@@ -93,9 +104,10 @@ export default function WelcomeSection(props) {
         >
           <Stack
             sx={{
-              width: { xs: "100%", lg: "50%" },
+              width: { xs: "100%", lg: width + "%" },
               height: { xs: "auto", lg: "100%" },
               zIndex: 1,
+              transition: "0s linear",
             }}
           >
             <Stack
