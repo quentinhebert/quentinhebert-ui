@@ -22,9 +22,9 @@ const GalleryImg = ({ src, ...props }) => (
       backgroundSize: "cover",
       borderRadius: "100%",
       aspectRatio: "1",
-      border: (theme) => `4px solid ${theme.palette.secondary.main}`,
+      border: (theme) => `4px inset ${theme.palette.secondary.main}`,
       overflow: "hidden",
-      boxShadow: "0 0 3rem 2rem rgb(0,0,0,0.2)",
+      boxShadow: (theme) => `0 0 3rem 1px ${theme.palette.secondary.main}`,
     }}
     {...props}
   >
@@ -136,10 +136,10 @@ export default function WelcomeSection(props) {
           >
             <Parallax
               easing="easeInQuad"
-              scale={[1, 1.2]}
-              translateY={[0, 100]}
+              scale={[1, 1.1]}
+              translateY={[10, 100]}
               translateX={[-5, -5]}
-              rotate={["0deg", "-20deg"]}
+              rotate={["10deg", "-20deg"]}
               onProgressChange={(prgrs) => setProgress(prgrs * 100)}
               style={{
                 width: "60%",

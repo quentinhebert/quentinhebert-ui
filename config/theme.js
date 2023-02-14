@@ -69,7 +69,7 @@ const mainTheme = createTheme({
       },
       [theme.breakpoints.up("md")]: {
         fontSize: "5rem",
-        lineHeight: "7rem",
+        lineHeight: "6rem",
       },
     },
     h3: {
