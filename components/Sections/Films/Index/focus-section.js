@@ -34,11 +34,21 @@ export default function FocusSection(props) {
   const [ref, inView] = useInView()
   const [show, setShow] = useState(false)
   const variants = {
-    visible: {
-      opacity: 1,
-      transition: { duration: 1 },
+    title: {
+      visible: {
+        y: 0,
+        opacity: 1,
+        transition: { duration: 1 },
+      },
+      hidden: { opacity: 0, y: -20 },
     },
-    hidden: { opacity: 0 },
+    text: {
+      visible: {
+        opacity: 1,
+        transition: { duration: 1, delay: 1 },
+      },
+      hidden: { opacity: 0 },
+    },
   }
   const controls = useAnimation()
 
@@ -88,7 +98,7 @@ export default function FocusSection(props) {
         >
           <motion.div
             initial="hidden"
-            variants={variants}
+            variants={variants.title}
             animate={controls}
             style={{
               width: md ? "60%" : "70%",
@@ -108,7 +118,19 @@ export default function FocusSection(props) {
             >
               Focus
             </Typography>
+          </motion.div>
 
+          <motion.div
+            initial="hidden"
+            variants={variants.text}
+            animate={controls}
+            style={{
+              width: md ? "60%" : "70%",
+              display: "flex",
+              flexDirection: "column",
+              gap: "1.5rem",
+            }}
+          >
             <BodyText textAlign="center" color="#fff" fontWeight="bold">
               <Keyword text="Passionné" /> depuis {expNbYears} années, j'ai fait
               de la vidéo mon métier car c'est grâce au son et à l'image que je
