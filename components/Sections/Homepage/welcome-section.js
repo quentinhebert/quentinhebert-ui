@@ -1,9 +1,9 @@
-import { Box, Stack, Typography } from "@mui/material"
+import { Box, CircularProgress, Stack, Typography } from "@mui/material"
 import BodyText from "../../Text/body-text"
 import { Parallax } from "react-scroll-parallax"
 import LeftSubmitButton from "../../Buttons/left-submit-button"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 
@@ -44,6 +44,8 @@ const GalleryImg = ({ src, ...props }) => (
 export default function WelcomeSection(props) {
   const { scrollTo, topRef, refForScroll } = props
 
+  const [progress, setProgress] = useState(0)
+
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
   const controls = useAnimation()
@@ -66,6 +68,39 @@ export default function WelcomeSection(props) {
       controls.start("hidden")
     }
   }, [controls, inView])
+
+  const Progress = () => (
+    <Box sx={{ position: "relative", display: "inline-flex", opacity: 0.3 }}>
+      <CircularProgress
+        size={100}
+        thickness={1.5}
+        variant="determinate"
+        value={progress}
+        color="secondary"
+      />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Typography
+          variant="caption"
+          component="div"
+          color="secondary"
+          fontSize="1.2rem"
+        >
+          {`${Math.round(progress)}%`}
+        </Typography>
+      </Box>
+    </Box>
+  )
 
   return (
     <>
@@ -96,6 +131,7 @@ export default function WelcomeSection(props) {
               width: { xs: "100%", lg: "50%" },
               zIndex: 1,
               gap: 0,
+              position: "relative",
             }}
           >
             <Parallax
@@ -104,16 +140,16 @@ export default function WelcomeSection(props) {
               translateY={[0, 100]}
               translateX={[-5, -5]}
               rotate={["0deg", "-20deg"]}
+              onProgressChange={(prgrs) => setProgress(prgrs * 100)}
               style={{
                 width: "60%",
                 height: "60%",
                 alignSelf: "end",
-                zIndex: 0,
+                zIndex: 1,
               }}
             >
               <GalleryImg src="/medias/cover.jpg" />
             </Parallax>
-
             <Parallax
               easing="easeInQuad"
               scale={[0.6, 1.6]}
@@ -123,12 +159,11 @@ export default function WelcomeSection(props) {
               style={{
                 width: "40%",
                 height: "40%",
-                zIndex: 1,
+                zIndex: 2,
               }}
             >
               <GalleryImg src="/medias/portrait.jpg" />
             </Parallax>
-
             <Parallax
               easing="easeInQuad"
               translateY={[-50, 0]}
@@ -138,10 +173,24 @@ export default function WelcomeSection(props) {
                 width: "60%",
                 height: "60%",
                 alignSelf: "center",
-                zIndex: 0,
+                zIndex: 1,
               }}
             >
               <GalleryImg src="/medias/aalh.jpg" />
+            </Parallax>
+
+            <Parallax
+              easing="easeInQuad"
+              translateY={[0, -100]}
+              rotate={["-20deg", "20deg"]}
+              style={{
+                position: "absolute",
+                bottom: "10%",
+                right: "20%",
+                zindex: 0,
+              }}
+            >
+              <Progress />
             </Parallax>
           </Stack>
 
