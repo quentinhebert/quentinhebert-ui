@@ -24,6 +24,7 @@ const GalleryImg = ({ src, ...props }) => (
       aspectRatio: "1",
       border: (theme) => `4px solid ${theme.palette.secondary.main}`,
       overflow: "hidden",
+      boxShadow: "0 0 3rem 2rem rgb(0,0,0,0.2)",
     }}
     {...props}
   >
@@ -99,8 +100,10 @@ export default function WelcomeSection(props) {
           >
             <Parallax
               easing="easeInQuad"
+              scale={[1, 1.2]}
               translateY={[0, 100]}
               translateX={[-5, -5]}
+              rotate={["0deg", "-20deg"]}
               style={{
                 width: "60%",
                 height: "60%",
@@ -113,9 +116,10 @@ export default function WelcomeSection(props) {
 
             <Parallax
               easing="easeInQuad"
-              scale={[0.9, 1.6]}
-              translateY={[-20, -50]}
+              scale={[0.6, 1.6]}
+              translateY={[-20, -100]}
               translateX={[10, 10]}
+              rotate={["0deg", "20deg"]}
               style={{
                 width: "40%",
                 height: "40%",
@@ -128,6 +132,8 @@ export default function WelcomeSection(props) {
             <Parallax
               easing="easeInQuad"
               translateY={[-50, 0]}
+              scale={[1, 0.2]}
+              rotate={["0deg", "20deg"]}
               style={{
                 width: "60%",
                 height: "60%",
