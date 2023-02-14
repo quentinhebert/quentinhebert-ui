@@ -48,12 +48,12 @@ export default function WelcomeSection(props) {
   const controls = useAnimation()
   const textVariant = (delay) => ({
     visible: {
-      y: 0,
+      x: 0,
       opacity: 1,
       transition: { duration: 1, delay, ease: [0.25, 0.1, 0.25, 1.0] },
     },
     hidden: {
-      y: -25,
+      x: -25,
       opacity: 0,
       transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1.0] },
     },
@@ -113,6 +113,7 @@ export default function WelcomeSection(props) {
 
             <Parallax
               easing="easeInQuad"
+              scale={[0.9, 1.6]}
               translateY={[-20, -50]}
               translateX={[10, 10]}
               style={{
@@ -160,7 +161,6 @@ export default function WelcomeSection(props) {
                     <span style={{ color: "#FFF" }}>voyons</span> plus loin
                   </Typography>
                 </motion.div>
-
                 <motion.div
                   animate={controls}
                   initial="hidden"
