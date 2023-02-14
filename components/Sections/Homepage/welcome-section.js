@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Stack, Typography } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import BodyText from "../../Text/body-text"
 import { Parallax } from "react-scroll-parallax"
 import LeftSubmitButton from "../../Buttons/left-submit-button"
@@ -69,39 +69,6 @@ export default function WelcomeSection(props) {
     }
   }, [controls, inView])
 
-  const Progress = () => (
-    <Box sx={{ position: "relative", display: "inline-flex", opacity: 0.3 }}>
-      <CircularProgress
-        size={100}
-        thickness={1.5}
-        variant="determinate"
-        value={progress}
-        color="secondary"
-      />
-      <Box
-        sx={{
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          position: "absolute",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Typography
-          variant="caption"
-          component="div"
-          color="secondary"
-          fontSize="1.2rem"
-        >
-          {`${Math.round(progress)}%`}
-        </Typography>
-      </Box>
-    </Box>
-  )
-
   return (
     <>
       <Stack ref={topRef} sx={{ scrollMarginTop: "-80px" }} />
@@ -140,7 +107,6 @@ export default function WelcomeSection(props) {
               translateY={[10, 100]}
               translateX={[-5, -5]}
               rotate={["10deg", "-20deg"]}
-              onProgressChange={(prgrs) => setProgress(prgrs * 100)}
               style={{
                 width: "60%",
                 height: "60%",
@@ -189,9 +155,7 @@ export default function WelcomeSection(props) {
                 right: "20%",
                 zindex: 0,
               }}
-            >
-              <Progress />
-            </Parallax>
+            ></Parallax>
           </Stack>
 
           <Stack
