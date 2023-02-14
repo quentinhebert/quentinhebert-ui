@@ -5,6 +5,8 @@ import WhyADevSection from "../Sections/Websites/Index/WhyADev/why-a-dev-section
 import PortfolioSection from "../Sections/Websites/Index/portfolio-section"
 import ContactSection from "../Sections/ReusableSections/contact-section"
 
+import { ParallaxProvider } from "react-scroll-parallax"
+
 export default function WebsitesIndexLayout(props) {
   const {} = props
 
@@ -18,7 +20,7 @@ export default function WebsitesIndexLayout(props) {
   }
 
   return (
-    <>
+    <ParallaxProvider>
       {/* HERO */}
       <HeroSection refsForScroll={refsForScroll} />
 
@@ -31,6 +33,6 @@ export default function WebsitesIndexLayout(props) {
       <WhyADevSection topRef={refsForScroll.whyADev} />
 
       <ContactSection defaultService="website" />
-    </>
+    </ParallaxProvider>
   )
 }

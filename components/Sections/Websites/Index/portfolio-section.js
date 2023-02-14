@@ -1,6 +1,7 @@
 import styles from "../../../../styles/TextShine.module.css"
 import {
   Box,
+  CircularProgress,
   Dialog,
   Grid,
   Stack,
@@ -20,6 +21,7 @@ import MediumTitle from "../../../Titles/medium-title"
 import BodyText from "../../../Text/body-text"
 import LaunchIcon from "@mui/icons-material/Launch"
 import OpenInFullIcon from "@mui/icons-material/OpenInFull"
+import { Parallax } from "react-scroll-parallax"
 
 import dynamic from "next/dynamic"
 import BrowserUiModal from "../../../Modals/browser-ui-modal"
@@ -167,6 +169,7 @@ export default function PortfolioSection(props) {
   })
   if (!!swr.data) data = swr.data // When user loads the page, data is updated by fallbackData (cached === static data), then updated by fetched up-to-date data
 
+  const [progress, setProgress] = useState(0)
   const [selectedWebsite, setSelectedWebsite] = useState({})
   const [openWebview, setOpenWebsiew] = useState(false)
   const handleOpenWebview = () => setOpenWebsiew(true)
@@ -174,147 +177,204 @@ export default function PortfolioSection(props) {
     setSelectedWebsite({})
     setOpenWebsiew(false)
   }
+  function handleProgress(value) {
+    return setProgress(Math.round(value * 100))
+  }
 
   const desktop = useMediaQuery((theme) => theme.breakpoints.up("lg"))
 
+  const Progress = () => (
+    <Box
+      sx={{
+        position: "sticky",
+        padding: 2,
+        bottom: 0,
+        display: "inline-flex",
+        zIndex: 1,
+      }}
+    >
+      <CircularProgress
+        size={75}
+        thickness={1.5}
+        variant="determinate"
+        value={progress}
+        color="secondary"
+        sx={{ background: "rgb(0,0,0,0.7)", borderRadius: "100%" }}
+      />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Typography
+          variant="caption"
+          component="div"
+          color="secondary"
+          fontSize="1rem"
+        >
+          {`${Math.round(progress)}%`}
+        </Typography>
+      </Box>
+    </Box>
+  )
+
   return (
     <>
-      <Stack
-        sx={{
-          position: "relative",
+      <Parallax
+        onProgressChange={(value) => handleProgress(value)}
+        style={{
           background: `linear-gradient(120deg, #000 0%, #151210 50%, #000 100%)`,
         }}
       >
-        <Stack ref={topRef} sx={{ scrollMarginTop: "60px" }} />
-
-        <CenteredMaxWidthContainer
-          percents="80%"
-          pixels="1200px"
-          margin="5rem auto 10rem"
-          sx={{ gap: { xs: "3rem", lg: "5rem" } }}
+        <Stack
+          sx={{
+            position: "relative",
+          }}
         >
-          <MediumTitle preventTransitionOut={desktop} textAlign="center">
-            Mes projets web
-          </MediumTitle>
+          <Stack ref={topRef} sx={{ scrollMarginTop: "60px" }} />
 
-          <Grid
-            container
-            rowSpacing={{ xs: 12, lg: 25 }}
-            columnSpacing={{ xs: 0, lg: 8 }}
-            width="100%"
-            alignSelf="center"
+          <CenteredMaxWidthContainer
+            percents="80%"
+            pixels="1200px"
+            margin="5rem auto 10rem"
+            sx={{ gap: { xs: "3rem", lg: "5rem" } }}
           >
-            {data.map((website, key) => (
-              <Fragment key={key}>
-                {key % 2 === 0 && (
-                  <Pictures
-                    title={website.client}
-                    thumbnail_url={website.thumbnail_url}
-                    images={website.images}
-                  />
-                )}
+            <MediumTitle preventTransitionOut={desktop} textAlign="center">
+              Mes projets web
+            </MediumTitle>
 
-                <Grid
-                  item
-                  xs={0}
-                  lg={6}
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="center"
-                  textAlign="center"
-                  gap={2}
-                >
-                  <ProjectClient>{website.client}</ProjectClient>
-
-                  <Box component="span" textAlign="center">
-                    {website.tags.map((tag, key) => (
-                      <Pill
-                        animDelay={key}
-                        key={key}
-                        preventTransitionOut={desktop}
-                        lineHeight={0}
-                        padding={{ xs: ".1rem 1rem", lg: "0rem .75rem" }}
-                      >
-                        <BodyText
-                          color="#000"
-                          preventTransitionOut={desktop}
-                          textTransform="initial"
-                          fontSize=".8rem"
-                        >
-                          /{tag}
-                        </BodyText>
-                      </Pill>
-                    ))}
-                  </Box>
-
-                  <Stack width="100%">
+            <Grid
+              container
+              rowSpacing={{ xs: 12, lg: 25 }}
+              columnSpacing={{ xs: 0, lg: 8 }}
+              width="100%"
+              alignSelf="center"
+            >
+              {data.map((website, key) => (
+                <Fragment key={key}>
+                  {key % 2 === 0 && (
                     <Pictures
                       title={website.client}
-                      display={{ xs: "flex", lg: "none" }}
                       thumbnail_url={website.thumbnail_url}
                       images={website.images}
                     />
-                  </Stack>
+                  )}
 
-                  <BodyText preventTransitionOut={desktop} textAlign="justify">
-                    {website.description}
-                  </BodyText>
+                  <Grid
+                    item
+                    xs={0}
+                    lg={6}
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    textAlign="center"
+                    gap={2}
+                  >
+                    <ProjectClient>{website.client}</ProjectClient>
 
-                  <Stack className="full-width" alignItems="end">
+                    <Box component="span" textAlign="center">
+                      {website.tags.map((tag, key) => (
+                        <Pill
+                          animDelay={key}
+                          key={key}
+                          preventTransitionOut={desktop}
+                          lineHeight={0}
+                          padding={{ xs: ".1rem 1rem", lg: "0rem .75rem" }}
+                        >
+                          <BodyText
+                            color="#000"
+                            preventTransitionOut={desktop}
+                            textTransform="initial"
+                            fontSize=".8rem"
+                          >
+                            /{tag}
+                          </BodyText>
+                        </Pill>
+                      ))}
+                    </Box>
+
+                    <Stack width="100%">
+                      <Pictures
+                        title={website.client}
+                        display={{ xs: "flex", lg: "none" }}
+                        thumbnail_url={website.thumbnail_url}
+                        images={website.images}
+                      />
+                    </Stack>
+
                     <BodyText
                       preventTransitionOut={desktop}
-                      className={styles.shine}
+                      textAlign="justify"
                     >
-                      – Réalisé en {website.year}
+                      {website.description}
                     </BodyText>
-                  </Stack>
 
-                  <Stack className="flex-center row" gap={2}>
-                    <PillButton
-                      scaleUpOnHover
-                      disabled={!website.url}
-                      background={(theme) => theme.palette.background.secondary}
-                      textTransform="capitalize"
-                      gap={1}
-                      fontFamily="trophy"
-                      fontSize={{ xs: ".6rem", md: "1rem" }}
-                      onClick={() => {
-                        setSelectedWebsite(website)
-                        handleOpenWebview()
-                      }}
-                    >
-                      Afficher le site
-                      <RemoveRedEyeIcon />
-                    </PillButton>
-                    <Tooltip title="Ouvrir dans un nouvel onglet">
-                      <LaunchIcon
-                        color={!website.url ? "primary" : "secondary"}
-                        sx={{
-                          "&:hover": { opacity: !website.url ? 1 : 0.5 },
-                          cursor: !website.url ? "default" : "pointer",
-                        }}
-                        onClick={
-                          !website.url
-                            ? () => {}
-                            : () => window.open(website.url)
+                    <Stack className="full-width" alignItems="end">
+                      <BodyText
+                        preventTransitionOut={desktop}
+                        className={styles.shine}
+                      >
+                        – Réalisé en {website.year}
+                      </BodyText>
+                    </Stack>
+
+                    <Stack className="flex-center row" gap={2}>
+                      <PillButton
+                        scaleUpOnHover
+                        disabled={!website.url}
+                        background={(theme) =>
+                          theme.palette.background.secondary
                         }
-                      />
-                    </Tooltip>
-                  </Stack>
-                </Grid>
+                        textTransform="capitalize"
+                        gap={1}
+                        fontFamily="trophy"
+                        fontSize={{ xs: ".6rem", md: "1rem" }}
+                        onClick={() => {
+                          setSelectedWebsite(website)
+                          handleOpenWebview()
+                        }}
+                      >
+                        Afficher le site
+                        <RemoveRedEyeIcon />
+                      </PillButton>
+                      <Tooltip title="Ouvrir dans un nouvel onglet">
+                        <LaunchIcon
+                          color={!website.url ? "primary" : "secondary"}
+                          sx={{
+                            "&:hover": { opacity: !website.url ? 1 : 0.5 },
+                            cursor: !website.url ? "default" : "pointer",
+                          }}
+                          onClick={
+                            !website.url
+                              ? () => {}
+                              : () => window.open(website.url)
+                          }
+                        />
+                      </Tooltip>
+                    </Stack>
+                  </Grid>
 
-                {key % 2 !== 0 && (
-                  <Pictures
-                    title={website.client}
-                    thumbnail_url={website.thumbnail_url}
-                    images={website.images}
-                  />
-                )}
-              </Fragment>
-            ))}
-          </Grid>
-        </CenteredMaxWidthContainer>
-      </Stack>
+                  {key % 2 !== 0 && (
+                    <Pictures
+                      title={website.client}
+                      thumbnail_url={website.thumbnail_url}
+                      images={website.images}
+                    />
+                  )}
+                </Fragment>
+              ))}
+            </Grid>
+          </CenteredMaxWidthContainer>
+        </Stack>
+        <Progress />
+      </Parallax>
 
       <BrowserUiModal
         title={selectedWebsite.client}
