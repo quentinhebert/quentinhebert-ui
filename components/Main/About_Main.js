@@ -98,7 +98,7 @@ export default function About_Main() {
         <Stack sx={{ width: { xs: "100%", md: "48%" }, gap: 0.25 }}>
           <Stack
             sx={{
-              background: "#252525",
+              background: "linear-gradient(180deg, #252525 0%, #171615 100%)",
               borderRadius: "15px",
               padding: 0.25,
               width: "88%",
