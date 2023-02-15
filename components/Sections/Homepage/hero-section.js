@@ -158,7 +158,10 @@ export default function HeroSection(props) {
         >
           <Stack alignItems="center">
             <AddIcon
-              sx={{ color: "#fff", fontSize: { xs: "10vw", md: "3vw" } }}
+              sx={{
+                color: "#fff",
+                fontSize: { xs: "10vw", md: "5vw", lg: "3vw" },
+              }}
             />
           </Stack>
         </motion.div>
