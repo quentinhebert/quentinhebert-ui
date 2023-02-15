@@ -11,35 +11,6 @@ import VimeoPlayer from "../VideoPlayers/vimeo-player"
 import YoutubePlayer from "../VideoPlayers/youtube-player"
 import TopRightCloseButton from "../Buttons/top-right-close-button"
 
-const CloseBtn = (props) => (
-  <Box
-    className="fixed full-width top left"
-    sx={{
-      height: "60px",
-      zIndex: 100,
-      overflow: "auto",
-      background: "linear-gradient(0deg, transparent 0%, rgb(0,0,0,0.7) 100%)",
-      textShadow: "4px 3px 10px rgba(0,0,0,0.9)",
-    }}
-  >
-    <Stack
-      className="flex-center pointer row fixed gap-4"
-      sx={{
-        right: "2rem",
-        top: "1rem",
-      }}
-      fontFamily="Helmet"
-      {...props}
-    >
-      <ScaleUpOnHoverStack>
-        <Box color="text.secondary">Fermer</Box>
-      </ScaleUpOnHoverStack>
-      <Boop>
-        <CloseIcon color="secondary" />
-      </Boop>
-    </Stack>
-  </Box>
-)
 const VideoTitle = (props) => (
   <Typography
     variant="h1"
