@@ -95,7 +95,7 @@ export default function WelcomeSection(props) {
         >
           <Stack
             sx={{
-              width: { xs: "100%", lg: "50%" },
+              width: { xs: "95%", lg: "50%" },
               zIndex: 1,
               gap: 0,
               position: "relative",
@@ -104,8 +104,8 @@ export default function WelcomeSection(props) {
             <Parallax
               easing="easeInQuad"
               scale={[1, 1.1]}
-              translateY={[10, 100]}
-              translateX={[-5, -5]}
+              translateY={[5, 100]}
+              translateX={[-10, -10]}
               rotate={["10deg", "-20deg"]}
               style={{
                 width: "60%",
@@ -116,12 +116,13 @@ export default function WelcomeSection(props) {
             >
               <GalleryImg src="/medias/cover.jpg" />
             </Parallax>
+
             <Parallax
               easing="easeInQuad"
-              scale={[0.6, 1.6]}
-              translateY={[-20, -100]}
-              translateX={[10, 10]}
-              rotate={["0deg", "20deg"]}
+              scale={[1, 1.6]}
+              translateY={[0, -100]}
+              translateX={[15, 15]}
+              rotate={["-10deg", "30deg"]}
               style={{
                 width: "40%",
                 height: "40%",
@@ -130,11 +131,12 @@ export default function WelcomeSection(props) {
             >
               <GalleryImg src="/medias/portrait.jpg" />
             </Parallax>
+
             <Parallax
               easing="easeInQuad"
-              translateY={[-50, 0]}
-              scale={[1, 0.2]}
-              rotate={["0deg", "20deg"]}
+              translateY={[-40, 0]}
+              scale={[1, 0.4]}
+              rotate={["0deg", "40deg"]}
               style={{
                 width: "60%",
                 height: "60%",
@@ -142,20 +144,8 @@ export default function WelcomeSection(props) {
                 zIndex: 1,
               }}
             >
-              <GalleryImg src="/medias/aalh.jpg" />
+              <GalleryImg src="/medias/bridge.jpg" />
             </Parallax>
-
-            <Parallax
-              easing="easeInQuad"
-              translateY={[0, -100]}
-              rotate={["-20deg", "20deg"]}
-              style={{
-                position: "absolute",
-                bottom: "10%",
-                right: "20%",
-                zindex: 0,
-              }}
-            ></Parallax>
           </Stack>
 
           <Stack
