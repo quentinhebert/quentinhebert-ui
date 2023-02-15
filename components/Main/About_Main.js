@@ -98,7 +98,7 @@ export default function About_Main() {
           <Stack
             sx={{
               background: "#252525",
-              borderRadius: "15px",
+              // borderRadius: "15px",
               padding: 0.25,
               width: "88%",
               alignSelf: "center",
@@ -107,7 +107,7 @@ export default function About_Main() {
             <Stack
               sx={{
                 background: "#000",
-                borderRadius: "15px",
+                // borderRadius: "15px",
                 padding: ".5rem .5rem 1rem",
               }}
             >
@@ -117,7 +117,10 @@ export default function About_Main() {
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
-                style={{ aspectRatio: "16/9", borderRadius: "10px" }}
+                style={{
+                  aspectRatio: "16/9",
+                  // borderRadius: "10px"
+                }}
               />
             </Stack>
           </Stack>
