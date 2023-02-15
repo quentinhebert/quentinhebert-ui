@@ -56,7 +56,7 @@ const CTAIsland = ({ ...props }) => (
       margin="auto"
       padding="1rem 2rem"
       sx={{
-        width: { xs: "60%", sm: "50%", lg: "40%" },
+        width: { xs: "70%", sm: "60%", lg: "50%" },
         minWidth: "300px",
         background: "#000",
         flexDirection: "row",
