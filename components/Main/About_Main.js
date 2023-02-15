@@ -5,6 +5,7 @@ import PillButton from "../Buttons/pill-button"
 import { useState } from "react"
 import EastIcon from "@mui/icons-material/East"
 import { motion } from "framer-motion"
+import YoutubePlayer from "../VideoPlayers/youtube-player"
 
 const Text = (props) => (
   <motion.div
@@ -98,7 +99,7 @@ export default function About_Main() {
           <Stack
             sx={{
               background: "#252525",
-              // borderRadius: "15px",
+              borderRadius: "15px",
               padding: 0.25,
               width: "88%",
               alignSelf: "center",
@@ -107,30 +108,17 @@ export default function About_Main() {
             <Stack
               sx={{
                 background: "#000",
-                // borderRadius: "15px",
+                borderRadius: "15px",
                 padding: ".5rem .5rem 1rem",
               }}
             >
-              <iframe
-                src="https://www.youtube.com/embed/PAhiebzm0pk"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                style={{
-                  aspectRatio: "16/9",
-                  // borderRadius: "10px"
-                }}
+              <YoutubePlayer
+                videoId={"PAhiebzm0pk"}
+                bgColor={(theme) => theme.palette.background.main}
               />
             </Stack>
           </Stack>
-          <Box
-            component="img"
-            src="/medias/macbook-keyboard.png"
-            sx={{
-              filter: `drop-shadow(10px 50px 40px rgb(0,0,0,0.8))`,
-            }}
-          />
+          <Box component="img" src="/medias/macbook-keyboard.png" />
         </Stack>
       </CenteredMaxWidthContainer>
     </Stack>
