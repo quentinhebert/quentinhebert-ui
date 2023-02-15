@@ -34,12 +34,11 @@ export default function About_Main() {
       <CenteredMaxWidthContainer
         percents="80%"
         pixels="1600px"
-        gap="2rem"
         sx={{
-          flexDirection: { xs: "column", md: "row" },
-          padding: { xs: "2rem 0 4rem", md: "8rem 0" },
+          gap: { xs: "5rem", md: "2rem" },
+          flexDirection: { xs: "column-reverse", md: "row" },
+          padding: { xs: "4rem 0 4rem", md: "8rem 0" },
         }}
-        alignItems="center"
       >
         <Stack sx={{ width: { xs: "100%", md: "48%" } }} gap={2}>
           <Typography
