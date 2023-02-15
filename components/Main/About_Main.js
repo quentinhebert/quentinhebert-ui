@@ -94,39 +94,41 @@ export default function About_Main() {
           </Stack>
         </Stack>
 
-        <Stack sx={{ width: { xs: "100%", md: "48%" } }}>
-          <iframe
-            src="https://www.youtube.com/embed/PAhiebzm0pk"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-            style={{ aspectRatio: "16/9" }}
+        <Stack sx={{ width: { xs: "100%", md: "48%" }, gap: 0.25 }}>
+          <Stack
+            sx={{
+              background: "#252525",
+              borderRadius: "15px",
+              padding: 0.25,
+              width: "88%",
+              alignSelf: "center",
+            }}
+          >
+            <Stack
+              sx={{
+                background: "#000",
+                borderRadius: "15px",
+                padding: ".5rem .5rem 1rem",
+              }}
+            >
+              <iframe
+                src="https://www.youtube.com/embed/PAhiebzm0pk"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                style={{ aspectRatio: "16/9", borderRadius: "10px" }}
+              />
+            </Stack>
+          </Stack>
+          <Box
+            component="img"
+            src="/medias/macbook-keyboard.png"
+            sx={{
+              filter: `drop-shadow(10px 50px 40px rgb(0,0,0,0.8))`,
+            }}
           />
         </Stack>
-
-        {/* <Stack justifyContent="center" alignItems="center" gap={4}>
-        <ImgTextBand
-          img="/medias/cta-cover.jpg"
-          title="Un profil scientifique"
-          titleColor="#61b448"
-          text="Après un baccalauréat scientifique, je m'oriente vers une formation d'ingénieur. Je me spécialise en informatique. C'est un secteur prometteur, qui peut m'offrir un bel avenir. Après 5 ans de dure labeur, à douter, à désobéir, à me surpasser, à réfléchir, j'obtiens enfin mon diplôme d'ingénieur."
-          reverse
-        />
-        <ImgTextBand
-          img="/medias/cta-cover.jpg"
-          title="Mes premiers pas dans le web"
-          titleColor="#61b448"
-          text="Mais diplômé en plein covid-19, je choisis de débuter ma carrière dans le web. C'est un choix judicieux qui réunit à la fois mon envie de créer et mes compétences acquises au cours de deux stages de six mois, réalisés dans la programmation web pendant mon cursus d'ingénieur."
-        />
-        <ImgTextBand
-          img="/medias/cta-cover.jpg"
-          title="Un projet de longue date"
-          titleColor="#61b448"
-          text="Depuis le collège, je réalise de courtes vidéos avec mes amis. Je débute avec des clips humoristiques mais très vite, je réalise mon premier court métrage (fiction). Je prends goût à l'écriture, au cadrage, à la réalisation ainsi qu'au montage. Au fil des années, je constitue un collectif avec lequel je réalise des dizaines de sketchs et courts métrages. "
-          reverse
-        />
-      </Stack> */}
       </CenteredMaxWidthContainer>
     </Stack>
   )
