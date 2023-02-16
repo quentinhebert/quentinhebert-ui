@@ -20,7 +20,7 @@ export default function FixedBackground({ url, background }) {
       height="100%"
       zIndex={0}
       sx={{
-        backgroundImage: url,
+        background: `url(${url})`,
         backgroundSize: "cover",
         backgroundPosition: "50%",
       }}

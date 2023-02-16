@@ -72,11 +72,15 @@ const Text = styled(
 
 export default function BodyText(
   props = {
-    fontFamily,
     color,
-    preventTransitionOut,
+    fontFamily,
     preventTransition,
+    preventTransitionOut,
+    animDelay,
+    textAlign,
     letterSpacing,
+    fontSize,
+    lineHeight,
   }
 ) {
   return <Text {...props} />
