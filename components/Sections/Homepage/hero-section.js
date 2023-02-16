@@ -7,6 +7,7 @@ import { useEffect } from "react"
 import { useRouter } from "next/router"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import AddIcon from "@mui/icons-material/Add"
+import { Parallax } from "react-scroll-parallax"
 
 const CTAButton = ({ label, href, delay }) => (
   <Stack width="50%" textAlign="center">
@@ -128,21 +129,45 @@ export default function HeroSection(props) {
       ref={animationRef}
       gap="1rem"
       sx={{
-        background: (theme) => theme.palette.background.secondary,
         height: "100vh",
         minHeight: "-webkit-fill-available",
         marginTop: "-82px",
         minHeight: "600px",
-        background:
-          "linear-gradient(#000 0%, transparent 40%, #000 100%), url(/medias/film_grain.jpg)",
+        // background:
+        //   "linear-gradient(#000 0%, transparent 40%, #000 100%), url(/medias/film_grain.jpg)",
         backgroundSize: "cover",
         zIndex: 1,
         overflow: "hidden",
         padding: "8rem 2.5rem 2rem",
         alignItems: "center",
         justifyContent: "center",
+        position: "relative",
       }}
     >
+      <Parallax
+        easing="easeInQuad"
+        translateY={[0, 40]}
+        scale={[1, 1.2]}
+        style={{
+          zIndex: -1,
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <Stack
+          sx={{
+            height: "100vh",
+            width: "100%",
+            background:
+              "linear-gradient(#000 0%, transparent 40%, #000 80%), url(/medias/film_grain.jpg)",
+            backgroundSize: "cover",
+          }}
+        />
+      </Parallax>
+
       <Stack component="h1">
         <Slide direction="right" {...{ timeout: 500 }} in>
           <div>
