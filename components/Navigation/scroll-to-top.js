@@ -67,7 +67,7 @@ export default function ScrollToTopBtn(props) {
             },
           }}
         >
-          On s'envoye en l'air ?
+          On s'envoie en l'air ?
         </Button>
       </Stack>
     </Slide>
