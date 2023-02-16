@@ -123,7 +123,6 @@ export default function WelcomeSection(props) {
               translateY={[0, -100]}
               translateX={[15, 15]}
               rotate={["-10deg", "30deg"]}
-              rotateY={[-20, 20]}
               style={{
                 width: "40%",
                 height: "40%",
