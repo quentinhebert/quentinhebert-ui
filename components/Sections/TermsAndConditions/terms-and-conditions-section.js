@@ -1,8 +1,9 @@
-import { Stack } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 import PageTitle from "../../Titles/page-title"
 import { formatText, ParseJsx } from "./terms-and-conditions--style"
 import { fetchers } from "../../../services/public-fetchers"
 import useSWR from "swr"
+import styles from "../../../styles/TextShine.module.css"
 
 export default function TermsAndConditionsSection({ staticData }) {
   const swr = useSWR(
@@ -17,14 +18,22 @@ export default function TermsAndConditionsSection({ staticData }) {
   if (!!swr.data) data = swr.data
 
   return (
-    <Stack gap={4}>
+    <Stack gap={10}>
+      <Typography color="secondary" variant="h1" textAlign="center">
+        Mentions légales et CGV
+      </Typography>
+
       <Stack gap={2}>
-        <PageTitle text="Mentions Légales" />
+        <Typography variant="h2" color="#fff" className={styles.shine}>
+          Mentions Légales
+        </Typography>
         <ParseJsx jsx={formatText(data.terms)} />
       </Stack>
 
       <Stack>
-        <PageTitle text="Conditions Générales de Vente" />
+        <Typography variant="h2" color="#fff" className={styles.shine}>
+          Conditions Générales de Vente
+        </Typography>
         <ParseJsx jsx={formatText(data.conditions)} />
       </Stack>
     </Stack>

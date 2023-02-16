@@ -9,9 +9,7 @@ export default function PageTitle(props) {
       fontFamily={fontFamily || "POPFINE"}
       fontWeight="bold"
       textAlign={textAlign || "left"}
-      sx={{
-        color: color || "#fff",
-      }}
+      color="secondary"
       {...props}
     >
       {text}
