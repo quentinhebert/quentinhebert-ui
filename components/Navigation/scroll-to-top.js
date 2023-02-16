@@ -43,7 +43,7 @@ export default function ScrollToTopBtn(props) {
         right="5%"
         zIndex={100}
         sx={{
-          bottom: { xs: "10%", md: "5%" },
+          bottom: "5%",
         }}
       >
         <Button
