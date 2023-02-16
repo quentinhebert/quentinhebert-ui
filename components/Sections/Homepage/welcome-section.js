@@ -95,7 +95,7 @@ export default function WelcomeSection(props) {
         >
           <Stack
             sx={{
-              width: { xs: "95%", lg: "50%" },
+              width: { xs: "90%", lg: "50%" },
               zIndex: 1,
               gap: 0,
               position: "relative",
