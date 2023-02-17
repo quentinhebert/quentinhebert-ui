@@ -1,8 +1,9 @@
 import { Box, Typography } from "@mui/material"
 import { styled } from "@mui/system"
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import { AppContext } from "../../contexts/AppContext"
 
 const Text = styled(
   ({
@@ -18,6 +19,7 @@ const Text = styled(
     ...props
   }) => {
     /********** ANIMATION **********/
+    const { appLoading } = useContext(AppContext)
     const [ref, inView] = useInView()
     const controls = useAnimation()
     const variants = {
@@ -33,12 +35,9 @@ const Text = styled(
     }
     useEffect(() => {
       if (preventTransition) return
-      if (inView) {
-        controls.start("visible")
-      } else if (!preventTransitionOut) {
-        controls.start("hidden")
-      }
-    }, [controls, inView])
+      if (inView && !appLoading) controls.start("visible")
+      else if (!preventTransitionOut) controls.start("hidden")
+    }, [controls, inView, appLoading])
 
     return (
       <Box component={"span"} ref={ref} textAlign={textAlign || "left"}>

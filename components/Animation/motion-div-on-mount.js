@@ -17,7 +17,7 @@ export default function MotionDivOnMount({ hidden, visible, delay, ...props }) {
   const variants = {
     hidden: {
       ...hidden,
-      transition: { delay, duration: 1, ease: [0.32, 0, 0.67, 0] },
+      transition: { delay: delay || 0, duration: 1, ease: [0.32, 0, 0.67, 0] },
     },
     visible: {
       ...visible,

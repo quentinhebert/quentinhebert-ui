@@ -2,7 +2,6 @@ import { Stack, Typography, useMediaQuery } from "@mui/material"
 import BouncingArrow from "../../../Navigation/BouncingArrow"
 import PlayCircleFilledWhiteOutlinedIcon from "@mui/icons-material/PlayCircleFilledWhiteOutlined"
 import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline"
-import { motion, useAnimation } from "framer-motion"
 import ReactPlayer from "react-player"
 import VolumeUpIcon from "@mui/icons-material/VolumeUp"
 import VolumeOffIcon from "@mui/icons-material/VolumeOff"
@@ -10,7 +9,7 @@ import { useEffect, useState } from "react"
 import BodyText from "../../../Text/body-text"
 import PillButton from "../../../Buttons/pill-button"
 import ScaleUpOnHoverStack from "../../../Animation/scale-up-on-hover-stack"
-import { useInView } from "react-intersection-observer"
+import MotionDivOnMount from "../../../Animation/motion-div-on-mount"
 
 const Title = (props) => (
   <Typography
@@ -107,27 +106,8 @@ export default function HeroSection(props) {
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
-  /********** ANIMATION **********/
-  const [ref, inView] = useInView()
-  const controls = useAnimation()
-  const variants = {
-    visible: {
-      opacity: 1,
-      transition: { duration: 1, delay: 0 },
-    },
-    hidden: { opacity: 0 },
-  }
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible")
-    } else {
-      controls.start("hidden")
-    }
-  }, [controls, inView])
-
   return (
     <Stack
-      ref={ref}
       zIndex={1}
       position="relative"
       sx={{
@@ -185,14 +165,13 @@ export default function HeroSection(props) {
           }}
         >
           <BodyText animDelay={0.5}>Je suis</BodyText>
-          <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1 }}
+          <MotionDivOnMount
+            hidden={{ y: -20, opacity: 0 }}
+            visible={{ y: 0, opacity: 1 }}
             style={{ motionDivStyle }}
           >
             <Title textAlign="center">Vidéaste freelance</Title>
-          </motion.div>
+          </MotionDivOnMount>
           <Stack
             className="row gap-10"
             sx={{
@@ -212,8 +191,12 @@ export default function HeroSection(props) {
             transition: "opacity 0.2s ease-in-out",
           }}
         >
-          <motion.div initial="hidden" variants={variants} animate={controls}>
-            <CTAButton onClick={handleClick} animDelay={playing ? 0 : 1.25}>
+          <MotionDivOnMount
+            hidden={{ opacity: 0 }}
+            visible={{ opacity: 1 }}
+            delay={playing ? 0 : 1.25}
+          >
+            <CTAButton onClick={handleClick}>
               <Typography
                 fontFamily="Trophy"
                 sx={{
@@ -231,7 +214,7 @@ export default function HeroSection(props) {
                 />
               )}
             </CTAButton>
-          </motion.div>
+          </MotionDivOnMount>
 
           {playing && (
             <ScaleUpOnHoverStack>
