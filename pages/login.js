@@ -14,8 +14,6 @@ const head = {
   description: "Page de connexion",
   // SEO helpers
   follow: false,
-  keywords:
-    "Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, belgium, advertising, corporate videos, corporate filmmaking",
   // OpenGraph additional tags (sharing)
   type: "website",
   ogImg: "/medias/ogimg.jpg",
