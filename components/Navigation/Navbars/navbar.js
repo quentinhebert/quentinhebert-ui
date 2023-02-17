@@ -85,6 +85,7 @@ export default function Navbar(props) {
                   : "#fff",
                 padding: { xs: "0.25rem 0.75rem", md: "0.5rem 2rem" },
                 letterSpacing: 1,
+                transition: ".1s ease",
                 "&:hover": {
                   background: "#000",
                   borderColor: (theme) => theme.palette.secondary.main,
@@ -125,6 +126,7 @@ export default function Navbar(props) {
               right: { xs: 20, md: 50 },
               top: isReduced ? 10 : 15,
               gap: { xs: 0, lg: 2 },
+              transition: ".1s ease",
             }}
             flexDirection="row"
           >
