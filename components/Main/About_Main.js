@@ -2,21 +2,18 @@ import { Box, Slide, Stack, Typography } from "@mui/material"
 import BodyText from "../Text/body-text"
 import CenteredMaxWidthContainer from "../Containers/centered-max-width-container"
 import PillButton from "../Buttons/pill-button"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import EastIcon from "@mui/icons-material/East"
-import { motion } from "framer-motion"
 import YoutubePlayer from "../VideoPlayers/youtube-player"
 import RedoIcon from "@mui/icons-material/Redo"
 import styles from "../../styles/TextShine.module.css"
+import MotionDivOnMount from "../Animation/motion-div-on-mount"
+import { AppContext } from "../../contexts/AppContext"
 
 const Text = (props) => (
-  <motion.div
-    initial={{ x: 0, y: -20 }}
-    animate={{ x: 0, y: 0 }}
-    transition={{ duration: 1 }}
-  >
+  <MotionDivOnMount hidden={{ x: 0, y: -20 }} visible={{ x: 0, y: 0 }}>
     <BodyText {...props} />
-  </motion.div>
+  </MotionDivOnMount>
 )
 
 const SLIDES = [
@@ -34,9 +31,14 @@ const SLIDES = [
 
 export default function About_Main() {
   const [slide, setSlide] = useState(0)
+  const [render, setRender] = useState(false)
   const handleNext = () => setSlide(slide + 1)
 
+  const { appLoading } = useContext(AppContext)
+
   const handleRestart = () => setSlide(0)
+
+  useEffect(() => setRender(true), [])
 
   return (
     <Stack
@@ -55,7 +57,7 @@ export default function About_Main() {
           padding: { xs: "4rem 0 4rem", md: "8rem 0" },
         }}
       >
-        <Slide direction="right" {...{ timeout: 500 }} in>
+        <Slide direction="right" {...{ timeout: 500 }} in={!appLoading}>
           <Stack sx={{ width: { xs: "100%", lg: "48%" } }} gap={4}>
             <Typography
               variant="h1"
@@ -98,7 +100,7 @@ export default function About_Main() {
           </Stack>
         </Slide>
 
-        <Slide direction="left" {...{ timeout: 500 }} in>
+        <Slide direction="left" {...{ timeout: 500 }} in={!appLoading}>
           <Stack
             sx={{
               width: { xs: "100%", lg: "48%" },
@@ -123,10 +125,12 @@ export default function About_Main() {
                   padding: ".5rem .5rem 1rem",
                 }}
               >
-                <YoutubePlayer
-                  videoId={"PAhiebzm0pk"}
-                  bgColor={(theme) => theme.palette.background.main}
-                />
+                {render ? (
+                  <YoutubePlayer
+                    videoId={"PAhiebzm0pk"}
+                    bgColor={(theme) => theme.palette.background.main}
+                  />
+                ) : null}
               </Stack>
             </Stack>
             <Box component="img" src="/medias/macbook-keyboard.png" />
