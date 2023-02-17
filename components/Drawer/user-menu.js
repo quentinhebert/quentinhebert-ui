@@ -16,11 +16,11 @@ import {
 import React, { useState } from "react"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { logout } from "../../services/utils"
-import Link from "next/link"
 import { USERTYPES } from "../../enums/userTypes"
 import WaitForLogout from "../Modals/wait-for-logout"
 import DashboardIcon from "@mui/icons-material/Dashboard"
 import { PersonalComputer, Projects } from "grommet-icons"
+import NextLink from "../Helpers/next-link"
 
 const AdminItems = [
   {
@@ -54,14 +54,14 @@ const ProfessionalItems = [
 
 const renderMenuItems = (setOfItems) => {
   return setOfItems.map((item, key) => (
-    <Link href={item.url} passHref key={key}>
+    <NextLink href={item.url} key={key}>
       <Box>
         <ListItem button sx={{ color: (theme) => theme.palette.text.white }}>
           <ListItemIcon>{item.icon}</ListItemIcon>
           <ListItemText primary={item.label} />
         </ListItem>
       </Box>
-    </Link>
+    </NextLink>
   ))
 }
 

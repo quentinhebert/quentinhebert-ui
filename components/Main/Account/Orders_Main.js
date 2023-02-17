@@ -10,7 +10,7 @@ import { ORDERSTATES } from "../../../enums/orderStates"
 import BodyText from "../../Text/body-text"
 import Pill from "../../Text/pill"
 import RefreshButton from "../../Buttons/refresh-button"
-import Link from "next/link"
+import NextLink from "../../Helpers/next-link"
 
 const StatusChip = ({ order, display }) => (
   <Pill
@@ -38,7 +38,7 @@ const OrdersCards = ({ orders }) => (
   <Stack gap={2}>
     {!!orders?.length &&
       orders.map((order, key) => (
-        <Link key={key} href={`/account/orders/${order.id}`} passHref>
+        <NextLink key={key} href={`/account/orders/${order.id}`}>
           <Stack
             sx={{
               background: (theme) => theme.palette.background.main,
@@ -107,7 +107,7 @@ const OrdersCards = ({ orders }) => (
               </BodyText>
             </Stack>
           </Stack>
-        </Link>
+        </NextLink>
       ))}
   </Stack>
 )

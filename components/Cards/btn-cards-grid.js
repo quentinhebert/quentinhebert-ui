@@ -2,7 +2,7 @@ import { Grid, Stack } from "@mui/material"
 import CustomCard from "./custom-card"
 import CustomCardTitle from "../Titles/custom-card-title"
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
-import Link from "next/link"
+import NextLink from "../Helpers/next-link"
 
 export default function BtnCardsGrid(props) {
   const { cards } = props
@@ -23,7 +23,7 @@ export default function BtnCardsGrid(props) {
           key={key}
           sx={{ margin: { xs: "0 auto", sm: "0" } }}
         >
-          <Link href={cardItem.button.href || {}}>
+          <NextLink href={cardItem.button.href || {}}>
             <CustomCard
               backgroundColor={(theme) => theme.palette.background.main}
               padding=".5rem 1.5rem"
@@ -46,7 +46,7 @@ export default function BtnCardsGrid(props) {
                 </Stack>
               </Stack>
             </CustomCard>
-          </Link>
+          </NextLink>
         </Grid>
       ))}
     </Grid>

@@ -1,16 +1,15 @@
-import { useContext, useState } from "react"
+import { useState } from "react"
 import AppBar from "@mui/material/AppBar"
 import LoginOrMenuButton from "../login-or-menu-button"
-import { UserContext } from "../../../contexts/UserContext"
 import { Box, Button, Stack } from "@mui/material"
 import theme from "../../../config/theme"
 import { useRouter } from "next/router"
 import dynamic from "next/dynamic"
 import ScaleUpOnHoverStack from "../../Animation/scale-up-on-hover-stack"
 import { useScrollPosition } from "@n8tb1t/use-scroll-position"
-import Link from "next/link"
 import useSWR from "swr"
 import { fetchers } from "../../../services/public-fetchers"
+import NextLink from "../../Helpers/next-link"
 
 const MobileNavbar = dynamic(() => import("./mobile-navbar"))
 const DesktopNavbar = dynamic(() => import("./desktop-navbar"))
@@ -68,7 +67,7 @@ export default function Navbar(props) {
           }}
         />
         <Stack padding="1rem 0.75rem" alignItems="center">
-          <Link href="/contact" passHref>
+          <NextLink href="/contact">
             <Button
               variant="outlined"
               sx={{
@@ -94,9 +93,9 @@ export default function Navbar(props) {
             >
               Contact
             </Button>
-          </Link>
+          </NextLink>
 
-          <Link href="/" passHref>
+          <NextLink href="/">
             <ScaleUpOnHoverStack
               sx={{ flexDirection: "row", alignItems: "center" }}
             >
@@ -118,7 +117,7 @@ export default function Navbar(props) {
                 )}
               </Stack>
             </ScaleUpOnHoverStack>
-          </Link>
+          </NextLink>
 
           <Stack
             sx={{

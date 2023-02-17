@@ -1,16 +1,16 @@
 import { Slide, Stack, Typography, Divider } from "@mui/material"
 import BouncingArrow from "../../Navigation/BouncingArrow"
-import Link from "next/link"
 import { useContext } from "react"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import AddIcon from "@mui/icons-material/Add"
 import { Parallax } from "react-scroll-parallax"
 import { AppContext } from "../../../contexts/AppContext"
 import MotionDivOnMount from "../../Animation/motion-div-on-mount"
+import NextLink from "../../Helpers/next-link"
 
 const CTAButton = ({ label, href, delay }) => (
   <Stack width="50%" textAlign="center">
-    <Link href={href} passHref>
+    <NextLink href={href}>
       <MotionDivOnMount
         hidden={{ opacity: 0, y: -5 }}
         visible={{ opacity: 1, y: 0 }}
@@ -42,7 +42,7 @@ const CTAButton = ({ label, href, delay }) => (
           {label} <ArrowRightAltIcon />
         </Typography>
       </MotionDivOnMount>
-    </Link>
+    </NextLink>
   </Stack>
 )
 const CTAIsland = ({ ...props }) => (

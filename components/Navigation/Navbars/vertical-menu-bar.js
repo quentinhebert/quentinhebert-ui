@@ -12,12 +12,12 @@ import { UserContext } from "../../../contexts/UserContext"
 import ExpandOutlinedIcon from "@mui/icons-material/ExpandOutlined"
 import CompressOutlinedIcon from "@mui/icons-material/CompressOutlined"
 import { USERTYPES } from "../../../enums/userTypes"
-import Link from "next/link"
 import BodyText from "../../Text/body-text"
 import WaitForLogout from "../../Modals/wait-for-logout"
 import { logout } from "../../../services/utils"
 import BasicTooltip from "../../Helpers/basic-tooltip"
 import { useRouter } from "next/router"
+import NextLink from "../../Helpers/next-link"
 
 const AdminItems = [
   {
@@ -147,7 +147,7 @@ export function VerticalMenuBar({}) {
     return (
       <>
         {setOfItems.map((item, key) => (
-          <Link key={key} href={item.url} passHref>
+          <NextLink key={key} href={item.url}>
             <Stack
               sx={{
                 width: { xs: "auto", md: "100%" },
@@ -177,7 +177,7 @@ export function VerticalMenuBar({}) {
                 </ListItem>
               </BasicTooltip>
             </Stack>
-          </Link>
+          </NextLink>
         ))}
       </>
     )

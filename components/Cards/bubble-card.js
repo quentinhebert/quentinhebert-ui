@@ -1,6 +1,6 @@
-import { Badge, Box, Stack, styled, Typography } from "@mui/material"
-import Link from "next/link"
+import { Stack, styled, Typography } from "@mui/material"
 import InlineBadge from "../Helpers/inline-badge"
+import NextLink from "../Helpers/next-link"
 
 const Card = styled(
   ({
@@ -76,11 +76,11 @@ const Card = styled(
 export default function BubbleCard({ href, ...props }) {
   if (!!href)
     return (
-      <Link href={href} passHref>
+      <NextLink href={href}>
         <a>
           <Card {...props} />
         </a>
-      </Link>
+      </NextLink>
     )
 
   return <Card {...props} />

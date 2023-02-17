@@ -1,10 +1,9 @@
 import Slide from "@mui/material/Slide"
-import { Box, Dialog, Fade, Grow, Stack, Typography, Zoom } from "@mui/material"
-import Link from "next/link"
-import theme from "../../../config/theme"
+import { Box, Dialog, Stack, Typography } from "@mui/material"
 import { forwardRef, useEffect } from "react"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import NextLink from "../../Helpers/next-link"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />
@@ -73,7 +72,7 @@ export default function Menu(props) {
                   animate={controls}
                   key={key}
                 >
-                  <Link href={item.href} passHref>
+                  <NextLink href={item.href}>
                     <Typography
                       fontFamily="trophy"
                       className="no-select"
@@ -123,7 +122,7 @@ export default function Menu(props) {
                         0{key + 1}
                       </Box>
                     </Typography>
-                  </Link>
+                  </NextLink>
                 </motion.div>
               )
             })}

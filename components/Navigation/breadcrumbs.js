@@ -1,6 +1,5 @@
 import Typography from "@mui/material/Typography"
 import Stack from "@mui/material/Stack"
-import Link from "next/link"
 import { useRouter } from "next/router"
 import adminTree from "../../enums/breadcrumbs-trees/admin-tree"
 import accountTree from "../../enums/breadcrumbs-trees/account-tree"
@@ -10,6 +9,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
 import { useState } from "react"
 import { useMediaQuery } from "@mui/material"
 import { motion } from "framer-motion"
+import NextLink from "../Helpers/next-link"
 
 export default function Breadcrumbs(props) {
   const { panel } = props
@@ -94,7 +94,7 @@ export default function Breadcrumbs(props) {
 
         if (isExpanded || isCurrentPage || !sm)
           return (
-            <Link href={item.href} passHref key={key}>
+            <NextLink href={item.href} key={key}>
               <motion.div
                 initial={{ opacity: sm ? 0 : 1 }}
                 animate={{ opacity: 1 }}
@@ -154,7 +154,7 @@ export default function Breadcrumbs(props) {
                   )}
                 </Stack>
               </motion.div>
-            </Link>
+            </NextLink>
           )
         return <></>
       })}

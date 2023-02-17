@@ -1,7 +1,5 @@
 import { useEffect } from "react"
 import { Stack, Typography, Box } from "@mui/material"
-import Image from "next/image"
-import Link from "next/link"
 import FacebookIcon from "../../../public/medias/social_icons/facebook.svg"
 import InstagramIcon from "../../../public/medias/social_icons/instagram.svg"
 import LinkedinIcon from "../../../public/medias/social_icons/linkedin.svg"
@@ -22,6 +20,7 @@ import CenteredMaxWidthContainer from "../../Containers/centered-max-width-conta
 import MotionDivFadeInOnMount from "../../Animation/motion-div-fade-in-on-mount"
 import CustomLink from "../../Links/custom-link"
 import ScaleUpOnHoverStack from "../../Animation/scale-up-on-hover-stack"
+import NextLink from "../../Helpers/next-link"
 
 /********** CONSTANTES **********/
 const logoQH = "/logos/logo-qh.png"
@@ -112,7 +111,7 @@ const SocialMedias = ({ items }) => {
 
 const LogoQH = ({ logoUrl }) => (
   <ScaleUpOnHoverStack direction="row" justifyContent="center">
-    <Link href="/" passHref>
+    <NextLink href="/">
       {logoUrl && (
         <Box
           component="img"
@@ -122,7 +121,7 @@ const LogoQH = ({ logoUrl }) => (
           zIndex={100000}
         />
       )}
-    </Link>
+    </NextLink>
   </ScaleUpOnHoverStack>
 )
 

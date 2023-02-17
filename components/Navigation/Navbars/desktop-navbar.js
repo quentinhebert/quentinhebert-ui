@@ -1,7 +1,7 @@
 import { Stack, Typography } from "@mui/material"
-import Link from "next/link"
 import { motion } from "framer-motion"
 import { useRouter } from "next/router"
+import NextLink from "../../Helpers/next-link"
 
 export default function DesktopNavbar(props) {
   const { list, isReduced } = props
@@ -25,7 +25,7 @@ export default function DesktopNavbar(props) {
               transition={{ delay: 0.25 + key * 0.1, duration: 1 }}
               key={key}
             >
-              <Link href={item.href} passHref>
+              <NextLink href={item.href}>
                 <Typography
                   variant="h6"
                   fontFamily="Helmet"
@@ -48,7 +48,7 @@ export default function DesktopNavbar(props) {
                 >
                   {item.label}
                 </Typography>
-              </Link>
+              </NextLink>
             </motion.div>
           )
         })}

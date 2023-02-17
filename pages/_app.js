@@ -73,7 +73,10 @@ function MyApp({ Component, pageProps, router }) {
     >
       <UserContext.Provider value={{ user, setUser, fetchUser }}>
         <ThemeProvider theme={theme}>
-          <AnimatePresence exitBeforeEnter>
+          <AnimatePresence
+            exitBeforeEnter
+            onExitComplete={() => window.scrollTo(0, 0)}
+          >
             <Component {...pageProps} key={router.route} />
             <Snacks
               severity={snackSeverity}

@@ -1,15 +1,15 @@
 import { Box, Button } from "@mui/material"
 import { useAnimation, motion } from "framer-motion"
-import Link from "next/link"
 import { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
+import NextLink from "../Helpers/next-link"
 
 export default function PillButton({ href, ...props }) {
   if (!!href)
     return (
-      <Link href={href} passHref>
+      <NextLink href={href}>
         <Btn {...props} />
-      </Link>
+      </NextLink>
     )
   return <Btn {...props} />
 }
