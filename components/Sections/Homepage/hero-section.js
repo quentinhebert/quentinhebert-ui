@@ -1,7 +1,7 @@
 import { Slide, Stack, Typography, Divider } from "@mui/material"
 import BouncingArrow from "../../Navigation/BouncingArrow"
 import Link from "next/link"
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import AddIcon from "@mui/icons-material/Add"
 import { Parallax } from "react-scroll-parallax"
@@ -117,7 +117,7 @@ export default function HeroSection(props) {
         height: "100vh",
         minHeight: "-webkit-fill-available",
         marginTop: "-82px",
-        minHeight: "600px",
+        minHeight: { xs: "600px", md: "800px" },
         backgroundSize: "cover",
         zIndex: 1,
         overflow: "hidden",

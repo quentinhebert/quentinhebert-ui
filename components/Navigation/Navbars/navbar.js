@@ -2,18 +2,15 @@ import { useContext, useState } from "react"
 import AppBar from "@mui/material/AppBar"
 import LoginOrMenuButton from "../login-or-menu-button"
 import { UserContext } from "../../../contexts/UserContext"
-import Image from "next/image"
 import { Box, Button, Stack } from "@mui/material"
 import theme from "../../../config/theme"
 import { useRouter } from "next/router"
 import dynamic from "next/dynamic"
-import { motion } from "framer-motion"
 import ScaleUpOnHoverStack from "../../Animation/scale-up-on-hover-stack"
 import { useScrollPosition } from "@n8tb1t/use-scroll-position"
 import Link from "next/link"
 import useSWR from "swr"
 import { fetchers } from "../../../services/public-fetchers"
-import styles from "../../../styles/TextShine.module.css"
 
 const MobileNavbar = dynamic(() => import("./mobile-navbar"))
 const DesktopNavbar = dynamic(() => import("./desktop-navbar"))
@@ -31,11 +28,10 @@ export default function Navbar(props) {
   // Define main color of navbar
   let mainColor = theme.palette.background.main
 
-  // Check if user has grant to access that page
-  const { user } = useContext(UserContext)
-
   const router = useRouter()
   const page = router.asPath
+
+  const contactActivePage = page === "/contact"
 
   const [isReduced, setIsReduced] = useState(false)
   useScrollPosition(({ prevPos, currPos }) => {
@@ -81,8 +77,12 @@ export default function Navbar(props) {
                 position: "absolute",
                 left: { xs: 20, md: 50 },
                 top: { xs: isReduced ? 17 : 25, md: isReduced ? 10 : 20 },
-                color: "#fff",
-                borderColor: "#fff",
+                color: contactActivePage
+                  ? (theme) => theme.palette.secondary.main
+                  : "#fff",
+                borderColor: contactActivePage
+                  ? (theme) => theme.palette.secondary.main
+                  : "#fff",
                 padding: { xs: "0.25rem 0.75rem", md: "0.5rem 2rem" },
                 letterSpacing: 1,
                 "&:hover": {
@@ -95,36 +95,29 @@ export default function Navbar(props) {
             </Button>
           </Link>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 2 }}
-          >
-            <Link href="/" passHref>
-              <ScaleUpOnHoverStack
-                sx={{ flexDirection: "row", alignItems: "center" }}
+          <Link href="/" passHref>
+            <ScaleUpOnHoverStack
+              sx={{ flexDirection: "row", alignItems: "center" }}
+            >
+              <Stack
+                width={isReduced ? "45px" : "60px"}
+                height={isReduced ? "35px" : "50px"}
+                sx={{
+                  transition: "width 0.1s ease-in-out, height 0.1s ease-in-out",
+                }}
               >
-                <Stack
-                  width={isReduced ? "45px" : "60px"}
-                  height={isReduced ? "35px" : "50px"}
-                  sx={{
-                    transition:
-                      "width 0.1s ease-in-out, height 0.1s ease-in-out",
-                  }}
-                >
-                  {data?.logo?.URL && (
-                    <Box
-                      component="img"
-                      src={data.logo.URL}
-                      width="100%"
-                      height="100%"
-                      zIndex={1000}
-                    />
-                  )}
-                </Stack>
-              </ScaleUpOnHoverStack>
-            </Link>
-          </motion.div>
+                {data?.logo?.URL && (
+                  <Box
+                    component="img"
+                    src={data.logo.URL}
+                    width="100%"
+                    height="100%"
+                    zIndex={1000}
+                  />
+                )}
+              </Stack>
+            </ScaleUpOnHoverStack>
+          </Link>
 
           <Stack
             sx={{
