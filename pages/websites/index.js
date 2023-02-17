@@ -5,12 +5,13 @@ import PagesLayout from "../../components/Layouts/PagesLayout"
 
 const head = {
   // Main meta tags
-  title: "Développeur Freelance",
-  description: "Développeur Web Freelance : disponible dans toute la France.",
+  title: "Développeur Web en Freelance",
+  description:
+    "Développeur Site Web Professionel : disponible dans toute la France.",
   // SEO helpers
   follow: true,
   keywords:
-    "Web, Developper, JavaScript, Full-Stack, Website, Creator, Digital, Internet, Site, Sites, Site vitrine, Front-End, Frontend, Back-End, Backend",
+    "Quentin Hébert, développeur web, développeur site web professionel, freelance, autoentrepreneur, microentrepreneur, microentreprise, programmation, web, site web, developer, développeur react, développeur javascript, developpeur js",
   // OpenGraph additional tags (sharing)
   type: "website",
   ogImg: "/medias/ogimg.jpg",

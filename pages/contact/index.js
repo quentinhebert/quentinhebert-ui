@@ -4,13 +4,13 @@ import PagesLayout from "../../components/Layouts/PagesLayout"
 
 const head = {
   // Main meta tags
-  title: "Contact",
+  title: "Me contacter",
   description:
-    "Contactez-moi si vous avez un projet et que vous souhaitez collaborer !",
+    "Vous avez un projet ? Donnons du sens à vos idées, que ce soit en vidéo ou sur le web, et réalisons ensemble un film ou un site qui vous ressemble.",
   // SEO helpers
   follow: true,
   keywords:
-    "Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, belgium, advertising, corporate videos, corporate filmmaking",
+    "Quentin hébert, contact, vidéaste, freelance, développeur web, Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, video, monteur video advertising, corporate videos, corporate filmmaking, french videomaker, french director, french filmmaker, mariage, vidéaste mariage, autoentrepreneur, microentrepreneur, microentreprise, programmation, web, site web, developer, développeur react, développeur javascript, developpeur js, contact",
   // OpenGraph additional tags (sharing)
   type: "website",
   ogImg: "/medias/ogimg.jpg",

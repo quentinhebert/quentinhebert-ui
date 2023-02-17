@@ -7,11 +7,11 @@ const head = {
   // Main meta tags
   title: "Vidéaste Freelance",
   description:
-    "Réalisateur – Cadreur – Monteur : disponible dans toute la France.",
+    "Réalisateur – Cadreur – Monteur professionnel : disponible dans toute la France.",
   // SEO helpers
   follow: true,
   keywords:
-    "Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, belgium, advertising, corporate videos, corporate filmmaking",
+    "Quentin Hébert, vidéaste, freelance, Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, video, monteur video advertising, corporate videos, corporate filmmaking, french videomaker, french director, french filmmaker, mariage, vidéaste mariage, autoentrepreneur, microentrepreneur, microentreprise",
   // OpenGraph additional tags (sharing)
   type: "website",
   ogImg: "/medias/ogimg.jpg",

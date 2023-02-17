@@ -1,21 +1,20 @@
-import { Box, Slide, Stack, Typography, Divider } from "@mui/material"
+import { Slide, Stack, Typography, Divider } from "@mui/material"
 import BouncingArrow from "../../Navigation/BouncingArrow"
-import { motion, useAnimation } from "framer-motion"
 import Link from "next/link"
-import { useInView } from "react-intersection-observer"
-import { useEffect } from "react"
-import { useRouter } from "next/router"
+import { useContext, useEffect } from "react"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import AddIcon from "@mui/icons-material/Add"
 import { Parallax } from "react-scroll-parallax"
+import { AppContext } from "../../../contexts/AppContext"
+import MotionDivOnMount from "../../Animation/motion-div-on-mount"
 
 const CTAButton = ({ label, href, delay }) => (
   <Stack width="50%" textAlign="center">
     <Link href={href} passHref>
-      <motion.div
-        initial={{ opacity: 0, y: -5 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: delay, duration: 1 }}
+      <MotionDivOnMount
+        hidden={{ opacity: 0, y: -5 }}
+        visible={{ opacity: 1, y: 0 }}
+        delay={delay}
       >
         <Typography
           color="secondary"
@@ -42,15 +41,15 @@ const CTAButton = ({ label, href, delay }) => (
         >
           {label} <ArrowRightAltIcon />
         </Typography>
-      </motion.div>
+      </MotionDivOnMount>
     </Link>
   </Stack>
 )
 const CTAIsland = ({ ...props }) => (
-  <motion.div
-    initial={{ opacity: 0, y: -5 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.5, duration: 1 }}
+  <MotionDivOnMount
+    hidden={{ opacity: 0, y: -5 }}
+    visible={{ opacity: 1, y: 0 }}
+    delay={0.5}
     style={{ margin: "2rem 0", display: "flex", width: "100%" }}
   >
     <Stack
@@ -68,7 +67,7 @@ const CTAIsland = ({ ...props }) => (
       }}
       {...props}
     />
-  </motion.div>
+  </MotionDivOnMount>
 )
 const JobTitle = ({ label }) => (
   <Stack alignItems="center">
@@ -86,10 +85,10 @@ const JobTitle = ({ label }) => (
 )
 const Identity = ({ label }) => (
   <Stack textAlign="center">
-    <motion.div
-      initial={{ opacity: 0, y: -5 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5, duration: 1 }}
+    <MotionDivOnMount
+      hidden={{ opacity: 0, y: -5 }}
+      visible={{ opacity: 1, y: 0 }}
+      delay={0.5}
     >
       <Typography
         textTransform="uppercase"
@@ -102,39 +101,23 @@ const Identity = ({ label }) => (
       >
         {label}
       </Typography>
-    </motion.div>
+    </MotionDivOnMount>
   </Stack>
 )
-
-const year = new Date().getFullYear()
 
 export default function HeroSection(props) {
   const { scrollTo, refForScroll } = props
 
-  const router = useRouter()
-
-  /********** ANIMATION **********/
-  const [animationRef, inView] = useInView()
-  const controls = useAnimation()
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible")
-    } else {
-      controls.start("hidden")
-    }
-  }, [controls, inView, router])
+  const { appLoading } = useContext(AppContext)
 
   return (
     <Stack
-      ref={animationRef}
       gap="1rem"
       sx={{
         height: "100vh",
         minHeight: "-webkit-fill-available",
         marginTop: "-82px",
         minHeight: "600px",
-        // background:
-        //   "linear-gradient(#000 0%, transparent 40%, #000 100%), url(/medias/film_grain.jpg)",
         backgroundSize: "cover",
         zIndex: 1,
         overflow: "hidden",
@@ -169,16 +152,18 @@ export default function HeroSection(props) {
       </Parallax>
 
       <Stack component="h1">
-        <Slide direction="right" {...{ timeout: 500 }} in>
+        <Slide direction="right" {...{ timeout: 500 }} in={!appLoading}>
           <div>
             <JobTitle label="Réalisateur " />
           </div>
         </Slide>
 
-        <motion.div
-          initial={{ opacity: 0, rotate: "0deg" }}
-          animate={{ opacity: 1, rotate: "360deg" }}
-          transition={{ duration: 1, ease: [0.32, 0, 0.67, 0] }}
+        <MotionDivOnMount
+          hidden={{ opacity: 0, rotate: "0deg" }}
+          visible={{
+            opacity: 1,
+            rotate: "360deg",
+          }}
           style={{ marginBottom: "2rem" }}
         >
           <Stack alignItems="center">
@@ -189,9 +174,9 @@ export default function HeroSection(props) {
               }}
             />
           </Stack>
-        </motion.div>
+        </MotionDivOnMount>
 
-        <Slide direction="left" {...{ timeout: 500 }} in>
+        <Slide direction="left" {...{ timeout: 500 }} in={!appLoading}>
           <div>
             <JobTitle label="Développeur web" />
           </div>

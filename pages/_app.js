@@ -20,6 +20,7 @@ function MyApp({ Component, pageProps, router }) {
   const [appLoading, setAppLoading] = useState(true)
   const [isUserDataFetching, setIsUserDataFetching] = useState(false)
   const [isAnimationProcessing, setIsAnimationProcessing] = useState(false)
+  const [firstLoad, setFirstLoad] = useState(true)
 
   // Snacks
   const [snackSeverity, setSnackSeverity] = useState("error")
@@ -49,46 +50,47 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   useEffect(() => {
-    if (!isAnimationProcessing && !isUserDataFetching) setAppLoading(false)
-    else {
+    if (!isAnimationProcessing && !isUserDataFetching && !firstLoad) {
+      setAppLoading(false)
+
+      // Trick to hide scrollbar (in globals.css > body) and make it auto visible once appLoading is finished
+      document.body.style.overflowY = "auto"
+    } else {
       setAppLoading(true)
       setIsAnimationProcessing(true)
-      setTimeout(() => setIsAnimationProcessing(false), 1000)
+      setTimeout(() => {
+        setFirstLoad(false)
+        setIsAnimationProcessing(false)
+      }, 1000)
     }
   }, [isAnimationProcessing, isUserDataFetching])
 
-  // Initial state
-  useEffect(() => {
-    setAppLoading(!!getToken() && getToken() !== "" && !user)
-  }, [])
-
-  // Loading page
-  if (appLoading) return <AnimatedLogoLayout />
-
   return (
-    <AnimatePresence exitBeforeEnter>
-      <AppContext.Provider
-        value={{
-          appLoading,
-          setAppLoading,
-          setSnackSeverity,
-          setSnackMessage,
-        }}
+    <AppContext.Provider
+      value={{
+        appLoading,
+        setAppLoading,
+        setSnackSeverity,
+        setSnackMessage,
+      }}
+    >
+      <UserContext.Provider
+        value={{ user, setUser, setAccessToken, fetchUser }}
       >
-        <UserContext.Provider
-          value={{ user, setUser, setAccessToken, fetchUser }}
-        >
-          <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+          <AnimatePresence exitBeforeEnter>
             <Component {...pageProps} key={router.route} />
             <Snacks
               severity={snackSeverity}
               message={snackMessage}
               setMessage={setSnackMessage}
             />
-          </ThemeProvider>
-        </UserContext.Provider>
-      </AppContext.Provider>
-    </AnimatePresence>
+          </AnimatePresence>
+
+          {appLoading && <AnimatedLogoLayout />}
+        </ThemeProvider>
+      </UserContext.Provider>
+    </AppContext.Provider>
   )
 }
 

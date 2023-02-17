@@ -10,11 +10,9 @@ import DashboardLayout from "../../components/Layouts/DashboardLayout"
 const head = {
   // Main meta tags
   title: "Dashboard",
-  description: "Retrouvez toutes vos missions, prospects, factures...",
+  description: "Gérez vos missions, prospects, factures...",
   // SEO helpers
   follow: false,
-  keywords:
-    "Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, belgium, advertising, corporate videos, corporate filmmaking",
   // OpenGraph additional tags (sharing)
   type: "website",
   ogImg: "/medias/ogimg.jpg",
