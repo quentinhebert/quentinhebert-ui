@@ -46,6 +46,8 @@ export default function About_Main() {
         background:
           "linear-gradient(#000 0%, transparent 60%, transparent 80%, #000 100%), url(/medias/film_grain.jpg)",
         backgroundSize: "cover",
+        maxWidth: "100%",
+        overflow: "hidden",
       }}
     >
       <CenteredMaxWidthContainer
@@ -55,8 +57,6 @@ export default function About_Main() {
           gap: { xs: "8rem", lg: "2rem" },
           flexDirection: { xs: "column-reverse", lg: "row" },
           padding: { xs: "4rem 0 4rem", md: "8rem 0" },
-          maxWidth: "100%",
-          overflow: "hidden",
         }}
       >
         <Slide direction="right" {...{ timeout: 500 }} in={!appLoading}>
