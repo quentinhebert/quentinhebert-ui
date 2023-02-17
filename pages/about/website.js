@@ -12,7 +12,7 @@ const head = {
     "Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, belgium, advertising, corporate videos, corporate filmmaking, Web developper, développeur web, javascript, informations, à propos du site, technologies, web services",
   // OpenGraph additional tags (sharing)
   type: "website",
-  ogImg: "/medias/ogimg.png",
+  ogImg: "/medias/ogimg.jpg",
 }
 
 export default function AboutWebsitePage({ navbar, footer }) {

@@ -13,7 +13,7 @@ const head = {
   follow: false,
   // OpenGraph additional tags (sharing)
   type: "website",
-  ogImg: "/medias/ogimg.png",
+  ogImg: "/medias/ogimg.jpg",
 }
 
 const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY}`)

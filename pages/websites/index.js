@@ -13,7 +13,7 @@ const head = {
     "Web, Developper, JavaScript, Full-Stack, Website, Creator, Digital, Internet, Site, Sites, Site vitrine, Front-End, Frontend, Back-End, Backend",
   // OpenGraph additional tags (sharing)
   type: "website",
-  ogImg: "/medias/ogimg.png",
+  ogImg: "/medias/ogimg.jpg",
 }
 
 export default function WebsitesHomePage({

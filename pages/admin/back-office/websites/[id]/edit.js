@@ -17,7 +17,7 @@ const head = {
   follow: false,
   // OpenGraph additional tags (sharing)
   type: "website",
-  ogImg: "/medias/ogimg.png",
+  ogImg: "/medias/ogimg.jpg",
 }
 
 export default function EditWebsitePage() {
