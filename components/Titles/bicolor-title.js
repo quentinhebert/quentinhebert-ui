@@ -1,7 +1,8 @@
 import { Stack, Typography, useMediaQuery } from "@mui/material"
 import { useAnimation, motion } from "framer-motion"
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import { useInView } from "react-intersection-observer"
+import { AppContext } from "../../contexts/AppContext"
 import BodyText from "../Text/body-text"
 
 export default function BicolorTitle(props) {
@@ -18,6 +19,7 @@ export default function BicolorTitle(props) {
   } = props
 
   /********** ANIMATION **********/
+  const { appLoading } = useContext(AppContext)
   const [ref, inView] = useInView()
   const variants = {
     visible: {
@@ -29,12 +31,9 @@ export default function BicolorTitle(props) {
   const controls = useAnimation()
 
   useEffect(() => {
-    if (inView) {
-      controls.start("visible")
-    } else {
-      controls.start("hidden")
-    }
-  }, [controls, inView])
+    if (inView && !appLoading) controls.start("visible")
+    else controls.start("hidden")
+  }, [controls, inView, appLoading])
 
   const isMobileOrTablet = useMediaQuery((theme) =>
     theme.breakpoints.down("sm")

@@ -2,13 +2,15 @@ import { Stack, Typography, useMediaQuery } from "@mui/material"
 import theme from "../../config/theme"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
+import { AppContext } from "../../contexts/AppContext"
 
 export default function ImgTextBand(props) {
   const { img, title, titleColor, text, textColor, reverse, portrait } = props
   const md = useMediaQuery(theme.breakpoints.down("md"))
 
   /********** ANIMATION **********/
+  const { appLoading } = useContext(AppContext)
   const [ref, inView] = useInView()
   const variants = (delay) => ({
     visible: {
@@ -20,9 +22,9 @@ export default function ImgTextBand(props) {
   })
   const controls = useAnimation()
   useEffect(() => {
-    if (inView) controls.start("visible")
+    if (inView && !appLoading) controls.start("visible")
     else controls.start("hidden")
-  }, [controls, inView])
+  }, [controls, inView, appLoading])
 
   return (
     <Stack

@@ -11,7 +11,7 @@ export default function AboutWebsite_Main() {
       <Stack padding="4rem 0" gap={4}>
         <Parallax
           easing="easeInQuad"
-          translateY={[0, -10]}
+          translateY={[0, -1]}
           scale={[1, 1.1]}
           style={{
             position: "fixed",
