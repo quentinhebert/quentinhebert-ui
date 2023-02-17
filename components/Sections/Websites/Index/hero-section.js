@@ -1,16 +1,17 @@
 import { Box, Slide, Stack, Typography, Divider } from "@mui/material"
-import PillButton from "../../../Buttons/pill-button"
 import BouncingArrow from "../../../Navigation/BouncingArrow"
 import StrokeText from "../../../Text/stroke-text"
 import styles from "../../../../styles/TextShine.module.css"
-import { motion, useAnimation } from "framer-motion"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
+import MotionDivOnMount from "../../../Animation/motion-div-on-mount"
+import { useContext } from "react"
+import { AppContext } from "../../../../contexts/AppContext"
 
 const CTAIsland = ({ ...props }) => (
-  <motion.div
-    initial={{ opacity: 0, y: -5 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.5, duration: 1 }}
+  <MotionDivOnMount
+    hidden={{ opacity: 0, y: -5 }}
+    visible={{ opacity: 1, y: 0 }}
+    delay={0.5}
     style={{ margin: "2rem 0" }}
   >
     <Stack
@@ -30,14 +31,14 @@ const CTAIsland = ({ ...props }) => (
       }}
       {...props}
     />
-  </motion.div>
+  </MotionDivOnMount>
 )
 const CTAButton = ({ onClick, label, delay }) => (
   <Stack width="50%" textAlign="center">
-    <motion.div
-      initial={{ opacity: 0, y: -5 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: delay || 0, duration: 1 }}
+    <MotionDivOnMount
+      hidden={{ opacity: 0, y: -5 }}
+      visible={{ opacity: 1, y: 0 }}
+      delay={delay || 0}
     >
       <Typography
         color="secondary"
@@ -47,7 +48,7 @@ const CTAButton = ({ onClick, label, delay }) => (
         gap={1}
         sx={{
           padding: "0 1rem",
-          fontSize: { xs: ".6rem", sm: ".8rem", md: "1.3rem" },
+          fontSize: { xs: ".6rem", sm: ".8rem", lg: "1.3rem" },
           cursor: "pointer",
           transition: "0.3s ease-in-out",
           "& > .MuiSvgIcon-root": {
@@ -65,12 +66,14 @@ const CTAButton = ({ onClick, label, delay }) => (
       >
         {label} <ArrowRightAltIcon />
       </Typography>
-    </motion.div>
+    </MotionDivOnMount>
   </Stack>
 )
 
 export default function HeroSection(props) {
   const { refsForScroll } = props
+
+  const { appLoading } = useContext(AppContext)
 
   const scrollTo = (ref) => {
     ref.current.scrollIntoView({
@@ -92,7 +95,7 @@ export default function HeroSection(props) {
       }}
     >
       {/* Right Text */}
-      <Slide direction="left" {...{ timeout: 1000 }} in>
+      <Slide direction="left" {...{ timeout: 1000 }} in={!appLoading}>
         <Stack
           sx={{
             alignSelf: "end",
@@ -163,7 +166,7 @@ export default function HeroSection(props) {
       <Slide
         direction="right"
         {...(true ? { timeout: 1000 } : {})}
-        in
+        in={!appLoading}
         mountOnEnter
         unmountOnExit
       >
