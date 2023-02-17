@@ -88,6 +88,8 @@ export default function FocusSection(props) {
           minHeight: { xs: "600px", sm: "550px", md: "600px" },
           height: "80vh",
           marginTop: "0.01px",
+          maxWidth: "100%",
+          overflow: "hidden",
         }}
       >
         <Slide direction="left" {...{ timeout: 2000 }} in={show}>
