@@ -1,0 +1,12 @@
+
+# Block all crawlers for
+User-agent: *
+Disallow: /account/
+Disallow: /admin/
+Disallow: /dashboard/
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+Sitemap: https://quentinhebert.com/sitemap.xml
