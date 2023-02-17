@@ -14,7 +14,6 @@ import AnimatedLogoLayout from "../components/Animation/animated-logo"
 function MyApp({ Component, pageProps, router }) {
   // User
   const [user, setUser] = useState(null)
-  const [accessToken, setAccessToken] = useState(null)
 
   // Loading
   const [appLoading, setAppLoading] = useState(true)
@@ -35,10 +34,8 @@ function MyApp({ Component, pageProps, router }) {
     if (res && res.ok) {
       const userData = await res.json()
       setUser(userData)
-      setAccessToken(getToken()) // Context
     } else if (res && res.status === 401) {
       removeToken() // Local storage
-      setAccessToken(null) // Context
     }
 
     setIsUserDataFetching(false)
@@ -74,9 +71,7 @@ function MyApp({ Component, pageProps, router }) {
         setSnackMessage,
       }}
     >
-      <UserContext.Provider
-        value={{ user, setUser, setAccessToken, fetchUser }}
-      >
+      <UserContext.Provider value={{ user, setUser, fetchUser }}>
         <ThemeProvider theme={theme}>
           <AnimatePresence exitBeforeEnter>
             <Component {...pageProps} key={router.route} />

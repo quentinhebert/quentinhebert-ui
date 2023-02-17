@@ -11,7 +11,7 @@ function LoginOrMenuButton(props) {
   const {} = props
 
   /********** USER CONTEXT **********/
-  const { user, setUser, setAccessToken } = React.useContext(UserContext)
+  const { user, setUser } = React.useContext(UserContext)
 
   /********** USE-STATES **********/
   const [openLogin, setOpenLogin] = React.useState(false)
@@ -66,7 +66,6 @@ function LoginOrMenuButton(props) {
           isOpen={openDrawer}
           user={user}
           setUser={setUser}
-          setAccessToken={setAccessToken}
         />
       </>
     )

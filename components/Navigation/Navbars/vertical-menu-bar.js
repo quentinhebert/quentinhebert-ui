@@ -106,7 +106,7 @@ const Label = ({ ...props }) => (
 
 export function VerticalMenuBar({}) {
   /******** CONTEXTS ********/
-  const { user, setUser, setAccessToken } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
   const router = useRouter()
 
   /******** USE-STATES ********/
@@ -130,7 +130,6 @@ export function VerticalMenuBar({}) {
     handleOpenLogoutModal()
     const isLoggedOut = await logout() // clean local cookies
     if (isLoggedOut) {
-      setAccessToken(null) // User Context
       setUser(null) // User Context}
     }
     handleCloseLogoutModal()

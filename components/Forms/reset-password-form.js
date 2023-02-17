@@ -57,7 +57,6 @@ export default function ResetPasswordForm(props) {
   )
 
   const router = useRouter()
-  const { setAccessToken } = useContext(UserContext)
 
   /********** FUNCTIONS **********/
   const initialCheck = async () => {
@@ -80,7 +79,6 @@ export default function ResetPasswordForm(props) {
     const jsonRes = await res.json()
     setToken(jsonRes.token) // Cookies
     setRefreshToken(jsonRes.refreshToken) // Cookies
-    setAccessToken(jsonRes.token) // Context
     setSnackMessage("Votre mot de passe a bien été changé")
     setSnackSeverity("success")
 

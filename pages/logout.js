@@ -22,22 +22,16 @@ const head = {
 
 export default function LogoutPage() {
   // USER CONTEXT
-  const { user, setUser, setAccessToken } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
 
   const handleLogout = async () => {
     const isLoggedOut = await logout() // clean local cookies
-    if (isLoggedOut) {
-      setAccessToken(null) // User Context
-      setUser(null) // User Context}
-    } else {
-      window.location.href = "/"
-    }
+    if (isLoggedOut) setUser(null) // User Context}
+    else window.location.href = "/"
   }
 
   useEffect(() => {
-    if (user) {
-      handleLogout()
-    }
+    if (user) handleLogout()
   }, [user])
 
   return (
