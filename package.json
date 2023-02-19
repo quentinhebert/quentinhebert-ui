@@ -33,6 +33,7 @@
     "dayjs": "^1.11.6",
     "framer-motion": "^6.3.3",
     "framer-motion-carousel": "^2.0.1",
+    "globby": "^11.0.1",
     "grommet-icons": "^4.8.0",
     "hamburger-react": "^2.5.0",
     "js-cookie": "^3.0.1",

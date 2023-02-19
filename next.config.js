@@ -7,6 +7,12 @@ const nextConfig = {
   images: {
     domains: ["creaqor.com"],
   },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      require("./scripts/generate-sitemap")
+    }
+    return config
+  },
   headers: async () => [
     {
       source: "/:all*(svg|jpg|png|jpeg)",
