@@ -7,7 +7,7 @@ const head = {
   // Main meta tags
   title: "Vidéaste Freelance",
   description:
-    "Réalisateur – Cadreur – Monteur professionnel : disponible dans toute la France.",
+    "Réalisateur – Cadreur – Monteur professionnel : disponible dans toute la France. Films de mariage, clips vidéos, publicités, courts-métrages, corporate, immobilier...",
   // SEO helpers
   follow: true,
   keywords:
