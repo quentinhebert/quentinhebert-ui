@@ -4,6 +4,12 @@ User-agent: *
 Disallow: /account/
 Disallow: /admin/
 Disallow: /dashboard/
+Disallow: /401
+Disallow: /404
+Disallow: /login
+Disallow: /logout
+Disallow: /quotation-view/
+Disallow: /order-view/
 
 # Allow all crawlers
 User-agent: *
