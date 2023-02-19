@@ -4,7 +4,7 @@ import PagesLayout from "../../components/Layouts/PagesLayout"
 
 const head = {
   // Main meta tags
-  title: "Me contacter",
+  title: "Contactez-moi",
   description:
     "Vous avez un projet ? Donnons du sens à vos idées, que ce soit en vidéo ou sur le web, et réalisons ensemble un film ou un site qui vous ressemble.",
   // SEO helpers
