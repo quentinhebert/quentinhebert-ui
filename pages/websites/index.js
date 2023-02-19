@@ -7,7 +7,7 @@ const head = {
   // Main meta tags
   title: "Développeur Web en Freelance",
   description:
-    "Développeur Site Web Professionel : disponible dans toute la France.",
+    "Développeur Site Web Professionel : disponible dans toute la France. Construisons votre site web professionnel sur-mesure ensemble.",
   // SEO helpers
   follow: true,
   keywords:
