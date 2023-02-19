@@ -6,6 +6,7 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import { useEffect, useState } from "react"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import NextLink from "../../Helpers/next-link"
 
 const birthdate = new Date("1998/1/15")
 const cur = new Date()
@@ -167,7 +168,8 @@ export default function WelcomeSection(props) {
                     color="secondary"
                   >
                     <span style={{ color: "#FFF" }}>Créons</span> ensemble,{" "}
-                    <span style={{ color: "#FFF" }}>voyons</span> plus loin
+                    <span style={{ color: "#FFF" }}>une histoire</span> qui vous
+                    ressemble
                   </Typography>
                 </motion.div>
                 <motion.div
@@ -192,16 +194,18 @@ export default function WelcomeSection(props) {
                   variants={textVariant(1)}
                 >
                   <Box width="100%">
-                    <LeftSubmitButton onClick={() => scrollTo(refForScroll)}>
-                      <Typography
-                        sx={{
-                          fontSize: { xs: ".6rem", md: ".8rem" },
-                        }}
-                      >
-                        Services
-                      </Typography>{" "}
-                      <ArrowRightAltIcon />
-                    </LeftSubmitButton>
+                    <NextLink href="/contact">
+                      <LeftSubmitButton>
+                        <Typography
+                          sx={{
+                            fontSize: { xs: ".6rem", md: ".8rem" },
+                          }}
+                        >
+                          Contactez-moi
+                        </Typography>{" "}
+                        <ArrowRightAltIcon />
+                      </LeftSubmitButton>
+                    </NextLink>
                   </Box>
                 </motion.div>
               </Stack>
