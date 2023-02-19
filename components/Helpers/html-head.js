@@ -34,7 +34,7 @@ export default function HtmlHead({
 
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:type" content={type} />
-      <meta property="og:title" content={title} />
+      <meta property="og:title" content={pageTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImg} />
 
