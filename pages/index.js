@@ -14,7 +14,7 @@ const head = {
     "Quentin hébert, vidéaste, freelance, développeur web, Filmmaker, Filmmaking, Videomaker, editor, content creator, wedding filmmaker, video, monteur video advertising, corporate videos, corporate filmmaking, french videomaker, french director, french filmmaker, mariage, vidéaste mariage, autoentrepreneur, microentrepreneur, microentreprise, programmation, web, site web, developer, développeur react, développeur javascript, developpeur js",
   // OpenGraph additional tags (sharing)
   type: "website",
-  ogImg: "/medias/ogimg.img",
+  ogImg: "/medias/ogimg.jpg",
 }
 
 export default function HomePage(props) {
