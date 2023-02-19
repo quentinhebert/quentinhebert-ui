@@ -168,6 +168,7 @@ export default function HeroSection(props) {
         >
           <Stack alignItems="center">
             <AddIcon
+              titleAccess="& "
               sx={{
                 color: "#fff",
                 fontSize: { xs: "10vw", md: "5vw", lg: "3vw" },
