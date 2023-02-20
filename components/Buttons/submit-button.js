@@ -14,7 +14,7 @@ export default function SubmitButton({
         gap: 2,
         marginTop: "2rem",
         fontFamily: "trophy",
-        padding: ".75rem 4rem",
+        padding: { xs: ".75rem 3rem", md: ".75rem 4rem" },
         fontSize: fontSize || { xs: ".6rem", md: ".8rem" },
         textTransform: "capitalize",
         color: color || ((theme) => theme.palette.secondary.main),
@@ -26,7 +26,7 @@ export default function SubmitButton({
         textShadow: (theme) => `0px 0px 10px ${theme.palette.secondary.main}`,
         "& > .MuiTypography-root": {
           scale: "1",
-          transition: ".3s ease-in-out",
+          transition: ".3s ease",
           textShadow: (theme) => `0px 0px 10px ${theme.palette.secondary.main}`,
         },
         "&:hover": {
@@ -34,15 +34,15 @@ export default function SubmitButton({
           boxShadow: (theme) =>
             `0px 0px 20px 5px ${theme.palette.secondary.main}`,
           "& > .MuiTypography-root": {
-            scale: "1.05",
+            scale: "1.025",
           },
           "& > .MuiSvgIcon-root": {
-            transition: "0.2s ease-in-out",
-            translate: "40px",
+            transition: "0.3s ease",
+            translate: { xs: "20px", md: "40px" },
           },
         },
         "& > .MuiSvgIcon-root": {
-          transition: "0.2s ease-in-out",
+          transition: "0.3s ease",
         },
         "& > .MuiTypography-root": {
           fontFamily: "trophy",
