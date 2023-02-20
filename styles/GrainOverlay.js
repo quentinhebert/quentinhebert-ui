@@ -12,7 +12,7 @@ export default function GrainOverlay() {
         left: 0,
         pointerEvents: "none",
         opacity: { xs: 0.045, md: 0.035 },
-        zIndex: 100000000,
+        zIndex: 100,
         backgroundSize: { xs: "80vw", md: "25vw" },
       }}
     />
