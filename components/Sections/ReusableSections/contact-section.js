@@ -1,9 +1,13 @@
 import { useEffect } from "react"
 import { Stack, Typography } from "@mui/material"
-import ContactForm from "../../Forms/contact-form"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
+
+import dynamic from "next/dynamic"
+const ContactForm = dynamic(() => import("../../Forms/contact-form"), {
+  ssr: false,
+})
 
 export default function ContactSection({ defaultService, topRef, ...props }) {
   /********** ANIMATION **********/

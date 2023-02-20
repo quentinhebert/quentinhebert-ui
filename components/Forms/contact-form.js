@@ -71,9 +71,7 @@ const OptionalLabel = () => (
   </Span>
 )
 
-export default function ContactForm(props) {
-  const { defaultService, defaultDirection } = props
-
+export default function ContactForm({ defaultService, defaultDirection }) {
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   const initialFormData = {
@@ -85,8 +83,8 @@ export default function ContactForm(props) {
     description: "",
     budget: "",
     services: {
-      film: defaultService && defaultService === "film" ? true : false,
-      website: defaultService && defaultService === "website" ? true : false,
+      film: !!defaultService && defaultService === "film",
+      website: !!defaultService && defaultService === "website",
     },
   }
   const requiredFields = ["firstname", "email", "description"]
