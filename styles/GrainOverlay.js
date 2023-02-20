@@ -5,15 +5,15 @@ export default function GrainOverlay() {
     <Stack
       sx={{
         background: (theme) => `url(/medias/noise.gif)`,
-        width: "100vw",
-        height: "100vh",
+        width: "100%",
+        height: "100%",
         position: "fixed",
         top: 0,
         left: 0,
         pointerEvents: "none",
-        opacity: 0.035,
+        opacity: { xs: 0.045, md: 0.035 },
         zIndex: 100000000,
-        backgroundSize: "25vw",
+        backgroundSize: { xs: "80vw", md: "25vw" },
       }}
     />
   )
