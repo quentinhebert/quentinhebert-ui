@@ -15,10 +15,12 @@ export default function WebsitesIndexLayout(props) {
   const focusRef = useRef()
   const portfolioRef = useRef()
   const contactRef = useRef()
+  const ctaRef = useRef()
   const refsForScroll = {
-    whyADev: whyADevRef,
+    cta: ctaRef,
     focus: focusRef,
     portfolio: portfolioRef,
+    whyADev: whyADevRef,
     contact: contactRef,
   }
 
