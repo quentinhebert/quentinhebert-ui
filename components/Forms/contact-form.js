@@ -16,6 +16,7 @@ import CustomCheckbox from "../Inputs/custom-checkbox"
 import BodyText from "../Text/body-text"
 import RedoRoundedIcon from "@mui/icons-material/RedoRounded"
 import SendIcon from "@mui/icons-material/Send"
+import Span from "../Text/span"
 
 /** CONSTANTS **/
 
@@ -64,6 +65,11 @@ const WordCaroussel = ({ defaultService }) => (
     </Box>
   </BodyText>
 )
+const OptionalLabel = () => (
+  <Span color="grey" fontStyle="italic">
+    (Optionnel)
+  </Span>
+)
 
 export default function ContactForm(props) {
   const { defaultService, defaultDirection } = props
@@ -83,7 +89,7 @@ export default function ContactForm(props) {
       website: defaultService && defaultService === "website" ? true : false,
     },
   }
-  const requiredFields = ["firstname", "email", "budget", "description"]
+  const requiredFields = ["firstname", "email", "description"]
 
   const initialErrors = {
     firstname: false,
@@ -246,7 +252,11 @@ export default function ContactForm(props) {
           <CustomFilledInput
             type="input"
             id="lastname"
-            label="Nom (Optionnel)"
+            label={
+              <>
+                Nom <OptionalLabel />
+              </>
+            }
             placeholder={formData.services.film ? "Vuitton" : "Etchebest"}
             value={formData.lastname}
             onChange={handleChange("lastname")}
@@ -273,7 +283,11 @@ export default function ContactForm(props) {
           <CustomFilledInput
             type="phone"
             id="phone"
-            label="Téléphone (Optionnel)"
+            label={
+              <>
+                Téléphone <OptionalLabel />
+              </>
+            }
             placeholder="06XXXXXXXX"
             value={formData.phone}
             onChange={handleChange("phone")}
@@ -284,7 +298,11 @@ export default function ContactForm(props) {
           <CustomFilledInput
             type="input"
             id="company"
-            label="Entreprise (Optionnel)"
+            label={
+              <>
+                Entreprise <OptionalLabel />
+              </>
+            }
             placeholder={
               formData.services.film ? "Louis Vuitton" : "Philippe Etchebest"
             }
@@ -303,10 +321,8 @@ export default function ContactForm(props) {
                 formData.budget !== ""
                   ? undefined
                   : () => (
-                      <Typography
-                        color={errors.budget ? "error.main" : "secondary"}
-                      >
-                        Mon budget
+                      <Typography color="secondary">
+                        Mon budget <OptionalLabel />
                       </Typography>
                     )
               }
@@ -317,14 +333,6 @@ export default function ContactForm(props) {
                 </CustomSelectOption>
               ))}
             </CustomFilledSelect>
-            {errors.budget && (
-              <FormHelperText
-                margin={0}
-                sx={{ color: (theme) => theme.palette.error.main }}
-              >
-                Veuillez sélectionner votre budget
-              </FormHelperText>
-            )}
           </Stack>
         </DualInputLine>
 
