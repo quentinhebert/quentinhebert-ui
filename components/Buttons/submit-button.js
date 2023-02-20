@@ -7,6 +7,7 @@ export default function SubmitButton({
   color,
   fontSize,
   backgroundColor,
+  fontWeight,
   ...props
 }) {
   return (
@@ -15,7 +16,7 @@ export default function SubmitButton({
         gap: 2,
         marginTop: "2rem",
         fontFamily: "trophy",
-        fontWeight: "bold",
+        fontWeight: fontWeight || "",
         padding: { xs: ".75rem 3rem", md: ".75rem 4rem" },
         fontSize: fontSize || { xs: ".6rem", md: ".8rem" },
         textTransform: "capitalize",
