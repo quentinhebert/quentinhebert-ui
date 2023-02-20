@@ -60,7 +60,7 @@ export default function PortfolioSection(props) {
       <Stack
         sx={{
           background: (theme) =>
-            `linear-gradient(-180deg, #000 30%, rgb(0,0,0,0.4) 100%)`,
+            `linear-gradient(-180deg, ${theme.palette.background.black} 30%, rgb(0,0,0,0.4) 100%)`,
           paddingBottom: { xs: "2rem", md: "6rem" },
         }}
       >

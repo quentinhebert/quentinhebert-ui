@@ -36,9 +36,8 @@ export default function ReferencesSection(props) {
     <Stack
       className="full-width flex-center"
       sx={{
-        // backgroundColor: "#000",
         background: (theme) =>
-          `linear-gradient(${theme.palette.secondary.main} 15%, #000 50%)`,
+          `linear-gradient(${theme.palette.secondary.main} 15%, ${theme.palette.background.black} 50%)`,
         height: "auto",
         padding: "6rem 0 12rem",
         zIndex: 0,

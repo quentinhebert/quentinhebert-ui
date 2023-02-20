@@ -84,10 +84,9 @@ export default function FocusSection(props) {
         justifyContent="center"
         sx={{
           background: (theme) =>
-            `linear-gradient(-180deg, rgb(0,0,0,0.4) 40%, #000 100%)`,
+            `linear-gradient(-180deg, rgb(0,0,0,0.4) 40%, ${theme.palette.background.black} 100%)`,
           minHeight: { xs: "600px", sm: "550px", md: "600px" },
           height: "80vh",
-          marginTop: "0.01px",
           maxWidth: "100%",
           overflow: "hidden",
         }}

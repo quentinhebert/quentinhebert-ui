@@ -8,6 +8,8 @@ const link = "#06c"
 const errorColor = "#AE1B1E"
 const grey = "#696969"
 const darkGrey = "#161616"
+const black = "#050505"
+const white = "#E7E0D2"
 
 let theme = createTheme({})
 
@@ -24,6 +26,7 @@ const mainTheme = createTheme({
       main: tersary,
     },
     background: {
+      black: black,
       main: primary,
       primary: primary,
       secondary: secondary,
@@ -36,7 +39,7 @@ const mainTheme = createTheme({
     text: {
       primary: primary,
       secondary: secondary,
-      white: "#fff",
+      white,
       grey: grey,
       link: link,
     },

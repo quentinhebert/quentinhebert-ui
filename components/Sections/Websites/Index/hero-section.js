@@ -18,8 +18,6 @@ const CTAIsland = ({ ...props }) => (
       margin="auto"
       padding="1rem 2rem"
       sx={{
-        // width: { xs: "60%", sm: "50%", lg: "40%" },
-        // width: { xs: "60%", sm: "50%", lg: "80%" },
         minWidth: "300px",
         background: "#000",
         flexDirection: "row",
@@ -88,7 +86,7 @@ export default function HeroSection(props) {
         position: "relative",
         marginTop: "-82px",
         background: (theme) =>
-          `linear-gradient(170deg, ${theme.palette.secondary.main} 0%, #000 60%)`,
+          `linear-gradient(170deg, ${theme.palette.secondary.main} 0%, ${theme.palette.background.black} 60%)`,
         width: "100%",
         minHeight: "600px",
         height: { xs: "70vh", md: "100vh" },

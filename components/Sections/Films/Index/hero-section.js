@@ -10,6 +10,7 @@ import BodyText from "../../../Text/body-text"
 import PillButton from "../../../Buttons/pill-button"
 import ScaleUpOnHoverStack from "../../../Animation/scale-up-on-hover-stack"
 import MotionDivOnMount from "../../../Animation/motion-div-on-mount"
+import GrainStyles from "../../../../styles/FilmGrain.module.css"
 
 const Title = (props) => (
   <Typography
@@ -124,7 +125,11 @@ export default function HeroSection(props) {
       }}
     >
       <Stack
-        sx={{ position: "relative", height: "100%" }}
+        bgcolor="background.black"
+        sx={{
+          position: "relative",
+          height: "100%",
+        }}
         className="flex-center"
         overflow="hidden"
       >

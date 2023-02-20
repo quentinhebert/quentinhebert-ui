@@ -43,11 +43,13 @@ export default function About_Main() {
   return (
     <Stack
       sx={{
-        background:
-          "linear-gradient(#000 0%, transparent 60%, transparent 80%, #000 100%), url(/medias/film_grain.jpg)",
+        background: (theme) =>
+          `linear-gradient(${theme.palette.background.black} 0%, transparent 60%, transparent 80%, ${theme.palette.background.black} 100%), url(/medias/film_grain.jpg)`,
         backgroundSize: "cover",
         maxWidth: "100%",
         overflow: "hidden",
+        mt: "-82px",
+        pt: "82px",
       }}
     >
       <CenteredMaxWidthContainer
@@ -135,7 +137,7 @@ export default function About_Main() {
                 ) : null}
               </Stack>
             </Stack>
-            <Box component="img" src="/medias/macbook-keyboard.png" />
+            <Box component="img" src="/medias/macbook-keyboard.png" mt={-1} />
 
             <Stack
               sx={{

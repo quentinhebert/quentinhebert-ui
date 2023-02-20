@@ -47,9 +47,7 @@ export default function Menu(props) {
       sx={{
         zIndex: 1000,
         ".MuiPaper-root": {
-          // justifyContent: "center",
-          // alignItems: "center",
-          background: "#000",
+          background: (theme) => theme.palette.background.black,
         },
       }}
     >

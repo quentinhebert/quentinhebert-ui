@@ -13,7 +13,7 @@ export default function Contact_Main(props) {
 
   return (
     <Stack overflow="hidden" sx={{ marginTop: "-82px" }}>
-      <FixedBackground background="#000" />
+      <FixedBackground background={(theme) => theme.palette.background.black} />
 
       <CenteredMaxWidthContainer pixels="1200px" percents="80%">
         <Stack

@@ -24,7 +24,7 @@ const BrowserNav = ({ title, onBtnClicks }) => {
       zIndex={1}
       sx={{
         background: (theme) => theme.palette.background.primary,
-        borderRadius: "1rem",
+        borderRadius: "1rem 1rem 0 0",
       }}
     >
       <Stack flexDirection="row" gap={1}>
@@ -90,7 +90,7 @@ const BrowserWindow = ({ rootPadding, ...props }) => (
         width: "100%",
         borderRadius: "1rem",
         overflow: "hidden",
-        background: (theme) => theme.palette.background.main,
+        background: (theme) => theme.palette.background.black,
       }}
       {...props}
     />

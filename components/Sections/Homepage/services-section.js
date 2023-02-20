@@ -62,7 +62,12 @@ const List = ({ items }) =>
 const ServiceCard = ({ service, href, animationElement, orientation }) => {
   if (!service?.service_items) return null
   return (
-    <CustomCard gradientOrientation={orientation} gap={4} padding={4}>
+    <CustomCard
+      gradientOrientation={orientation}
+      gap={4}
+      padding={4}
+      backgroundColor={(theme) => theme.palette.background.black}
+    >
       <CustomCardTitle
         className="no-select"
         color={(theme) => theme.palette.secondary.main}
@@ -214,7 +219,7 @@ export default function ServicesSection(props) {
         sx={{
           zIndex: 1,
           background: (theme) =>
-            `linear-gradient(#000 50%, ${theme.palette.secondary.main} 100%)`,
+            `linear-gradient(${theme.palette.background.black} 50%, ${theme.palette.secondary.main} 100%)`,
         }}
       >
         <CenteredMaxWidthContainer>

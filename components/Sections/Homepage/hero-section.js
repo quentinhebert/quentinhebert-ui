@@ -92,7 +92,7 @@ const Identity = ({ label }) => (
     >
       <Typography
         textTransform="uppercase"
-        color="#fff"
+        color="text.white"
         fontFamily="Kardust"
         sx={{
           fontSize: { xs: "1.2rem", md: "1.5rem" },
@@ -112,6 +112,7 @@ export default function HeroSection(props) {
 
   return (
     <Stack
+      bgcolor="background.black"
       gap="1rem"
       sx={{
         height: "100vh",
@@ -144,8 +145,8 @@ export default function HeroSection(props) {
           sx={{
             height: "100vh",
             width: "100%",
-            background:
-              "linear-gradient(#000 0%, transparent 40%, #000 80%), url(/medias/film_grain.jpg)",
+            background: (theme) =>
+              `linear-gradient(${theme.palette.background.black} 0%, transparent 40%, ${theme.palette.background.black} 80%), url(/medias/film_grain.jpg)`,
             backgroundSize: "cover",
           }}
         />
@@ -164,13 +165,12 @@ export default function HeroSection(props) {
             opacity: 1,
             rotate: "360deg",
           }}
-          style={{ marginBottom: "2rem" }}
         >
           <Stack alignItems="center">
             <AddIcon
               titleAccess="& "
               sx={{
-                color: "#fff",
+                color: (theme) => theme.palette.text.white,
                 fontSize: { xs: "10vw", md: "5vw", lg: "3vw" },
               }}
             />
@@ -178,9 +178,9 @@ export default function HeroSection(props) {
         </MotionDivOnMount>
 
         <Slide direction="left" {...{ timeout: 500 }} in={!appLoading}>
-          <div>
+          <Stack sx={{ marginTop: { xs: "1.5rem", lg: "1.5vw" } }}>
             <JobTitle label="Développeur web" />
-          </div>
+          </Stack>
         </Slide>
       </Stack>
 

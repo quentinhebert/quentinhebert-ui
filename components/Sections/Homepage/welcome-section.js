@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import NextLink from "../../Helpers/next-link"
+import Span from "../../Text/span"
 
 const birthdate = new Date("1998/1/15")
 const cur = new Date()
@@ -82,8 +83,8 @@ export default function WelcomeSection(props) {
         position="relative"
         sx={{
           marginTop: ".1px",
-          backgroundImage:
-            "linear-gradient(#000 0%, rgb(0,0,0,0.5) 50%, #000 100%), url(/medias/bubbles.svg)",
+          backgroundImage: (theme) =>
+            `linear-gradient(${theme.palette.background.black} 0%, rgb(0,0,0,0.5) 50%, ${theme.palette.background.black} 100%), url(/medias/bubbles.svg)`,
           backgroundSize: "cover",
           backgroundPosition: `100%`,
         }}
@@ -167,9 +168,14 @@ export default function WelcomeSection(props) {
                     fontFamily="POPFINE"
                     color="secondary"
                   >
-                    <span style={{ color: "#FFF" }}>Créons</span> ensemble,{" "}
-                    <span style={{ color: "#FFF" }}>une histoire</span> qui vous
-                    ressemble
+                    <Span sx={{ color: (theme) => theme.palette.text.white }}>
+                      Créons
+                    </Span>{" "}
+                    ensemble,{" "}
+                    <Span sx={{ color: (theme) => theme.palette.text.white }}>
+                      une histoire
+                    </Span>{" "}
+                    qui vous ressemble
                   </Typography>
                 </motion.div>
                 <motion.div

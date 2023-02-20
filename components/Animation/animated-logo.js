@@ -2,6 +2,7 @@ import { Stack } from "@mui/material"
 import React, { Component } from "react"
 import Lottie from "react-lottie"
 import animationData from "../../public/medias/animated-logo.json"
+import GrainOverlay from "../../styles/GrainOverlay"
 import MotionDivFadeInOnMount from "./motion-div-fade-in-on-mount"
 
 class AnimatedLogoLayout extends Component {
@@ -21,8 +22,9 @@ class AnimatedLogoLayout extends Component {
         position="fixed"
         top={0}
         left={0}
-        sx={{ background: "#000" }}
+        bgcolor="background.black"
       >
+        <GrainOverlay />
         <Stack>
           <MotionDivFadeInOnMount>
             <Lottie options={defaultOptions} height={200} width={200} />

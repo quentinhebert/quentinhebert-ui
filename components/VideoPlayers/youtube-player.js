@@ -49,7 +49,7 @@ function Youtube(props) {
         paddingBottom: "56.25%" /* ratio 16/9 */,
         overflow: "hidden",
         display: "flex",
-        backgroundColor: "#000",
+        backgroundColor: (theme) => theme.palette.background.black,
       }}
     >
       <ReactPlayer
