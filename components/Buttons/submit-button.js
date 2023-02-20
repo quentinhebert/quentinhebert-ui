@@ -6,6 +6,7 @@ export default function SubmitButton({
   icon,
   color,
   fontSize,
+  backgroundColor,
   ...props
 }) {
   return (
@@ -14,11 +15,12 @@ export default function SubmitButton({
         gap: 2,
         marginTop: "2rem",
         fontFamily: "trophy",
+        fontWeight: "bold",
         padding: { xs: ".75rem 3rem", md: ".75rem 4rem" },
         fontSize: fontSize || { xs: ".6rem", md: ".8rem" },
         textTransform: "capitalize",
         color: color || ((theme) => theme.palette.secondary.main),
-        backgroundColor: "#000",
+        backgroundColor: backgroundColor || "#000",
         borderRadius: "30px",
         letterSpacing: "1.5px",
         boxShadow: (theme) =>
@@ -30,7 +32,7 @@ export default function SubmitButton({
           textShadow: (theme) => `0px 0px 10px ${theme.palette.secondary.main}`,
         },
         "&:hover": {
-          backgroundColor: "#000",
+          backgroundColor: backgroundColor || "#000",
           boxShadow: (theme) =>
             `0px 0px 20px 5px ${theme.palette.secondary.main}`,
           "& > .MuiTypography-root": {

@@ -105,3 +105,9 @@ export const notEmptyString = (string) => {
   if (string.trim() === "") return false
   return true
 }
+
+export const scrollTo = (ref) => {
+  ref.current.scrollIntoView({
+    behavior: "smooth",
+  })
+}

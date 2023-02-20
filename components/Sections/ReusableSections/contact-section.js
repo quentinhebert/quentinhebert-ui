@@ -5,9 +5,7 @@ import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 
-export default function ContactSection(props) {
-  const { defaultService } = props
-
+export default function ContactSection({ defaultService, topRef, ...props }) {
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
   const variants = (key) => ({
@@ -29,36 +27,43 @@ export default function ContactSection(props) {
   }, [controls, inView])
 
   return (
-    <Stack
-      width="100%"
-      justifyContent="center"
-      alignItems="center"
-      flexDirection="column"
-      padding="5rem 0"
-      zIndex={1}
-      position="relative"
-      bgcolor="background.black"
-      sx={{
-        overflow: "hidden",
-      }}
-      ref={ref}
-    >
-      <CenteredMaxWidthContainer pixels="800px" percents="80%" gap={2}>
-        <motion.div initial="hidden" variants={variants(0)} animate={controls}>
-          <Typography variant="h2" color="secondary">
-            Vous avez un projet...
-          </Typography>
-        </motion.div>
+    <>
+      <Stack ref={topRef} sx={{ scrollMarginTop: "60px" }} />
+      <Stack
+        width="100%"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+        padding="5rem 0"
+        zIndex={1}
+        position="relative"
+        bgcolor="background.black"
+        sx={{
+          overflow: "hidden",
+        }}
+        ref={ref}
+      >
+        <CenteredMaxWidthContainer pixels="800px" percents="80%" gap={2}>
+          <motion.div
+            initial="hidden"
+            variants={variants(0)}
+            animate={controls}
+          >
+            <Typography variant="h2" color="secondary">
+              Vous avez un projet...
+            </Typography>
+          </motion.div>
 
-        <motion.div
-          initial="hidden"
-          variants={variants(0.5)}
-          animate={controls}
-          style={{ width: "100%" }}
-        >
-          <ContactForm defaultService={defaultService} />
-        </motion.div>
-      </CenteredMaxWidthContainer>
-    </Stack>
+          <motion.div
+            initial="hidden"
+            variants={variants(0.5)}
+            animate={controls}
+            style={{ width: "100%" }}
+          >
+            <ContactForm defaultService={defaultService} />
+          </motion.div>
+        </CenteredMaxWidthContainer>
+      </Stack>
+    </>
   )
 }

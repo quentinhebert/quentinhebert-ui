@@ -76,7 +76,10 @@ export default function PortfolioSection(props) {
                 <Typography
                   variant="h2"
                   color="secondary"
-                  sx={{ fontSize: { xs: "4rem", md: "5rem" } }}
+                  sx={{
+                    fontSize: { xs: "4rem", md: "5rem" },
+                    lineHeight: { xs: "5rem", md: "6rem" },
+                  }}
                 >
                   Mes réalisations
                 </Typography>

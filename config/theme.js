@@ -41,6 +41,7 @@ const mainTheme = createTheme({
       secondary: secondary,
       white,
       grey: grey,
+      black,
       link: link,
     },
     error: {
