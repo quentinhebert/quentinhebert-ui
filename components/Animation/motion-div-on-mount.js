@@ -3,22 +3,19 @@ import { motion, useAnimation } from "framer-motion"
 import { useContext, useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 import { AppContext } from "../../contexts/AppContext"
-import { ease } from "./eases"
 
 export default function MotionDivOnMount({
   hidden,
   visible,
   delay,
-  ease,
   preventOut,
+  WrapperProps,
   ...props
 }) {
   /********** ANIMATION **********/
   const { appLoading } = useContext(AppContext)
   const [animationRef, inView] = useInView()
   const controls = useAnimation()
-
-  // const easeObj = !ease ? { ease } : null
 
   useEffect(() => {
     if (inView && !appLoading) controls.start("visible")
@@ -28,20 +25,19 @@ export default function MotionDivOnMount({
   const variants = {
     hidden: {
       ...hidden,
-      transition: { delay: delay || 0, duration: 1, ease },
+      transition: { delay: delay || 0, duration: 1 },
     },
     visible: {
       ...visible,
       transition: {
         delay,
         duration: 1,
-        ease,
       },
     },
   }
 
   return (
-    <Stack ref={animationRef} width="100%">
+    <Stack ref={animationRef} width="100%" {...WrapperProps}>
       <motion.div
         initial="hidden"
         variants={variants}

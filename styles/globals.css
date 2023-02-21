@@ -185,6 +185,12 @@ body {
 .no-overflow {
   overflow: hidden;
 }
+.justify-center {
+  justify-content: center;
+}
+.margin-auto {
+  margin: auto;
+}
 
 /* Hide input type numbers arrows */
 input::-webkit-outer-spin-button,

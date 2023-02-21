@@ -1,6 +1,4 @@
 import { Box, Stack, Typography, useMediaQuery } from "@mui/material"
-import { motion, useAnimation } from "framer-motion"
-import { useInView } from "react-intersection-observer"
 import { useContext, useEffect, useState } from "react"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 import theme from "../../../config/theme"
@@ -19,6 +17,8 @@ import { HomePageContext } from "../../../contexts/PagesContexts"
 import BodyText from "../../Text/body-text"
 import AddIcon from "@mui/icons-material/Add"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
+import MotionDivOnMount from "../../Animation/motion-div-on-mount"
+import { moveDownVariants } from "../../Animation/variants"
 
 const ListItem = (props) => (
   <BodyText
@@ -31,7 +31,6 @@ const ListItem = (props) => (
     {...props}
   />
 )
-
 const ListIcon = () => (
   <>
     {/* <svg width={0} height={0}>
@@ -50,63 +49,76 @@ const ListIcon = () => (
     />
   </>
 )
+const List = ({ items }) => (
+  <Box flexGrow={1}>
+    {items.map((item, key) => (
+      <ListItem key={key}>
+        <ListIcon />
+        {item}
+      </ListItem>
+    ))}
+  </Box>
+)
 
-const List = ({ items }) =>
-  items.map((item, key) => (
-    <ListItem key={key}>
-      <ListIcon />
-      {item}
-    </ListItem>
-  ))
-
-const ServiceCard = ({ service, href, animationElement, orientation }) => {
+const ServiceCard = ({ service, href, animationElement, delay }) => {
   if (!service?.service_items) return null
   return (
-    <CustomCard
-      gradientOrientation={orientation}
-      gap={4}
-      padding={4}
-      backgroundColor={(theme) => theme.palette.background.black}
+    <MotionDivOnMount
+      hidden={moveDownVariants.hidden}
+      visible={moveDownVariants.visible}
+      WrapperProps={{
+        sx: {
+          height: { xs: "100%", lg: "auto" },
+          padding: "2rem 0",
+        },
+      }}
+      style={{ height: "100%", display: "flex", flexGrow: 1 }}
+      delay={delay || 0}
     >
-      <CustomCardTitle
-        className="no-select"
-        color={(theme) => theme.palette.secondary.main}
+      <CustomCard
+        gap={4}
+        padding={4}
+        backgroundColor={(theme) => theme.palette.background.black}
+        height={{ xs: "100%", lg: "auto" }}
       >
-        <Typography variant="h3" fontFamily="POPFINE" fontSize="3rem">
-          {service?.name || ""}
-        </Typography>
-        <Typography variant="h4" component="div">
-          {animationElement}
-        </Typography>
-      </CustomCardTitle>
+        <CustomCardTitle
+          className="no-select"
+          color={(theme) => theme.palette.secondary.main}
+        >
+          <Typography variant="h3" fontFamily="POPFINE" fontSize="3rem">
+            {service?.name || ""}
+          </Typography>
+          <Typography variant="h4" component="div">
+            {animationElement}
+          </Typography>
+        </CustomCardTitle>
 
-      <Box textAlign="left" flexGrow={1} letterSpacing={1}>
         <List items={service.service_items} />
-      </Box>
 
-      <EndCardButton
-        href={href}
-        text="Découvrir"
-        icon={<ArrowRightAltIcon />}
-      />
-    </CustomCard>
+        <EndCardButton
+          href={href}
+          text="Découvrir"
+          icon={<ArrowRightAltIcon />}
+        />
+      </CustomCard>
+    </MotionDivOnMount>
   )
 }
-
 const Caroussel = ({ services }) => {
   const [index, setIndex] = useState(0)
   const handleChangeIndex = (index) => {
     setIndex(index)
   }
   return (
-    <>
+    <MotionDivOnMount
+      hidden={moveDownVariants.hidden}
+      visible={moveDownVariants.visible}
+      className="flex column"
+    >
       <Stack
-        alignItems="center"
-        justifyContent="center"
+        className={"flex-center row " + styles.shine}
         sx={{ color: (theme) => theme.palette.text.white }}
-        flexDirection="row"
         gap={1}
-        className={styles.shine}
       >
         <SwipeIcon sx={{ rotate: "180deg" }} />
         <Typography fontStyle="italic" letterSpacing={1} fontSize=".8rem">
@@ -132,35 +144,31 @@ const Caroussel = ({ services }) => {
           id={`full-width-tabpanel-0`}
           aria-controls={`full-width-tab-0`}
           value={0}
-          alignItems="center"
-          justifyContent="center"
-          sx={{ height: "100%", width: "90%", margin: "auto" }}
+          className="flex-center full-height margin-auto"
+          width="90%"
         >
           <ServiceCard
             service={services[0]}
             animationElement={<FlashingRec />}
             href="/films"
-            orientation="left"
           />
         </Stack>
         <Stack
           role="tabpanel"
           id={`full-width-tabpanel-1`}
           aria-controls={`full-width-tab-1`}
-          value={0}
-          alignItems="center"
-          justifyContent="center"
-          sx={{ height: "100%", width: "90%", margin: "auto" }}
+          value={1}
+          className="flex-center full-height margin-auto"
+          width="90%"
         >
           <ServiceCard
             service={services[1]}
             animationElement={<FlashingUnderscore />}
             href="/websites"
-            orientation="right"
           />
         </Stack>
       </SwipeableViews>
-    </>
+    </MotionDivOnMount>
   )
 }
 
@@ -180,37 +188,6 @@ export default function ServicesSection(props) {
 
   const lg = useMediaQuery(theme.breakpoints.down("lg"))
 
-  /********** ANIMATION **********/
-  const [ref, inView] = useInView()
-  const controls = useAnimation()
-  const variants = (key) => {
-    return {
-      visible: {
-        opacity: 1,
-        y: 1,
-        transition: { duration: 1, delay: key / 10 },
-      },
-      hidden: { opacity: 0, y: key === 0 ? 0 : -25 },
-    }
-  }
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible")
-    } else {
-      controls.start("hidden")
-    }
-  }, [controls, inView, lg])
-  const motionDivStyle0 = {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    gap: "1rem",
-  }
-  const motionDivStyle = {
-    width: "100%",
-    display: "flex",
-  }
-
   return (
     <>
       <Stack ref={refForScroll} sx={{ scrollMarginTop: "60px" }} />
@@ -224,64 +201,36 @@ export default function ServicesSection(props) {
       >
         <CenteredMaxWidthContainer>
           <Stack
-            width="100%"
-            alignItems="center"
-            justifyContent="center"
-            ref={ref}
-            sx={{
-              margin: { xs: "8rem 0 8rem", md: "6rem 0 12rem" },
-              gap: { xs: 1, md: 2 },
-            }}
+            className="flex-center full-width"
+            margin={{ xs: "8rem 0 8rem", md: "6rem 0 12rem" }}
+            gap={{ xs: 1, md: 2 }}
           >
             <Typography variant="h2" color="secondary">
               Les services que je propose
             </Typography>
             <Stack
-              width="100%"
-              justifyContent="center"
+              className="full-width justify-center"
               gap={2}
-              sx={{
-                flexDirection: { xs: "column", sm: "row" },
-              }}
+              flexDirection={{ xs: "column", sm: "row" }}
             >
               {lg ? (
-                <motion.div
-                  initial="hidden"
-                  variants={variants(0)}
-                  animate={controls}
-                  style={motionDivStyle0}
-                >
-                  <Caroussel services={data} />
-                </motion.div>
+                <Caroussel services={data} />
               ) : (
                 <>
-                  <motion.div
-                    initial="hidden"
-                    variants={variants(1)}
-                    animate={controls}
-                    style={motionDivStyle}
-                  >
-                    <ServiceCard
-                      service={data[0]}
-                      animationElement={<FlashingRec />}
-                      href="/films"
-                      orientation="left"
-                    />
-                  </motion.div>
-
-                  <motion.div
-                    initial="hidden"
-                    variants={variants(2)}
-                    animate={controls}
-                    style={motionDivStyle}
-                  >
-                    <ServiceCard
-                      service={data[1]}
-                      animationElement={<FlashingUnderscore />}
-                      href="/websites"
-                      orientation="right"
-                    />
-                  </motion.div>
+                  <ServiceCard
+                    service={data[0]}
+                    animationElement={<FlashingRec />}
+                    href="/films"
+                    orientation="left"
+                    delay={0.25}
+                  />
+                  <ServiceCard
+                    service={data[1]}
+                    animationElement={<FlashingUnderscore />}
+                    href="/websites"
+                    orientation="right"
+                    delay={0.5}
+                  />
                 </>
               )}
             </Stack>
