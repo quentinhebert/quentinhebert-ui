@@ -58,7 +58,7 @@ export default function ContactCTA({
 
   const headlineLayer = {
     scale: md ? [0.8, 1.2, "easeOutCubic"] : [0.6, 0.8, "easeOutCubic"],
-    opacity: [0, 1, "ease"],
+    opacity: [-0.5, 1.5, "ease"],
     shouldAlwaysCompleteAnimation: true,
     expanded: false,
     children: (
