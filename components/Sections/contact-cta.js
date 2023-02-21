@@ -4,12 +4,16 @@ import CenteredMaxWidthContainer from "../Containers/centered-max-width-containe
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import { scrollTo } from "../../services/utils"
 import { ParallaxBanner, ParallaxProvider } from "react-scroll-parallax"
+import BodyText from "../Text/body-text"
 
 export default function ContactCTA({
   refsForScroll,
   src,
+  smallText,
   catchPhrase,
   background,
+  BtnProps,
+  CatchPhraseProps,
   ...props
 }) {
   const md = useMediaQuery((theme) => theme.breakpoints.up("md"))
@@ -60,25 +64,38 @@ export default function ContactCTA({
     children: (
       <CenteredMaxWidthContainer height="100%" className="flex-center">
         <Stack
+          gap={2}
           sx={{
             padding: 2,
           }}
         >
-          <Typography
-            variant="h3"
-            color="secondary"
-            textAlign="center"
-            sx={{
-              textShadow: "0 0 30px rgb(0,0,0,0.5)",
-            }}
-          >
-            {catchPhrase}
-          </Typography>
+          <Stack>
+            {!!smallText && <BodyText textAlign="center">{smallText}</BodyText>}
+            <Typography
+              variant="h3"
+              color="secondary"
+              textAlign="center"
+              sx={
+                !!CatchPhraseProps?.sx
+                  ? {
+                      textShadow: "0 0 30px rgb(0,0,0,0.5)",
+                      ...CatchPhraseProps?.sx,
+                    }
+                  : {
+                      textShadow: "0 0 30px rgb(0,0,0,0.5)",
+                    }
+              }
+            >
+              {catchPhrase}
+            </Typography>
+          </Stack>
+
           <Box margin="auto">
             <SubmitButton
               onClick={() => scrollTo(refsForScroll.contact)}
               backgroundColor={(theme) => theme.palette.secondary.main}
               color={(theme) => theme.palette.text.black}
+              {...BtnProps}
             >
               Contactez-moi <ArrowRightAltIcon />
             </SubmitButton>

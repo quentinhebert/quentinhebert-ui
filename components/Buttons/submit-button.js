@@ -8,6 +8,7 @@ export default function SubmitButton({
   fontSize,
   backgroundColor,
   fontWeight,
+  sx,
   ...props
 }) {
   return (
@@ -50,6 +51,7 @@ export default function SubmitButton({
         "& > .MuiTypography-root": {
           fontFamily: "trophy",
         },
+        ...sx,
       }}
       {...props}
     />

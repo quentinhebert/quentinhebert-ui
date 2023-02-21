@@ -32,8 +32,24 @@ export default function WebsitesIndexLayout(props) {
       <ContactCTA
         refsForScroll={refsForScroll}
         src="https://resourceboy.com/wp-content/uploads/2021/10/two-notebook-devices-in-the-dark-mockup.jpg"
-        catchPhrase="Créons votre site web professionnel sur-mesure."
+        smallText="Créons"
+        catchPhrase="votre site web professionnel sur-mesure."
         background="#0a0a0a"
+        BtnProps={{
+          sx: {
+            background: (theme) =>
+              `linear-gradient(-78deg, ${theme.palette.secondary.main}, ${theme.palette.tersary.main})`,
+          },
+        }}
+        CatchPhraseProps={{
+          sx: {
+            background: (theme) =>
+              `-webkit-linear-gradient(-180deg, ${theme.palette.secondary.main} 0%, ${theme.palette.tersary.main} 100%)`,
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            padding: ".5rem 1rem",
+          },
+        }}
       />
 
       {/* PORTFOLIO */}

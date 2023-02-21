@@ -6,6 +6,7 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import MotionDivOnMount from "../../../Animation/motion-div-on-mount"
 import { useContext } from "react"
 import { AppContext } from "../../../../contexts/AppContext"
+import Span from "../../../Text/span"
 
 const CTAIsland = ({ ...props }) => (
   <MotionDivOnMount
@@ -110,10 +111,8 @@ export default function HeroSection(props) {
           <Stack>
             <Typography
               variant="h1"
-              color="secondary"
               sx={{
                 textAlign: "right",
-                paddingRight: { xs: 0, md: 5 },
                 fontSize: {
                   xs: "18vw",
                   sm: "12vw",
@@ -126,7 +125,17 @@ export default function HeroSection(props) {
                 },
               }}
             >
-              Developpeur web
+              <Span
+                sx={{
+                  background: (theme) =>
+                    `-webkit-linear-gradient(-78deg, ${theme.palette.secondary.main}, ${theme.palette.tersary.main})`,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  paddingRight: { xs: 2, md: 5 },
+                }}
+              >
+                Developpeur web
+              </Span>
               <br />
               <StrokeText className={styles.shine} padding="5%">
                 Freelance

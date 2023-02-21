@@ -2,7 +2,6 @@ import styles from "../../../../styles/TextShine.module.css"
 import {
   Box,
   CircularProgress,
-  Dialog,
   Grid,
   Stack,
   Tooltip,
@@ -26,7 +25,6 @@ import { Parallax } from "react-scroll-parallax"
 import dynamic from "next/dynamic"
 import BrowserUiModal from "../../../Modals/browser-ui-modal"
 import { buildPublicURL } from "../../../../services/utils"
-import CustomModal from "../../../Modals/custom-modal"
 import ImageViewer from "../../../Modals/image-viewer"
 const ImageCard = dynamic(() => import("../../../Cards/image-card"), {
   ssr: false,
@@ -35,7 +33,7 @@ const ImageCard = dynamic(() => import("../../../Cards/image-card"), {
 const ProjectClient = (props) => (
   <Typography
     variant="h3"
-    className={styles.shine}
+    // className={styles.shine}
     color="#fff"
     padding="0 .5rem"
     {...props}
@@ -218,6 +216,9 @@ export default function PortfolioSection(props) {
           component="div"
           color="secondary"
           fontSize="1rem"
+          sx={{
+            textShadow: (theme) => `0 0 15px ${theme.palette.secondary.main}`,
+          }}
         >
           {`${Math.round(progress)}%`}
         </Typography>
@@ -246,9 +247,24 @@ export default function PortfolioSection(props) {
             margin="5rem auto 10rem"
             sx={{ gap: { xs: "3rem", lg: "5rem" } }}
           >
-            <MediumTitle preventTransitionOut={desktop} textAlign="center">
-              Mes projets web
-            </MediumTitle>
+            <Stack>
+              <BodyText textAlign="center" fontStyle="italic">
+                Explorez
+              </BodyText>
+              <MediumTitle
+                preventTransitionOut={desktop}
+                textAlign="center"
+                sx={{
+                  background: (theme) =>
+                    `-webkit-linear-gradient(-180deg, ${theme.palette.secondary.main} 0%, ${theme.palette.tersary.main} 100%)`,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  padding: "0 1rem 0 0",
+                }}
+              >
+                Mes projets web
+              </MediumTitle>
+            </Stack>
 
             <Grid
               container
@@ -330,7 +346,12 @@ export default function PortfolioSection(props) {
                         scaleUpOnHover
                         disabled={!website.url}
                         background={(theme) =>
-                          theme.palette.background.secondary
+                          !website.url
+                            ? ""
+                            : `linear-gradient(-78deg, ${theme.palette.secondary.main}, ${theme.palette.tersary.main})`
+                        }
+                        boxShadow={(theme) =>
+                          `0 0 20px ${theme.palette.secondary.main}`
                         }
                         textTransform="capitalize"
                         gap={1}

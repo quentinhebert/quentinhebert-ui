@@ -126,7 +126,7 @@ const GradientBg = (props) => (
     sx={{
       padding: { xs: "8rem 0", md: "2rem 0" },
       background: (theme) =>
-        `linear-gradient(${theme.palette.secondary.main} 0%, ${theme.palette.background.black} 70%)`,
+        `linear-gradient(${theme.palette.secondary.main} 0%, ${theme.palette.background.black} 60%)`,
     }}
   />
 )
