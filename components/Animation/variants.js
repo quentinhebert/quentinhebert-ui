@@ -1,3 +1,5 @@
+import { ease } from "../Animation/eases"
+
 export const moveLeftVariants = {
   hidden: {
     opacity: 0,
@@ -29,5 +31,15 @@ export const moveDownVariants = {
     opacity: 1,
     y: 0,
     transition: { duration: 1 },
+  },
+}
+export const fadeVariant = {
+  hidden: {
+    opacity: 0,
+    transition: { duration: 1, ease },
+  },
+  visible: {
+    opacity: 1,
+    transition: { duration: 1, ease },
   },
 }

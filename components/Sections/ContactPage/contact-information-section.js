@@ -1,10 +1,8 @@
-import * as React from "react"
 import { Box, Link, Stack, Typography } from "@mui/material"
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone"
 import EmailIcon from "@mui/icons-material/Email"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar"
-import styles from "../../../styles/TextShine.module.css"
 import useSWR from "swr"
 import Image from "next/image"
 import getSocialIcon from "../../Other/get-social-icon"
@@ -14,7 +12,8 @@ import PageTitle from "../../Titles/page-title"
 import SmallTitle from "../../Titles/small-title"
 import ScaleUpOnHoverStack from "../../Animation/scale-up-on-hover-stack"
 import StaggerParent from "../../Animation/stagger-parent"
-import { moveLeftVariants } from "../../Animation/variants"
+import { fadeVariant, moveLeftVariants } from "../../Animation/variants"
+import MotionDivOnMount from "../../Animation/motion-div-on-mount"
 
 const SocialButton = ({ item }) => {
   return (
@@ -39,7 +38,10 @@ const SocialButtons = ({ socialMedias }) => {
   if (!socialMedias || !socialMedias.length) return <></>
   return (
     <Stack sx={{ marginBottom: "4rem" }}>
-      <StaggerParent className="flex row flex-center gap-10">
+      <StaggerParent
+        className="flex row flex-center gap-10"
+        staggerChildren={0.6}
+      >
         {socialMedias.map((item, key) => (
           <SocialButton item={item} key={key} />
         ))}
@@ -175,10 +177,22 @@ export default function ContactInformationSection(props) {
         color={(theme) => theme.palette.secondary.main}
       />
 
-      <SmallTitle>Suis-moi, je te fuis !</SmallTitle>
+      <MotionDivOnMount
+        visible={fadeVariant.visible}
+        hidden={fadeVariant.hidden}
+        delay={0.75}
+      >
+        <SmallTitle>Suis-moi, je te fuis !</SmallTitle>
+      </MotionDivOnMount>
       <SocialButtons socialMedias={data?.social_medias} />
 
-      <SmallTitle>Informations utiles</SmallTitle>
+      <MotionDivOnMount
+        visible={fadeVariant.visible}
+        hidden={fadeVariant.hidden}
+        delay={1}
+      >
+        <SmallTitle>Informations utiles</SmallTitle>
+      </MotionDivOnMount>
 
       <StaggerParent
         className="flex column"

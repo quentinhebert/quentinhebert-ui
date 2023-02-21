@@ -7,7 +7,28 @@ import { Parallax } from "react-scroll-parallax"
 import { AppContext } from "../../../contexts/AppContext"
 import MotionDivOnMount from "../../Animation/motion-div-on-mount"
 import NextLink from "../../Helpers/next-link"
+import {
+  absoluteFullScreen,
+  background,
+  heroScreen,
+  ignoreNavbar,
+} from "../../../styles/helper"
 
+const Root = (props) => (
+  <Stack
+    className="relative flex-center"
+    bgcolor="background.black"
+    gap="1rem"
+    sx={{
+      ...ignoreNavbar,
+      ...heroScreen,
+      minHeight: { xs: "600px", md: "800px" },
+      zIndex: 1,
+      overflow: "hidden",
+    }}
+    {...props}
+  />
+)
 const CTAButton = ({ label, href, delay }) => (
   <Stack width="50%" textAlign="center">
     <NextLink href={href}>
@@ -88,7 +109,6 @@ const Identity = ({ label }) => (
     <MotionDivOnMount
       hidden={{ opacity: 0, y: -5 }}
       visible={{ opacity: 1, y: 0 }}
-      delay={0.5}
     >
       <Typography
         textTransform="uppercase"
@@ -104,6 +124,53 @@ const Identity = ({ label }) => (
     </MotionDivOnMount>
   </Stack>
 )
+const PlusIcon = () => (
+  <MotionDivOnMount
+    hidden={{ opacity: 0, rotate: "0deg" }}
+    visible={{
+      opacity: 1,
+      rotate: "360deg",
+    }}
+  >
+    <Stack alignItems="center">
+      <AddIcon
+        titleAccess="& "
+        sx={{
+          color: (theme) => theme.palette.text.white,
+          fontSize: { xs: "10vw", md: "5vw", lg: "3vw" },
+        }}
+      />
+    </Stack>
+  </MotionDivOnMount>
+)
+const Background = () => (
+  <Parallax
+    easing="easeInQuad"
+    translateY={[0, 40]}
+    scale={[1, 1.2]}
+    style={{
+      zIndex: -1,
+      ...absoluteFullScreen,
+    }}
+  >
+    <Stack
+      sx={{
+        ...background("/medias/film_grain.jpg"),
+        ...heroScreen,
+      }}
+    />
+  </Parallax>
+)
+const CustomDivider = () => (
+  <Divider
+    orientation="vertical"
+    sx={{
+      borderColor: "rgb(256,256,256,0.3)",
+      borderWidth: "1px",
+      height: "auto",
+    }}
+  />
+)
 
 export default function HeroSection(props) {
   const { scrollTo, refForScroll } = props
@@ -111,46 +178,8 @@ export default function HeroSection(props) {
   const { appLoading } = useContext(AppContext)
 
   return (
-    <Stack
-      bgcolor="background.black"
-      gap="1rem"
-      sx={{
-        height: "100vh",
-        minHeight: "-webkit-fill-available",
-        marginTop: "-82px",
-        minHeight: { xs: "600px", md: "800px" },
-        backgroundSize: "cover",
-        zIndex: 1,
-        overflow: "hidden",
-        padding: "8rem 2.5rem 2rem",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative",
-      }}
-    >
-      <Parallax
-        easing="easeInQuad"
-        translateY={[0, 40]}
-        scale={[1, 1.2]}
-        style={{
-          zIndex: -1,
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        <Stack
-          sx={{
-            height: "100vh",
-            width: "100%",
-            background: (theme) =>
-              `linear-gradient(${theme.palette.background.black} 0%, transparent 40%, ${theme.palette.background.black} 80%), url(/medias/film_grain.jpg)`,
-            backgroundSize: "cover",
-          }}
-        />
-      </Parallax>
+    <Root>
+      <Background />
 
       <Stack component="h1">
         <Slide direction="right" {...{ timeout: 500 }} in={!appLoading}>
@@ -159,23 +188,7 @@ export default function HeroSection(props) {
           </div>
         </Slide>
 
-        <MotionDivOnMount
-          hidden={{ opacity: 0, rotate: "0deg" }}
-          visible={{
-            opacity: 1,
-            rotate: "360deg",
-          }}
-        >
-          <Stack alignItems="center">
-            <AddIcon
-              titleAccess="& "
-              sx={{
-                color: (theme) => theme.palette.text.white,
-                fontSize: { xs: "10vw", md: "5vw", lg: "3vw" },
-              }}
-            />
-          </Stack>
-        </MotionDivOnMount>
+        <PlusIcon />
 
         <Slide direction="left" {...{ timeout: 500 }} in={!appLoading}>
           <Stack sx={{ marginTop: { xs: "1.5rem", lg: "1.5vw" } }}>
@@ -188,20 +201,13 @@ export default function HeroSection(props) {
 
       <CTAIsland>
         <CTAButton label="Vidéo" href="/films" delay={0.75} />
-        <Divider
-          orientation="vertical"
-          sx={{
-            borderColor: "rgb(256,256,256,0.3)",
-            borderWidth: "1px",
-            height: "auto",
-          }}
-        />
+        <CustomDivider />
         <CTAButton label="Web" href="/websites" delay={1} />
       </CTAIsland>
 
       <Stack marginTop={4}>
         <BouncingArrow scrollTo={scrollTo} refForScroll={refForScroll} />
       </Stack>
-    </Stack>
+    </Root>
   )
 }

@@ -9,6 +9,7 @@ import RedoIcon from "@mui/icons-material/Redo"
 import styles from "../../styles/TextShine.module.css"
 import MotionDivOnMount from "../Animation/motion-div-on-mount"
 import { AppContext } from "../../contexts/AppContext"
+import { background, ignoreNavbar } from "../../styles/helper"
 
 const Text = (props) => (
   <MotionDivOnMount hidden={{ x: 0, y: -20 }} visible={{ x: 0, y: 0 }}>
@@ -43,13 +44,10 @@ export default function About_Main() {
   return (
     <Stack
       sx={{
-        background: (theme) =>
-          `linear-gradient(${theme.palette.background.black} 0%, transparent 60%, transparent 80%, ${theme.palette.background.black} 100%), url(/medias/film_grain.jpg)`,
-        backgroundSize: "cover",
+        ...background("/medias/film_grain.jpg"),
         maxWidth: "100%",
         overflow: "hidden",
-        mt: "-82px",
-        pt: "82px",
+        ...ignoreNavbar,
       }}
     >
       <CenteredMaxWidthContainer
@@ -58,7 +56,7 @@ export default function About_Main() {
         sx={{
           gap: { xs: "8rem", lg: "2rem" },
           flexDirection: { xs: "column-reverse", lg: "row" },
-          padding: { xs: "4rem 0 4rem", md: "8rem 0" },
+          padding: { xs: "4rem 0 4rem", md: "8rem 0 4rem" },
         }}
       >
         <Slide direction="right" {...{ timeout: 500 }} in={!appLoading}>

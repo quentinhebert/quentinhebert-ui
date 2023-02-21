@@ -1,51 +1,54 @@
-import { Stack, useMediaQuery } from "@mui/material"
+import { Stack } from "@mui/material"
 import ContactInformationSection from "../Sections/ContactPage/contact-information-section"
-import { useAnimation, motion } from "framer-motion"
-import { useInView } from "react-intersection-observer"
 import ContactForm from "../Forms/contact-form"
-import { useEffect } from "react"
 import CenteredMaxWidthContainer from "../Containers/centered-max-width-container"
-import FixedBackground from "../Backgrounds/fixed-background"
 import MotionDivOnMount from "../Animation/motion-div-on-mount"
+import { ignoreNavbar } from "../../styles/helper"
+
+const Root = (props) => (
+  <Stack
+    overflow="hidden"
+    sx={{
+      ...ignoreNavbar,
+      background: (theme) => theme.palette.background.black,
+    }}
+  >
+    <CenteredMaxWidthContainer
+      pixels="1200px"
+      percents="80%"
+      margin="4rem auto"
+      alignItems="start"
+      gap={{ xs: 8, lg: 0 }}
+      flexDirection={{ xs: "column", lg: "row" }}
+      {...props}
+    />
+  </Stack>
+)
 
 export default function Contact_Main(props) {
   const { staticData } = props
 
   return (
-    <Stack overflow="hidden" sx={{ marginTop: "-82px" }}>
-      <FixedBackground background={(theme) => theme.palette.background.black} />
+    <Root>
+      <MotionDivOnMount
+        visible={{
+          opacity: 1,
+          x: 0,
+        }}
+        hidden={{ opacity: 0, x: -50 }}
+      >
+        <ContactInformationSection staticData={staticData} />
+      </MotionDivOnMount>
 
-      <CenteredMaxWidthContainer pixels="1200px" percents="80%">
-        <Stack
-          alignItems="start"
-          margin="calc(65px + 4rem) 0"
-          sx={{
-            gap: { xs: 8, lg: 0 },
-            flexDirection: { xs: "column", lg: "row" },
-          }}
-        >
-          <MotionDivOnMount
-            visible={{
-              opacity: 1,
-              x: 0,
-            }}
-            hidden={{ opacity: 0, x: -200 }}
-          >
-            <ContactInformationSection staticData={staticData} />
-          </MotionDivOnMount>
-
-          <MotionDivOnMount
-            visible={{
-              opacity: 1,
-              x: 0,
-            }}
-            hidden={{ opacity: 0, x: 200 }}
-            delay={0.15}
-          >
-            <ContactForm defaultDirection="column" />
-          </MotionDivOnMount>
-        </Stack>
-      </CenteredMaxWidthContainer>
-    </Stack>
+      <MotionDivOnMount
+        visible={{
+          opacity: 1,
+          x: 0,
+        }}
+        hidden={{ opacity: 0, x: 50 }}
+      >
+        <ContactForm defaultDirection="column" />
+      </MotionDivOnMount>
+    </Root>
   )
 }
