@@ -1,5 +1,6 @@
 import { Stack } from "@mui/material"
 import { useState } from "react"
+import { absoluteFullScreen, background } from "../../styles/helper"
 import FixedBackground from "../Backgrounds/fixed-background"
 import LoginForm from "../Forms/login-form"
 import PasswordForgottenForm from "../Forms/password-forgotten-form"
@@ -12,13 +13,10 @@ export default function Login_Main({ redirect }) {
   }
 
   return (
-    <Stack
-      alignItems="center"
-      justifyContent="center"
-      height="calc(100vh - 65px)"
-      minHeight="600px"
-    >
-      <FixedBackground url="url(/medias/lines.jpg)" />
+    <Stack alignItems="center" justifyContent="center" minHeight="600px">
+      <Stack
+        sx={{ ...background("/medias/film_grain.jpg"), ...absoluteFullScreen }}
+      />
       <Stack
         zIndex={1}
         gap={4}

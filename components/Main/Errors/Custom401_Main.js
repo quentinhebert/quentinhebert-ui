@@ -9,7 +9,7 @@ export default function Custom401_Main({ redirect }) {
   return (
     <Stack
       className="flex-center flex-grow"
-      minHeight="200px"
+      minHeight="400px"
       gap={4}
       padding={2}
     >

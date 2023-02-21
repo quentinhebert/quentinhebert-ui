@@ -9,7 +9,7 @@ export default function Custom404_Main() {
   return (
     <Stack
       className="flex-center flex-grow"
-      minHeight="500px"
+      minHeight="400px"
       gap={4}
       padding={2}
     >
