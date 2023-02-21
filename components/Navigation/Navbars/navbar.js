@@ -55,7 +55,7 @@ export default function Navbar(props) {
         }}
       >
         <Box
-          width="100%"
+          width="100vw"
           height="100%"
           sx={{
             background: "#000",
