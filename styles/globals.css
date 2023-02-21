@@ -182,6 +182,9 @@ body {
 .space-between {
   justify-content: space-between;
 }
+.no-overflow {
+  overflow: hidden;
+}
 
 /* Hide input type numbers arrows */
 input::-webkit-outer-spin-button,
