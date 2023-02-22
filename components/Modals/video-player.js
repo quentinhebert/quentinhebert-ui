@@ -202,7 +202,7 @@ export default function VideoPlayer(props) {
 
       <Stack flexGrow={1}>
         {/* Sticky property to prevent the close button from displaying over the scrollbar */}
-        <Stack alignItems="center" minHeight="100vh" className="sticky">
+        <Stack alignItems="center" minHeight="100svh" className="sticky">
           {/* <CloseBtn onClick={handleClose} /> */}
           <TopRightCloseButton onClick={handleClose} />
 

@@ -21,7 +21,7 @@ export default function HomePage(props) {
   const { navbar, footer, termsOfUse } = props
 
   return (
-    <PagesLayout head={head} navbarData={navbar} footerData={footer}>
+    <PagesLayout head={head} navbarData={navbar} footerData={footer} withLayer>
       <TextContentLayout>
         <TermsOfUse_Main staticData={termsOfUse} />
       </TextContentLayout>

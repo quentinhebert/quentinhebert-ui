@@ -1,12 +1,12 @@
 import { Stack } from "@mui/material"
 import GrainOverlay from "../../styles/GrainOverlay"
 
-export default function PageRoot(props) {
+export default function PageRoot({ withLayer, ...props }) {
   return (
-    <Stack minHeight="100vh" position="relative" bgcolor="background.black">
+    <Stack minHeight="100svh" position="relative" bgcolor="background.black">
       <Stack {...props} />
 
-      <GrainOverlay />
+      {withLayer && <GrainOverlay />}
     </Stack>
   )
 }

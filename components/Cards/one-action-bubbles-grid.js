@@ -29,29 +29,32 @@ export default function OneActionBubblesGrid({
     )
 
   return (
-    <Stack
-      flexDirection="row"
-      width="100%"
-      overflow="auto"
-      gap={4}
-      paddingBottom={2}
-    >
-      {cards.map((card, key) => {
-        const active = card.id === activeTab
-        return (
-          <BubbleCard
-            key={key}
-            icon={card.icon}
-            title={card.title}
-            href={card.href}
-            onClick={card.onClick}
-            notifications={card.notifications}
-            border={
-              active ? { xs: `2px solid #fff`, md: `4px solid #fff` } : ""
-            }
-          />
-        )
-      })}
+    <Stack sx={{ overflow: "hidden" }}>
+      <Stack
+        flexDirection="row"
+        width="100%"
+        overflow="auto"
+        gap={4}
+        paddingBottom={7}
+        marginBottom={-7}
+      >
+        {cards.map((card, key) => {
+          const active = card.id === activeTab
+          return (
+            <BubbleCard
+              key={key}
+              icon={card.icon}
+              title={card.title}
+              href={card.href}
+              onClick={card.onClick}
+              notifications={card.notifications}
+              border={
+                active ? { xs: `2px solid #fff`, md: `4px solid #fff` } : ""
+              }
+            />
+          )
+        })}
+      </Stack>
     </Stack>
   )
 }

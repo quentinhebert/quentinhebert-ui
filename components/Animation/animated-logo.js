@@ -16,7 +16,7 @@ class AnimatedLogoLayout extends Component {
     return (
       <Stack
         className="flex flex-center"
-        height="100vh"
+        height="100svh"
         width="100vw"
         zIndex={100000000000}
         position="fixed"

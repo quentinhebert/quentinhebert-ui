@@ -18,7 +18,7 @@ export const background = (url) => ({
 
 export const heroScreen = {
   width: "100%",
-  height: "100vh",
+  height: "100svh",
 }
 
 export const absoluteFullScreen = {

@@ -203,7 +203,7 @@ export function VerticalMenuBar({}) {
           bottom: { xs: 0, md: null },
           left: 0,
           padding: { xs: "1rem", md: "0 0 1.5rem 0" },
-          height: { xs: "55px", md: "100vh" },
+          height: { xs: "55px", md: "100svh" },
           flexDirection: { xs: "row", md: "column" },
           justifyContent: "center",
 

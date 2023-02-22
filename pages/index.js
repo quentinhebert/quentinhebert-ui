@@ -22,7 +22,12 @@ export default function HomePage(props) {
 
   return (
     <HomePageContext.Provider value={{ staticData: { services } }}>
-      <PagesLayout head={head} navbarData={navbar} footerData={footer}>
+      <PagesLayout
+        head={head}
+        navbarData={navbar}
+        footerData={footer}
+        withLayer
+      >
         <Index_Main />
       </PagesLayout>
     </HomePageContext.Provider>

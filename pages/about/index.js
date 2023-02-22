@@ -18,7 +18,7 @@ const head = {
 
 export default function AboutPage({ navbar, footer }) {
   return (
-    <PagesLayout head={head} navbarData={navbar} footerData={footer}>
+    <PagesLayout head={head} navbarData={navbar} footerData={footer} withLayer>
       <About_Main />
     </PagesLayout>
   )

@@ -90,7 +90,7 @@ export default function HeroSection(props) {
           `linear-gradient(170deg, ${theme.palette.secondary.main} 0%, ${theme.palette.background.black} 60%)`,
         width: "100%",
         minHeight: "600px",
-        height: { xs: "70vh", md: "100vh" },
+        height: { xs: "70vh", md: "100svh" },
       }}
     >
       {/* Right Text */}
@@ -198,7 +198,7 @@ export default function HeroSection(props) {
             left: 0,
             top: 0,
             minHeight: { xs: "500px", md: "600px" },
-            height: { xs: "70vh", md: "100vh" },
+            height: { xs: "70vh", md: "100svh" },
             zIndex: 1,
           }}
         />

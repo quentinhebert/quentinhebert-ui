@@ -24,7 +24,7 @@ export default function WebsitesHomePage({
   websiteSlides,
 }) {
   return (
-    <PagesLayout head={head} navbarData={navbar} footerData={footer}>
+    <PagesLayout head={head} navbarData={navbar} footerData={footer} withLayer>
       <WebsitesHomePageContext.Provider
         value={{ staticData: { websites, websiteSlides } }}
       >

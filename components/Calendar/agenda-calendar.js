@@ -5,7 +5,7 @@ import fr from "dayjs/locale/fr"
 import dayjs from "dayjs"
 import isBetween from "dayjs/plugin/isBetween.js"
 import theme from "../../config/theme"
-import { Button, getAppBarUtilityClass, Stack, Typography } from "@mui/material"
+import { Button, Stack, Typography, useMediaQuery } from "@mui/material"
 import CustomFilledInput from "../Inputs/custom-filled-input"
 import apiCall from "../../services/apiCalls/apiCall"
 import { UserContext } from "../../contexts/UserContext"
@@ -62,6 +62,11 @@ const styles = {
 }
 
 export default function AgendaCalendar({ events }) {
+  const xs = useMediaQuery((theme) => theme.breakpoints.up("xs"))
+  const sm = useMediaQuery((theme) => theme.breakpoints.up("sm"))
+  const md = useMediaQuery((theme) => theme.breakpoints.up("md"))
+  const lg = useMediaQuery((theme) => theme.breakpoints.up("lg"))
+
   const {
     setSelectedDate,
     setSelectedEvent,
@@ -112,7 +117,7 @@ export default function AgendaCalendar({ events }) {
       styles={styles}
       value={value}
       onChange={onChange}
-      size="xl"
+      size={lg ? "md" : md ? "xl" : sm ? "lg" : xs ? "md" : "xs"}
       renderDay={(date) => {
         const day = date.getDate()
 
@@ -293,7 +298,7 @@ export const EventPanel = withConfirmAction(
         <Stack
           className="row"
           alignItems="center"
-          justifyContent="center"
+          justifyContent="space-between"
           width="100%"
           sx={{ position: "relative" }}
         >
@@ -305,8 +310,6 @@ export const EventPanel = withConfirmAction(
             sx={{
               borderRadius: "30px",
               borderColor: "transparent",
-              position: "absolute",
-              left: 0,
             }}
           >
             Retour
@@ -314,7 +317,7 @@ export const EventPanel = withConfirmAction(
           <BodyText
             preventTransition
             textAlign="center"
-            fontSize="1.5rem"
+            fontSize="1.2rem"
             textTransform="capitalize"
           >
             {!!selectedDate.id
@@ -328,8 +331,6 @@ export const EventPanel = withConfirmAction(
             sx={{
               borderRadius: "30px",
               borderColor: "transparent",
-              position: "absolute",
-              right: 0,
             }}
           >
             Enregistrer
@@ -463,7 +464,7 @@ export function DateEventsPanel({}) {
         <BodyText
           preventTransition
           textAlign="center"
-          fontSize="1.5rem"
+          fontSize="1.2rem"
           textTransform="capitalize"
         >
           {selectedDate

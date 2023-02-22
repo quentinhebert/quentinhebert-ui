@@ -47,8 +47,10 @@ export default function UserAgenda({}) {
         fetchUserEvents,
       }}
     >
-      <Stack sx={{ flexDirection: "row", gap: 4 }}>
-        <AgendaCalendar events={events} />
+      <Stack sx={{ flexDirection: { xs: "column", lg: "row" }, gap: 4 }}>
+        <Stack margin="0 auto">
+          <AgendaCalendar events={events} />
+        </Stack>
         {!selectedEvent ? <DateEventsPanel /> : <EventPanel />}
       </Stack>
     </CalendarContext.Provider>

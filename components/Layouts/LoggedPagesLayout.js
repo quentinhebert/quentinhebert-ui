@@ -13,6 +13,7 @@ export default function LoggedPagesLayout({
   navbarData,
   footerData,
   head,
+  withLayer,
 }) {
   const topRef = useRef()
 
@@ -33,7 +34,7 @@ export default function LoggedPagesLayout({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          <PageRoot>
+          <PageRoot withLayer={withLayer}>
             <HtmlHead
               title={head.title}
               description={head.description}

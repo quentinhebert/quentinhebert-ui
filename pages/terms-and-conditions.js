@@ -20,7 +20,7 @@ export default function HomePage(props) {
   const { navbar, footer, termsAndConditions } = props
 
   return (
-    <PagesLayout head={head} navbarData={navbar} footerData={footer}>
+    <PagesLayout head={head} navbarData={navbar} footerData={footer} withLayer>
       <TextContentLayout>
         <TermsAndConditions_Main staticData={termsAndConditions} />
       </TextContentLayout>

@@ -18,7 +18,7 @@ const Card = styled(
       <Stack
         className="flex-center pointer"
         gap={2}
-        sx={{ width: { xs: "70px", md: "100px" } }}
+        sx={{ width: { xs: "100px", md: "100px" } }}
         onClick={onClick || (() => {})}
       >
         <Stack

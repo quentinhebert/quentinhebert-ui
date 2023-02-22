@@ -167,7 +167,7 @@ export default function CustomTable(props) {
           />
           <TableContainer
             sx={{
-              height: "calc(100vh - 300px)",
+              height: "calc(100svh - 300px)",
               minHeight: "300px",
             }}
           >

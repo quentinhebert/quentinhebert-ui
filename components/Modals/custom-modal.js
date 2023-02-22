@@ -35,7 +35,7 @@ export default function CustomModal({
         sx={{
           padding: { xs: 2, md: 4 },
           margin: "auto 0",
-          height: fullscreen ? "auto" : { xs: "100vh", md: "" },
+          height: fullscreen ? "auto" : { xs: "100svh", md: "" },
           flexGrow: fullscreen ? 1 : null,
           background:
             background ||

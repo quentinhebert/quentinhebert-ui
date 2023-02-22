@@ -20,7 +20,12 @@ const head = {
 export default function FilmsHomePage({ navbar, footer, films }) {
   return (
     <FilmsHomePageContext.Provider value={{ staticData: { films } }}>
-      <PagesLayout head={head} navbarData={navbar} footerData={footer}>
+      <PagesLayout
+        head={head}
+        navbarData={navbar}
+        footerData={footer}
+        withLayer
+      >
         <FilmsIndex_Main />
       </PagesLayout>
     </FilmsHomePageContext.Provider>

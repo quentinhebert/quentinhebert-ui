@@ -20,7 +20,7 @@ export default function ContactPage(props) {
   const { navbar, footer, websiteContact } = props
 
   return (
-    <PagesLayout head={head} navbarData={navbar} footerData={footer}>
+    <PagesLayout head={head} navbarData={navbar} footerData={footer} withLayer>
       <Contact_Main staticData={websiteContact} />
     </PagesLayout>
   )

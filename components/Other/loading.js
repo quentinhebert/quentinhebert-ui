@@ -9,7 +9,7 @@ export default function Loading() {
   return (
     <Stack
       width="100%"
-      height="100vh"
+      height="100svh"
       alignItems="center"
       justifyContent="center"
     >
@@ -19,7 +19,7 @@ export default function Loading() {
         transition={{ delay: 0, duration: 1 }}
         style={{
           width: "100%",
-          height: "100vh",
+          height: "100svh",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
