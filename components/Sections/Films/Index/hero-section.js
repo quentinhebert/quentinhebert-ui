@@ -169,10 +169,11 @@ export default function HeroSection(props) {
             transition: "opacity 0.2s ease-in-out",
           }}
         >
-          <BodyText animDelay={0.5}>Je suis</BodyText>
+          <BodyText animDelay={0.25}>Je suis</BodyText>
           <MotionDivOnMount
             hidden={{ y: -20, opacity: 0 }}
             visible={{ y: 0, opacity: 1 }}
+            withEase
             style={{ motionDivStyle }}
           >
             <Title textAlign="center">Vidéaste freelance</Title>

@@ -61,7 +61,7 @@ export default function PortfolioSection(props) {
         sx={{
           background: (theme) =>
             `linear-gradient(-180deg, ${theme.palette.background.black} 30%, rgb(0,0,0,0.4) 100%)`,
-          paddingBottom: { xs: "2rem", md: "6rem" },
+          paddingY: { xs: "2rem", md: "6rem" },
         }}
       >
         <CenteredMaxWidthStack pixels="1200px" percents="90%">

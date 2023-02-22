@@ -185,6 +185,7 @@ function PlusIcon() {
       visible={{
         opacity: 1,
         rotate: "360deg",
+        transition: { duration: 1 },
       }}
     >
       <Stack alignItems="center">

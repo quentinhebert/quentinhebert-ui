@@ -3,6 +3,7 @@ import { motion, useAnimation } from "framer-motion"
 import { useContext, useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 import { AppContext } from "../../contexts/AppContext"
+import { ease } from "./eases"
 
 export default function MotionDivOnMount({
   hidden,
@@ -10,6 +11,7 @@ export default function MotionDivOnMount({
   delay,
   preventOut,
   WrapperProps,
+  withEase,
   ...props
 }) {
   /********** ANIMATION **********/
@@ -30,7 +32,9 @@ export default function MotionDivOnMount({
       ...visible,
       transition: {
         ...visible.transition,
+        duration: visible.transition?.duration || 1,
         delay: delay || 0,
+        ease: !!withEase ? ease : null,
       },
     },
   }

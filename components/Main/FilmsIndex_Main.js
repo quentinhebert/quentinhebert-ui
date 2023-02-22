@@ -3,19 +3,17 @@ import HeroSection from "../Sections/Films/Index/hero-section"
 import PortfolioSection from "../Sections/Films/Index/Portfolio/portfolio-section"
 import FocusSection from "../Sections/Films/Index/focus-section"
 import ContactSection from "../Sections/ReusableSections/contact-section"
-import ContactCTA from "../Sections/contact-cta"
+import ParallaxGaleryCTA from "../Sections/parallax-galery-cta"
 
 export default function FilmsIndexLayout(props) {
   const {} = props
 
-  const quoteRef = useRef()
   const focusRef = useRef()
   const portfolioRef = useRef()
   const contactRef = useRef()
   const ctaRef = useRef()
   const refsForScroll = {
     focus: focusRef,
-    // quote: quoteRef,
     cta: ctaRef,
     portfolio: portfolioRef,
     contact: contactRef,
@@ -26,10 +24,9 @@ export default function FilmsIndexLayout(props) {
       {/* HERO */}
       <HeroSection refForScroll={refsForScroll.cta} />
 
-      <ContactCTA
-        refsForScroll={refsForScroll}
-        src="/medias/sunset.png"
-        catchPhrase="Ensemble, donnons vie à vos projets."
+      <ParallaxGaleryCTA
+        topRef={refsForScroll.cta}
+        refForScroll={refsForScroll.contact}
       />
 
       {/* PORTFOLIO */}
