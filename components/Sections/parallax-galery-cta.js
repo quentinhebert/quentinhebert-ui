@@ -41,7 +41,7 @@ export default function ParallaxGaleryCTA({ refForScroll, topRef, ...props }) {
             paddingX: { xs: "10vw", md: "20vw" },
           }}
         >
-          <Stack>
+          <Stack zIndex={2}>
             <Typography
               variant="h3"
               color="secondary"

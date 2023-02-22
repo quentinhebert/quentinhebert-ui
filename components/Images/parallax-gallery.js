@@ -16,6 +16,18 @@ export default function ParallaxGallery(props) {
         height="90vw"
         minHeight="500px"
       >
+        <Stack
+          sx={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            top: 0,
+            left: 0,
+            background: (theme) =>
+              `radial-gradient(transparent 0%, ${theme.palette.background.black} 70%)`,
+            zIndex: 1,
+          }}
+        />
         <FadeOverlay
           top
           background={(theme) =>
