@@ -1,6 +1,6 @@
 import { Stack, Typography } from "@mui/material"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
-import { fadeVariant, moveRightVariants } from "../../Animation/variants"
+import { moveRightVariants } from "../../Animation/variants"
 
 import dynamic from "next/dynamic"
 import MotionDivOnMount from "../../Animation/motion-div-on-mount"
