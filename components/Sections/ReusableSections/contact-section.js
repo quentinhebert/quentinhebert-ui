@@ -27,9 +27,8 @@ export default function ContactSection({ defaultService, topRef, ...props }) {
       >
         <CenteredMaxWidthContainer pixels="800px" percents="80%" gap={2}>
           <MotionDivOnMount
-            visible={fadeVariant.visible}
-            hidden={fadeVariant.hidden}
-            delay={0.25}
+            visible={moveRightVariants.visible}
+            hidden={moveRightVariants.hidden}
           >
             <Typography variant="h2" color="secondary">
               Vous avez un projet...
@@ -40,7 +39,6 @@ export default function ContactSection({ defaultService, topRef, ...props }) {
             visible={moveRightVariants.visible}
             hidden={moveRightVariants.hidden}
             style={{ width: "100%" }}
-            delay={0.35}
           >
             <ContactForm defaultService={defaultService} />
           </MotionDivOnMount>

@@ -7,8 +7,25 @@ import { scrollTo } from "../../services/utils"
 
 export default function ParallaxGaleryCTA({ refForScroll, topRef, ...props }) {
   return (
-    <Stack className="relative" ref={topRef} sx={{ scrollMarginTop: "80px" }}>
+    <Stack className="relative" ref={topRef}>
+      <Stack
+        sx={{
+          width: "100%",
+          height: "100px",
+          background: (theme) => theme.palette.background.black,
+          zIndex: "1",
+        }}
+      />
       <ParallaxGallery />
+      <Stack
+        sx={{
+          width: "100%",
+          height: "100px",
+          background: (theme) => theme.palette.background.black,
+          zIndex: "1",
+        }}
+      />
+
       <Stack
         sx={{
           ...absoluteFullScreen,

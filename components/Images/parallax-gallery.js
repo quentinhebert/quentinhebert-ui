@@ -1,8 +1,10 @@
-import { Stack } from "@mui/material"
+import { Stack, useMediaQuery } from "@mui/material"
 import { Parallax, ParallaxProvider } from "react-scroll-parallax"
 import ScaleUpOnHoverStack from "../Animation/scale-up-on-hover-stack"
 
 export default function ParallaxGallery(props) {
+  const md = useMediaQuery((theme) => theme.breakpoints.down("md"))
+
   return (
     <ParallaxProvider>
       <Stack
@@ -12,6 +14,7 @@ export default function ParallaxGallery(props) {
         marginX="2vw"
         position="relative"
         height="90vw"
+        minHeight="500px"
       >
         <FadeOverlay
           top
@@ -29,10 +32,14 @@ export default function ParallaxGallery(props) {
         <Stack width="33.3%">
           <Parallax
             className="column full-width"
-            speed={30}
+            speed={md ? 4 : 30}
             style={{ display: "flex", gap: "2vw" }}
           >
-            <Img src="/medias/sunset.png" />
+            <Img src="/medias/P1060719.jpg" />
+            <Img src="/medias/cover.jpg" />
+            <Img src="/medias/beach.jpg" />
+            <Img src="/medias/bridge.jpg" />
+            <Img src="/medias/P1060719.jpg" />
             <Img src="/medias/cover.jpg" />
             <Img src="/medias/beach.jpg" />
             <Img src="/medias/bridge.jpg" />
@@ -42,9 +49,13 @@ export default function ParallaxGallery(props) {
         <Stack width="33.3%">
           <Parallax
             className="column full-width"
-            speed={-15}
+            speed={md ? -4 : -20}
             style={{ display: "flex", gap: "2vw" }}
           >
+            <Img src="/medias/IMG_1902.JPG" />
+            <Img src="/medias/aalh.jpg" />
+            <Img src="/medias/P1060719.jpg" />
+            <Img src="/medias/IMG_1902.JPG" />
             <Img src="/medias/IMG_1902.JPG" />
             <Img src="/medias/aalh.jpg" />
             <Img src="/medias/P1060719.jpg" />
@@ -55,7 +66,7 @@ export default function ParallaxGallery(props) {
         <Stack width="33.3%">
           <Parallax
             className="column full-width"
-            speed={-50}
+            speed={md ? -8 : -60}
             style={{ display: "flex", gap: "2vw", pointerEvents: "none" }}
           >
             <Img src="/medias/sunset.png" />
