@@ -57,7 +57,7 @@ export default function ContactCTA({
   }
 
   const headlineLayer = {
-    scale: md ? [0.8, 1.2, "easeOutCubic"] : [0.6, 0.8, "easeOutCubic"],
+    scale: [0.6, 1, "easeOutCubic"],
     opacity: [-0.5, 1.5, "ease"],
     shouldAlwaysCompleteAnimation: true,
     expanded: false,
@@ -70,7 +70,11 @@ export default function ContactCTA({
           }}
         >
           <Stack>
-            {!!smallText && <BodyText textAlign="center">{smallText}</BodyText>}
+            {!!smallText && (
+              <BodyText textAlign="center" fontStyle="italic">
+                {smallText}
+              </BodyText>
+            )}
             <Typography
               variant="h3"
               color="secondary"

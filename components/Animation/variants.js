@@ -14,12 +14,12 @@ export const moveLeftVariants = {
 export const moveRightVariants = {
   hidden: {
     opacity: 0,
-    x: -10,
+    x: "-5%",
   },
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 1 },
+    transition: { duration: 1, ease },
   },
 }
 export const moveDownVariants = {
@@ -41,5 +41,17 @@ export const fadeVariant = {
   visible: {
     opacity: 1,
     transition: { duration: 1, ease },
+  },
+}
+export const zoomInVariant = {
+  hidden: {
+    opacity: 0,
+    scale: 0,
+    transition: { duration: 0.75 },
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.75 },
   },
 }

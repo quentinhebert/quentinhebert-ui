@@ -52,6 +52,7 @@ export default function Navbar(props) {
           background: "transparent",
           width: "100%",
           boxShadow: "none",
+          top: 0,
         }}
       >
         <Box
@@ -60,7 +61,7 @@ export default function Navbar(props) {
           sx={{
             background: "#000",
             position: "absolute",
-            top: 0,
+            top: -1, // trick to prevent from small gap above navbar
             left: 0,
             opacity: isReduced ? 1 : 0,
             transition: "0.5s ease-in-out",

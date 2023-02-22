@@ -1,35 +1,14 @@
-import { useEffect } from "react"
 import { Stack, Typography } from "@mui/material"
-import { useAnimation, motion } from "framer-motion"
-import { useInView } from "react-intersection-observer"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
+import { fadeVariant, moveRightVariants } from "../../Animation/variants"
 
 import dynamic from "next/dynamic"
+import MotionDivOnMount from "../../Animation/motion-div-on-mount"
 const ContactForm = dynamic(() => import("../../Forms/contact-form"), {
   ssr: false,
 })
 
 export default function ContactSection({ defaultService, topRef, ...props }) {
-  /********** ANIMATION **********/
-  const [ref, inView] = useInView()
-  const variants = (key) => ({
-    visible: {
-      x: 0,
-      opacity: 1,
-      transition: { duration: 0.75, delay: key },
-    },
-    hidden: { opacity: 0, x: -25 },
-  })
-  const controls = useAnimation()
-
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible")
-    } else {
-      controls.start("hidden")
-    }
-  }, [controls, inView])
-
   return (
     <>
       <Stack ref={topRef} sx={{ scrollMarginTop: "60px" }} />
@@ -45,27 +24,26 @@ export default function ContactSection({ defaultService, topRef, ...props }) {
         sx={{
           overflow: "hidden",
         }}
-        ref={ref}
       >
         <CenteredMaxWidthContainer pixels="800px" percents="80%" gap={2}>
-          <motion.div
-            initial="hidden"
-            variants={variants(0)}
-            animate={controls}
+          <MotionDivOnMount
+            visible={fadeVariant.visible}
+            hidden={fadeVariant.hidden}
+            delay={0.25}
           >
             <Typography variant="h2" color="secondary">
               Vous avez un projet...
             </Typography>
-          </motion.div>
+          </MotionDivOnMount>
 
-          <motion.div
-            initial="hidden"
-            variants={variants(0.5)}
-            animate={controls}
+          <MotionDivOnMount
+            visible={moveRightVariants.visible}
+            hidden={moveRightVariants.hidden}
             style={{ width: "100%" }}
+            delay={0.35}
           >
             <ContactForm defaultService={defaultService} />
-          </motion.div>
+          </MotionDivOnMount>
         </CenteredMaxWidthContainer>
       </Stack>
     </>

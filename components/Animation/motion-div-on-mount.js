@@ -25,13 +25,12 @@ export default function MotionDivOnMount({
   const variants = {
     hidden: {
       ...hidden,
-      transition: { delay: delay || 0, duration: 1 },
     },
     visible: {
       ...visible,
       transition: {
-        delay,
-        duration: 1,
+        ...visible.transition,
+        delay: delay || 0,
       },
     },
   }
