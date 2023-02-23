@@ -4,7 +4,6 @@ import { forwardRef, useEffect } from "react"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import NextLink from "../../Helpers/next-link"
-import GrainOverlay from "../../../styles/GrainOverlay"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />
@@ -125,7 +124,6 @@ export default function Menu(props) {
                 </motion.div>
               )
             })}
-          <GrainOverlay />
         </Stack>
       </Stack>
     </Dialog>

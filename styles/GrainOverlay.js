@@ -4,16 +4,18 @@ export default function GrainOverlay() {
   return (
     <Stack
       sx={{
-        background: (theme) => `url(/medias/noise.gif)`,
-        width: "100%",
-        height: "100%",
-        position: "fixed",
-        top: 0,
+        background: `linear-gradient(180deg, rgb(0,0,0,0.15) 0%, transparent 50%, rgb(0,0,0,0.15) 100%), url(/medias/dust.jpg)`,
+        width: "calc(100% + 17px)", // For when scrollbar disappears for menu
+        height: "calc(100% + 82px)",
+        position: "absolute",
+        top: "-82px",
         left: 0,
         pointerEvents: "none",
-        opacity: { xs: 0.045, md: 0.035 },
-        zIndex: 100,
-        backgroundSize: { xs: "80vw", md: "25vw" },
+        opacity: 0.25,
+        mixBlendMode: "screen",
+        zIndex: 10000000,
+        backgroundSize: { xs: "80vw", md: "20vw 20vw" },
+        filter: "contrast(130%)",
       }}
     />
   )
