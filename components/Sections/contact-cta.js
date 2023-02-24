@@ -20,7 +20,7 @@ export default function ContactCTA({
 
   const backgroundLayer = {
     translateY: [0, 50],
-    opacity: [1, 0.3],
+    // opacity: [1, 0.3],
     scale: [1, 1.1, "ease"],
     shouldAlwaysCompleteAnimation: true,
     children: (

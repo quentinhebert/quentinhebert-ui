@@ -34,7 +34,7 @@ export default function WebsitesIndexLayout(props) {
         src="https://resourceboy.com/wp-content/uploads/2021/10/two-notebook-devices-in-the-dark-mockup.jpg"
         smallText="Créons"
         catchPhrase="votre site web professionnel sur-mesure."
-        background="#0a0a0a"
+        background="#151210"
         BtnProps={{
           sx: {
             background: (theme) =>
