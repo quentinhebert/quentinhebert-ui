@@ -6,6 +6,7 @@ export default function GrainOverlay() {
       sx={{
         background: `linear-gradient(180deg, rgb(0,0,0,0.15) 0%, transparent 50%, rgb(0,0,0,0.15) 100%), url(/medias/dust.jpg)`,
         width: "calc(100% + 17px)", // For when scrollbar disappears for menu
+        maxWidth: "100vw",
         height: "calc(100% + 82px)",
         position: "absolute",
         top: "-82px",
