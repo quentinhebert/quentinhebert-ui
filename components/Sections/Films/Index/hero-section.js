@@ -122,6 +122,7 @@ export default function HeroSection(props) {
         // maxHeight: "600px", // TODO: Remove that line when suscribed to vimeo plan
         overflow: "hidden",
         objectFit: "cover",
+        zIndex: 2,
       }}
     >
       <Stack
@@ -144,7 +145,7 @@ export default function HeroSection(props) {
             height={landscape ? "56.25vw" : "120vh"}
             onPause={() => setPlaying(false)}
             style={{
-              transform: "scale(1.2)",
+              transform: "scale(1)",
               position: "absolute",
               display: "flex",
               opacity: playing ? 1 : 0,
