@@ -135,7 +135,7 @@ export default function HeroSection(props) {
       >
         {rendered && ( // Trick to avoid nextjs hydration error
           <ReactPlayer
-            url="https://player.vimeo.com/video/759263656"
+            url="https://player.vimeo.com/video/806525030"
             controls={false}
             playing={playing}
             volume={volume}
