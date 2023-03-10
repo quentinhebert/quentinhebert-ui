@@ -41,7 +41,7 @@ export default function Index_Main(props) {
           sx={{
             width: { xs: "90%", lg: "65%" },
             position: "relative",
-            margin: { xs: "4rem auto", md: "10rem auto" },
+            margin: { xs: "8rem auto", md: "10rem auto" },
             boxShadow: (theme) =>
               `0 0 80px 5px ${theme.palette.background.secondary}`,
             borderRadius: "3vw",
