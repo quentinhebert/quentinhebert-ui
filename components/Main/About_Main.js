@@ -136,40 +136,6 @@ export default function About_Main() {
               </Stack>
             </Stack>
             <Box component="img" src="/medias/macbook-keyboard.png" mt={-1} />
-
-            <Stack
-              sx={{
-                position: "absolute",
-                top: "-100px",
-                right: "20%",
-                flexDirection: "row",
-                gap: 2,
-                rotate: "-5deg",
-              }}
-            >
-              <Typography
-                variant="h3"
-                color="secondary"
-                className={styles.shine}
-                padding="1rem"
-                fontSize="3rem !important"
-                lineHeight="3rem !important"
-              >
-                Regarde ma vidéo
-              </Typography>
-              <RedoIcon
-                className={styles.shine}
-                color="secondary"
-                sx={{
-                  fontSize: "3rem",
-                  rotate: "60deg",
-                  position: "absolute",
-                  bottom: "0px",
-                  right: "-20%",
-                  opacity: 0.8,
-                }}
-              />
-            </Stack>
           </Stack>
         </Slide>
       </CenteredMaxWidthContainer>
