@@ -12,7 +12,7 @@ const YoutubePlayer = memo((props) => <Youtube {...props} />, arePropsEqual)
 export default YoutubePlayer
 
 function Youtube(props) {
-  const { videoId } = props
+  const { videoId, disableAutoplay } = props
 
   const [playing, setPlaying] = useState(false)
   const [volume, setVolume] = useState(1)
@@ -59,8 +59,12 @@ function Youtube(props) {
         playing={playing}
         volume={volume}
         loop={true}
-        onReady={() => setPlaying(true)}
-        onStart={() => setPlaying(true)}
+        onReady={() =>
+          !disableAutoplay ? setPlaying(true) : setPlaying(false)
+        }
+        onStart={() =>
+          !disableAutoplay ? setPlaying(true) : setPlaying(false)
+        }
         onPause={() => setPlaying(false)}
         config={{
           youtube: {
