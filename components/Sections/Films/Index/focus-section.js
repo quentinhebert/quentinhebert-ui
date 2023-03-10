@@ -142,12 +142,6 @@ export default function FocusSection(props) {
                 J'ai appris en <Keyword text="autodidacte" />, poussé par
                 l'envie de créer.
               </BodyText>
-
-              <Box sx={{ textAlign: "center" }}>
-                <PillButton onClick={(e) => scrollTo(refsForScroll.portfolio)}>
-                  Voir mes réalisations
-                </PillButton>
-              </Box>
             </motion.div>
           </Stack>
         </Slide>
