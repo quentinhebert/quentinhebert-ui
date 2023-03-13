@@ -189,64 +189,66 @@ export default function PortfolioSection(props) {
         bottom: 0,
         display: "inline-flex",
         zIndex: 1,
+        width: "100%",
       }}
     >
-      <CircularProgress
-        size={75}
-        thickness={1.5}
-        variant="determinate"
-        value={progress}
-        color="secondary"
-        sx={{ background: "rgb(0,0,0,0.7)", borderRadius: "100%" }}
-      />
-      <Box
-        sx={{
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          position: "absolute",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Typography
-          variant="caption"
-          component="div"
+      <Stack position="relative">
+        <CircularProgress
+          size={75}
+          thickness={1.5}
+          variant="determinate"
+          value={progress}
           color="secondary"
-          fontSize="1rem"
+          sx={{ background: "rgb(0,0,0,0.7)", borderRadius: "100%" }}
+        />
+        <Box
           sx={{
-            textShadow: (theme) => `0 0 15px ${theme.palette.secondary.main}`,
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            position: "absolute",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          {`${Math.round(progress)}%`}
-        </Typography>
-      </Box>
+          <Typography
+            variant="caption"
+            component="div"
+            color="secondary"
+            fontSize="1rem"
+            sx={{
+              textShadow: (theme) => `0 0 15px ${theme.palette.secondary.main}`,
+            }}
+          >
+            {`${Math.round(progress)}%`}
+          </Typography>
+        </Box>
+      </Stack>
     </Box>
   )
 
   return (
     <>
-      <Parallax
-        onProgressChange={(value) => handleProgress(value)}
-        style={{
+      <Stack
+        sx={{
+          position: "relative",
           background: `linear-gradient(120deg, #000 0%, #151210 50%, #000 100%)`,
+          position: "relative",
         }}
       >
-        <Stack
+        <Stack ref={topRef} sx={{ scrollMarginTop: "60px" }} />
+
+        <CenteredMaxWidthContainer
+          percents="80%"
+          pixels="1200px"
+          margin="5rem auto 10rem"
           sx={{
-            position: "relative",
+            gap: { xs: "3rem", lg: "5rem" },
           }}
         >
-          <Stack ref={topRef} sx={{ scrollMarginTop: "60px" }} />
-
-          <CenteredMaxWidthContainer
-            percents="80%"
-            pixels="1200px"
-            margin="5rem auto 10rem"
-            sx={{ gap: { xs: "3rem", lg: "5rem" } }}
-          >
+          <Parallax onProgressChange={(value) => handleProgress(value)}>
             <Stack>
               <BodyText textAlign="center" fontStyle="italic">
                 Explorez
@@ -392,10 +394,10 @@ export default function PortfolioSection(props) {
                 </Fragment>
               ))}
             </Grid>
-          </CenteredMaxWidthContainer>
-        </Stack>
+          </Parallax>
+        </CenteredMaxWidthContainer>
         <Progress />
-      </Parallax>
+      </Stack>
 
       <BrowserUiModal
         title={selectedWebsite.client}
