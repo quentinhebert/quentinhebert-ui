@@ -60,12 +60,10 @@ function Youtube(props) {
         volume={volume}
         loop={true}
         onReady={() =>
-          // !disableAutoplay ? setPlaying(true) : setPlaying(false)
-          setPlaying(true)
+          !disableAutoplay ? setPlaying(true) : setPlaying(false)
         }
         onStart={() =>
-          // !disableAutoplay ? setPlaying(true) : setPlaying(false)
-          setPlaying(true)
+          !disableAutoplay ? setPlaying(true) : setPlaying(false)
         }
         onPause={() => setPlaying(false)}
         config={{
