@@ -54,7 +54,7 @@ function Youtube(props) {
     >
       <ReactPlayer
         playsinline
-        url={`https://youtu.be/${videoId}`}
+        url={`https://www.youtube.com/embed/${videoId}`}
         controls={true}
         playing={playing}
         volume={volume}
