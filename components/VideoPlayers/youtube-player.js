@@ -54,16 +54,18 @@ function Youtube(props) {
     >
       <ReactPlayer
         playsinline
-        url={`https://www.youtube.com/embed/${videoId}`}
+        url={`https://youtu.be/${videoId}`}
         controls={true}
         playing={playing}
         volume={volume}
         loop={true}
         onReady={() =>
-          !disableAutoplay ? setPlaying(true) : setPlaying(false)
+          // !disableAutoplay ? setPlaying(true) : setPlaying(false)
+          setPlaying(true)
         }
         onStart={() =>
-          !disableAutoplay ? setPlaying(true) : setPlaying(false)
+          // !disableAutoplay ? setPlaying(true) : setPlaying(false)
+          setPlaying(true)
         }
         onPause={() => setPlaying(false)}
         config={{
