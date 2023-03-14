@@ -19,7 +19,7 @@ const Card = styled(
       <Stack
         textAlign="center"
         width="100%"
-        height="100%"
+        height={height || "100%"}
         flexGrow={1}
         borderRadius={borderRadius || "30px"}
         sx={{
@@ -39,7 +39,7 @@ const Card = styled(
       >
         <Stack
           textAlign="center"
-          height="100%"
+          height={"100%"}
           borderRadius={borderRadius || "30px"}
           sx={{
             background: backgroundColor || "#000",

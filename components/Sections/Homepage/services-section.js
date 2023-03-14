@@ -76,6 +76,7 @@ const ServiceCard = ({ service, href, animationElement, delay }) => {
       delay={delay || 0}
     >
       <CustomCard
+        height="auto"
         gap={4}
         padding={4}
         backgroundColor={(theme) => theme.palette.background.black}
