@@ -205,6 +205,7 @@ export default function ImageViewer({ open, handleClose, title, images }) {
           >
             {images.map((img, key) => (
               <ProgressiveImage
+                key={key}
                 src={!!img.path ? buildPublicURL(img.path) : img}
                 placeholder={
                   !!img.path

@@ -126,17 +126,14 @@ const Pictures = ({ display, thumbnail_url, images, title }) => {
               active={displayedPath === thumbnail_url}
               onClick={() => setDisplayedPath(thumbnail_url)}
             />
-            {images.map((img, key) => {
-              if (key <= 2)
-                return (
-                  <Thumbnail
-                    key={key}
-                    src={buildPublicURL(img.path, { imgSize: "small" })}
-                    active={displayedPath === buildPublicURL(img.path)}
-                    onClick={() => setDisplayedPath(buildPublicURL(img.path))}
-                  />
-                )
-            })}
+            {images.map((img, key) => (
+              <Thumbnail
+                key={key}
+                src={buildPublicURL(img.path, { imgSize: "small" })}
+                active={displayedPath === buildPublicURL(img.path)}
+                onClick={() => setDisplayedPath(buildPublicURL(img.path))}
+              />
+            ))}
           </Stack>
         )}
 
