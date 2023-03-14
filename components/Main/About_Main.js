@@ -2,7 +2,7 @@ import { Box, Slide, Stack, Typography } from "@mui/material"
 import BodyText from "../Text/body-text"
 import CenteredMaxWidthContainer from "../Containers/centered-max-width-container"
 import PillButton from "../Buttons/pill-button"
-import { useContext, useEffect, useState } from "react"
+import { Fragment, useContext, useEffect, useState } from "react"
 import EastIcon from "@mui/icons-material/East"
 import YoutubePlayer from "../VideoPlayers/youtube-player"
 import RedoIcon from "@mui/icons-material/Redo"
@@ -55,7 +55,7 @@ export default function About_Main() {
         pixels="1600px"
         sx={{
           gap: { xs: "8rem", lg: "2rem" },
-          flexDirection: { xs: "column-reverse", lg: "row" },
+          flexDirection: { xs: "column", lg: "row" },
           padding: { xs: "4rem 0 4rem", md: "8rem 0 4rem" },
         }}
       >
@@ -75,7 +75,7 @@ export default function About_Main() {
             </Typography>
 
             {SLIDES.map((txt, key) => {
-              if (key !== slide) return <></>
+              if (key !== slide) return <Fragment key={key} />
               return <Text key={key}>{txt}</Text>
             })}
 
@@ -105,10 +105,9 @@ export default function About_Main() {
         <Slide direction="left" {...{ timeout: 500 }} in={!appLoading}>
           <Stack
             sx={{
-              width: { xs: "100%", lg: "48%" },
-              gap: 0.25,
+              width: { xs: "90%", lg: "48%" },
               position: "relative",
-              marginTop: { xs: 8, md: 0 },
+              margin: "auto",
             }}
           >
             <Stack
@@ -116,7 +115,7 @@ export default function About_Main() {
                 background: "linear-gradient(180deg, #252525 0%, #171615 100%)",
                 borderRadius: "15px",
                 padding: 0.25,
-                width: "88%",
+                width: "87%",
                 alignSelf: "center",
               }}
             >
@@ -124,18 +123,24 @@ export default function About_Main() {
                 sx={{
                   background: "#000",
                   borderRadius: "15px",
-                  padding: ".5rem .5rem 1rem",
+                  padding: ".5rem 0rem 1rem",
                 }}
               >
                 {render ? (
                   <YoutubePlayer
-                    videoId={"MMwqBtb0aFM"}
+                    disableAutoplay
+                    videoId={"wWpM97f-RHg"}
                     bgColor={(theme) => theme.palette.background.main}
                   />
                 ) : null}
               </Stack>
             </Stack>
-            <Box component="img" src="/medias/macbook-keyboard.png" mt={-1} />
+            <Box
+              component="img"
+              src="/medias/macbook-keyboard.png"
+              mt={-0.5}
+              ml="0.5rem"
+            />
           </Stack>
         </Slide>
       </CenteredMaxWidthContainer>
