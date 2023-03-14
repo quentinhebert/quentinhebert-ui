@@ -31,7 +31,7 @@ export default function WebsitesIndexLayout(props) {
 
       <ContactCTA
         refsForScroll={refsForScroll}
-        src="https://resourceboy.com/wp-content/uploads/2021/10/two-notebook-devices-in-the-dark-mockup.jpg"
+        src="/medias/mockup.jpg"
         smallText="Créons"
         catchPhrase="votre site web professionnel sur-mesure."
         background="#151210"

@@ -19,9 +19,8 @@ export default function ContactCTA({
   const md = useMediaQuery((theme) => theme.breakpoints.up("md"))
 
   const backgroundLayer = {
-    translateY: [0, 50],
-    // opacity: [1, 0.3],
-    scale: [1, 1.1, "ease"],
+    translateY: [-20, 20],
+    opacity: [1, 0],
     shouldAlwaysCompleteAnimation: true,
     children: (
       <Stack
