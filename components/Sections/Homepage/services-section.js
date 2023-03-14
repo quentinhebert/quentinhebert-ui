@@ -50,7 +50,7 @@ const ListIcon = () => (
   </>
 )
 const List = ({ items }) => (
-  <Box flexGrow={1}>
+  <Box>
     {items.map((item, key) => (
       <ListItem key={key}>
         <ListIcon />
@@ -72,14 +72,13 @@ const ServiceCard = ({ service, href, animationElement, delay }) => {
           padding: "2rem 0",
         },
       }}
-      style={{ height: "100%", display: "flex", flexGrow: 1 }}
+      style={{ display: "flex", flexGrow: 1 }}
       delay={delay || 0}
     >
       <CustomCard
         gap={4}
         padding={4}
         backgroundColor={(theme) => theme.palette.background.black}
-        height={{ xs: "100%", lg: "auto" }}
       >
         <CustomCardTitle
           className="no-select"
