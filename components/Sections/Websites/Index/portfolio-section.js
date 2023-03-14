@@ -248,26 +248,26 @@ export default function PortfolioSection(props) {
             gap: { xs: "3rem", lg: "5rem" },
           }}
         >
-          <Parallax onProgressChange={(value) => handleProgress(value)}>
-            <Stack>
-              <BodyText textAlign="center" fontStyle="italic">
-                Explorez
-              </BodyText>
-              <MediumTitle
-                preventTransitionOut={desktop}
-                textAlign="center"
-                sx={{
-                  background: (theme) =>
-                    `-webkit-linear-gradient(-180deg, ${theme.palette.secondary.main} 0%, ${theme.palette.tersary.main} 100%)`,
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  padding: "0 1rem 0 0",
-                }}
-              >
-                Mes projets web
-              </MediumTitle>
-            </Stack>
+          <Stack>
+            <BodyText textAlign="center" fontStyle="italic">
+              Explorez
+            </BodyText>
+            <MediumTitle
+              preventTransitionOut={desktop}
+              textAlign="center"
+              sx={{
+                background: (theme) =>
+                  `-webkit-linear-gradient(-180deg, ${theme.palette.secondary.main} 0%, ${theme.palette.tersary.main} 100%)`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                padding: "0 1rem 0 0",
+              }}
+            >
+              Mes projets web
+            </MediumTitle>
+          </Stack>
 
+          <Parallax onProgressChange={(value) => handleProgress(value)}>
             <Grid
               container
               rowSpacing={{ xs: 12, lg: 25 }}
