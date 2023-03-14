@@ -49,7 +49,7 @@ const mainTheme = createTheme({
     },
   },
   navbar: {
-    marginTop: "0px",
+    marginTop: "88px",
   },
   spacing: 8,
   typography: {

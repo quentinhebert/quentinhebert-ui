@@ -1,0 +1,30 @@
+.wrapper {
+  /*This part is important for centering*/
+  display: grid;
+  place-items: center;
+  color: "#fff";
+  height: auto;
+}
+
+.text {
+  width: 23ch;
+  animation: typing 2s steps(20), blink .5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid;
+  color: "#fff";
+  padding: 0 .2rem;
+  height: 80%;
+}
+
+@keyframes typing {
+  from {
+    width: 0
+  }
+}
+    
+@keyframes blink {
+  50% {
+    border-color: transparent
+  }
+}
