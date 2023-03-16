@@ -12,10 +12,10 @@ export default function GrainOverlay() {
         top: "-82px",
         left: 0,
         pointerEvents: "none",
-        opacity: 0.25,
+        opacity: 0.2,
         mixBlendMode: "screen",
         zIndex: 10000000,
-        backgroundSize: { xs: "80vw", md: "20vw 20vw" },
+        backgroundSize: { xs: "80vw", md: "8vw 8vw" },
         filter: "contrast(130%)",
       }}
     />
