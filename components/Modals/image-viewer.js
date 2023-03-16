@@ -16,6 +16,31 @@ const Transition = forwardRef(function Transition(props, ref) {
   )
 })
 
+function Image({ image }) {
+  return (
+    <ProgressiveImage
+      src={!!image.path ? buildPublicURL(image.path) : image}
+      placeholder={
+        !!image.path ? buildPublicURL(image.path, { imgSize: "small" }) : image
+      }
+    >
+      {(src) => (
+        <img
+          src={src}
+          draggable="false"
+          width="100%"
+          height="98%"
+          alt=""
+          loading="lazy"
+          style={{
+            objectFit: "contain",
+          }}
+        />
+      )}
+    </ProgressiveImage>
+  )
+}
+
 export default function ImageViewer({ open, handleClose, title, images }) {
   const [triggerNext, setTriggerN] = useState(false)
   const [triggerPrevious, setTriggerP] = useState(false)
@@ -197,39 +222,19 @@ export default function ImageViewer({ open, handleClose, title, images }) {
             margin: "0 auto",
           }}
         >
-          <Carousel
-            autoPlay={false}
-            renderDots={renderDots}
-            renderArrowLeft={renderArrowLeft}
-            renderArrowRight={renderArrowRight}
-          >
-            {images.map((img, key) => (
-              <ProgressiveImage
-                key={key}
-                src={!!img.path ? buildPublicURL(img.path) : img}
-                placeholder={
-                  !!img.path
-                    ? buildPublicURL(img.path, { imgSize: "small" })
-                    : img
-                }
-              >
-                {(src) => (
-                  <img
-                    src={src}
-                    draggable="false"
-                    key={key}
-                    width="100%"
-                    height="98%"
-                    alt=""
-                    loading="lazy"
-                    style={{
-                      objectFit: "contain",
-                    }}
-                  />
-                )}
-              </ProgressiveImage>
-            ))}
-          </Carousel>
+          {images.length === 1 && <Image image={images[0]} />}
+          {images.length > 1 && (
+            <Carousel
+              autoPlay={false}
+              renderDots={renderDots}
+              renderArrowLeft={renderArrowLeft}
+              renderArrowRight={renderArrowRight}
+            >
+              {images.map((img, key) => (
+                <Image image={img} key={key} />
+              ))}
+            </Carousel>
+          )}
         </Stack>
       </BrowserLayout>
     </Dialog>
