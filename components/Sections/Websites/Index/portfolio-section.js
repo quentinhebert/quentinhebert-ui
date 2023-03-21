@@ -117,6 +117,7 @@ const Pictures = ({ display, thumbnail_url, images, title }) => {
               flexDirection: "row",
               borderRadius: "20px",
               overflow: "hidden",
+              gap: 0.3,
               WebkitMaskImage: "-webkit-radial-gradient(white, black)", // Fix for safari overflow hidden
               background: "rgb(256,256,256,0.025)",
             }}
