@@ -105,7 +105,7 @@ const users = {
     }
   },
   updateTimeZone: async (userId, timezone) => {
-    const body = { timezone: timezone.label }
+    const body = { timezone: timezone?.label }
     try {
       return await fetch(`${defaultConfig.apiUrl}/users/${userId}/timezone`, {
         method: "PATCH",

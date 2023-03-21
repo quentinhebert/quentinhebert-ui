@@ -42,14 +42,14 @@ export default function ChangeTimezoneSection(props) {
   // HANDLERS
   const handleReset = () => setKey(key + 1)
   const handleSuccess = () => {
-    setSnackSeverity("success")
     setSnackMessage("Votre timezone a été modifiée")
+    setSnackSeverity("success")
   }
   const handleError = () => {
-    setSnackSeverity("error")
     setSnackMessage(
       "Une erreur est survenue lors de la modification de votre timezone..."
     )
+    setSnackSeverity("error")
   }
   const handleSave = async () => {
     setIsLoading(true)

@@ -2,7 +2,7 @@ import { getTimezoneOffset } from "date-fns-tz"
 
 export function getLocaleDateTime(dateTimeToConvert, timezoneToDisplay) {
   const unix = new Date(dateTimeToConvert).getTime()
-  const offset = getTimezoneOffset(timezoneToDisplay)
+  const offset = getTimezoneOffset(timezoneToDisplay || "Europe/Paris")
   const date = new Date(unix + offset)
   return date
 }
