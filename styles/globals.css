@@ -203,6 +203,26 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+/* TEST */
+.baseline-align {
+  display: inline-block;
+  line-height: 0;
+}
+.baseline-align::after {
+  content: '';
+  display: inline-block;
+  height: 1.2em;
+}
+.true-baseline-align {
+  display: inline-block;
+  line-height: 0;
+}
+.true-baseline-align::after {
+  content: '';
+  display: inline-block;
+  height: 1em;
+}
+
 .no-select {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */

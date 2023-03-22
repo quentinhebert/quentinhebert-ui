@@ -9,6 +9,8 @@ export default function PageTitle(props) {
     <MotionDivOnMount visible={fadeVariant.visible} hidden={fadeVariant.hidden}>
       <Typography
         variant="h1"
+        component="span"
+        className="true-baseline-align" // Fixes fontface vertical align issue
         fontFamily={fontFamily || "POPFINE"}
         fontWeight="bold"
         textAlign={textAlign || "left"}
