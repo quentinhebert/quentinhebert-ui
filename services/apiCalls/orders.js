@@ -87,7 +87,7 @@ const orders = {
   },
   // Admin only
   create: async (
-    quotation = {
+    order = {
       label,
       items,
       date,
@@ -97,10 +97,11 @@ const orders = {
       payment_options,
       payment_conditions,
       additional_mentions,
+      activity_type,
     },
     items
   ) => {
-    const body = { ...quotation, items }
+    const body = { ...order, items }
     try {
       return await fetch(`${defaultConfig.apiUrl}/orders`, {
         method: "POST",

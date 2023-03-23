@@ -16,7 +16,7 @@ export default function DashboardLayout({
       sx={{ padding: padding || { xs: "2rem 1rem", md: "2rem 3rem" } }}
     >
       {!noBreadcrumbs && <Breadcrumbs panel="dashboard" />}
-      <PageTitle zIndex={1} text={title || ""} />
+      {!!title && <PageTitle zIndex={1} text={title} />}
 
       <Stack className="full-width" marginTop={marginTop || 2}>
         {children}

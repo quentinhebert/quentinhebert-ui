@@ -75,6 +75,8 @@ import SellIcon from "@mui/icons-material/Sell"
 import LaunchIcon from "@mui/icons-material/Launch"
 import EditIcon from "@mui/icons-material/Edit"
 import DownloadIcon from "@mui/icons-material/Download"
+import { ACTIVITY_TYPES } from "../../../enums/activityTypesEnum"
+import Span from "../../Text/span"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -123,16 +125,17 @@ const FormCard = ({ title, width, icon, gap, step, totalSteps, ...props }) => (
       <SmallTitle
         variant="h4"
         textTransform="initial"
-        color="#fff"
-        alignItems="end"
+        // color="#fff"
+        color={(theme) => theme.palette.secondary.main}
+        // alignItems="end"
         display="flex"
         gap={2}
         marginBottom={2}
       >
         {icon}
         {title}
-        <Box sx={{ color: "grey", fontSize: "0.8em" }}>
-          {step}/{totalSteps}
+        <Box sx={{ color: "#fff", fontSize: "0.8em" }}>
+          ({step}/{totalSteps})
         </Box>
       </SmallTitle>
     )}
@@ -575,6 +578,7 @@ function OrderForm({
     quotations: [],
     payments: [],
     payment_fractions: [100],
+    activity_type: ACTIVITY_TYPES.video,
   }
 
   /********** USE-STATES **********/
@@ -679,6 +683,8 @@ function OrderForm({
     setOrder({ ...order, [attribute]: newValue })
     handleDetectChange()
   }
+  const handleChangeActivityType = (activityType) =>
+    setOrder({ ...order, activity_type: activityType })
   const handleCheckPaymentOptions = (attribute) => (e) => {
     if (errors.payment_options) setErrors({ ...errors, payment_options: false })
     setOrder({
@@ -1109,6 +1115,29 @@ function OrderForm({
       <ToggleButton value={PAYMENT_MODES.MULTIPLE}>Plusieurs fois</ToggleButton>
     </ToggleButtonGroup>
   )
+  const ActivityTypeCard = ({ label, selected, ...props }) => (
+    <Stack
+      sx={{
+        borderRadius: "30px",
+        border: selected
+          ? (theme) => `2px solid ${theme.palette.secondary.main}`
+          : (theme) => `2px solid ${theme.palette.primary.main}`,
+        padding: { xs: "1rem 2rem", md: "1rem 3rem" },
+        background: selected
+          ? (theme) => theme.palette.secondary.main
+          : "transparent",
+        cursor: "pointer",
+      }}
+      {...props}
+    >
+      <Typography
+        variant="h4"
+        color={selected ? "#000" : (theme) => theme.palette.primary.main}
+      >
+        {label}
+      </Typography>
+    </Stack>
+  )
 
   const fractionSum = order.payment_fractions.reduce(
     (a, b) => Number(a) + Number(b),
@@ -1146,11 +1175,29 @@ function OrderForm({
               />
 
               {activeTab === 0 && (
-                <QuotationReadOnlySection
-                  items={items}
-                  quotation={order}
-                  hideModalities
-                />
+                <>
+                  <AlertInfo
+                    content={{
+                      show: !!order.client && !order.items?.length,
+                      title: "Commande non visible par votre client",
+                      js: (
+                        <Stack gap={2}>
+                          Vous devez ajouter des items à votre commande pour que
+                          votre client puisse accéder à cette dernière.
+                          <PillButton onClick={() => setReadOnly(false)}>
+                            Modifier la commande
+                          </PillButton>
+                        </Stack>
+                      ),
+                      severity: "warning",
+                    }}
+                  />
+                  <QuotationReadOnlySection
+                    items={items}
+                    quotation={order}
+                    hideModalities
+                  />
+                </>
               )}
               {activeTab === 1 && (
                 <QuotationReadOnlySection
@@ -1186,6 +1233,34 @@ function OrderForm({
           {/* EDIT MODE */}
           {!readOnly && EDIT_STATUSES.includes(order.status) && (
             <>
+              {/********** ACTIVITY TYPE **********/}
+              <Stack
+                sx={{
+                  padding: "2rem 1rem",
+                  maxWidth: "900px",
+                  gap: 4,
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="h4" color="secondary">
+                  Quel est le type de prestation ?
+                </Typography>
+                <Stack className="row" gap={2}>
+                  <ActivityTypeCard
+                    label="Vidéo"
+                    selected={order.activity_type === ACTIVITY_TYPES.video}
+                    onClick={() =>
+                      handleChangeActivityType(ACTIVITY_TYPES.video)
+                    }
+                  />
+                  <ActivityTypeCard
+                    label="Web"
+                    selected={order.activity_type === ACTIVITY_TYPES.web}
+                    onClick={() => handleChangeActivityType(ACTIVITY_TYPES.web)}
+                  />
+                </Stack>
+              </Stack>
+
               {/********** CONDITIONS & MENTIONS **********/}
               <Stack
                 sx={{
@@ -1482,14 +1557,16 @@ function OrderForm({
 
               {/********** ITEMS TABLE WITH PRICES / QTY. **********/}
               <SmallTitle
-                color="#fff"
+                color={(theme) => theme.palette.secondary.main}
                 alignItems="center"
                 gap={2}
                 display="flex"
+                mt={2}
               >
                 <SellIcon />
-                Détails des produits / services (5/5)
+                Détails des produits / services <Span color="#fff">(5/5)</Span>
               </SmallTitle>
+
               <Stack gap={2} width="100%" overflow="auto">
                 <Box
                   component="table"
@@ -1585,7 +1662,8 @@ function OrderForm({
               <SaveAltIcon /> Sauvegarder la commande
             </ModalTitle>
             <BodyText preventTransition fontSize="1rem">
-              Vous retrouverez la commande sur la page "Mes devis".
+              Vous retrouverez la commande dans votre Dashboard dans l'onglet
+              "Commandes".
             </BodyText>
             <CustomForm gap={4}>
               <CustomFilledInput

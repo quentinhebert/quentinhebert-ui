@@ -33,7 +33,7 @@ export default function CreateQuotationPage() {
       {!user && <Login_Main />}
 
       {!!user && user.type === USERTYPES.ADMIN && (
-        <DashboardLayout title="Nouvelle commande (brouillon)">
+        <DashboardLayout title="Nouvelle commande">
           <OrderForm />
         </DashboardLayout>
       )}

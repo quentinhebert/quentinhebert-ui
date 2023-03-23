@@ -10,7 +10,7 @@ export default function AccountLayout({ children, title, noBreadcrumbs }) {
       sx={{ padding: { xs: "2rem 1.5rem", md: "2rem 3rem" } }}
     >
       {!noBreadcrumbs && <Breadcrumbs panel="account" />}
-      <PageTitle zIndex={1} text={title || ""} />
+      {!!title && <PageTitle zIndex={1} text={title} />}
 
       <Stack className="full-width" marginTop={4}>
         {children}

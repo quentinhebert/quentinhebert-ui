@@ -89,6 +89,16 @@ const mainTheme = createTheme({
     },
     h4: {
       fontFamily: "Helmet",
+      [theme.breakpoints.up("xs")]: {
+        fontSize: "1.5rem",
+        lineHeight: "1.5rem",
+        fontWeight: "normal",
+      },
+      [theme.breakpoints.up("md")]: {
+        fontSize: "2rem",
+        lineHeight: "2rem",
+        fontWeight: "normal",
+      },
     },
     h5: {
       fontFamily: "Helmet",

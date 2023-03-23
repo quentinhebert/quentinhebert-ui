@@ -126,6 +126,7 @@ export default function Order_Main({ orderId }) {
               display="inline-flex"
               gap={2}
               width="100%"
+              color="secondary"
             >
               {order?.label || ""}
               <StatusChip order={order} />

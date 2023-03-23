@@ -18,6 +18,10 @@ const Text = styled(
     lineHeight,
     ...props
   }) => {
+    let customColor = color
+    if (!!color && color === "secondary")
+      customColor = (theme) => theme.palette.secondary.main
+
     /********** ANIMATION **********/
     const { appLoading } = useContext(AppContext)
     const [ref, inView] = useInView()
@@ -54,12 +58,12 @@ const Text = styled(
                 xs: "0.8rem",
                 md: "1rem",
               },
-              letterSpacing: letterSpacing || 1,
+              letterSpacing: letterSpacing || 0,
               lineHeight: lineHeight || {
                 xs: "1rem",
                 md: "1.6rem",
               },
-              color: color || ((theme) => theme.palette.text.white),
+              color: customColor || ((theme) => theme.palette.text.white),
             }}
             {...props}
           />

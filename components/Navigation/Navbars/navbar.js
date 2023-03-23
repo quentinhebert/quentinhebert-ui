@@ -57,14 +57,15 @@ export default function Navbar(props) {
       >
         <Box
           width="100vw"
-          height="100%"
+          // height="100%"
           sx={{
             background: "#000",
             position: "absolute",
             top: -1, // trick to prevent from small gap above navbar
             left: 0,
+            height: isReduced ? "100%" : 0,
             opacity: isReduced ? 1 : 0,
-            transition: "0.5s ease-in-out",
+            transition: "0.2s ease",
           }}
         />
         <Stack padding="1rem 0.75rem" alignItems="center">

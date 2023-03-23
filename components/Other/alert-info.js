@@ -5,6 +5,7 @@ import theme from "../../config/theme"
 import { motion } from "framer-motion"
 
 function AlertInfo({ content, noAnimation }) {
+  if (!content.show) return <></>
   return (
     <motion.div
       initial={{ opacity: noAnimation ? 1 : 0 }}

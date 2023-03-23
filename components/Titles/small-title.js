@@ -13,7 +13,7 @@ export default function SmallTitle({
     <Typography
       component="h2"
       variant={variant || "h3"}
-      fontFamily={fontFamily || "kardust"}
+      fontFamily={fontFamily || "popfine"}
       textTransform={textTransform || "uppercase"}
       letterSpacing={2}
       fontWeight="bold"
