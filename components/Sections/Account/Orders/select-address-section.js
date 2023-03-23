@@ -343,7 +343,11 @@ function SelectAddressSection({
         {savedAddresses.map((addr, key) => (
           <Grid item xs={12} md={6} key={key}>
             <CustomCard
-              background={activeAddressIndex === key ? null : "grey"}
+              border={
+                activeAddressIndex === key
+                  ? (theme) => `1px solid ${theme.palette.secondary.main}`
+                  : `1px solid grey`
+              }
               className="pointer relative"
               onClick={() => {
                 setActiveAddressIndex(key)
