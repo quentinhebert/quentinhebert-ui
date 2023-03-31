@@ -13,6 +13,7 @@ export default function SubmitButton({
 }) {
   return (
     <Button
+      disabled={disabled || false}
       sx={{
         gap: 2,
         marginTop: "2rem",

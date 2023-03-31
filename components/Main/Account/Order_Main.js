@@ -193,7 +193,7 @@ export default function Order_Main({ orderId }) {
             </Stack>
           )}
 
-          <Stack gap={4}>
+          <Stack gap={2}>
             <H2>Détail de ma commande</H2>
 
             <OrderReadOnlySection

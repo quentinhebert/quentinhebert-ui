@@ -55,7 +55,6 @@ function SelectAddressSection({
   }
   const [address, setAddress] = useState(initialAddress)
   const [certificate, setCertificate] = useState(false)
-  const [save, setSave] = useState(false)
   const [edit, setEdit] = useState(false)
   const [newAddress, setNewAddress] = useState(false)
   const requiredFields = ["fullname", "line1", "postalCode", "city", "country"]
@@ -131,13 +130,12 @@ function SelectAddressSection({
       address,
     })
     if (res && res.ok) {
-      setSnackMessage(
-        "Vos informations ont bien été enregistrées pour la procahine fois !"
-      )
+      setSnackMessage("Adresse ajoutée")
       setSnackSeverity("success")
       setNewAddress(false)
       fetchSavedAddresses()
     }
+    setCertificate(false)
   }
 
   const updateInformations = async () => {
@@ -162,6 +160,8 @@ function SelectAddressSection({
   const handleCancel = () => {
     setEdit(false)
     setNewAddress(false)
+    setCertificate(false)
+    fetchSavedAddresses()
   }
 
   const handleDeleteSuccess = () => {
@@ -208,6 +208,7 @@ function SelectAddressSection({
           <PageTitle
             text={edit ? "Modifier l'adresse" : "Ajouter une adresse"}
             textAlign="center"
+            marginBottom={4}
           />
 
           <DualInputLine>
@@ -295,13 +296,13 @@ function SelectAddressSection({
           )}
 
           <Stack>
-            {newAddress && (
+            {/* {newAddress && (
               <CustomCheckbox
                 label="Se souvenir de mes informations la prochaine fois"
                 checked={save}
                 onChange={(e) => setSave(e.target.checked)}
               />
-            )}
+            )} */}
             <CustomCheckbox
               label="Je certifie que les informations que j'ai saisies sont exactes *"
               checked={certificate}
@@ -309,16 +310,23 @@ function SelectAddressSection({
             />
           </Stack>
 
-          <Stack className="row">
+          <Stack className="row" justifyContent="space-between">
             {savedAddresses.length > 0 && (
-              <PillButton onClick={handleCancel}>Annuler</PillButton>
+              <PillButton
+                onClick={handleCancel}
+                background="transparent"
+                border={(theme) => `1px solid ${theme.palette.secondary.main}`}
+                color={(theme) => theme.palette.secondary.main}
+              >
+                Annuler
+              </PillButton>
             )}
-            <RightSubmitButton
+            <PillButton
               onClick={edit ? updateInformations : addAddress}
               disabled={!certificate}
             >
               {edit ? "Enregistrer" : "Ajouter"}
-            </RightSubmitButton>
+            </PillButton>
           </Stack>
         </Stack>
       </CenteredMaxWidthContainer>
