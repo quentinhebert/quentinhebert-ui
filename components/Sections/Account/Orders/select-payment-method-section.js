@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 import apiCall from "../../../../services/apiCalls/apiCall"
 import { useRouter } from "next/router"
 import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
@@ -29,7 +29,9 @@ export default function SelectPaymentMethodSection({
 
   return (
     <CenteredMaxWidthContainer gap={4}>
-      <PageTitle text="Moyen de paiement" textAlign="center" />
+      <Typography variant="h2" color="secondary" textAlign="center">
+        Moyen de paiement
+      </Typography>
       <Stack className="flex-center gap-10">
         <PillButton onClick={handleRedirectCheckout}>
           Carte ou virement bancaire

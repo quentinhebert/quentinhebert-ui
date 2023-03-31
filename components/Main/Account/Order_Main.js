@@ -71,6 +71,8 @@ export default function Order_Main({ orderId }) {
       const res = await apiCall.orders.get({ id: orderId })
       if (res && res.ok) {
         const jsonRes = await res.json()
+        // Invert order of invoices from DESC to ASC
+        // jsonRes.invoices = jsonRes.invoices.reverse()
         setOrder(jsonRes)
       }
     }
@@ -145,35 +147,46 @@ export default function Order_Main({ orderId }) {
             <Stack gap={2}>
               <H2>Mes factures</H2>
 
-              {order.invoices.map((invoice, key) => (
-                <Stack
-                  flexDirection="row"
-                  gap={2}
-                  key={key}
-                  alignItems="center"
-                >
-                  <Tooltip
-                    title={formatDayDate({ timestamp: invoice.created_at })}
-                  >
-                    <Box
-                      component="a"
-                      href={buildPublicURL(invoice.path)}
-                      target="_blank"
+              <Stack
+                flexDirection="row"
+                gap={2}
+                overflow="auto"
+                paddingBottom={17}
+                marginBottom={-17}
+              >
+                {order.invoices.map((invoice, key) => (
+                  <Stack key={key} alignItems="center">
+                    <Tooltip
+                      title={formatDayDate({ timestamp: invoice.created_at })}
                     >
-                      <Stack className="flex-center row gap-10">
-                        <DownloadIcon color="secondary" />
-                        <Typography
-                          color="secondary"
-                          letterSpacing={1}
-                          className="cool-button"
-                        >
-                          Télécharger {INVOICETYPES[invoice.type]}
-                        </Typography>
-                      </Stack>
-                    </Box>
-                  </Tooltip>
-                </Stack>
-              ))}
+                      <Box
+                        component="a"
+                        href={buildPublicURL(invoice.path)}
+                        target="_blank"
+                        sx={{
+                          border: (theme) =>
+                            `1px solid ${theme.palette.secondary.main}`,
+                          borderRadius: "15px",
+                          padding: "1rem",
+                          minWidth: "150px",
+                        }}
+                      >
+                        <Stack className="flex-center" gap={1}>
+                          <DownloadIcon color="secondary" />
+                          <Typography
+                            color="secondary"
+                            letterSpacing={1}
+                            className="cool-button"
+                            textTransform="capitalize"
+                          >
+                            {INVOICETYPES[invoice.type]}
+                          </Typography>
+                        </Stack>
+                      </Box>
+                    </Tooltip>
+                  </Stack>
+                ))}
+              </Stack>
             </Stack>
           )}
 

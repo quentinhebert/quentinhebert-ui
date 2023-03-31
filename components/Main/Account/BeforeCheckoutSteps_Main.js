@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import Custom404_Main from "../../Main/Errors/Custom404_Main"
@@ -26,13 +26,7 @@ const steps = [
 ]
 
 const ActionTitle = (props) => (
-  <SmallTitle
-    textTransform="initial"
-    fontSize="1rem"
-    color="#fff"
-    fontWeight="normal"
-    {...props}
-  />
+  <Typography variant="h6" color="#fff" {...props} />
 )
 const ActionText = (props) => (
   <BodyText {...props} preventTransition fontSize="1rem" />
@@ -94,7 +88,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
   if (!order.id && !loading) return <Custom404_Main />
 
   return (
-    <Stack gap={8}>
+    <Stack gap={10} padding="2rem 0">
       {loading && <PleaseWait />}
 
       {/********** PRICE & ACTION DETAILS **********/}
@@ -102,13 +96,15 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
         <Stack sx={{ flexDirection: { xs: "column", md: "row" } }} gap={2}>
           <Stack
             sx={{
-              width: "50%",
+              // width: "50%",
+              flexGrow: 1,
               padding: 3,
               gap: 2,
               borderRadius: "20px",
               background: (theme) => theme.palette.background.main,
             }}
           >
+            {console.log("paymentFractions", paymentFractions)}
             {paymentFractions.length > 0 &&
               paymentFractions.map((f, key) => {
                 const isNextPayment = key === nextPayment.index
@@ -129,10 +125,13 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
                           isNextPayment ? theme.palette.text.secondary : "grey"
                         }
                         component="span"
+                        fontSize="1rem"
                       >
                         {f.amount / 100}€ TTC{" "}
                         <Box component="span" color="grey">
-                          ({f.label} {f.percent})
+                          {paymentFractions.length === 1
+                            ? null
+                            : `(${f.label} ${f.percent})`}
                         </Box>
                       </Box>
                     </ActionText>
@@ -145,7 +144,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
         </Stack>
       </CenteredMaxWidthContainer>
 
-      <Stack gap={4}>
+      <Stack gap={8}>
         {/********** STEPPER **********/}
         <CustomStepper
           steps={steps}

@@ -98,7 +98,9 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
       <Stack>
         {loading && <PleaseWait />}
         {order && (
-          <CustomCard>
+          <CustomCard
+            boxShadow={(theme) => `0 0 50px ${theme.palette.secondary.main}`}
+          >
             <CustomForm onSubmit={handleSubmit}>
               <MediumTitle>Payer {amountToPay}€</MediumTitle>
               {showAlert.show && (

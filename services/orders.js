@@ -30,9 +30,12 @@ export function getPaymentFractionsDetails({ order }) {
   paymentFractions?.map((fraction, index) => {
     let label
     if (paymentFractions.length === 1) label = "facture" // one elt only
-    if (index === 0) label = "accompte" // first elt
-    else if (index === paymentFractions.length - 1) label = "solde" // last elt
-    else label = "échéance" // middle elts
+    else {
+      if (index === 0) label = "accompte" // first elt
+      else if (index === paymentFractions.length - 1)
+        label = "solde" // last elt
+      else label = "échéance" // middle elts
+    }
     fractions.push({
       amount: Math.round((fraction / 100) * totalPrice * 100) / 100,
       percent: `${fraction}%`,
