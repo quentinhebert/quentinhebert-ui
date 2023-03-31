@@ -238,8 +238,11 @@ input[type=number] {
 .MuiInput-input::placeholder {
   color: #C6900E;
 }
+.initial-cap{
+    display: inline-block;
+  }
 .initial-cap::first-letter{
-    text-transform: "capitalize"
+    text-transform: capitalize;
   }
 
 @font-face {
