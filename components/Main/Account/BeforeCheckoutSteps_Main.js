@@ -18,6 +18,7 @@ import {
   getNextPaymentDetails,
   getPaymentFractionsDetails,
 } from "../../../services/orders"
+import Span from "../../Text/span"
 
 const steps = [
   "Adresse de facturation",
@@ -108,34 +109,36 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
             {paymentFractions.length > 0 &&
               paymentFractions.map((f, key) => {
                 const isNextPayment = key === nextPayment.index
-                return f.paid ? (
-                  <ActionText key={key}>
-                    <Box color="grey" component="span">
-                      {f.amount / 100}€ TTC ({f.label} {f.percent} payé)
-                    </Box>
-                  </ActionText>
-                ) : (
-                  <Stack paddingLeft={isNextPayment ? 2 : 0}>
-                    {isNextPayment && (
-                      <ActionTitle>Je règle maintenant</ActionTitle>
-                    )}
-                    <ActionText key={key}>
-                      <Box
-                        color={(theme) =>
-                          isNextPayment ? theme.palette.text.secondary : "grey"
-                        }
-                        component="span"
-                        fontSize="1rem"
-                      >
-                        {f.amount / 100}€ TTC{" "}
-                        <Box component="span" color="grey">
-                          {paymentFractions.length === 1
-                            ? null
-                            : `(${f.label} ${f.percent})`}
+                return (
+                  isNextPayment && (
+                    <Stack>
+                      {isNextPayment && (
+                        <ActionTitle>Je règle maintenant</ActionTitle>
+                      )}
+                      <ActionText key={key}>
+                        <Box
+                          color={(theme) =>
+                            isNextPayment
+                              ? theme.palette.text.secondary
+                              : "grey"
+                          }
+                          component="span"
+                          fontSize="1rem"
+                        >
+                          <Box
+                            component="span"
+                            color="grey"
+                            className="initial-cap"
+                          >
+                            {paymentFractions.length === 1
+                              ? null
+                              : `${f.label} de ${f.percent}`}
+                          </Box>
+                          <Span ml={1}>{f.amount / 100}€ TTC</Span>
                         </Box>
-                      </Box>
-                    </ActionText>
-                  </Stack>
+                      </ActionText>
+                    </Stack>
+                  )
                 )
               })}
           </Stack>

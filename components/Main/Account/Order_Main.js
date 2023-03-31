@@ -16,6 +16,7 @@ import { INVOICETYPES } from "../../../enums/invoiceTypes"
 import { getNextPaymentDetails } from "../../../services/orders"
 import RefreshButton from "../../Buttons/refresh-button"
 import DownloadIcon from "@mui/icons-material/Download"
+import { getPaymentFractionsDetails } from "../../../services/orders"
 
 const allowedStatesForPaying = [
   "WAITING_FOR_PAYMENT",
@@ -72,7 +73,7 @@ export default function Order_Main({ orderId }) {
       if (res && res.ok) {
         const jsonRes = await res.json()
         // Invert order of invoices from DESC to ASC
-        // jsonRes.invoices = jsonRes.invoices.reverse()
+        jsonRes.invoices = jsonRes.invoices.reverse()
         setOrder(jsonRes)
       }
     }
@@ -179,7 +180,9 @@ export default function Order_Main({ orderId }) {
                             className="cool-button"
                             textTransform="capitalize"
                           >
-                            {INVOICETYPES[invoice.type]}
+                            {INVOICETYPES[invoice.type]} (
+                            {getPaymentFractionsDetails({ order })[key].percent}
+                            )
                           </Typography>
                         </Stack>
                       </Box>

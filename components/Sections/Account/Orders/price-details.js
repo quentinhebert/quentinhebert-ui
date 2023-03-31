@@ -5,6 +5,7 @@ import {
   parseOrderPrice,
 } from "../../../../services/orders"
 import BodyText from "../../../Text/body-text"
+import Span from "../../../Text/span"
 
 const Label = (props) => (
   <Grid
@@ -30,6 +31,22 @@ const Price = (props) => (
   <Grid item xs={4} textAlign="right">
     <BodyText preventTransition {...props} fontSize="1rem" />
   </Grid>
+)
+
+const PaidChip = ({}) => (
+  <Span
+    color={(theme) => theme.alert.title.success.color}
+    sx={{
+      fontSize: ".8rem",
+      padding: "0 .5rem",
+      borderRadius: "30px",
+      border: (theme) => `1px solid ${theme.alert.title.success.color}`,
+      background: (theme) => theme.alert.title.success.background,
+      ml: 0.5,
+    }}
+  >
+    payé
+  </Span>
 )
 
 export default function PriceDetails({ items, order }) {
@@ -62,14 +79,34 @@ export default function PriceDetails({ items, order }) {
                 margin: "1rem 0",
               }}
             />
-            {paymentFractions.map((f, key) => (
-              <Fragment key={key}>
-                <Label>
-                  {f.label} TTC ({f.percent})
-                </Label>
-                <Price>{f.amount / 100} €</Price>
-              </Fragment>
-            ))}
+            {paymentFractions.map((f, key) => {
+              return (
+                <Fragment key={key}>
+                  <Label
+                    color={
+                      (!paymentFractions[key].paid &&
+                        paymentFractions[key - 1]?.paid) ||
+                      (key === 0 && !f.paid)
+                        ? (theme) => theme.palette.secondary.main
+                        : null
+                    }
+                  >
+                    {f.label} TTC ({f.percent}) {f.paid ? <PaidChip /> : null}
+                  </Label>
+                  <Price
+                    color={
+                      (!paymentFractions[key].paid &&
+                        paymentFractions[key - 1]?.paid) ||
+                      (key === 0 && !f.paid)
+                        ? (theme) => theme.palette.secondary.main
+                        : null
+                    }
+                  >
+                    {f.amount / 100} €
+                  </Price>
+                </Fragment>
+              )
+            })}
           </>
         )}
       </Grid>
