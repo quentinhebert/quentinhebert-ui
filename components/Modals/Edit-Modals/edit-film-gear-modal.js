@@ -34,7 +34,6 @@ function EditFilmModal(props) {
   const fetchData = async () => {
     const res = await apiCall.films.gear.get({ id: gearId })
     const jsonRes = await res.json()
-    console.debug("jsonRes", jsonRes)
     setGear(jsonRes)
   }
 

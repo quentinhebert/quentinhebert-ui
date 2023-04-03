@@ -38,7 +38,6 @@ function EditReferenceModal(props) {
 
   // Fetch data
   const fetchData = async () => {
-    console.debug("referenceId", referenceId)
     const res = await apiCall.references.get(referenceId)
     const jsonRes = await res.json()
     setReference(jsonRes)

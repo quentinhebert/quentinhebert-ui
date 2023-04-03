@@ -13,7 +13,7 @@ function getBgColor(severity) {
     case "warning":
       return "#C6900E"
     case "info":
-      return "#2A28B5"
+      return "#076d9c"
     default:
       return ""
   }

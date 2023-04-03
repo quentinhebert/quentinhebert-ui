@@ -57,6 +57,8 @@ import { PAYMENTSTATES } from "../../../enums/paymentStates"
 import { PAYMENT_TYPES, STRIPE_PM } from "../../../enums/paymentTypes"
 import CustomOutlinedInput from "../../Inputs/custom-outlined-input"
 import CustomFilledTextArea from "../../Inputs/custom-filled-text-area"
+import { ACTIVITY_TYPES } from "../../../enums/activityTypesEnum"
+import Span from "../../Text/span"
 
 // Icons
 import SendIcon from "@mui/icons-material/Send"
@@ -75,8 +77,6 @@ import SellIcon from "@mui/icons-material/Sell"
 import LaunchIcon from "@mui/icons-material/Launch"
 import EditIcon from "@mui/icons-material/Edit"
 import DownloadIcon from "@mui/icons-material/Download"
-import { ACTIVITY_TYPES } from "../../../enums/activityTypesEnum"
-import Span from "../../Text/span"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -142,17 +142,6 @@ const FormCard = ({ title, width, icon, gap, step, totalSteps, ...props }) => (
     <Stack {...props} width="100%" gap={gap || 4} />
   </Stack>
 )
-const AddButton = ({ onClick }) => (
-  <PillButton
-    startIcon={<AddIcon />}
-    fontSize="0.8rem"
-    padding=".25rem 1rem"
-    preventTransition
-    onClick={onClick}
-  >
-    Ajouter
-  </PillButton>
-)
 const EditButton = ({ onClick, label }) => (
   <PillButton
     startIcon={<EditIcon />}
@@ -162,6 +151,18 @@ const EditButton = ({ onClick, label }) => (
     onClick={onClick}
   >
     {label || "Modifier"}
+  </PillButton>
+)
+const AddButton = ({ onClick, isQuotationGenerating }) => (
+  <PillButton
+    disabled={isQuotationGenerating}
+    startIcon={<AddIcon />}
+    fontSize="0.8rem"
+    padding=".25rem 1rem"
+    preventTransition
+    onClick={onClick}
+  >
+    {isQuotationGenerating ? "Veuillez patienter..." : "Ajouter"}
   </PillButton>
 )
 const DocumentType = (props) => (
@@ -296,6 +297,7 @@ const DocumentsSection = ({
   handleGenerate,
   handleGenerateInvoice,
   handleSend,
+  isQuotationGenerating,
 }) => {
   const router = useRouter()
   return (
@@ -304,7 +306,10 @@ const DocumentsSection = ({
         <Stack gap={2}>
           <DocumentHeader>
             <DocumentType>Devis</DocumentType>
-            <AddButton onClick={handleGenerate} />
+            <AddButton
+              onClick={handleGenerate}
+              isQuotationGenerating={isQuotationGenerating}
+            />
           </DocumentHeader>
 
           <BodyText preventTransition fontSize="1rem">
@@ -603,10 +608,11 @@ function OrderForm({
   const [newClient, setNewClient] = useState(false)
   const [selectedQuotation, setSelectedQuotation] = useState(null)
   const [paymentEmail, setPaymentEmail] = useState(null)
-  const [paymentMethod, setPaymentMethod] = useState(null)
+  const [paymentMethod, setPaymentMethod] = useState(PAYMENT_OPTIONS[0].id)
   const [activeTab, setActiveTab] = useState(0)
   const [paymentMode, setPaymentMode] = useState(PAYMENT_MODES.ONCE)
   const [processing, setProcessing] = useState(false)
+  const [isQuotationGenerating, setIsQuotationGenerating] = useState(false)
 
   // DEBUG
   const nextPayment = getNextPaymentDetails({ order })
@@ -638,7 +644,8 @@ function OrderForm({
 
       setLoading(false)
       setUnsavedChanges(false)
-    }
+      return true
+    } else return false
   }
 
   /********** INITIAL FETCH (edit page only) **********/
@@ -696,7 +703,7 @@ function OrderForm({
     })
     handleDetectChange()
   }
-  const save = async () => {
+  const save = async ({ noSnack }) => {
     let res = null
     if (!id) {
       // If order is not created yet
@@ -711,8 +718,10 @@ function OrderForm({
     }
     if (res && res.ok) {
       const jsonRes = await res.json()
-      setSnackSeverity("success")
-      setSnackMessage("Le devis a bien été enregistré")
+      if (!noSnack) {
+        setSnackSeverity("success")
+        setSnackMessage("Commande sauvegardée")
+      }
       setOpenModal(false)
       // if no id provided === user is on CreateQuotationPage (not EditQuotationPage), we redirect the user onto the edit page (with the same quotationForm component)
       if (!id) return router.push(`/dashboard/orders/${jsonRes.id}/edit`)
@@ -828,11 +837,22 @@ function OrderForm({
     ).length
 
     if (errorsCount === 0 || (errorsCount === 1 && localErrors.client)) {
+      setIsQuotationGenerating(true)
+
       // Save before exit page
-      const saved = await save()
+      const saved = await save({
+        noSnack: true,
+      })
       if (!saved) return
       const res = await apiCall.orders.generateQuotation(order)
-      if (res && res.ok) await fetchOrder()
+      if (res && res.ok) {
+        setSnackMessage("Devis en cours de création...")
+        setSnackSeverity("info")
+        if (await fetchOrder()) {
+          setSnackMessage("Devis ajouté avec succès !")
+          setSnackSeverity("success")
+        }
+      }
     } else {
       setSnackMessage(
         `Certains champs sont manquants dans les conditions et mentions obligatoires.`
@@ -840,6 +860,7 @@ function OrderForm({
       setSnackSeverity("error")
       setReadOnly(false)
     }
+    setIsQuotationGenerating(false)
   }
   const handleGeneratePaymentLink = async () => {
     const localErrors = checkBeforeGen(order)
@@ -1225,6 +1246,7 @@ function OrderForm({
                   handleGenerate={handleGenerate}
                   handleGenerateInvoice={handleGenerateInvoice}
                   handleSend={handleSend}
+                  isQuotationGenerating={isQuotationGenerating}
                 />
               )}
             </>
