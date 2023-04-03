@@ -77,6 +77,8 @@ import SellIcon from "@mui/icons-material/Sell"
 import LaunchIcon from "@mui/icons-material/Launch"
 import EditIcon from "@mui/icons-material/Edit"
 import DownloadIcon from "@mui/icons-material/Download"
+import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox"
+import AddBoxIcon from "@mui/icons-material/AddBox"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -999,6 +1001,9 @@ function OrderForm({
           alignItems: "left",
           margin: "1rem 0",
           "&::after": {
+            zIndex: -1,
+            background: "#000",
+            height: "100%",
             width: "146vw",
             position: "absolute",
             bottom: 0,
@@ -1373,6 +1378,22 @@ function OrderForm({
 
                   {paymentMode === PAYMENT_MODES.MULTIPLE ? (
                     <Stack spacing={2}>
+                      {order.payment_fractions.reduce(
+                        (partialSum, a) => partialSum + parseInt(a),
+                        0
+                      ) !== 100 && (
+                        <AlertInfo
+                          content={{
+                            show: true,
+                            severity: "error",
+                            title: "Pourcentages incorrects",
+                            text: `Veuillez vérifier le total des pourcentages des échéances de paiements. Le total doit être égal à 100%. Le total est actuellement de ${order.payment_fractions.reduce(
+                              (partialSum, a) => partialSum + parseInt(a),
+                              0
+                            )}%.`,
+                          }}
+                        />
+                      )}
                       <PillButton
                         onClick={() => {
                           const localFractions = order.payment_fractions
@@ -1415,27 +1436,67 @@ function OrderForm({
                               alignItems="center"
                               gap={2}
                             >
-                              <CustomOutlinedInput
-                                type="phone"
-                                sx={{ width: "70px" }}
-                                InputProps={{
-                                  disableUnderline: true,
-                                  endAdornment: (
-                                    <InputAdornment position="end">
-                                      %
-                                    </InputAdornment>
-                                  ),
-                                }}
-                                value={fraction}
-                                onChange={(e) => {
-                                  const payment_fractions =
-                                    order.payment_fractions
-                                  payment_fractions[key] = Number(
-                                    e.target.value
-                                  )
-                                  setOrder({ ...order, payment_fractions })
-                                }}
-                              />
+                              <Stack flexDirection="row" gap={1}>
+                                <IndeterminateCheckBoxIcon
+                                  color="secondary"
+                                  sx={{
+                                    fontSize: "2.5rem",
+                                    cursor: "pointer",
+                                    "&:hover": {
+                                      opacity: 0.5,
+                                    },
+                                  }}
+                                  onClick={(e) => {
+                                    const payment_fractions =
+                                      order.payment_fractions
+                                    if (Number(payment_fractions[key]) <= 0)
+                                      return
+                                    payment_fractions[key] =
+                                      Number(payment_fractions[key]) - 10
+                                    setOrder({ ...order, payment_fractions })
+                                  }}
+                                />
+                                <CustomOutlinedInput
+                                  type="phone"
+                                  sx={{ width: "70px" }}
+                                  InputProps={{
+                                    disableUnderline: true,
+                                    endAdornment: (
+                                      <InputAdornment position="end">
+                                        %
+                                      </InputAdornment>
+                                    ),
+                                  }}
+                                  value={fraction}
+                                  onChange={(e) => {
+                                    const payment_fractions =
+                                      order.payment_fractions
+                                    payment_fractions[key] = Number(
+                                      e.target.value
+                                    )
+                                    setOrder({ ...order, payment_fractions })
+                                  }}
+                                />
+                                <AddBoxIcon
+                                  color="secondary"
+                                  sx={{
+                                    fontSize: "2.5rem",
+                                    cursor: "pointer",
+                                    "&:hover": {
+                                      opacity: 0.5,
+                                    },
+                                  }}
+                                  onClick={(e) => {
+                                    const payment_fractions =
+                                      order.payment_fractions
+                                    if (Number(payment_fractions[key] >= 100))
+                                      return
+                                    payment_fractions[key] =
+                                      Number(payment_fractions[key]) + 10
+                                    setOrder({ ...order, payment_fractions })
+                                  }}
+                                />
+                              </Stack>
                               <DeleteIcon
                                 color="secondary"
                                 sx={{
