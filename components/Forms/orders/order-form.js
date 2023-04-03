@@ -737,7 +737,7 @@ function OrderForm({
     }
   }
   const handleSave = async () => {
-    if (order.label) return await save()
+    if (order.label) return await save({ noSnack: false })
     handleOpenModal(MODALS.SAVE)
   }
   const handleEdit = (item, key) => {
@@ -1164,6 +1164,18 @@ function OrderForm({
       </Typography>
     </Stack>
   )
+  const Li = ({ attribute, text }) => (
+    <Box
+      component="li"
+      onClick={() => setOrder({ ...order, [attribute]: text })}
+      sx={{
+        cursor: "pointer",
+        "&:hover": { color: (theme) => theme.palette.text.secondary },
+      }}
+    >
+      {text}
+    </Box>
+  )
 
   const fractionSum = order.payment_fractions.reduce(
     (a, b) => Number(a) + Number(b),
@@ -1529,21 +1541,28 @@ function OrderForm({
 
                   <CustomFilledInput
                     label="Conditions de règlement"
-                    placeholder="Accompte de 60% lors de la signature du devis. Solde de 40% entre le jour de la prestation et la livraison."
+                    placeholder="Acompte de 60% lors de la signature du devis. Solde de 40% entre le jour de la prestation et la livraison."
                     value={order.payment_conditions}
                     onChange={handleChange("payment_conditions")}
                     helperText={
                       <ul style={{ padding: ".25rem 1rem", color: "grey" }}>
-                        <li>
-                          Accompte de 40% lors de la signature du devis.
-                          Échéance de 30% le jour de la prestation. Solde de 30%
-                          entre le jour de la prestation et la livraison.
-                        </li>
-                        <li>
-                          Accompte de 60% lors de la signature du devis. Solde
-                          de 40% entre le jour de la prestation et la livraison.
-                        </li>
-                        <li>Paiement en une fois à la signature du devis.</li>
+                        <Li
+                          attribute="payment_conditions"
+                          text="Paiement en une fois à la signature du devis."
+                        />
+                        <Li
+                          attribute="payment_conditions"
+                          text="
+                          Acompte de 60% lors de la signature du devis. Solde de
+                          40% entre le jour de la prestation et la livraison."
+                        />
+                        <Li
+                          attribute="payment_conditions"
+                          text="
+                          Acompte de 40% lors de la signature du devis. Échéance
+                          de 30% le jour de la prestation. Solde de 30% entre le
+                          jour de la prestation et la livraison."
+                        />
                       </ul>
                     }
                     error={errors.payment_conditions}
@@ -1621,6 +1640,14 @@ function OrderForm({
                     value={order.payment_delay_penalties}
                     onChange={handleChange("payment_delay_penalties")}
                     error={errors.payment_delay_penalties}
+                    helperText={
+                      <ul style={{ padding: ".25rem 1rem", color: "grey" }}>
+                        <Li
+                          attribute="payment_delay_penalties"
+                          text="Une indemnité forfaitaire de 40€, à laquelle s'ajoute un taux d'Intérêt de retard de 15%. Calcul des intérêts de retard : Somme due TTC * jours de retard * taux d’intérêt / (365 * 100). Les jours de retard sont calculés à partir de la date de réception de la facture."
+                        />
+                      </ul>
+                    }
                   />
                 </FormCard>
 
