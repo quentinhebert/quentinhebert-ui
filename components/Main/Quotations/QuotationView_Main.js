@@ -83,7 +83,7 @@ export default function QuotationView_Main({}) {
 
   if (!access)
     return (
-      <Stack padding="100px 1rem" gap={4}>
+      <Stack padding="2rem" gap={4}>
         <PageTitle text="Aperçu du devis" />
         <BodyText>
           Afin d'accéder au devis, veuillez renseigner votre adresse e-mail
