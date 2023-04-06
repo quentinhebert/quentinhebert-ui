@@ -149,8 +149,10 @@ export default function OrderReadOnlySection({
     }
   })
   const paymentOptionsString = paymentOptionsArray.join(" / ")
-  let fractionsString = ""
-  getPaymentFractionsDetails({ order })
+  const fractionsArray = []
+  const fractions = getPaymentFractionsDetails({ order })
+  fractions.map((f) => fractionsArray.push(`${f.amount / 100}€ (${f.percent})`))
+  const fractionsString = fractionsArray.join(" + ")
 
   // RENDER
   return (
@@ -207,7 +209,7 @@ export default function OrderReadOnlySection({
               <Info title="Conditions">
                 {order.payment_conditions}
                 <br />
-                <BodyText>{fractionsString}</BodyText>
+                <BodyText preventTransition>{fractionsString}</BodyText>
               </Info>
 
               <Info title="Pénalités de retard">
