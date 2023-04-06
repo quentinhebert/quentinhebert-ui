@@ -176,7 +176,6 @@ export default function QuotationClientFieldsForm({ defaultClient }) {
             onChange={handleChange("region")}
           />
           <CustomFilledInput
-            required
             className="full-width"
             label="Pays"
             value={client.country}
@@ -217,7 +216,7 @@ export default function QuotationClientFieldsForm({ defaultClient }) {
         />
       </Stack>
 
-      <PillButton onClick={handleGeneratePDF}>Générer le PDF</PillButton>
+      <PillButton onClick={handleGeneratePDF}>Télécharger le PDF</PillButton>
     </CustomForm>
   )
 }

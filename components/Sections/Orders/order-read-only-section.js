@@ -8,13 +8,14 @@ import SmallTitle from "../../Titles/small-title"
 import HourglassTopIcon from "@mui/icons-material/HourglassTop"
 import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
 import PriceDetails from "../Account/Orders/price-details"
+import { getPaymentFractionsDetails } from "../../../services/orders"
 
 const PAYMENT_OPTIONS = [
-  { id: "CARD", label: "CB" },
-  { id: "TRANSFER", label: "Virement" },
-  { id: "CHECK", label: "Chèque" },
-  { id: "CASH", label: "Espèces" },
-  { id: "STRIPE", label: "Paiement en ligne" },
+  { id: "CARD", label: "carte bancaire" },
+  { id: "TRANSFER", label: "virement" },
+  { id: "CHECK", label: "chèque" },
+  { id: "CASH", label: "espèces" },
+  { id: "STRIPE", label: "paiement en ligne" },
 ]
 const HEAD = [
   { label: "Type" },
@@ -91,11 +92,16 @@ const Title = (props) => (
 )
 const Info = ({ title, ...props }) => (
   <TableRow>
-    <TableCell>
+    <TableCell sx={{ verticalAlign: "top !important" }}>
       <Title>{title}</Title>
     </TableCell>
     <TableCell>
-      <BodyText preventTransition fontSize="1rem" {...props} />
+      <BodyText
+        preventTransition
+        fontSize="1rem"
+        className="initial-cap"
+        {...props}
+      />
     </TableCell>
   </TableRow>
 )
@@ -130,19 +136,21 @@ const Card = ({ title, icon, fullwidth, ...props }) => (
 
 export default function OrderReadOnlySection({
   items,
-  quotation,
+  order,
   hideDetails,
   hideModalities,
 }) {
   let paymentOptionsArray = []
-  Object.keys(quotation.payment_options).map((opt) => {
-    if (quotation.payment_options[opt] === true) {
+  Object.keys(order.payment_options).map((opt) => {
+    if (order.payment_options[opt] === true) {
       paymentOptionsArray.push(
         PAYMENT_OPTIONS.filter((elt) => elt.id === opt)[0].label
       )
     }
   })
-  const paymentOptionsString = paymentOptionsArray.join(", ")
+  const paymentOptionsString = paymentOptionsArray.join(" / ")
+  let fractionsString = ""
+  getPaymentFractionsDetails({ order })
 
   // RENDER
   return (
@@ -164,18 +172,18 @@ export default function OrderReadOnlySection({
               }}
             >
               <DateInfo label="Prestation">
-                {convertDateToShortString(quotation.date)}
+                {convertDateToShortString(order.date)}
               </DateInfo>
 
               {/* Optional */}
-              {!!quotation.duration && quotation.duration.trim !== "" && (
+              {!!order.duration && order.duration.trim !== "" && (
                 <DateInfo label="Durée estimée de la prestation">
-                  {quotation.duration}
+                  {order.duration}
                 </DateInfo>
               )}
 
               <DateInfo label="Livraison prévue le" textAlign="right">
-                {convertDateToShortString(quotation.delivery_date)}
+                {convertDateToShortString(order.delivery_date)}
               </DateInfo>
             </Stack>
           </Card>
@@ -192,23 +200,27 @@ export default function OrderReadOnlySection({
                 },
               }}
             >
-              <Info title="Moyen(s) de paiement au choix">
+              <Info title="Moyen(s) de paiement acceptés">
                 {paymentOptionsString}
               </Info>
 
-              <Info title="Conditions">{quotation.payment_conditions}</Info>
+              <Info title="Conditions">
+                {order.payment_conditions}
+                <br />
+                <BodyText>{fractionsString}</BodyText>
+              </Info>
 
               <Info title="Pénalités de retard">
-                {quotation.payment_delay_penalties}
+                {order.payment_delay_penalties}
               </Info>
             </Table>
           </Card>
 
           {/* Optional */}
-          {!!quotation.validity_end_date && (
+          {!!order.validity_end_date && (
             <Card title="Validité" icon={<HourglassTopIcon />}>
               <DateInfo label="Devis valable jusqu'au">
-                {convertDateToLongString(quotation.validity_end_date)}
+                {convertDateToLongString(order.validity_end_date)}
               </DateInfo>
             </Card>
           )}
@@ -268,7 +280,7 @@ export default function OrderReadOnlySection({
             </Box>
           </Stack>
 
-          <PriceDetails items={items} order={quotation} />
+          <PriceDetails items={items} order={order} />
         </>
       )}
     </Stack>

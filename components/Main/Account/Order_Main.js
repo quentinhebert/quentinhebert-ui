@@ -198,12 +198,12 @@ export default function Order_Main({ orderId }) {
 
             <OrderReadOnlySection
               items={order.items}
-              quotation={order}
+              order={order}
               hideDetails
             />
             <OrderReadOnlySection
               items={order.items}
-              quotation={order}
+              order={order}
               hideModalities
             />
 

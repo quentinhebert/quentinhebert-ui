@@ -20,7 +20,7 @@ import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import PasswordForgottenForm from "../../Forms/password-forgotten-form"
 import AlertInfo from "../../Other/alert-info"
 import RefreshButton from "../../Buttons/refresh-button"
-import QuotationReadOnlySection from "../../Sections/Orders/order-read-only-section"
+import OrderReadOnlySection from "../../Sections/Orders/order-read-only-section"
 
 const MODES = {
   login: "LOGIN",
@@ -200,7 +200,7 @@ export default function OrderView_Main({}) {
               </Box>
             )}
 
-            <QuotationReadOnlySection items={order.items} quotation={order} />
+            <OrderReadOnlySection items={order.items} order={order} />
 
             <Stack width="100%" alignItems="end">
               {allowedStatesForPaying.includes(order.status) && (

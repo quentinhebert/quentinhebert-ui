@@ -13,7 +13,7 @@ import EastIcon from "@mui/icons-material/East"
 import { UserContext } from "../../../contexts/UserContext"
 import { USERTYPES } from "../../../enums/userTypes"
 import PleaseWait from "../../Helpers/please-wait"
-import QuotationReadOnlySection from "../../Sections/Orders/order-read-only-section"
+import OrderReadOnlySection from "../../Sections/Orders/order-read-only-section"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 
 export default function QuotationView_Main({}) {
@@ -23,10 +23,10 @@ export default function QuotationView_Main({}) {
 
   const { user } = useContext(UserContext)
 
-  const [email, setEmail] = useState(defaultEmail || "")
+  const [email, setEmail] = useState(null)
   const [access, setAccess] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [quotation, setQuotation] = useState({
+  const [order, setOrder] = useState({
     id: id,
     label: "",
     created_at: null,
@@ -39,12 +39,15 @@ export default function QuotationView_Main({}) {
   })
 
   const handleSubmit = async () => {
-    if (!email || !id) return
-    const res = await apiCall.quotations.view({ id, email })
+    if ((!email && !defaultEmail) || !id) return
+    const res = await apiCall.quotations.view({
+      id,
+      email: email || defaultEmail,
+    })
     if (res && res.ok) {
       setAccess(true)
       const jsonRes = await res.json()
-      setQuotation(jsonRes)
+      setOrder(jsonRes)
     }
   }
 
@@ -57,13 +60,13 @@ export default function QuotationView_Main({}) {
     if (res && res.ok) {
       setAccess(true)
       const jsonRes = await res.json()
-      setQuotation(jsonRes)
+      setOrder(jsonRes)
     }
     setLoading(false)
   }
 
   const handleRefuse = async () => {
-    const res = await apiCall.quotations.refuse(quotation)
+    const res = await apiCall.quotations.refuse(order)
     if (res && res.ok) {
       window.opener = null
       window.open("", "_self")
@@ -75,7 +78,7 @@ export default function QuotationView_Main({}) {
     fetchQuotation()
   }, [user, id])
   useEffect(() => {
-    if (!!defaultEmail) handleSubmit()
+    if (defaultEmail) handleSubmit()
   }, [defaultEmail])
 
   if (loading)
@@ -112,39 +115,27 @@ export default function QuotationView_Main({}) {
     )
 
   return (
-    <Stack padding="2rem" gap={2} width="100%">
-      <PageTitle text="1. Récapitulatif du devis" />
-      <AlertInfo
-        content={{
-          show: true,
-          severity: "info",
-          text: "Pour que le devis ait une valeur juridique et commerciale, il doit être généré avec les informations du client (étape 2.), être imprimé en deux exemplaires et être signé par les deux parties.",
-        }}
-      />
+    <Stack padding="2rem" gap={4} width="100%">
+      <PageTitle text="1. Votre devis" />
 
-      <QuotationReadOnlySection items={quotation.items} quotation={quotation} />
+      <OrderReadOnlySection items={order.items} order={order} />
 
       <PillButton onClick={handleRefuse}>Refuser</PillButton>
       <PillButton onClick={handleRefuse}>Suivant</PillButton>
 
       <Stack marginTop={4} gap={2}>
-        <PageTitle text="2. Récapitulatif du client" />
-        <BodyText>{">"} Envoyer ce formulaire directement au client</BodyText>
+        <PageTitle text="2. Vos informations" />
 
         <AlertInfo
           content={{
             show: true,
             severity: "info",
-            text: "Les informations suivantes ci-dessous sont nécessaires la génération du devis définitif. Ce sont les mentions légales obligatoires à faire apparaître sur un devis.",
+            text: "Veuillez renseigner vos informations afin de compléter le devis. Les champs ci-dessous correspondent aux mentions légales obligatoires d'un devis.",
           }}
         />
         <CenteredMaxWidthContainer>
-          <QuotationClientFieldsForm defaultClient={quotation.client} />
+          <QuotationClientFieldsForm defaultClient={order.client} />
         </CenteredMaxWidthContainer>
-      </Stack>
-
-      <Stack marginTop={4} gap={2}>
-        <PageTitle text="3. Générer le PDF" />
       </Stack>
     </Stack>
   )

@@ -27,7 +27,7 @@ import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import { useRouter } from "next/router"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import { buildPublicURL, checkEmail } from "../../../services/utils"
-import QuotationReadOnlySection from "../../Sections/Orders/order-read-only-section"
+import OrderReadOnlySection from "../../Sections/Orders/order-read-only-section"
 import ClientAutocomplete from "../admin/client-autocomplete"
 import SubmitButton from "../../Buttons/submit-button"
 import CancelButton from "../../Buttons/cancel-button"
@@ -1230,19 +1230,15 @@ function OrderForm({
                       severity: "warning",
                     }}
                   />
-                  <QuotationReadOnlySection
+                  <OrderReadOnlySection
                     items={items}
-                    quotation={order}
+                    order={order}
                     hideModalities
                   />
                 </>
               )}
               {activeTab === 1 && (
-                <QuotationReadOnlySection
-                  items={items}
-                  quotation={order}
-                  hideDetails
-                />
+                <OrderReadOnlySection items={items} order={order} hideDetails />
               )}
               {activeTab === 2 && (
                 <ClientSection
@@ -1840,21 +1836,22 @@ function OrderForm({
             )}
             <CustomForm gap={4}>
               {!!selectedQuotation?.client?.email && (
-                <PillButton
-                  textTransform="capitalize"
-                  onClick={() => {
-                    handleSend(
-                      selectedQuotation.id,
-                      selectedQuotation.client.email
-                    )
-                  }}
-                >
-                  Envoyer à <br />
-                  {selectedQuotation.client.email}
-                </PillButton>
+                <>
+                  <PillButton
+                    textTransform="capitalize"
+                    onClick={() => {
+                      handleSend(
+                        selectedQuotation.id,
+                        selectedQuotation.client.email
+                      )
+                    }}
+                  >
+                    Envoyer à <br />
+                    {selectedQuotation.client.email}
+                  </PillButton>
+                  <BodyText>ou</BodyText>
+                </>
               )}
-
-              <BodyText>ou</BodyText>
 
               <CustomFilledInput
                 value={emailInput}
