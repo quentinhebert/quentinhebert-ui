@@ -52,6 +52,7 @@ export function getPaymentFractionsDetails({ order }) {
     (p) => !ignoredStatuses.includes(p.status)
   )
   fractions.map((f) => {
+    if (!payments) return
     if (f.amount === payments[payments.length - 1]?.amount) {
       f.paid = true
       payments.pop()
