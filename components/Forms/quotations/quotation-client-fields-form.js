@@ -10,6 +10,9 @@ import CustomCheckbox from "../../Inputs/custom-checkbox"
 import CustomFilledInput from "../../Inputs/custom-filled-input"
 import BodyText from "../../Text/body-text"
 import CustomForm from "../custom-form"
+import Span from "../../Text/span"
+import InTextLink from "../../Links/in-text-link"
+import { defaultConfig } from "../../../config/defaultConfig"
 
 const SectionTitle = (props) => (
   <Stack className="full-width">
@@ -186,7 +189,27 @@ export default function QuotationClientFieldsForm({ defaultClient }) {
 
       <Stack width="100%">
         <CustomCheckbox
-          label="J'accepte les CGU et CGV du site *"
+          label={
+            <Span>
+              J'accepte les{" "}
+              <Span className="cool-button">
+                <InTextLink
+                  text="CGU"
+                  href={`${defaultConfig.webclientUrl}/terms-of-use`}
+                  target="_blank"
+                />
+              </Span>{" "}
+              et{" "}
+              <Span className="cool-button">
+                <InTextLink
+                  text="CGV"
+                  href={`${defaultConfig.webclientUrl}/terms-and-conditions`}
+                  target="_blank"
+                />
+              </Span>{" "}
+              du site *
+            </Span>
+          }
           onChange={handleCheck("policy")}
           value={accept.policy}
           labelcolor={(theme) => theme.palette.text.white}
