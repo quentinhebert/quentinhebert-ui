@@ -13,13 +13,32 @@ import { MODES_ENUM } from "../../../enums/modesEnum"
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined"
 import CustomPillSelect from "../../Inputs/custom-pill-select"
 import CustomSelectOption from "../../Inputs/custom-select-option"
+import { ORDERSTATES } from "../../../enums/orderStates"
+
+const allStatuses = []
+Object.keys(ORDERSTATES).map((key) => allStatuses.push(key))
+const inProgressStatuses = [
+  "WAITING_FOR_PAYMENT",
+  "PARTIALLY_PAID",
+  "DEPOSIT_PAID",
+  "PAYMENT_SUCCEEDED",
+]
 
 const STATUS_OPTIONS = [
-  { id: "ALL", label: "toutes" },
-  { id: "DRAFT", label: "brouillon" },
-  { id: "IN_PROGRESS", label: "en cours" },
-  { id: "FINISHED", label: "terminées" },
-  { id: "ARCHIVED", label: "archivées" },
+  {
+    id: "ALL",
+    statuses: allStatuses,
+    label: "toutes",
+  },
+  { id: "DRAFT", statuses: ["DRAFT"], label: "brouillon" },
+  {
+    id: "IN_PROGRESS",
+    statuses: inProgressStatuses,
+    label: "en cours",
+  },
+  { id: "FINISHED", statuses: ["FINISHED"], label: "terminées" },
+  { id: "CANCELED", statuses: ["CANCELED"], label: "annulées" },
+  { id: "ARCHIVED", statuses: ["ARCHIVED"], label: "archivées" },
 ]
 
 export default function Orders_Main({}) {
@@ -54,10 +73,11 @@ export default function Orders_Main({}) {
   const handleChangeStatus = (e) => setSelectedStatus(e.target.value)
 
   useEffect(() => {
-    if (selectedStatus === "ALL") return setFilteredOrders(orders)
     const localOrders = orders
-    const localFilteredOrders = localOrders.filter(
-      (elt) => elt.status === selectedStatus
+    const localFilteredOrders = localOrders.filter((elt) =>
+      STATUS_OPTIONS.filter(
+        (opt) => opt.id === selectedStatus
+      )[0].statuses.includes(elt.status)
     )
     setFilteredOrders(localFilteredOrders)
   }, [selectedStatus])
