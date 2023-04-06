@@ -19,10 +19,11 @@ import CenteredMaxWidthContainer from "../../Containers/centered-max-width-conta
 export default function QuotationView_Main({}) {
   const router = useRouter()
   const id = router.query.id
+  const defaultEmail = router.query.default_email
 
   const { user } = useContext(UserContext)
 
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState(defaultEmail || "")
   const [access, setAccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [quotation, setQuotation] = useState({
@@ -73,6 +74,9 @@ export default function QuotationView_Main({}) {
   useEffect(() => {
     fetchQuotation()
   }, [user, id])
+  useEffect(() => {
+    if (!!defaultEmail) handleSubmit()
+  }, [defaultEmail])
 
   if (loading)
     return (
