@@ -18,7 +18,7 @@ import OrderReadOnlySection from "../../Sections/Orders/order-read-only-section"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 import PriceDetails from "../../Sections/Account/Orders/price-details"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import { ORDERSTATES } from "../../../enums/orderStates"
+import DownloadIcon from "@mui/icons-material/Download"
 import { QUOTATION_STATUS } from "../../../enums/quotationStatus"
 
 const CTAButton = ({ color, boxShadow, sx, ...props }) => (
@@ -176,6 +176,25 @@ export default function QuotationView_Main({}) {
           )}
           <Stack gap={4}>
             <PriceDetails order={order} items={order.items} />
+            {!!order.file?.path && (
+              <Stack
+                className=" flex-center row pointer"
+                color="#fff"
+                gap={2}
+                sx={{
+                  padding: "1rem",
+                  border: (theme) =>
+                    `1px solid ${theme.palette.secondary.main}`,
+                  borderRadius: "30px",
+                }}
+                onClick={() => window.open(`${order.file.path}`)}
+              >
+                <DownloadIcon />
+                <BodyText className="cool-button" preventTransition>
+                  Télécharger le PDF
+                </BodyText>
+              </Stack>
+            )}
             <Stack
               color="#fff"
               className="row flex-center pointer"
