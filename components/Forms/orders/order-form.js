@@ -1730,7 +1730,9 @@ function OrderForm({
               </Stack>
 
               {/********** TOTAL PRICES **********/}
-              <PriceDetails order={order} items={items} />
+              <Stack alignSelf="end">
+                <PriceDetails order={order} items={items} />
+              </Stack>
             </>
           )}
         </CustomForm>

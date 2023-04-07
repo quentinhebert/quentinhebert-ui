@@ -283,7 +283,11 @@ export default function OrderReadOnlySection({
             </Box>
           </Stack>
 
-          {!hidePriceDetails && <PriceDetails items={items} order={order} />}
+          {!hidePriceDetails && (
+            <Stack alignSelf="end">
+              <PriceDetails items={items} order={order} />
+            </Stack>
+          )}
         </>
       )}
     </Stack>
