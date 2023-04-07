@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 import { useRouter } from "next/router"
 import { useContext, useEffect, useRef, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
@@ -9,12 +9,34 @@ import CustomFilledInput from "../../Inputs/custom-filled-input"
 import AlertInfo from "../../Other/alert-info"
 import BodyText from "../../Text/body-text"
 import PageTitle from "../../Titles/page-title"
-import EastIcon from "@mui/icons-material/East"
+import CloseIcon from "@mui/icons-material/Close"
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import { UserContext } from "../../../contexts/UserContext"
 import { USERTYPES } from "../../../enums/userTypes"
 import PleaseWait from "../../Helpers/please-wait"
 import OrderReadOnlySection from "../../Sections/Orders/order-read-only-section"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
+import PriceDetails from "../../Sections/Account/Orders/price-details"
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+
+const CTAButton = ({ color, boxShadow, sx, ...props }) => (
+  <Stack
+    width="100%"
+    className="flex-center row gap-10"
+    sx={{
+      color,
+      padding: "1rem 2rem",
+      transition: ".2s ease-in-out",
+      borderRadius: "30px",
+      cursor: "pointer",
+      "&:hover": {
+        boxShadow,
+      },
+      ...sx,
+    }}
+    {...props}
+  />
+)
 
 export default function QuotationView_Main({}) {
   const router = useRouter()
@@ -23,9 +45,11 @@ export default function QuotationView_Main({}) {
 
   const { user } = useContext(UserContext)
 
+  const [step, setStep] = useState(1)
   const [email, setEmail] = useState(null)
   const [access, setAccess] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [showDetails, setShowDetails] = useState(false)
   const [order, setOrder] = useState({
     id: id,
     label: "",
@@ -38,6 +62,8 @@ export default function QuotationView_Main({}) {
     client: null,
   })
 
+  const handleNext = () => setStep(2)
+  const handlePrevious = () => setStep(1)
   const handleSubmit = async () => {
     if ((!email && !defaultEmail) || !id) return
     const res = await apiCall.quotations.view({
@@ -49,6 +75,10 @@ export default function QuotationView_Main({}) {
       const jsonRes = await res.json()
       setOrder(jsonRes)
     }
+  }
+  const toggleShowDetails = () => {
+    if (showDetails) setShowDetails(false)
+    else setShowDetails(true)
   }
 
   const fetchQuotation = async () => {
@@ -115,28 +145,105 @@ export default function QuotationView_Main({}) {
     )
 
   return (
-    <Stack padding="2rem" gap={4} width="100%">
-      <PageTitle text="1. Votre devis" />
+    <Stack padding="2rem" gap="2rem" width="100%">
+      {step === 1 && (
+        <Stack gap={4}>
+          <PageTitle text="1. Votre devis" />
+          <Typography color="#fff" variant="h5">
+            {order.label}
+          </Typography>
+          <Stack gap={4}>
+            <PriceDetails order={order} items={order.items} />
+            <Stack
+              color="#fff"
+              className="row flex-center pointer"
+              gap={2}
+              onClick={toggleShowDetails}
+            >
+              <Typography
+                className="cool-button"
+                variant="h4"
+                sx={{
+                  "&:hover": { color: (theme) => theme.palette.secondary.main },
+                }}
+              >
+                Voir les détails
+              </Typography>
+              <ExpandMoreIcon
+                sx={{
+                  fontSize: "2rem",
+                  transition: ".2s ease",
+                  rotate: showDetails ? "180deg" : 0,
+                }}
+              />
+            </Stack>
+            <Stack>
+              {showDetails && (
+                <OrderReadOnlySection
+                  items={order.items}
+                  order={order}
+                  hidePriceDetails
+                />
+              )}
+            </Stack>
+          </Stack>
+        </Stack>
+      )}
 
-      <OrderReadOnlySection items={order.items} order={order} />
-
-      <PillButton onClick={handleRefuse}>Refuser</PillButton>
-      <PillButton onClick={handleRefuse}>Suivant</PillButton>
-
-      <Stack marginTop={4} gap={2}>
-        <PageTitle text="2. Vos informations" />
-
-        <AlertInfo
-          content={{
-            show: true,
-            severity: "info",
-            text: "Veuillez renseigner vos informations afin de compléter le devis. Les champs ci-dessous correspondent aux mentions légales obligatoires d'un devis.",
+      {/********* BUTTONS *********/}
+      <Stack
+        className="full-width"
+        gap={4}
+        color="#fff"
+        sx={{ flexDirection: "column-reverse" }}
+      >
+        <CTAButton
+          color={(theme) => theme.alert.title.error.color}
+          boxShadow={(theme) => `0 0 10px 6px ${theme.alert.title.error.color}`}
+          onClick={handleRefuse}
+        >
+          <Typography variant="h6">Refuser ce devis</Typography>
+          <CloseIcon sx={{ fontSize: "2rem" }} />
+        </CTAButton>
+        <CTAButton
+          boxShadow={(theme) =>
+            `0 0 10px 6px ${theme.alert.title.success.color}`
+          }
+          color={(theme) => theme.alert.title.success.color}
+          sx={{
+            "&& > .MuiSvgIcon-root": { transition: ".15s ease-in-out" },
+            boxShadow: (theme) =>
+              `0 0 15px 6px ${theme.alert.title.success.color}`,
+            "&:hover": {
+              boxShadow: (theme) =>
+                `0 0 15px 10px ${theme.alert.title.success.color}`,
+              "&& > .MuiSvgIcon-root": { translate: "15px" },
+            },
           }}
-        />
-        <CenteredMaxWidthContainer>
-          <QuotationClientFieldsForm defaultClient={order.client} />
-        </CenteredMaxWidthContainer>
+        >
+          <Typography variant="h6">
+            Accepter le devis et passer à l'étape suivante
+          </Typography>
+          <ArrowRightAltIcon sx={{ fontSize: "2rem" }} />
+        </CTAButton>
       </Stack>
+
+      {step === 2 && (
+        <Stack marginTop={4} gap={2}>
+          <PageTitle text="2. Vos informations" />
+
+          <AlertInfo
+            content={{
+              show: true,
+              severity: "info",
+              text: "Veuillez renseigner vos informations afin de compléter le devis. Les champs ci-dessous correspondent aux mentions légales obligatoires du devis.",
+            }}
+          />
+          <CenteredMaxWidthContainer>
+            <QuotationClientFieldsForm defaultClient={order.client} />
+          </CenteredMaxWidthContainer>
+        </Stack>
+      )}
     </Stack>
   )
 }

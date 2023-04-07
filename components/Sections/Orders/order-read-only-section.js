@@ -139,6 +139,7 @@ export default function OrderReadOnlySection({
   order,
   hideDetails,
   hideModalities,
+  hidePriceDetails,
 }) {
   let paymentOptionsArray = []
   Object.keys(order.payment_options).map((opt) => {
@@ -236,8 +237,8 @@ export default function OrderReadOnlySection({
               component="table"
               sx={{
                 background: (theme) => theme.palette.background.main,
-                width: "99%",
-                margin: "0 0.5%",
+                width: { xs: "99%", sm: "100%" },
+                margin: { xs: "0 0.5%", md: 0 },
                 borderCollapse: "collapse",
                 borderRadius: "20px",
                 overflow: "hidden",
@@ -282,7 +283,7 @@ export default function OrderReadOnlySection({
             </Box>
           </Stack>
 
-          <PriceDetails items={items} order={order} />
+          {!hidePriceDetails && <PriceDetails items={items} order={order} />}
         </>
       )}
     </Stack>

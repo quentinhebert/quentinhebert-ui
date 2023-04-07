@@ -59,7 +59,7 @@ export default function PriceDetails({ items, order }) {
   return (
     <Stack
       sx={{
-        alignSelf: "end",
+        alignSelf: "start",
         background: (theme) => theme.palette.background.main,
         borderRadius: "20px",
         padding: 2,
