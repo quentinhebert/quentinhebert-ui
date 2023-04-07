@@ -18,6 +18,8 @@ import OrderReadOnlySection from "../../Sections/Orders/order-read-only-section"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 import PriceDetails from "../../Sections/Account/Orders/price-details"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import { ORDERSTATES } from "../../../enums/orderStates"
+import { QUOTATION_STATUS } from "../../../enums/quotationStatus"
 
 const CTAButton = ({ color, boxShadow, sx, ...props }) => (
   <Stack
@@ -50,8 +52,10 @@ export default function QuotationView_Main({}) {
   const [access, setAccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
+  const [finished, setFinished] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false)
   const [order, setOrder] = useState({
-    id: id,
+    id: id, // FIXME: Actually its the id of the quotation
     label: "",
     created_at: null,
     last_update: null,
@@ -82,7 +86,7 @@ export default function QuotationView_Main({}) {
   }
 
   const fetchQuotation = async () => {
-    if (!user || !user.email || !id) return
+    if ((!user || !user.email || !id) && !finished) return
     setLoading(true)
     const auth =
       user && (user.type === USERTYPES.ADMIN || user.type === USERTYPES.CLIENT)
@@ -96,12 +100,13 @@ export default function QuotationView_Main({}) {
   }
 
   const handleRefuse = async () => {
+    setIsProcessing(true)
     const res = await apiCall.quotations.refuse(order)
     if (res && res.ok) {
-      window.opener = null
-      window.open("", "_self")
-      window.close()
+      if (!!defaultEmail) await handleSubmit()
+      else await fetchQuotation()
     }
+    setIsProcessing(false)
   }
 
   useEffect(() => {
@@ -148,10 +153,27 @@ export default function QuotationView_Main({}) {
     <Stack padding="2rem" gap="2rem" width="100%">
       {step === 1 && (
         <Stack gap={4}>
-          <PageTitle text="1. Votre devis" />
+          <PageTitle text="Votre devis" />
           <Typography color="#fff" variant="h5">
             {order.label}
           </Typography>
+          {(order.status === QUOTATION_STATUS.ACCEPTED.id ||
+            order.status === QUOTATION_STATUS.REFUSED.id) && (
+            <AlertInfo
+              content={{
+                show: true,
+                severity:
+                  order.status === QUOTATION_STATUS.ACCEPTED.id
+                    ? "success"
+                    : "error",
+                title: `Le devis a été ${QUOTATION_STATUS[order.status].label}`,
+                text:
+                  order.status === QUOTATION_STATUS.ACCEPTED.id
+                    ? "Vous avez accepté le devis. Bienvenue dans l'aventure !"
+                    : "Vous avez refusé ce devis.",
+              }}
+            />
+          )}
           <Stack gap={4}>
             <PriceDetails order={order} items={order.items} />
             <Stack
@@ -161,7 +183,7 @@ export default function QuotationView_Main({}) {
               onClick={toggleShowDetails}
             >
               <Typography
-                className="cool-button"
+                className="cool-button no-select"
                 variant="h4"
                 sx={{
                   "&:hover": { color: (theme) => theme.palette.secondary.main },
@@ -187,50 +209,58 @@ export default function QuotationView_Main({}) {
               )}
             </Stack>
           </Stack>
+
+          {/********* BUTTONS *********/}
+          {!isProcessing &&
+            order.status !== QUOTATION_STATUS.ACCEPTED.id &&
+            order.status !== QUOTATION_STATUS.REFUSED.id && (
+              <Stack
+                className="full-width"
+                gap={4}
+                color="#fff"
+                sx={{ flexDirection: "column-reverse" }}
+              >
+                <CTAButton
+                  color={(theme) => theme.alert.title.error.color}
+                  boxShadow={(theme) =>
+                    `0 0 10px 6px ${theme.alert.title.error.color}`
+                  }
+                  onClick={handleRefuse}
+                >
+                  <Typography variant="h6">Refuser ce devis</Typography>
+                  <CloseIcon sx={{ fontSize: "2rem" }} />
+                </CTAButton>
+                <CTAButton
+                  boxShadow={(theme) =>
+                    `0 0 10px 6px ${theme.alert.title.success.color}`
+                  }
+                  color={(theme) => theme.alert.title.success.color}
+                  sx={{
+                    "&& > .MuiSvgIcon-root": { transition: ".15s ease-in-out" },
+                    boxShadow: (theme) =>
+                      `0 0 15px 6px ${theme.alert.title.success.color}`,
+                    "&:hover": {
+                      boxShadow: (theme) =>
+                        `0 0 15px 10px ${theme.alert.title.success.color}`,
+                      "&& > .MuiSvgIcon-root": { translate: "15px" },
+                    },
+                  }}
+                  onClick={handleNext}
+                >
+                  <Typography variant="h6">
+                    Accepter le devis et passer à l'étape suivante
+                  </Typography>
+                  <ArrowRightAltIcon sx={{ fontSize: "2rem" }} />
+                </CTAButton>
+              </Stack>
+            )}
+          {isProcessing && <PleaseWait />}
         </Stack>
       )}
 
-      {/********* BUTTONS *********/}
-      <Stack
-        className="full-width"
-        gap={4}
-        color="#fff"
-        sx={{ flexDirection: "column-reverse" }}
-      >
-        <CTAButton
-          color={(theme) => theme.alert.title.error.color}
-          boxShadow={(theme) => `0 0 10px 6px ${theme.alert.title.error.color}`}
-          onClick={handleRefuse}
-        >
-          <Typography variant="h6">Refuser ce devis</Typography>
-          <CloseIcon sx={{ fontSize: "2rem" }} />
-        </CTAButton>
-        <CTAButton
-          boxShadow={(theme) =>
-            `0 0 10px 6px ${theme.alert.title.success.color}`
-          }
-          color={(theme) => theme.alert.title.success.color}
-          sx={{
-            "&& > .MuiSvgIcon-root": { transition: ".15s ease-in-out" },
-            boxShadow: (theme) =>
-              `0 0 15px 6px ${theme.alert.title.success.color}`,
-            "&:hover": {
-              boxShadow: (theme) =>
-                `0 0 15px 10px ${theme.alert.title.success.color}`,
-              "&& > .MuiSvgIcon-root": { translate: "15px" },
-            },
-          }}
-        >
-          <Typography variant="h6">
-            Accepter le devis et passer à l'étape suivante
-          </Typography>
-          <ArrowRightAltIcon sx={{ fontSize: "2rem" }} />
-        </CTAButton>
-      </Stack>
-
       {step === 2 && (
         <Stack marginTop={4} gap={2}>
-          <PageTitle text="2. Vos informations" />
+          <PageTitle text="Vos informations" />
 
           <AlertInfo
             content={{
@@ -240,8 +270,27 @@ export default function QuotationView_Main({}) {
             }}
           />
           <CenteredMaxWidthContainer>
-            <QuotationClientFieldsForm defaultClient={order.client} />
+            <QuotationClientFieldsForm
+              defaultClient={order.client}
+              handleFinish={async () => {
+                setStep(1)
+                setFinished(true)
+                if (!!defaultEmail) await handleSubmit()
+                else await fetchQuotation()
+              }}
+            />
           </CenteredMaxWidthContainer>
+
+          {/********* BUTTONS *********/}
+          <Typography
+            variant="h6"
+            color="#fff"
+            onClick={handlePrevious}
+            alignSelf="center"
+            className="pointer cool-button"
+          >
+            Retour
+          </Typography>
         </Stack>
       )}
     </Stack>

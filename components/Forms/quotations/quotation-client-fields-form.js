@@ -34,7 +34,10 @@ const Card = ({ title, ...props }) => (
   </Stack>
 )
 
-export default function QuotationClientFieldsForm({ defaultClient }) {
+export default function QuotationClientFieldsForm({
+  defaultClient,
+  handleFinish,
+}) {
   const router = useRouter()
   const id = router.query.id
 
@@ -58,6 +61,7 @@ export default function QuotationClientFieldsForm({ defaultClient }) {
   })
   const [errors, setErrors] = useState(initialErrors)
   const [client, setClient] = useState(initialClient)
+  const [isProcessing, setIsProcessing] = useState(false)
   const [accept, setAccept] = useState({ policy: false })
 
   const liveCheck = {
@@ -75,12 +79,14 @@ export default function QuotationClientFieldsForm({ defaultClient }) {
   }
 
   const handleGeneratePDF = async () => {
+    setIsProcessing(true)
     const res = await apiCall.quotations.accept(client, { id })
     if (res && res.ok) {
       const jsonRes = await res.json()
       window.open(jsonRes.url)
-    }
-    // else alert("échec")
+      if (!!handleFinish) handleFinish()
+    } else alert("échec")
+    setIsProcessing(false)
   }
 
   return (
@@ -216,7 +222,12 @@ export default function QuotationClientFieldsForm({ defaultClient }) {
         />
       </Stack>
 
-      <PillButton onClick={handleGeneratePDF}>Télécharger le PDF</PillButton>
+      <PillButton
+        disabled={!accept.policy || isProcessing}
+        onClick={handleGeneratePDF}
+      >
+        Télécharger le PDF
+      </PillButton>
     </CustomForm>
   )
 }
