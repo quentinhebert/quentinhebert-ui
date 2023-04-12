@@ -13,7 +13,7 @@ export default function TermsOfUseSection({ staticData }) {
   if (!!swr.data) data = swr.data
 
   return (
-    <Stack gap={2}>
+    <Stack gap={2} padding="0 2rem">
       <PageTitle text="Conditions Générales d'Utilisation" />
       <ParseJsx jsx={formatText(data)} />
     </Stack>

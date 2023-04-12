@@ -7,14 +7,17 @@ const Title = (props) => (
     color="#fff"
     component="h2"
     variant="h4"
-    marginTop={2}
+    marginTop={4}
     {...props}
   />
 )
 
 export function formatText(htmlString) {
   let formattedString = htmlString
-    .replaceAll("<p", "<Stack><BodyText preventTransition")
+    .replaceAll(
+      "<p",
+      "<Stack margin='.5rem 0'><BodyText preventTransition textAlign='justify'"
+    )
     .replaceAll("p>", "BodyText></Stack>")
     .replaceAll("<h1", "<Title")
     .replaceAll("<h2", "<Title")

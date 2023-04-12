@@ -1,5 +1,4 @@
 import { Stack, Typography } from "@mui/material"
-import PageTitle from "../../Titles/page-title"
 import { formatText, ParseJsx } from "./terms-and-conditions--style"
 import { fetchers } from "../../../services/public-fetchers"
 import useSWR from "swr"
