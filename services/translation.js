@@ -454,6 +454,30 @@ const translations = {
     fr: "Contactez-moi",
     en: "Contact me",
   },
+  lastUpdate: {
+    fr: "Dernière mise à jour",
+    en: "Last update",
+  },
+  termsOfUse: {
+    title: {
+      fr: "Conditions Générales d'Utilisation",
+      en: "Terms of Use",
+    },
+  },
+  termsAndConditions: {
+    title: {
+      fr: "Mentions légales et CGV",
+      en: "Legal notice and General Terms and Conditions",
+    },
+    legalNotice: {
+      fr: "Mentions légales",
+      en: "Legal notice",
+    },
+    terms: {
+      fr: "Conditions générales de vente",
+      en: "General terms and conditions",
+    },
+  },
 }
 
 export default translations
