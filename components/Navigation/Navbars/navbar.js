@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import AppBar from "@mui/material/AppBar"
 import LoginOrMenuButton from "../login-or-menu-button"
 import { Box, Button, Stack } from "@mui/material"
@@ -10,12 +10,16 @@ import { useScrollPosition } from "@n8tb1t/use-scroll-position"
 import useSWR from "swr"
 import { fetchers } from "../../../services/public-fetchers"
 import NextLink from "../../Helpers/next-link"
+import BodyText from "../../Text/body-text"
+import { AppContext } from "../../../contexts/AppContext"
 
 const MobileNavbar = dynamic(() => import("./mobile-navbar"))
 const DesktopNavbar = dynamic(() => import("./desktop-navbar"))
 
 export default function Navbar(props) {
   const { staticData } = props
+
+  const { lang, setLang } = useContext(AppContext)
 
   const swr = useSWR(`navbar`, async () => fetchers.navbar(), {
     fallbackData: props.staticData,
@@ -126,7 +130,7 @@ export default function Navbar(props) {
               position: "absolute",
               right: { xs: 20, md: 50 },
               top: isReduced ? 10 : 15,
-              gap: { xs: 0, lg: 2 },
+              gap: { xs: 0, lg: 4 },
               transition: ".1s ease",
             }}
             flexDirection="row"
@@ -136,6 +140,35 @@ export default function Navbar(props) {
                 <LoginOrMenuButton />
               </Stack>
             )} */}
+            <Stack alignItems="center" className="row gap-4">
+              <BodyText
+                className="pointer"
+                sx={{
+                  borderBottom:
+                    lang === "fr"
+                      ? (theme) => `1px solid ${theme.palette.secondary.main}`
+                      : null,
+                  paddingBottom: 0.5,
+                }}
+                onClick={() => setLang("fr")}
+              >
+                FR
+              </BodyText>
+              <BodyText>/</BodyText>
+              <BodyText
+                className="pointer"
+                sx={{
+                  borderBottom:
+                    lang === "en"
+                      ? (theme) => `1px solid ${theme.palette.secondary.main}`
+                      : null,
+                  paddingBottom: 0.5,
+                }}
+                onClick={() => setLang("en")}
+              >
+                EN
+              </BodyText>
+            </Stack>
             <MobileNavbar
               mainColor={mainColor}
               list={data.menu_items}

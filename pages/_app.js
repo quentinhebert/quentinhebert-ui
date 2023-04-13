@@ -20,6 +20,7 @@ function MyApp({ Component, pageProps, router }) {
   const [isUserDataFetching, setIsUserDataFetching] = useState(false)
   const [isAnimationProcessing, setIsAnimationProcessing] = useState(false)
   const [firstLoad, setFirstLoad] = useState(true)
+  const [lang, setLang] = useState("fr")
 
   // Snacks
   const [snackSeverity, setSnackSeverity] = useState("error")
@@ -69,6 +70,8 @@ function MyApp({ Component, pageProps, router }) {
         setAppLoading,
         setSnackSeverity,
         setSnackMessage,
+        lang,
+        setLang,
       }}
     >
       <UserContext.Provider value={{ user, setUser, fetchUser }}>
