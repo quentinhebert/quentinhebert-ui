@@ -7,7 +7,7 @@
 }
 
 .text {
-  width: 23ch;
+  width: 100%;
   animation: typing 2s steps(20), blink .5s step-end infinite alternate;
   white-space: nowrap;
   overflow: hidden;
