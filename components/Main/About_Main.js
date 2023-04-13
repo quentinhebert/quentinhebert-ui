@@ -10,6 +10,7 @@ import styles from "../../styles/TextShine.module.css"
 import MotionDivOnMount from "../Animation/motion-div-on-mount"
 import { AppContext } from "../../contexts/AppContext"
 import { background, ignoreNavbar } from "../../styles/helper"
+import translations from "../../services/translation"
 
 const Text = (props) => (
   <MotionDivOnMount hidden={{ x: 0, y: -20 }} visible={{ x: 0, y: 0 }}>
@@ -17,25 +18,12 @@ const Text = (props) => (
   </MotionDivOnMount>
 )
 
-const SLIDES = [
-  `Issu d'une formation d'ingénieur, j'ai été développeur web pendant
-  deux ans dans une start-up. Mais poussé par un désir
-  d'indépendance et l'envie de créer, j'ai décidé de me lancer en
-  freelance.`,
-  `Depuis le collège, je réalise des vidéos : clips et
-  courts-métrages pour la plupart. En parallèle de mes études, je
-  crée un collectif et une association de productions audiovisuelles
-  avec lesquels je m'épanouis dans la réalisation de vidéos.`,
-  `Aujourd'hui, je partage mon activité entre la réalisation de sites
-  web et de films.`,
-]
-
 export default function About_Main() {
   const [slide, setSlide] = useState(0)
   const [render, setRender] = useState(false)
   const handleNext = () => setSlide(slide + 1)
 
-  const { appLoading } = useContext(AppContext)
+  const { appLoading, lang } = useContext(AppContext)
 
   const handleRestart = () => setSlide(0)
 
@@ -68,13 +56,13 @@ export default function About_Main() {
                 fontSize: { xs: "4rem", md: "7rem" },
               }}
             >
-              À propos{" "}
+              {translations.about.title[lang]}{" "}
               <Box component="span" fontSize="2rem" marginLeft={2}>
-                {slide + 1} / {SLIDES.length}
+                {slide + 1} / {translations.about.slides[lang].length}
               </Box>
             </Typography>
 
-            {SLIDES.map((txt, key) => {
+            {translations.about.slides[lang].map((txt, key) => {
               if (key !== slide) return <Fragment key={key} />
               return <Text key={key}>{txt}</Text>
             })}
@@ -89,13 +77,13 @@ export default function About_Main() {
                     color="secondary"
                     sx={{ cursor: "pointer", fontSize: "1rem" }}
                   >
-                    Recommencer
+                    {translations.about.btn.restart[lang]}
                   </Typography>
                 </Box>
               )}
               {slide !== 2 && (
                 <PillButton onClick={handleNext} endIcon={<EastIcon />}>
-                  Suivant
+                  {translations.about.btn.next[lang]}
                 </PillButton>
               )}
             </Stack>
