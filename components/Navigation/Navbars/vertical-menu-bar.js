@@ -138,9 +138,6 @@ export function VerticalMenuBar({}) {
   const pageSection = router.pathname.split("/")[1]
   const pageSubSection = router.pathname.split("/")[2]
   const isActive = (section) => {
-    console.debug("section", section)
-    console.debug("pageSection", pageSection)
-    console.debug("pageSubSection", pageSubSection)
     if (
       section === "account" &&
       pageSection === "account" &&
