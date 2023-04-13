@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Stack, Typography, useMediaQuery } from "@mui/material"
 import AnimateHeight from "react-animate-height"
 import VideoList from "./video-list"
@@ -7,10 +7,14 @@ import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import CenteredMaxWidthStack from "../../../../Containers/centered-max-width-container"
 import BodyText from "../../../../Text/body-text"
+import { AppContext } from "../../../../../contexts/AppContext"
+import translations from "../../../../../services/translation"
 
 export default function PortfolioSection(props) {
   const { refForScroll } = props
   const [height, setHeight] = useState(0)
+
+  const { lang } = useContext(AppContext)
 
   const sm = useMediaQuery((theme) => theme.breakpoints.up("sm"))
   const md = useMediaQuery((theme) => theme.breakpoints.up("md"))
@@ -81,7 +85,7 @@ export default function PortfolioSection(props) {
                     lineHeight: { xs: "5rem", md: "6rem" },
                   }}
                 >
-                  Mes réalisations
+                  {translations.films.portfolio.title[lang]}
                 </Typography>
 
                 <Stack>

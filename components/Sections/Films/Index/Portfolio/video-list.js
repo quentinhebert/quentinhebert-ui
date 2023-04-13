@@ -10,6 +10,8 @@ import { fetchers } from "../../../../../services/public-fetchers"
 import { FilmsHomePageContext } from "../../../../../contexts/PagesContexts"
 import PillButton from "../../../../Buttons/pill-button"
 import Pill from "../../../../Text/pill"
+import translations from "../../../../../services/translation"
+import { AppContext } from "../../../../../contexts/AppContext"
 
 const CATEGORIES = [
   "Tout",
@@ -431,6 +433,7 @@ const CATEGORIES = [
 // ]
 
 const FilterSection = ({ handleFilter }) => {
+  const { lang } = useContext(AppContext)
   return (
     <Stack className="full-width flex-center">
       <Typography
@@ -441,7 +444,7 @@ const FilterSection = ({ handleFilter }) => {
           wordBreak: "break-word",
         }}
       >
-        {CATEGORIES.map((category, key) => (
+        {translations.films.portfolio.categories.map((category, key) => (
           <Pill
             key={key}
             animDelay={key}
@@ -450,9 +453,9 @@ const FilterSection = ({ handleFilter }) => {
             boxShadowOnHover
             margin={{ xs: "0.25rem", md: "0.5rem" }}
             bgColor={(theme) => theme.palette.secondary.main}
-            onClick={() => handleFilter(category)}
+            onClick={() => handleFilter(category.fr)}
           >
-            {category}
+            {category[lang]}
           </Pill>
         ))}
       </Typography>
@@ -579,6 +582,8 @@ const VideoTitle = (props) => (
 
 export default function VideoList({ height, setHeight, ...props }) {
   const {} = props
+
+  const { lang } = useContext(AppContext)
 
   /********* StaticProps cached at build time **********/
   const { staticData } = useContext(FilmsHomePageContext)
@@ -762,7 +767,9 @@ export default function VideoList({ height, setHeight, ...props }) {
                 />
               }
             >
-              {limit === initialLimit ? "Afficher plus" : "Afficher moins"}
+              {limit === initialLimit
+                ? translations.films.portfolio.showMore[lang]
+                : translations.films.portfolio.showLess[lang]}
             </PillButton>
           </Box>
         </Stack>

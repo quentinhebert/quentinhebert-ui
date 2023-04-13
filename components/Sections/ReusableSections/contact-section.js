@@ -4,11 +4,15 @@ import { moveRightVariants } from "../../Animation/variants"
 
 import dynamic from "next/dynamic"
 import MotionDivOnMount from "../../Animation/motion-div-on-mount"
+import { useContext } from "react"
+import { AppContext } from "../../../contexts/AppContext"
+import translations from "../../../services/translation"
 const ContactForm = dynamic(() => import("../../Forms/contact-form"), {
   ssr: false,
 })
 
 export default function ContactSection({ defaultService, topRef, ...props }) {
+  const { lang } = useContext(AppContext)
   return (
     <>
       <Stack ref={topRef} sx={{ scrollMarginTop: "60px" }} />
@@ -31,7 +35,7 @@ export default function ContactSection({ defaultService, topRef, ...props }) {
             hidden={moveRightVariants.hidden}
           >
             <Typography variant="h2" color="secondary">
-              Vous avez un projet...
+              {translations.contact.catchPhrase[lang]}
             </Typography>
           </MotionDivOnMount>
 

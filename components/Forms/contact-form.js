@@ -17,6 +17,7 @@ import BodyText from "../Text/body-text"
 import RedoRoundedIcon from "@mui/icons-material/RedoRounded"
 import SendIcon from "@mui/icons-material/Send"
 import Span from "../Text/span"
+import translations from "../../services/translation"
 
 /** CONSTANTS **/
 
@@ -36,43 +37,53 @@ const jobs = {
   ],
 }
 
-const WordCaroussel = ({ defaultService }) => (
-  <BodyText>
-    ...et vous cherchez un{" "}
-    <Box
-      component="div"
-      display="inline"
-      sx={{ color: (theme) => theme.palette.text.secondary }}
-    >
-      {defaultService === "film" && (
-        <Stack className={styles.scroller}>
-          <Box className={styles.wrapper}>
-            {jobs.filmmaker.map((job, key) => (
-              <Box key={key}>{job} ?</Box>
-            ))}
-          </Box>
-        </Stack>
-      )}
-      {defaultService === "website" && (
-        <Stack className={styles.scroller}>
-          <Box className={styles.wrapper}>
-            {jobs.developper.map((job, key) => (
-              <Box key={key}>{job} ?</Box>
-            ))}
-          </Box>
-        </Stack>
-      )}
-    </Box>
-  </BodyText>
-)
-const OptionalLabel = () => (
-  <Span color="grey" fontStyle="italic">
-    (Optionnel)
-  </Span>
-)
+const WordCaroussel = ({ defaultService }) => {
+  const { lang } = useContext(AppContext)
+  return (
+    <BodyText>
+      {translations.contact.wordCarousel.text[lang]}{" "}
+      <Box
+        component="div"
+        display="inline"
+        sx={{ color: (theme) => theme.palette.text.secondary }}
+      >
+        {defaultService === "film" && (
+          <Stack className={styles.scroller}>
+            <Box className={styles.wrapper}>
+              {translations.contact.wordCarousel.words.films[lang].map(
+                (job, key) => (
+                  <Box key={key}>{job} ?</Box>
+                )
+              )}
+            </Box>
+          </Stack>
+        )}
+        {defaultService === "website" && (
+          <Stack className={styles.scroller}>
+            <Box className={styles.wrapper}>
+              {translations.contact.wordCarousel.words.websites[lang].map(
+                (job, key) => (
+                  <Box key={key}>{job} ?</Box>
+                )
+              )}
+            </Box>
+          </Stack>
+        )}
+      </Box>
+    </BodyText>
+  )
+}
+const OptionalLabel = () => {
+  const { lang } = useContext(AppContext)
+  return (
+    <Span color="grey" fontStyle="italic">
+      ({translations.contact.optional[lang]})
+    </Span>
+  )
+}
 
 export default function ContactForm({ defaultService, defaultDirection }) {
-  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+  const { setSnackSeverity, setSnackMessage, lang } = useContext(AppContext)
 
   const initialFormData = {
     firstname: "",
@@ -228,7 +239,7 @@ export default function ContactForm({ defaultService, defaultDirection }) {
 
       <Stack width="100%" alignItems="end" marginBottom={2}>
         <BodyText preventTransition gap={2} display="flex">
-          Laissez-moi un message{" "}
+          {translations.contact.annotation[lang]}{" "}
           <RedoRoundedIcon
             sx={{ rotate: "45deg", margin: ".2rem .2rem 0 0" }}
           />
@@ -240,7 +251,7 @@ export default function ContactForm({ defaultService, defaultDirection }) {
           <CustomFilledInput
             type="input"
             id="firstname"
-            label="Prénom"
+            label={translations.contact.firstname.label[lang]}
             placeholder={formData.services.film ? "Louis" : "Philippe"}
             value={formData.firstname}
             onChange={handleChange("firstname")}
@@ -252,7 +263,7 @@ export default function ContactForm({ defaultService, defaultDirection }) {
             id="lastname"
             label={
               <>
-                Nom <OptionalLabel />
+                {translations.contact.lastname.label[lang]} <OptionalLabel />
               </>
             }
             placeholder={formData.services.film ? "Vuitton" : "Etchebest"}
@@ -267,7 +278,7 @@ export default function ContactForm({ defaultService, defaultDirection }) {
           <CustomFilledInput
             type="email"
             id="email"
-            label="E-mail"
+            label={translations.contact.email.label[lang]}
             placeholder={
               formData.services.film
                 ? "loulou@vuitton.com"
@@ -283,7 +294,7 @@ export default function ContactForm({ defaultService, defaultDirection }) {
             id="phone"
             label={
               <>
-                Téléphone <OptionalLabel />
+                {translations.contact.phone.label[lang]} <OptionalLabel />
               </>
             }
             placeholder="06XXXXXXXX"
@@ -298,7 +309,7 @@ export default function ContactForm({ defaultService, defaultDirection }) {
             id="company"
             label={
               <>
-                Entreprise <OptionalLabel />
+                {translations.contact.company.label[lang]} <OptionalLabel />
               </>
             }
             placeholder={
@@ -320,7 +331,7 @@ export default function ContactForm({ defaultService, defaultDirection }) {
                   ? undefined
                   : () => (
                       <Typography color="secondary">
-                        Mon budget <OptionalLabel />
+                        {translations.contact.budget[lang]} <OptionalLabel />
                       </Typography>
                     )
               }
@@ -337,7 +348,7 @@ export default function ContactForm({ defaultService, defaultDirection }) {
         <Stack width="100%">
           <CustomFilledTextArea
             id="description"
-            label="À propos de mon projet..."
+            label={translations.contact.description.label[lang]}
             placeholder={
               formData.services.film
                 ? formData.services.website
@@ -367,7 +378,9 @@ export default function ContactForm({ defaultService, defaultDirection }) {
       </Stack>
 
       <RightSubmitButton onClick={handleSendRequest} disabled={isFetching}>
-        {isFetching ? "Envoi en cours" : "Envoyer"}
+        {isFetching
+          ? translations.contact.btn.processing[lang]
+          : translations.contact.btn.submit[lang]}
         <SendIcon />
       </RightSubmitButton>
     </CustomForm>

@@ -6,26 +6,6 @@ import ParallaxGaleryCTA from "../Sections/parallax-galery-cta"
 import ContactSection from "../Sections/ReusableSections/contact-section"
 import PortfolioSection from "../Sections/Films/Index/Portfolio/portfolio-section"
 
-// import dynamic from "next/dynamic"
-// const ParallaxGaleryCTA = dynamic(
-//   () => import("../Sections/parallax-galery-cta"),
-//   {
-//     ssr: false,
-//   }
-// )
-// const ContactSection = dynamic(
-//   () => import("../Sections/ReusableSections/contact-section"),
-//   {
-//     ssr: false,
-//   }
-// )
-// const PortfolioSection = dynamic(
-//   () => import("../Sections/Films/Index/Portfolio/portfolio-section"),
-//   {
-//     ssr: false,
-//   }
-// )
-
 export default function FilmsIndexLayout(props) {
   const {} = props
 

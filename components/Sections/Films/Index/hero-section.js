@@ -5,12 +5,14 @@ import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline"
 import ReactPlayer from "react-player"
 import VolumeUpIcon from "@mui/icons-material/VolumeUp"
 import VolumeOffIcon from "@mui/icons-material/VolumeOff"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import BodyText from "../../../Text/body-text"
 import PillButton from "../../../Buttons/pill-button"
 import ScaleUpOnHoverStack from "../../../Animation/scale-up-on-hover-stack"
 import MotionDivOnMount from "../../../Animation/motion-div-on-mount"
 import GrainStyles from "../../../../styles/FilmGrain.module.css"
+import { AppContext } from "../../../../contexts/AppContext"
+import translations from "../../../../services/translation"
 
 const Title = (props) => (
   <Typography
@@ -67,6 +69,8 @@ const motionDivStyle = { display: "flex" }
 
 export default function HeroSection(props) {
   const { refForScroll } = props
+
+  const { lang } = useContext(AppContext)
 
   const scrollTo = (ref) => {
     ref.current.scrollIntoView({
@@ -170,14 +174,18 @@ export default function HeroSection(props) {
             transition: "opacity 0.2s ease-in-out",
           }}
         >
-          <BodyText animDelay={0.25}>Je suis</BodyText>
+          <BodyText animDelay={0.25}>
+            {translations.films.hero.iam[lang]}
+          </BodyText>
           <MotionDivOnMount
             hidden={{ y: -20, opacity: 0 }}
             visible={{ y: 0, opacity: 1 }}
             withEase
             style={{ motionDivStyle }}
           >
-            <Title textAlign="center">Vidéaste freelance</Title>
+            <Title textAlign="center">
+              {translations.films.hero.title[lang]}
+            </Title>
           </MotionDivOnMount>
           <Stack
             className="row gap-10"
@@ -185,9 +193,15 @@ export default function HeroSection(props) {
               textShadow: "2px 2px 4px rgb(0,0,0,0.5)",
             }}
           >
-            <BodyText animDelay={0.75}>Réalisateur</BodyText>
-            <BodyText animDelay={1}>Cadreur</BodyText>
-            <BodyText animDelay={1.25}>Monteur</BodyText>
+            <BodyText animDelay={0.75}>
+              {translations.films.hero.job1[lang]}
+            </BodyText>
+            <BodyText animDelay={1}>
+              {translations.films.hero.job2[lang]}
+            </BodyText>
+            <BodyText animDelay={1.25}>
+              {translations.films.hero.job3[lang]}
+            </BodyText>
           </Stack>
         </Stack>
 
@@ -211,7 +225,7 @@ export default function HeroSection(props) {
                   transition: ".3s ease-in-out",
                 }}
               >
-                {playing ? "Pause" : "Bande démo"}
+                {playing ? "Pause" : translations.films.hero.btn[lang]}
               </Typography>
               {playing ? (
                 <PauseCircleOutlineIcon sx={{ marginLeft: ".25rem" }} />

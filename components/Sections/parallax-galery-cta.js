@@ -4,8 +4,12 @@ import ParallaxGallery from "../Images/parallax-gallery"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import SubmitButton from "../Buttons/submit-button"
 import { scrollTo } from "../../services/utils"
+import { useContext } from "react"
+import { AppContext } from "../../contexts/AppContext"
+import translations from "../../services/translation"
 
 export default function ParallaxGaleryCTA({ refForScroll, topRef, ...props }) {
+  const { lang } = useContext(AppContext)
   return (
     <Stack className="relative" ref={topRef}>
       <Stack
@@ -51,7 +55,7 @@ export default function ParallaxGaleryCTA({ refForScroll, topRef, ...props }) {
                 textShadow: "0 0 40px rgb(0,0,0,0.8)",
               }}
             >
-              Ensemble, donnons vie à vos projets.
+              {translations.films.CTA.title[lang]}
             </Typography>
             <Box margin="auto">
               <SubmitButton
@@ -59,7 +63,7 @@ export default function ParallaxGaleryCTA({ refForScroll, topRef, ...props }) {
                 backgroundColor={(theme) => theme.palette.secondary.main}
                 color={(theme) => theme.palette.text.black}
               >
-                Contactez-moi <ArrowRightAltIcon />
+                {translations.films.CTA.btn[lang]} <ArrowRightAltIcon />
               </SubmitButton>
             </Box>
           </Stack>

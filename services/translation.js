@@ -13,29 +13,33 @@ const translations = {
     fr: "On s'envoie en l'air ?",
     en: "Let's get to cloud nine !",
   },
-  contactForm: {
+  contact: {
+    catchPhrase: {
+      fr: "Vous avez un projet...",
+      en: "You have a project...",
+    },
     wordCarousel: {
       text: {
         fr: "...et vous cherchez un ",
-        en: "...and you are looking for a ",
+        en: "...and you are looking for ",
       },
       words: {
         films: {
           fr: ["vidéaste", "réalisateur", "cadreur", "monteur"],
-          en: ["filmmaker", "director", "camera operator", "editor"],
+          en: ["a filmmaker", "a director", "a camera operator", "an editor"],
         },
         websites: {
           fr: [
             "developpeur front-end",
             "developpeur back-end",
-            "web designer",
-            "super cool guy",
-          ],
-          en: [
-            "frontend developer",
-            "backend developer",
             "web-designer",
             "mec super sympa",
+          ],
+          en: [
+            "a frontend developer",
+            "a backend developer",
+            "a web designer",
+            "a super cool guy",
           ],
         },
       },
@@ -144,8 +148,8 @@ const translations = {
     },
     description: {
       label: {
-        fr: "À propos de mon projet",
-        en: "About my project",
+        fr: "À propos de mon projet...",
+        en: "About my project...",
       },
       placeholderVideo: {
         fr: "",
@@ -161,8 +165,11 @@ const translations = {
       },
     },
     btn: {
-      fr: "Envoyer",
-      en: "Submit",
+      processing: {
+        fr: "Envoi en cours",
+        en: "Submitting",
+      },
+      submit: { fr: "Envoyer", en: "Submit" },
     },
   },
   homepage: {
@@ -267,7 +274,7 @@ const translations = {
       },
       iam: {
         fr: "Je suis",
-        en: "I am",
+        en: "I am a",
       },
       job1: {
         fr: "Réalisateur",
@@ -301,35 +308,29 @@ const translations = {
         fr: "Mes réalisations",
         en: "My work",
       },
-      categories: {
-        all: {
+      categories: [
+        {
+          id: "all",
           fr: "Tout",
           en: "All",
         },
-        event: {
+        {
+          id: "event",
           fr: "Événementiel",
           en: "Events",
         },
-        shortFilms: {
-          fr: "Court-métrage",
-          en: "Short films",
-        },
-        clips: {
-          fr: "Clip",
-          en: "Music clip",
-        },
-        corporate: {
-          fr: "Entreprise",
-          en: "Corporate",
-        },
-        sport: {
-          fr: "Sport",
-          en: "Sport",
-        },
-      },
-      seeMore: {
+        { id: "short_film", fr: "Court-métrage", en: "Short films" },
+        { id: "clip", fr: "Clip", en: "Music clip" },
+        { id: "corporate", fr: "Entreprise", en: "Corporate" },
+        { id: "sport", fr: "Sport", en: "Sport" },
+      ],
+      showMore: {
         fr: "Afficher plus",
         en: "Show more",
+      },
+      showLess: {
+        fr: "Afficher moins",
+        en: "Show less",
       },
     },
   },
