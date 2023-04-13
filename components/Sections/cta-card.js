@@ -5,8 +5,11 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import { scrollTo } from "../../services/utils"
 import { ParallaxBanner, ParallaxProvider } from "react-scroll-parallax"
 import BodyText from "../Text/body-text"
+import { useContext } from "react"
+import { AppContext } from "../../contexts/AppContext"
+import translations from "../../services/translation"
 
-export default function ContactCTA({
+export default function CTACard({
   refsForScroll,
   src,
   smallText,
@@ -16,6 +19,8 @@ export default function ContactCTA({
   CatchPhraseProps,
   ...props
 }) {
+  const { lang } = useContext(AppContext)
+
   const md = useMediaQuery((theme) => theme.breakpoints.up("md"))
 
   const backgroundLayer = {
@@ -100,7 +105,7 @@ export default function ContactCTA({
               color={(theme) => theme.palette.text.black}
               {...BtnProps}
             >
-              Contactez-moi <ArrowRightAltIcon />
+              {translations.contactMe[lang]} <ArrowRightAltIcon />
             </SubmitButton>
           </Box>
         </Stack>

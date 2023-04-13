@@ -334,6 +334,98 @@ const translations = {
       },
     },
   },
+  websites: {
+    hero: {
+      title: {
+        fr: "Développeur web",
+        en: "Web developer",
+      },
+      cta: {
+        btn1: {
+          fr: "Projets",
+          en: "Projects",
+        },
+        btn2: {
+          fr: "CV",
+          en: "CV",
+        },
+      },
+    },
+    CTA: {
+      topLine: {
+        fr: "Créons",
+        en: "Let's create",
+      },
+      title: {
+        fr: "votre site web professionnel sur-mesure.",
+        en: "your professional custom made website.",
+      },
+    },
+    portfolio: {
+      topLine: {
+        fr: "Explorez",
+        en: "Browse",
+      },
+      title: {
+        fr: "mes projets web",
+        en: "my web projects",
+      },
+      btn: {
+        fr: "Afficher le site",
+        en: "Open website",
+      },
+      newTab: {
+        fr: "Ouvrir dans un nouvel onglet",
+        en: "Open in a new tab",
+      },
+      date: {
+        fr: "Réalisé en",
+        en: "Made in",
+      },
+    },
+  },
+  about: {
+    title: {
+      fr: "À propos",
+      en: "About me",
+    },
+    btn: {
+      next: {
+        fr: "Suivant",
+        en: "Next",
+      },
+      restart: {
+        fr: "Recommencer",
+        en: "Restart",
+      },
+    },
+    slides: {
+      fr: [
+        `Issu d'une formation d'ingénieur, j'ai été développeur web pendant
+        deux ans dans une start-up. Mais poussé par un désir
+        d'indépendance et l'envie de créer, j'ai décidé de me lancer en
+        freelance.`,
+        `Depuis le collège, je réalise des vidéos : clips et
+        courts-métrages pour la plupart. En parallèle de mes études, je
+        crée un collectif et une association de productions audiovisuelles
+        avec lesquels je m'épanouis dans la réalisation de vidéos.`,
+        `Aujourd'hui, je partage mon activité entre la réalisation de sites
+        web et de films.`,
+      ],
+      en: [
+        `After obtaining my engineering degree, I have been working for two years as a web developer in a startup. 
+        However, driven by the desire of independance and the attraction for creating, I have decided to start to work as a freelance.`,
+        `I direct videos from secondary school, mostly music clips and
+        short films. In parallel of my studies, I have created a video production band and an audiovisual association
+        with which I thrive on making films.`,
+        `Today, I create websites and films for a living.`,
+      ],
+    },
+  },
+  contactMe: {
+    fr: "Contactez-moi",
+    en: "Contact me",
+  },
 }
 
 export default translations

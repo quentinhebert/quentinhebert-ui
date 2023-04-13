@@ -26,6 +26,8 @@ import dynamic from "next/dynamic"
 import BrowserUiModal from "../../../Modals/browser-ui-modal"
 import { buildPublicURL } from "../../../../services/utils"
 import ImageViewer from "../../../Modals/image-viewer"
+import translations from "../../../../services/translation"
+import { AppContext } from "../../../../contexts/AppContext"
 const ImageCard = dynamic(() => import("../../../Cards/image-card"), {
   ssr: false,
 })
@@ -154,6 +156,8 @@ const Pictures = ({ display, thumbnail_url, images, title }) => {
 export default function PortfolioSection(props) {
   const { topRef } = props
 
+  const { lang } = useContext(AppContext)
+
   /********* StaticProps cached at build time **********/
   const { staticData } = useContext(WebsitesHomePageContext)
   let data = staticData.websites
@@ -248,7 +252,7 @@ export default function PortfolioSection(props) {
         >
           <Stack>
             <BodyText textAlign="center" fontStyle="italic">
-              Explorez
+              {translations.websites.portfolio.topLine[lang]}
             </BodyText>
             <MediumTitle
               preventTransitionOut={desktop}
@@ -261,7 +265,7 @@ export default function PortfolioSection(props) {
                 padding: "0 1rem 0 0",
               }}
             >
-              Mes projets web
+              {translations.websites.portfolio.title[lang]}
             </MediumTitle>
           </Stack>
 
@@ -337,7 +341,8 @@ export default function PortfolioSection(props) {
                         preventTransitionOut={desktop}
                         className={styles.shine}
                       >
-                        – Réalisé en {website.year}
+                        – {translations.websites.portfolio.date[lang]}{" "}
+                        {website.year}
                       </BodyText>
                     </Stack>
 
@@ -362,10 +367,12 @@ export default function PortfolioSection(props) {
                           handleOpenWebview()
                         }}
                       >
-                        Afficher le site
+                        {translations.websites.portfolio.btn[lang]}
                         <RemoveRedEyeIcon />
                       </PillButton>
-                      <Tooltip title="Ouvrir dans un nouvel onglet">
+                      <Tooltip
+                        title={translations.websites.portfolio.newTab[lang]}
+                      >
                         <LaunchIcon
                           color={!website.url ? "primary" : "secondary"}
                           sx={{

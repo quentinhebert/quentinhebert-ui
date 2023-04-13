@@ -1,12 +1,13 @@
-import { useRef } from "react"
-import FixedBackground from "../Backgrounds/fixed-background"
+import { useContext, useRef } from "react"
 import HeroSection from "../Sections/Websites/Index/hero-section"
 import WhyADevSection from "../Sections/Websites/Index/WhyADev/why-a-dev-section"
 import PortfolioSection from "../Sections/Websites/Index/portfolio-section"
 import ContactSection from "../Sections/ReusableSections/contact-section"
 
 import { ParallaxProvider } from "react-scroll-parallax"
-import ContactCTA from "../Sections/contact-cta"
+import CTACard from "../Sections/cta-card"
+import { AppContext } from "../../contexts/AppContext"
+import translations from "../../services/translation"
 
 export default function WebsitesIndexLayout(props) {
   const {} = props
@@ -24,16 +25,18 @@ export default function WebsitesIndexLayout(props) {
     contact: contactRef,
   }
 
+  const { lang } = useContext(AppContext)
+
   return (
     <ParallaxProvider>
       {/* HERO */}
       <HeroSection refsForScroll={refsForScroll} />
 
-      <ContactCTA
+      <CTACard
         refsForScroll={refsForScroll}
         src="/medias/mockup.jpg"
-        smallText="Créons"
-        catchPhrase="votre site web professionnel sur-mesure."
+        smallText={translations.websites.CTA.topLine[lang]}
+        catchPhrase={translations.websites.CTA.title[lang]}
         background="#151210"
         BtnProps={{
           sx: {
