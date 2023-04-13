@@ -14,8 +14,76 @@ import ScaleUpOnHoverStack from "../../Animation/scale-up-on-hover-stack"
 import StaggerParent from "../../Animation/stagger-parent"
 import { fadeVariant, moveLeftVariants } from "../../Animation/variants"
 import MotionDivOnMount from "../../Animation/motion-div-on-mount"
+import { useContext } from "react"
+import { AppContext } from "../../../contexts/AppContext"
+import translations from "../../../services/translation"
 
-const SocialButton = ({ item }) => {
+export default function ContactInformationSection(props) {
+  const { staticData } = props
+  const swr = useSWR(`websiteContact`, async () => fetchers.websiteContact(), {
+    fallbackData: props.staticData,
+    revalidateOnMount: true,
+  })
+  let data = staticData
+  if (!!swr.data) data = swr.data
+
+  const { lang } = useContext(AppContext)
+
+  // if (!data || !data.social_medias || !data.contact || !data.address)
+  //   return <></>
+
+  return (
+    <Stack
+      width="100%"
+      alignItems={"flex-start"}
+      justifyContent="center"
+      margin="0 auto"
+      paddingRight={10}
+      gap={8}
+    >
+      <PageTitle
+        text="Contact"
+        color={(theme) => theme.palette.secondary.main}
+      />
+
+      <Stack gap={2}>
+        <MotionDivOnMount
+          visible={fadeVariant.visible}
+          hidden={fadeVariant.hidden}
+          delay={0.75}
+        >
+          <SmallTitle>{translations.contact.socialNetworks[lang]}</SmallTitle>
+        </MotionDivOnMount>
+        <SocialButtons socialMedias={data?.social_medias} />
+      </Stack>
+
+      <Stack gap={2}>
+        <MotionDivOnMount
+          visible={fadeVariant.visible}
+          hidden={fadeVariant.hidden}
+          delay={1}
+        >
+          <SmallTitle>{translations.contact.links[lang]}</SmallTitle>
+        </MotionDivOnMount>
+
+        <StaggerParent
+          className="flex column"
+          staggerChildren={0.6}
+          style={{
+            letterSpacing: "1.5px",
+            gap: "0.7rem",
+          }}
+        >
+          <ContactLinks contact={data?.contact} />
+
+          <AddressSection addressItems={data?.address} />
+        </StaggerParent>
+      </Stack>
+    </Stack>
+  )
+}
+
+function SocialButton({ item }) {
   return (
     <Box component="a" href={item.link} target="_blank" rel="noreferrer">
       <motion.div variants={moveLeftVariants}>
@@ -33,15 +101,11 @@ const SocialButton = ({ item }) => {
     </Box>
   )
 }
-
-const SocialButtons = ({ socialMedias }) => {
+function SocialButtons({ socialMedias }) {
   if (!socialMedias || !socialMedias.length) return <></>
   return (
-    <Stack sx={{ marginBottom: "4rem" }}>
-      <StaggerParent
-        className="flex row flex-center gap-10"
-        staggerChildren={0.6}
-      >
+    <Stack>
+      <StaggerParent className="flex row gap-10" staggerChildren={0.6}>
         {socialMedias.map((item, key) => (
           <SocialButton item={item} key={key} />
         ))}
@@ -49,24 +113,24 @@ const SocialButtons = ({ socialMedias }) => {
     </Stack>
   )
 }
-
-const ContactLink = ({ href, text, icon }) => (
-  <Link
-    href={href}
-    sx={{
-      color: (theme) => theme.palette.text.white,
-      display: "flex",
-      textDecoration: "none",
-    }}
-  >
-    {icon}
-    <Typography className="cool-button" sx={{ marginLeft: "1rem" }}>
-      {text}
-    </Typography>
-  </Link>
-)
-
-const ContactLinks = ({ contact }) => {
+function ContactLink({ href, text, icon }) {
+  return (
+    <Link
+      href={href}
+      sx={{
+        color: (theme) => theme.palette.text.white,
+        display: "flex",
+        textDecoration: "none",
+      }}
+    >
+      {icon}
+      <Typography className="cool-button" sx={{ marginLeft: "1rem" }}>
+        {text}
+      </Typography>
+    </Link>
+  )
+}
+function ContactLinks({ contact }) {
   if (!contact || !contact.length) return <></>
 
   return contact.map((item, key) => {
@@ -94,19 +158,19 @@ const ContactLinks = ({ contact }) => {
       )
   })
 }
-
-const LocationText = ({ text, icon }) => (
-  <Stack
-    display="flex"
-    flexDirection="row"
-    sx={{ color: (theme) => theme.palette.text.white }}
-  >
-    {icon || null}
-    <Typography sx={{ marginLeft: "1rem" }}>{text}</Typography>
-  </Stack>
-)
-
-const AddressSection = ({ addressItems }) => {
+function LocationText({ text, icon }) {
+  return (
+    <Stack
+      display="flex"
+      flexDirection="row"
+      sx={{ color: (theme) => theme.palette.text.white }}
+    >
+      {icon || null}
+      <Typography sx={{ marginLeft: "1rem" }}>{text}</Typography>
+    </Stack>
+  )
+}
+function AddressSection({ addressItems }) {
   if (!addressItems?.length) return <></>
 
   // Get data values
@@ -148,64 +212,5 @@ const AddressSection = ({ addressItems }) => {
         </motion.div>
       )}
     </>
-  )
-}
-
-export default function ContactInformationSection(props) {
-  const { staticData } = props
-  const swr = useSWR(`websiteContact`, async () => fetchers.websiteContact(), {
-    fallbackData: props.staticData,
-    revalidateOnMount: true,
-  })
-  let data = staticData
-  if (!!swr.data) data = swr.data
-
-  // if (!data || !data.social_medias || !data.contact || !data.address)
-  //   return <></>
-
-  return (
-    <Stack
-      width="100%"
-      alignItems={"flex-start"}
-      justifyContent="center"
-      margin="0 auto"
-      paddingRight={10}
-      gap={2}
-    >
-      <PageTitle
-        text="Contact"
-        color={(theme) => theme.palette.secondary.main}
-      />
-
-      <MotionDivOnMount
-        visible={fadeVariant.visible}
-        hidden={fadeVariant.hidden}
-        delay={0.75}
-      >
-        <SmallTitle>Suis-moi, je te fuis !</SmallTitle>
-      </MotionDivOnMount>
-      <SocialButtons socialMedias={data?.social_medias} />
-
-      <MotionDivOnMount
-        visible={fadeVariant.visible}
-        hidden={fadeVariant.hidden}
-        delay={1}
-      >
-        <SmallTitle>Informations utiles</SmallTitle>
-      </MotionDivOnMount>
-
-      <StaggerParent
-        className="flex column"
-        staggerChildren={0.6}
-        style={{
-          letterSpacing: "1.5px",
-          gap: "0.7rem",
-        }}
-      >
-        <ContactLinks contact={data?.contact} />
-
-        <AddressSection addressItems={data?.address} />
-      </StaggerParent>
-    </Stack>
   )
 }

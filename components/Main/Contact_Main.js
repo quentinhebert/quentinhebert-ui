@@ -5,26 +5,6 @@ import CenteredMaxWidthContainer from "../Containers/centered-max-width-containe
 import MotionDivOnMount from "../Animation/motion-div-on-mount"
 import { ignoreNavbar } from "../../styles/helper"
 
-const Root = (props) => (
-  <Stack
-    overflow="hidden"
-    sx={{
-      ...ignoreNavbar,
-      background: (theme) => theme.palette.background.black,
-    }}
-  >
-    <CenteredMaxWidthContainer
-      pixels="1200px"
-      percents="80%"
-      margin="4rem auto"
-      alignItems="start"
-      gap={{ xs: 8, lg: 0 }}
-      flexDirection={{ xs: "column", lg: "row" }}
-      {...props}
-    />
-  </Stack>
-)
-
 export default function Contact_Main(props) {
   const { staticData } = props
 
@@ -50,5 +30,27 @@ export default function Contact_Main(props) {
         <ContactForm defaultDirection="column" />
       </MotionDivOnMount>
     </Root>
+  )
+}
+
+function Root(props) {
+  return (
+    <Stack
+      overflow="hidden"
+      sx={{
+        ...ignoreNavbar,
+        background: (theme) => theme.palette.background.black,
+      }}
+    >
+      <CenteredMaxWidthContainer
+        pixels="1200px"
+        percents="80%"
+        margin="4rem auto"
+        alignItems="start"
+        gap={{ xs: 8, lg: 0 }}
+        flexDirection={{ xs: "column", lg: "row" }}
+        {...props}
+      />
+    </Stack>
   )
 }

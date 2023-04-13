@@ -171,6 +171,34 @@ const translations = {
       },
       submit: { fr: "Envoyer", en: "Submit" },
     },
+    socialNetworks: {
+      fr: "Suis-moi, je te fuis !",
+      en: "Follow One's Heart !",
+    },
+    links: {
+      fr: "Informations utiles",
+      en: "Useful information",
+    },
+    products: {
+      label: {
+        fr: "Vous cherchez un freelance pour réaliser un... *",
+        en: "You are looking for a freelancer to make a...",
+      },
+      film: {
+        fr: "Film",
+        en: "Film",
+      },
+      website: {
+        fr: "Site web",
+        en: "Website",
+      },
+    },
+    helperTexts: {
+      checkbox: {
+        fr: "Veuillez cocher au moins une case",
+        en: "Please check at least one of the checkboxes",
+      },
+    },
   },
   homepage: {
     hero: {

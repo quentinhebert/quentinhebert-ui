@@ -20,22 +20,12 @@ import Span from "../Text/span"
 import translations from "../../services/translation"
 
 /** CONSTANTS **/
-
 const BUDGET_OPTIONS = [
   "500€ - 1000€",
   "1000€ - 1500€",
   "1500€ - 3000€",
   "+3000€",
 ]
-const jobs = {
-  filmmaker: ["vidéaste", "réalisateur", "cadreur", "monteur"],
-  developper: [
-    "développeur front-end",
-    "développeur back-end",
-    "web-designer",
-    "mec super sympa",
-  ],
-}
 
 const WordCaroussel = ({ defaultService }) => {
   const { lang } = useContext(AppContext)
@@ -196,12 +186,12 @@ export default function ContactForm({ defaultService, defaultDirection }) {
               color={errors.services ? "error.main" : "#fff"}
               letterSpacing={1}
             >
-              Vous cherchez un <em>freelance</em> pour réaliser un... *
+              {translations.contact.products.label[lang]}
             </Typography>
 
             <Stack flexDirection="row" gap={4}>
               <CustomCheckbox
-                label="Film"
+                label={translations.contact.products.film[lang]}
                 checked={formData.services.film}
                 // colors passed as strings otw DOM warnings if objects passed as props
                 labelcolor={theme.palette.text.secondary} // label
@@ -213,7 +203,7 @@ export default function ContactForm({ defaultService, defaultDirection }) {
                 onChange={handleChangeServices("film")}
               />
               <CustomCheckbox
-                label="Site web"
+                label={translations.contact.products.website[lang]}
                 checked={formData.services.website}
                 labelcolor={theme.palette.text.secondary} // label
                 checkedcolor={theme.palette.text.secondary} // checked
@@ -228,7 +218,7 @@ export default function ContactForm({ defaultService, defaultDirection }) {
                 margin="0"
                 sx={{ color: (theme) => theme.palette.error.main }}
               >
-                Veuillez cocher au moins une case
+                {translations.contact.helperTexts.checkbox[lang]}
               </FormHelperText>
             )}
           </Stack>
