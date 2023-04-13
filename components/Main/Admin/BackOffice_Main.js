@@ -30,6 +30,11 @@ const CARDS = [
     description: "Gérez toutes vos références.",
     button: { text: "Gérer", href: "/admin/back-office/references" },
   },
+  {
+    title: "Services",
+    description: "Gérez les services que vous proposez.",
+    button: { text: "Gérer", href: "/admin/back-office/services" },
+  },
 ]
 
 export default function BackOffice_Main() {

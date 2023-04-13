@@ -51,16 +51,19 @@ const ListIcon = () => (
     />
   </>
 )
-const List = ({ items }) => (
-  <Box>
-    {items.map((item, key) => (
-      <ListItem key={key}>
-        <ListIcon />
-        {item}
-      </ListItem>
-    ))}
-  </Box>
-)
+const List = ({ items }) => {
+  const { lang } = useContext(AppContext)
+  return (
+    <Box>
+      {items.map((item, key) => (
+        <ListItem key={key}>
+          <ListIcon />
+          {item[lang] || item.fr}
+        </ListItem>
+      ))}
+    </Box>
+  )
+}
 
 const ServiceCard = ({ service, href, animationElement, delay }) => {
   const { lang } = useContext(AppContext)
@@ -89,7 +92,7 @@ const ServiceCard = ({ service, href, animationElement, delay }) => {
           color={(theme) => theme.palette.secondary.main}
         >
           <Typography variant="h3" fontFamily="POPFINE" fontSize="3rem">
-            {service?.name || ""}
+            {service?.name[lang] || service?.name?.fr || ""}
           </Typography>
           <Typography variant="h4" component="div">
             {animationElement}
