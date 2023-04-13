@@ -19,6 +19,8 @@ import AddIcon from "@mui/icons-material/Add"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import MotionDivOnMount from "../../Animation/motion-div-on-mount"
 import { moveDownVariants } from "../../Animation/variants"
+import { AppContext } from "../../../contexts/AppContext"
+import translations from "../../../services/translation"
 
 const ListItem = (props) => (
   <BodyText
@@ -61,6 +63,7 @@ const List = ({ items }) => (
 )
 
 const ServiceCard = ({ service, href, animationElement, delay }) => {
+  const { lang } = useContext(AppContext)
   if (!service?.service_items) return null
   return (
     <MotionDivOnMount
@@ -97,7 +100,7 @@ const ServiceCard = ({ service, href, animationElement, delay }) => {
 
         <EndCardButton
           href={href}
-          text="Découvrir"
+          text={translations.homepage.services.btn[lang]}
           icon={<ArrowRightAltIcon />}
         />
       </CustomCard>
@@ -175,6 +178,8 @@ const Caroussel = ({ services }) => {
 export default function ServicesSection(props) {
   const { refForScroll } = props
 
+  const { lang } = useContext(AppContext)
+
   /********* StaticProps cached at build time **********/
   const { staticData } = useContext(HomePageContext)
   let data = staticData.services
@@ -206,7 +211,7 @@ export default function ServicesSection(props) {
             gap={{ xs: 1, md: 2 }}
           >
             <Typography variant="h2" color="secondary">
-              Les services que je propose
+              {translations.homepage.services.title[lang]}
             </Typography>
             <Stack
               className="full-width justify-center"

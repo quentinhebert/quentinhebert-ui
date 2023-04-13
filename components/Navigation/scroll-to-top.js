@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Button } from "@mui/material"
 import { Stack } from "@mui/material"
 import { useScrollPosition } from "@n8tb1t/use-scroll-position"
 import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive"
 import Slide from "@mui/material/Slide"
+import { AppContext } from "../../contexts/AppContext"
+import translations from "../../services/translation"
 
 export default function ScrollToTopBtn(props) {
   const { refForScroll } = props
@@ -34,6 +36,8 @@ export default function ScrollToTopBtn(props) {
   })
 
   const [showButton, setShowButton] = useState(false)
+
+  const { lang } = useContext(AppContext)
 
   return (
     <Slide direction="left" in={showButton} mountOnEnter unmountOnExit>
@@ -67,7 +71,7 @@ export default function ScrollToTopBtn(props) {
             },
           }}
         >
-          On s'envoie en l'air ?
+          {translations.scrollToTop[lang]}
         </Button>
       </Stack>
     </Slide>

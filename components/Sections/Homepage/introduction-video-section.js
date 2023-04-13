@@ -6,10 +6,13 @@ import YoutubePlayer from "../../VideoPlayers/youtube-player"
 import styles from "../../../styles/TypeWriter.module.css"
 import { useInView } from "react-intersection-observer"
 import { AppContext } from "../../../contexts/AppContext"
+import translations from "../../../services/translation"
 
 export default function IntroductionVideoSection({ topRef, ...props }) {
   const [render, setRender] = useState(false)
   useEffect(() => setRender(true), [])
+
+  const { lang } = useContext(AppContext)
 
   /********** ANIMATION **********/
   const { appLoading } = useContext(AppContext)
@@ -45,7 +48,7 @@ export default function IntroductionVideoSection({ topRef, ...props }) {
           >
             <Span className={styles.wrapper}>
               <Span className={itshere ? styles.text : "null"}>
-                Une{" "}
+                {translations.homepage.introVideo.title.pt1[lang]}{" "}
                 <Span
                   color="#FFF"
                   sx={{
@@ -53,9 +56,9 @@ export default function IntroductionVideoSection({ topRef, ...props }) {
                       `0 0 1rem ${theme.palette.secondary.main}`,
                   }}
                 >
-                  vidéo
+                  {translations.homepage.introVideo.title.pt2[lang]}
                 </Span>{" "}
-                vaut mille mots.
+                {translations.homepage.introVideo.title.pt3[lang]}
               </Span>
             </Span>
           </Typography>

@@ -5,6 +5,9 @@ import apiCall from "../../../services/apiCalls/apiCall"
 import AutoPlayCarousel from "../../Carousels/AutoPlayCarousel"
 import styles from "../../../styles/TextShine.module.css"
 import MediumTitle from "../../Titles/medium-title"
+import { useContext } from "react"
+import { AppContext } from "../../../contexts/AppContext"
+import translations from "../../../services/translation"
 
 async function fetchUpToDateReferences() {
   const res = await apiCall.references.getAllPublic()
@@ -13,6 +16,8 @@ async function fetchUpToDateReferences() {
 }
 
 export default function ReferencesSection(props) {
+  const { lang } = useContext(AppContext)
+
   const { data } = useSWR(`references`, async () => fetchUpToDateReferences(), {
     fallbackData: props,
     revalidateOnMount: true,
@@ -44,7 +49,9 @@ export default function ReferencesSection(props) {
       }}
     >
       <Stack position="relative">
-        <Typography variant="h2">Ils m'ont fait confiance</Typography>
+        <Typography variant="h2">
+          {translations.homepage.references.title[lang]}
+        </Typography>
 
         <Stack
           sx={{
@@ -63,7 +70,7 @@ export default function ReferencesSection(props) {
             color="#000"
             sx={{ fontSize: { xs: "1rem", md: "1.5rem" } }}
           >
-            Merci à eux !
+            {translations.homepage.references.subtitle[lang]}
           </Typography>
         </Stack>
       </Stack>

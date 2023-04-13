@@ -9,6 +9,10 @@ const translations = {
       en: "Terms and Conditions",
     },
   },
+  scrollToTop: {
+    fr: "On s'envoie en l'air ?",
+    en: "Let's get to cloud nine !",
+  },
   contactForm: {
     wordCarousel: {
       text: {
@@ -218,7 +222,7 @@ const translations = {
       text: {
         pt1: {
           fr: `Je m'appelle Quentin, j'ai `,
-          en: "I'm Quentin, I'm",
+          en: "My name is Quentin, I'm",
         },
         pt2: {
           fr: "ans et je suis vidéaste professionnel et développeur web en freelance. ",
@@ -239,6 +243,10 @@ const translations = {
         fr: "Les services que je propose",
         en: "The services I provide",
       },
+      btn: {
+        fr: "Découvrir",
+        en: "Discover",
+      },
     },
     references: {
       title: {
@@ -247,7 +255,7 @@ const translations = {
       },
       subtitle: {
         fr: "Merci à eux !",
-        en: "Thanks to them !",
+        en: "Thank you to them !",
       },
     },
   },

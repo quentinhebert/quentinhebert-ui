@@ -3,11 +3,13 @@ import BodyText from "../../Text/body-text"
 import { Parallax } from "react-scroll-parallax"
 import LeftSubmitButton from "../../Buttons/left-submit-button"
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import NextLink from "../../Helpers/next-link"
 import Span from "../../Text/span"
+import { AppContext } from "../../../contexts/AppContext"
+import translations from "../../../services/translation"
 
 const birthdate = new Date("1998/1/15")
 const cur = new Date()
@@ -47,6 +49,8 @@ export default function WelcomeSection(props) {
   const { scrollTo, topRef, refForScroll } = props
 
   const [progress, setProgress] = useState(0)
+
+  const { lang } = useContext(AppContext)
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
@@ -170,13 +174,13 @@ export default function WelcomeSection(props) {
                     className="baseline-align" // Fixes fontface vertical align issue
                   >
                     <Span sx={{ color: (theme) => theme.palette.text.white }}>
-                      Créons
+                      {translations.homepage.welcome.title.pt1[lang]}
                     </Span>{" "}
-                    ensemble,{" "}
+                    {translations.homepage.welcome.title.pt2[lang]}{" "}
                     <Span sx={{ color: (theme) => theme.palette.text.white }}>
-                      une histoire
+                      {translations.homepage.welcome.title.pt3[lang]}
                     </Span>{" "}
-                    qui vous ressemble
+                    {translations.homepage.welcome.title.pt4[lang]}
                   </Typography>
                 </motion.div>
                 <motion.div
@@ -185,13 +189,11 @@ export default function WelcomeSection(props) {
                   variants={textVariant(0.5)}
                 >
                   <BodyText preventTransition>
-                    Je m'appelle Quentin, j'ai {age} ans et je suis vidéaste
-                    professionnel et développeur web en freelance.
+                    {translations.homepage.welcome.text.pt1[lang]} {age}{" "}
+                    {translations.homepage.welcome.text.pt2[lang]}
                     <br />
                     <br />
-                    Donnons du sens à vos idées, que ce soit en vidéo ou sur le
-                    web, et réalisons ensemble un film ou un site qui vous
-                    ressemble.
+                    {translations.homepage.welcome.text.pt3[lang]}
                   </BodyText>
                 </motion.div>
 
@@ -208,7 +210,7 @@ export default function WelcomeSection(props) {
                             fontSize: { xs: ".6rem", md: ".8rem" },
                           }}
                         >
-                          Contactez-moi
+                          {translations.homepage.welcome.btn[lang]}
                         </Typography>{" "}
                         <ArrowRightAltIcon />
                       </LeftSubmitButton>

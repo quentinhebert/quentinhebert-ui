@@ -14,11 +14,12 @@ import {
   heroScreen,
   ignoreNavbar,
 } from "../../../styles/helper"
+import translations from "../../../services/translation"
 
 export default function HeroSection(props) {
   const { refForScroll } = props
 
-  const { appLoading } = useContext(AppContext)
+  const { appLoading, lang } = useContext(AppContext)
 
   return (
     <Root>
@@ -27,7 +28,7 @@ export default function HeroSection(props) {
       <Stack component="h1">
         <Slide direction="right" {...{ timeout: 500 }} in={!appLoading}>
           <div>
-            <JobTitle label="Réalisateur " />
+            <JobTitle label={translations.homepage.hero.activity1[lang]} />
           </div>
         </Slide>
 
@@ -35,7 +36,7 @@ export default function HeroSection(props) {
 
         <Slide direction="left" {...{ timeout: 500 }} in={!appLoading}>
           <Stack sx={{ marginTop: { xs: "1.5rem", lg: "1.5vw" } }}>
-            <JobTitle label="Développeur web" />
+            <JobTitle label={translations.homepage.hero.activity2[lang]} />
           </Stack>
         </Slide>
       </Stack>
@@ -43,9 +44,17 @@ export default function HeroSection(props) {
       <Identity label="Quentin Hébert" />
 
       <CTAIsland>
-        <CTAButton label="Vidéo" href="/films" delay={0.75} />
+        <CTAButton
+          label={translations.homepage.hero.btn1[lang]}
+          href="/films"
+          delay={0.75}
+        />
         <CustomDivider />
-        <CTAButton label="Web" href="/websites" delay={1} />
+        <CTAButton
+          label={translations.homepage.hero.btn2[lang]}
+          href="/websites"
+          delay={1}
+        />
       </CTAIsland>
 
       <Stack marginTop={4}>
