@@ -165,7 +165,7 @@ const translations = {
     hero: {
       activity1: {
         fr: "Réalisateur",
-        en: "Director",
+        en: "Film Director",
       },
       activity2: {
         fr: "Développeur web",
