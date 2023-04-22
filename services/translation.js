@@ -361,6 +361,31 @@ const translations = {
         en: "Show less",
       },
     },
+    focus: {
+      keywords: [
+        { fr: "Passionné", en: "Passionate" },
+        { fr: "sincérité", en: "sincerely" },
+        { fr: "autodidacte", en: "self-taught" },
+      ],
+      text: [
+        {
+          fr: "depuis",
+          en: "about videomaking since ",
+        },
+        {
+          fr: "années, j'ai fait de la vidéo mon métier car c'est grâce au son et à l'image que je parviens à m'exprimer avec le plus de ",
+          en: "years, I made filmmaking my job because that is the way I manage to express myself the most ",
+        },
+        {
+          fr: "J'ai appris en ",
+          en: "I am ",
+        },
+        {
+          fr: ", poussé par l'envie de créer.",
+          en: ", and I keep on learning, driven by the desire to create.",
+        },
+      ],
+    },
   },
   websites: {
     hero: {

@@ -87,24 +87,6 @@ export default function PortfolioSection(props) {
                 >
                   {translations.films.portfolio.title[lang]}
                 </Typography>
-
-                <Stack>
-                  <BodyText
-                    color="text.white"
-                    textAlign="center"
-                    className={styles.shine}
-                  >
-                    Pas de place pour le bla-bla !
-                  </BodyText>
-                  <BodyText
-                    color="text.white"
-                    textAlign="center"
-                    className={styles.shine}
-                  >
-                    Ici, nous savons exactement ce que vous venez voir. Pas
-                    lire.
-                  </BodyText>
-                </Stack>
               </motion.div>
             </Stack>
           </Stack>

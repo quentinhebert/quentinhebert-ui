@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Box, Slide, Stack, Typography, useMediaQuery } from "@mui/material"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import PillButton from "../../../Buttons/pill-button"
 import BodyText from "../../../Text/body-text"
+import translations from "../../../../services/translation"
+import { AppContext } from "../../../../contexts/AppContext"
 
 const Keyword = ({ text }) => (
   <Box
@@ -24,11 +26,7 @@ const Keyword = ({ text }) => (
 export default function FocusSection(props) {
   const { refsForScroll } = props
 
-  const scrollTo = (ref) => {
-    ref.current.scrollIntoView({
-      behavior: "smooth",
-    })
-  }
+  const { lang } = useContext(AppContext)
 
   /********** ANIMATION **********/
   const [ref, inView] = useInView()
@@ -133,14 +131,15 @@ export default function FocusSection(props) {
               }}
             >
               <BodyText textAlign="center" color="#fff" fontWeight="bold">
-                <Keyword text="Passionné" /> depuis {expNbYears} années, j'ai
-                fait de la vidéo mon métier car c'est grâce au son et à l'image
-                que je parviens à m'exprimer avec le plus de{" "}
-                <Keyword text="sincérité" />
+                <Keyword text={translations.films.focus.keywords[0][lang]} />{" "}
+                {translations.films.focus.text[0][lang]} {expNbYears}{" "}
+                {translations.films.focus.text[1][lang]}{" "}
+                <Keyword text={translations.films.focus.keywords[1][lang]} />
                 .
                 <p />
-                J'ai appris en <Keyword text="autodidacte" />, poussé par
-                l'envie de créer.
+                {translations.films.focus.text[2][lang]}{" "}
+                <Keyword text={translations.films.focus.keywords[2][lang]} />
+                {translations.films.focus.text[3][lang]}
               </BodyText>
             </motion.div>
           </Stack>
