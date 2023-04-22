@@ -393,6 +393,10 @@ const translations = {
         fr: "Développeur web",
         en: "Web developer",
       },
+      subtitle: {
+        fr: "freelance",
+        en: "freelancer",
+      },
       cta: {
         btn1: {
           fr: "Projets",

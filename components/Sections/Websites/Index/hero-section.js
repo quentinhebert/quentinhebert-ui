@@ -7,6 +7,7 @@ import MotionDivOnMount from "../../../Animation/motion-div-on-mount"
 import { useContext } from "react"
 import { AppContext } from "../../../../contexts/AppContext"
 import Span from "../../../Text/span"
+import translations from "../../../../services/translation"
 
 const CTAIsland = ({ ...props }) => (
   <MotionDivOnMount
@@ -72,7 +73,7 @@ const CTAButton = ({ onClick, label, delay }) => (
 export default function HeroSection(props) {
   const { refsForScroll } = props
 
-  const { appLoading } = useContext(AppContext)
+  const { appLoading, lang } = useContext(AppContext)
 
   const scrollTo = (ref) => {
     ref.current.scrollIntoView({
@@ -134,11 +135,11 @@ export default function HeroSection(props) {
                   paddingRight: { xs: 2, md: 5 },
                 }}
               >
-                Developpeur web
+                {translations.websites.hero.title[lang]}
               </Span>
               <br />
               <StrokeText className={styles.shine} padding="5%">
-                Freelance
+                {translations.websites.hero.subtitle[lang]}
               </StrokeText>
             </Typography>
 
@@ -146,7 +147,7 @@ export default function HeroSection(props) {
             <CTAIsland>
               <CTAButton
                 onClick={() => scrollTo(refsForScroll.portfolio)}
-                label="Projets"
+                label={translations.websites.hero.cta.btn1[lang]}
               />
               <Divider
                 orientation="vertical"
@@ -163,7 +164,7 @@ export default function HeroSection(props) {
                     "C'est pas encore codé ! Tout vient à point à qui sait attendre"
                   )
                 }
-                label="CV"
+                label={translations.websites.hero.cta.btn2[lang]}
               />
             </CTAIsland>
           </Stack>
