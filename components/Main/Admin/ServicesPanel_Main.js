@@ -14,16 +14,12 @@ import useConfirm from "../../../hooks/useConfirm"
 import CustomForm from "../../Forms/custom-form"
 import CancelButton from "../../Buttons/cancel-button"
 import AddIcon from "@mui/icons-material/Add"
+import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 
-const AddReferenceModal = dynamic(() =>
-  import("../../Modals/Create-Modals/add-reference-modal")
-)
-const DeleteReferenceModal = dynamic(() =>
-  import("../../Modals/Delete-Modals/delete-reference-modal")
-)
 const MODES = {
   edit: "EDIT",
   add: "ADD",
+  delete: "DELETE",
 }
 
 export default function ServicesPanel_Main({}) {
@@ -31,6 +27,8 @@ export default function ServicesPanel_Main({}) {
   const [references, setServices] = useState(null)
   const [sortable, setSortable] = useState(false)
   const [openAddModal, setOpenAddModal] = useState(false)
+  const initialNewService = { name: { fr: "", en: "" } }
+  const [newService, setNewService] = useState(initialNewService)
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   // Initial fetch
@@ -64,11 +62,54 @@ export default function ServicesPanel_Main({}) {
         </SortableGrid>
       </Stack>
 
-      <AddReferenceModal
-        refreshData={fetchData}
+      <CustomModal
         open={openAddModal}
         handleClose={handleCloseAddModal}
-      />
+        gap={6}
+      >
+        <ModalTitle>Nouveau service</ModalTitle>
+        <Stack gap={2}>
+          <TextField
+            autoFocus
+            label="Nom du service"
+            variant="standard"
+            color="secondary"
+            value={newService.name.fr}
+            onChange={(e) =>
+              setNewService({
+                name: {
+                  ...newService.name,
+                  fr: e.target.value,
+                },
+              })
+            }
+            sx={{ "& .MuiInput-root": { color: "#fff" } }}
+          />
+          <TextField
+            label="Traduction (EN)"
+            variant="standard"
+            color="secondary"
+            value={newService.name.en}
+            onChange={(e) => {
+              setNewService({
+                ...newService,
+                name: {
+                  ...newService.name,
+                  en: e.target.value,
+                },
+              })
+            }}
+            sx={{ "& .MuiInput-root": { color: "#fff" } }}
+          />
+        </Stack>
+
+        <Stack className="flex-center" gap={2}>
+          <PillButton onClick={handleAddService} type="submit">
+            Créer
+          </PillButton>
+          <CancelButton variant="text" handleCancel={handleCloseAddModal} />
+        </Stack>
+      </CustomModal>
     </>
   )
 
@@ -87,6 +128,7 @@ export default function ServicesPanel_Main({}) {
     return setOpenAddModal(true)
   }
   function handleCloseAddModal() {
+    setNewService(initialNewService)
     return setOpenAddModal(false)
   }
   function handleSuccess() {
@@ -113,11 +155,22 @@ export default function ServicesPanel_Main({}) {
 
     setIsLoading(false)
   }
+  async function handleAddService() {
+    const res = await apiCall.services.add(newService)
+    if (res && res.ok) {
+      setSnackSeverity("success")
+      setSnackMessage("Service ajouté")
+      handleCloseAddModal()
+      await fetchData()
+    } else {
+      setSnackSeverity("error")
+      setSnackMessage("Une erreur est survenue...")
+    }
+  }
 }
 
 function SortableItem({ disabled, item, index, fetchData }) {
-  const [openDeleteModal, setOpenDeleteModal] = useState(false)
-  const [clickedItem, setClickedItem] = useState(null)
+  const [itemToDelete, setItemToDelete] = useState(null)
   const [mode, setMode] = useState(MODES.add)
   const [openModal, setOpenModal] = useState(false)
   const initialSelectedServiceItem = {
@@ -182,17 +235,10 @@ function SortableItem({ disabled, item, index, fetchData }) {
                 ))}
             </Stack>
 
-            <DeleteServiceBtn />
+            <DeleteServiceBtn onClick={() => confirmDeleteService(item)} />
           </Stack>
         )}
       </SortableTextCard>
-
-      <DeleteReferenceModal
-        reference={clickedItem}
-        open={openDeleteModal}
-        handleClose={handleCloseDeleteModal}
-        fetch={fetchData}
-      />
 
       <CustomModal open={openModal} handleClose={() => setOpenModal(false)}>
         {mode === MODES.edit && (
@@ -289,6 +335,33 @@ function SortableItem({ disabled, item, index, fetchData }) {
             </Stack>
           </CustomForm>
         )}
+        {mode === MODES.delete && (
+          <CustomForm>
+            <Stack gap={6} padding={1}>
+              <Typography variant="h4" color="#fff" textAlign="center">
+                Supprimer le service
+              </Typography>
+
+              <BodyText>
+                Voulez-vous vraiment supprimer le service "
+                {itemToDelete.name.fr}" ?
+              </BodyText>
+
+              <Stack className="flex-center" gap={2}>
+                <PillButton
+                  onClick={() => handleDeleteService(itemToDelete)}
+                  type="submit"
+                >
+                  Oui, supprimer
+                </PillButton>
+                <CancelButton
+                  variant="text"
+                  handleCancel={(e) => setOpenModal(false)}
+                />
+              </Stack>
+            </Stack>
+          </CustomForm>
+        )}
       </CustomModal>
 
       <ConfirmDialog bg={(theme) => theme.alert.title.error.color} />
@@ -296,13 +369,10 @@ function SortableItem({ disabled, item, index, fetchData }) {
   )
 
   /*************** HANDLERS ***************/
-  function handleOpenDeleteModal(e) {
-    e.stopPropagation() // Prevent from open edit modal
-    setClickedItem(item)
-    return setOpenDeleteModal(true)
-  }
-  function handleCloseDeleteModal() {
-    return setOpenDeleteModal(false)
+  function confirmDeleteService(item) {
+    setItemToDelete(item)
+    setMode(MODES.delete)
+    return setOpenModal(true)
   }
   function handleAdd() {
     setMode(MODES.add)
@@ -363,6 +433,15 @@ function SortableItem({ disabled, item, index, fetchData }) {
     )
     handleOpenConfirm()
   }
+  async function handleDeleteService(item) {
+    const res = await apiCall.services.delete(item)
+    if (res && res.ok) {
+      setSnackMessage("Service supprimé")
+      setSnackSeverity("success")
+      await fetchData()
+      return setOpenModal(false)
+    }
+  }
 }
 function ServiceItemBox({ borderColor, ...props }) {
   return (
@@ -405,7 +484,7 @@ function CustomDeleteIcon({ ...props }) {
 function ServiceItemsList({ ...props }) {
   return <Stack className="row" alignItems="center" gap={2} {...props} />
 }
-function DeleteServiceBtn() {
+function DeleteServiceBtn({ onClick }) {
   return (
     <Stack height="100%" justifyContent="end">
       <PillButton
@@ -413,6 +492,7 @@ function DeleteServiceBtn() {
         border={(theme) => `2px solid ${theme.alert.title.error.color}`}
         color={(theme) => theme.alert.title.error.color}
         startIcon={<DeleteIcon />}
+        onClick={onClick}
       >
         Supprimer le service
       </PillButton>

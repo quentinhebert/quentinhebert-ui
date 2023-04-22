@@ -32,6 +32,34 @@ const services = {
       console.error(error)
     }
   },
+  add: async (service = { name: { fr, en } }) => {
+    const body = service
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/my-services`, {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
+  delete: async ({ id }) => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/my-services/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
 }
 
 export default services
