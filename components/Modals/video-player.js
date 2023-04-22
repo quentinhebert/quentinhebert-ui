@@ -1,7 +1,7 @@
 import { Stack, Box, Typography } from "@mui/material"
 import Boop from "../Animation/boop"
 import CloseIcon from "@mui/icons-material/Close"
-import { memo, useEffect, useRef, useState } from "react"
+import { memo, useContext, useEffect, useRef, useState } from "react"
 import BouncingArrow from "../Navigation/BouncingArrow"
 import { isVimeo, isYoutube } from "../../services/urls"
 import ScaleUpOnHoverStack from "../Animation/scale-up-on-hover-stack"
@@ -10,6 +10,8 @@ import CustomModal from "./custom-modal"
 import VimeoPlayer from "../VideoPlayers/vimeo-player"
 import YoutubePlayer from "../VideoPlayers/youtube-player"
 import TopRightCloseButton from "../Buttons/top-right-close-button"
+import { AppContext } from "../../contexts/AppContext"
+import translations from "../../services/translation"
 
 const VideoTitle = (props) => (
   <Typography
@@ -26,32 +28,39 @@ const VideoTitle = (props) => (
     {...props}
   />
 )
-const Header = ({ video }) => (
-  <Stack>
-    <Stack
-      sx={{
-        flexDirection: { xs: "column", md: "row" },
-        marginBottom: { xs: "1rem", md: ".5rem" },
-      }}
-    >
-      <VideoTitle>
-        <Box component="span" marginRight=".5rem">
-          {video?.title && `${video.title}`}
-        </Box>
-        <BodyText
-          whiteSpace="nowrap"
-          fontSize={{ xs: "0.8rem", md: "1rem" }}
-          textTransform="capitalize"
-        >
-          {video?.type || ""}
-          {!!video?.year && !!video?.type && ` (${video?.year})`}
-          {!!video?.year && !video?.type && ` ${video?.year}`}
+const Header = ({ video }) => {
+  const { lang } = useContext(AppContext)
+  return (
+    <Stack>
+      <Stack
+        sx={{
+          flexDirection: { xs: "column", md: "row" },
+          marginBottom: { xs: "1rem", md: ".5rem" },
+        }}
+      >
+        <VideoTitle>
+          <Box component="span" marginRight=".5rem">
+            {video?.title && `${video.title}`}
+          </Box>
+          <BodyText
+            whiteSpace="nowrap"
+            fontSize={{ xs: "0.8rem", md: "1rem" }}
+            textTransform="capitalize"
+          >
+            {video?.type || ""}
+            {!!video?.year && !!video?.type && ` (${video?.year})`}
+            {!!video?.year && !video?.type && ` ${video?.year}`}
+          </BodyText>
+        </VideoTitle>
+      </Stack>
+      {video?.client && (
+        <BodyText>
+          {translations.films.portfolio.client[lang]} {video?.client}
         </BodyText>
-      </VideoTitle>
+      )}
     </Stack>
-    {video?.client && <BodyText>Pour {video?.client}</BodyText>}
-  </Stack>
-)
+  )
+}
 const RenderPlayer = ({ player, videoId }) => {
   if (!player || !videoId) return <></>
 
@@ -100,10 +109,13 @@ const SectionTitle = (props) => (
 )
 const Description = ({ content }) => {
   if (!content) return <></>
+  const { lang } = useContext(AppContext)
   return (
     <>
-      <SectionTitle>Quelques mots</SectionTitle>
-      <BodyText>{content}</BodyText>
+      <SectionTitle>
+        {translations.films.portfolio.description[lang]}
+      </SectionTitle>
+      <BodyText>{content[lang]}</BodyText>
     </>
   )
 }
@@ -137,23 +149,30 @@ const PillsList = ({ title, list }) => {
     </>
   )
 }
-const ScrollToTopBtn = (props) => (
-  <Stack
-    alignItems="center"
-    marginTop={4}
-    sx={{ cursor: "pointer" }}
-    {...props}
-  >
-    <ScaleUpOnHoverStack>
-      <Typography color="secondary">Revenir en haut</Typography>
-    </ScaleUpOnHoverStack>
-  </Stack>
-)
+const ScrollToTopBtn = (props) => {
+  const { lang } = useContext(AppContext)
+  return (
+    <Stack
+      alignItems="center"
+      marginTop={4}
+      sx={{ cursor: "pointer" }}
+      {...props}
+    >
+      <ScaleUpOnHoverStack>
+        <Typography color="secondary">
+          {translations.films.portfolio.scrollToTop[lang]}
+        </Typography>
+      </ScaleUpOnHoverStack>
+    </Stack>
+  )
+}
 
 export default function VideoPlayer(props) {
   const { video, open, handleClose } = props
   const [player, setPlayer] = useState(null)
   const [videoId, setVideoId] = useState(null)
+
+  const { lang } = useContext(AppContext)
 
   const ProjectInfoRef = useRef()
   const TopRef = useRef()
@@ -246,9 +265,15 @@ export default function VideoPlayer(props) {
           >
             <Description content={video?.description} />
 
-            <PillsList title="Sur ce projet, je suis..." list={video?.roles} />
+            <PillsList
+              title={translations.films.portfolio.roles[lang]}
+              list={video?.roles}
+            />
 
-            <PillsList title="Matériel utilisé" list={video?.gear} />
+            <PillsList
+              title={translations.films.portfolio.gear[lang]}
+              list={video?.gear}
+            />
 
             {hasVideoInfo && (
               <ScrollToTopBtn onClick={() => scrollTo(TopRef)} />

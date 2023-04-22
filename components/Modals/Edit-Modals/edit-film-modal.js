@@ -17,6 +17,7 @@ import compressImage from "../../../services/images"
 import { AppContext } from "../../../contexts/AppContext"
 import CustomCircularProgress from "../../Helpers/custom-circular-progress"
 import RectangleButton from "../../Buttons/rectangle-button"
+import LanguageIcon from "@mui/icons-material/Language"
 
 const currentYear = new Date().getFullYear()
 
@@ -268,8 +269,8 @@ function EditFilmModal(props) {
           required
           id="description"
           label="À propos de ce projet..."
-          value={film.description}
-          onChange={handleChange("description")}
+          value={film.description.fr}
+          onChange={handleChange("description", "fr")}
           sx={{
             "& .MuiInputLabel-root": {
               color: errors.description
@@ -278,6 +279,30 @@ function EditFilmModal(props) {
             },
           }}
         />
+
+        <CustomAccordion
+          title={
+            <Stack className="row flex-center gap-10">
+              <LanguageIcon />
+              Traductions
+            </Stack>
+          }
+        >
+          <TextArea
+            required
+            id="description"
+            label="À propos de ce projet..."
+            value={film.description.en}
+            onChange={handleChange("description", "en")}
+            sx={{
+              "& .MuiInputLabel-root": {
+                color: errors.description
+                  ? (theme) => theme.palette.error.main
+                  : (theme) => theme.palette.text.secondary,
+              },
+            }}
+          />
+        </CustomAccordion>
 
         <Stack width="100%">
           <CustomAccordion title="Matériel utilisé">

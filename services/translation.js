@@ -13,6 +13,10 @@ const translations = {
     fr: "On s'envoie en l'air ?",
     en: "Let's get to cloud nine !",
   },
+  close: {
+    fr: "Fermer",
+    en: "Close",
+  },
   contact: {
     catchPhrase: {
       fr: "Vous avez un projet...",
@@ -359,6 +363,26 @@ const translations = {
       showLess: {
         fr: "Afficher moins",
         en: "Show less",
+      },
+      scrollToTop: {
+        fr: "Revenir en haut",
+        en: "Go back to top",
+      },
+      description: {
+        fr: "Quelques mots",
+        en: "A few words",
+      },
+      roles: {
+        fr: "Sur ce projet, je suis...",
+        en: "On that project, I was...",
+      },
+      gear: {
+        fr: "Matériel utilisé",
+        en: "The gear I've used",
+      },
+      client: {
+        fr: "Pour",
+        en: "For",
       },
     },
     focus: {
