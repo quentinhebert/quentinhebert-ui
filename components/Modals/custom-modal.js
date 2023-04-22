@@ -37,10 +37,7 @@ export default function CustomModal({
           margin: "auto 0",
           height: fullscreen ? "auto" : { xs: "100svh", md: "" },
           flexGrow: fullscreen ? 1 : null,
-          background:
-            background ||
-            ((theme) =>
-              `linear-gradient(100deg, ${theme.palette.background.main} 0%, rgb(0,0,0,1) 80%)`),
+          background: background || ((theme) => theme.palette.background.main),
         }}
         {...props}
       />

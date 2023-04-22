@@ -6,6 +6,8 @@ import AddIcon from "@mui/icons-material/Add"
 import { arrayMoveImmutable } from "array-move"
 import { useState } from "react"
 import dynamic from "next/dynamic"
+import CancelButton from "../Buttons/cancel-button"
+import CircularProgress from "@mui/material/CircularProgress"
 
 const AlertInfo = dynamic(() => import("../Other/alert-info"))
 const PillButton = dynamic(() => import("../Buttons/pill-button"))
@@ -28,6 +30,7 @@ const SortableGrid = ({
   fetch,
   handleCreate,
   handleSave,
+  isFetching,
   ...props
 }) => {
   const [initialState, setInitialState] = useState(null)
@@ -59,13 +62,11 @@ const SortableGrid = ({
         title: "Modifiez l'ordre des items",
         text: "Il vous suffit de glisser-déposer les éléments sur la grille puis d'enregistrer !",
         js: (
-          <Stack direction="row" gap={2}>
-            <PillButton onClick={handleCancel} preventTransition>
-              Annuler
-            </PillButton>
+          <Stack direction="row" gap={2} mt={2}>
             <PillButton onClick={handleSave} preventTransition>
               Enregistrer
             </PillButton>
+            <CancelButton variant="text" handleCancel={handleCancel} />
           </Stack>
         ),
       }}
@@ -83,14 +84,20 @@ const SortableGrid = ({
             handleCheck={toggleCheck}
           />
 
-          <RefreshIcon
-            color="secondary"
-            onClick={handleRefresh}
-            className="flex pointer"
-            sx={{
-              "&:hover": { opacity: 0.5 },
-            }}
-          />
+          {isFetching ? (
+            <Box>
+              <CircularProgress color="secondary" size={20} />
+            </Box>
+          ) : (
+            <RefreshIcon
+              color="secondary"
+              onClick={handleRefresh}
+              className="flex pointer"
+              sx={{
+                "&:hover": { opacity: 0.5 },
+              }}
+            />
+          )}
 
           {!!handleCreate && (
             <OutlinedButton startIcon={<AddIcon />} onClick={handleCreate}>

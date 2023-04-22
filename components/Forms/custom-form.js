@@ -1,7 +1,7 @@
 import { Stack, useMediaQuery } from "@mui/material"
 import { styled } from "@mui/system"
 
-const FormContainer = styled((props) => {
+const FormContainer = styled(({ onSubmit, ...props }) => {
   const md = useMediaQuery((theme) => theme.breakpoints.down("md"))
   return (
     <Stack
@@ -9,7 +9,10 @@ const FormContainer = styled((props) => {
       alignItems="center"
       justifyContent="center"
       gap={md ? 1 : 2}
-      onSubmit={(e) => e.preventDefault()} // prevent from page reload
+      onSubmit={(e) => {
+        e.preventDefault()
+        if (!!onSubmit) return onSubmit()
+      }} // prevent from page reload
       {...props}
     />
   )

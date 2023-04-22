@@ -2,13 +2,13 @@ import { Box, Stack, Typography } from "@mui/material"
 import { SortableElement } from "react-sortable-hoc"
 import CustomCard from "./custom-card"
 
-const SortableCard = SortableElement(({ item, title, showMenu, ...props }) => {
+const SortableCard = SortableElement(({ item, title, ...props }) => {
   return (
-    <Box
+    <Stack
       component="li"
       className="list-style-none no-select"
-      display="flex"
       sx={{
+        cursor: "grab",
         position: "relative",
         background: "transparent",
         width: {
@@ -20,29 +20,12 @@ const SortableCard = SortableElement(({ item, title, showMenu, ...props }) => {
     >
       <CustomCard
         backgroundColor={(theme) => theme.palette.background.main}
-        description={item.description}
+        height="100%"
       >
         <Typography variant="h5">{item.name.fr}</Typography>
-        <Stack {...props} />
+        <Stack height="100%" {...props} />
       </CustomCard>
-
-      {!showMenu && (
-        <Box
-          height="100%"
-          width="100%"
-          sx={{
-            background: "#000",
-            opacity: 0.5,
-            cursor: "move",
-            position: "absolute",
-            borderRadius: "15px",
-            "&:hover": {
-              opacity: 0.2,
-            },
-          }}
-        />
-      )}
-    </Box>
+    </Stack>
   )
 })
 
@@ -51,7 +34,7 @@ const SortableTextCard = ({ index, disabled, item, title, ...props }) => {
     <SortableCard
       axis="xy"
       disabled={disabled}
-      showMenu={disabled}
+      title={title}
       item={item}
       index={index}
       {...props}
