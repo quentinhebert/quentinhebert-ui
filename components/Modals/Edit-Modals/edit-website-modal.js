@@ -18,6 +18,7 @@ import PillButton from "../../Buttons/pill-button"
 import DeleteIcon from "@mui/icons-material/Delete"
 import RectangleButton from "../../Buttons/rectangle-button"
 import CustomCircularProgress from "../../Helpers/custom-circular-progress"
+import LanguageIcon from "@mui/icons-material/Language"
 
 const currentYear = new Date().getFullYear()
 
@@ -253,8 +254,9 @@ function EditWebsiteModal(props) {
           required
           id="description"
           label="À propos de ce projet..."
-          value={website.description}
-          onChange={handleChange("description")}
+          value={website.description.fr}
+          onChange={handleChange("description", "fr")}
+          InputLabelProps={{ shrink: !!website.description.fr }}
           sx={{
             "& .MuiInputLabel-root": {
               color: errors.description
@@ -263,6 +265,29 @@ function EditWebsiteModal(props) {
             },
           }}
         />
+        <CustomAccordion
+          title={
+            <Stack className="row flex-center gap-10">
+              <LanguageIcon />
+              Traductions
+            </Stack>
+          }
+        >
+          <TextArea
+            InputLabelProps={{ shrink: !!website.description.en }}
+            id="translation"
+            label="English (EN)"
+            value={website.description.en}
+            onChange={handleChange("description", "en")}
+            sx={{
+              "& .MuiInputLabel-root": {
+                color: errors.description
+                  ? (theme) => theme.palette.error.main
+                  : (theme) => theme.palette.text.secondary,
+              },
+            }}
+          />
+        </CustomAccordion>
 
         <Stack width="100%">
           <CustomAccordion title="Tags liés au projet">

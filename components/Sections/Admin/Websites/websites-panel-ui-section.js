@@ -12,7 +12,6 @@ import dynamic from "next/dynamic"
 import BodyText from "../../../Text/body-text"
 import OutlinedButton from "../../../Buttons/outlined-button"
 import ScaleUpOnHoverStack from "../../../Animation/scale-up-on-hover-stack"
-import RectangleButton from "../../../Buttons/rectangle-button"
 import PleaseWait from "../../../Helpers/please-wait"
 import SwitchButton from "../../../Inputs/switch-button"
 
@@ -52,7 +51,6 @@ const SortableListItem = sortableElement(
     }
     const handleCloseDeleteModal = () => {
       setOpenDeleteModal(false)
-      fetchWebsites()
       setTimeout(() => {
         triggerDestroyDelete(true)
       }, "500")
@@ -265,36 +263,6 @@ export default function WebsitesPanelUISection(props) {
             onSortStart={() => (document.body.style.cursor = "grabbing")}
           />
         ) : null}
-
-        {!disableSort && (
-          <Stack
-            position="sticky"
-            bottom={0}
-            padding={2}
-            borderRadius="5px"
-            alignItems="end"
-            sx={{
-              backgroundColor: (theme) => theme.palette.background.main,
-              border: (theme) => `1px solid ${theme.palette.secondary.main}`,
-            }}
-          >
-            <Stack flexDirection="row" gap={2}>
-              <RectangleButton
-                onClick={() => {
-                  setDisableSort(true)
-                }}
-              >
-                Annuler
-              </RectangleButton>
-              <RectangleButton
-                secondary="true"
-                onClick={handleSaveSortedWebsites}
-              >
-                Enregistrer
-              </RectangleButton>
-            </Stack>
-          </Stack>
-        )}
       </Stack>
 
       <AddWebsiteModal

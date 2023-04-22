@@ -333,7 +333,7 @@ export default function PortfolioSection(props) {
                       preventTransitionOut={desktop}
                       textAlign="justify"
                     >
-                      {website.description}
+                      {website.description[lang]}
                     </BodyText>
 
                     <Stack className="full-width" alignItems="end">
