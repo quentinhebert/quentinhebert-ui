@@ -17,6 +17,7 @@ const services = {
       console.error(error)
     }
   },
+  // Admin Only
   update: async ({ id, name, service_items }) => {
     const body = { id, name, service_items }
     try {
@@ -32,6 +33,7 @@ const services = {
       console.error(error)
     }
   },
+  // Admin Only
   add: async (service = { name: { fr, en } }) => {
     const body = service
     try {
@@ -47,10 +49,27 @@ const services = {
       console.error(error)
     }
   },
+  // Admin Only
   delete: async ({ id }) => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/my-services/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
+  // Admin Only
+  sort: async (sortedServiceIds) => {
+    const body = { sortedServiceIds }
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/my-services/sort`, {
+        method: "PATCH",
+        body: JSON.stringify(body),
         headers: {
           Authorization: `Bearer ${await getFreshToken()}`,
           "Content-Type": "application/json",

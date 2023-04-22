@@ -24,7 +24,7 @@ const MODES = {
 
 export default function ServicesPanel_Main({}) {
   const [isLoading, setIsLoading] = useState(false)
-  const [references, setServices] = useState(null)
+  const [services, setServices] = useState(null)
   const [sortable, setSortable] = useState(false)
   const [openAddModal, setOpenAddModal] = useState(false)
   const initialNewService = { name: { fr: "", en: "" } }
@@ -40,7 +40,7 @@ export default function ServicesPanel_Main({}) {
     <>
       <Stack justifyContent="center" direction="column" gap={2}>
         <SortableGrid
-          items={references}
+          items={services}
           setItems={setServices}
           fetch={fetchData}
           handleCreate={handleOpenAddModal}
@@ -49,8 +49,8 @@ export default function ServicesPanel_Main({}) {
           sortable={sortable}
           isFetching={isLoading}
         >
-          {!!references?.length &&
-            references.map((item, index) => (
+          {!!services?.length &&
+            services.map((item, index) => (
               <SortableItem
                 disabled={!sortable}
                 item={item}
@@ -146,9 +146,9 @@ export default function ServicesPanel_Main({}) {
 
     // Format data (we only send the sorted ids)
     let sortedIds = []
-    references.map((item) => sortedIds.push(item.id))
+    services.map((item) => sortedIds.push(item.id))
     // ApiCall
-    const res = await apiCall.references.sort(sortedIds)
+    const res = await apiCall.services.sort(sortedIds)
     // Handle response
     if (res && res.ok) handleSuccess()
     else handleError()
