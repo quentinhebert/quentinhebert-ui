@@ -11,16 +11,20 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import { autoPlay } from "react-swipeable-views-utils"
 import BrowserLayout from "../../../../Layouts/BrowserLayout"
 import ArrowButton from "../../../../Buttons/arrow-button"
+import { AppContext } from "../../../../../contexts/AppContext"
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
-const Step = ({ slide }) => (
-  <Stack alignItems="center" justifyContent="center">
-    <ParseJsx jsx={formatTitle(slide.title)} />
+const Step = ({ slide }) => {
+  const { lang } = useContext(AppContext)
+  return (
+    <Stack alignItems="center" justifyContent="center">
+      <ParseJsx jsx={formatTitle(slide.title[lang])} />
 
-    <ParseJsx jsx={formatDescription(slide.description)} />
-  </Stack>
-)
+      <ParseJsx jsx={formatDescription(slide.description[lang])} />
+    </Stack>
+  )
+}
 const Caroussel = () => {
   /********* StaticProps cached at build time **********/
   const { staticData } = useContext(WebsitesHomePageContext)

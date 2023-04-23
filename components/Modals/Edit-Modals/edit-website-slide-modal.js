@@ -22,6 +22,8 @@ const TextEditor = dynamic(() => import("../../TextEditor/text-editor"), {
   ssr: false,
 })
 
+const LANGS = { FR: "fr", EN: "en" }
+
 export default function EditWebsiteSlideModal(props) {
   const { slideId, openEditModal, handleCloseEditModal } = props
 
@@ -30,22 +32,23 @@ export default function EditWebsiteSlideModal(props) {
 
   const initialSlide = {
     id: null,
-    description: "",
-    title: "",
+    description: { fr: "", en: "" },
+    title: { fr: "", en: "" },
   }
   const [slide, setSlide] = useState(initialSlide)
   const [isLoading, setIsLoading] = useState(false)
   const [richTextDescription, setRichTextDescription] = useState("")
   const [richTextTitle, setRichTextTitle] = useState("")
   const [edit, setEdit] = useState(false)
+  const [lang, setLang] = useState(LANGS.FR)
 
   // Fetch data
   const fetchData = async () => {
     const res = await apiCall.websites.slides.get(slideId)
     const jsonRes = await res.json()
     setSlide(jsonRes)
-    setRichTextDescription(jsonRes.description)
-    setRichTextTitle(jsonRes.title)
+    setRichTextDescription(jsonRes.description[lang])
+    setRichTextTitle(jsonRes.title[lang])
   }
 
   // We immediately fetch up-to-date data
@@ -75,18 +78,33 @@ export default function EditWebsiteSlideModal(props) {
     else handleError()
     setIsLoading(false)
   }
-  const toggleEdit = (mode) => {
+  const toggleEdit = () => {
     if (edit) return setEdit(false)
     return setEdit(true)
+  }
+  const toggleLang = async () => {
+    if (lang === LANGS.EN) return setLang(LANGS.FR)
+    return setLang(LANGS.EN)
   }
 
   // Handle change
   useEffect(() => {
-    setSlide({ ...slide, title: richTextTitle })
-  }, [richTextTitle])
+    setSlide({
+      ...slide,
+      description: {
+        ...slide.description,
+        [lang]: richTextDescription,
+      },
+      title: {
+        ...slide.title,
+        [lang]: richTextTitle,
+      },
+    })
+  }, [richTextTitle, richTextDescription])
   useEffect(() => {
-    setSlide({ ...slide, description: richTextDescription })
-  }, [richTextDescription])
+    setRichTextDescription(slide.description[lang])
+    setRichTextTitle(slide.title[lang])
+  }, [lang])
 
   // SUB-COMPONENTS
   const IdInput = () => (
@@ -117,12 +135,23 @@ export default function EditWebsiteSlideModal(props) {
           <BodyText>Modifier</BodyText>
         </Stack>
 
+        <Stack className="row flex-center">
+          <BodyText marginRight={3}>Français</BodyText>
+          <SwitchButton
+            checked={lang === LANGS.EN}
+            handleCheck={toggleLang}
+          />{" "}
+          <BodyText>English</BodyText>
+        </Stack>
+
         <Stack flexGrow={1} gap={3} width="100%">
           {!edit && (
             <>
               <Stack color="#fff" width="100%">
-                <ParseJsx jsx={formatTitle(slide.title || "")} />
-                <ParseJsx jsx={formatDescription(slide.description || "")} />
+                <ParseJsx jsx={formatTitle(slide.title[lang] || "")} />
+                <ParseJsx
+                  jsx={formatDescription(slide.description[lang] || "")}
+                />
               </Stack>
             </>
           )}

@@ -23,7 +23,7 @@ const headCells = [
     numeric: false,
     label: "Titre",
     valueGetter: function (param) {
-      return removeHtmlTags(param)
+      return removeHtmlTags(param.fr)
     },
   },
   {
@@ -32,7 +32,7 @@ const headCells = [
     label: "Description",
     width: "40%",
     valueGetter: function (param) {
-      return removeHtmlTags(param)
+      return removeHtmlTags(param.fr)
     },
   },
 ]
