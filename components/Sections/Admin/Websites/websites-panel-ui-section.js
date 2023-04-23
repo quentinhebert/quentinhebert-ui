@@ -140,7 +140,7 @@ const SortableList = sortableContainer(({ items, disabled, fetchWebsites }) => (
   <Box
     component="ul"
     className="list-style-none no-padding full-width flex-wrap"
-    gap="4px"
+    gap=".5rem"
   >
     {items.map((item, index) => (
       <SortableListItem
