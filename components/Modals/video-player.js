@@ -137,13 +137,17 @@ const Pill = (props) => (
   />
 )
 const PillsList = ({ title, list }) => {
+  const { lang } = useContext(AppContext)
   if (!list?.length) return <></>
+  console.log("list", list)
   return (
     <>
       <SectionTitle>{title}</SectionTitle>
       <Typography component="div" color="text.white" marginTop={1}>
-        {list.map((role, key) => (
-          <Pill key={key}>{role}</Pill>
+        {list.map((item, key) => (
+          <Pill key={key}>
+            {!!item[lang] && item[lang].trim() !== "" ? item[lang] : item.fr}
+          </Pill>
         ))}
       </Typography>
     </>
