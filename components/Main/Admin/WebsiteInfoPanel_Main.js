@@ -28,6 +28,7 @@ export default function WebsiteInfoPanel_Main() {
         text: "Modifier",
         onClick: () => {
           setOpenModal(true)
+          setModalFullscreen(true)
           setDialogContent("navbar")
         },
       },

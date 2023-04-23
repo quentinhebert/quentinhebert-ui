@@ -1,9 +1,10 @@
 import Slide from "@mui/material/Slide"
 import { Box, Dialog, Stack, Typography } from "@mui/material"
-import { forwardRef, useEffect } from "react"
+import { forwardRef, useContext, useEffect } from "react"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import NextLink from "../../Helpers/next-link"
+import { AppContext } from "../../../contexts/AppContext"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />
@@ -11,6 +12,8 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 export default function Menu(props) {
   const { open, handleClose, list, page } = props
+
+  const { lang } = useContext(AppContext)
 
   const handleCloseReset = () => {
     handleClose()
@@ -110,7 +113,7 @@ export default function Menu(props) {
                           },
                         }}
                       >
-                        {item.label}
+                        {item.label[lang]}
                       </Box>
                       <Box
                         component="span"

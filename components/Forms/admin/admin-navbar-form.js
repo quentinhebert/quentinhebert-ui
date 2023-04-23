@@ -79,7 +79,7 @@ function AdminNavbarForm(props) {
   // Mutate function will be used to force refresh static prop data of the navabar
   const { mutate } = useSWR("navbar")
 
-  const handleChange = (attribute, value, row) => {
+  const handleChange = (attribute, value, row, subAttribute) => {
     // Get a copy
     let localItems = navbarItems
 
@@ -87,7 +87,12 @@ function AdminNavbarForm(props) {
     // Update copy
     localItems = {
       ...localItems,
-      [row]: { ...localItems[row], [attribute]: value },
+      [row]: {
+        ...localItems[row],
+        [attribute]: subAttribute
+          ? { ...localItems[row][attribute], [subAttribute]: value }
+          : value,
+      },
     }
 
     // Convert object copy to array
@@ -149,7 +154,7 @@ function AdminNavbarForm(props) {
       ...localItems,
       [totalItems + 1]: {
         href: "/",
-        label: "",
+        label: { fr: "", en: "" },
         show: false,
         order: totalItems + 1,
       },
@@ -190,7 +195,7 @@ function AdminNavbarForm(props) {
     setConfirmTitle("Confirmer")
     setNextButtonText("Supprimer")
     setConfirmContent({
-      text: `Voulez-vous vraiment supprimer "${item.label}" de la navbar ?`,
+      text: `Voulez-vous vraiment supprimer "${item.label.fr}" de la navbar ?`,
     })
   }
 
@@ -287,7 +292,7 @@ function AdminNavbarForm(props) {
                       textTransform="uppercase"
                       letterSpacing={1}
                     >
-                      {item.label}
+                      {item.label?.fr}
                     </Typography>
                   </Reorder.Item>
                 ))}
@@ -296,14 +301,23 @@ function AdminNavbarForm(props) {
               navbarItems.map((item, key) => (
                 <DualInputLine key={key}>
                   <SwitchButton
-                    label="Visible"
+                    // label="Visible"
                     checked={item?.show}
                     handleCheck={() => handleChange("show", !item?.show, key)}
                   />
                   <CustomFilledInput
                     label="Nom"
-                    value={item?.label || ""}
-                    onChange={(e) => handleChange("label", e.target.value, key)}
+                    value={item?.label?.fr || ""}
+                    onChange={(e) =>
+                      handleChange("label", e.target.value, key, "fr")
+                    }
+                  />
+                  <CustomFilledInput
+                    label="English (EN)"
+                    value={item?.label?.en || ""}
+                    onChange={(e) =>
+                      handleChange("label", e.target.value, key, "en")
+                    }
                   />
                   <CustomFilledInput
                     disabled={!updateRedirects}
