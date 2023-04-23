@@ -20,7 +20,7 @@ export default function AdminFooterForm(props) {
   const { mutate } = useSWR("footer")
 
   /********** USE-STATES **********/
-  const [credits, setCredits] = useState("")
+  const [credits, setCredits] = useState({ fr: "", en: "" })
   const [showAlert, setShowAlert] = useState({
     show: false,
     severity: null,
@@ -107,8 +107,14 @@ export default function AdminFooterForm(props) {
             <CustomFilledTextArea
               label="Modifier les crédits"
               id="credits"
-              value={credits}
-              onChange={(e) => setCredits(e.target.value)}
+              value={credits.fr}
+              onChange={(e) => setCredits({ ...credits, fr: e.target.value })}
+            />
+            <CustomFilledTextArea
+              label="Traduction (EN)"
+              id="credits_en"
+              value={credits.en}
+              onChange={(e) => setCredits({ ...credits, en: e.target.value })}
             />
 
             {showAlert.show ? <AlertInfo content={showAlert} /> : null}
@@ -126,7 +132,7 @@ export default function AdminFooterForm(props) {
             <RectangleButton
               secondary
               onClick={handleSaveFooter}
-              disabled={!credits || credits.trim() === ""}
+              disabled={!credits.fr || credits.fr.trim() === ""}
             >
               Enregistrer
             </RectangleButton>

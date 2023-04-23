@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import { Stack, Typography, Box } from "@mui/material"
 import FacebookIcon from "../../../public/medias/social_icons/facebook.svg"
 import InstagramIcon from "../../../public/medias/social_icons/instagram.svg"
@@ -21,6 +21,7 @@ import MotionDivFadeInOnMount from "../../Animation/motion-div-fade-in-on-mount"
 import CustomLink from "../../Links/custom-link"
 import ScaleUpOnHoverStack from "../../Animation/scale-up-on-hover-stack"
 import NextLink from "../../Helpers/next-link"
+import { AppContext } from "../../../contexts/AppContext"
 
 /********** CONSTANTES **********/
 const logoQH = "/logos/logo-qh.png"
@@ -46,6 +47,7 @@ const warrantiesButtons = [
 
 const Credits = ({ text }) => {
   const year = new Date().getFullYear()
+  const { lang } = useContext(AppContext)
   return (
     <Stack
       alignItems="center"
@@ -54,7 +56,7 @@ const Credits = ({ text }) => {
       padding="0 1rem"
     >
       <SmallText>
-        © Quentin Hébert {year} · {text} ·{" "}
+        © Quentin Hébert {year} · {text[lang]} ·{" "}
         <InTextLink href="/terms-of-use" text="CGU" /> ·{" "}
         <InTextLink
           href="/terms-and-conditions"
