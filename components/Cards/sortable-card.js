@@ -23,7 +23,7 @@ const SortableECard = SortableElement(
       >
         <ECommerceCard
           img={img}
-          title={item.title || item.label}
+          title={item.title || item.label.fr}
           description={item.description}
           imgCover={imgCover}
         >

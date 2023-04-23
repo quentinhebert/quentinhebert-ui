@@ -152,8 +152,15 @@ function EditFilmModal(props) {
           type="input"
           id="label"
           label="Nom"
-          value={gear.label || ""}
-          onChange={handleChange("label")}
+          value={gear.label?.fr || ""}
+          onChange={handleChange("label", "fr")}
+        />
+        <CustomOutlinedInput
+          type="input"
+          id="label"
+          label="English (EN)"
+          value={gear.label?.en || ""}
+          onChange={handleChange("label", "en")}
         />
 
         <TextArea
