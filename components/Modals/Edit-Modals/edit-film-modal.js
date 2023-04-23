@@ -316,7 +316,7 @@ function EditFilmModal(props) {
                         .length === 1) ||
                     false
                   }
-                  label={item.label}
+                  label={item.label.fr}
                   labelcolor="#fff"
                   fontSize="0.9rem"
                   onChange={handleChangeMultipleCheckbox("gear", item)}
