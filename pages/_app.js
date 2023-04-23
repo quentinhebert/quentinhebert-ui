@@ -3,7 +3,12 @@ import "../styles/globals.css"
 import theme from "../config/theme"
 import { useEffect, useState } from "react"
 import { UserContext } from "../contexts/UserContext"
-import { getToken, removeToken } from "../services/auth"
+import {
+  getLanguage,
+  getToken,
+  removeToken,
+  setLanguage,
+} from "../services/cookies"
 import { getUser } from "../services/utils"
 import apiCall from "../services/apiCalls/apiCall"
 import { AnimatePresence } from "framer-motion"
@@ -63,6 +68,19 @@ function MyApp({ Component, pageProps, router }) {
     }
   }, [isAnimationProcessing, isUserDataFetching])
 
+  function toggleLang(lg) {
+    // Set context value
+    setLang(lg)
+    // Set cookie
+    setLanguage(lg)
+  }
+  useEffect(() => {
+    // If th language cookie is set, we update the context state
+    setLang(getLanguage() || "fr")
+    // If the URL overrides (i.e. "?lang=en") we update the context state
+    if (!!router?.state?.query?.lang) return setLang(router.state.query.lang)
+  }, [])
+
   return (
     <AppContext.Provider
       value={{
@@ -71,7 +89,7 @@ function MyApp({ Component, pageProps, router }) {
         setSnackSeverity,
         setSnackMessage,
         lang,
-        setLang,
+        toggleLang,
       }}
     >
       <UserContext.Provider value={{ user, setUser, fetchUser }}>

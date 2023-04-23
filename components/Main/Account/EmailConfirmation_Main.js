@@ -8,7 +8,7 @@ import Custom401_Main from "../Errors/Custom401_Main"
 import BodyText from "../../Text/body-text"
 import SmallTitle from "../../Titles/small-title"
 import OutlinedButton from "../../Buttons/outlined-button"
-import { setRefreshToken, setToken } from "../../../services/auth"
+import { setRefreshToken, setToken } from "../../../services/cookies"
 
 export default function EmailConfirmation_Main(props) {
   /********** PROPS **********/

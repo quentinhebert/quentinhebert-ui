@@ -19,7 +19,7 @@ const DesktopNavbar = dynamic(() => import("./desktop-navbar"))
 export default function Navbar(props) {
   const { staticData } = props
 
-  const { lang, setLang } = useContext(AppContext)
+  const { lang, toggleLang } = useContext(AppContext)
 
   const swr = useSWR(`navbar`, async () => fetchers.navbar(), {
     fallbackData: props.staticData,
@@ -150,7 +150,7 @@ export default function Navbar(props) {
                       : null,
                   paddingBottom: 0.5,
                 }}
-                onClick={() => setLang("fr")}
+                onClick={() => toggleLang("fr")}
               >
                 FR
               </BodyText>
@@ -164,7 +164,7 @@ export default function Navbar(props) {
                       : null,
                   paddingBottom: 0.5,
                 }}
-                onClick={() => setLang("en")}
+                onClick={() => toggleLang("en")}
               >
                 EN
               </BodyText>

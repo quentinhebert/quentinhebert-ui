@@ -12,7 +12,7 @@ import PleaseWait from "../Helpers/please-wait"
 import CustomForm from "./custom-form"
 import RectangleButton from "../Buttons/rectangle-button"
 import CustomOutlinedInput from "../Inputs/custom-outlined-input"
-import { setRefreshToken, setToken } from "../../services/auth"
+import { setRefreshToken, setToken } from "../../services/cookies"
 import { UserContext } from "../../contexts/UserContext"
 
 const Custom401_Main = dynamic(() => import("../Main/Errors/Custom401_Main.js"))

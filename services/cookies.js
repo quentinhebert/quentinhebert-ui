@@ -16,6 +16,13 @@ export function getRefreshToken() {
   return Cookies.get("refresh_token")
 }
 
+export function getLanguage() {
+  return Cookies.get("lang")
+}
+export function setLanguage(lang) {
+  Cookies.set("lang", lang, { expires: 7 })
+}
+
 export function removeToken() {
   Cookies.set("token", "")
   Cookies.set("refresh_token", "")
