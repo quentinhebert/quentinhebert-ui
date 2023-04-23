@@ -22,6 +22,7 @@ import CustomLink from "../../Links/custom-link"
 import ScaleUpOnHoverStack from "../../Animation/scale-up-on-hover-stack"
 import NextLink from "../../Helpers/next-link"
 import { AppContext } from "../../../contexts/AppContext"
+import translations from "../../../services/translation"
 
 /********** CONSTANTES **********/
 const logoQH = "/logos/logo-qh.png"
@@ -57,15 +58,19 @@ const Credits = ({ text }) => {
     >
       <SmallText>
         © Quentin Hébert {year} · {text[lang]} ·{" "}
-        <InTextLink href="/terms-of-use" text="CGU" /> ·{" "}
+        <InTextLink
+          href="/terms-of-use"
+          text={translations.footer.termsOfUse[lang]}
+        />{" "}
+        ·{" "}
         <InTextLink
           href="/terms-and-conditions"
-          text="Mentions légales et CGV"
+          text={translations.footer.termsAndConditions[lang]}
         />{" "}
         ·{" "}
         <InTextLink
           href="/about/website"
-          text="À propos de ce site"
+          text={translations.footer.about[lang]}
           target="_blank"
         />
       </SmallText>

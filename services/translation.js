@@ -8,6 +8,10 @@ const translations = {
       fr: "Mentions légales et CGV",
       en: "Terms and Conditions",
     },
+    about: {
+      fr: "À propos de ce site",
+      en: "About this website",
+    },
   },
   scrollToTop: {
     fr: "On s'envoie en l'air ?",
