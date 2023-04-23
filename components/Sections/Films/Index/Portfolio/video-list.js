@@ -720,7 +720,7 @@ export default function VideoList({ height, setHeight, ...props }) {
                 if (key < limit)
                   return (
                     <ImgListItem
-                      key={item.img}
+                      key={item.id}
                       onClick={() => handleVideoClick(item)}
                     >
                       <motion.div

@@ -17,6 +17,7 @@ import CustomCheckbox from "../../Inputs/custom-checkbox"
 import CustomAccordion from "../../Containers/custom-accordion"
 import CustomCircularProgress from "../../Helpers/custom-circular-progress"
 import DropzoneShowImage from "../../Images/drop-zone-show-image"
+import LanguageIcon from "@mui/icons-material/Language"
 
 const currentYear = new Date().getFullYear()
 
@@ -30,7 +31,7 @@ function AddFilmModal(props) {
     thumbnail: file,
     title: "",
     url: "",
-    description: "",
+    description: { fr: "", en: "" },
     gear: [],
     roles: [],
     year: "",
@@ -101,6 +102,7 @@ function AddFilmModal(props) {
   }
   const handleCancel = () => {
     handleClose()
+    setFilm(initialFilm)
   }
   const handleSuccess = () => {
     setSnackSeverity("success")
@@ -142,6 +144,7 @@ function AddFilmModal(props) {
     if (res && res.ok) {
       handleSuccess()
       refreshData() // Refresh all rows of custom table
+      setFilm(initialFilm)
     } else {
       // TODO: if new thumbnail uploaded but film update fails, need to remove file just uploaded (DB and FTP)
       handleError()
@@ -246,8 +249,8 @@ function AddFilmModal(props) {
           required
           id="description"
           label="À propos de ce projet..."
-          value={film.description}
-          onChange={handleChange("description")}
+          value={film.description?.fr}
+          onChange={handleChange("description", "fr")}
           sx={{
             "& .MuiInputLabel-root": {
               color: errors.description
@@ -256,6 +259,30 @@ function AddFilmModal(props) {
             },
           }}
         />
+
+        <CustomAccordion
+          title={
+            <Stack className="row flex-center gap-10">
+              <LanguageIcon />
+              Traductions
+            </Stack>
+          }
+        >
+          <CustomOutlinedTextArea
+            required
+            id="description"
+            label="English (EN)"
+            value={film.description?.en}
+            onChange={handleChange("description", "en")}
+            sx={{
+              "& .MuiInputLabel-root": {
+                color: errors.description
+                  ? (theme) => theme.palette.error.main
+                  : (theme) => theme.palette.text.secondary,
+              },
+            }}
+          />
+        </CustomAccordion>
 
         <Stack width="100%">
           <CustomAccordion title="Matériel utilisé">
