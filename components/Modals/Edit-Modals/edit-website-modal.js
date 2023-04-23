@@ -1,8 +1,7 @@
-import { Stack, Typography } from "@mui/material"
+import { Stack, TextField, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { ModalTitle } from "../Modal-Components/modal-title"
-import withConfirmAction from "../../hocs/withConfirmAction"
 import CustomModal from "../../Modals/custom-modal"
 import CustomForm from "../../Forms/custom-form"
 import TextArea from "../../Inputs/custom-outlined-text-area"
@@ -16,22 +15,22 @@ import compressImage from "../../../services/images"
 import { AppContext } from "../../../contexts/AppContext"
 import PillButton from "../../Buttons/pill-button"
 import DeleteIcon from "@mui/icons-material/Delete"
+import CheckIcon from "@mui/icons-material/Check"
 import RectangleButton from "../../Buttons/rectangle-button"
 import CustomCircularProgress from "../../Helpers/custom-circular-progress"
 import LanguageIcon from "@mui/icons-material/Language"
+import AddEditToggle from "../../Navigation/add-edit-toggle"
+import { ADD_EDIT_ENUM } from "../../../enums/modesEnum"
+import BasicTooltip from "../../Helpers/basic-tooltip"
+import BodyText from "../../Text/body-text"
+import AlertInfo from "../../Other/alert-info"
+import useConfirm from "../../../hooks/useConfirm"
+import LocalOfferIcon from "@mui/icons-material/LocalOffer"
 
 const currentYear = new Date().getFullYear()
 
-function EditWebsiteModal(props) {
-  const {
-    websiteId,
-    openEditModal,
-    handleCloseEditModal,
-    setActionToFire,
-    setOpenConfirmModal,
-    setConfirmTitle,
-    setConfirmContent,
-  } = props
+export default function EditWebsiteModal(props) {
+  const { websiteId, openEditModal, handleCloseEditModal } = props
 
   // APP CONTEXT
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
@@ -50,7 +49,18 @@ function EditWebsiteModal(props) {
   const [errors, setErrors] = useState({})
   const [file, setFile] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [newTag, setNewTag] = useState(null)
+  const initialNewTag = { label: { fr: "", en: "" }, description: "" }
+  const [newTag, setNewTag] = useState(initialNewTag)
+  const [mode, setMode] = useState(ADD_EDIT_ENUM.ADD)
+
+  const [
+    setConfirmTitle,
+    setConfirmContent,
+    setNextBtnText,
+    setActionToFire,
+    setOpenConfirmModal,
+    ConfirmationDialog,
+  ] = useConfirm()
 
   // Fetch data
   const fetchData = async () => {
@@ -149,27 +159,54 @@ function EditWebsiteModal(props) {
     e.stopPropagation()
     setWebsite({ ...website, thumbnail: { id: "" } })
   }
-  const handleChangeNewTag = (e) => {
-    setNewTag(e.target.value)
+  const handleChangeNewTag = (attribute, lang) => (e) => {
+    setNewTag({ ...newTag, [attribute]: { [lang]: e.target.value } })
   }
   const handleAddWebsiteTag = async () => {
     const res = await apiCall.websites.tags.add(newTag)
     if (res && res.ok) {
-      fetchWebsiteTags()
-      setNewTag(null)
+      setSnackMessage("Le tag a bien été créé")
+      setSnackSeverity("success")
+      setNewTag(initialNewTag)
+      return await fetchWebsiteTags()
     }
   }
-  const deleteWebsiteTag = async (tagId) => {
-    const res = await apiCall.websites.tags.delete(tagId)
-    if (res && res.ok) return fetchWebsiteTags()
+  const deleteWebsiteTag = async (tag) => {
+    const res = await apiCall.websites.tags.delete(tag.id)
+    if (res && res.ok) {
+      setSnackMessage("Le tag a bien été supprimé")
+      setSnackSeverity("success")
+      return await fetchWebsiteTags()
+    } else {
+      setSnackMessage("Une erreur est survenue...")
+      setSnackSeverity("error")
+    }
   }
-  const handleDeleteWebsiteTag = (tagId) => {
-    setActionToFire(() => async () => deleteWebsiteTag(tagId))
+  const handleDeleteWebsiteTag = (tag) => {
+    setActionToFire(() => async () => await deleteWebsiteTag(tag))
     setOpenConfirmModal(true)
-    setConfirmTitle("Voulez vous vraiment supprimer définitivement ce tag ?")
-    setConfirmContent({
-      text: "La suppression est définitive et affectera tous les sites web reliés à ce tag.",
-    })
+    setConfirmTitle(
+      `Voulez vous vraiment supprimer définitivement le tag "${tag.label.fr}" ?`
+    )
+    setConfirmContent(
+      "La suppression est définitive et affectera tous les sites web reliés à ce tag."
+    )
+    setNextBtnText("Supprimer")
+  }
+  const handleCancelEditTags = async () => {
+    await fetchWebsiteTags()
+    setMode(ADD_EDIT_ENUM.ADD)
+  }
+  const handleUpdateWebsiteTag = async () => {
+    const res = await apiCall.websites.tags.update(websiteTags)
+    if (res && res.ok) {
+      setSnackSeverity("success")
+      setSnackMessage("Modifications enregistrées")
+      setMode(ADD_EDIT_ENUM.ADD)
+    } else {
+      setSnackSeverity("error")
+      setSnackMessage("Une erreur est survenue...")
+    }
   }
 
   // SUB-COMPONENTS
@@ -200,7 +237,6 @@ function EditWebsiteModal(props) {
       ))}
     </CustomOutlinedSelect>
   )
-
   const IdInput = () => (
     <CustomOutlinedInput
       disabled
@@ -210,7 +246,6 @@ function EditWebsiteModal(props) {
       value={website.id || ""}
     />
   )
-
   const ThumbnailInput = () => (
     <DropzoneShowImage
       bgImage={website.thumbnail?.url || ""}
@@ -290,45 +325,138 @@ function EditWebsiteModal(props) {
         </CustomAccordion>
 
         <Stack width="100%">
-          <CustomAccordion title="Tags liés au projet">
-            <Stack className="row gap-10">
-              <CustomOutlinedInput
-                type="input"
-                label="Ajouter un tag"
-                value={newTag || ""}
-                onChange={handleChangeNewTag}
-                sx={{ marginBottom: "1rem" }}
-              />
-              <PillButton fontSize="0.8rem" onClick={handleAddWebsiteTag}>
-                Ajouter
-              </PillButton>
-            </Stack>
-            {websiteTags &&
-              websiteTags.map((item, key) => (
-                <Stack className="row full-width" alignItems="center">
-                  <Stack flexGrow={1}>
-                    <CustomCheckbox
-                      key={key}
-                      checked={
-                        (website.tags &&
-                          website.tags.filter(
-                            (tagsItem) => tagsItem.id === item.id
-                          ).length === 1) ||
-                        false
-                      }
-                      label={item.label}
-                      labelcolor="#fff"
-                      fontSize="0.9rem"
-                      onChange={handleChangeMultipleCheckbox("tags", item)}
-                    />
-                  </Stack>
-                  <DeleteIcon
-                    color="secondary"
-                    onClick={() => handleDeleteWebsiteTag(item.id)}
-                    sx={{ cursor: "pointer", "&:hover": { opacity: 0.5 } }}
+          <CustomAccordion
+            title={
+              <Stack className="row flex-center gap-10">
+                <LocalOfferIcon />
+                Tags liés au projet
+              </Stack>
+            }
+          >
+            <Stack gap={4}>
+              <AddEditToggle mode={mode} setMode={setMode} />
+
+              {mode === ADD_EDIT_ENUM.ADD && (
+                <Stack gap={1}>
+                  <CustomOutlinedInput
+                    type="input"
+                    label="Nouveau tag"
+                    value={newTag.label.fr || ""}
+                    onChange={handleChangeNewTag("label", "fr")}
                   />
+                  <CustomOutlinedInput
+                    type="input"
+                    label="Traduction (EN)"
+                    value={newTag.label.en || ""}
+                    onChange={handleChangeNewTag("label", "en")}
+                  />
+                  <PillButton onClick={handleAddWebsiteTag} width="100%">
+                    Ajouter
+                  </PillButton>
                 </Stack>
-              ))}
+              )}
+
+              {mode === ADD_EDIT_ENUM.EDIT && (
+                <Stack className="gap-10 flex-center">
+                  <AlertInfo
+                    content={{
+                      show: true,
+                      title: "Modification globale",
+                      text: "Attention, les modifications impacteront tous les sites web auxquels les tags sont rattachés.",
+                      severity: "warning",
+                    }}
+                  />
+                  <PillButton
+                    onClick={handleUpdateWebsiteTag}
+                    endIcon={<CheckIcon />}
+                  >
+                    Enregistrer les modifications
+                  </PillButton>
+                  <BodyText
+                    className="pointer cool-button"
+                    onClick={handleCancelEditTags}
+                  >
+                    Annuler
+                  </BodyText>
+                </Stack>
+              )}
+
+              <Stack>
+                {websiteTags &&
+                  websiteTags.map((item, key) => (
+                    <Stack
+                      className="row full-width gap-10"
+                      alignItems="baseline"
+                    >
+                      <CustomCheckbox
+                        key={key}
+                        checked={
+                          (website.tags &&
+                            website.tags.filter(
+                              (tagsItem) => tagsItem.id === item.id
+                            ).length === 1) ||
+                          false
+                        }
+                        label={mode === ADD_EDIT_ENUM.ADD ? item.label.fr : ""}
+                        labelcolor="#fff"
+                        fontSize="0.9rem"
+                        onChange={handleChangeMultipleCheckbox("tags", item)}
+                      />
+                      <Stack flexGrow={1} />
+                      {mode === ADD_EDIT_ENUM.EDIT && (
+                        <Stack gap={2} mb={6} width="100%">
+                          <TextField
+                            variant="standard"
+                            value={item.label.fr}
+                            label="Français (FR)"
+                            onChange={(e) => {
+                              const localTags = [...websiteTags]
+                              localTags[key] = {
+                                ...localTags[key],
+                                label: {
+                                  ...localTags[key].label,
+                                  fr: e.target.value,
+                                },
+                              }
+                              setWebsiteTags(localTags)
+                            }}
+                            color="secondary"
+                            sx={{ "& .MuiInput-input": { color: "#fff" } }}
+                          />
+                          <TextField
+                            variant="standard"
+                            value={item.label.en}
+                            label="English (EN)"
+                            onChange={(e) => {
+                              const localTags = [...websiteTags]
+                              localTags[key] = {
+                                ...localTags[key],
+                                label: {
+                                  ...localTags[key].label,
+                                  en: e.target.value,
+                                },
+                              }
+                              setWebsiteTags(localTags)
+                            }}
+                            color="secondary"
+                            sx={{ "& .MuiInput-input": { color: "#fff" } }}
+                          />
+                        </Stack>
+                      )}
+                      <BasicTooltip title="Supprimer le tag">
+                        <DeleteIcon
+                          onClick={() => handleDeleteWebsiteTag(item)}
+                          sx={{
+                            cursor: "pointer",
+                            "&:hover": { opacity: 0.5 },
+                            color: (theme) => theme.alert.title.error.color,
+                          }}
+                        />
+                      </BasicTooltip>
+                    </Stack>
+                  ))}
+              </Stack>
+            </Stack>
           </CustomAccordion>
         </Stack>
 
@@ -343,8 +471,8 @@ function EditWebsiteModal(props) {
           </RectangleButton>
         </Stack>
       </CustomForm>
+
+      <ConfirmationDialog />
     </CustomModal>
   )
 }
-
-export default withConfirmAction(EditWebsiteModal)

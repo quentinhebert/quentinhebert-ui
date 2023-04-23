@@ -214,7 +214,7 @@ const websites = {
     // Admin only
     add: async (newTag) => {
       try {
-        const body = JSON.stringify({ website_tag: newTag })
+        const body = JSON.stringify({ tag: newTag })
 
         return await fetch(`${defaultConfig.apiUrl}/websites/tags`, {
           method: "POST",
@@ -223,6 +223,23 @@ const websites = {
             "Content-Type": "application/json",
           },
           body: body,
+        })
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    // Admin only
+    update: async (tags) => {
+      try {
+        const body = JSON.stringify({ tags })
+
+        return await fetch(`${defaultConfig.apiUrl}/websites/tags`, {
+          method: "PATCH",
+          body,
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
         })
       } catch (err) {
         console.error(err)

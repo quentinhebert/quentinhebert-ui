@@ -15,6 +15,7 @@ export default function PillButton({ href, ...props }) {
 }
 
 function Btn({
+  width,
   background,
   padding,
   color,
@@ -55,7 +56,7 @@ function Btn({
   }, [controls, inView])
 
   return (
-    <Box margin={margin || 0} ref={ref}>
+    <Box margin={margin || 0} width={width || "auto"} ref={ref}>
       <motion.div
         initial={preventTransition ? "visible" : "hidden"}
         variants={variants}
@@ -78,6 +79,7 @@ function Btn({
             transition: "transform 0.2s ease-in-out",
             fontFamily: fontFamily || "",
             gap: gap || 0,
+            width: "100%",
             "&:hover": {
               background:
                 (!disabled && background) ||

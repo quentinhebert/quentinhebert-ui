@@ -314,7 +314,7 @@ export default function PortfolioSection(props) {
                             textTransform="initial"
                             fontSize=".8rem"
                           >
-                            /{tag}
+                            /{tag[lang]}
                           </BodyText>
                         </Pill>
                       ))}

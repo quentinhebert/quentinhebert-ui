@@ -83,6 +83,9 @@ body {
 .full-width {
   width: 100% !important;
 }
+.half-width {
+  width: 50% !important;
+}
 .full-height {
   height: 100% !important;
 }
@@ -190,6 +193,9 @@ body {
 }
 .margin-auto {
   margin: auto;
+}
+.opacity-hover:hover {
+  opacity: 0.5;
 }
 
 /* Hide input type numbers arrows */
