@@ -171,6 +171,8 @@ function LocationText({ text, icon }) {
   )
 }
 function AddressSection({ addressItems }) {
+  const { lang } = useContext(AppContext)
+
   if (!addressItems?.length) return <></>
 
   // Get data values
@@ -191,6 +193,9 @@ function AddressSection({ addressItems }) {
   )?.value
   const mobility = addressItems.filter((elt) => elt.type === "mobility")[0]
     ?.value
+  const mobilityTransltionEn = addressItems.filter(
+    (elt) => elt.type === "mobility_translation_en"
+  )[0]?.value
 
   // Parse the address from data
   if (line1) parsedAddress += `${line1},`
@@ -208,7 +213,15 @@ function AddressSection({ addressItems }) {
 
       {mobility && (
         <motion.div className="full-width" variants={moveLeftVariants}>
-          <LocationText text={mobility} icon={<DirectionsCarIcon />} />
+          {lang === "en" && (
+            <LocationText
+              text={mobilityTransltionEn}
+              icon={<DirectionsCarIcon />}
+            />
+          )}
+          {lang !== "en" && (
+            <LocationText text={mobility} icon={<DirectionsCarIcon />} />
+          )}
         </motion.div>
       )}
     </>
