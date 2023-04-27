@@ -72,8 +72,85 @@ const OptionalLabel = () => {
   )
 }
 
-export default function ContactForm({ defaultService, defaultDirection }) {
+export default function ContactForm({
+  showServicesBoxes,
+  defaultService,
+  defaultDirection,
+}) {
   const { setSnackSeverity, setSnackMessage, lang } = useContext(AppContext)
+
+  const PLACEHOLDERS = {
+    firstname: {
+      default: {
+        fr: "Philippe",
+        en: "",
+      },
+      film: {
+        fr: "Louis",
+        en: "",
+      },
+      website: {
+        fr: "Philippe",
+        en: "",
+      },
+    },
+    lastname: {
+      default: {
+        fr: "Etchebest",
+        en: "",
+      },
+      film: {
+        fr: "Vuitton",
+        en: "",
+      },
+      website: {
+        fr: "Etchebest",
+        en: "",
+      },
+    },
+    email: {
+      default: {
+        fr: "philou@topchef.com",
+        en: "",
+      },
+      film: {
+        fr: "marketting@lvmh.com",
+        en: "",
+      },
+      website: {
+        fr: "philou@topchef.com",
+        en: "",
+      },
+    },
+    company: {
+      default: {
+        fr: "Philippe Etchebest Corporation",
+        en: "",
+      },
+      film: {
+        fr: "LVMH MOET HENNESSY LOUIS VUITTON",
+        en: "",
+      },
+      website: {
+        fr: "Philippe Etchebest Corporation",
+        en: "",
+      },
+    },
+    description: {
+      default: {
+        fr: "Site vitrine pour mettre en avant mon nouveau restaurant et ma carte du jour.",
+        en: "",
+      },
+      film: {
+        fr: "Film de 2 minutes sur un produit de notre nouvelle collection.",
+        en: "",
+      },
+      website: {
+        fr: "Site vitrine pour mettre en avant mon nouveau restaurant et ma carte du jour.",
+        en: "",
+      },
+    },
+  }
 
   const initialFormData = {
     firstname: "",
@@ -148,12 +225,12 @@ export default function ContactForm({ defaultService, defaultDirection }) {
   }
   const handleSuccess = () => {
     setSnackSeverity("success")
-    setSnackMessage("Reçu 5/5 ! 💬")
+    setSnackMessage(translations.contact.snackMsg.success[lang])
     handleResetForm()
   }
   const handleError = () => {
     setSnackSeverity("error")
-    setSnackMessage("Une erreur est survenue lors de l'envoi 🙁")
+    setSnackMessage(translations.contact.snackMsg.error[lang])
   }
   const handleSendRequest = async () => {
     const { errorsCount } = checkRequiredFields()
@@ -179,7 +256,7 @@ export default function ContactForm({ defaultService, defaultDirection }) {
         borderRadius="5px"
         flexDirection="row"
       >
-        {!defaultService ||
+        {showServicesBoxes ||
         (defaultService !== "film" && defaultService !== "website") ? (
           <Stack>
             <Typography
