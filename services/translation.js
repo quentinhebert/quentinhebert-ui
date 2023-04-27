@@ -207,6 +207,13 @@ const translations = {
         en: "Please check at least one of the checkboxes",
       },
     },
+    snackMsg: {
+      success: { en: "Received loud and clear ! 💬", fr: "Reçu 5/5 ! 💬" },
+      error: {
+        en: "Mayday ! An error occurred during submission 🙁",
+        fr: "Une erreur est survenue lors de l'envoi 🙁",
+      },
+    },
   },
   homepage: {
     hero: {

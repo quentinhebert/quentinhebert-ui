@@ -38,7 +38,11 @@ export default function FilmsIndexLayout(props) {
 
       {/* <FilmProjectSteps /> */}
 
-      <ContactSection topRef={refsForScroll.contact} defaultService="film" />
+      <ContactSection
+        topRef={refsForScroll.contact}
+        defaultService="film"
+        showServicesBoxes={false}
+      />
     </>
   )
 }

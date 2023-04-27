@@ -63,7 +63,11 @@ export default function WebsitesIndexLayout(props) {
       {/* WHY A DEV */}
       <WhyADevSection topRef={refsForScroll.whyADev} />
 
-      <ContactSection defaultService="website" topRef={refsForScroll.contact} />
+      <ContactSection
+        defaultService="website"
+        showServicesBoxes={false}
+        topRef={refsForScroll.contact}
+      />
     </ParallaxProvider>
   )
 }

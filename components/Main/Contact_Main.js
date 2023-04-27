@@ -27,7 +27,11 @@ export default function Contact_Main(props) {
         }}
         hidden={{ opacity: 0, x: 50 }}
       >
-        <ContactForm defaultDirection="column" />
+        <ContactForm
+          defaultDirection="column"
+          defaultService="film"
+          showServicesBoxes={true}
+        />
       </MotionDivOnMount>
     </Root>
   )
