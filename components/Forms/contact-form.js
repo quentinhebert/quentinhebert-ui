@@ -82,72 +82,72 @@ export default function ContactForm({
   const PLACEHOLDERS = {
     firstname: {
       default: {
-        fr: "Philippe",
-        en: "",
+        fr: "Nikos",
+        en: "Bear",
       },
       film: {
         fr: "Louis",
-        en: "",
+        en: "Louis",
       },
       website: {
         fr: "Philippe",
-        en: "",
+        en: "Levi",
       },
     },
     lastname: {
       default: {
-        fr: "Etchebest",
-        en: "",
+        fr: "Aliagas",
+        en: "Grylls",
       },
       film: {
         fr: "Vuitton",
-        en: "",
+        en: "Vuitton",
       },
       website: {
         fr: "Etchebest",
-        en: "",
+        en: "Strauss",
       },
     },
     email: {
       default: {
-        fr: "philou@topchef.com",
-        en: "",
+        fr: "thevoice@tf1.fr",
+        en: "man.vs.wild@channel4.com",
       },
       film: {
         fr: "marketting@lvmh.com",
-        en: "",
+        en: "marketting@lvmh.com",
       },
       website: {
         fr: "philou@topchef.com",
-        en: "",
+        en: "billiejean@levis.com",
       },
     },
     company: {
       default: {
-        fr: "Philippe Etchebest Corporation",
-        en: "",
+        fr: "TELEVISION FRANCAISE 1 (TF1)",
+        en: "Discovery Channel",
       },
       film: {
         fr: "LVMH MOET HENNESSY LOUIS VUITTON",
-        en: "",
+        en: "LVMH MOET HENNESSY LOUIS VUITTON",
       },
       website: {
         fr: "Philippe Etchebest Corporation",
-        en: "",
+        en: "Levi Strauss & Co.",
       },
     },
     description: {
       default: {
-        fr: "Site vitrine pour mettre en avant mon nouveau restaurant et ma carte du jour.",
-        en: "",
+        fr: "Bonjour, j'aurais besoin d'un réalisateur pour ma nouvelle émission The Silence. Nous aurions également besoin d'un site web sur lequel l'audience pourrait voter en direct pour le candidat le plus silencieux.",
+        en: "Hi there, I will need a camera operator and a director for the next season of Man vs. Wild, as well as a brand new landing page to promote the next season. Would you be available for a quick call ? Best regards.",
       },
       film: {
         fr: "Film de 2 minutes sur un produit de notre nouvelle collection.",
-        en: "",
+        en: "A two-minute-movie around a product of our new collection.",
       },
       website: {
         fr: "Site vitrine pour mettre en avant mon nouveau restaurant et ma carte du jour.",
-        en: "",
+        en: "Hello, we are contacting you beacause we need a new website for France. We are about to separate every  single version of our global website in order to propose very singular and distinct artistic directions. Looking forward from hearing from you.",
       },
     },
   }
@@ -181,6 +181,12 @@ export default function ContactForm({
   const [isFetching, setIsFetching] = useState(false)
   const [formData, setFormData] = useState(initialFormData)
   const [errors, setErrors] = useState(initialErrors)
+
+  let selectedService = "default"
+  if (formData.services.film && !formData.services.website)
+    selectedService = "film"
+  if (!formData.services.film && formData.services.website)
+    selectedService = "website"
 
   /********** HANDLERS **********/
   const handleResetForm = () => {
@@ -319,7 +325,7 @@ export default function ContactForm({
             type="input"
             id="firstname"
             label={translations.contact.firstname.label[lang]}
-            placeholder={formData.services.film ? "Louis" : "Philippe"}
+            placeholder={PLACEHOLDERS.firstname[selectedService][lang]}
             value={formData.firstname}
             onChange={handleChange("firstname")}
             error={errors.firstname}
@@ -333,7 +339,7 @@ export default function ContactForm({
                 {translations.contact.lastname.label[lang]} <OptionalLabel />
               </>
             }
-            placeholder={formData.services.film ? "Vuitton" : "Etchebest"}
+            placeholder={PLACEHOLDERS.lastname[selectedService][lang]}
             value={formData.lastname}
             onChange={handleChange("lastname")}
             error={errors.lastname}
@@ -346,11 +352,7 @@ export default function ContactForm({
             type="email"
             id="email"
             label={translations.contact.email.label[lang]}
-            placeholder={
-              formData.services.film
-                ? "loulou@vuitton.com"
-                : "philou@topchef.com"
-            }
+            placeholder={PLACEHOLDERS.email[selectedService][lang]}
             value={formData.email}
             onChange={handleChange("email")}
             error={emailError || errors.email}
@@ -379,9 +381,7 @@ export default function ContactForm({
                 {translations.contact.company.label[lang]} <OptionalLabel />
               </>
             }
-            placeholder={
-              formData.services.film ? "Louis Vuitton" : "Philippe Etchebest"
-            }
+            placeholder={PLACEHOLDERS.company[selectedService][lang]}
             value={formData.company}
             onChange={handleChange("company")}
             error={errors.company}
@@ -416,13 +416,7 @@ export default function ContactForm({
           <CustomFilledTextArea
             id="description"
             label={translations.contact.description.label[lang]}
-            placeholder={
-              formData.services.film
-                ? formData.services.website
-                  ? "Film de 2 minutes sur un produit de notre nouvelle collection et landing page pour ce même produit."
-                  : "Film de 2 minutes sur un produit de notre nouvelle collection."
-                : "Site vitrine pour mettre en avant mon nouveau restaurant et ma carte du jour."
-            }
+            placeholder={PLACEHOLDERS.description[selectedService][lang]}
             value={formData.description}
             onChange={handleChange("description")}
             sx={{
