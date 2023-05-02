@@ -506,7 +506,7 @@ const translations = {
       ],
       en: [
         `After obtaining my engineering degree, I have been working for two years as a web developer in a startup. 
-        However, driven by the desire of independance and the attraction for creating, I have decided to start to work as a freelance.`,
+        However, driven by the desire of independance and the attraction for creating, I have decided to start to work as a freelancer.`,
         `I direct videos from secondary school, mostly music clips and
         short films. In parallel of my studies, I have created a video production band and an audiovisual association
         with which I thrive on making films.`,
