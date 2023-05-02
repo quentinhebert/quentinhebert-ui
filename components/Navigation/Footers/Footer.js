@@ -238,7 +238,7 @@ export default function Footer(props) {
             animate={controls}
             style={motionDivStyle}
           >
-            <Credits text={data?.credits} />
+            <Credits text={data?.credits || ""} />
           </motion.div>
         </CenteredMaxWidthContainer>
       </Box>
