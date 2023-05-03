@@ -38,6 +38,9 @@ const headCells = [
     id: "type",
     numeric: false,
     label: "Catégorie",
+    valueGetter: function (param) {
+      return param.fr
+    },
   },
   {
     id: "year",
