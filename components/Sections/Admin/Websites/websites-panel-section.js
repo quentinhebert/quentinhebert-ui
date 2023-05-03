@@ -39,6 +39,9 @@ const headCells = [
     numeric: false,
     label: "Description",
     width: "40%",
+    valueGetter: function (param) {
+      return param.fr
+    },
   },
   {
     id: "year",
