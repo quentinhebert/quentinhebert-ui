@@ -13,15 +13,6 @@ import Pill from "../../../../Text/pill"
 import translations from "../../../../../services/translation"
 import { AppContext } from "../../../../../contexts/AppContext"
 
-const CATEGORIES = [
-  "Tout",
-  "Événementiel",
-  "Court-métrage",
-  "Clip",
-  "Entreprise",
-  "Sport",
-]
-
 // const DATA = [
 //   {
 //     img: "/medias/aviron.png",
@@ -453,7 +444,7 @@ const FilterSection = ({ handleFilter }) => {
             boxShadowOnHover
             margin={{ xs: "0.25rem", md: "0.5rem" }}
             bgColor={(theme) => theme.palette.secondary.main}
-            onClick={() => handleFilter(category.fr)}
+            onClick={() => handleFilter(category.id)}
           >
             {category[lang]}
           </Pill>
@@ -614,8 +605,8 @@ export default function VideoList({ height, setHeight, ...props }) {
     setVideoClicked(null)
     setOpenVideoPlayer(false)
   }
-  const handleFilter = (category) => {
-    if (category === "Tout" && data === filteredData) return
+  const handleFilter = (categoryId) => {
+    if (categoryId === "all" && data === filteredData) return
     // Systematically remove the show more button
     setHasMoreFilms(false)
     // Hide all the videos (UX transition)
@@ -629,8 +620,11 @@ export default function VideoList({ height, setHeight, ...props }) {
     // Finally handle the new filtered data
     setTimeout(() => {
       let localData = data
-      if (category === "Tout") setFilteredData(localData)
-      else localData = localData.filter((item) => item.type === category)
+      if (categoryId === "all") setFilteredData(localData)
+      else
+        localData = localData.filter(
+          (item) => item.type.label_id === categoryId
+        )
       setFilteredData(localData)
       setHeight("auto")
     }, 500)
