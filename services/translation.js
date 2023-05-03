@@ -280,7 +280,7 @@ const translations = {
         },
         pt3: {
           fr: `Donnons du sens à vos idées, que ce soit en vidéo ou sur le web, et réalisons ensemble un film ou un site qui vous ressemble.`,
-          en: "Let's give meaning to your ideas, as much with a video as on the web, and let's create a film or a website that feels like you.",
+          en: "Let's give meaning to your ideas, whether with video or on the web, and let's create a film or a website that feels like you.",
         },
       },
       btn: {
@@ -507,7 +507,7 @@ const translations = {
       en: [
         `After obtaining my engineering degree, I have been working for two years as a web developer in a startup. 
         However, driven by the desire of independance and the attraction for creating, I have decided to start to work as a freelancer.`,
-        `I direct videos from secondary school, mostly music clips and
+        `I direct videos since secondary school, mostly music clips and
         short films. In parallel of my studies, I have created a video production band and an audiovisual association
         with which I thrive on making films.`,
         `Today, I create websites and films for a living.`,
