@@ -527,7 +527,11 @@ const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
       <PaymentsList />
 
       <FormCard textAlign="center">
-        <PillButton onClick={handleGenerate} textTransform="initial">
+        <PillButton
+          onClick={handleGenerate}
+          textTransform="initial"
+          width="auto"
+        >
           Générer un lien de paiement en ligne
         </PillButton>
         <PillButton
@@ -536,6 +540,7 @@ const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
           border={(theme) => `1px solid ${theme.palette.secondary.main}`}
           color={(theme) => theme.palette.secondary.main}
           onClick={handleOpenTag}
+          width="auto"
         >
           Marquer le prochain paiement comme réglé
         </PillButton>

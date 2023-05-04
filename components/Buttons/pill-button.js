@@ -79,7 +79,7 @@ function Btn({
             transition: "transform 0.2s ease-in-out",
             fontFamily: fontFamily || "",
             gap: gap || 0,
-            width: "100%",
+            width: width || "100%",
             "&:hover": {
               background:
                 (!disabled && background) ||
