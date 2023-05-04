@@ -50,11 +50,14 @@ const PaidChip = ({}) => (
 )
 
 export default function PriceDetails({ items, order }) {
+  let localOrder = order
   const { totalVAT, totalPrice } = parseOrderPrice({
     order,
     items,
   }) // all prices in cents
-  const paymentFractions = getPaymentFractionsDetails({ order })
+  if (!localOrder.total_price) localOrder.total_price = totalPrice
+
+  const paymentFractions = getPaymentFractionsDetails({ order: localOrder })
 
   return (
     <Stack
