@@ -79,11 +79,10 @@ export default function QuotationRequest_Main({ id }) {
         <BodyText color="#000" {...props} padding="0 0.5rem" />
       </Pill>
     )
-    const services = { film: "Vidéo", website: "Site web" }
     return (
       <Stack className="row">
         {request.services.map((item) => (
-          <Chip>{services[item]}</Chip>
+          <Chip>{item}</Chip>
         ))}
       </Stack>
     )
