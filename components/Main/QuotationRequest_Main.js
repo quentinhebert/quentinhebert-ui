@@ -135,14 +135,20 @@ export default function QuotationRequest_Main({ id }) {
         Budget
       </CardTitle>
       <BodyText preventTransition>
-        Le prospect a un budget de{" "}
-        <Box
-          component="span"
-          sx={{ color: (theme) => theme.palette.text.secondary }}
-        >
-          {request.budget}
-        </Box>
-        .
+        {!!request.budget ? (
+          <>
+            Le prospect a un budget de{" "}
+            <Box
+              component="span"
+              sx={{ color: (theme) => theme.palette.text.secondary }}
+            >
+              {request.budget}
+            </Box>
+            .
+          </>
+        ) : (
+          <>Le prospect n'a pas renseigné de budget.</>
+        )}
       </BodyText>
     </Card>
   )
