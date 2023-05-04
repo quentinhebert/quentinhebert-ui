@@ -1809,33 +1809,33 @@ function OrderForm({
             {!!selectedQuotation?.recipient_emails?.length && (
               <AlertInfo
                 content={{
+                  show: true,
                   js: (
                     <span>
-                      Vous avez déjà envoyé le devis à{" "}
-                      {selectedQuotation.recipient_emails.map((email, key) => {
-                        const isLastEmail =
-                          key === selectedQuotation.recipient_emails.length - 1
-                        return (
-                          <>
-                            <Box
-                              key={key}
-                              component="span"
-                              onClick={() => setEmailInput(email)}
-                              sx={{
-                                textDecoration: "underline",
-                                cursor: "pointer",
-                                "&:hover": {
-                                  color: (theme) =>
-                                    theme.palette.text.secondary,
-                                },
-                              }}
-                            >
-                              {email}
-                            </Box>
-                            {isLastEmail ? "." : ", "}
-                          </>
-                        )
-                      })}
+                      Vous avez déjà envoyé le devis à :
+                      <ul>
+                        {selectedQuotation.recipient_emails.map(
+                          (email, key) => (
+                            <>
+                              <Box
+                                key={key}
+                                component="li"
+                                onClick={() => setEmailInput(email)}
+                                sx={{
+                                  textDecoration: "underline",
+                                  cursor: "pointer",
+                                  "&:hover": {
+                                    color: (theme) =>
+                                      theme.palette.text.secondary,
+                                  },
+                                }}
+                              >
+                                {email}
+                              </Box>
+                            </>
+                          )
+                        )}
+                      </ul>
                     </span>
                   ),
                 }}
@@ -1869,7 +1869,10 @@ function OrderForm({
               />
               <Stack className="row" gap={2}>
                 <CancelButton handleCancel={handleCloseModal} />
-                <PillButton onClick={() => handleSend(selectedQuotation.id)}>
+                <PillButton
+                  type="submit"
+                  onClick={() => handleSend(selectedQuotation.id)}
+                >
                   Envoyer
                 </PillButton>
               </Stack>
