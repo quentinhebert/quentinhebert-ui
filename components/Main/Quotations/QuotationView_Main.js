@@ -175,30 +175,11 @@ export default function QuotationView_Main({}) {
             />
           )}
           <Stack gap={4}>
-            <PriceDetails order={order} items={order.items} />
-            {!!order.file?.path && (
-              <Stack
-                className=" flex-center row pointer"
-                color="#fff"
-                gap={2}
-                sx={{
-                  padding: "1rem",
-                  border: (theme) =>
-                    `1px solid ${theme.palette.secondary.main}`,
-                  borderRadius: "30px",
-                }}
-                onClick={() => window.open(`${order.file.path}`)}
-              >
-                <DownloadIcon />
-                <BodyText className="cool-button" preventTransition>
-                  Télécharger le PDF
-                </BodyText>
-              </Stack>
-            )}
             <Stack
               color="#fff"
               className="row flex-center pointer"
               gap={2}
+              mt="2rem"
               onClick={toggleShowDetails}
             >
               <Typography
@@ -218,13 +199,33 @@ export default function QuotationView_Main({}) {
                 }}
               />
             </Stack>
-            <Stack>
+
+            <Stack mb={4}>
               {showDetails && (
-                <OrderReadOnlySection
-                  items={order.items}
-                  order={order}
-                  hidePriceDetails
-                />
+                <Stack gap={2}>
+                  <OrderReadOnlySection
+                    items={order.items}
+                    order={order}
+                    hidePriceDetails
+                  />
+
+                  <PriceDetails order={order} items={order.items} />
+                  {!!order.file?.path && (
+                    <PillButton
+                      width="auto"
+                      startIcon={<DownloadIcon />}
+                      onClick={() => window.open(`${order.file.path}`)}
+                    >
+                      <BodyText
+                        className="cool-button"
+                        color="#000"
+                        preventTransition
+                      >
+                        Télécharger le PDF
+                      </BodyText>
+                    </PillButton>
+                  )}
+                </Stack>
               )}
             </Stack>
           </Stack>
