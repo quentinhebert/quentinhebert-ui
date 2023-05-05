@@ -15,10 +15,12 @@ import CustomForm from "./custom-form"
 import DualInputLine from "../Containers/dual-input-line"
 import BodyText from "../Text/body-text"
 
-export default function SignUpForm(props) {
-  /********** PROPS **********/
-  const { handleClose, setIsCompleted } = props
-
+export default function SignUpForm({
+  handleClose,
+  setIsCompleted,
+  defaultValues,
+  ...props
+}) {
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   // Check if user exists and if the user is admin
@@ -27,11 +29,11 @@ export default function SignUpForm(props) {
 
   /********** MODEL **********/
   const initialUserData = {
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "",
-    phone: "",
+    firstname: defaultValues?.firstname || "",
+    lastname: defaultValues?.lastname || "",
+    email: defaultValues?.email || "",
+    password: defaultValues?.password || "",
+    phone: defaultValues?.phone || "",
     type: isAdmin ? "" : USERTYPES.CLIENT,
   }
   // Set initial errors on false

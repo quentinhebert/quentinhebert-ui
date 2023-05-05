@@ -47,7 +47,7 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
 
   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here, which would refresh the page.
-    event.preventDefault()
+    if (!!event) event.preventDefault()
     if (!stripe || !elements) return
 
     // Hide the previous alert if is was displayed

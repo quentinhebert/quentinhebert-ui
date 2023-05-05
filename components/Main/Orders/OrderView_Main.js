@@ -21,40 +21,16 @@ import PasswordForgottenForm from "../../Forms/password-forgotten-form"
 import AlertInfo from "../../Other/alert-info"
 import RefreshButton from "../../Buttons/refresh-button"
 import OrderReadOnlySection from "../../Sections/Orders/order-read-only-section"
+import { checkPassword } from "../../../services/utils"
+import { setRefreshToken, setToken } from "../../../services/cookies"
 
 const MODES = {
   login: "LOGIN",
   signup: "SIGNUP",
   passwordForgotten: "PASSWORD_FORGOTTEN",
+  firstConnection: "FIRST_CONNECTION",
 }
 const allowedStatesForPaying = ["WAITING_FOR_PAYMENT", "PAYMENT_FAILED"]
-
-const HeadItem = (props) => (
-  <Box
-    component="th"
-    textAlign="left"
-    sx={{
-      border: (theme) => `2px solid ${theme.palette.secondary.main}`,
-      padding: 2,
-    }}
-  >
-    <BodyText color={(theme) => theme.palette.text.secondary} {...props} />
-  </Box>
-)
-
-const Row = (props) => <Box component="tr" {...props} />
-
-const Value = ({ data }) => (
-  <Box
-    component="td"
-    sx={{
-      border: (theme) => `2px solid ${theme.palette.secondary.main}`,
-      padding: 2,
-    }}
-  >
-    <BodyText>{data}</BodyText>
-  </Box>
-)
 
 const StatusChip = ({ order }) => (
   <Pill
@@ -81,9 +57,10 @@ export default function OrderView_Main({}) {
     if (defaultEmail) handleSubmit()
   }, defaultEmail)
 
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
 
   const [mode, setMode] = useState(null)
+  const [password, setPassword] = useState("")
   const [openAuthModal, setOpenAuthModal] = useState(false)
   const [email, setEmail] = useState(defaultEmail || "")
   const [access, setAccess] = useState(false)
@@ -103,7 +80,8 @@ export default function OrderView_Main({}) {
 
   const handleOpenAuth = () => setOpenAuthModal(true)
   const handleCloseAuth = () => {
-    setMode(null)
+    if (!!order.client.token) setMode(MODES.firstConnection)
+    else setMode(null)
     setOpenAuthModal(false)
   }
 
@@ -119,6 +97,7 @@ export default function OrderView_Main({}) {
       setAccess(true)
       const jsonRes = await res.json()
       setOrder(jsonRes)
+      if (!!jsonRes.client.token) setMode(MODES.firstConnection)
     }
     setLoading(false)
   }
@@ -140,6 +119,29 @@ export default function OrderView_Main({}) {
     }
     return handleOpenAuth()
   }
+
+  const handleFirstConnection = async () => {
+    const res = await apiCall.users.security.password.reset({
+      password,
+      id: order.client.id,
+      token: order.client.token,
+    })
+    if (res && res.ok) {
+      const jsonRes = await res.json()
+      setToken(jsonRes.token)
+      setRefreshToken(jsonRes.refreshToken)
+      // Fetch user to update user context
+      const userRes = await apiCall.users.get(order.client.id)
+      if (userRes && userRes.ok) {
+        const userJsonRes = await userRes.json()
+        setUser(userJsonRes)
+      }
+      handleCloseAuth()
+      setIsCompleted(true)
+    }
+  }
+
+  const passwordError = password.trim() !== "" && !checkPassword(password)
 
   if (loading)
     return (
@@ -239,6 +241,12 @@ export default function OrderView_Main({}) {
                 Veuillez vous identifier ou créer votre compte.
               </BodyText>
             )}
+            {mode === MODES.firstConnection && (
+              <BodyText preventTransition fontSize="1rem" textAlign="center">
+                Finalisez la création de votre compte en choisissant votre mot
+                de passe.
+              </BodyText>
+            )}
           </Stack>
 
           {mode === MODES.login && (
@@ -260,6 +268,7 @@ export default function OrderView_Main({}) {
               <ModalTitle>Créer mon compte</ModalTitle>
               {!isCompleted ? (
                 <SignUpForm
+                  defaultValues={order.client}
                   handleClose={handleCloseAuth}
                   setIsCompleted={setIsCompleted}
                 />
@@ -293,6 +302,7 @@ export default function OrderView_Main({}) {
           <Stack gap={2}>
             {mode !== MODES.login &&
               mode !== MODES.passwordForgotten &&
+              mode !== MODES.firstConnection &&
               !isCompleted && (
                 <PillButton
                   margin="0 auto"
@@ -301,7 +311,7 @@ export default function OrderView_Main({}) {
                   Me connecter
                 </PillButton>
               )}
-            {mode !== MODES.signup && (
+            {mode !== MODES.signup && mode !== MODES.firstConnection && (
               <PillButton
                 margin="0 auto"
                 onClick={() => setMode(MODES.signup)}
@@ -311,6 +321,28 @@ export default function OrderView_Main({}) {
               >
                 Je n'ai pas de compte
               </PillButton>
+            )}
+            {mode === MODES.firstConnection && (
+              <Stack gap={2}>
+                <CustomFilledInput
+                  disabled
+                  value={order.client.email || ""}
+                  label="email"
+                />
+                <CustomFilledInput
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  label="Mot de passe"
+                  error={passwordError}
+                  helperText={
+                    passwordError &&
+                    "Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial"
+                  }
+                />
+                <PillButton margin="0 auto" onClick={handleFirstConnection}>
+                  Suivant
+                </PillButton>
+              </Stack>
             )}
 
             <BodyText
