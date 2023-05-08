@@ -310,7 +310,7 @@ const DocumentsSection = ({
           <DocumentHeader>
             <DocumentType>Devis</DocumentType>
             <AddButton
-              disabled={order.status !== "DRAFT"}
+              disabled={order.status !== "DRAFT" || isQuotationGenerating}
               onClick={handleGenerate}
               isQuotationGenerating={isQuotationGenerating}
             />
