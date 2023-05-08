@@ -31,7 +31,6 @@ export default function TermsAndConditionsSection({ staticData }) {
         <Typography variant="h2" className={styles.shine}>
           {translations.termsAndConditions.legalNotice[lang]}
         </Typography>
-        {/* <ParseJsx jsx={formatText(data.terms)} /> */}
         <Typography fontWeight="bold">{data.terms.terms_fullname}</Typography>
         <Typography>{data.terms.terms_email}</Typography>
         <Typography>{data.terms.terms_phone}</Typography>
