@@ -10,7 +10,7 @@ import Span from "../../../Text/span"
 const Label = (props) => (
   <Grid
     item
-    xs={8}
+    xs={10}
     sx={{
       "&:first-letter": {
         textTransform: "capitalize",
@@ -28,7 +28,7 @@ const Label = (props) => (
 )
 
 const Price = (props) => (
-  <Grid item xs={4} textAlign="right">
+  <Grid item xs={2} textAlign="right">
     <BodyText preventTransition {...props} fontSize="1rem" />
   </Grid>
 )

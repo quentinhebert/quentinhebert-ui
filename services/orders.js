@@ -47,21 +47,34 @@ export function getPaymentFractionsDetails({ order }) {
   })
 
   // We browse all fractions and remove matching payments + add attribute paid (boolean)
-  let ignoredStatuses = []
-  if (order.payments?.length > fractions.length)
-    ignoredStatuses = ["failed", "canceled", "requires_payment_method"]
-  const payments = order.payments?.filter(
-    (p) => !ignoredStatuses.includes(p.status)
+  let ignoredStatuses = ["failed", "canceled", "requires_payment_method"]
+
+  const successfulPayments = order.payments?.filter(
+    (p) => p.status === "succeeded"
   )
-  fractions.map((f) => {
+  const payments = order.payments
+
+  console.debug("payments", payments)
+
+  fractions.map((f, key) => {
     if (!payments) return
-    f.paymentStatus = payments[payments.length - 1]?.status
-    if (
-      f.amount === payments[payments.length - 1]?.amount &&
-      payments[payments.length - 1]?.status === "succeeded"
-    ) {
-      f.paid = true
-      payments.pop()
+
+    // 1st Step : Handle succeeded payments
+    if (key < successfulPayments.length) {
+      f.paymentStatus =
+        successfulPayments[successfulPayments.length - key - 1]?.status
+
+      if (
+        successfulPayments[successfulPayments.length - key - 1].amount ===
+        f.amount
+      )
+        f.paid = true
+    }
+    // 2nd Step : Handle last payment (= 1st element of payments)
+    else {
+      if (payments[payments.length - 1]?.status !== "succeeded") {
+        f.paymentStatus = payments[0]?.status
+      }
     }
   })
 
@@ -70,6 +83,7 @@ export function getPaymentFractionsDetails({ order }) {
 
 export function getNextPaymentDetails({ order }) {
   const fractions = getPaymentFractionsDetails({ order })
+
   const response = fractions.filter((f) => !f.paid)[0]
 
   return response
