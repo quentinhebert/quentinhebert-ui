@@ -47,6 +47,9 @@ export const formatPaymentErrors = (error) => {
       }
       break
     default:
+      formattedError.title =
+        "Une erreur est survenue. Veuillez nous excuser ce désagrément."
+      formattedError.message = error.message
       break
   }
 
