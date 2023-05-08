@@ -23,7 +23,7 @@ export default function ProcessingPaymentPage() {
 
   return (
     <PagesLayout head={head}>
-      <Stack flexGrow={1} className="flex-center">
+      <Stack className="flex-center" mt="50px" minHeight="400px">
         <CenteredMaxWidthContainer>
           <Stack textAlign="center" gap={4}>
             <PageTitle

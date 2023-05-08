@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import { useRouter } from "next/router"
 import { useContext, useEffect, useRef, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
@@ -167,10 +167,24 @@ export default function QuotationView_Main({}) {
                     ? "success"
                     : "error",
                 title: `Le devis a été ${QUOTATION_STATUS[order.status].label}`,
-                text:
-                  order.status === QUOTATION_STATUS.ACCEPTED.id
-                    ? "Vous avez accepté le devis. Bienvenue dans l'aventure !"
-                    : "Vous avez refusé ce devis.",
+                js:
+                  order.status === QUOTATION_STATUS.ACCEPTED.id ? (
+                    <>
+                      Bienvenue dans l'aventure ! Vous avez accepté le devis.
+                      <br />
+                      <Box
+                        color={(theme) => theme.palette.text.grey}
+                        fontStyle="italic"
+                      >
+                        → Prochaine étape : le devis doit être imprimé en deux
+                        exemplaires et être signé par les deux parties. Vous
+                        allez recevoir un e-mail avec les instructions
+                        suivantes.
+                      </Box>
+                    </>
+                  ) : (
+                    <>Vous avez refusé ce devis.</>
+                  ),
               }}
             />
           )}
@@ -295,6 +309,7 @@ export default function QuotationView_Main({}) {
               handleFinish={async () => {
                 setStep(1)
                 setFinished(true)
+                setShowDetails(false)
                 if (!!defaultEmail) await handleSubmit()
                 else await fetchQuotation()
               }}

@@ -47,13 +47,19 @@ export function getPaymentFractionsDetails({ order }) {
   })
 
   // We browse all fractions and remove matching payments + add attribute paid (boolean)
-  const ignoredStatuses = ["failed", "canceled", "requires_payment_method"]
+  let ignoredStatuses = []
+  if (order.payments?.length > fractions.length)
+    ignoredStatuses = ["failed", "canceled", "requires_payment_method"]
   const payments = order.payments?.filter(
     (p) => !ignoredStatuses.includes(p.status)
   )
   fractions.map((f) => {
     if (!payments) return
-    if (f.amount === payments[payments.length - 1]?.amount) {
+    f.paymentStatus = payments[payments.length - 1]?.status
+    if (
+      f.amount === payments[payments.length - 1]?.amount &&
+      payments[payments.length - 1]?.status === "succeeded"
+    ) {
       f.paid = true
       payments.pop()
     }

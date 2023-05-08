@@ -48,6 +48,36 @@ const PaidChip = ({}) => (
     payé
   </Span>
 )
+const ProcessingChip = ({}) => (
+  <Span
+    color={(theme) => theme.alert.title.warning.color}
+    sx={{
+      fontSize: ".8rem",
+      padding: "0 .5rem",
+      borderRadius: "30px",
+      border: (theme) => `1px solid ${theme.alert.title.warning.color}`,
+      background: (theme) => theme.alert.title.warning.background,
+      ml: 0.5,
+    }}
+  >
+    En cours
+  </Span>
+)
+const FailedChip = ({}) => (
+  <Span
+    color={(theme) => theme.alert.title.error.color}
+    sx={{
+      fontSize: ".8rem",
+      padding: "0 .5rem",
+      borderRadius: "30px",
+      border: (theme) => `1px solid ${theme.alert.title.error.color}`,
+      background: (theme) => theme.alert.title.error.background,
+      ml: 0.5,
+    }}
+  >
+    Échec
+  </Span>
+)
 
 export default function PriceDetails({ items, order }) {
   let localOrder = order
@@ -68,7 +98,7 @@ export default function PriceDetails({ items, order }) {
         padding: 2,
       }}
     >
-      <Grid container width="300px">
+      <Grid container width="320px">
         <Label color="#fff">Total TTC</Label>
         <Price>{totalPrice / 100} €</Price>
         <Label>Dont TVA</Label>
@@ -94,7 +124,14 @@ export default function PriceDetails({ items, order }) {
                         : null
                     }
                   >
-                    {f.label} TTC ({f.percent}) {f.paid ? <PaidChip /> : null}
+                    {f.label} TTC ({f.percent}){" "}
+                    {f.paid ? (
+                      <PaidChip />
+                    ) : f.paymentStatus === "processing" ? (
+                      <ProcessingChip />
+                    ) : f.paymentStatus === "failed" ? (
+                      <FailedChip />
+                    ) : null}
                   </Label>
                   <Price
                     color={

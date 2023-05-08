@@ -23,6 +23,10 @@ import RefreshButton from "../../Buttons/refresh-button"
 import OrderReadOnlySection from "../../Sections/Orders/order-read-only-section"
 import { checkPassword } from "../../../services/utils"
 import { setRefreshToken, setToken } from "../../../services/cookies"
+import CustomCheckbox from "../../Inputs/custom-checkbox"
+import Span from "../../Text/span"
+import InTextLink from "../../Links/in-text-link"
+import { defaultConfig } from "../../../config/defaultConfig"
 
 const MODES = {
   login: "LOGIN",
@@ -61,6 +65,7 @@ export default function OrderView_Main({}) {
 
   const [mode, setMode] = useState(null)
   const [password, setPassword] = useState("")
+  const [policy, setPolicy] = useState(false)
   const [openAuthModal, setOpenAuthModal] = useState(false)
   const [email, setEmail] = useState(defaultEmail || "")
   const [access, setAccess] = useState(false)
@@ -78,6 +83,10 @@ export default function OrderView_Main({}) {
     client: null,
   })
 
+  const handleCheckPolicy = () => {
+    if (policy) setPolicy(false)
+    else setPolicy(true)
+  }
   const handleOpenAuth = () => setOpenAuthModal(true)
   const handleCloseAuth = () => {
     if (!!order.client.token) setMode(MODES.firstConnection)
@@ -120,6 +129,10 @@ export default function OrderView_Main({}) {
     return handleOpenAuth()
   }
 
+  useEffect(() => {
+    if (!!user) handleNext()
+  }, [user])
+
   const handleFirstConnection = async () => {
     const res = await apiCall.users.security.password.reset({
       password,
@@ -135,9 +148,10 @@ export default function OrderView_Main({}) {
       if (userRes && userRes.ok) {
         const userJsonRes = await userRes.json()
         setUser(userJsonRes)
+        handleNext()
       }
-      handleCloseAuth()
-      setIsCompleted(true)
+      // handleCloseAuth()
+      // setIsCompleted(true)
     }
   }
 
@@ -339,7 +353,38 @@ export default function OrderView_Main({}) {
                     "Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial"
                   }
                 />
-                <PillButton margin="0 auto" onClick={handleFirstConnection}>
+                <CustomCheckbox
+                  label={
+                    <Span className="no-select">
+                      J'accepte les{" "}
+                      <Span className="cool-button">
+                        <InTextLink
+                          text="CGU"
+                          href={`${defaultConfig.webclientUrl}/terms-of-use`}
+                          target="_blank"
+                        />
+                      </Span>{" "}
+                      et{" "}
+                      <Span className="cool-button">
+                        <InTextLink
+                          text="CGV"
+                          href={`${defaultConfig.webclientUrl}/terms-and-conditions`}
+                          target="_blank"
+                        />
+                      </Span>{" "}
+                      du site *
+                    </Span>
+                  }
+                  onChange={handleCheckPolicy}
+                  value={policy}
+                  labelcolor={(theme) => theme.palette.text.white}
+                  fontSize="1rem"
+                />
+                <PillButton
+                  margin="0 auto"
+                  onClick={handleFirstConnection}
+                  disabled={!policy || !password || password.trim() === ""}
+                >
                   Suivant
                 </PillButton>
               </Stack>
