@@ -9,7 +9,6 @@ import AdminTermsAndConditionsForm from "../../Forms/admin/admin-terms-and-condi
 import CustomModal from "../../Modals/custom-modal"
 import OneActionCardsGrid from "../../Cards/one-action-cards-grid"
 import FixedBackground from "../../Backgrounds/fixed-background"
-import AdminSiretForm from "../../Forms/admin/admin-siret-form"
 
 export default function WebsiteInfoPanel_Main() {
   const [openModal, setOpenModal] = useState(false)
@@ -97,20 +96,6 @@ export default function WebsiteInfoPanel_Main() {
         },
       },
     },
-    {
-      id: "siret",
-      title: "N° SIRET",
-      description:
-        "Modifiez votre numéro de SIRET. Ce dernier sera actualisé sur toutes vos prochaines factures.",
-      button: {
-        text: "Modifier",
-        onClick: () => {
-          setOpenModal(true)
-          setModalFullscreen(true)
-          setDialogContent("siret")
-        },
-      },
-    },
   ]
 
   return (
@@ -142,9 +127,6 @@ export default function WebsiteInfoPanel_Main() {
         )}
         {dialogContent === "terms_and_conditions" && (
           <AdminTermsAndConditionsForm handleClose={handleClose} />
-        )}
-        {dialogContent === "siret" && (
-          <AdminSiretForm handleClose={handleClose} />
         )}
       </CustomModal>
     </>

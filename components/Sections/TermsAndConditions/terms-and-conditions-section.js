@@ -27,11 +27,22 @@ export default function TermsAndConditionsSection({ staticData }) {
         {translations.termsAndConditions.title[lang]}
       </Typography>
 
-      <Stack gap={2}>
-        <Typography variant="h2" color="#fff" className={styles.shine}>
+      <Stack color="#fff">
+        <Typography variant="h2" className={styles.shine}>
           {translations.termsAndConditions.legalNotice[lang]}
         </Typography>
-        <ParseJsx jsx={formatText(data.terms)} />
+        {/* <ParseJsx jsx={formatText(data.terms)} /> */}
+        <Typography fontWeight="bold">{data.terms.terms_fullname}</Typography>
+        <Typography>{data.terms.terms_email}</Typography>
+        <Typography>{data.terms.terms_phone}</Typography>
+        <Typography>{data.terms.terms_line1}</Typography>
+        <Typography>{data.terms.terms_line2}</Typography>
+        <Typography>
+          {data.terms.terms_postal_code} {data.terms.terms_city},{" "}
+          {data.terms.terms_country}
+        </Typography>
+        <Typography>SIRET {data.terms.siret}</Typography>
+        <Typography>RCS {data.terms.rcs}</Typography>
       </Stack>
 
       <Stack>
