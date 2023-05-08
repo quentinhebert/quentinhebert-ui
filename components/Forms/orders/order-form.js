@@ -155,7 +155,7 @@ const EditButton = ({ onClick, label }) => (
     {label || "Modifier"}
   </PillButton>
 )
-const AddButton = ({ onClick, isQuotationGenerating }) => (
+const AddButton = ({ onClick, isQuotationGenerating, ...props }) => (
   <PillButton
     disabled={isQuotationGenerating}
     startIcon={<AddIcon />}
@@ -163,6 +163,7 @@ const AddButton = ({ onClick, isQuotationGenerating }) => (
     padding=".25rem 1rem"
     preventTransition
     onClick={onClick}
+    {...props}
   >
     {isQuotationGenerating ? "Veuillez patienter..." : "Ajouter"}
   </PillButton>
@@ -309,6 +310,7 @@ const DocumentsSection = ({
           <DocumentHeader>
             <DocumentType>Devis</DocumentType>
             <AddButton
+              disabled={order.status !== "DRAFT"}
               onClick={handleGenerate}
               isQuotationGenerating={isQuotationGenerating}
             />
