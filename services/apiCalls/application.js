@@ -186,6 +186,36 @@ const application = {
       }
     },
   },
+  siret: {
+    get: async () => {
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/application/siret`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    // Admin only
+    update: async (siret) => {
+      const body = { siret }
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/application/siret`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${await getFreshToken()}`,
+          },
+          body: JSON.stringify(body),
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  },
   termsOfUse: {
     get: async () => {
       try {
