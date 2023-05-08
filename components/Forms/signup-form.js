@@ -14,6 +14,9 @@ import CustomCheckbox from "../Inputs/custom-checkbox"
 import CustomForm from "./custom-form"
 import DualInputLine from "../Containers/dual-input-line"
 import BodyText from "../Text/body-text"
+import Span from "../Text/span"
+import InTextLink from "../Links/in-text-link"
+import { defaultConfig } from "../../config/defaultConfig"
 
 export default function SignUpForm({
   handleClose,
@@ -266,7 +269,27 @@ export default function SignUpForm({
         </DualInputLine>
 
         <CustomCheckbox
-          label="J'accepte la politique du site *"
+          label={
+            <Span>
+              J'accepte les{" "}
+              <Span className="cool-button">
+                <InTextLink
+                  text="CGU"
+                  href={`${defaultConfig.webclientUrl}/terms-of-use`}
+                  target="_blank"
+                />
+              </Span>{" "}
+              et{" "}
+              <Span className="cool-button">
+                <InTextLink
+                  text="CGV"
+                  href={`${defaultConfig.webclientUrl}/terms-and-conditions`}
+                  target="_blank"
+                />
+              </Span>{" "}
+              du site *
+            </Span>
+          }
           onChange={handleCheck("policy")}
           value={accept.policy}
           labelcolor={(theme) => theme.palette.text.white}

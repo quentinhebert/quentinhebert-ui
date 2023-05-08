@@ -1,4 +1,4 @@
-import { Box, Grid, Stack } from "@mui/material"
+import { Box, Grid, Stack, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import { AppContext } from "../../../../contexts/AppContext"
 import { UserContext } from "../../../../contexts/UserContext"
@@ -16,7 +16,7 @@ import CustomCheckbox from "../../../Inputs/custom-checkbox"
 import CustomFilledInput from "../../../Inputs/custom-filled-input"
 import PageTitle from "../../../Titles/page-title"
 import DualInputLine from "../../../Containers/dual-input-line"
-import RightSubmitButton from "../../../Buttons/right-submit-button"
+import EastIcon from "@mui/icons-material/East"
 import BodyText from "../../../Text/body-text"
 
 const AddressLine = (props) => (
@@ -333,7 +333,7 @@ function SelectAddressSection({
     )
 
   return (
-    <CenteredMaxWidthContainer gap={4}>
+    <>
       <Grid container rowSpacing={4} columnSpacing={4}>
         <Grid item xs={12}>
           <Stack>
@@ -353,9 +353,10 @@ function SelectAddressSection({
             <CustomCard
               border={
                 activeAddressIndex === key
-                  ? (theme) => `1px solid ${theme.palette.secondary.main}`
+                  ? (theme) => `2px solid ${theme.palette.secondary.main}`
                   : `1px solid grey`
               }
+              backgroundColor={(theme) => theme.palette.background.black}
               className="pointer relative"
               onClick={() => {
                 setActiveAddressIndex(key)
@@ -453,30 +454,29 @@ function SelectAddressSection({
 
           <Stack className="row">
             {!!handleBack && (
-              <Box>
-                <RightSubmitButton
-                  onClick={() => {
-                    handleBack()
-                    setParentAddress(address)
-                  }}
-                >
-                  Précédent
-                </RightSubmitButton>
-              </Box>
+              <PillButton
+                onClick={() => {
+                  handleBack()
+                  setParentAddress(address)
+                }}
+              >
+                Précédent
+              </PillButton>
             )}
             <Stack flexGrow={1} />
-            <RightSubmitButton
+            <PillButton
+              endIcon={<EastIcon />}
               onClick={() => {
                 handleNext()
                 setParentAddress(address)
               }}
             >
               Suivant
-            </RightSubmitButton>
+            </PillButton>
           </Stack>
         </>
       )}
-    </CenteredMaxWidthContainer>
+    </>
   )
 }
 

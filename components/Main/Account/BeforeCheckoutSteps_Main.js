@@ -2,23 +2,20 @@ import { Box, Stack, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import Custom404_Main from "../../Main/Errors/Custom404_Main"
-import AlertInfo from "../../Other/alert-info"
 import SelectAddressSection from "../../Sections/Account/Orders/select-address-section"
 import SelectPaymentMethodSection from "../../Sections/Account/Orders/select-payment-method-section"
 import PleaseWait from "../../Helpers/please-wait"
 import CustomStepper from "../../Navigation/custom-stepper"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 import Custom401_Main from "../Errors/Custom401_Main"
-import HourglassBottomRoundedIcon from "@mui/icons-material/HourglassBottomRounded"
 import BodyText from "../../Text/body-text"
-import SmallTitle from "../../Titles/small-title"
-import DoneRoundedIcon from "@mui/icons-material/DoneRounded"
 import PriceDetails from "../../Sections/Account/Orders/price-details"
 import {
   getNextPaymentDetails,
   getPaymentFractionsDetails,
 } from "../../../services/orders"
 import Span from "../../Text/span"
+import CustomCard from "../../Cards/custom-card"
 
 const steps = [
   "Adresse de facturation",
@@ -89,11 +86,124 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
   if (!order.id && !loading) return <Custom404_Main />
 
   return (
-    <Stack gap={10} padding="2rem 0">
+    <Stack gap={6} padding="2rem 0">
       {loading && <PleaseWait />}
+
+      <Stack>
+        {/********** STEPPER **********/}
+        <CenteredMaxWidthContainer>
+          <CustomCard
+            backgroundColor={(theme) => theme.palette.background.main}
+          >
+            <CustomStepper
+              steps={steps}
+              activeStep={activeStep}
+              setActiveStep={setActiveStep}
+            />
+          </CustomCard>
+        </CenteredMaxWidthContainer>
+
+        {/********** FORMS **********/}
+        {activeStep === 0 && (
+          <CenteredMaxWidthContainer>
+            <CustomCard
+              backgroundColor={(theme) => theme.palette.background.main}
+            >
+              <Typography variant="h2" color="secondary" textAlign="center">
+                Facturation
+              </Typography>
+              <SelectAddressSection
+                defaultId={invoiceAddress?.id}
+                handleNext={handleNext}
+                setParentAddress={setInvoiceAddress}
+              />
+            </CustomCard>
+          </CenteredMaxWidthContainer>
+        )}
+
+        {/* {activeStep === 1 && (
+          <>
+            <CenteredMaxWidthContainer>
+              <AlertInfo
+                content={{
+                  title: "Pourquoi dois-je renseigner mon adresse ?",
+                  severity: "info",
+                  text: "Votre adresse est nécessaire pour la livraison de votre commande.",
+                }}
+              />
+            </CenteredMaxWidthContainer>
+            <SelectAddressSection
+              handleNext={handleNext}
+              handleBack={handleBack}
+              idImpossibleToDelete={invoiceAddress.id}
+              setParentAddress={setDeliveryAddress}
+              defaultId={deliveryAddress?.id || invoiceAddress?.id || null}
+              delivery
+            />
+          </>
+        )} */}
+
+        {activeStep === 1 && (
+          <SelectPaymentMethodSection
+            orderId={orderId}
+            invoiceAddress={invoiceAddress}
+            deliveryAddress={deliveryAddress}
+          />
+        )}
+      </Stack>
 
       {/********** PRICE & ACTION DETAILS **********/}
       <CenteredMaxWidthContainer>
+        <Typography
+          variant="h6"
+          color="secondary"
+          textAlign="left"
+          fontStyle="italic"
+        >
+          Récapitulatif de votre commande
+        </Typography>
+
+        <Stack
+          sx={{
+            width: "100%",
+            height: "3px",
+            background: (theme) =>
+              `linear-gradient(90deg, ${theme.palette.secondary.main}, ${theme.palette.background.black})`,
+            mb: 4,
+            borderRadius: "100px",
+          }}
+        />
+
+        {activeStep !== 0 && (
+          <CustomCard
+            backgroundColor={(theme) => theme.palette.background.main}
+          >
+            <Typography variant="h2" color="secondary" textAlign="center">
+              Facturation
+            </Typography>
+
+            <BodyText>La facture sera émise avec ces informations :</BodyText>
+
+            <CustomCard
+              backgroundColor={(theme) => theme.palette.background.black}
+            >
+              <BodyText>
+                <strong>{invoiceAddress.fullname}</strong>
+                <br />
+                {invoiceAddress.phone}
+                <br />
+                {invoiceAddress.line1}
+                {invoiceAddress.line2}
+                <br />
+                {`${invoiceAddress.postal_code} ${invoiceAddress.city}`}
+                <br />
+                {invoiceAddress.region} {invoiceAddress.country}
+                <br />
+              </BodyText>
+            </CustomCard>
+          </CustomCard>
+        )}
+
         <Stack sx={{ flexDirection: { xs: "column", md: "row" } }} gap={2}>
           <Stack
             sx={{
@@ -105,7 +215,6 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
               background: (theme) => theme.palette.background.main,
             }}
           >
-            {console.log("paymentFractions", paymentFractions)}
             {paymentFractions.length > 0 &&
               paymentFractions.map((f, key) => {
                 const isNextPayment = key === nextPayment.index
@@ -146,56 +255,6 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
           <PriceDetails items={order.items} order={order} />
         </Stack>
       </CenteredMaxWidthContainer>
-
-      <Stack gap={8}>
-        {/********** STEPPER **********/}
-        <CustomStepper
-          steps={steps}
-          activeStep={activeStep}
-          setActiveStep={setActiveStep}
-        />
-
-        {/********** FORMS **********/}
-        {activeStep === 0 && (
-          <>
-            <SelectAddressSection
-              defaultId={invoiceAddress?.id}
-              handleNext={handleNext}
-              setParentAddress={setInvoiceAddress}
-            />
-          </>
-        )}
-
-        {/* {activeStep === 1 && (
-          <>
-            <CenteredMaxWidthContainer>
-              <AlertInfo
-                content={{
-                  title: "Pourquoi dois-je renseigner mon adresse ?",
-                  severity: "info",
-                  text: "Votre adresse est nécessaire pour la livraison de votre commande.",
-                }}
-              />
-            </CenteredMaxWidthContainer>
-            <SelectAddressSection
-              handleNext={handleNext}
-              handleBack={handleBack}
-              idImpossibleToDelete={invoiceAddress.id}
-              setParentAddress={setDeliveryAddress}
-              defaultId={deliveryAddress?.id || invoiceAddress?.id || null}
-              delivery
-            />
-          </>
-        )} */}
-
-        {activeStep === 1 && (
-          <SelectPaymentMethodSection
-            orderId={orderId}
-            invoiceAddress={invoiceAddress}
-            deliveryAddress={deliveryAddress}
-          />
-        )}
-      </Stack>
     </Stack>
   )
 }

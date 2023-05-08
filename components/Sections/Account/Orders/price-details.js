@@ -98,7 +98,7 @@ export default function PriceDetails({ items, order }) {
         padding: 2,
       }}
     >
-      <Grid container width="320px">
+      <Grid container width={{ xs: "100%", lg: "320px" }}>
         <Label color="#fff">Total TTC</Label>
         <Price>{totalPrice / 100} €</Price>
         <Label>Dont TVA</Label>
@@ -112,6 +112,7 @@ export default function PriceDetails({ items, order }) {
                 margin: "1rem 0",
               }}
             />
+            {console.debug("paymentFractions", paymentFractions)}
             {paymentFractions.map((f, key) => {
               return (
                 <Fragment key={key}>

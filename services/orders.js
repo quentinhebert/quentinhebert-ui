@@ -24,6 +24,7 @@ export function parseOrderPrice({ order, items }) {
 export function getPaymentFractionsDetails({ order }) {
   const totalPrice = order.total_price
   const paymentFractions = order.payment_fractions
+  const payments = order.payments
   const fractions = []
 
   // Populate payments' amount
@@ -46,16 +47,11 @@ export function getPaymentFractionsDetails({ order }) {
     })
   })
 
-  // We browse all fractions and remove matching payments + add attribute paid (boolean)
-  let ignoredStatuses = ["failed", "canceled", "requires_payment_method"]
-
   const successfulPayments = order.payments?.filter(
     (p) => p.status === "succeeded"
   )
-  const payments = order.payments
 
-  console.debug("payments", payments)
-
+  // We browse all fractions and remove matching payments + add attribute paid (boolean)
   fractions.map((f, key) => {
     if (!payments) return
 
@@ -72,7 +68,7 @@ export function getPaymentFractionsDetails({ order }) {
     }
     // 2nd Step : Handle last payment (= 1st element of payments)
     else {
-      if (payments[payments.length - 1]?.status !== "succeeded") {
+      if (payments[0]?.status !== "succeeded") {
         f.paymentStatus = payments[0]?.status
       }
     }
