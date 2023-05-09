@@ -9,6 +9,7 @@ import AdminTermsAndConditionsForm from "../../Forms/admin/admin-terms-and-condi
 import CustomModal from "../../Modals/custom-modal"
 import OneActionCardsGrid from "../../Cards/one-action-cards-grid"
 import FixedBackground from "../../Backgrounds/fixed-background"
+import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 
 export default function WebsiteInfoPanel_Main() {
   const [openModal, setOpenModal] = useState(false)
@@ -86,7 +87,7 @@ export default function WebsiteInfoPanel_Main() {
       id: "terms_and_conditions",
       title: "Mentions Légales",
       description:
-        "Modifiez vos mentions légales et vos Conditions Générales de Vente (CGV).",
+        "Modifiez vos mentions légales, vos Conditions Générales de Vente (CGV), SIRET, et RCS.",
       button: {
         text: "Modifier",
         onClick: () => {
@@ -110,24 +111,26 @@ export default function WebsiteInfoPanel_Main() {
         handleClose={handleClose}
         fullscreen={modalFullscreen ? true : null}
       >
-        {dialogContent === "navbar" && (
-          <AdminNavbarForm handleClose={handleClose} />
-        )}
-        {dialogContent === "footer" && (
-          <AdminFooterForm handleClose={handleClose} />
-        )}
-        {dialogContent === "contact" && (
-          <AdminContactForm handleClose={handleClose} />
-        )}
-        {dialogContent === "logo" && (
-          <AdminLogoForm handleClose={handleClose} />
-        )}
-        {dialogContent === "terms_of_use" && (
-          <AdminTermsOfUseForm handleClose={handleClose} />
-        )}
-        {dialogContent === "terms_and_conditions" && (
-          <AdminTermsAndConditionsForm handleClose={handleClose} />
-        )}
+        <CenteredMaxWidthContainer>
+          {dialogContent === "navbar" && (
+            <AdminNavbarForm handleClose={handleClose} />
+          )}
+          {dialogContent === "footer" && (
+            <AdminFooterForm handleClose={handleClose} />
+          )}
+          {dialogContent === "contact" && (
+            <AdminContactForm handleClose={handleClose} />
+          )}
+          {dialogContent === "logo" && (
+            <AdminLogoForm handleClose={handleClose} />
+          )}
+          {dialogContent === "terms_of_use" && (
+            <AdminTermsOfUseForm handleClose={handleClose} />
+          )}
+          {dialogContent === "terms_and_conditions" && (
+            <AdminTermsAndConditionsForm handleClose={handleClose} />
+          )}
+        </CenteredMaxWidthContainer>
       </CustomModal>
     </>
   )
