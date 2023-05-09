@@ -16,6 +16,7 @@ const Text = styled(
     letterSpacing,
     fontSize,
     lineHeight,
+    width,
     ...props
   }) => {
     let customColor = color
@@ -44,7 +45,12 @@ const Text = styled(
     }, [controls, inView, appLoading])
 
     return (
-      <Box component={"span"} ref={ref} textAlign={textAlign || "left"}>
+      <Box
+        component={"span"}
+        ref={ref}
+        textAlign={textAlign || "left"}
+        width={width || "auto"}
+      >
         <motion.span
           initial={preventTransition ? "visible" : "hidden"}
           variants={variants}

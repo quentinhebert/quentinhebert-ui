@@ -15,6 +15,7 @@ import {
   ignoreNavbar,
 } from "../../../styles/helper"
 import translations from "../../../services/translation"
+import AnimatedScrollDownBtn from "../../Animation/animated-scroll-down-btn"
 
 export default function HeroSection(props) {
   const { refForScroll } = props
@@ -58,7 +59,10 @@ export default function HeroSection(props) {
       </CTAIsland>
 
       <Stack marginTop={4}>
-        <BouncingArrow scrollTo={scrollTo} refForScroll={refForScroll} />
+        <AnimatedScrollDownBtn
+          scrollTo={scrollTo}
+          refForScroll={refForScroll}
+        />
       </Stack>
     </Root>
   )
