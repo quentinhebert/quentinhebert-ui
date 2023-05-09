@@ -419,22 +419,9 @@ export default function ContactForm({
             placeholder={PLACEHOLDERS.description[selectedService][lang]}
             value={formData.description}
             onChange={handleChange("description")}
-            sx={{
-              "& .MuiInputLabel-root": {
-                color: errors.description
-                  ? (theme) => theme.palette.error.main
-                  : (theme) => theme.palette.text.secondary,
-              },
-            }}
+            error={errors.description}
+            helperText={errors.description && "Veuillez remplir ce champ"}
           />
-          {errors.budget && (
-            <FormHelperText
-              margin={0}
-              sx={{ color: (theme) => theme.palette.error.main }}
-            >
-              Veuillez remplir ce champ
-            </FormHelperText>
-          )}
         </Stack>
       </Stack>
 
