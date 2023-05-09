@@ -8,6 +8,7 @@ import { useContext } from "react"
 import { AppContext } from "../../../../contexts/AppContext"
 import Span from "../../../Text/span"
 import translations from "../../../../services/translation"
+import AnimatedScrollDownBtn from "../../../Animation/animated-scroll-down-btn"
 
 const CTAIsland = ({ ...props }) => (
   <MotionDivOnMount
@@ -211,12 +212,11 @@ export default function HeroSection(props) {
         alignItems="center"
         sx={{
           position: "absolute",
-          bottom: 20,
+          bottom: 40,
           width: "100%",
         }}
       >
-        <BouncingArrow
-          text=""
+        <AnimatedScrollDownBtn
           scrollTo={scrollTo}
           refForScroll={refsForScroll.cta}
         />

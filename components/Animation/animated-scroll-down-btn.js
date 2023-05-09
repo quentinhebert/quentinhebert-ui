@@ -55,6 +55,7 @@ function AnimatedScrollDownBtn({ refForScroll, scrollTo }) {
       >
         <AnimatedScrollDownArrow />
         <Typography
+          className="cool-button"
           sx={{
             color: "#fff",
             "&:hover": { color: (theme) => theme.palette.secondary.main },

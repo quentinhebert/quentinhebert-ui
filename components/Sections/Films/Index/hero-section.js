@@ -13,6 +13,7 @@ import MotionDivOnMount from "../../../Animation/motion-div-on-mount"
 import GrainStyles from "../../../../styles/FilmGrain.module.css"
 import { AppContext } from "../../../../contexts/AppContext"
 import translations from "../../../../services/translation"
+import AnimatedScrollDownBtn from "../../../Animation/animated-scroll-down-btn"
 
 const Title = (props) => (
   <Typography
@@ -256,11 +257,10 @@ export default function HeroSection(props) {
         justifyContent="end"
         alignItems="center"
         position="absolute"
-        bottom={10}
+        bottom={40}
         width="100%"
       >
-        <BouncingArrow
-          text=""
+        <AnimatedScrollDownBtn
           scrollTo={scrollTo}
           refForScroll={refForScroll}
         />
