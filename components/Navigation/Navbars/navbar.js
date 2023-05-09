@@ -77,6 +77,9 @@ export default function Navbar(props) {
             <Button
               variant="outlined"
               sx={{
+                textTransform: "initial",
+                fontFamily: "trophy",
+                fontSize: { xs: "0.4rem", md: "0.6rem" },
                 background: "#000",
                 borderRadius: "30px",
                 position: "absolute",
@@ -88,16 +91,17 @@ export default function Navbar(props) {
                 borderColor: contactActivePage
                   ? (theme) => theme.palette.secondary.main
                   : "#fff",
-                padding: { xs: "0.25rem 0.75rem", md: "0.5rem 2rem" },
+                padding: { xs: "0.5rem 0.9rem", md: "0.75rem 1rem" },
                 letterSpacing: 1,
                 transition: ".1s ease",
                 "&:hover": {
                   background: "#000",
+                  color: (theme) => theme.palette.secondary.main,
                   borderColor: (theme) => theme.palette.secondary.main,
                 },
               }}
             >
-              Contact
+              Me Contacter
             </Button>
           </NextLink>
 
@@ -149,6 +153,9 @@ export default function Navbar(props) {
                       ? (theme) => `1px solid ${theme.palette.secondary.main}`
                       : null,
                   paddingBottom: 0.5,
+                  "&:hover": {
+                    color: (theme) => theme.palette.secondary.main,
+                  },
                 }}
                 onClick={() => toggleLang("fr")}
               >
@@ -163,6 +170,9 @@ export default function Navbar(props) {
                       ? (theme) => `1px solid ${theme.palette.secondary.main}`
                       : null,
                   paddingBottom: 0.5,
+                  "&:hover": {
+                    color: (theme) => theme.palette.secondary.main,
+                  },
                 }}
                 onClick={() => toggleLang("en")}
               >
