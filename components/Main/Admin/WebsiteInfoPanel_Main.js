@@ -42,6 +42,7 @@ export default function WebsiteInfoPanel_Main() {
         text: "Modifier",
         onClick: () => {
           setOpenModal(true)
+          setModalFullscreen(true)
           setDialogContent("footer")
         },
       },
@@ -54,6 +55,7 @@ export default function WebsiteInfoPanel_Main() {
         text: "Modifier",
         onClick: () => {
           setOpenModal(true)
+          setModalFullscreen(true)
           setDialogContent("contact")
         },
       },
@@ -66,6 +68,7 @@ export default function WebsiteInfoPanel_Main() {
         text: "Modifier",
         onClick: () => {
           setOpenModal(true)
+          setModalFullscreen(true)
           setDialogContent("logo")
         },
       },

@@ -65,10 +65,10 @@ export default function AdminLogoForm(props) {
   /********** RENDER **********/
   return (
     <MotionDivFadeInOnMount>
-      <Stack width="100%" gap={4}>
+      <Stack width="100%" gap={8}>
         <ModalTitle>Modifier le logo de votre site</ModalTitle>
 
-        <CustomForm gap={4}>
+        <CustomForm gap={8}>
           <Stack gap={4} className="full-width flex-center">
             {file && (
               <Box
