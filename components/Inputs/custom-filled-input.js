@@ -11,11 +11,12 @@ const CssFilledInput = styled(({ width, ...props }) => (
     }}
     {...props}
   />
-))(({ theme }) => ({
+))(({ theme, borderColor }) => ({
   "& .MuiFilledInput-root": {
     overflow: "hidden",
     borderRadius: 4,
-    border: `1px solid ${theme.palette.secondary.main}`,
+    // border: `1px solid ${theme.palette.secondary.main}`,
+    border: `1px solid ${borderColor || theme.palette.secondary.main}`,
     // background: `linear-gradient(-90deg, transparent 0%, ${theme.palette.background.main} 10%)`,
     // background: theme.palette.background.main,
     background: "#000",

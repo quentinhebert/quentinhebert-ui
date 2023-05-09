@@ -56,6 +56,10 @@ const translations = {
         },
       },
     },
+    annotationService: {
+      fr: "Sélectionnez votre besoin",
+      en: "Select your need",
+    },
     annotation: {
       fr: "Laissez-moi un message",
       en: "Leave me a message",

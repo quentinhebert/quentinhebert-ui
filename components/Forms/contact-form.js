@@ -254,7 +254,31 @@ export default function ContactForm({
     (formData.email.trim() !== "" && !checkEmail(formData.email))
 
   return (
-    <CustomForm width="100%" gap={2} paddingBottom="1.5rem">
+    <CustomForm width="100%" gap={4} paddingBottom="1.5rem">
+      {showServicesBoxes && (
+        <Stack width="100%" alignItems="center">
+          <BodyText preventTransition gap={2} display="flex" alignItems="end">
+            <RedoRoundedIcon
+              sx={{
+                rotate: "-45deg",
+                margin: ".2rem .2rem 0 0",
+                transform: "scaleX(-1)",
+              }}
+            />
+            <Stack
+              gap={2}
+              className="row"
+              justifyContent="end"
+              alignItems="baseline"
+            >
+              <Span fontFamily="POPFINE" fontSize="3rem">
+                1.
+              </Span>
+              <Stack>{translations.contact.annotationService[lang]}</Stack>
+            </Stack>
+          </BodyText>
+        </Stack>
+      )}
       <Stack
         width="100%"
         alignItems="center"
@@ -266,7 +290,11 @@ export default function ContactForm({
         (defaultService !== "film" && defaultService !== "website") ? (
           <Stack>
             <Typography
-              color={errors.services ? "error.main" : "#fff"}
+              color={
+                errors.services
+                  ? "error.main"
+                  : (theme) => theme.palette.secondary.main
+              }
               letterSpacing={1}
             >
               {translations.contact.products.label[lang]}
@@ -277,22 +305,27 @@ export default function ContactForm({
                 label={translations.contact.products.film[lang]}
                 checked={formData.services.film}
                 // colors passed as strings otw DOM warnings if objects passed as props
-                labelcolor={theme.palette.text.secondary} // label
-                checkedcolor={theme.palette.text.secondary} // checked
+                labelcolor="#fff" // label
+                checkedcolor={
+                  formData.services.film ? theme.palette.text.secondary : "#fff"
+                } // checked
                 checkboxcolor="#fff" // unchecked
-                fontFamily="kardust"
-                fontSize="1.5rem"
-                fontWeight="bold"
+                fontFamily="POPFINE"
+                fontSize="2.5rem"
                 onChange={handleChangeServices("film")}
               />
               <CustomCheckbox
                 label={translations.contact.products.website[lang]}
                 checked={formData.services.website}
-                labelcolor={theme.palette.text.secondary} // label
-                checkedcolor={theme.palette.text.secondary} // checked
+                labelcolor="#fff" // label
+                checkedcolor={
+                  formData.services.website
+                    ? theme.palette.text.secondary
+                    : "#fff"
+                } // checked
                 checkboxcolor="#fff" // unchecked
-                fontFamily="kardust"
-                fontSize="1.5rem"
+                fontFamily="POPFINE"
+                fontSize="2.5rem"
                 onChange={handleChangeServices("website")}
               />
             </Stack>
@@ -309,16 +342,21 @@ export default function ContactForm({
           <WordCaroussel defaultService={defaultService} />
         )}
       </Stack>
-
       <Stack width="100%" alignItems="end" marginBottom={2}>
-        <BodyText preventTransition gap={2} display="flex">
-          {translations.contact.annotation[lang]}{" "}
+        <BodyText preventTransition gap={2} display="flex" alignItems="end">
+          <Stack gap={2} className="row" alignItems="baseline">
+            {showServicesBoxes && (
+              <Span fontFamily="POPFINE" fontSize="3rem">
+                2.
+              </Span>
+            )}
+            <Stack>{translations.contact.annotation[lang]}</Stack>
+          </Stack>
           <RedoRoundedIcon
             sx={{ rotate: "45deg", margin: ".2rem .2rem 0 0" }}
           />
         </BodyText>
       </Stack>
-
       <Stack width="100%" sx={{ gap: { xs: 1, md: 2 } }}>
         <DualInputLine direction={defaultDirection}>
           <CustomFilledInput
@@ -335,10 +373,11 @@ export default function ContactForm({
             type="input"
             id="lastname"
             label={
-              <>
+              <Span color="grey">
                 {translations.contact.lastname.label[lang]} <OptionalLabel />
-              </>
+              </Span>
             }
+            borderColor="gray"
             placeholder={PLACEHOLDERS.lastname[selectedService][lang]}
             value={formData.lastname}
             onChange={handleChange("lastname")}
@@ -362,10 +401,11 @@ export default function ContactForm({
             type="phone"
             id="phone"
             label={
-              <>
+              <Span color="grey">
                 {translations.contact.phone.label[lang]} <OptionalLabel />
-              </>
+              </Span>
             }
+            borderColor="gray"
             placeholder="06XXXXXXXX"
             value={formData.phone}
             onChange={handleChange("phone")}
@@ -377,10 +417,11 @@ export default function ContactForm({
             type="input"
             id="company"
             label={
-              <>
+              <Span color="grey">
                 {translations.contact.company.label[lang]} <OptionalLabel />
-              </>
+              </Span>
             }
+            borderColor="gray"
             placeholder={PLACEHOLDERS.company[selectedService][lang]}
             value={formData.company}
             onChange={handleChange("company")}
@@ -392,12 +433,13 @@ export default function ContactForm({
               id="budget"
               value={formData.budget}
               onChange={handleChange("budget")}
+              borderColor="gray"
               renderValue={
                 // Trick for placeholder hiding
                 formData.budget !== ""
                   ? undefined
                   : () => (
-                      <Typography color="secondary">
+                      <Typography color="grey">
                         {translations.contact.budget[lang]} <OptionalLabel />
                       </Typography>
                     )
@@ -424,7 +466,6 @@ export default function ContactForm({
           />
         </Stack>
       </Stack>
-
       <RightSubmitButton onClick={handleSendRequest} disabled={isFetching}>
         {isFetching
           ? translations.contact.btn.processing[lang]

@@ -9,7 +9,9 @@ const CustomSelect = styled((props) => (
     color="secondary"
     sx={{
       background: "#000",
-      border: (theme) => `1px solid ${theme.palette.secondary.main}`,
+      border: `1px solid`,
+      borderColor:
+        props.borderColor || ((theme) => theme.palette.secondary.main),
       borderRadius: "10px",
       "& .MuiOutlinedInput-notchedOutline": {
         border: "none",
