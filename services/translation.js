@@ -13,6 +13,10 @@ const translations = {
       en: "About this website",
     },
   },
+  scrollDown: {
+    fr: "Défilez vers le bas",
+    en: "Scroll down",
+  },
   scrollToTop: {
     fr: "On s'envoie en l'air ?",
     en: "Let's get to cloud nine !",
