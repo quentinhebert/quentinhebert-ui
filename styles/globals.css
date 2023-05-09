@@ -290,9 +290,9 @@ input[type=number] {
 }
 @font-face {
   font-family: 'POPFINE';
-  font-style: normal;
-  font-weight: 400;
-  src: local('POPFINE'), url('https://fonts.cdnfonts.com/s/83327/POPFINE Italic.woff') format('woff');
+  src: local('POPFINEItalic-Italic'),
+       url('../public/fonts/POPFINEItalic-Italic.woff') format('woff'),
+       url('../public/fonts/POPFINEItalic-Italic.woff2') format('woff2'),
 }
 @font-face {
   font-family: 'Zebulon';

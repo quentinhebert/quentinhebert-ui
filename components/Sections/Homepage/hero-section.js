@@ -36,7 +36,8 @@ export default function HeroSection(props) {
         <PlusIcon />
 
         <Slide direction="left" {...{ timeout: 500 }} in={!appLoading}>
-          <Stack sx={{ marginTop: { xs: "1.5rem", lg: "1.5vw" } }}>
+          {/* <Stack sx={{ marginTop: { xs: "1.5rem", lg: "1.5vw" } }}> */}
+          <Stack>
             <JobTitle label={translations.homepage.hero.activity2[lang]} />
           </Stack>
         </Slide>
@@ -77,7 +78,7 @@ function Root(props) {
       sx={{
         ...ignoreNavbar,
         ...heroScreen,
-        minHeight: { xs: "600px", md: "800px" },
+        minHeight: { xs: "600px", md: "850px" },
         zIndex: 1,
       }}
       {...props}

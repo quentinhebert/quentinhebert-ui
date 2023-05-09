@@ -58,7 +58,6 @@ const mainTheme = createTheme({
       fontFamily: "POPFINE",
       [theme.breakpoints.up("xs")]: {
         fontSize: "4rem",
-        lineHeight: "4rem",
       },
       [theme.breakpoints.up("md")]: {
         fontSize: "6rem",
@@ -78,12 +77,10 @@ const mainTheme = createTheme({
       fontFamily: "POPFINE !important",
       [theme.breakpoints.up("xs")]: {
         fontSize: "2rem",
-        lineHeight: "2rem",
         fontWeight: "normal",
       },
       [theme.breakpoints.up("md")]: {
         fontSize: "3rem",
-        lineHeight: "3rem",
         fontWeight: "normal",
       },
     },
