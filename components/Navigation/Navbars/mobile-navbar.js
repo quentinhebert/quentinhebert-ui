@@ -4,7 +4,7 @@ import Menu from "./menu"
 import { Cross as Hamburger } from "hamburger-react"
 
 export default function MobileNavbar(props) {
-  const { list, page } = props
+  const { list, page, socialMedias } = props
 
   const [openMenuDialog, setOpenMenuDialog] = useState(false)
 
@@ -35,6 +35,7 @@ export default function MobileNavbar(props) {
         open={openMenuDialog}
         handleClose={handleCloseMenuDialog}
         list={list}
+        socialMedias={socialMedias}
         page={page}
       />
     </>

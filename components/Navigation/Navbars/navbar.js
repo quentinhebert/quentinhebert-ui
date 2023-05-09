@@ -183,6 +183,7 @@ export default function Navbar(props) {
               mainColor={mainColor}
               list={data.menu_items}
               page={page}
+              socialMedias={data.social_medias}
             />
           </Stack>
         </Stack>

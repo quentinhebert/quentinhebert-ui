@@ -98,16 +98,21 @@ const Email = ({ email }) => (
   </Typography>
 )
 
-const SocialMedias = ({ items }) => {
+export const SocialMedias = ({ items, justifyContent, iconSize, gap }) => {
   if (!items?.length) return <></>
   return (
-    <Stack direction="row" width={"100%"} justifyContent="center" gap={2}>
+    <Stack
+      direction="row"
+      width={"100%"}
+      justifyContent={justifyContent || "center"}
+      gap={gap || 2}
+    >
       {items.map((social, key) => (
         <ScaleUpOnHoverStack key={key}>
           <CustomLink href={social.value} target="_blank">
             <img
               src={getSocialIcon(social.type)}
-              style={{ height: "40px", width: "40px" }}
+              style={{ height: iconSize || "40px", width: iconSize || "40px" }}
             />
           </CustomLink>
         </ScaleUpOnHoverStack>
