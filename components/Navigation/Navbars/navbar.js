@@ -12,6 +12,7 @@ import { fetchers } from "../../../services/public-fetchers"
 import NextLink from "../../Helpers/next-link"
 import BodyText from "../../Text/body-text"
 import { AppContext } from "../../../contexts/AppContext"
+import translations from "../../../services/translation"
 
 const MobileNavbar = dynamic(() => import("./mobile-navbar"))
 const DesktopNavbar = dynamic(() => import("./desktop-navbar"))
@@ -101,7 +102,7 @@ export default function Navbar(props) {
                 },
               }}
             >
-              Me Contacter
+              {translations.navbar.contactMe[lang]}
             </Button>
           </NextLink>
 

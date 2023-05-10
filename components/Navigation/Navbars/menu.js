@@ -9,6 +9,7 @@ import BodyText from "../../Text/body-text"
 import { SocialMedias } from "../Footers/Footer"
 import Link from "next/link"
 import RedoIcon from "@mui/icons-material/Redo"
+import translations from "../../../services/translation"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />
@@ -104,7 +105,7 @@ export default function Menu({
                 pb: { xs: 0, md: 1.5 },
               }}
             >
-              Allons boire un café ensemble !
+              {translations.menu.annotation[lang]}
             </Typography>
           </Stack>
         </motion.div>
@@ -202,7 +203,7 @@ export default function Menu({
             />
 
             <Stack sx={{ flexDirection: "row" }}>
-              <Stack width="100%" gap={{ xs: 2, lg: 0 }}>
+              <Stack width="100%" gap={{ xs: 2, lg: 2 }}>
                 <Stack
                   gap={{ xs: 0, lg: 3 }}
                   sx={{ flexDirection: { xs: "column", lg: "row" } }}
@@ -210,21 +211,24 @@ export default function Menu({
                 >
                   <BottomLinks>
                     <Link href="/contact" passHref>
-                      Me contacter
+                      {translations.menu.contactMe[lang]}
                     </Link>
                   </BottomLinks>
                   <BottomLinks>
                     <Link href="/terms-of-use" passHref>
-                      CGU
+                      {translations.footer.termsOfUse[lang]}
                     </Link>
                   </BottomLinks>
                   <BottomLinks>
                     <Link href="/terms-and-conditions" passHref>
-                      Mentions légales et CGV
+                      {translations.footer.termsAndConditions[lang]}
                     </Link>
                   </BottomLinks>
                 </Stack>
-                <BodyText fontSize="0.8rem">© Tous droits réservés</BodyText>
+                <BodyText fontSize="0.8rem" lineHeight="0.8rem">
+                  © Quentin Hébert {new Date().getFullYear()} –{" "}
+                  {translations.footer.copyright[lang]}
+                </BodyText>
               </Stack>
 
               <SocialMedias
@@ -244,6 +248,7 @@ function BottomLinks(props) {
   return (
     <BodyText
       fontSize="0.8rem"
+      lineHeight="0.8rem"
       className="pointer"
       sx={{
         "&:hover": {

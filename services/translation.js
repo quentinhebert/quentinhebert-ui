@@ -1,4 +1,20 @@
 const translations = {
+  navbar: {
+    contactMe: {
+      fr: "Me contacter",
+      en: "Contact me",
+    },
+  },
+  menu: {
+    contactMe: {
+      fr: "Me contacter",
+      en: "Contact me",
+    },
+    annotation: {
+      fr: "Allons boire un café ensemble !",
+      en: "Let's share a coffee!",
+    },
+  },
   footer: {
     termsOfUse: {
       fr: "CGU",
@@ -15,6 +31,10 @@ const translations = {
     copyright: {
       fr: "Tous droits réservés",
       en: "All rights reserved",
+    },
+    contactMe: {
+      fr: "Me contacter",
+      en: "Contact me",
     },
   },
   scrollDown: {
