@@ -268,7 +268,9 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
                 {invoiceAddress.line1}
                 {invoiceAddress.line2}
                 <br />
-                {`${invoiceAddress.postal_code} ${invoiceAddress.city}`}
+                {`${invoiceAddress.postal_code || invoiceAddress.postalCode} ${
+                  invoiceAddress.city
+                }`}
                 <br />
                 {invoiceAddress.region} {invoiceAddress.country}
                 <br />
