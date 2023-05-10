@@ -101,6 +101,7 @@ const BrowserMainZone = (props) => (
     sx={{
       position: "relative",
       height: "100%",
+      overflow: "auto",
       background: "linear-gradient( rgb(0,0,0,0.7) 0%, rgb(0,0,0,0.6) 100%)",
     }}
     {...props}

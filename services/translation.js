@@ -413,7 +413,7 @@ const translations = {
       text: [
         {
           fr: "depuis",
-          en: "about videomaking since ",
+          en: "about videomaking for more than ",
         },
         {
           fr: "années, j'ai fait de la vidéo mon métier car c'est grâce au son et à l'image que je parviens à m'exprimer avec le plus de ",
@@ -481,6 +481,21 @@ const translations = {
       date: {
         fr: "Réalisé en",
         en: "Made in",
+      },
+      browserInBrowser: {
+        title: { en: "Enjoy your flight", fr: "Bon vol" },
+        startMessage: {
+          en: "Good viewing !",
+          fr: "Bon visionnage !",
+        },
+        errorMessage: {
+          en: "Unfortunately, this website cannot be displayed in the virtual browser. A new tab is coming... Ready for taking off ?",
+          fr: "Ce site ne peut maheureusement pas s'afficher dans le navigateur virtuel. Un nouvel onglet va s'ouvrir... Prêt au décollage ?",
+        },
+        loading: {
+          fr: "Chargement en cours...",
+          en: "Loading the website...",
+        },
       },
     },
   },

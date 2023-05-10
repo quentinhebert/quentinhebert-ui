@@ -1,14 +1,24 @@
-import { Box, Dialog, Slide, Stack, Typography } from "@mui/material"
-import { forwardRef, useEffect, useRef, useState } from "react"
+import {
+  Box,
+  CircularProgress,
+  Dialog,
+  Slide,
+  Stack,
+  Typography,
+} from "@mui/material"
+import { forwardRef, useContext, useEffect, useRef, useState } from "react"
 import PillButton from "../Buttons/pill-button"
 import BrowserLayout from "../Layouts/BrowserLayout"
 import BodyText from "../Text/body-text"
+import { AppContext } from "../../contexts/AppContext"
+import translations from "../../services/translation"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
 export default function BrowserUiModal({ open, handleClose, src, title }) {
+  const { lang } = useContext(AppContext)
   let formattedSrc = ""
   if (!src) return <></>
   if (src.startsWith("https://")) formattedSrc = src
@@ -27,6 +37,7 @@ export default function BrowserUiModal({ open, handleClose, src, title }) {
   let count = []
   for (let i = 5; i >= 0; i -= 1) count.push(i)
   const [loadError, setLoadError] = useState(true)
+  const [showLoading, setShowLoading] = useState(true)
   const [countdown, setCountdown] = useState(count[0])
   const [showMsg, setShowMsg] = useState(false)
   const [showWelcomeMsg, setShowWelcomeMsg] = useState(false)
@@ -40,10 +51,12 @@ export default function BrowserUiModal({ open, handleClose, src, title }) {
       setShowMsg(true)
       LaunchCountdown()
       return setTimeout(() => {
-        window.open(formattedSrc, "_blank").focus()
+        window.open(formattedSrc, "_blank")?.focus()
       }, 6000)
+    } else {
+      setShowWelcomeMsg(true)
     }
-    setShowWelcomeMsg(true)
+    setShowLoading(false)
     setLoadError(false)
   }
 
@@ -60,7 +73,9 @@ export default function BrowserUiModal({ open, handleClose, src, title }) {
     if (countdown === 1) setAnimPosition(-40)
 
     if (countdown === 0) {
-      setCatchphrase("Bon vol")
+      setCatchphrase(
+        translations.websites.portfolio.browserInBrowser.title[lang]
+      )
       setShowCloseBtn(true)
     }
   }, [countdown])
@@ -106,20 +121,40 @@ export default function BrowserUiModal({ open, handleClose, src, title }) {
           zIndex={1}
           sx={{
             pointerEvents: "none",
-            display: loadError ? "none" : showWelcomeMsg ? "flex" : "none",
+            display: loadError ? "none" : "flex",
+            opacity: showWelcomeMsg ? 1 : 0,
+            transition: "opacity .4s ease",
           }}
         >
           <Typography variant="h3" color="secondary">
-            Bon visionnage !
+            {
+              translations.websites.portfolio.browserInBrowser.startMessage[
+                lang
+              ]
+            }
           </Typography>
         </Stack>
+
+        {showLoading && !showMsg && (
+          <Stack
+            className="full-width flex-center"
+            gap={4}
+            padding="1rem 2rem"
+            margin="auto"
+          >
+            <CircularProgress color="secondary" />
+            <BodyText preventTransition>
+              {translations.websites.portfolio.browserInBrowser.loading[lang]}
+            </BodyText>
+          </Stack>
+        )}
 
         {showMsg && (
           <Stack
             className="full-width full-height"
             alignItems="center"
             gap={4}
-            padding="1rem 2rem"
+            padding="3rem 2rem 1rem"
           >
             <Box
               sx={{
@@ -143,11 +178,12 @@ export default function BrowserUiModal({ open, handleClose, src, title }) {
               />
             </Box>
 
-            <Typography variant="h3">
+            <Typography variant="h3" color={(theme) => theme.palette.text.grey}>
               {catchphrase} !{" "}
               {countdown > 0 && (
                 <Box
                   component="span"
+                  mr={2}
                   sx={{ color: (theme) => theme.palette.text.secondary }}
                 >
                   {countdown}...
@@ -157,8 +193,11 @@ export default function BrowserUiModal({ open, handleClose, src, title }) {
 
             <Stack width={{ xs: "100%", lg: "50%" }}>
               <BodyText textAlign="center">
-                Ce site ne peut maheureusement pas s'afficher dans le navigateur
-                virtuel. Un nouvel onglet va s'ouvrir... Prêt au décollage ?
+                {
+                  translations.websites.portfolio.browserInBrowser.errorMessage[
+                    lang
+                  ]
+                }
               </BodyText>
             </Stack>
 
@@ -169,7 +208,7 @@ export default function BrowserUiModal({ open, handleClose, src, title }) {
                   textTransform="initial"
                   onClick={customHandleClose}
                 >
-                  Fermer
+                  {translations.close[lang]}
                 </PillButton>
               )}
             </Stack>
