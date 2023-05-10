@@ -12,10 +12,9 @@ export const ORDERSTATES = {
   },
   FINISHED: {
     label: "En cours",
-    description: "Votre commande est en cours.",
+    description: "Votre commande terminée.",
     severity: "disabled",
   },
-
   WAITING_FOR_PAYMENT: {
     label: "Non finalisée",
     description: "Votre commande est en attente du paiement.",
