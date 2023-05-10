@@ -212,9 +212,11 @@ export default function Footer(props) {
           <Stack
             alignItems="center"
             gap={5}
-            sx={{
-              flexDirection: { xs: "column", md: "row" },
-            }}
+            sx={
+              {
+                // flexDirection: { xs: "column", md: "row" },
+              }
+            }
           >
             {/* LOGO */}
             <motion.div
