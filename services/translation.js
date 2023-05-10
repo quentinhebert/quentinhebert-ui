@@ -12,6 +12,10 @@ const translations = {
       fr: "À propos de ce site",
       en: "About this website",
     },
+    copyright: {
+      fr: "Tous droits réservés",
+      en: "All rights reserved",
+    },
   },
   scrollDown: {
     fr: "Défilez vers le bas",

@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react"
-import { Stack, Typography, Box } from "@mui/material"
+import { Stack, Typography, Box, Divider } from "@mui/material"
 import FacebookIcon from "../../../public/medias/social_icons/facebook.svg"
 import InstagramIcon from "../../../public/medias/social_icons/instagram.svg"
 import LinkedinIcon from "../../../public/medias/social_icons/linkedin.svg"
@@ -23,6 +23,8 @@ import ScaleUpOnHoverStack from "../../Animation/scale-up-on-hover-stack"
 import NextLink from "../../Helpers/next-link"
 import { AppContext } from "../../../contexts/AppContext"
 import translations from "../../../services/translation"
+import Multiline from "../../Text/multiline"
+import BodyText from "../../Text/body-text"
 
 /********** CONSTANTES **********/
 const logoQH = "/logos/logo-qh.png"
@@ -53,26 +55,35 @@ const Credits = ({ text }) => {
     <Stack
       alignItems="center"
       textAlign="center"
-      margin="3rem auto 0"
-      padding="0 1rem"
+      margin="1.5rem auto 0"
+      gap={4}
     >
-      <SmallText>
-        © Quentin Hébert {year} · {text[lang]} ·{" "}
-        <InTextLink
-          href="/terms-of-use"
-          text={translations.footer.termsOfUse[lang]}
-        />{" "}
-        ·{" "}
-        <InTextLink
-          href="/terms-and-conditions"
-          text={translations.footer.termsAndConditions[lang]}
-        />{" "}
-        ·{" "}
-        <InTextLink
-          href="/about/website"
-          text={translations.footer.about[lang]}
-          target="_blank"
-        />
+      <BodyText>
+        <Stack className="row gap-10">
+          <InTextLink
+            href="/terms-of-use"
+            text={translations.footer.termsOfUse[lang]}
+          />
+          ·
+          <InTextLink
+            href="/terms-and-conditions"
+            text={translations.footer.termsAndConditions[lang]}
+          />
+          ·
+          <InTextLink
+            href="/about/website"
+            text={translations.footer.about[lang]}
+            target="_blank"
+          />
+        </Stack>
+      </BodyText>
+
+      <SmallText textAlign="center" animDelay={0.8}>
+        <Multiline text={text[lang]} />
+      </SmallText>
+
+      <SmallText animDelay={1.2}>
+        © Quentin Hébert {year} – {translations.footer.copyright[lang]}
       </SmallText>
     </Stack>
   )

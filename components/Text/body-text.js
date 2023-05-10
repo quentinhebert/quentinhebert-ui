@@ -31,7 +31,7 @@ const Text = styled(
       visible: {
         opacity: 1,
         transition: {
-          duration: 0.5,
+          duration: 0.7,
           delay: animDelay || 0.25,
           ease: [0.32, 0, 0.67, 0],
         },
