@@ -252,6 +252,42 @@ const application = {
       }
     },
   },
+  QandA: {
+    get: async () => {
+      try {
+        return await fetch(
+          `${defaultConfig.apiUrl}/application/questions-and-answers`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    // Admin only
+    update: async (text) => {
+      const body = { q_and_a: text }
+      try {
+        return await fetch(
+          `${defaultConfig.apiUrl}/application/questions-and-answers`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${await getFreshToken()}`,
+            },
+            body: JSON.stringify(body),
+          }
+        )
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  },
 }
 
 export default application

@@ -10,6 +10,7 @@ import CustomModal from "../../Modals/custom-modal"
 import OneActionCardsGrid from "../../Cards/one-action-cards-grid"
 import FixedBackground from "../../Backgrounds/fixed-background"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
+import AdminQandAForm from "../../Forms/admin/admin-q-and-a-form"
 
 export default function WebsiteInfoPanel_Main() {
   const [openModal, setOpenModal] = useState(false)
@@ -100,6 +101,19 @@ export default function WebsiteInfoPanel_Main() {
         },
       },
     },
+    {
+      id: "q_and_a",
+      title: "FAQ",
+      description: "Modifiez vos Questions/Réponses.",
+      button: {
+        text: "Modifier",
+        onClick: () => {
+          setOpenModal(true)
+          setModalFullscreen(true)
+          setDialogContent("q_and_a")
+        },
+      },
+    },
   ]
 
   return (
@@ -132,6 +146,9 @@ export default function WebsiteInfoPanel_Main() {
           )}
           {dialogContent === "terms_and_conditions" && (
             <AdminTermsAndConditionsForm handleClose={handleClose} />
+          )}
+          {dialogContent === "q_and_a" && (
+            <AdminQandAForm handleClose={handleClose} />
           )}
         </CenteredMaxWidthContainer>
       </CustomModal>

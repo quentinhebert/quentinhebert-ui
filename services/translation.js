@@ -645,6 +645,12 @@ const translations = {
       en: "General terms and conditions",
     },
   },
+  QandA: {
+    title: {
+      fr: "FAQ",
+      en: "Questions & Answsers",
+    },
+  },
 }
 
 export default translations

@@ -46,6 +46,11 @@ export const fetchers = {
     const jsonRes = await res.json()
     return jsonRes
   },
+  QandA: async () => {
+    const res = await apiCall.application.QandA.get()
+    const jsonRes = await res.json()
+    return jsonRes
+  },
 }
 
 const prepareProps = async (componentNames) => {
