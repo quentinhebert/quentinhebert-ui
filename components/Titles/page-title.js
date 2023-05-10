@@ -11,7 +11,6 @@ export default function PageTitle(props) {
         <Typography
           variant="h1"
           component="span"
-          className="true-baseline-align" // Fixes fontface vertical align issue
           fontFamily={fontFamily || "POPFINE"}
           // fontWeight="bold"
           color="secondary"
