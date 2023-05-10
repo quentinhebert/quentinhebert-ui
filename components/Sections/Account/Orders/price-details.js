@@ -112,7 +112,7 @@ export default function PriceDetails({ items, order }) {
                 margin: "1rem 0",
               }}
             />
-            {console.debug("paymentFractions", paymentFractions)}
+
             {paymentFractions.map((f, key) => {
               return (
                 <Fragment key={key}>
