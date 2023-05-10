@@ -181,7 +181,10 @@ export default function Order_Main({ orderId }) {
                             textTransform="capitalize"
                           >
                             {INVOICETYPES[invoice.type]} (
-                            {getPaymentFractionsDetails({ order })[key].percent}
+                            {
+                              getPaymentFractionsDetails({ order })[key]
+                                ?.percent
+                            }
                             )
                           </Typography>
                         </Stack>

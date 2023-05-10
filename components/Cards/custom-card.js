@@ -12,6 +12,7 @@ const Card = styled(
     padding,
     borderRadius,
     hoverProps,
+    marginBottom,
     height,
     ...props
   }) => {
@@ -34,7 +35,7 @@ const Card = styled(
           border: border || "",
           color: color || "#fff",
           gap: { xs: 2, md: 4 },
-          marginBottom: "2rem",
+          marginBottom: marginBottom || "2rem",
         }}
       >
         <Stack

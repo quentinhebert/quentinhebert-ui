@@ -1,5 +1,5 @@
-import { Box, Stack, Typography } from "@mui/material"
-import { useEffect, useState } from "react"
+import { Box, Grid, Stack, Typography } from "@mui/material"
+import { useEffect, useRef, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import Custom404_Main from "../../Main/Errors/Custom404_Main"
 import SelectAddressSection from "../../Sections/Account/Orders/select-address-section"
@@ -16,11 +16,16 @@ import {
 } from "../../../services/orders"
 import Span from "../../Text/span"
 import CustomCard from "../../Cards/custom-card"
+import { zeroPad } from "../../../services/utils"
+import PillButton from "../../Buttons/pill-button"
+import EastIcon from "@mui/icons-material/East"
+import { useRouter } from "next/router"
 
 const steps = [
   "Adresse de facturation",
   // "Adresse de livraison",
   "Moyen de paiement",
+  "Récapitulatif",
 ]
 
 const ActionTitle = (props) => (
@@ -41,11 +46,15 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
     payments: [],
     payment_fractions: [],
   }
+  const initialPM = {}
   const [order, setOrder] = useState(initialOrder)
+  const [paymentMethod, setPaymentMethod] = useState(initialPM)
   const [loading, setLoading] = useState(false)
   const [invoiceAddress, setInvoiceAddress] = useState(null)
   const [deliveryAddress, setDeliveryAddress] = useState(null)
   const [is401, setIs401] = useState(false)
+
+  const router = useRouter()
 
   // Stepper utils
   const [activeStep, setActiveStep] = useState(0)
@@ -74,10 +83,52 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
     }
     setLoading(false)
   }
+  const handleSelectPmId = (paymentMethod) => {
+    setPaymentMethod(paymentMethod)
+    handleNext()
+  }
+  const handleRedirectCheckout = async () => {
+    const res = await apiCall.orders.getCheckoutClientSecret({
+      order: { id: orderId },
+      invoiceAddress,
+      deliveryAddress,
+      payment_method: paymentMethod.id,
+    })
+    if (res && res.ok) {
+      router.push(`/account/orders/${orderId}/checkout/success`)
+    } else alert("Une erreur est survenue")
+  }
+
+  const pmRef = useRef(null)
+  const dRef = useRef(null)
+  const iRef = useRef(null)
+  const checkoutRef = useRef(null)
+  const RefsForScroll = {
+    invoicing: iRef,
+    delivery: dRef,
+    paymentMethod: pmRef,
+    checkout: checkoutRef,
+  }
+  const scrollTo = (ref) => {
+    ref.current.scrollIntoView({
+      behavior: "smooth",
+    })
+  }
 
   useEffect(() => {
     fetchOrder()
   }, [])
+
+  useEffect(() => {
+    if (
+      !RefsForScroll.invoicing.current ||
+      !RefsForScroll.paymentMethod.current
+    )
+      return
+    if (activeStep === 0) scrollTo(RefsForScroll.invoicing)
+    else if (activeStep === 1) scrollTo(RefsForScroll.paymentMethod)
+    else if (activeStep === 2) scrollTo(RefsForScroll.checkout)
+  }, [activeStep])
 
   const nextPayment = getNextPaymentDetails({ order })
   const paymentFractions = getPaymentFractionsDetails({ order })
@@ -91,6 +142,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
 
       <Stack>
         {/********** STEPPER **********/}
+        <Stack ref={RefsForScroll.checkout} />
         <CenteredMaxWidthContainer>
           <CustomCard
             backgroundColor={(theme) => theme.palette.background.main}
@@ -104,6 +156,10 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
         </CenteredMaxWidthContainer>
 
         {/********** FORMS **********/}
+        <Stack
+          ref={RefsForScroll.invoicing}
+          sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
+        />
         {activeStep === 0 && (
           <CenteredMaxWidthContainer>
             <CustomCard
@@ -143,17 +199,34 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
           </>
         )} */}
 
+        <Stack
+          ref={RefsForScroll.paymentMethod}
+          sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
+        />
         {activeStep === 1 && (
-          <SelectPaymentMethodSection
-            orderId={orderId}
-            invoiceAddress={invoiceAddress}
-            deliveryAddress={deliveryAddress}
-          />
+          <>
+            <SelectPaymentMethodSection
+              orderId={orderId}
+              order={order}
+              invoiceAddress={invoiceAddress}
+              deliveryAddress={deliveryAddress}
+              handleSelectPmId={handleSelectPmId}
+            />
+          </>
         )}
       </Stack>
 
       {/********** PRICE & ACTION DETAILS **********/}
       <CenteredMaxWidthContainer>
+        {activeStep === 2 && (
+          <PillButton
+            margin="0 0 4rem"
+            endIcon={<EastIcon />}
+            onClick={handleRedirectCheckout}
+          >
+            Payer et finaliser la commande
+          </PillButton>
+        )}
         <Typography
           variant="h6"
           color="secondary"
@@ -201,6 +274,54 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
                 <br />
               </BodyText>
             </CustomCard>
+          </CustomCard>
+        )}
+        {activeStep === 2 && (
+          <CustomCard
+            backgroundColor={(theme) => theme.palette.background.main}
+          >
+            <Typography variant="h2" color="secondary" textAlign="center">
+              Moyen de paiement
+            </Typography>
+
+            <Stack width="100%" maxWidth="400px" alignSelf="center">
+              <CustomCard
+                backgroundColor={(theme) => theme.palette.background.black}
+              >
+                <BodyText
+                  textTransform="uppercase"
+                  textAlign="right"
+                  fontWeight="bold"
+                >
+                  {paymentMethod.card.brand}
+                </BodyText>
+                <Grid container mt={2}>
+                  <Grid item xs={2} textAlign="left">
+                    <BodyText color="grey" fontSize="0.7rem">
+                      Num.
+                    </BodyText>
+                  </Grid>
+                  <Grid item xs={10} textAlign="right">
+                    <BodyText>
+                      **** **** **** {paymentMethod.card.last4}
+                    </BodyText>
+                  </Grid>
+                </Grid>
+                <Grid container>
+                  <Grid item xs={2} textAlign="left">
+                    <BodyText color="grey" fontSize="0.7rem">
+                      Exp.
+                    </BodyText>
+                  </Grid>
+                  <Grid item xs={10} textAlign="right">
+                    <BodyText>
+                      {zeroPad(paymentMethod.card.exp_month, 2)}/
+                      {paymentMethod.card.exp_year}
+                    </BodyText>
+                  </Grid>
+                </Grid>
+              </CustomCard>
+            </Stack>
           </CustomCard>
         )}
 
@@ -254,6 +375,16 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
 
           <PriceDetails items={order.items} order={order} />
         </Stack>
+
+        {activeStep === 2 && (
+          <PillButton
+            margin="4rem 0 4rem"
+            endIcon={<EastIcon />}
+            onClick={handleRedirectCheckout}
+          >
+            Payer et finaliser la commande
+          </PillButton>
+        )}
       </CenteredMaxWidthContainer>
     </Stack>
   )

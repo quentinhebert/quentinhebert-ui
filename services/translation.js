@@ -280,7 +280,7 @@ const translations = {
       text: {
         pt1: {
           fr: `Je m'appelle Quentin, j'ai `,
-          en: "My name is Quentin, I'm",
+          en: "My name is Quentin, I'm ",
         },
         pt2: {
           fr: "ans et je suis vidéaste professionnel et développeur web en freelance. ",
@@ -370,7 +370,7 @@ const translations = {
           fr: "Événementiel",
           en: "Events",
         },
-        { id: "short_film", fr: "Court-métrage", en: "Short films" },
+        { id: "short_film", fr: "Court-métrage", en: "Short film" },
         { id: "clip", fr: "Clip", en: "Music clip" },
         { id: "corporate", fr: "Entreprise", en: "Corporate" },
         { id: "sport", fr: "Sport", en: "Sport" },

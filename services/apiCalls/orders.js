@@ -208,6 +208,7 @@ const orders = {
     order,
     invoiceAddress,
     deliveryAddress,
+    payment_method,
   }) => {
     const { id } = order
     const invoice_address = {
@@ -232,7 +233,7 @@ const orders = {
       country: deliveryAddress?.country,
       details: deliveryAddress?.details || "",
     }
-    const body = { invoice_address, delivery_address }
+    const body = { invoice_address, delivery_address, payment_method }
     try {
       return await fetch(
         `${defaultConfig.apiUrl}/orders/${id}/create-payment-intent`,

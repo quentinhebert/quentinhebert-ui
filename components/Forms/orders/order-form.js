@@ -448,6 +448,7 @@ const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
 
         <Stack gap={1}>
           {order.payments.map((payment, key) => {
+            console.log("payment.status", payment.status)
             const bgColor = (theme) =>
               theme.alert.title[PAYMENTSTATES[payment.status].severity]
                 .background
