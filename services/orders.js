@@ -68,7 +68,7 @@ export function getPaymentFractionsDetails({ order }) {
     }
     // 2nd Step : Handle last payment (= 1st element of payments)
     else {
-      if (payments[0]?.status !== "succeeded") {
+      if (payments[0]?.status !== "succeeded" && key < payments.length) {
         f.paymentStatus = payments[0]?.status
       }
     }
