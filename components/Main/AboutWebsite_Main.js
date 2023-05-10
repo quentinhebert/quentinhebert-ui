@@ -4,8 +4,13 @@ import styles from "../../styles/TextShine.module.css"
 import BicolorTitle from "../Titles/bicolor-title"
 import FixedBackground from "../Backgrounds/fixed-background"
 import { Parallax, ParallaxProvider } from "react-scroll-parallax"
+import { useContext } from "react"
+import { AppContext } from "../../contexts/AppContext"
+import { defaultConfig } from "../../config/defaultConfig"
+import translations from "../../services/translation"
 
 export default function AboutWebsite_Main() {
+  const { lang } = useContext(AppContext)
   return (
     <ParallaxProvider>
       <Stack padding="4rem 0" gap={4}>
@@ -35,9 +40,9 @@ export default function AboutWebsite_Main() {
 
         <BicolorTitle
           className={styles.shine}
-          mainText="quentinhebert.com"
+          mainText={defaultConfig.webclientUrl.split("//")[1]}
           mainColor={(theme) => theme.palette.text.secondary}
-          secondaryText="Tout savoir sur le site"
+          secondaryText={translations.aboutWebsite.subtitle[lang]}
           secondaryColor="#fff"
           bgColor="transparent"
         />
@@ -45,41 +50,35 @@ export default function AboutWebsite_Main() {
         <Stack justifyContent="center" alignItems="center" gap={8} zIndex={0}>
           <ImgTextBand
             img="/medias/about-website/nodejs-logo.png"
-            title="Quel environnement ?"
+            title={translations.aboutWebsite.environment.title[lang]}
             titleColor="#61b448"
-            text="Ce site internet est un projet Node.js qui a été développé par Quentin HEBERT."
+            text={translations.aboutWebsite.environment.description[lang]}
             reverse
           />
           <ImgTextBand
             img="/medias/about-website/javascript-logo.png"
-            title="Quel language ?"
+            title={translations.aboutWebsite.language.title[lang]}
             titleColor="#f7e018"
-            text="Le langage majoritairement utilisé dans le projet est le JavaScript."
+            text={translations.aboutWebsite.language.description[lang]}
           />
           <ImgTextBand
             img="/medias/about-website/libraries.png"
-            title="Quelles librairies ?"
+            title={translations.aboutWebsite.libraries.title[lang]}
             titleColor="#0080ff"
-            text="Le projet est un projet ReactJS, avec son framework Next.js. Nous
-          utilisons également la librairie MUI (anciennement MaterialUI) pour
-          les éléments d'interface facilement personalisables. Son utilisation a
-          permi d'accélérer la phase de développement du site en front-end."
+            text={translations.aboutWebsite.libraries.description[lang]}
             reverse
           />
           <ImgTextBand
             img="/medias/about-website/stripe-logo.png"
-            title="Quel service de paiement en ligne ?"
+            title={translations.aboutWebsite.payments.title[lang]}
             titleColor="#6772e5"
-            text="Le projet est un projet ReactJS, avec son framework Next.js. Nous
-          utilisons également la librairie MUI (anciennement MaterialUI) pour
-          les éléments d'interface facilement personalisables. Son utilisation a
-          permi d'accélérer la phase de développement du site en front-end."
+            text={translations.aboutWebsite.payments.description[lang]}
           />
           <ImgTextBand
             img="/medias/about-website/netlify.png"
-            title="Quel hébergement ?"
+            title={translations.aboutWebsite.host.title[lang]}
             titleColor="#3fa2bc"
-            text="Le site et son API sont hébergés sur Netlify."
+            text={translations.aboutWebsite.host.description[lang]}
             reverse
           />
         </Stack>

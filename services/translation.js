@@ -541,6 +541,62 @@ const translations = {
       ],
     },
   },
+  aboutWebsite: {
+    subtitle: {
+      fr: "Tout savoir sur",
+      en: "All information about",
+    },
+    environment: {
+      title: {
+        fr: "Quel environnement ?",
+        en: "Which environment?",
+      },
+      description: {
+        fr: "Ce site internet est un projet Node.js qui a été développé par Quentin HEBERT.",
+        en: "This website is a Node.js project and has been developed by Quentin Hébert",
+      },
+    },
+    language: {
+      title: {
+        fr: "Quel language ?",
+        en: "Which programming language?",
+      },
+      description: {
+        fr: "Le langage majoritairement utilisé dans le projet est le JavaScript.",
+        en: "Javascript is the main language of this project.",
+      },
+    },
+    libraries: {
+      title: {
+        fr: "Quelles librairies ?",
+        en: "Which libraries?",
+      },
+      description: {
+        fr: "Le projet est un projet ReactJS, avec son framework Next.js. J'utilise également la librairie MUI (anciennement MaterialUI) pour les éléments d'interface facilement personalisables. Son utilisation a permi d'accélérer la phase de développement du site en front-end.",
+        en: "The project is a ReactJS project, used on top of its framework NextJS. I also use the library MUI (previously MaterialUI) for the interface elements which are easily customizable. Thanks to the libraries, I have accelerated the develpement process.",
+      },
+    },
+    payments: {
+      title: {
+        fr: "Quel service de paiement en ligne ?",
+        en: "Which online payment service?",
+      },
+      description: {
+        fr: "C'est Stripe qui assure la logistique bancaire. Les paiements sont sécurisés grâce à l'utilisation de mon API et celle de Stripe.",
+        en: "Stripe ensures the bank logistic. All payments are secure thanks to my API and Stripe API.",
+      },
+    },
+    host: {
+      title: {
+        fr: "Quel hébergement ?",
+        en: "Which hosting solution?",
+      },
+      description: {
+        fr: "Le site et son API sont hébergés sur Netlify.",
+        en: "This website and its API are hosted on Netlify.",
+      },
+    },
+  },
   contactMe: {
     fr: "Contactez-moi",
     en: "Contact me",
