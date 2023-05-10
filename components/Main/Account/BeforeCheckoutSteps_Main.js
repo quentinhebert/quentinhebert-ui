@@ -83,7 +83,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
     }
     setLoading(false)
   }
-  const handleSelectPmId = (paymentMethod) => {
+  const handleSelectPm = (paymentMethod) => {
     setPaymentMethod(paymentMethod)
     handleNext()
   }
@@ -208,9 +208,10 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
             <SelectPaymentMethodSection
               orderId={orderId}
               order={order}
+              setOrder={setOrder}
               invoiceAddress={invoiceAddress}
               deliveryAddress={deliveryAddress}
-              handleSelectPmId={handleSelectPmId}
+              handleSelectPm={handleSelectPm}
             />
           </>
         )}

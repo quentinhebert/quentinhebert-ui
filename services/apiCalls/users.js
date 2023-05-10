@@ -351,6 +351,27 @@ const users = {
       }
     },
   },
+  paymentMethod: {
+    // User
+    detach: async ({ payment_method = { id }, user = { id } }) => {
+      try {
+        const body = { payment_method }
+        return await fetch(
+          `${defaultConfig.apiUrl}/users/${user.id}/payment-method/detach`,
+          {
+            method: "DELETE",
+            body: JSON.stringify(body),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${await getFreshToken()}`,
+            },
+          }
+        )
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  },
 }
 
 export default users

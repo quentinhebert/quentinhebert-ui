@@ -7,15 +7,30 @@ import CustomCard from "../../../Cards/custom-card"
 import EastIcon from "@mui/icons-material/East"
 import BodyText from "../../../Text/body-text"
 import { zeroPad } from "../../../../services/utils"
+import useConfirm from "../../../../hooks/useConfirm"
+import { useContext } from "react"
+import { UserContext } from "../../../../contexts/UserContext"
+import { AppContext } from "../../../../contexts/AppContext"
 
 export default function SelectPaymentMethodSection({
   orderId,
   order,
+  setOrder,
   invoiceAddress,
   deliveryAddress,
-  handleSelectPmId,
+  handleSelectPm,
 }) {
   const router = useRouter()
+  const [
+    setConfirmTitle,
+    setConfirmMsg,
+    setNextBtnText,
+    setConfirmAction,
+    handleOpen,
+    ConfirmationDialog,
+  ] = useConfirm()
+  const { user } = useContext(UserContext)
+  const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
 
   // HANDLERS
   const handleRedirectCheckout = async ({ paymentMethodId }) => {
@@ -30,6 +45,39 @@ export default function SelectPaymentMethodSection({
       router.push(
         `/account/orders/${orderId}/checkout/${jsonRes.client_secret}`
       )
+    }
+  }
+  const handleDetachPM = async (paymentMethod) => {
+    setConfirmTitle("Supprimer la carte")
+    setConfirmMsg(
+      <>
+        Êtes-vous sûr de vouloir supprimer la carte ci-dessous ?
+        <p />
+        Num. **** **** **** {paymentMethod.card.last4}
+        <br />
+        Exp. {zeroPad(paymentMethod.card.exp_month, 2)}/
+        {paymentMethod.card.exp_year}
+      </>
+    )
+    setNextBtnText("Oui, supprimer la carte")
+    setConfirmAction(() => async () => await detachPM(paymentMethod))
+    handleOpen()
+  }
+  const detachPM = async (paymentMethod) => {
+    const res = await apiCall.users.paymentMethod.detach({
+      user,
+      payment_method: paymentMethod,
+    })
+    if (res && res.ok) {
+      const localPM = order.payment_methods.filter(
+        (pm) => pm.id !== paymentMethod.id
+      )
+      setOrder({ ...order, payment_methods: localPM })
+      setSnackSeverity("success")
+      setSnackMessage("La carte a bien été supprimée")
+    } else {
+      setSnackSeverity("error")
+      setSnackMessage("La carte n'a pas pu être supprimée")
     }
   }
 
@@ -88,7 +136,7 @@ export default function SelectPaymentMethodSection({
                           </Grid>
 
                           <PillButton
-                            onClick={() => handleSelectPmId(pm)}
+                            onClick={() => handleSelectPm(pm)}
                             padding=".25rem .75rem"
                             borderRadius="20px"
                             margin="2rem 0 0"
@@ -108,7 +156,7 @@ export default function SelectPaymentMethodSection({
                                 textDecoration: "underline",
                               },
                             }}
-                            onClick={() => {}}
+                            onClick={() => handleDetachPM(pm)}
                           >
                             Supprimer la carte
                           </Button>
@@ -134,6 +182,8 @@ export default function SelectPaymentMethodSection({
           {/* <PillButton>Paypal</PillButton> */}
         </Stack>
       </CustomCard>
+
+      <ConfirmationDialog />
     </CenteredMaxWidthContainer>
   )
 }
