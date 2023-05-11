@@ -25,7 +25,7 @@ const steps = [
   "Adresse de facturation",
   // "Adresse de livraison",
   "Moyen de paiement",
-  "Récapitulatif",
+  "Récapitulatif et paiement",
 ]
 
 const ActionTitle = (props) => (
@@ -142,7 +142,10 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
 
       <Stack>
         {/********** STEPPER **********/}
-        <Stack ref={RefsForScroll.checkout} />
+        <Stack
+          ref={RefsForScroll.checkout}
+          sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
+        />
         <CenteredMaxWidthContainer>
           <CustomCard
             backgroundColor={(theme) => theme.palette.background.main}
@@ -219,15 +222,6 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
 
       {/********** PRICE & ACTION DETAILS **********/}
       <CenteredMaxWidthContainer>
-        {activeStep === 2 && (
-          <PillButton
-            margin="0 0 4rem"
-            endIcon={<EastIcon />}
-            onClick={handleRedirectCheckout}
-          >
-            Payer et finaliser la commande
-          </PillButton>
-        )}
         <Typography
           variant="h6"
           color="secondary"
