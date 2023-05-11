@@ -1123,12 +1123,12 @@ function OrderForm({
                 </BodyText>
               </Stack>
 
-              {order.status === "DRAFT" && (
-                <Stack
-                  gap={2}
-                  className="flex-center"
-                  flexDirection={{ xs: "column", md: "row" }}
-                >
+              <Stack
+                gap={2}
+                className="flex-center"
+                flexDirection={{ xs: "column", md: "row" }}
+              >
+                {order.status === "DRAFT" && (
                   <PillButton
                     preventTransition
                     width="auto"
@@ -1139,9 +1139,9 @@ function OrderForm({
                   >
                     Commande prête ?
                   </PillButton>
-                  <DropdownOptions options={options} />
-                </Stack>
-              )}
+                )}
+                <DropdownOptions options={options} />
+              </Stack>
             </Stack>
           </>
         ) : (
