@@ -27,7 +27,7 @@ function AnimatedScrollDownBtn({ refForScroll, scrollTo }) {
     <Stack width="200px">
       <Stack
         id="container"
-        className="row flex-center pointer"
+        className="row flex-center pointer no-select"
         sx={{
           "&:hover": {
             "& .MuiBox-root": {
