@@ -81,7 +81,6 @@ export default function WebsiteFocusPart(props) {
                 WebkitTextFillColor: "transparent",
                 lineHeight: "8rem",
               }}
-              fontFamily="Zacbel X"
               textAlign="center"
             />
 

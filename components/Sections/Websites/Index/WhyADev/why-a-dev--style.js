@@ -11,7 +11,6 @@ const Title = (props) => (
   <MediumTitle
     textAlign="center"
     className={styles.shine}
-    fontFamily="Zacbel X"
     lineHeight={{ xs: "15vw", sm: "10vw" }}
     {...props}
   />
