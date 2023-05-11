@@ -81,7 +81,7 @@ function Btn({
             fontFamily: fontFamily || "",
             gap: gap || 0,
             width: width || "100%",
-            display: display || "flex",
+            display: display || "inline-flex",
             "&:hover": {
               background:
                 (!disabled && background) ||
