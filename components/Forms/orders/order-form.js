@@ -26,7 +26,11 @@ import DropdownOptions from "../../Dropdown/dropdown-options"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import { useRouter } from "next/router"
 import withConfirmAction from "../../hocs/withConfirmAction"
-import { buildPublicURL, checkEmail } from "../../../services/utils"
+import {
+  buildPublicURL,
+  checkEmail,
+  formatPrice,
+} from "../../../services/utils"
 import OrderReadOnlySection from "../../Sections/Orders/order-read-only-section"
 import ClientAutocomplete from "../admin/client-autocomplete"
 import SubmitButton from "../../Buttons/submit-button"
@@ -80,6 +84,7 @@ import DownloadIcon from "@mui/icons-material/Download"
 import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox"
 import AddBoxIcon from "@mui/icons-material/AddBox"
 import CheckIcon from "@mui/icons-material/CheckCircleOutline"
+import CustomCard from "../../Cards/custom-card"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -439,7 +444,55 @@ const ClientSection = ({ order, handleOpenAssign }) => {
   )
 }
 const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
-  const PaymentsList = () => {
+  const nextPayment = getNextPaymentDetails({ order })
+
+  // If mission paid, payment section not displayed
+  if (order.status === "PAYMENT_SUCCEEDED") return <PaymentsList />
+  return (
+    <>
+      <PaymentsList />
+
+      <FormCard textAlign="center">
+        <Stack width="100%" maxWidth="400px" margin="auto" gap={2}>
+          <CustomCard>
+            <BodyText>
+              Informations sur le prochain paiement ({nextPayment.paymentStep})
+              :
+            </BodyText>
+
+            <Grid container spacing={1} width="100%">
+              <Label>Montant</Label>
+              <Value>{formatPrice(nextPayment.amount)}€</Value>
+              <Label>Étape de paiement</Label>
+              <Value>
+                {nextPayment.label} ({nextPayment.percent})
+              </Value>
+            </Grid>
+          </CustomCard>
+        </Stack>
+
+        <PillButton
+          onClick={handleGenerate}
+          textTransform="initial"
+          width="auto"
+        >
+          Générer un lien de paiement en ligne
+        </PillButton>
+        <PillButton
+          textTransform="initial"
+          background="transparent"
+          border={(theme) => `1px solid ${theme.palette.secondary.main}`}
+          color={(theme) => theme.palette.secondary.main}
+          onClick={handleOpenTag}
+          width="auto"
+        >
+          Marquer le prochain paiement comme réglé
+        </PillButton>
+      </FormCard>
+    </>
+  )
+
+  function PaymentsList() {
     if (!order.payments.length) return <></>
     return (
       <FormCard gap={2}>
@@ -449,7 +502,6 @@ const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
 
         <Stack gap={1}>
           {order.payments.map((payment, key) => {
-            console.log("payment.status", payment.status)
             const bgColor = (theme) =>
               theme.alert.title[PAYMENTSTATES[payment.status].severity]
                 .background
@@ -523,34 +575,20 @@ const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
       </FormCard>
     )
   }
-
-  // If mission paid, payment section not displayed
-  if (order.status === "PAYMENT_SUCCEEDED") return <PaymentsList />
-  return (
-    <>
-      <PaymentsList />
-
-      <FormCard textAlign="center">
-        <PillButton
-          onClick={handleGenerate}
-          textTransform="initial"
-          width="auto"
-        >
-          Générer un lien de paiement en ligne
-        </PillButton>
-        <PillButton
-          textTransform="initial"
-          background="transparent"
-          border={(theme) => `1px solid ${theme.palette.secondary.main}`}
-          color={(theme) => theme.palette.secondary.main}
-          onClick={handleOpenTag}
-          width="auto"
-        >
-          Marquer le prochain paiement comme réglé
-        </PillButton>
-      </FormCard>
-    </>
-  )
+  function Label(props) {
+    return (
+      <GridItem xs={6}>
+        <Typography color="grey" {...props} />
+      </GridItem>
+    )
+  }
+  function Value(props) {
+    return (
+      <GridItem xs={6}>
+        <Typography textAlign="right" className="initial-cap" {...props} />
+      </GridItem>
+    )
+  }
 }
 
 function OrderForm({

@@ -246,7 +246,7 @@ input[type=number] {
   color: #C6900E;
 }
 .initial-cap{
-    display: inline-block;
+    /* display: inline-block; */
   }
 .initial-cap::first-letter{
     text-transform: capitalize;
