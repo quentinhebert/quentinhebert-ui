@@ -24,49 +24,51 @@ function AnimatedScrollDownBtn({ refForScroll, scrollTo }) {
   const { lang } = useContext(AppContext)
 
   return (
-    <Stack
-      id="container"
-      className="row relative flex-center pointer"
-      sx={{
-        "&:hover": {
-          "& .MuiBox-root": {
-            width: "100% !important",
-          },
-        },
-      }}
-      onClick={() => scrollTo(refForScroll)}
-    >
-      <Stack>
-        <MotionDivFadeInOnMount>
-          <Lottie
-            options={defaultOptions}
-            height={30}
-            width={30}
-            isClickToPauseDisabled
-          />
-        </MotionDivFadeInOnMount>
-      </Stack>
-      <Box
-        className="row flex"
-        overflow="hidden"
-        whiteSpace="nowrap"
+    <Stack width="200px">
+      <Stack
+        id="container"
+        className="row flex-center pointer"
         sx={{
-          alignItems: "center",
-          transition: "width .75s ease-in-out",
-          width,
+          "&:hover": {
+            "& .MuiBox-root": {
+              width: "100% !important",
+            },
+          },
         }}
+        onClick={() => scrollTo(refForScroll)}
       >
-        <AnimatedScrollDownArrow />
-        <Typography
-          className="cool-button"
+        <Stack>
+          <MotionDivFadeInOnMount>
+            <Lottie
+              options={defaultOptions}
+              height={30}
+              width={30}
+              isClickToPauseDisabled
+            />
+          </MotionDivFadeInOnMount>
+        </Stack>
+        <Box
+          className="row flex"
+          overflow="hidden"
+          whiteSpace="nowrap"
           sx={{
-            color: "#fff",
-            "&:hover": { color: (theme) => theme.palette.secondary.main },
+            alignItems: "center",
+            transition: "width .75s ease-in-out",
+            width,
           }}
         >
-          {translations.scrollDown[lang]}
-        </Typography>
-      </Box>
+          <AnimatedScrollDownArrow />
+          <Typography
+            className="cool-button"
+            sx={{
+              color: "#fff",
+              "&:hover": { color: (theme) => theme.palette.secondary.main },
+            }}
+          >
+            {translations.scrollDown[lang]}
+          </Typography>
+        </Box>
+      </Stack>
     </Stack>
   )
 }
