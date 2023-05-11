@@ -33,6 +33,7 @@ function Btn({
   fontFamily,
   disabled,
   gap,
+  display,
   ...props
 }) {
   /********** ANIMATION **********/
@@ -80,6 +81,7 @@ function Btn({
             fontFamily: fontFamily || "",
             gap: gap || 0,
             width: width || "100%",
+            display: display || "flex",
             "&:hover": {
               background:
                 (!disabled && background) ||

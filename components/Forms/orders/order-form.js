@@ -79,6 +79,7 @@ import EditIcon from "@mui/icons-material/Edit"
 import DownloadIcon from "@mui/icons-material/Download"
 import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox"
 import AddBoxIcon from "@mui/icons-material/AddBox"
+import CheckIcon from "@mui/icons-material/CheckCircleOutline"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -930,6 +931,44 @@ function OrderForm({
     // if quotation => quotation need to be accepted
     // Warning: if invoice generated manually => order is considered as paid
   }
+  const updateOrderReady = async () => {
+    if (order.status !== "DRAFT") return
+    const res = await apiCall.orders.save({
+      ...order,
+      status: "WAITING_FOR_PAYMENT",
+      items,
+      id,
+    })
+    if (res && res.ok) {
+      setSnackMessage("Votre commande est en attente de paiement")
+      setSnackSeverity("success")
+      fetchOrder()
+    } else {
+      setSnackMessage("Un problème est survenu...")
+      setSnackSeverity("error")
+    }
+  }
+  const handleOrderReady = () => {
+    setActionToFire(() => async () => await updateOrderReady())
+    setOpenConfirmModal(true)
+    setConfirmTitle("Marquer la commande comme prête")
+    setConfirmContent({
+      js: (
+        <>
+          <BodyText>Voulez-vous vraiment publier la commande ?</BodyText>
+          <AlertInfo
+            content={{
+              show: true,
+              title: "Important",
+              text: "Une fois publiée, il ne sera plus possible de la modifier.",
+              severity: "warning",
+            }}
+          />
+        </>
+      ),
+    })
+    setNextButtonText("Oui, ma commande est prête")
+  }
 
   const emailError = emailInput.trim() !== "" && !checkEmail(emailInput)
   const getRecipientString = (recipientEmails) => recipientEmails.join(", ")
@@ -1065,17 +1104,44 @@ function OrderForm({
                     100
                   ).toFixed(2)}
                   €
-                  {paymentFractions.length > 1 && (
-                    <Box component="span" color="grey" fontSize="1.2rem">
+                  {/* {paymentFractions.length > 1 && (
+                    <Box
+                      component="span"
+                      color="grey"
+                      fontSize="1.2rem"
+                      display={{
+                        xs: "none",
+                        sm: "inline-block",
+                        whiteSpace: "pre",
+                      }}
+                    >
                       {" ("}
                       {amountSumArray.join(" + ")}
                       {")"}
                     </Box>
-                  )}
+                  )} */}
                 </BodyText>
               </Stack>
 
-              <DropdownOptions options={options} />
+              {order.status === "DRAFT" && (
+                <Stack
+                  gap={2}
+                  className="flex-center"
+                  flexDirection={{ xs: "column", md: "row" }}
+                >
+                  <PillButton
+                    preventTransition
+                    width="auto"
+                    padding="0 1rem"
+                    startIcon={<CheckIcon />}
+                    display={{ xs: "none", md: "flex" }}
+                    onClick={handleOrderReady}
+                  >
+                    Commande prête ?
+                  </PillButton>
+                  <DropdownOptions options={options} />
+                </Stack>
+              )}
             </Stack>
           </>
         ) : (

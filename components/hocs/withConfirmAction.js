@@ -4,6 +4,7 @@ import RectangleButton from "../Buttons/rectangle-button"
 import CustomModal from "../Modals/custom-modal"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
 import BodyText from "../Text/body-text"
+import PillButton from "../Buttons/pill-button"
 
 function withConfirmAction(WrappedComponent) {
   function Enhancer(props) {
@@ -55,7 +56,7 @@ function withConfirmAction(WrappedComponent) {
             )
           }
           handleClose={() => setOpenModal(false)}
-          gap={2}
+          gap={4}
         >
           {/**** TITLE ****/}
           <ModalTitle>{confirmTitle}</ModalTitle>
@@ -66,14 +67,19 @@ function withConfirmAction(WrappedComponent) {
           ) : null}
 
           {/**** COMPLEX JS ****/}
-          {confirmContent.js ? content.js : null}
+          {confirmContent.js ? confirmContent.js : null}
 
           {/**** BOTTOM BUTTONS ****/}
-          <Stack flexDirection="row" gap={2} justifyContent="end">
-            <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
-            <RectangleButton secondary="true" onClick={handleNext}>
-              {nextButtonText}
-            </RectangleButton>
+          <Stack gap={2} justifyContent="end">
+            <PillButton onClick={handleNext}>{nextButtonText}</PillButton>
+            <PillButton
+              onClick={handleCancel}
+              background="transparent"
+              border={(theme) => `1px solid #fff`}
+              color="#fff"
+            >
+              Annuler
+            </PillButton>
           </Stack>
         </CustomModal>
       </>
