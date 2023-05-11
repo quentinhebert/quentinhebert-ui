@@ -11,6 +11,7 @@ import PleaseWait from "../Helpers/please-wait"
 import AlertInfo from "../Other/alert-info"
 import MediumTitle from "../Titles/medium-title"
 import CustomForm from "./custom-form"
+import { formatPrice } from "../../services/utils"
 
 export default function StripeCheckoutForm({ orderId, clientSecret }) {
   const stripe = useStripe()
@@ -43,6 +44,8 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
 
   useEffect(() => {
     fetchOrder()
+
+    return async () => await handleCancel()
   }, [])
 
   const handleSubmit = async (event) => {
@@ -84,14 +87,12 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
       clientSecret,
     })
     if (res && res.ok) {
-      alert("Abandon réussi, vous allez être redirigé")
       // Go back to order page
-      router.push(`/account/orders/${orderId}`)
-    } else alert("Problème")
+      router.push(`/account/orders/${orderId}/checkout/before-checkout-steps`)
+    } else alert("Un problème est survenu...")
   }
 
-  // TODO: factorize that shit + check from payments not invoices
-  const amountToPay = order ? getNextPaymentDetails({ order }).amount / 100 : 0
+  const amountToPay = order ? getNextPaymentDetails({ order }).amount : 0
 
   return (
     <Stack margin="100px 0" className="flex-center">
@@ -102,7 +103,7 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
             boxShadow={(theme) => `0 0 50px ${theme.palette.secondary.main}`}
           >
             <CustomForm onSubmit={handleSubmit}>
-              <MediumTitle>Payer {amountToPay}€</MediumTitle>
+              <MediumTitle>Payer {formatPrice(amountToPay)}€</MediumTitle>
               {showAlert.show && (
                 <Stack textAlign="left" maxWidth="300px" width="100%">
                   <AlertInfo content={showAlert} />

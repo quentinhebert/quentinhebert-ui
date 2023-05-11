@@ -112,4 +112,8 @@ export const scrollTo = (ref) => {
   })
 }
 
+export const formatPrice = (price) => {
+  return Number(price / 100).toFixed(2)
+}
+
 export const zeroPad = (num, places) => String(num).padStart(places, "0")

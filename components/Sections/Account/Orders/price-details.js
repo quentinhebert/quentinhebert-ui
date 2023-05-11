@@ -6,11 +6,12 @@ import {
 } from "../../../../services/orders"
 import BodyText from "../../../Text/body-text"
 import Span from "../../../Text/span"
+import { formatPrice } from "../../../../services/utils"
 
 const Label = (props) => (
   <Grid
     item
-    xs={10}
+    xs={9}
     sx={{
       "&:first-letter": {
         textTransform: "capitalize",
@@ -28,7 +29,7 @@ const Label = (props) => (
 )
 
 const Price = (props) => (
-  <Grid item xs={2} textAlign="right">
+  <Grid item xs={3} textAlign="right">
     <BodyText preventTransition {...props} fontSize="1rem" />
   </Grid>
 )
@@ -100,9 +101,9 @@ export default function PriceDetails({ items, order }) {
     >
       <Grid container width={{ xs: "100%", lg: "320px" }}>
         <Label color="#fff">Total TTC</Label>
-        <Price>{totalPrice / 100} €</Price>
+        <Price>{formatPrice(totalPrice)} €</Price>
         <Label>Dont TVA</Label>
-        <Price color="grey">{totalVAT / 100} €</Price>
+        <Price color="grey">{formatPrice(totalVAT)} €</Price>
         {paymentFractions.length > 1 && (
           <>
             <Stack
@@ -143,7 +144,7 @@ export default function PriceDetails({ items, order }) {
                         : null
                     }
                   >
-                    {f.amount / 100} €
+                    {formatPrice(f.amount)} €
                   </Price>
                 </Fragment>
               )

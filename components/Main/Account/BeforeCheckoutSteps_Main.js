@@ -16,7 +16,7 @@ import {
 } from "../../../services/orders"
 import Span from "../../Text/span"
 import CustomCard from "../../Cards/custom-card"
-import { zeroPad } from "../../../services/utils"
+import { formatPrice, zeroPad } from "../../../services/utils"
 import PillButton from "../../Buttons/pill-button"
 import EastIcon from "@mui/icons-material/East"
 import { useRouter } from "next/router"
@@ -392,7 +392,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
                               ? null
                               : `${f.label} de ${f.percent}`}
                           </Box>
-                          <Span ml={1}>{f.amount / 100}€ TTC</Span>
+                          <Span ml={1}>{formatPrice(f.amount)}€ TTC</Span>
                         </Box>
                       </ActionText>
                     </Stack>
