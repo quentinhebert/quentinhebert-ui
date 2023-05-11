@@ -48,18 +48,36 @@ export default function SelectPaymentMethodSection({
     }
   }
   const handleDetachPM = async (paymentMethod) => {
-    setConfirmTitle("Supprimer la carte")
-    setConfirmMsg(
-      <>
-        Êtes-vous sûr de vouloir supprimer la carte ci-dessous ?
-        <p />
-        Num. **** **** **** {paymentMethod.card.last4}
-        <br />
-        Exp. {zeroPad(paymentMethod.card.exp_month, 2)}/
-        {paymentMethod.card.exp_year}
-      </>
+    setConfirmTitle(
+      !!paymentMethod.card ? "Supprimer la carte" : "Supprimer le compte"
     )
-    setNextBtnText("Oui, supprimer la carte")
+    setConfirmMsg(
+      !!paymentMethod.card ? (
+        <>
+          Êtes-vous sûr de vouloir supprimer la carte ci-dessous ?
+          <p />
+          Num. **** **** **** {paymentMethod.card.last4}
+          <br />
+          Exp. {zeroPad(paymentMethod.card.exp_month, 2)}/
+          {paymentMethod.card.exp_year}
+        </>
+      ) : (
+        <>
+          Êtes-vous sûr de vouloir supprimer le compte bancaire ci-dessous ?
+          <p />
+          IBAN {paymentMethod.sepa_debit.country} ** **** **** **** ***
+          {paymentMethod.sepa_debit.last4[0]}{" "}
+          {paymentMethod.sepa_debit.last4[1]}
+          {paymentMethod.sepa_debit.last4[2]}
+          {paymentMethod.sepa_debit.last4[3]}
+        </>
+      )
+    )
+    setNextBtnText(
+      !!paymentMethod.card
+        ? "Oui, supprimer la carte"
+        : "Oui, supprimer le compte"
+    )
     setConfirmAction(() => async () => await detachPM(paymentMethod))
     handleOpen()
   }
@@ -159,6 +177,59 @@ export default function SelectPaymentMethodSection({
                             onClick={() => handleDetachPM(pm)}
                           >
                             Supprimer la carte
+                          </Button>
+                        </CustomCard>
+                      </Grid>
+                    )
+                  if (pm.type === "sepa_debit")
+                    return (
+                      <Grid item xs={12} md={6} xl={4}>
+                        <CustomCard gap="0" height="auto" marginBottom="0">
+                          <BodyText
+                            textTransform="uppercase"
+                            textAlign="right"
+                            fontWeight="bold"
+                          >
+                            Compte bancaire
+                          </BodyText>
+                          <Grid container mt={2}>
+                            <Grid item xs={2} textAlign="left">
+                              <BodyText color="grey" fontSize="0.7rem">
+                                IBAN
+                              </BodyText>
+                            </Grid>
+                            <Grid item xs={10} textAlign="right">
+                              <BodyText>
+                                {pm.sepa_debit.country} **** **** ****{" "}
+                                {pm.sepa_debit.last4}
+                              </BodyText>
+                            </Grid>
+                          </Grid>
+
+                          <PillButton
+                            onClick={() => handleSelectPm(pm)}
+                            padding=".25rem .75rem"
+                            borderRadius="30px"
+                            margin="2rem 0 0"
+                          >
+                            Prélever ce compte
+                          </PillButton>
+
+                          <Button
+                            variant="text"
+                            sx={{
+                              mt: 1,
+                              textTransform: "initial",
+                              borderRadius: "30px",
+                              color: (theme) => theme.palette.error.main,
+                              "&:hover": {
+                                background: "transparent",
+                                textDecoration: "underline",
+                              },
+                            }}
+                            onClick={() => handleDetachPM(pm)}
+                          >
+                            Supprimer le compte
                           </Button>
                         </CustomCard>
                       </Grid>

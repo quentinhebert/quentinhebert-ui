@@ -92,7 +92,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
       order: { id: orderId },
       invoiceAddress,
       deliveryAddress,
-      payment_method: paymentMethod.id,
+      payment_method: paymentMethod,
     })
     if (res && res.ok) {
       router.push(`/account/orders/${orderId}/checkout/success`)
@@ -282,42 +282,73 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
             </Typography>
 
             <Stack width="100%" maxWidth="400px" alignSelf="center">
-              <CustomCard
-                backgroundColor={(theme) => theme.palette.background.black}
-              >
-                <BodyText
-                  textTransform="uppercase"
-                  textAlign="right"
-                  fontWeight="bold"
+              {!!paymentMethod.sepa_debit && (
+                <CustomCard
+                  backgroundColor={(theme) => theme.palette.background.black}
                 >
-                  {paymentMethod.card.brand}
-                </BodyText>
-                <Grid container mt={2}>
-                  <Grid item xs={2} textAlign="left">
-                    <BodyText color="grey" fontSize="0.7rem">
-                      Num.
-                    </BodyText>
+                  <BodyText
+                    textTransform="uppercase"
+                    textAlign="right"
+                    fontWeight="bold"
+                  >
+                    Prélèvement bancaire
+                  </BodyText>
+                  <Grid container mt={2}>
+                    <Grid item xs={2} textAlign="left">
+                      <BodyText color="grey" fontSize="0.7rem">
+                        IBAN
+                      </BodyText>
+                    </Grid>
+                    <Grid item xs={10} textAlign="right">
+                      <BodyText>
+                        {paymentMethod.sepa_debit.country}** **** **** **** **
+                        {paymentMethod.sepa_debit.last4[0]}{" "}
+                        {paymentMethod.sepa_debit.last4[1]}
+                        {paymentMethod.sepa_debit.last4[2]}
+                        {paymentMethod.sepa_debit.last4[3]}{" "}
+                      </BodyText>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={10} textAlign="right">
-                    <BodyText>
-                      **** **** **** {paymentMethod.card.last4}
-                    </BodyText>
+                </CustomCard>
+              )}
+              {!!paymentMethod.card && (
+                <CustomCard
+                  backgroundColor={(theme) => theme.palette.background.black}
+                >
+                  <BodyText
+                    textTransform="uppercase"
+                    textAlign="right"
+                    fontWeight="bold"
+                  >
+                    {paymentMethod.card.brand}
+                  </BodyText>
+                  <Grid container mt={2}>
+                    <Grid item xs={2} textAlign="left">
+                      <BodyText color="grey" fontSize="0.7rem">
+                        Num.
+                      </BodyText>
+                    </Grid>
+                    <Grid item xs={10} textAlign="right">
+                      <BodyText>
+                        **** **** **** {paymentMethod.card.last4}
+                      </BodyText>
+                    </Grid>
                   </Grid>
-                </Grid>
-                <Grid container>
-                  <Grid item xs={2} textAlign="left">
-                    <BodyText color="grey" fontSize="0.7rem">
-                      Exp.
-                    </BodyText>
+                  <Grid container>
+                    <Grid item xs={2} textAlign="left">
+                      <BodyText color="grey" fontSize="0.7rem">
+                        Exp.
+                      </BodyText>
+                    </Grid>
+                    <Grid item xs={10} textAlign="right">
+                      <BodyText>
+                        {zeroPad(paymentMethod.card.exp_month, 2)}/
+                        {paymentMethod.card.exp_year}
+                      </BodyText>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={10} textAlign="right">
-                    <BodyText>
-                      {zeroPad(paymentMethod.card.exp_month, 2)}/
-                      {paymentMethod.card.exp_year}
-                    </BodyText>
-                  </Grid>
-                </Grid>
-              </CustomCard>
+                </CustomCard>
+              )}
             </Stack>
           </CustomCard>
         )}
