@@ -19,9 +19,9 @@ export default function QAndASection({ staticData, ...props }) {
   if (!!swr.data) data = swr.data
 
   return (
-    <Stack gap={2} padding="0 2rem">
+    <Stack gap={4} padding="0 2rem">
       <PageTitle text={translations.QandA.title[lang]} />
-      <ParseJsx jsx={formatText(data.q_and_a)} />
+      <ParseJsx jsx={formatText(data)} />
     </Stack>
   )
 }
