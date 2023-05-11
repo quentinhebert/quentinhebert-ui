@@ -91,7 +91,7 @@ export default function SelectPaymentMethodSection({
           Moyen de paiement
         </Typography>
 
-        {!!order.payment_methods.length && (
+        {!!order.payment_methods?.length && (
           <>
             <Stack className="flex-center gap-10">
               <Typography>Utilisez un moyen de paiement enregistré</Typography>
