@@ -85,7 +85,7 @@ export default function ResetPasswordForm(props) {
     setShowAlert({
       show: true,
       severity: "success",
-      text: "Ton mot de passe a été réinitialisé avec succès. Tu vas être redirigé vers la page dans 5 secondes.",
+      text: "Votre mot de passe a été réinitialisé avec succès. Vous allez être redirigé vers la page dans 5 secondes.",
     })
     setPasswordResetSuccess(true)
 
@@ -99,7 +99,7 @@ export default function ResetPasswordForm(props) {
     setShowAlert({
       show: true,
       severity: "warning",
-      text: `Un problème est survenu lors de la réinitialisation de ton mot de passe. [CodeError: ${jsonRes.code}]`,
+      text: `Un problème est survenu lors de la réinitialisation de votre mot de passe. [CodeError: ${jsonRes.code}]`,
     })
   }
   const resetPassword = async () => {
