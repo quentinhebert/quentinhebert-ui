@@ -17,6 +17,7 @@ import BodyText from "../Text/body-text"
 import Span from "../Text/span"
 import InTextLink from "../Links/in-text-link"
 import { defaultConfig } from "../../config/defaultConfig"
+import BottomButtons from "../Buttons/bottom-buttons"
 
 export default function SignUpForm({
   handleClose,
@@ -137,9 +138,14 @@ export default function SignUpForm({
   const checkAllData = () => {
     const localErrors = initialSignUpErrors
 
+    const notRequiredFields = ["phone"]
     // Let's check that all input values are not null and not empty string
     Object.keys(userData).map((key) => {
-      if (!userData[key] || userData[key].trim() === "") localErrors[key] = true
+      if (
+        !notRequiredFields.includes(key) &&
+        (!userData[key] || userData[key].trim() === "")
+      )
+        localErrors[key] = true
       else localErrors[key] = false
     })
 
@@ -215,7 +221,6 @@ export default function SignUpForm({
             helperText={liveCheck.email && "Cet e-mail n'est pas valide"}
           />
           <CustomOutlinedInput
-            required
             type="phone"
             id="phone"
             label="Téléphone"
@@ -298,18 +303,13 @@ export default function SignUpForm({
         {showAlert.show ? <AlertInfo content={showAlert} /> : null}
       </CustomForm>
 
-      <Stack flexDirection="row" gap={2} justifyContent="end">
-        <RectangleButton onClick={handleCloseAndClear}>
-          {signupCompleted ? "Fermer" : "Annuler"}
-        </RectangleButton>
-        <RectangleButton
-          secondary="true"
-          onClick={signUp}
-          disabled={!accept.policy || signupCompleted}
-        >
-          Enregistrer
-        </RectangleButton>
-      </Stack>
+      <BottomButtons
+        onClick={signUp}
+        label="Enregistrer"
+        disabled={!accept.policy || signupCompleted}
+        cancelLabel={signupCompleted ? "Fermer" : "Annuler"}
+        handleCancel={handleCloseAndClear}
+      />
     </Stack>
   )
 }

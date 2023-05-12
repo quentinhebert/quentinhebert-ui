@@ -1,5 +1,5 @@
 import { useState, useContext } from "react"
-import { Stack } from "@mui/material"
+import { Button, Stack, Typography } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { AppContext } from "../../../contexts/AppContext"
 import CustomForm from "../custom-form"
@@ -8,6 +8,8 @@ import CustomFilledInput from "../../Inputs/custom-filled-input"
 import { checkEmail } from "../../../services/utils"
 import AlertInfo from "../../Other/alert-info"
 import { errorCodes } from "../../../config/errorCodes"
+import PillButton from "../../Buttons/pill-button"
+import BottomButtons from "../../Buttons/bottom-buttons"
 
 export default function GenerateClientSignupLink(props) {
   /********** PROPS **********/
@@ -48,6 +50,7 @@ export default function GenerateClientSignupLink(props) {
         {duplicatedEmail && (
           <AlertInfo
             content={{
+              show: true,
               severity: "error",
               title: "E-mail déjà existant",
               text: "Cet e-mail est lié à un utilisateur existant",
@@ -62,16 +65,12 @@ export default function GenerateClientSignupLink(props) {
           helperText={liveCheck && "Adresse e-mail non valide"}
         />
 
-        <Stack flexDirection="row" gap={2} justifyContent="end">
-          <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
-          <RectangleButton
-            secondary
-            onClick={handleSend}
-            disabled={!email || email.trim() === ""}
-          >
-            Envoyer
-          </RectangleButton>
-        </Stack>
+        <BottomButtons
+          onClick={handleSend}
+          disabled={liveCheck || !email || email.trim() === ""}
+          label="Envoyer le lien par mail"
+          handleCancel={handleCancel}
+        />
       </CustomForm>
     </Stack>
   )

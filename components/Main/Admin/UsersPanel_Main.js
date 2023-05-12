@@ -1,4 +1,4 @@
-import { Avatar, Box, Stack, Tooltip } from "@mui/material"
+import { Avatar, Box, Divider, Stack, Tooltip, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import withConfirmAction from "../../hocs/withConfirmAction"
@@ -10,6 +10,8 @@ import BodyText from "../../Text/body-text"
 import AlertInfo from "../../Other/alert-info"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import GenerateClientSignupLink from "../../Forms/admin/generate-client-signup-link"
+import PillButton from "../../Buttons/pill-button"
+import EastIcon from "@mui/icons-material/East"
 
 function getBoolValue(param) {
   if (!param)
@@ -202,7 +204,10 @@ function UsersPanel_Main(props) {
   }
 
   const [clientLink, setClientLink] = useState(false)
-  const handleClientLink = () => setClientLink(true)
+  const toggleClientLink = () => {
+    if (!clientLink) setClientLink(true)
+    else setClientLink(false)
+  }
 
   return (
     <>
@@ -225,41 +230,41 @@ function UsersPanel_Main(props) {
         />
       </Stack>
 
-      <CustomModal open={openSignUp} handleClose={handleCloseSignUp} gap={2}>
+      <CustomModal open={openSignUp} handleClose={handleCloseSignUp} gap={4}>
         <ModalTitle>
           {clientLink
             ? "Générer un lien d'inscription"
             : "Ajouter un utilisateur"}
         </ModalTitle>
-        <AlertInfo
-          content={{
-            severity: "info",
-            title: "Générer un lien d'inscription",
-            js: (
-              <BodyText fontSize="1rem">
-                Vous pouvez générer un{" "}
-                <Box
-                  component="span"
-                  sx={{
-                    textDecoration: "underline",
-                    color: (theme) => theme.palette.text.secondary,
-                    cursor: "pointer",
-                  }}
-                  onClick={handleClientLink}
-                >
-                  lien d'inscription
-                </Box>{" "}
-                (client uniquement). Le client pourra ainsi remplir tous les
-                champs d'inscription lui-même.
-              </BodyText>
-            ),
-          }}
-        />
+        <PillButton onClick={toggleClientLink} endIcon={<EastIcon />}>
+          {clientLink
+            ? "Ajouter manuellement"
+            : "Générer un lien d'inscription"}
+        </PillButton>
+        <Divider>
+          <Typography color="#fff">OU</Typography>
+        </Divider>
         {clientLink ? (
-          <GenerateClientSignupLink
-            handleCancel={() => setClientLink(false)}
-            handleClose={handleCloseSignUp}
-          />
+          <>
+            <AlertInfo
+              content={{
+                show: true,
+                severity: "info",
+                title: "Générer un lien d'inscription",
+                js: (
+                  <BodyText fontSize="1rem">
+                    Vous pouvez générer un lien d'inscription (client
+                    uniquement). Le client pourra ainsi remplir tous les champs
+                    d'inscription lui-même.
+                  </BodyText>
+                ),
+              }}
+            />
+            <GenerateClientSignupLink
+              handleCancel={() => setClientLink(false)}
+              handleClose={handleCloseSignUp}
+            />
+          </>
         ) : (
           <SignUpForm handleClose={handleCloseSignUp} />
         )}
