@@ -471,7 +471,7 @@ function SelectAddressSection({
                 setParentAddress(address)
               }}
             >
-              Suivant
+              Utiliser cette adresse
             </PillButton>
           </Stack>
         </>
