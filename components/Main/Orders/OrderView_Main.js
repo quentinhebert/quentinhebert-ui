@@ -196,7 +196,7 @@ export default function OrderView_Main({}) {
     )
 
   return (
-    <Stack padding="2rem" gap={2} width="100%">
+    <Stack padding="2rem" gap={2} width="100%" maxWidth="1000px" margin="auto">
       {order.id && !loading && (
         <Stack gap={4}>
           <Stack className="row gap-10" alignItems="center">
