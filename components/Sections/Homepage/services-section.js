@@ -112,6 +112,7 @@ const ServiceCard = ({ service, href, animationElement, delay }) => {
 }
 const Caroussel = ({ services }) => {
   const [index, setIndex] = useState(0)
+  const { lang } = useContext(AppContext)
   const handleChangeIndex = (index) => {
     setIndex(index)
   }
@@ -128,7 +129,7 @@ const Caroussel = ({ services }) => {
       >
         <SwipeIcon sx={{ rotate: "180deg" }} />
         <Typography fontStyle="italic" letterSpacing={1} fontSize=".8rem">
-          Faire défiler
+          {translations.swipe[lang]}
         </Typography>
       </Stack>
       <Stepper totalSteps={2} activeStep={index} setActiveStep={setIndex} />

@@ -3,6 +3,9 @@ import SwipeableViews from "react-swipeable-views"
 import Stepper from "../Navigation/stepper"
 import styles from "../../styles/TextShine.module.css"
 import SwipeIcon from "@mui/icons-material/Swipe"
+import { useContext } from "react"
+import { AppContext } from "../../contexts/AppContext"
+import translations from "../../services/translation"
 
 export default function SwipeableViewsReadyToUse({
   index,
@@ -11,6 +14,7 @@ export default function SwipeableViewsReadyToUse({
   totalSteps,
   ...props
 }) {
+  const { lang } = useContext(AppContext)
   return (
     <>
       <SwipeableViews
@@ -35,7 +39,7 @@ export default function SwipeableViewsReadyToUse({
         >
           <SwipeIcon />
           <Typography fontStyle="italic" letterSpacing={1} fontSize=".8rem">
-            Faire défiler
+            {translations.swipe[lang]}
           </Typography>
         </Stack>
         <Stepper totalSteps={3} activeStep={index} setActiveStep={setIndex} />

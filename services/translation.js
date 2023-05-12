@@ -1,4 +1,8 @@
 const translations = {
+  swipe: {
+    fr: "Faire défiler",
+    en: "Swipe to browse",
+  },
   navbar: {
     contactMe: {
       fr: "Me contacter",
