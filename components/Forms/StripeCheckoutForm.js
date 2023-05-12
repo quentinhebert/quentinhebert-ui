@@ -22,6 +22,7 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
   const [order, setOrder] = useState(null)
   const [loading, setLoading] = useState(true)
   const [processing, setProcessing] = useState(false)
+  const [success, setSuccess] = useState(false)
 
   const initalAlert = {
     show: false,
@@ -73,11 +74,13 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
       })
       return
     } else {
-      if (result.paymentIntent.status === "succeeded")
+      if (result.paymentIntent.status === "succeeded") {
         return router.push(`/account/orders/${orderId}/checkout/success`)
+      }
 
-      if (result.paymentIntent.status === "processing")
+      if (result.paymentIntent.status === "processing") {
         return router.push(`/account/orders/${orderId}/checkout/processing`)
+      }
     }
   }
 
@@ -89,10 +92,10 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
     if (res && res.ok) {
       // Go back to order page
       router.push(`/account/orders/${orderId}/checkout/before-checkout-steps`)
-    } else alert("Un problème est survenu...")
+    }
   }
 
-  const amountToPay = order ? getNextPaymentDetails({ order }).amount : 0
+  const amountToPay = order ? getNextPaymentDetails({ order })?.amount : 0
 
   return (
     <Stack margin="100px 0" className="flex-center">
