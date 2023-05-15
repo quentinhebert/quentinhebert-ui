@@ -63,6 +63,7 @@ import CustomOutlinedInput from "../../Inputs/custom-outlined-input"
 import CustomFilledTextArea from "../../Inputs/custom-filled-text-area"
 import { ACTIVITY_TYPES } from "../../../enums/activityTypesEnum"
 import Span from "../../Text/span"
+import CustomCard from "../../Cards/custom-card"
 
 // Icons
 import SendIcon from "@mui/icons-material/Send"
@@ -84,7 +85,8 @@ import DownloadIcon from "@mui/icons-material/Download"
 import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox"
 import AddBoxIcon from "@mui/icons-material/AddBox"
 import CheckIcon from "@mui/icons-material/CheckCircleOutline"
-import CustomCard from "../../Cards/custom-card"
+import InsertLinkIcon from "@mui/icons-material/InsertLink"
+import SimpleCheckIcon from "@mui/icons-material/Check"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -453,41 +455,44 @@ const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
       <PaymentsList />
 
       <FormCard textAlign="center">
-        <Stack width="100%" maxWidth="400px" margin="auto" gap={2}>
-          <CustomCard>
-            <BodyText>
-              Informations sur le prochain paiement ({nextPayment.paymentStep})
-              :
-            </BodyText>
+        <Stack width="100%" maxWidth="500px" margin="auto" gap={2}>
+          <CustomCard gap={4} backgroundColor="rgb(0,0,0, 0.6)">
+            <Typography>
+              Prochain paiement ({nextPayment.paymentStep})
+            </Typography>
 
-            <Grid container spacing={1} width="100%">
-              <Label>Montant</Label>
-              <Value>{formatPrice(nextPayment.amount)}€</Value>
-              <Label>Étape de paiement</Label>
-              <Value>
+            <Stack>
+              <Typography color="secondary" variant="h2">
+                {formatPrice(nextPayment.amount)}€
+              </Typography>
+              <Typography textTransform="capitalize" color="grey">
                 {nextPayment.label} ({nextPayment.percent})
-              </Value>
-            </Grid>
+              </Typography>
+            </Stack>
+
+            <Stack gap={2}>
+              <PillButton
+                onClick={handleGenerate}
+                textTransform="initial"
+                width="auto"
+                endIcon={<InsertLinkIcon />}
+              >
+                Générer un lien de paiement en ligne
+              </PillButton>
+              <PillButton
+                textTransform="initial"
+                background="transparent"
+                border={(theme) => `1px solid ${theme.palette.secondary.main}`}
+                color={(theme) => theme.palette.secondary.main}
+                onClick={handleOpenTag}
+                width="auto"
+                endIcon={<SimpleCheckIcon />}
+              >
+                Marquer le prochain paiement comme réglé
+              </PillButton>
+            </Stack>
           </CustomCard>
         </Stack>
-
-        <PillButton
-          onClick={handleGenerate}
-          textTransform="initial"
-          width="auto"
-        >
-          Générer un lien de paiement en ligne
-        </PillButton>
-        <PillButton
-          textTransform="initial"
-          background="transparent"
-          border={(theme) => `1px solid ${theme.palette.secondary.main}`}
-          color={(theme) => theme.palette.secondary.main}
-          onClick={handleOpenTag}
-          width="auto"
-        >
-          Marquer le prochain paiement comme réglé
-        </PillButton>
       </FormCard>
     </>
   )
@@ -573,20 +578,6 @@ const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
           })}
         </Stack>
       </FormCard>
-    )
-  }
-  function Label(props) {
-    return (
-      <GridItem xs={6}>
-        <Typography color="grey" {...props} />
-      </GridItem>
-    )
-  }
-  function Value(props) {
-    return (
-      <GridItem xs={6}>
-        <Typography textAlign="right" className="initial-cap" {...props} />
-      </GridItem>
     )
   }
 }
