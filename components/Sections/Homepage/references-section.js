@@ -42,9 +42,9 @@ export default function ReferencesSection(props) {
       className="full-width flex-center"
       sx={{
         background: (theme) =>
-          `linear-gradient(${theme.palette.secondary.main} 15%, ${theme.palette.background.black} 50%)`,
+          `linear-gradient(${theme.palette.secondary.main} 10%, ${theme.palette.background.black} 60%)`,
         height: "auto",
-        padding: "6rem 0 12rem",
+        padding: "14rem 0",
         zIndex: 0,
       }}
     >

@@ -6,6 +6,7 @@ import ServicesSection from "../Sections/Homepage/services-section"
 import ReferencesSection from "../Sections/Homepage/references-section"
 import { ParallaxProvider } from "react-scroll-parallax"
 import IntroductionVideoSection from "../Sections/Homepage/introduction-video-section"
+import QandALandingCTA from "../Sections/QandA/landing-CTA"
 
 export default function Index_Main(props) {
   const {} = props
@@ -42,6 +43,9 @@ export default function Index_Main(props) {
 
         {/* SERVICES */}
         <ServicesSection refForScroll={refsForScroll.services} />
+
+        {/* LANDING CTA QUESTIONS AND ANSWERS */}
+        <QandALandingCTA />
 
         {/* REFERENCES */}
         <ReferencesSection />
