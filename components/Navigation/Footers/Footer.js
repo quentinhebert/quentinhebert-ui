@@ -61,6 +61,11 @@ const Credits = ({ text }) => {
       <BodyText>
         <Stack className="row gap-10">
           <InTextLink
+            href="/questions-and-answers"
+            text={translations.footer.QandA[lang]}
+          />
+          ·
+          <InTextLink
             href="/terms-of-use"
             text={translations.footer.termsOfUse[lang]}
           />
@@ -68,12 +73,6 @@ const Credits = ({ text }) => {
           <InTextLink
             href="/terms-and-conditions"
             text={translations.footer.termsAndConditions[lang]}
-          />
-          ·
-          <InTextLink
-            href="/about/website"
-            text={translations.footer.about[lang]}
-            target="_blank"
           />
         </Stack>
       </BodyText>
@@ -83,7 +82,12 @@ const Credits = ({ text }) => {
       </SmallText>
 
       <SmallText animDelay={1.2}>
-        © Quentin Hébert {year} – {translations.footer.copyright[lang]}
+        © Quentin Hébert {year} – {translations.footer.copyright[lang]} –{" "}
+        <InTextLink
+          href="/about/website"
+          text={translations.footer.about[lang]}
+          target="_blank"
+        />
       </SmallText>
     </Stack>
   )

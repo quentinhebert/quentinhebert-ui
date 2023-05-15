@@ -40,6 +40,10 @@ const translations = {
       fr: "Me contacter",
       en: "Contact me",
     },
+    QandA: {
+      fr: "FAQ",
+      en: "Q&A",
+    },
   },
   scrollDown: {
     fr: "Défilez vers le bas",

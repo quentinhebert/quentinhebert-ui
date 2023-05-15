@@ -209,21 +209,26 @@ export default function Menu({
                   sx={{ flexDirection: { xs: "column", lg: "row" } }}
                   width="100%"
                 >
-                  <BottomLinks>
+                  <BottomLink>
                     <Link href="/contact" passHref>
                       {translations.menu.contactMe[lang]}
                     </Link>
-                  </BottomLinks>
-                  <BottomLinks>
+                  </BottomLink>
+                  <BottomLink>
+                    <Link href="/questions-and-answers" passHref>
+                      {translations.footer.QandA[lang]}
+                    </Link>
+                  </BottomLink>
+                  <BottomLink>
                     <Link href="/terms-of-use" passHref>
                       {translations.footer.termsOfUse[lang]}
                     </Link>
-                  </BottomLinks>
-                  <BottomLinks>
+                  </BottomLink>
+                  <BottomLink>
                     <Link href="/terms-and-conditions" passHref>
                       {translations.footer.termsAndConditions[lang]}
                     </Link>
-                  </BottomLinks>
+                  </BottomLink>
                 </Stack>
                 <BodyText fontSize="0.8rem" lineHeight="0.8rem">
                   © Quentin Hébert {new Date().getFullYear()} –{" "}
@@ -244,7 +249,7 @@ export default function Menu({
   )
 }
 
-function BottomLinks(props) {
+function BottomLink(props) {
   return (
     <BodyText
       fontSize="0.8rem"
