@@ -102,10 +102,7 @@ export default function AdminQandAForm(props) {
         <TextEditor
           value={richTextValue}
           setValue={setRichTextValue}
-          controls={[
-            ["h1", "h2"],
-            ["bold", "italic"],
-          ]}
+          controls={[["h1", "h2"], ["bold", "italic"], ["link"]]}
         />
       </CustomForm>
 

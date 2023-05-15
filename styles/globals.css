@@ -245,12 +245,18 @@ input[type=number] {
 .MuiInput-input::placeholder {
   color: #C6900E;
 }
-.initial-cap{
+.initial-cap {
     /* display: inline-block; */
-  }
-.initial-cap::first-letter{
+}
+.initial-cap::first-letter {
     text-transform: capitalize;
-  }
+}
+.anchor {
+  display: block;
+  position: relative;
+  top: -80px;
+  visibility: hidden;
+}
 
 @font-face {
   font-family: 'Helmet';

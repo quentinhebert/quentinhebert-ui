@@ -651,7 +651,7 @@ const translations = {
   },
   QandA: {
     title: {
-      fr: "FAQ",
+      fr: "Foire Aux Questions",
       en: "Questions & Answsers",
     },
   },
