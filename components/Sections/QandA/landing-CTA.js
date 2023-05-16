@@ -2,11 +2,16 @@ import { Box, Stack, Typography } from "@mui/material"
 import BodyText from "../../Text/body-text"
 import { Parallax } from "react-parallax"
 import PillButton from "../../Buttons/pill-button"
-import QuestionMarkIcon from "@mui/icons-material/QuestionMark"
+import EastIcon from "@mui/icons-material/East"
+import { useContext } from "react"
+import { AppContext } from "../../../contexts/AppContext"
+import translations from "../../../services/translation"
 
 export default function QandALandingCTA({ link, text, ...props }) {
   //   const bgImg = "/medias/film_grain.jpg"
   const bgImg = "/medias/test.jpg"
+
+  const { lang } = useContext(AppContext)
 
   return (
     <Stack position="relative" zIndex={0}>
@@ -35,17 +40,27 @@ export default function QandALandingCTA({ link, text, ...props }) {
         }}
       >
         <Typography variant="h2" color="secondary" textAlign="center">
-          Vous avez une question ?
+          {translations.QandA.landing.title[lang]}
         </Typography>
         <BodyText textAlign="center">
-          Vous trouverez peut-être la réponse dans la FAQ.
+          {translations.QandA.landing.text[lang]}
         </BodyText>
         <Box width="250px" margin="auto">
           <PillButton
-            endIcon={<QuestionMarkIcon />}
+            endIcon={<EastIcon />}
             href="/questions-and-answers"
+            sx={{
+              "&& .MuiSvgIcon-root": {
+                transition: ".3s ease",
+              },
+              "&:hover": {
+                "&& .MuiSvgIcon-root": {
+                  translate: ".5rem",
+                },
+              },
+            }}
           >
-            Découvrir la FAQ
+            {translations.QandA.landing.btn[lang]}
           </PillButton>
         </Box>
       </Stack>

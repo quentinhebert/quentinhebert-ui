@@ -658,6 +658,20 @@ const translations = {
       fr: "Foire Aux Questions",
       en: "Questions & Answsers",
     },
+    landing: {
+      title: {
+        fr: "Vous avez une question ?",
+        en: "Any question ?",
+      },
+      text: {
+        fr: "Vous trouverez peut-être la réponse dans la Foire Aux Questions.",
+        en: "You might find the answer in the Questions & Answsers.",
+      },
+      btn: {
+        fr: "Découvrir la FAQ",
+        en: "Read Q&A",
+      },
+    },
   },
 }
 

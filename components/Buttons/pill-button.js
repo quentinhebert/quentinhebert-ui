@@ -34,6 +34,7 @@ function Btn({
   disabled,
   gap,
   display,
+  sx,
   ...props
 }) {
   /********** ANIMATION **********/
@@ -55,6 +56,15 @@ function Btn({
       controls.start("hidden")
     }
   }, [controls, inView])
+
+  let hover = {
+    background:
+      (!disabled && background) || ((theme) => theme.palette.secondary.main),
+    opacity: !disabled && 0.8,
+    transform: !disabled && scaleUpOnHover ? "scale(1.05)" : "",
+  }
+
+  if (!!sx && sx["&:hover"]) hover = { ...hover, ...sx["&:hover"] }
 
   return (
     <Box margin={margin || 0} width={width || "auto"} ref={ref}>
@@ -82,13 +92,8 @@ function Btn({
             gap: gap || 0,
             width: width || "100%",
             display: display || "inline-flex",
-            "&:hover": {
-              background:
-                (!disabled && background) ||
-                ((theme) => theme.palette.secondary.main),
-              opacity: !disabled && 0.8,
-              transform: !disabled && scaleUpOnHover ? "scale(1.05)" : "",
-            },
+            ...sx,
+            "&:hover": hover,
           }}
           onClick={onClick || (() => {})}
           {...props}
