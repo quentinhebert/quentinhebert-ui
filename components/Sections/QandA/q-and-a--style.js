@@ -36,10 +36,13 @@ export function formatText(htmlString) {
       "<Box component='a' target='_blank' className='cool-button' sx={{color: theme => theme.palette.secondary.main}}"
     )
     .replaceAll("a>", "Box>")
-    .replaceAll("<p", "<BodyText preventTransition textAlign='justify'")
-    .replaceAll("p>", "BodyText>")
+    .replaceAll(
+      "<p",
+      "<Stack mb={1}><BodyText preventTransition textAlign='justify'"
+    )
+    .replaceAll("p>", "BodyText></Stack>")
 
-  return `<Stack gap={0.5}>${formattedString}</Stack>`
+  return formattedString
 }
 
 export function ParseJsx({ jsx }) {
