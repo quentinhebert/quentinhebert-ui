@@ -25,6 +25,7 @@ import { AppContext } from "../../../contexts/AppContext"
 import translations from "../../../services/translation"
 import Multiline from "../../Text/multiline"
 import BodyText from "../../Text/body-text"
+import ChangeLangSection from "../../Sections/Navbar/change-lang"
 
 /********** CONSTANTES **********/
 const logoQH = "/logos/logo-qh.png"
@@ -48,7 +49,7 @@ const warrantiesButtons = [
   },
 ]
 
-const Credits = ({ text }) => {
+const Credits = ({ text, email }) => {
   const year = new Date().getFullYear()
   const { lang } = useContext(AppContext)
   return (
@@ -56,8 +57,12 @@ const Credits = ({ text }) => {
       alignItems="center"
       textAlign="center"
       margin="1.5rem auto 0"
+      padding="0 1rem"
       gap={4}
     >
+      {/* EMAIL */}
+      <Email email={email} />
+
       <BodyText>
         <Stack className="row gap-10">
           <InTextLink
@@ -76,6 +81,8 @@ const Credits = ({ text }) => {
           />
         </Stack>
       </BodyText>
+
+      <ChangeLangSection />
 
       <SmallText textAlign="center" animDelay={0.8}>
         <Multiline text={text[lang]} />
@@ -106,7 +113,6 @@ const Email = ({ email }) => (
     <InTextLink
       href={`mailto:${email || ""}`}
       text={email || ""}
-      letterSpacing={1}
       textTransform="initial"
       sx={{ fontSize: "1rem" }}
     />
@@ -232,16 +238,6 @@ export default function Footer(props) {
               {data?.logo?.URL && <LogoQH logoUrl={data.logo.URL} />}
             </motion.div>
 
-            {/* EMAIL */}
-            <motion.div
-              initial="hidden"
-              variants={variants(1)}
-              animate={controls}
-              style={motionDivStyle}
-            >
-              <Email email={data?.email} />
-            </motion.div>
-
             {/* SOCIAL MEDIAS */}
             <motion.div
               initial="hidden"
@@ -260,7 +256,7 @@ export default function Footer(props) {
             animate={controls}
             style={motionDivStyle}
           >
-            <Credits text={data?.credits || ""} />
+            <Credits text={data?.credits || ""} email={data?.email} />
           </motion.div>
         </CenteredMaxWidthContainer>
       </Box>
