@@ -1,23 +1,27 @@
 import JsxParser from "react-jsx-parser"
 import BodyText from "../../Text/body-text"
 import { Stack, Typography, Box } from "@mui/material"
+import { SoberAccordion } from "../../Containers/custom-accordion"
 
 const Title = (props) => (
-  <Typography color="#fff" component="h2" variant="h3" {...props} />
+  <Typography
+    color="#fff"
+    component="h2"
+    variant="h3"
+    mt={4}
+    mb={2}
+    {...props}
+  />
 )
 
 export function formatText(htmlString) {
   let formattedString = htmlString
-    .replaceAll(
-      "<p",
-      "<Stack margin='.5rem 0'><BodyText preventTransition textAlign='justify'"
-    )
-    .replaceAll("p>", "BodyText></Stack>")
     .replaceAll("<h1>", "<Title>")
-    .replaceAll("<h2>", "<Typography variant='h5' color='secondary' mt={4}>• ")
-    .replaceAll("<h3", "<Title")
     .replaceAll("h1>", "Title>")
-    .replaceAll("h2>", "Typography>")
+    .replaceAll("<h2>", "<SoberAccordion title={<>")
+    .replaceAll("</h2>", "</>}>")
+    .replaceAll("<p>-----</p>", "</SoberAccordion>")
+    .replaceAll("<h3", "<Title")
     .replaceAll("h3>", "Title>")
     .replaceAll("<br>", "<br />")
     .replaceAll("[anchor ", "<Stack className='anchor' id=")
@@ -32,7 +36,10 @@ export function formatText(htmlString) {
       "<Box component='a' target='_blank' className='cool-button' sx={{color: theme => theme.palette.secondary.main}}"
     )
     .replaceAll("a>", "Box>")
-  return formattedString
+    .replaceAll("<p", "<BodyText preventTransition textAlign='justify'")
+    .replaceAll("p>", "BodyText>")
+
+  return `<Stack gap={0.5}>${formattedString}</Stack>`
 }
 
 export function ParseJsx({ jsx }) {
@@ -44,6 +51,7 @@ export function ParseJsx({ jsx }) {
         BodyText,
         Stack,
         Box,
+        SoberAccordion,
       }}
       jsx={jsx}
       className="full-width"

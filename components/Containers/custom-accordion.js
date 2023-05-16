@@ -33,3 +33,36 @@ export default function CustomAccordion({ title, ...props }) {
     </Accordion>
   )
 }
+
+export function SoberAccordion({ title, ...props }) {
+  return (
+    <Accordion
+      sx={{
+        width: "100%",
+        borderRadius: "30px",
+        "&.MuiAccordion-root": {
+          backgroundImage: "none",
+          backgroundColor: "main",
+          "&:first-of-type": {
+            borderRadius: "30px",
+          },
+          "&:last-of-type": {
+            borderRadius: "30px",
+          },
+        },
+      }}
+    >
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon color="secondary" />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+        sx={{ color: "#fff", "& .Mui-expanded": { color: "text.secondary" } }}
+      >
+        <BodyText preventTransition color="inherit">
+          {title}
+        </BodyText>
+      </AccordionSummary>
+      <AccordionDetails {...props} />
+    </Accordion>
+  )
+}
