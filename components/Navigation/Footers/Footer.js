@@ -84,11 +84,11 @@ const Credits = ({ text, email }) => {
 
       <ChangeLangSection />
 
-      <SmallText textAlign="center" animDelay={0.8}>
+      <SmallText textAlign="center" animDelay={0.6}>
         <Multiline text={text[lang]} />
       </SmallText>
 
-      <SmallText animDelay={1.2}>
+      <SmallText animDelay={0.8}>
         © Quentin Hébert {year} – {translations.footer.copyright[lang]} –{" "}
         <InTextLink
           href="/about/website"
@@ -217,48 +217,38 @@ export default function Footer(props) {
           backgroundColor: "#000",
         }}
       >
-        <CenteredMaxWidthContainer>
-          {/* FOOTER CONTENT */}
-          <Stack
-            alignItems="center"
-            gap={5}
-            sx={
-              {
-                // flexDirection: { xs: "column", md: "row" },
-              }
-            }
-          >
-            {/* LOGO */}
-            <motion.div
-              initial="hidden"
-              variants={variants(0)}
-              animate={controls}
-              style={motionDivStyle}
-            >
-              {data?.logo?.URL && <LogoQH logoUrl={data.logo.URL} />}
-            </motion.div>
-
-            {/* SOCIAL MEDIAS */}
-            <motion.div
-              initial="hidden"
-              variants={variants(2)}
-              animate={controls}
-              style={motionDivStyle}
-            >
-              <SocialMedias items={data?.social_medias} />
-            </motion.div>
-          </Stack>
-
-          {/* WEBSITE CREDITS */}
+        {/* FOOTER CONTENT */}
+        <Stack alignItems="center" gap={5}>
+          {/* LOGO */}
           <motion.div
             initial="hidden"
-            variants={variants(3)}
+            variants={variants(0)}
             animate={controls}
             style={motionDivStyle}
           >
-            <Credits text={data?.credits || ""} email={data?.email} />
+            {data?.logo?.URL && <LogoQH logoUrl={data.logo.URL} />}
           </motion.div>
-        </CenteredMaxWidthContainer>
+
+          {/* SOCIAL MEDIAS */}
+          <motion.div
+            initial="hidden"
+            variants={variants(2)}
+            animate={controls}
+            style={motionDivStyle}
+          >
+            <SocialMedias items={data?.social_medias} />
+          </motion.div>
+        </Stack>
+
+        {/* WEBSITE CREDITS */}
+        <motion.div
+          initial="hidden"
+          variants={variants(3)}
+          animate={controls}
+          style={motionDivStyle}
+        >
+          <Credits text={data?.credits || ""} email={data?.email} />
+        </motion.div>
       </Box>
     </MotionDivFadeInOnMount>
   )
