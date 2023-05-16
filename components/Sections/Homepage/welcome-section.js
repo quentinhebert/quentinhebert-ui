@@ -171,7 +171,7 @@ export default function WelcomeSection(props) {
                     variant="h2"
                     fontFamily="POPFINE"
                     color="secondary"
-                    className="baseline-align" // Fixes fontface vertical align issue
+                    lineHeight={{ xs: "3rem", md: "5rem" }}
                   >
                     <Span sx={{ color: (theme) => theme.palette.text.white }}>
                       {translations.homepage.welcome.title.pt1[lang]}
