@@ -41,6 +41,7 @@ export function SoberAccordion({ title, ...props }) {
         width: "100%",
         borderRadius: "30px",
         "&.MuiAccordion-root": {
+          padding: "0 1rem",
           backgroundImage: "none",
           backgroundColor: "main",
           "&:first-of-type": {
