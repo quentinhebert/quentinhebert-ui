@@ -3,7 +3,7 @@ import CenteredMaxWidthContainer from "../Containers/centered-max-width-containe
 
 export default function TextContentLayout(props) {
   return (
-    <CenteredMaxWidthContainer margin="50px auto 100px">
+    <CenteredMaxWidthContainer margin="50px auto 100px" percents="90%">
       <Stack {...props} />
     </CenteredMaxWidthContainer>
   )
