@@ -208,7 +208,7 @@ export default function ServicesSection(props) {
             `linear-gradient(${theme.palette.background.black} 50%, ${theme.palette.secondary.main} 100%)`,
         }}
       >
-        <CenteredMaxWidthContainer>
+        <CenteredMaxWidthContainer percents={{ xs: "100%", sm: "80%" }}>
           <Stack
             className="flex-center full-width"
             margin={{ xs: "8rem 0 8rem", md: "6rem 0 12rem" }}

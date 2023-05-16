@@ -18,7 +18,7 @@ export default function TermsOfUseSection({ staticData }) {
   const { lang } = useContext(AppContext)
 
   return (
-    <Stack gap={2} padding="0 2rem">
+    <Stack gap={2}>
       <PageTitle text={translations.termsOfUse.title[lang]} />
       <ParseJsx jsx={formatText(data)} />
     </Stack>
