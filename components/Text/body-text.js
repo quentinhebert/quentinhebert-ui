@@ -61,12 +61,12 @@ const Text = styled(
             fontFamily={fontFamily || ((theme) => theme.typography.fontFamily)}
             sx={{
               fontSize: fontSize || {
-                xs: "0.8rem",
+                xs: "1rem",
                 md: "1rem",
               },
               letterSpacing: letterSpacing || 0,
               lineHeight: lineHeight || {
-                xs: "1rem",
+                xs: "1.6rem",
                 md: "1.6rem",
               },
               color: customColor || ((theme) => theme.palette.text.white),

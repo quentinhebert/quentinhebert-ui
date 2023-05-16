@@ -15,7 +15,6 @@ const Keyword = ({ text }) => (
       fontSize: { xs: "1rem", md: "1.25rem" },
       margin: { md: "0 .1rem", md: "0 .25rem" },
       fontWeight: "bold",
-      textTransform: "uppercase",
       textShadow: "rgb(0,0,0,0.5) 1px 1px 15px",
     }}
   >
@@ -94,6 +93,7 @@ export default function FocusSection(props) {
             width="100%"
             alignItems="end"
             sx={{ padding: { xs: "2rem", md: "4rem" } }}
+            gap={4}
           >
             <motion.div
               initial="hidden"
@@ -103,7 +103,6 @@ export default function FocusSection(props) {
                 width: md ? "60%" : "70%",
                 display: "flex",
                 flexDirection: "column",
-                gap: "1.5rem",
               }}
             >
               <Typography
@@ -130,7 +129,7 @@ export default function FocusSection(props) {
                 gap: "1.5rem",
               }}
             >
-              <BodyText textAlign="center" color="#fff" fontWeight="bold">
+              <BodyText textAlign="center" color="#fff">
                 <Keyword text={translations.films.focus.keywords[0][lang]} />{" "}
                 {translations.films.focus.text[0][lang]} {expNbYears}{" "}
                 {translations.films.focus.text[1][lang]}{" "}
