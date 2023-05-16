@@ -5,7 +5,7 @@ const translations = {
   },
   navbar: {
     contactMe: {
-      fr: "Me contacter",
+      fr: "Contact",
       en: "Contact me",
     },
   },

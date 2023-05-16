@@ -8,8 +8,10 @@ import { AppContext } from "../../../contexts/AppContext"
 import BodyText from "../../Text/body-text"
 import { SocialMedias } from "../Footers/Footer"
 import Link from "next/link"
-import RedoIcon from "@mui/icons-material/Redo"
+import styles from "../../../styles/TextShine.module.css"
 import translations from "../../../services/translation"
+import ChangeLangSection from "../../Sections/Navbar/change-lang"
+import ContactBtnSection from "../../Sections/Navbar/contact-btn-section"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />
@@ -74,53 +76,21 @@ export default function Menu({
         },
       }}
     >
-      <Stack width="80%">
-        <motion.div
-          initial="hidden"
-          variants={annotationVariant}
-          animate={controls}
-        >
-          <Stack
-            sx={{
-              position: "absolute",
-              top: 80,
-              left: { xs: "50px", md: "100px" },
-              flexDirection: "row",
-              alignItems: "end",
-              gap: 1,
-            }}
-          >
-            <RedoIcon
-              sx={{
-                rotate: "-130deg",
-                color: (theme) => theme.palette.secondary.main,
-                fontSize: { xs: "1.5rem", md: "3rem" },
-              }}
-            />
-            <Typography
-              color="secondary"
-              sx={{
-                rotate: { xs: "-2deg", md: "-4deg" },
-                fontSize: { xs: "0.8rem", md: "1rem" },
-                pb: { xs: 0, md: 1.5 },
-              }}
-            >
-              {translations.menu.annotation[lang]}
-            </Typography>
-          </Stack>
-        </motion.div>
-      </Stack>
-
       <Stack
         zIndex={1}
         sx={{
           width: "100%",
         }}
-        margin="max(15vh, 80px) auto 2rem"
+        margin="max(15vh, 100px) auto 1rem"
         justifyContent="center"
         alignItems="center"
       >
-        <Stack textAlign="right" ref={viewRef} gap={2}>
+        <Stack
+          textAlign="right"
+          ref={viewRef}
+          gap={0}
+          width={{ xs: "auto", sm: "auto" }}
+        >
           {list?.length > 0 &&
             list.map((item, key) => {
               return (
@@ -138,9 +108,9 @@ export default function Menu({
                       padding=".5rem 0"
                       fontWeight="bold"
                       sx={{
-                        fontSize: { xs: "4vw", md: "min(6vw, 8vh)" },
-                        lineHeight: { xs: "9vw", md: "min(8vw, 10vh)" },
-                        letterSpacing: { xs: 1, md: 2 },
+                        fontSize: { xs: "4vw", lg: "min(6vw, 8vh)" },
+                        lineHeight: { xs: "9vw", lg: "min(8vw, 10vh)" },
+                        letterSpacing: { xs: 1, lg: 2 },
                         textTransform: "uppercase",
                         cursor: "pointer",
                         color:
@@ -152,7 +122,7 @@ export default function Menu({
                           page === item.href
                             ? {
                                 xs: `0px 0px 10px #C6900E8C`,
-                                md: `0px 0px 30px ${theme.palette.secondary.main}`,
+                                lg: `0px 0px 30px ${theme.palette.secondary.main}`,
                               }
                             : "",
                         "&:hover": {
@@ -174,7 +144,7 @@ export default function Menu({
                       </Box>
                       <Box
                         component="span"
-                        sx={{ fontSize: { xs: "3rem", md: "1rem" } }}
+                        sx={{ fontSize: { xs: "2rem", lg: "1rem" } }}
                         marginLeft="2rem"
                       >
                         0{key + 1}
@@ -187,9 +157,13 @@ export default function Menu({
 
           <motion.div
             initial="hidden"
-            variants={variants(10)}
+            variants={variants(6)}
             animate={controls}
-            style={{ display: "flex", flexDirection: "column", gap: 20 }}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 20,
+            }}
           >
             <Stack
               mt={4}
@@ -199,21 +173,26 @@ export default function Menu({
                 height: "2px",
                 borderRadius: "30px",
                 background: "#fff",
+                mb: { xs: 2, lg: 1 },
               }}
             />
 
-            <Stack sx={{ flexDirection: "row" }}>
-              <Stack width="100%" gap={{ xs: 2, lg: 2 }}>
+            <Stack
+              sx={{ flexDirection: { xs: "column-reverse", lg: "row" } }}
+              gap={{ xs: 4, lg: 2 }}
+            >
+              <Stack
+                width="100%"
+                gap={{ xs: 4, lg: 4 }}
+                alignItems={{ xs: "center", lg: "start" }}
+              >
                 <Stack
-                  gap={{ xs: 0, lg: 3 }}
+                  gap={{ xs: 2, lg: 3 }}
                   sx={{ flexDirection: { xs: "column", lg: "row" } }}
                   width="100%"
+                  alignItems="center"
                 >
-                  <BottomLink>
-                    <Link href="/contact" passHref>
-                      {translations.menu.contactMe[lang]}
-                    </Link>
-                  </BottomLink>
+                  <ContactBtnSection />
                   <BottomLink>
                     <Link href="/questions-and-answers" passHref>
                       {translations.footer.QandA[lang]}
@@ -230,7 +209,20 @@ export default function Menu({
                     </Link>
                   </BottomLink>
                 </Stack>
-                <BodyText fontSize="0.8rem" lineHeight="0.8rem">
+
+                <Stack
+                  justifyContent="end"
+                  alignItems="center"
+                  display={{ xs: "flex", md: "none" }}
+                >
+                  <ChangeLangSection />
+                </Stack>
+
+                <BodyText
+                  fontSize="0.8rem"
+                  lineHeight="0.8rem"
+                  className={styles.shine}
+                >
                   © Quentin Hébert {new Date().getFullYear()} –{" "}
                   {translations.footer.copyright[lang]}
                 </BodyText>
@@ -238,7 +230,7 @@ export default function Menu({
 
               <SocialMedias
                 items={socialMedias}
-                justifyContent="end"
+                justifyContent={{ xs: "center", lg: "end" }}
                 iconSize="30px"
               />
             </Stack>
@@ -256,6 +248,7 @@ function BottomLink(props) {
       lineHeight="0.8rem"
       className="pointer"
       sx={{
+        whiteSpace: "nowrap",
         "&:hover": {
           color: (theme) => theme.palette.secondary.main,
         },

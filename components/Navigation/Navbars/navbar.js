@@ -1,7 +1,6 @@
-import { useContext, useState } from "react"
+import { useState } from "react"
 import AppBar from "@mui/material/AppBar"
-import LoginOrMenuButton from "../login-or-menu-button"
-import { Box, Button, Stack } from "@mui/material"
+import { Box, Grid, Stack } from "@mui/material"
 import theme from "../../../config/theme"
 import { useRouter } from "next/router"
 import dynamic from "next/dynamic"
@@ -10,17 +9,13 @@ import { useScrollPosition } from "@n8tb1t/use-scroll-position"
 import useSWR from "swr"
 import { fetchers } from "../../../services/public-fetchers"
 import NextLink from "../../Helpers/next-link"
-import BodyText from "../../Text/body-text"
-import { AppContext } from "../../../contexts/AppContext"
-import translations from "../../../services/translation"
+import ChangeLangSection from "../../Sections/Navbar/change-lang"
+import ContactBtnSection from "../../Sections/Navbar/contact-btn-section"
 
 const MobileNavbar = dynamic(() => import("./mobile-navbar"))
-const DesktopNavbar = dynamic(() => import("./desktop-navbar"))
 
 export default function Navbar(props) {
   const { staticData } = props
-
-  const { lang, toggleLang } = useContext(AppContext)
 
   const swr = useSWR(`navbar`, async () => fetchers.navbar(), {
     fallbackData: props.staticData,
@@ -47,72 +42,59 @@ export default function Navbar(props) {
   })
 
   if (!data) return <></>
-  return (
-    <>
-      <AppBar
-        className="flex-center"
-        position="sticky"
-        component="nav"
-        sx={{
-          background: "transparent",
-          width: "100%",
-          boxShadow: "none",
-          top: 0,
-        }}
-      >
-        <Box
-          width="100vw"
-          // height="100%"
-          sx={{
-            background: "#000",
-            position: "absolute",
-            top: -1, // trick to prevent from small gap above navbar
-            left: 0,
-            height: isReduced ? "100%" : 0,
-            opacity: isReduced ? 1 : 0,
-            transition: "0.2s ease",
-          }}
-        />
-        <Stack padding="1rem 0.75rem" alignItems="center">
-          <NextLink href="/contact">
-            <Button
-              variant="outlined"
-              sx={{
-                textTransform: "initial",
-                fontFamily: "trophy",
-                fontSize: { xs: "0.4rem", md: "0.6rem" },
-                background: "#000",
-                borderRadius: "30px",
-                position: "absolute",
-                left: { xs: 20, md: 50 },
-                top: { xs: isReduced ? 17 : 25, md: isReduced ? 10 : 20 },
-                color: contactActivePage
-                  ? (theme) => theme.palette.secondary.main
-                  : "#fff",
-                borderColor: contactActivePage
-                  ? (theme) => theme.palette.secondary.main
-                  : "#fff",
-                padding: { xs: "0.5rem 0.9rem", md: "0.75rem 1rem" },
-                letterSpacing: 1,
-                transition: ".1s ease",
-                "&:hover": {
-                  background: "#000",
-                  color: (theme) => theme.palette.secondary.main,
-                  borderColor: (theme) => theme.palette.secondary.main,
-                },
-              }}
-            >
-              {translations.navbar.contactMe[lang]}
-            </Button>
-          </NextLink>
 
+  return (
+    <AppBar
+      position="sticky"
+      component="nav"
+      sx={{
+        background: "transparent",
+        width: "100%",
+        boxShadow: "none",
+        top: 0,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: {
+          xs: ".25rem 2rem",
+          md: isReduced ? ".3rem 2rem" : ".75rem 2rem",
+        },
+        transition: ".1s ease",
+      }}
+    >
+      <Box
+        width="100%"
+        sx={{
+          background: "#000",
+          position: "absolute",
+          top: -1, // trick to prevent from small gap above navbar
+          left: "50%",
+          translate: "-50%",
+          height: isReduced ? "100%" : 0,
+          opacity: isReduced ? 1 : 0,
+          transition: "0.2s ease",
+        }}
+      />
+
+      <Grid container width="100%" alignItems="center">
+        <Grid item xs={4}>
+          <Stack display={{ xs: "none", md: "flex" }}>
+            <ContactBtnSection />
+          </Stack>
+        </Grid>
+
+        <Grid item xs={4}>
           <NextLink href="/">
             <ScaleUpOnHoverStack
-              sx={{ flexDirection: "row", alignItems: "center" }}
+              sx={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
               <Stack
-                width={isReduced ? "45px" : "60px"}
-                height={isReduced ? "35px" : "50px"}
+                width={{ xs: "45px", md: isReduced ? "45px" : "60px" }}
+                height={{ xs: "35px", md: isReduced ? "35px" : "50px" }}
                 sx={{
                   transition: "width 0.1s ease-in-out, height 0.1s ease-in-out",
                 }}
@@ -129,57 +111,21 @@ export default function Navbar(props) {
               </Stack>
             </ScaleUpOnHoverStack>
           </NextLink>
+        </Grid>
 
+        <Grid item xs={4}>
           <Stack
             sx={{
-              position: "absolute",
-              right: { xs: 20, md: 50 },
-              top: isReduced ? 10 : 15,
-              gap: { xs: 0, lg: 4 },
+              gap: 4,
               transition: ".1s ease",
+              justifyContent: "end",
             }}
             flexDirection="row"
           >
-            {/* {!!user && (
-              <Stack>
-                <LoginOrMenuButton />
-              </Stack>
-            )} */}
-            <Stack alignItems="center" className="row gap-4">
-              <BodyText
-                className="pointer"
-                sx={{
-                  borderBottom:
-                    lang === "fr"
-                      ? (theme) => `1px solid ${theme.palette.secondary.main}`
-                      : null,
-                  paddingBottom: 0.5,
-                  "&:hover": {
-                    color: (theme) => theme.palette.secondary.main,
-                  },
-                }}
-                onClick={() => toggleLang("fr")}
-              >
-                FR
-              </BodyText>
-              <BodyText>/</BodyText>
-              <BodyText
-                className="pointer"
-                sx={{
-                  borderBottom:
-                    lang === "en"
-                      ? (theme) => `1px solid ${theme.palette.secondary.main}`
-                      : null,
-                  paddingBottom: 0.5,
-                  "&:hover": {
-                    color: (theme) => theme.palette.secondary.main,
-                  },
-                }}
-                onClick={() => toggleLang("en")}
-              >
-                EN
-              </BodyText>
+            <Stack justifyContent="center" display={{ xs: "none", md: "flex" }}>
+              <ChangeLangSection preventTransition />
             </Stack>
+
             <MobileNavbar
               mainColor={mainColor}
               list={data.menu_items}
@@ -187,20 +133,8 @@ export default function Navbar(props) {
               socialMedias={data.social_medias}
             />
           </Stack>
-        </Stack>
-      </AppBar>
-
-      {/* Trick to have a linear gradient behind the navbar but not when burger menu is open */}
-      {/* <Stack
-        className="full-width fixed"
-        zIndex={101}
-        sx={{
-          height: "64px",
-          background:
-            "linear-gradient(0deg, transparent 0%, rgb(0,0,0,0.9) 90%)",
-          opacity: 0,
-        }}
-      /> */}
-    </>
+        </Grid>
+      </Grid>
+    </AppBar>
   )
 }

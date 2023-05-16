@@ -17,7 +17,7 @@ export default function MobileNavbar(props) {
 
   return (
     <>
-      <Stack position="relative" zIndex={1000}>
+      <Stack position="relative" zIndex={1000} mr={-2}>
         <Hamburger
           toggled={openMenuDialog}
           toggle={setOpenMenuDialog}
