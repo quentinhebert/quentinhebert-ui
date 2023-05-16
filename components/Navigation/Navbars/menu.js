@@ -244,7 +244,7 @@ export default function Menu({
 function BottomLink(props) {
   return (
     <BodyText
-      fontSize="0.8rem"
+      fontSize="1rem"
       lineHeight="0.8rem"
       className="pointer"
       sx={{
