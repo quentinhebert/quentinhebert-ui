@@ -14,12 +14,13 @@ const Card = styled(
     hoverProps,
     marginBottom,
     height,
+    width,
     ...props
   }) => {
     return (
       <Stack
         textAlign="center"
-        width="100%"
+        width={width || "100%"}
         height={height || "100%"}
         flexGrow={1}
         borderRadius={borderRadius || "30px"}

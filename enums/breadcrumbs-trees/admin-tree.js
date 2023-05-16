@@ -12,6 +12,7 @@ const adminTree = {
   "manage-websites": "Sites web",
   "manage-slides": "Diapositives",
   "manage-gear": "Matériel",
+  edit: "Modifier la video",
 }
 
 export default adminTree

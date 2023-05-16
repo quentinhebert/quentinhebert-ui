@@ -22,6 +22,8 @@ import { buildPublicURL } from "../../../services/utils"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import CancelButton from "../../Buttons/cancel-button"
 import AddIcon from "@mui/icons-material/Add"
+import LanguageIcon from "@mui/icons-material/Language"
+import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 
 const AddImageGridItem = (props) => (
   <Grid
@@ -37,6 +39,7 @@ const AddImageGridItem = (props) => (
     <Stack
       width="100%"
       height="100%"
+      textAlign="center"
       alignItems="center"
       justifyContent="center"
       sx={{
@@ -350,18 +353,13 @@ function EditWebsite_Main({
   )
 
   return (
-    <Stack zIndex={0} gap={8}>
+    <CenteredMaxWidthContainer
+      zIndex={0}
+      gap={8}
+      percents={{ xs: "100%", sm: "80%" }}
+    >
       <Stack>
-        <Typography variant="h2" color="secondary">
-          Photo principale
-        </Typography>
-        <Stack maxWidth="400px">
-          <ThumbnailInput />
-        </Stack>
-      </Stack>
-
-      <Stack>
-        <Typography variant="h2" color="secondary">
+        <Typography variant="h5" color="#fff" mb={2}>
           Informations
         </Typography>
         <CustomForm gap={3} maxWidth="800px">
@@ -389,8 +387,9 @@ function EditWebsite_Main({
             required
             id="description"
             label="À propos de ce projet..."
-            value={website.description}
-            onChange={handleChange("description")}
+            value={website.description.fr}
+            onChange={handleChange("description", "fr")}
+            InputLabelProps={{ shrink: !!website.description.fr }}
             sx={{
               "& .MuiInputLabel-root": {
                 color: errors.description
@@ -399,6 +398,29 @@ function EditWebsite_Main({
               },
             }}
           />
+          <CustomAccordion
+            title={
+              <Stack className="row flex-center gap-10">
+                <LanguageIcon />
+                Traductions
+              </Stack>
+            }
+          >
+            <TextArea
+              InputLabelProps={{ shrink: !!website.description.en }}
+              id="translation"
+              label="English (EN)"
+              value={website.description.en}
+              onChange={handleChange("description", "en")}
+              sx={{
+                "& .MuiInputLabel-root": {
+                  color: errors.description
+                    ? (theme) => theme.palette.error.main
+                    : (theme) => theme.palette.text.secondary,
+                },
+              }}
+            />
+          </CustomAccordion>
 
           <Stack width="100%">
             <CustomAccordion title="Tags liés au projet">
@@ -430,7 +452,7 @@ function EditWebsite_Main({
                             ).length === 1) ||
                           false
                         }
-                        label={item.label}
+                        label={item.label.fr}
                         labelcolor="#fff"
                         fontSize="0.9rem"
                         onChange={handleChangeMultipleCheckbox("tags", item)}
@@ -446,6 +468,15 @@ function EditWebsite_Main({
             </CustomAccordion>
           </Stack>
 
+          <Stack width="100%">
+            <Typography variant="h5" color="#fff" mb={2}>
+              Photo principale
+            </Typography>
+            <Stack maxWidth="400px">
+              <ThumbnailInput />
+            </Stack>
+          </Stack>
+
           <Stack flexDirection="row" gap={2} width="100%">
             <PillButton onClick={handleUpdate} disabled={isLoading}>
               {isLoading ? <CustomCircularProgress /> : "Enregistrer"}
@@ -456,7 +487,7 @@ function EditWebsite_Main({
       </Stack>
 
       <Stack>
-        <Typography variant="h2" color="secondary">
+        <Typography variant="h5" color="#fff" mb={2}>
           Galerie
         </Typography>
         <Stack flexDirection="row" gap={2}>
@@ -551,7 +582,7 @@ function EditWebsite_Main({
           </RectangleButton>
         </Stack>
       </CustomModal>
-    </Stack>
+    </CenteredMaxWidthContainer>
   )
 }
 

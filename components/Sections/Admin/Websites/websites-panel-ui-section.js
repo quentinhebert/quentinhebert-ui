@@ -14,6 +14,7 @@ import OutlinedButton from "../../../Buttons/outlined-button"
 import ScaleUpOnHoverStack from "../../../Animation/scale-up-on-hover-stack"
 import PleaseWait from "../../../Helpers/please-wait"
 import SwitchButton from "../../../Inputs/switch-button"
+import NextLink from "../../../Helpers/next-link"
 
 const EditWebsiteModal = dynamic(() =>
   import("../../../Modals/Edit-Modals/edit-website-modal")
@@ -62,58 +63,60 @@ const SortableListItem = sortableElement(
           component="li"
           className="list-style-none"
           width="calc(33% - 3px)"
-          onClick={handleOpenEditModal}
+          // onClick={handleOpenEditModal}
         >
-          <Stack
-            className="no-select flex-center relative"
-            sx={{
-              cursor: showMenu ? "pointer" : "grab",
-              padding: ".5rem",
-              borderRadius: "10px",
-              height: { xs: "150px", md: "200px" },
-              background: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${
-                item.thumbnail_url || "/medias/default.jpg"
-              })`,
-              backgroundSize: "cover",
-              backgroundPosition: "50% 50%",
-              "&:hover": {
-                background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${
+          <NextLink href={`/admin/back-office/websites/${item.id}/edit`}>
+            <Stack
+              className="no-select flex-center relative"
+              sx={{
+                cursor: showMenu ? "pointer" : "grab",
+                padding: ".5rem",
+                borderRadius: "10px",
+                height: { xs: "150px", md: "200px" },
+                background: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${
                   item.thumbnail_url || "/medias/default.jpg"
                 })`,
                 backgroundSize: "cover",
                 backgroundPosition: "50% 50%",
-              },
-            }}
-          >
-            <Box
-              className="absolute"
-              top={10}
-              right={10}
-              sx={{
-                color: (theme) => theme.palette.text.white,
-                display: showMenu ? "block" : "none",
+                "&:hover": {
+                  background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${
+                    item.thumbnail_url || "/medias/default.jpg"
+                  })`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "50% 50%",
+                },
               }}
-              onClick={handleOpenDeleteModal}
             >
-              <ScaleUpOnHoverStack>
-                <DeleteIcon
-                  sx={{
-                    fontSize: "2rem",
-                    opacity: 0.2,
-                    "&:hover": { opacity: 1 },
-                  }}
-                />
-              </ScaleUpOnHoverStack>
-            </Box>
+              <Box
+                className="absolute"
+                top={10}
+                right={10}
+                sx={{
+                  color: (theme) => theme.palette.text.white,
+                  display: showMenu ? "block" : "none",
+                }}
+                onClick={handleOpenDeleteModal}
+              >
+                <ScaleUpOnHoverStack>
+                  <DeleteIcon
+                    sx={{
+                      fontSize: "2rem",
+                      opacity: 0.2,
+                      "&:hover": { opacity: 1 },
+                    }}
+                  />
+                </ScaleUpOnHoverStack>
+              </Box>
 
-            <Typography
-              fontSize="1rem"
-              color="text.white"
-              className="uppercase text-center"
-            >
-              {item.client}
-            </Typography>
-          </Stack>
+              <Typography
+                fontSize="1rem"
+                color="text.white"
+                className="uppercase text-center"
+              >
+                {item.client}
+              </Typography>
+            </Stack>
+          </NextLink>
         </Box>
 
         {!destroyedEdit && (
