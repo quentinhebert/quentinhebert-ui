@@ -62,7 +62,7 @@ const Caroussel = () => {
     if (index === 0 && inView) {
       setTimeout(() => {
         setIndex(1)
-      }, 10000)
+      }, 15000)
     }
   }, [inView])
 
@@ -71,7 +71,7 @@ const Caroussel = () => {
       <AutoPlaySwipeableViews
         axis="x" // horizontal
         autoplay={true} // enables autoplay
-        interval={10000} // interval between slides autonext
+        interval={20000} // interval between slides autonext
         threshold={3} // power needed to swipe
         resistance // bounds outside on first and last elements
         disableLazyLoading // loads all slides at first render

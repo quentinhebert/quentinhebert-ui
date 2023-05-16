@@ -66,7 +66,7 @@ const Text = styled(
               },
               letterSpacing: letterSpacing || 0,
               lineHeight: lineHeight || {
-                xs: "1.6rem",
+                xs: "1.4rem",
                 md: "1.6rem",
               },
               color: customColor || ((theme) => theme.palette.text.white),
