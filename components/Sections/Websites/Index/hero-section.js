@@ -160,11 +160,7 @@ export default function HeroSection(props) {
               />
               <CTAButton
                 delay={0.5}
-                onClick={() =>
-                  alert(
-                    "C'est pas encore codé ! Tout vient à point à qui sait attendre"
-                  )
-                }
+                onClick={() => window.open("/medias/cv-web.pdf")}
                 label={translations.websites.hero.cta.btn2[lang]}
               />
             </CTAIsland>
