@@ -93,7 +93,7 @@ const Caroussel = () => {
             value={0}
             alignItems="center"
             justifyContent="center"
-            sx={{ width: { xs: "80%", lg: "90%" } }}
+            sx={{ width: { xs: "100%", lg: "90%" } }}
           >
             {step}
           </Stack>

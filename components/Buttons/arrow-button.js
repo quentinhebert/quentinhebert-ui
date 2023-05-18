@@ -14,7 +14,7 @@ export default function ArrowButton({
   return (
     <Stack
       sx={{
-        display: { xs: "none", md: "flex" },
+        display: { xs: "flex", md: "flex" },
         background: "rgb(0,0,0,0.8)",
         boxShadow: (theme) =>
           `0px 0px 30px 1px ${theme.palette.secondary.main}`,
