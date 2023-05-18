@@ -12,6 +12,7 @@ import YoutubePlayer from "../VideoPlayers/youtube-player"
 import TopRightCloseButton from "../Buttons/top-right-close-button"
 import { AppContext } from "../../contexts/AppContext"
 import translations from "../../services/translation"
+import AnimatedScrollDownBtn from "../Animation/animated-scroll-down-btn"
 
 const VideoTitle = (props) => (
   <Typography
@@ -126,9 +127,8 @@ const Pill = (props) => (
     padding="0.1rem 1rem"
     margin="0.25rem"
     lineHeight="2rem"
-    letterSpacing={1}
     sx={{
-      fontSize: { xs: "0.8rem", md: "1rem" },
+      fontSize: { xs: "0.8rem", md: "0.9rem" },
       backgroundColor: "#fff",
       color: (theme) => theme.palette.text.primary,
       borderRadius: "20px",
@@ -252,7 +252,11 @@ export default function VideoPlayer(props) {
 
           {hasVideoInfo && (
             <Stack alignItems="center" sx={{ transform: "translateY(40px)" }}>
-              <BouncingArrow
+              {/* <BouncingArrow
+                scrollTo={scrollTo}
+                refForScroll={ProjectInfoRef}
+              /> */}
+              <AnimatedScrollDownBtn
                 scrollTo={scrollTo}
                 refForScroll={ProjectInfoRef}
               />
