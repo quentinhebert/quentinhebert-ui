@@ -88,7 +88,7 @@ const SectionTitle = (props) => (
   <Typography
     variant="h2"
     color="secondary"
-    marginTop={8}
+    marginTop={4}
     marginBottom={1}
     sx={{ fontSize: { xs: "2rem", md: "3rem" } }}
     {...props}
@@ -237,10 +237,6 @@ export default function VideoPlayer(props) {
 
           {hasVideoInfo && (
             <Stack alignItems="center" sx={{ transform: "translateY(40px)" }}>
-              {/* <BouncingArrow
-                scrollTo={scrollTo}
-                refForScroll={ProjectInfoRef}
-              /> */}
               <AnimatedScrollDownBtn
                 scrollTo={scrollTo}
                 refForScroll={ProjectInfoRef}
@@ -253,7 +249,7 @@ export default function VideoPlayer(props) {
             width={isVertical ? "96%" : "70%"}
             textAlign="left"
             justifyContent="left"
-            padding="2rem 0 2rem"
+            padding="4rem 0 2rem"
             ref={ProjectInfoRef}
           >
             <Description content={video?.description} />
