@@ -49,10 +49,10 @@ export default function Navbar(props) {
       component="nav"
       sx={{
         background: "transparent",
-        width: "101%",
+        width: "100vw",
         boxShadow: "none",
         top: 0,
-        left: "-1%",
+        left: 0,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
