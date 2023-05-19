@@ -10,14 +10,14 @@ import NewDocModule from "../../Sections/Dashboard/new-doc-module"
 import KpiModule from "../../Sections/Dashboard/kpi-module"
 import LeaderboardIcon from "@mui/icons-material/Leaderboard"
 import { useEffect, useState } from "react"
-import Quotations_Main from "../Quotations/Quotations_Main"
+import EuroIcon from "@mui/icons-material/Euro"
 import Orders_Main from "../Orders/Orders_Main"
 import QuotationRequests_Main from "../QuotationRequests_Main"
 import apiCall from "../../../services/apiCalls/apiCall"
 import EventIcon from "@mui/icons-material/Event"
 import useSWR from "swr"
 import UserAgenda from "../../Sections/Dashboard/user-agenda"
-import AddIcon from "@mui/icons-material/Add"
+import BalanceSection from "../../Sections/Dashboard/balance-section"
 
 export default function AdminIndex_Main() {
   const router = useRouter()
@@ -102,13 +102,13 @@ export default function AdminIndex_Main() {
       onClick: () => navigate("calendar"),
       notifications: 0,
     },
-    // {
-    //   id: "new_document",
-    //   title: "Créer",
-    //   icon: <AddIcon className="full-width full-height" />,
-    //   onClick: () => navigate("new_document"),
-    //   notifications: 0,
-    // },
+    {
+      id: "balance",
+      title: "Solde",
+      icon: <EuroIcon className="full-width full-height" />,
+      onClick: () => navigate("balance"),
+      notifications: 0,
+    },
   ]
 
   return (
@@ -122,8 +122,7 @@ export default function AdminIndex_Main() {
         {activeTab === "calendar" && <UserAgenda />}
         {activeTab === "prospects" && <QuotationRequests_Main />}
         {activeTab === "orders" && <Orders_Main />}
-        {/* {activeTab === "quotations" && <Quotations_Main />}
-        {activeTab === "new_document" && <NewDocModule />} */}
+        {activeTab === "balance" && <BalanceSection />}
       </Stack>
     </>
   )

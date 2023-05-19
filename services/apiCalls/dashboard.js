@@ -18,6 +18,21 @@ const dashboard = {
       }
     },
   },
+  balance: {
+    get: async () => {
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/dashboard/balance`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (err) {
+        console.error(err)
+      }
+    },
+  },
   kpi: {
     get: async () => {
       try {
