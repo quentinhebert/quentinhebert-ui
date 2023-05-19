@@ -174,7 +174,7 @@ function AddFilmModal(props) {
         {filmTypes &&
           filmTypes.map((type, key) => (
             <CustomSelectOption value={type.id} key={key}>
-              {type.label}
+              {type.label.fr}
             </CustomSelectOption>
           ))}
       </CustomOutlinedSelect>
