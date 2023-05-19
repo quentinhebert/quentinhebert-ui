@@ -1,14 +1,10 @@
 import { Stack, Box, Typography } from "@mui/material"
-import Boop from "../Animation/boop"
-import CloseIcon from "@mui/icons-material/Close"
 import { memo, useContext, useEffect, useRef, useState } from "react"
-import BouncingArrow from "../Navigation/BouncingArrow"
 import { isVimeo, isYoutube } from "../../services/urls"
 import ScaleUpOnHoverStack from "../Animation/scale-up-on-hover-stack"
 import BodyText from "../Text/body-text"
 import CustomModal from "./custom-modal"
-import VimeoPlayer from "../VideoPlayers/vimeo-player"
-import YoutubePlayer from "../VideoPlayers/youtube-player"
+import CustomReactPlayer from "../VideoPlayers/custom-react-player"
 import TopRightCloseButton from "../Buttons/top-right-close-button"
 import { AppContext } from "../../contexts/AppContext"
 import translations from "../../services/translation"
@@ -72,20 +68,10 @@ const RenderPlayer = ({ player, videoId }) => {
   )
   switch (player) {
     case "vimeo":
-      Player = () => (
-        <VimeoPlayer
-          videoId={videoId}
-          bgColor={(theme) => theme.palette.background.main}
-        />
-      )
+      Player = () => <CustomReactPlayer vimeoId={videoId} />
       break
     case "youtube":
-      Player = () => (
-        <YoutubePlayer
-          videoId={videoId}
-          bgColor={(theme) => theme.palette.background.main}
-        />
-      )
+      Player = () => <CustomReactPlayer youtubeId={videoId} />
       break
     default:
       break
@@ -139,7 +125,6 @@ const Pill = (props) => (
 const PillsList = ({ title, list }) => {
   const { lang } = useContext(AppContext)
   if (!list?.length) return <></>
-  console.log("list", list)
   return (
     <>
       <SectionTitle>{title}</SectionTitle>

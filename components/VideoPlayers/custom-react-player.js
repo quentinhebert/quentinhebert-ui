@@ -6,14 +6,15 @@ import VolumeOffIcon from "@mui/icons-material/VolumeOff"
 import PillButton from "../Buttons/pill-button"
 
 function arePropsEqual(prevProps, nextProps) {
-  return prevProps.videoId === nextProps.videoId
+  return (
+    prevProps.youtubeId === nextProps.youtubeId &&
+    prevProps.vimeoId === nextProps.vimeoId
+  )
 }
-const YoutubePlayer = memo((props) => <Youtube {...props} />, arePropsEqual)
-export default YoutubePlayer
+const CustomReactPlayer = memo((props) => <Player {...props} />, arePropsEqual)
+export default CustomReactPlayer
 
-function Youtube(props) {
-  const { videoId, disableAutoplay } = props
-
+function Player({ youtubeId, vimeoId, disableAutoplay }) {
   const [playing, setPlaying] = useState(false)
   const [volume, setVolume] = useState(1)
   const [showControls, setShowControls] = useState(true)
@@ -54,7 +55,13 @@ function Youtube(props) {
     >
       <ReactPlayer
         playsinline
-        url={`https://youtu.be/${videoId}`}
+        url={
+          !!youtubeId
+            ? `https://youtu.be/${youtubeId}`
+            : !!vimeoId
+            ? `https://player.vimeo.com/video/${vimeoId}`
+            : ""
+        }
         controls={true}
         playing={playing}
         volume={volume}

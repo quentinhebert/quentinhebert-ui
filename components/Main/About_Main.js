@@ -4,7 +4,7 @@ import CenteredMaxWidthContainer from "../Containers/centered-max-width-containe
 import PillButton from "../Buttons/pill-button"
 import { Fragment, useContext, useEffect, useState } from "react"
 import EastIcon from "@mui/icons-material/East"
-import YoutubePlayer from "../VideoPlayers/youtube-player"
+import CustomReactPlayer from "../VideoPlayers/custom-react-player"
 import RedoIcon from "@mui/icons-material/Redo"
 import styles from "../../styles/TextShine.module.css"
 import MotionDivOnMount from "../Animation/motion-div-on-mount"
@@ -115,11 +115,7 @@ export default function About_Main() {
                 }}
               >
                 {render ? (
-                  <YoutubePlayer
-                    disableAutoplay
-                    videoId={"wWpM97f-RHg"}
-                    bgColor={(theme) => theme.palette.background.main}
-                  />
+                  <CustomReactPlayer youtubeId={"wWpM97f-RHg"} />
                 ) : null}
               </Stack>
             </Stack>

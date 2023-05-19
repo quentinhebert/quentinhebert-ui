@@ -2,7 +2,7 @@ import { Box, Stack, Typography } from "@mui/material"
 import { useContext, useEffect, useRef, useState } from "react"
 import { Parallax } from "react-scroll-parallax"
 import Span from "../../Text/span"
-import YoutubePlayer from "../../VideoPlayers/youtube-player"
+import CustomReactPlayer from "../../VideoPlayers/custom-react-player"
 import styles from "../../../styles/TypeWriter.module.css"
 import { useInView } from "react-intersection-observer"
 import { AppContext } from "../../../contexts/AppContext"
@@ -19,8 +19,11 @@ export default function IntroductionVideoSection({ topRef, ...props }) {
   const [animationRef, inView] = useInView()
   const [itshere, setItshere] = useState(false)
   useEffect(() => {
-    if (inView && !appLoading) setItshere(true)
-    else setItshere(false)
+    if (inView && !appLoading) {
+      setItshere(true)
+    } else {
+      setItshere(false)
+    }
   }, [inView, appLoading])
 
   return (
@@ -90,11 +93,7 @@ export default function IntroductionVideoSection({ topRef, ...props }) {
                 }}
               >
                 {render ? (
-                  <YoutubePlayer
-                    disableAutoplay
-                    videoId={"wWpM97f-RHg"}
-                    bgColor={(theme) => theme.palette.background.main}
-                  />
+                  <CustomReactPlayer youtubeId={"wWpM97f-RHg"} />
                 ) : null}
               </Stack>
             </Stack>
