@@ -24,8 +24,9 @@ export default function StaggerParent({
   const controls = useAnimation()
 
   useEffect(() => {
-    if (!appLoading) controls.start("visible")
-  }, [controls, appLoading])
+    if (!appLoading && inView) controls.start("visible")
+    else controls.start("hidden")
+  }, [controls, inView, appLoading])
 
   return (
     <Stack {...wrapperProps} ref={AnimationRef}>

@@ -9,6 +9,9 @@ import TopRightCloseButton from "../Buttons/top-right-close-button"
 import { AppContext } from "../../contexts/AppContext"
 import translations from "../../services/translation"
 import AnimatedScrollDownBtn from "../Animation/animated-scroll-down-btn"
+import StaggerParent from "../Animation/stagger-parent"
+import { motion } from "framer-motion"
+import { moveDownVariants, moveLeftVariants } from "../Animation/variants"
 
 const VideoTitle = (props) => (
   <Typography
@@ -102,25 +105,27 @@ const Description = ({ content }) => {
       <SectionTitle>
         {translations.films.portfolio.description[lang]}
       </SectionTitle>
-      <BodyText whiteSpace="pre">{content[lang]}</BodyText>
+      <BodyText whiteSpace="pre-line">{content[lang]}</BodyText>
     </>
   )
 }
 const Pill = (props) => (
-  <Box
-    component="span"
-    className="inline-flex"
-    padding="0.1rem 1rem"
-    margin="0.25rem"
-    lineHeight="2rem"
-    sx={{
-      fontSize: { xs: "0.8rem", md: "0.9rem" },
-      backgroundColor: "#fff",
-      color: (theme) => theme.palette.text.primary,
-      borderRadius: "20px",
-    }}
-    {...props}
-  />
+  <motion.div variants={moveDownVariants} style={{ display: "inline-flex" }}>
+    <Box
+      component="span"
+      className="inline-flex"
+      padding="0.1rem 1rem"
+      margin="0.25rem"
+      lineHeight="2rem"
+      sx={{
+        fontSize: { xs: "0.8rem", md: "0.9rem" },
+        backgroundColor: "#fff",
+        color: (theme) => theme.palette.text.primary,
+        borderRadius: "20px",
+      }}
+      {...props}
+    />
+  </motion.div>
 )
 const PillsList = ({ title, list }) => {
   const { lang } = useContext(AppContext)
@@ -129,11 +134,13 @@ const PillsList = ({ title, list }) => {
     <>
       <SectionTitle>{title}</SectionTitle>
       <Typography component="div" color="text.white" marginTop={1}>
-        {list.map((item, key) => (
-          <Pill key={key}>
-            {!!item[lang] && item[lang].trim() !== "" ? item[lang] : item.fr}
-          </Pill>
-        ))}
+        <StaggerParent staggerChildren={0.1} style={{ display: "inline" }}>
+          {list.map((item, key) => (
+            <Pill>
+              {!!item[lang] && item[lang].trim() !== "" ? item[lang] : item.fr}
+            </Pill>
+          ))}
+        </StaggerParent>
       </Typography>
     </>
   )
