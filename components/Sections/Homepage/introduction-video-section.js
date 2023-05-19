@@ -45,6 +45,7 @@ export default function IntroductionVideoSection({ topRef, ...props }) {
             textAlign="center"
             className={styles.wrapper}
             ref={animationRef}
+            fontSize={{ xs: "2.5rem", sm: "3.5rem" }}
           >
             <Span className={styles.wrapper}>
               <Span className={itshere ? styles.text : "null"}>
