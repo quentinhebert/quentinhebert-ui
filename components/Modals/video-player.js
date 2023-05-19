@@ -102,7 +102,7 @@ const Description = ({ content }) => {
       <SectionTitle>
         {translations.films.portfolio.description[lang]}
       </SectionTitle>
-      <BodyText>{content[lang]}</BodyText>
+      <BodyText whiteSpace="pre">{content[lang]}</BodyText>
     </>
   )
 }
