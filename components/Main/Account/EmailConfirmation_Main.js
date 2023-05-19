@@ -34,9 +34,9 @@ export default function EmailConfirmation_Main(props) {
         if (res.status && res.ok) {
           setEmailConfirmed(true)
           const jsonRes = await res.json()
-          if (jsonRes.token && jsonRes.refresh_token) {
+          if (jsonRes.token && jsonRes.refreshToken) {
             setToken(jsonRes.token)
-            setRefreshToken(jsonRes.refresh_token)
+            setRefreshToken(jsonRes.refreshToken)
             window.location.href = "/"
           }
         } else {

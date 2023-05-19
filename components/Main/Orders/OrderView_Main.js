@@ -118,11 +118,11 @@ export default function OrderView_Main({}) {
       const res = await apiCall.orders.autoAssign({
         id: order.id,
       })
-      if (res && res.ok)
+      if (res && res.ok) {
         return router.push(
           `/account/orders/${id}/checkout/before-checkout-steps`
         )
-      else {
+      } else {
         alert("erreur")
       }
     }
