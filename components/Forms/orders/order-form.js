@@ -1070,7 +1070,7 @@ function OrderForm({
         sx={{
           position: "-webkit-sticky",
           position: "sticky",
-          top: 60,
+          top: 50,
           background: "#000",
           zIndex: 10,
           padding: "1rem 0 1.5rem",
