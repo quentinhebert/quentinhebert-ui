@@ -44,6 +44,7 @@ export function SoberAccordion({ title, ...props }) {
           padding: "0 1rem",
           backgroundImage: "none",
           backgroundColor: "main",
+          "&:before": { backgroundColor: "transparent" },
           "&:first-of-type": {
             borderRadius: "30px",
           },
