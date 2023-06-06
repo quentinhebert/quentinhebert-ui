@@ -28,7 +28,7 @@ export function formatText(htmlString) {
     .replaceAll(" anchor]", "/>")
     .replaceAll(
       "<li>",
-      "<Stack component='li' mb={1}><Typography color='#fff'>• "
+      "<Stack component='li' mb={1}><Typography color='text.white'>• "
     )
     .replaceAll("</li>", "</Typography></Stack>")
     .replaceAll(

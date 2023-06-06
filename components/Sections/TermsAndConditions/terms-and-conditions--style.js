@@ -26,6 +26,11 @@ export function formatText(htmlString) {
     .replaceAll("h2>", "Title>")
     .replaceAll("h3>", "Title>")
     .replaceAll("<br>", "<br />")
+    .replaceAll(
+      "<li>",
+      "<Stack component='li' mb={1}><Typography color='text.white'>• "
+    )
+    .replaceAll("</li>", "</Typography></Stack>")
   return formattedString
 }
 
@@ -36,6 +41,7 @@ export function ParseJsx({ jsx }) {
         Title,
         BodyText,
         Stack,
+        Typography,
       }}
       jsx={jsx}
       className="full-width"
