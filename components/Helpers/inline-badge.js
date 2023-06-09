@@ -22,3 +22,32 @@ export default function InlineBadge({ number }) {
     </Stack>
   )
 }
+export function OverlapBadge({ number }) {
+  if (number === 0) return <></>
+
+  return (
+    <Stack
+      component="span"
+      alignItems="center"
+      justifyContent="center"
+      sx={{
+        position: "absolute",
+        top: { xs: 10, md: 20 },
+        right: { xs: 2.5, md: 10 },
+        borderRadius: "200px",
+        // background: (theme) => theme.alert.title.error.color,
+      }}
+    >
+      <Badge
+        badgeContent={number}
+        sx={{
+          "& .MuiBadge-badge": {
+            fontSize: "1rem",
+            background: "#D21E16",
+            color: "#fff",
+          },
+        }}
+      />
+    </Stack>
+  )
+}

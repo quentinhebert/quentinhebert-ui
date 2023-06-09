@@ -1,5 +1,5 @@
 import { Stack, styled, Typography } from "@mui/material"
-import InlineBadge from "../Helpers/inline-badge"
+import { OverlapBadge } from "../Helpers/inline-badge"
 import NextLink from "../Helpers/next-link"
 
 const Card = styled(
@@ -16,11 +16,12 @@ const Card = styled(
   }) => {
     return (
       <Stack
-        className="flex-center pointer"
-        gap={2}
-        sx={{ width: { xs: "100px", md: "100px" } }}
+        className="flex-center pointer relative"
+        gap={1}
+        sx={{ width: { xs: "80px", md: "100px" } }}
         onClick={onClick || (() => {})}
       >
+        <OverlapBadge number={notifications} />
         <Stack
           className="flex-center"
           borderRadius="500px"
@@ -57,6 +58,7 @@ const Card = styled(
           <Typography
             color="#fff"
             textAlign="center"
+            fontSize={{ xs: ".8rem", md: "1rem" }}
             sx={{
               display: "box",
               textOverflow: "ellipsis",
@@ -66,7 +68,6 @@ const Card = styled(
           >
             {title}
           </Typography>
-          <InlineBadge number={notifications} />
         </Stack>
       </Stack>
     )

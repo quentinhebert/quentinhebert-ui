@@ -9,7 +9,7 @@ export default function OneActionBubblesGrid({
 }) {
   if (!!layout && layout === "grid")
     return (
-      <Grid container rowSpacing={4} columnSpacing={4}>
+      <Grid container spacing={4}>
         {cards.map((card, key) => {
           const active = card.id === activeTab
           return (

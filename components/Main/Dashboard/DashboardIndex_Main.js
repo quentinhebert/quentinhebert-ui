@@ -74,13 +74,6 @@ export default function AdminIndex_Main() {
       onClick: () => navigate("prospects"),
       notifications: notifications?.quotation_requests || 0,
     },
-    // {
-    //   id: "quotations",
-    //   title: "Devis",
-    //   icon: <TaskIcon className="full-width full-height" />,
-    //   onClick: () => navigate("quotations"),
-    //   notifications: 0,
-    // },
     {
       id: "orders",
       title: "Commandes",
@@ -88,13 +81,6 @@ export default function AdminIndex_Main() {
       onClick: () => navigate("orders"),
       notifications: 0,
     },
-    // {
-    //   id: "invoices",
-    //   title: "Factures",
-    //   icon: <DescriptionOutlinedIcon className="full-width full-height" />,
-    //   onClick: () => navigate("invoices"),
-    //   notifications: 0,
-    // },
     {
       id: "calendar",
       title: "Agenda",

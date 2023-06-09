@@ -25,6 +25,9 @@ const mainTheme = createTheme({
     tersary: {
       main: tersary,
     },
+    red: {
+      main: "#FF6860",
+    },
     background: {
       black: black,
       main: primary,
