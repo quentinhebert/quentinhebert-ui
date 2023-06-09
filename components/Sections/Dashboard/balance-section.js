@@ -9,10 +9,12 @@ import apiCall from "../../../services/apiCalls/apiCall"
 import { formatPrice } from "../../../services/utils"
 import {
   convertDateToShortString,
+  convertDateToVeryShortString,
   convertToLongString,
   getLocaleDateTime,
 } from "../../../services/date-time"
 import { AppContext } from "../../../contexts/AppContext"
+import PAYOUT_STATUS from "../../../enums/stripePayoutsStatus"
 
 export default function BalanceSection({}) {
   const [balance, setBalance] = useState(null)
@@ -57,6 +59,7 @@ export default function BalanceSection({}) {
     <CustomCard
       backgroundColor={(theme) => theme.palette.background.main}
       background={"transparent"}
+      padding={{ xs: "1rem", md: "2rem" }}
     >
       <Stack
         className="flex-center"
@@ -79,7 +82,7 @@ export default function BalanceSection({}) {
           maxWidth="500px"
           width="100%"
           bgcolor="rgb(0,0,0,0.5)"
-          padding="1rem 1.5rem"
+          padding={{ xs: "1rem", md: "1rem 1.5rem" }}
           borderRadius="15px"
         >
           <Grid container spacing={2}>
@@ -99,29 +102,6 @@ export default function BalanceSection({}) {
                 {formatPrice(balance?.pending[0].amount || 0)} €
               </BodyText>
             </Grid>
-            <Grid item xs={8} display="flex" alignItems="start">
-              <BodyText color="grey">
-                Dernier virement vers votre compte
-                <Box
-                  fontSize="0.8rem"
-                  color={(theme) => theme.palette.secondary.main}
-                >
-                  Status : {lastPayouts[0]?.status}
-                  <br />
-                  Reçu le :{" "}
-                  {lastPayouts[0]?.arrival_date
-                    ? convertDateToShortString(
-                        Date(lastPayouts[0]?.arrival_date)
-                      )
-                    : "Pas encore reçu"}
-                </Box>
-              </BodyText>
-            </Grid>
-            <Grid item xs={4} display="flex" justifyContent="end">
-              <BodyText textAlign="right">
-                {formatPrice(lastPayouts[0]?.amount || 0)} €
-              </BodyText>
-            </Grid>
           </Grid>
         </Stack>
 
@@ -139,7 +119,7 @@ export default function BalanceSection({}) {
           maxWidth="500px"
           width="100%"
           bgcolor="rgb(0,0,0,0.5)"
-          padding="1rem 1.5rem"
+          padding={{ xs: "1rem", md: "1rem 1.5rem" }}
           borderRadius="15px"
           gap={4}
         >
@@ -152,20 +132,33 @@ export default function BalanceSection({}) {
               <>
                 <Grid
                   item
-                  xs={6}
+                  xs={9}
                   display="flex"
                   justifyContent="start"
                   key={key}
                 >
-                  <BodyText>
+                  <BodyText preventTransition>
                     Versé le{" "}
-                    {convertDateToShortString(payout.arrival_date * 1000)}
+                    {convertDateToVeryShortString(payout.arrival_date * 1000)}
                   </BodyText>
                   <Stack
-                    bgcolor="green"
                     ml={1}
                     padding="0 .5rem"
-                    sx={{ borderRadius: "30px" }}
+                    sx={{
+                      borderRadius: "30px",
+                      background: (theme) =>
+                        theme.alert.title[PAYOUT_STATUS[payout.status].severity]
+                          .background,
+                      color: (theme) =>
+                        theme.alert.title[PAYOUT_STATUS[payout.status].severity]
+                          .color,
+                      border: (theme) =>
+                        `1px solid ${
+                          theme.alert.title[
+                            PAYOUT_STATUS[payout.status].severity
+                          ].color
+                        }`,
+                    }}
                   >
                     <Tooltip
                       title={`Créé le ${convertDateToShortString(
@@ -173,12 +166,14 @@ export default function BalanceSection({}) {
                       )}`}
                     >
                       <div>
-                        <BodyText>{payout.status}</BodyText>
+                        <BodyText color="inherit" preventTransition>
+                          {PAYOUT_STATUS[payout.status].label.fr}
+                        </BodyText>
                       </div>
                     </Tooltip>
                   </Stack>
                 </Grid>
-                <Grid item xs={6} display="flex" justifyContent="end" key={key}>
+                <Grid item xs={3} display="flex" justifyContent="end" key={key}>
                   <BodyText textAlign="right">
                     {formatPrice(payout.amount || 0)} €
                   </BodyText>

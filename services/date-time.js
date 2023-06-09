@@ -43,6 +43,20 @@ export function convertDateToShortString(dateTime) {
   return date.toLocaleDateString("fr-FR", options)
 }
 
+export function convertDateToVeryShortString(dateTime) {
+  if (!dateTime) return ""
+  const date = new Date(dateTime)
+  const thisYear = new Date().getFullYear()
+
+  let options = {
+    month: "2-digit",
+    day: "numeric",
+  }
+  if (date.getFullYear() !== thisYear) options.year = "2-digit"
+
+  return date.toLocaleDateString("fr-FR", options)
+}
+
 export function convertDateToLongString(dateTime) {
   if (!dateTime) return ""
   const date = new Date(dateTime)
