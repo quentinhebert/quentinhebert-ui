@@ -23,6 +23,7 @@ export default function ContactBtnSection({ isReduced }) {
           fontSize: { xs: "0.5rem", md: "0.6rem" },
           background: "#000",
           borderRadius: "30px",
+          whiteSpace: "nowrap",
           color: contactActivePage
             ? (theme) => theme.palette.secondary.main
             : "#fff",
