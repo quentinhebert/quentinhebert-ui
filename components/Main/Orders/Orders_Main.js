@@ -89,7 +89,7 @@ export default function Orders_Main({}) {
         background: (theme) => theme.palette.background.main,
         borderRadius: "30px",
       }}
-      padding="2rem"
+      padding={{ xs: "2rem 1rem", md: "2rem" }}
     >
       <BodyText
         className="inline-flex gap-10"
@@ -122,8 +122,15 @@ export default function Orders_Main({}) {
         </CustomPillSelect>
       </BodyText>
 
-      <Stack className="row" alignItems="center" width="100%">
-        <ModesToggle mode={mode} setMode={setMode} />
+      <Stack
+        className="row"
+        alignItems="center"
+        justifyContent={{ xs: "center", md: "space-between" }}
+        width="100%"
+      >
+        <Stack display={{ xs: "none", md: "flex" }}>
+          <ModesToggle mode={mode} setMode={setMode} />
+        </Stack>
         <PillButton startIcon={<AddIcon />} onClick={handleNew}>
           Nouvelle commande
         </PillButton>

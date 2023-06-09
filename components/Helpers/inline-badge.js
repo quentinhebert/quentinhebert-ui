@@ -32,19 +32,20 @@ export function OverlapBadge({ number }) {
       justifyContent="center"
       sx={{
         position: "absolute",
-        top: { xs: 10, md: 20 },
-        right: { xs: 2.5, md: 10 },
-        borderRadius: "200px",
-        // background: (theme) => theme.alert.title.error.color,
+        top: { xs: 12, md: 20 },
+        right: { xs: 3, md: 10 },
       }}
     >
       <Badge
         badgeContent={number}
         sx={{
           "& .MuiBadge-badge": {
-            fontSize: "1rem",
+            padding: { xs: 0, md: ".75rem .5rem" },
+            fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" },
             background: "#D21E16",
             color: "#fff",
+            border: "3px solid #000",
+            borderRadius: "200px",
           },
         }}
       />
