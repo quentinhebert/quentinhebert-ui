@@ -92,6 +92,7 @@ export default function QuotationClientFieldsForm({
     if (res && res.ok) {
       const jsonRes = await res.json()
       window.open(jsonRes.url)
+      await apiCall.quotations.sendAutomaticEmails({ id })
       if (!!handleFinish) handleFinish()
     } else alert("échec")
     setIsProcessing(false)

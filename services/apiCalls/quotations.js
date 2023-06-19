@@ -96,6 +96,22 @@ const quotations = {
     }
   },
   // Public
+  sendAutomaticEmails: async ({ id }) => {
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/quotations/${id}/send-automatic-emails`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  // Public
   accept: async (
     props = {
       firstname,
