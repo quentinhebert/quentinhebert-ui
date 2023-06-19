@@ -235,7 +235,7 @@ export default function QuotationView_Main({}) {
                         color="#000"
                         preventTransition
                       >
-                        Télécharger le PDF
+                        Télécharger le PDF (brouillon)
                       </BodyText>
                     </PillButton>
                   )}

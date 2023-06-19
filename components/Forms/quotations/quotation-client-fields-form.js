@@ -2,7 +2,7 @@ import { Stack } from "@mui/material"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
-import { checkEmail, checkPhone } from "../../../services/utils"
+import { checkEmail, checkPhone, checkVATnumber } from "../../../services/utils"
 import PillButton from "../../Buttons/pill-button"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 import DualInputLine from "../../Containers/dual-input-line"
@@ -51,7 +51,9 @@ export default function QuotationClientFieldsForm({
     postal_code: defaultClient?.postal_code || "",
     city: defaultClient?.city || "",
     region: defaultClient?.region || "",
-    country: defaultClient?.country || "",
+    country: defaultClient?.country || "FRANCE",
+    vat_number: defaultClient?.vat_number || "",
+    company: defaultClient?.company || "",
   }
 
   // Set initial errors on false
@@ -63,12 +65,16 @@ export default function QuotationClientFieldsForm({
   const [client, setClient] = useState(initialClient)
   const [isProcessing, setIsProcessing] = useState(false)
   const [accept, setAccept] = useState({ policy: false })
+  const [isCompany, setIsCompany] = useState(false)
 
   const liveCheck = {
     email:
       errors.email || (client.email.trim() !== "" && !checkEmail(client.email)),
     phone:
       errors.phone || (client.phone.trim() !== "" && !checkPhone(client.phone)),
+    vat_number:
+      errors.vat_number ||
+      (client.vat_number.trim() !== "" && !checkVATnumber(client.vat_number)),
   }
 
   const handleChange = (attribute) => (e) =>
@@ -77,6 +83,8 @@ export default function QuotationClientFieldsForm({
   const handleCheck = (attribute) => (e) => {
     setAccept({ ...accept, [attribute]: e.target.checked })
   }
+
+  const toggleShowCompany = (e) => setIsCompany(e.target.checked)
 
   const handleGeneratePDF = async () => {
     setIsProcessing(true)
@@ -134,6 +142,36 @@ export default function QuotationClientFieldsForm({
             error={liveCheck.phone || errors.phone}
             helperText={liveCheck.phone && "Ce téléphone n'est pas valide"}
           />
+        </DualInputLine>
+      </Card>
+
+      <Card title="Entreprise">
+        <CustomFilledInput
+          label="Nom de l'entreprise (optionnel)"
+          value={client.company}
+          onChange={handleChange("company")}
+          error={errors.company}
+        />
+        <DualInputLine>
+          <CustomCheckbox
+            label="Je suis une entreprise assujettie à la TVA"
+            onChange={toggleShowCompany}
+            value={isCompany}
+            labelcolor={(theme) => theme.palette.text.white}
+            fontSize="1rem"
+          />
+          {isCompany && (
+            <CustomFilledInput
+              label="N° TVA intracommunautaire"
+              placeholder="FRXXXXXXXXXXX"
+              value={client.vat_number}
+              onChange={handleChange("vat_number")}
+              error={liveCheck.vat_number || errors.vat_number}
+              helperText={
+                liveCheck.phone && "Ce numéro de TVA n'est pas valide"
+              }
+            />
+          )}
         </DualInputLine>
       </Card>
 

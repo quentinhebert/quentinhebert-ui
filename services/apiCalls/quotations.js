@@ -108,6 +108,8 @@ const quotations = {
       city,
       region,
       country,
+      company,
+      vat_number,
     },
     { id }
   ) => {
