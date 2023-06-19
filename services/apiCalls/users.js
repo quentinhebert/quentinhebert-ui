@@ -30,6 +30,8 @@ const users = {
         lastname: userData.lastname,
         phone: userData.phone,
         type: userData.type,
+        company: userData.company,
+        vat_number: userData.vat_number,
       }
       return await fetch(`${defaultConfig.apiUrl}/users`, {
         method: "POST",

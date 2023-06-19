@@ -3,7 +3,12 @@ import { Box, FormHelperText, Stack } from "@mui/material"
 import apiCall from "../../services/apiCalls/apiCall"
 import { USERTYPES } from "../../enums/userTypes"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
-import { checkPhone, checkEmail, checkPassword } from "../../services/utils"
+import {
+  checkPhone,
+  checkEmail,
+  checkPassword,
+  checkVATnumber,
+} from "../../services/utils"
 import AlertInfo from "../Other/alert-info"
 import CustomSelect from "../Other/custom-select"
 import { UserContext } from "../../contexts/UserContext"
@@ -38,6 +43,8 @@ export default function SignUpForm({
     email: defaultValues?.email || "",
     password: defaultValues?.password || "",
     phone: defaultValues?.phone || "",
+    company: defaultValues?.company || "",
+    vat_number: defaultValues?.vat_number || "",
     type: isAdmin ? "" : USERTYPES.CLIENT,
   }
   // Set initial errors on false
@@ -67,6 +74,7 @@ export default function SignUpForm({
   const [signupCompleted, setSignupCompleted] = useState(false)
   const [userData, setUserData] = useState(initialUserData)
   const [signupErrors, setSignupErrors] = useState(initialSignUpErrors)
+  const [isCompany, setIsCompany] = useState(false)
   const [showAlert, setShowAlert] = useState({
     show: false,
     severity: null,
@@ -85,6 +93,10 @@ export default function SignUpForm({
     phone:
       signupErrors.phone ||
       (userData.phone.trim() !== "" && !checkPhone(userData.phone)),
+    vat_number:
+      signupErrors.vat_number ||
+      (userData.vat_number.trim() !== "" &&
+        !checkVATnumber(userData.vat_number)),
   }
 
   /********** FUNCTIONS **********/
@@ -230,6 +242,41 @@ export default function SignUpForm({
             helperText={liveCheck.phone && "Ce téléphone n'est pas valide"}
           />
         </DualInputLine>
+
+        <Stack
+          gap={2}
+          width="100%"
+          bgcolor="background.main"
+          padding="1rem"
+          borderRadius="10px"
+        >
+          <CustomCheckbox
+            label="Je suis une entreprise"
+            onChange={(e) => setIsCompany(e.target.checked)}
+            value={isCompany}
+            labelcolor={(theme) => theme.palette.text.white}
+            fontSize="1rem"
+          />
+          {isCompany && (
+            <>
+              <CustomOutlinedInput
+                label="Nom de l'entreprise (optionnel)"
+                value={userData.company}
+                onChange={handleChange("company")}
+              />
+              <CustomOutlinedInput
+                label="N° TVA intracommunautaire"
+                value={userData.vat_number}
+                onChange={handleChange("vat_number")}
+                error={liveCheck.vat_number || signupErrors.vat_number}
+                helperText={
+                  liveCheck.vat_number && "Ce N° TVA n'est pas valide"
+                }
+                placeholder="FRXXXXXXXXXXX"
+              />
+            </>
+          )}
+        </Stack>
 
         <DualInputLine>
           <CustomOutlinedInput
