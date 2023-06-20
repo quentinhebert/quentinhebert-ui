@@ -10,6 +10,7 @@ import {
   TableRow,
   ToggleButton,
   ToggleButtonGroup,
+  Tooltip,
   Typography,
 } from "@mui/material"
 import apiCall from "../../../services/apiCalls/apiCall"
@@ -479,17 +480,28 @@ const PaymentSection = ({ handleGenerate, order, handleOpenTag }) => {
               >
                 Générer un lien de paiement en ligne
               </PillButton>
-              <PillButton
-                textTransform="initial"
-                background="transparent"
-                border={(theme) => `1px solid ${theme.palette.secondary.main}`}
-                color={(theme) => theme.palette.secondary.main}
-                onClick={handleOpenTag}
-                width="auto"
-                endIcon={<SimpleCheckIcon />}
+              <Tooltip
+                title={
+                  !order.client?.id ? "Vous devez assigner un client." : ""
+                }
               >
-                Marquer le prochain paiement comme réglé
-              </PillButton>
+                <div>
+                  <PillButton
+                    disabled={!order.client?.id}
+                    textTransform="initial"
+                    background="transparent"
+                    border={(theme) =>
+                      `1px solid ${theme.palette.secondary.main}`
+                    }
+                    color={(theme) => theme.palette.secondary.main}
+                    onClick={handleOpenTag}
+                    width="auto"
+                    endIcon={<SimpleCheckIcon />}
+                  >
+                    Marquer le prochain paiement comme réglé
+                  </PillButton>
+                </div>
+              </Tooltip>
             </Stack>
           </CustomCard>
         </Stack>
