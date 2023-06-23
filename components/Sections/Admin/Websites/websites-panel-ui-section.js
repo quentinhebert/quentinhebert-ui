@@ -15,6 +15,8 @@ import ScaleUpOnHoverStack from "../../../Animation/scale-up-on-hover-stack"
 import PleaseWait from "../../../Helpers/please-wait"
 import SwitchButton from "../../../Inputs/switch-button"
 import NextLink from "../../../Helpers/next-link"
+import PillButton from "../../../Buttons/pill-button"
+import CancelButton from "../../../Buttons/cancel-button"
 
 const EditWebsiteModal = dynamic(() =>
   import("../../../Modals/Edit-Modals/edit-website-modal")
@@ -159,13 +161,29 @@ const SortableList = sortableContainer(({ items, disabled, fetchWebsites }) => (
   </Box>
 ))
 
-const SortHelper = () => (
+const SortHelper = ({ handleSaveSortedWebsites, handleCancel }) => (
   <AlertInfo
     content={{
       show: true,
       severity: "info",
       title: "Modifiez l'ordre des sites web",
-      text: "Il vous suffit de glisser-déposer les éléments sur la grille puis de sauvegarder !",
+      text: "",
+      js: (
+        <Stack gap={2}>
+          <BodyText>
+            Il vous suffit de glisser-déposer les éléments sur la grille puis de
+            sauvegarder !
+          </BodyText>
+          <Stack flexDirection="row" gap={1}>
+            <CancelButton width="auto" handleCancel={handleCancel}>
+              Annuler
+            </CancelButton>
+            <PillButton width="auto" onClick={handleSaveSortedWebsites}>
+              Enregistrer
+            </PillButton>
+          </Stack>
+        </Stack>
+      ),
     }}
   />
 )
@@ -251,7 +269,12 @@ export default function WebsitesPanelUISection(props) {
               </OutlinedButton>
             </Box>
           </Stack>
-          {!disableSort && <SortHelper />}
+          {!disableSort && (
+            <SortHelper
+              handleSaveSortedWebsites={handleSaveSortedWebsites}
+              handleCancel={() => setDisableSort(true)}
+            />
+          )}
         </Stack>
 
         {isLoading ? (
