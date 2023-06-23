@@ -16,12 +16,9 @@ export default function HtmlHead({
 
   return (
     <Head>
-      <meta
-        name="google-site-verification"
-        content="gawWbOBpznQuSXjpGyB-Xn5lwxo2bb9HqoQ1W0vprFw"
-      />
       <title>{pageTitle}</title>
       <meta name="description" content={description} />
+      <link rel="stylesheet" href="/fonts/style.css" />
       <link rel="icon" href="/favicon.ico" />
       <link
         rel="apple-touch-icon"
