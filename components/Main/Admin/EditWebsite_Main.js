@@ -1,5 +1,5 @@
 import withConfirmAction from "../../hocs/withConfirmAction"
-import { Grid, Stack, Typography, Box } from "@mui/material"
+import { Grid, Stack, Typography, Box, TextField } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import CustomForm from "../../Forms/custom-form"
@@ -24,6 +24,13 @@ import CancelButton from "../../Buttons/cancel-button"
 import AddIcon from "@mui/icons-material/Add"
 import LanguageIcon from "@mui/icons-material/Language"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
+import AddEditToggle from "../../Navigation/add-edit-toggle"
+import { ADD_EDIT_ENUM } from "../../../enums/modesEnum"
+import LocalOfferIcon from "@mui/icons-material/LocalOffer"
+import BasicTooltip from "../../Helpers/basic-tooltip"
+import AlertInfo from "../../Other/alert-info"
+import CheckIcon from "@mui/icons-material/Check"
+import BodyText from "../../Text/body-text"
 
 const AddImageGridItem = (props) => (
   <Grid
@@ -86,13 +93,15 @@ function EditWebsite_Main({
     client: "",
     images: [],
   }
+  const initialNewTag = { label: { fr: "", en: "" }, description: "" }
   const [websiteTags, setWebsiteTags] = useState(null)
   const [website, setWebsite] = useState(initialWebsite)
   const [errors, setErrors] = useState({})
   const [file, setFile] = useState(null)
   const [files, setFiles] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [newTag, setNewTag] = useState(null)
+  const [newTag, setNewTag] = useState(initialNewTag)
+  const [mode, setMode] = useState(ADD_EDIT_ENUM.ADD)
   const [imgToDelete, setImgToDelete] = useState([])
   const [openAddModal, setOpenAddModal] = useState(false)
   const handleCloseModal = () => setOpenAddModal(false)
@@ -193,14 +202,17 @@ function EditWebsite_Main({
     e.stopPropagation()
     setWebsite({ ...website, thumbnail: { id: "" } })
   }
-  const handleChangeNewTag = (e) => {
-    setNewTag(e.target.value)
+  const handleChangeNewTag = (attribute, lang) => (e) => {
+    setNewTag({
+      ...newTag,
+      [attribute]: { ...newTag[attribute], [lang]: e.target.value },
+    })
   }
   const handleAddWebsiteTag = async () => {
     const res = await apiCall.websites.tags.add(newTag)
     if (res && res.ok) {
       fetchWebsiteTags()
-      setNewTag(null)
+      setNewTag(initialNewTag)
     }
   }
   const deleteWebsiteTag = async (tagId) => {
@@ -214,6 +226,21 @@ function EditWebsite_Main({
     setConfirmContent({
       text: "La suppression est définitive et affectera tous les sites web reliés à ce tag.",
     })
+  }
+  const handleUpdateWebsiteTag = async () => {
+    const res = await apiCall.websites.tags.update(websiteTags)
+    if (res && res.ok) {
+      setSnackSeverity("success")
+      setSnackMessage("Modifications enregistrées")
+      setMode(ADD_EDIT_ENUM.ADD)
+    } else {
+      setSnackSeverity("error")
+      setSnackMessage("Une erreur est survenue...")
+    }
+  }
+  const handleCancelEditTags = async () => {
+    await fetchWebsiteTags()
+    setMode(ADD_EDIT_ENUM.ADD)
   }
   const throttledProcess = async (items, interval, response) => {
     if (items.length == 0) {
@@ -422,7 +449,7 @@ function EditWebsite_Main({
             />
           </CustomAccordion>
 
-          <Stack width="100%">
+          {/* <Stack width="100%">
             <CustomAccordion title="Tags liés au projet">
               <Stack className="row gap-10">
                 <CustomOutlinedInput
@@ -465,6 +492,144 @@ function EditWebsite_Main({
                     />
                   </Stack>
                 ))}
+            </CustomAccordion>
+          </Stack> */}
+
+          <Stack width="100%">
+            <CustomAccordion
+              title={
+                <Stack className="row flex-center gap-10">
+                  <LocalOfferIcon />
+                  Tags liés au projet
+                </Stack>
+              }
+            >
+              <Stack gap={4}>
+                <AddEditToggle mode={mode} setMode={setMode} />
+
+                {mode === ADD_EDIT_ENUM.ADD && (
+                  <Stack gap={1}>
+                    <CustomOutlinedInput
+                      type="input"
+                      label="Nouveau tag"
+                      value={newTag.label.fr || ""}
+                      onChange={handleChangeNewTag("label", "fr")}
+                    />
+                    <CustomOutlinedInput
+                      type="input"
+                      label="Traduction (EN)"
+                      value={newTag.label.en || ""}
+                      onChange={handleChangeNewTag("label", "en")}
+                    />
+                    <PillButton onClick={handleAddWebsiteTag} width="100%">
+                      Ajouter
+                    </PillButton>
+                  </Stack>
+                )}
+
+                {mode === ADD_EDIT_ENUM.EDIT && (
+                  <Stack className="gap-10 flex-center">
+                    <AlertInfo
+                      content={{
+                        show: true,
+                        title: "Modification globale",
+                        text: "Attention, les modifications impacteront tous les sites web auxquels les tags sont rattachés.",
+                        severity: "warning",
+                      }}
+                    />
+                    <PillButton
+                      onClick={handleUpdateWebsiteTag}
+                      endIcon={<CheckIcon />}
+                    >
+                      Enregistrer les modifications
+                    </PillButton>
+                    <BodyText
+                      className="pointer cool-button"
+                      onClick={handleCancelEditTags}
+                    >
+                      Annuler
+                    </BodyText>
+                  </Stack>
+                )}
+
+                <Stack>
+                  {websiteTags &&
+                    websiteTags.map((item, key) => (
+                      <Stack
+                        className="row full-width gap-10"
+                        alignItems="baseline"
+                      >
+                        <CustomCheckbox
+                          key={key}
+                          checked={
+                            (website.tags &&
+                              website.tags.filter(
+                                (tagsItem) => tagsItem.id === item.id
+                              ).length === 1) ||
+                            false
+                          }
+                          label={
+                            mode === ADD_EDIT_ENUM.ADD ? item.label.fr : ""
+                          }
+                          labelcolor="#fff"
+                          fontSize="0.9rem"
+                          onChange={handleChangeMultipleCheckbox("tags", item)}
+                        />
+                        <Stack flexGrow={1} />
+                        {mode === ADD_EDIT_ENUM.EDIT && (
+                          <Stack gap={2} mb={6} width="100%">
+                            <TextField
+                              variant="standard"
+                              value={item.label.fr}
+                              label="Français (FR)"
+                              onChange={(e) => {
+                                const localTags = [...websiteTags]
+                                localTags[key] = {
+                                  ...localTags[key],
+                                  label: {
+                                    ...localTags[key].label,
+                                    fr: e.target.value,
+                                  },
+                                }
+                                setWebsiteTags(localTags)
+                              }}
+                              color="secondary"
+                              sx={{ "& .MuiInput-input": { color: "#fff" } }}
+                            />
+                            <TextField
+                              variant="standard"
+                              value={item.label.en}
+                              label="English (EN)"
+                              onChange={(e) => {
+                                const localTags = [...websiteTags]
+                                localTags[key] = {
+                                  ...localTags[key],
+                                  label: {
+                                    ...localTags[key].label,
+                                    en: e.target.value,
+                                  },
+                                }
+                                setWebsiteTags(localTags)
+                              }}
+                              color="secondary"
+                              sx={{ "& .MuiInput-input": { color: "#fff" } }}
+                            />
+                          </Stack>
+                        )}
+                        <BasicTooltip title="Supprimer le tag">
+                          <DeleteIcon
+                            onClick={() => handleDeleteWebsiteTag(item)}
+                            sx={{
+                              cursor: "pointer",
+                              "&:hover": { opacity: 0.5 },
+                              color: (theme) => theme.alert.title.error.color,
+                            }}
+                          />
+                        </BasicTooltip>
+                      </Stack>
+                    ))}
+                </Stack>
+              </Stack>
             </CustomAccordion>
           </Stack>
 
