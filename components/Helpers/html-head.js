@@ -18,7 +18,7 @@ export default function HtmlHead({
     <Head>
       <title>{pageTitle}</title>
       <meta name="description" content={description} />
-      <link rel="stylesheet" href="/fonts/style.css" />
+      <link rel="stylesheet" href="/fonts/fonts.css" />
       <link rel="icon" href="/favicon.ico" />
       <link
         rel="apple-touch-icon"
