@@ -18,21 +18,15 @@ import { logout } from "../../../services/utils"
 import BasicTooltip from "../../Helpers/basic-tooltip"
 import { useRouter } from "next/router"
 import NextLink from "../../Helpers/next-link"
+import SettingsIcon from "@mui/icons-material/Settings"
 
 const AdminItems = [
-  {
-    label: "Panneau adminitrateur",
-    icon: <AdminPanelSettingsIcon />,
-    url: "/admin",
-    section: "admin",
-    orderMobile: 1,
-  },
   {
     label: "Mon compte",
     icon: <PersonIcon />,
     url: "/account",
     section: "account",
-    orderMobile: 3,
+    orderMobile: 1,
   },
   {
     label: "Dashboard",
@@ -40,6 +34,13 @@ const AdminItems = [
     url: "/dashboard",
     section: "dashboard",
     orderMobile: 2,
+  },
+  {
+    label: "Panneau adminitrateur",
+    icon: <SettingsIcon />,
+    url: "/admin",
+    section: "admin",
+    orderMobile: 3,
   },
 ]
 
