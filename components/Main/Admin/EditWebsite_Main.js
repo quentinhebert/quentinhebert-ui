@@ -646,7 +646,7 @@ function EditWebsite_Main({
             <PillButton onClick={handleUpdate} disabled={isLoading}>
               {isLoading ? <CustomCircularProgress /> : "Enregistrer"}
             </PillButton>
-            <CancelButton handleCancel={handleCancel} />
+            <CancelButton handleCancel={handleCancel} label="Réinitialiser" />
           </Stack>
         </CustomForm>
       </Stack>
