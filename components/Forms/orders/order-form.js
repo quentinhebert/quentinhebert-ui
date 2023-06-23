@@ -196,7 +196,7 @@ const GridItem = ({ xs, textAlign, ...props }) => (
   </Grid>
 )
 const OrderListHead = ({}) => (
-  <Grid container marginTop={2}>
+  <Grid container marginTop={2} minWidth="700px">
     <GridItem color="grey" fontSize="1rem" xs={2}>
       Numéro
     </GridItem>
@@ -213,7 +213,7 @@ const OrderListHead = ({}) => (
   </Grid>
 )
 const QuotationsListHead = ({}) => (
-  <Grid container marginTop={2}>
+  <Grid container marginTop={2} minWidth="700px">
     <GridItem color="grey" fontSize="1rem" xs={2}>
       Version
     </GridItem>
@@ -246,7 +246,7 @@ const OrderListItem = ({ invoice }) => {
     if (invoice.path) return window.open(buildPublicURL(invoice.path))
   }
   return (
-    <Stack sx={{ justifyContent: "space-between" }} width="100%">
+    <Stack sx={{ justifyContent: "space-between" }} minWidth="700px">
       <Grid container>
         <GridItem xs={2}>{invoice.number}</GridItem>
         <GridItem textTransform="capitalize">
@@ -278,7 +278,7 @@ const QuotationsListItem = ({ quotation, router, handleSend }) => {
     router.push(`/quotation-view/${quotation.id}`)
   }
   return (
-    <Stack sx={{ justifyContent: "space-between" }} width="100%">
+    <Stack sx={{ justifyContent: "space-between" }} minWidth="700px">
       <Grid container>
         <GridItem xs={2}>{version}</GridItem>
         <GridItem color={color}>{label}</GridItem>
@@ -335,7 +335,7 @@ const DocumentsSection = ({
             </BodyText>
           )}
 
-          <Stack gap={2} padding="0">
+          <Stack gap={2} padding="0" overflow="auto">
             {order.quotations?.length > 0 && <QuotationsListHead />}
             {order.quotations.map((quotation, key) => (
               <QuotationsListItem
@@ -360,7 +360,7 @@ const DocumentsSection = ({
               Aucune facture.
             </BodyText>
           )}
-          <Stack gap={2}>
+          <Stack gap={2} overflow="auto" width="100%">
             {order.invoices?.length > 0 && <OrderListHead />}
             {!!order.invoices &&
               order.invoices.map((invoice, key) => (
