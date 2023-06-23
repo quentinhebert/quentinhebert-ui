@@ -80,7 +80,7 @@ function EditWebsite_Main({
     id: null,
     thumbnail: { id: "", url: "" },
     url: "",
-    description: "",
+    description: { fr: "", en: "" },
     tags: [],
     year: "",
     client: "",

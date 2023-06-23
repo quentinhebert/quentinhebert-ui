@@ -300,24 +300,25 @@ export default function PortfolioSection(props) {
                     <ProjectClient>{website.client}</ProjectClient>
 
                     <Box component="span" textAlign="center">
-                      {website.tags.map((tag, key) => (
-                        <Pill
-                          animDelay={key}
-                          key={key}
-                          preventTransitionOut={desktop}
-                          lineHeight={0}
-                          padding={{ xs: ".1rem 1rem", lg: "0rem .75rem" }}
-                        >
-                          <BodyText
-                            color="#000"
+                      {!!website.tags?.length &&
+                        website.tags.map((tag, key) => (
+                          <Pill
+                            animDelay={key}
+                            key={key}
                             preventTransitionOut={desktop}
-                            textTransform="initial"
-                            fontSize=".8rem"
+                            lineHeight={0}
+                            padding={{ xs: ".1rem 1rem", lg: "0rem .75rem" }}
                           >
-                            /{tag[lang]}
-                          </BodyText>
-                        </Pill>
-                      ))}
+                            <BodyText
+                              color="#000"
+                              preventTransitionOut={desktop}
+                              textTransform="initial"
+                              fontSize=".8rem"
+                            >
+                              /{tag[lang]}
+                            </BodyText>
+                          </Pill>
+                        ))}
                     </Box>
 
                     <Stack width="100%">
