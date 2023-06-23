@@ -307,7 +307,6 @@ const QuotationsListItem = ({ quotation, router, handleSend }) => {
 const DocumentsSection = ({
   order,
   handleGenerate,
-  handleGenerateInvoice,
   handleSend,
   isQuotationGenerating,
 }) => {
@@ -354,7 +353,6 @@ const DocumentsSection = ({
         <Stack gap={2}>
           <DocumentHeader>
             <DocumentType>Factures</DocumentType>
-            <AddButton onClick={handleGenerateInvoice} />
           </DocumentHeader>
 
           {(!order.invoices || order.invoices?.length === 0) && (
@@ -966,12 +964,6 @@ function OrderForm({
       setSnackSeverity("error")
     }
   }
-  const handleGenerateInvoice = async () => {
-    // TODO:
-    // if no quotation => ok
-    // if quotation => quotation need to be accepted
-    // Warning: if invoice generated manually => order is considered as paid
-  }
   const updateOrderReady = async () => {
     if (order.status !== "DRAFT") return
     const res = await apiCall.orders.save({
@@ -1372,7 +1364,6 @@ function OrderForm({
                 <DocumentsSection
                   order={order}
                   handleGenerate={handleGenerate}
-                  handleGenerateInvoice={handleGenerateInvoice}
                   handleSend={handleSend}
                   isQuotationGenerating={isQuotationGenerating}
                 />
