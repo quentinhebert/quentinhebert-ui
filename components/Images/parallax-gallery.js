@@ -82,11 +82,11 @@ export default function ParallaxGallery(props) {
             speed={md ? -8 : -60}
             style={{ display: "flex", gap: "2vw", pointerEvents: "none" }}
           >
-            <Img src="/medias/sunset.png" />
+            <Img src="/medias/sunset.jpg" />
             <Img src="/medias/IMG_1899.JPG" />
-            <Img src="/medias/sunset.png" />
+            <Img src="/medias/sunset.jpg" />
             <Img src="/medias/lilliput.JPG" />
-            <Img src="/medias/sunset.png" />
+            <Img src="/medias/sunset.jpg" />
             <Img src="/medias/IMG_1899.JPG" />
           </Parallax>
         </Stack>
