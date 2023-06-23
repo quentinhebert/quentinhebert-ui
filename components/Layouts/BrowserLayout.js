@@ -6,8 +6,8 @@ const ColorCircle = ({ color, clickable }) => (
   <Box
     width="20px"
     height="20px"
-    bgcolor={color}
     sx={{
+      background: color,
       borderRadius: "100%",
       "&:hover": { opacity: clickable ? 0.5 : 1 },
       cursor: clickable ? "pointer" : "default",
