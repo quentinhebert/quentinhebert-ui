@@ -3,6 +3,37 @@ import { getFreshToken } from "../utils"
 
 const clients = {
   // Admin only
+  create: async (
+    props = {
+      email,
+      firstname,
+      lastname,
+      vat_number,
+      company,
+      phone,
+      line1,
+      line2,
+      postal_code,
+      city,
+      region,
+      country,
+    }
+  ) => {
+    try {
+      const body = JSON.stringify(props)
+      return await fetch(`${defaultConfig.apiUrl}/clients`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+        body,
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  // Admin only
   search: async ({ string }) => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/clients/search/${string}`, {

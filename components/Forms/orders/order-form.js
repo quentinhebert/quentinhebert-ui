@@ -644,7 +644,7 @@ function OrderForm({
   const [selectedItemIndex, setSelectedItemIndex] = useState(null)
   const [loading, setLoading] = useState(false)
   const [emailInput, setEmailInput] = useState("")
-  const [assignValue, setAssignValue] = useState("")
+  const [assignValue, setAssignValue] = useState({})
   const [assignInputValue, setAssignInputValue] = useState("")
   const [modal, setModal] = useState(null)
   const [openModal, setOpenModal] = useState(false)
@@ -1993,7 +1993,14 @@ function OrderForm({
             />
 
             {newClient ? (
-              <QuotationClientFieldsForm />
+              <QuotationClientFieldsForm
+                orderId={order.id}
+                handleFinish={async () => {
+                  handleCloseModal()
+                  fetchOrder()
+                }}
+                isAdmin
+              />
             ) : (
               <CustomForm gap={4}>
                 <ClientAutocomplete

@@ -1,6 +1,6 @@
 import { Stack } from "@mui/material"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { checkEmail, checkPhone, checkVATnumber } from "../../../services/utils"
 import PillButton from "../../Buttons/pill-button"
@@ -13,6 +13,7 @@ import CustomForm from "../custom-form"
 import Span from "../../Text/span"
 import InTextLink from "../../Links/in-text-link"
 import { defaultConfig } from "../../../config/defaultConfig"
+import { AppContext } from "../../../contexts/AppContext"
 
 const SectionTitle = (props) => (
   <Stack className="full-width">
@@ -37,9 +38,13 @@ const Card = ({ title, ...props }) => (
 export default function QuotationClientFieldsForm({
   defaultClient,
   handleFinish,
+  isAdmin,
+  orderId,
 }) {
   const router = useRouter()
   const id = router.query.id
+
+  const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
 
   const initialClient = {
     firstname: defaultClient?.firstname || "",
@@ -96,6 +101,33 @@ export default function QuotationClientFieldsForm({
       if (!!handleFinish) handleFinish()
     } else alert("échec")
     setIsProcessing(false)
+  }
+  const handleAssign = async ({ clientId }) => {
+    const res = await apiCall.orders.assignClient({
+      id: orderId,
+      clientId,
+    })
+    if (res && res.ok) {
+      setSnackMessage("Client associé au devis avec succès")
+      setSnackSeverity("success")
+      if (!!handleFinish) handleFinish()
+    } else {
+      setSnackMessage("Une erreur est survenue")
+      setSnackSeverity("error")
+    }
+    setIsProcessing(false)
+  }
+  const handleAdminCreateClient = async () => {
+    setIsProcessing(true)
+    const res = await apiCall.clients.create(client)
+    if (res && res.ok) {
+      const jsonRes = await res.json()
+      await handleAssign({ clientId: jsonRes.id })
+    } else {
+      setSnackMessage("Une erreur est survenue")
+      setSnackSeverity("error")
+      setIsProcessing(false)
+    }
   }
 
   return (
@@ -263,9 +295,9 @@ export default function QuotationClientFieldsForm({
 
       <PillButton
         disabled={!accept.policy || isProcessing}
-        onClick={handleGeneratePDF}
+        onClick={!isAdmin ? handleGeneratePDF : handleAdminCreateClient}
       >
-        Télécharger le PDF
+        {!isAdmin ? "Télécharger le PDF" : "Créer et assigner le client"}
       </PillButton>
     </CustomForm>
   )
