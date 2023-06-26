@@ -121,7 +121,7 @@ export default function SelectPaymentMethodSection({
                   if (pm.type === "card")
                     return (
                       <Grid item xs={12} md={6} xl={4}>
-                        <CustomCard gap="0" height="auto" marginBottom="0">
+                        <CustomCard gap="0" height="100%" marginBottom="0">
                           <BodyText
                             textTransform="uppercase"
                             textAlign="right"
@@ -186,7 +186,7 @@ export default function SelectPaymentMethodSection({
                   if (pm.type === "sepa_debit")
                     return (
                       <Grid item xs={12} md={6} xl={4}>
-                        <CustomCard gap="0" height="auto" marginBottom="0">
+                        <CustomCard gap="0" height="100%" marginBottom="0">
                           <BodyText
                             textTransform="uppercase"
                             textAlign="right"
@@ -207,6 +207,8 @@ export default function SelectPaymentMethodSection({
                               </BodyText>
                             </Grid>
                           </Grid>
+
+                          <Stack flexGrow={1} />
 
                           <PillButton
                             onClick={() => handleSelectPm(pm)}
