@@ -2,6 +2,20 @@ import { defaultConfig } from "../../config/defaultConfig"
 import { getFreshToken } from "../utils"
 
 const clients = {
+  // Users self
+  get: async ({ id }) => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/clients/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
   // Admin only
   create: async (
     props = {

@@ -34,6 +34,7 @@ export default function SelectPaymentMethodSection({
 
   // HANDLERS
   const handleRedirectCheckout = async ({ paymentMethodId }) => {
+    console.debug("paymentMethodId", paymentMethodId)
     const res = await apiCall.orders.getCheckoutClientSecret({
       order: { id: orderId },
       invoiceAddress,

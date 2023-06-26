@@ -31,9 +31,8 @@ export default function PaymentPage() {
       borderRadius: "20px",
       colorPrimary: theme.palette.secondary.main,
       colorPrimaryText: "#1A1B25",
-      colorText: theme.palette.text.secondary,
+      colorText: theme.palette.text.white,
       colorTextSecondary: "white",
-      colorTextPlaceholder: "#fff",
       colorIconTab: "white",
       colorLogo: "dark",
     },
@@ -41,6 +40,12 @@ export default function PaymentPage() {
       ".Input, .Block": {
         backgroundColor: "transparent",
         border: "1.5px solid var(--colorPrimary)",
+      },
+      ".Input::placeholder": {
+        color: "grey",
+      },
+      ".Label": {
+        color: theme.palette.secondary.main,
       },
     },
   }
@@ -59,7 +64,7 @@ export default function PaymentPage() {
 
   return (
     <PagesLayout head={head}>
-      <Elements stripe={stripePromise} options={options}>
+      <Elements stripe={stripePromise} options={options} key={clientSecret}>
         <StripeCheckoutForm orderId={orderId} clientSecret={clientSecret} />
       </Elements>
     </PagesLayout>

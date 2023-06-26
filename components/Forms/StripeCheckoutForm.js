@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material"
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import apiCall from "../../services/apiCalls/apiCall"
 import { getNextPaymentDetails } from "../../services/orders"
 import { formatPaymentErrors } from "../../services/stripe-utils"
@@ -12,12 +12,26 @@ import AlertInfo from "../Other/alert-info"
 import MediumTitle from "../Titles/medium-title"
 import CustomForm from "./custom-form"
 import { formatPrice } from "../../services/utils"
+import { UserContext } from "../../contexts/UserContext"
 
 export default function StripeCheckoutForm({ orderId, clientSecret }) {
   const stripe = useStripe()
   const elements = useElements()
 
   const router = useRouter()
+  const { user } = useContext(UserContext)
+
+  const [client, setClient] = useState(null)
+  const fetchClient = async () => {
+    const res = await apiCall.clients.get(user)
+    if (res && res.ok) {
+      const jsonRes = await res.json()
+      setClient(jsonRes)
+    }
+  }
+  useEffect(() => {
+    fetchClient()
+  }, [])
 
   const [order, setOrder] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -112,7 +126,24 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
                   <AlertInfo content={showAlert} />
                 </Stack>
               )}
-              <PaymentElement id="payment-element" />
+              <PaymentElement
+                id="payment-element"
+                options={{
+                  defaultValues: {
+                    billingDetails: {
+                      name: "Quentin Hébert",
+                      email: "hebertquentin@aol.fr",
+                      address: {
+                        line1: client?.line1 || "",
+                        line2: client?.line2 || "",
+                        postal_code: client?.postal_code || "",
+                        city: client?.city || "",
+                        country: "FRANCE",
+                      },
+                    },
+                  },
+                }}
+              />
               <Stack className="row gap-10" marginTop={2}>
                 <PillButton
                   disabled={!stripe}
