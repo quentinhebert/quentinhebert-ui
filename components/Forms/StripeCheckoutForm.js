@@ -13,6 +13,7 @@ import MediumTitle from "../Titles/medium-title"
 import CustomForm from "./custom-form"
 import { formatPrice } from "../../services/utils"
 import { UserContext } from "../../contexts/UserContext"
+import { defaultConfig } from "../../config/defaultConfig"
 
 export default function StripeCheckoutForm({ orderId, clientSecret }) {
   const stripe = useStripe()
@@ -74,6 +75,9 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
     setProcessing(true)
     const result = await stripe.confirmPayment({
       elements,
+      confirmParams: {
+        return_url: `${defaultConfig.webclientUrl}/account/orders/${orderId}/checkout/success`,
+      },
       redirect: "if_required",
     })
     setProcessing(false)
