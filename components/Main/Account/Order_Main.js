@@ -125,16 +125,25 @@ export default function Order_Main({ orderId }) {
             <BodyText
               fontSize="2rem"
               preventTransition
-              alignItems="center"
-              display="inline-flex"
-              gap={2}
+              alignItems="start"
+              display="flex"
+              gap={{ xs: 2, md: 2 }}
               width="100%"
               color="secondary"
+              sx={{
+                flexDirection: { xs: "column-reverse", md: "row" },
+              }}
             >
               {order?.label || ""}
-              <StatusChip order={order} />
-              <Stack flexGrow={1} />
-              <RefreshButton refresh={fetchOrder} />
+              <Stack
+                flexDirection="row"
+                alignItems="center"
+                width={{ xs: "100%", md: "auto" }}
+              >
+                <StatusChip order={order} />
+                <Stack flexGrow={1} />
+                <RefreshButton refresh={fetchOrder} />
+              </Stack>
             </BodyText>
 
             <BodyText color="grey" fontSize="1rem" preventTransition>

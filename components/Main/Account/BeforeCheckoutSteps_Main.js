@@ -137,7 +137,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
   if (!order.id && !loading) return <Custom404_Main />
 
   return (
-    <Stack gap={6} padding="2rem 0">
+    <Stack gap={{ xs: 0, md: 6 }} padding={{ xs: "0", md: "2rem 0" }}>
       {loading && <PleaseWait />}
 
       <Stack>
@@ -146,9 +146,10 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
           ref={RefsForScroll.checkout}
           sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
         />
-        <CenteredMaxWidthContainer>
+        <CenteredMaxWidthContainer percents={{ xs: "100%", md: "80%" }}>
           <CustomCard
             backgroundColor={(theme) => theme.palette.background.main}
+            padding={{ xs: "2rem 0.5rem", md: "2rem" }}
           >
             <CustomStepper
               steps={steps}
@@ -164,7 +165,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
           sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
         />
         {activeStep === 0 && (
-          <CenteredMaxWidthContainer>
+          <CenteredMaxWidthContainer percents={{ xs: "100%", md: "80%" }}>
             <CustomCard
               backgroundColor={(theme) => theme.palette.background.main}
             >
@@ -221,7 +222,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
       </Stack>
 
       {/********** PRICE & ACTION DETAILS **********/}
-      <CenteredMaxWidthContainer>
+      <CenteredMaxWidthContainer percents={{ xs: "100%", md: "80%" }}>
         <Typography
           variant="h6"
           color="secondary"
@@ -244,7 +245,10 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
 
         {activeStep !== 0 && (
           <CustomCard
+            marginBottom="1rem"
+            padding={{ xs: "1rem", md: "2rem" }}
             backgroundColor={(theme) => theme.palette.background.main}
+            gap={2}
           >
             <Typography variant="h2" color="secondary" textAlign="center">
               Facturation
@@ -253,6 +257,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
             <BodyText>La facture sera émise avec ces informations :</BodyText>
 
             <CustomCard
+              marginBottom="1rem"
               backgroundColor={(theme) => theme.palette.background.black}
             >
               <BodyText>
@@ -275,7 +280,9 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
         )}
         {activeStep === 2 && (
           <CustomCard
+            padding={{ xs: "1rem", md: "2rem" }}
             backgroundColor={(theme) => theme.palette.background.main}
+            marginBottom="1rem"
           >
             <Typography variant="h2" color="secondary" textAlign="center">
               Moyen de paiement
@@ -285,6 +292,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
               {!!paymentMethod.sepa_debit && (
                 <CustomCard
                   backgroundColor={(theme) => theme.palette.background.black}
+                  marginBottom={1}
                 >
                   <BodyText
                     textTransform="uppercase"
@@ -313,6 +321,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
               )}
               {!!paymentMethod.card && (
                 <CustomCard
+                  marginBottom={1}
                   backgroundColor={(theme) => theme.palette.background.black}
                 >
                   <BodyText
@@ -358,7 +367,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
             sx={{
               // width: "50%",
               flexGrow: 1,
-              padding: 3,
+              padding: { xs: "1rem", md: 3 },
               gap: 2,
               borderRadius: "20px",
               background: (theme) => theme.palette.background.main,
@@ -406,7 +415,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
 
         {activeStep === 2 && (
           <PillButton
-            margin="4rem 0 4rem"
+            margin={{ xs: "1rem 0", md: "4rem 0" }}
             endIcon={<EastIcon />}
             onClick={handleRedirectCheckout}
           >

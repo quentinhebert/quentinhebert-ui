@@ -1026,30 +1026,29 @@ function OrderForm({
     </Pill>
   )
   const Toolbar = () => {
-    const options = [
-      {
-        label: "Sauvegarder",
-        handleClick: () => handleSave(),
-        icon: <SaveAltIcon />,
-      },
-      {
-        label: "Changer le nom",
-        handleClick: () => handleOpenModal(MODALS.SAVE),
-        icon: <TitleIcon />,
-      },
-      // {
-      //   label: "Envoyer le devis à un e-mail",
-      //   handleClick: () => handleSend(),
-      //   icon: <SendIcon />,
-      // },
-    ]
+    const options = []
 
+    options.push({
+      label: "La commande est prête",
+      handleClick: () => handleOrderReady(),
+      icon: <SimpleCheckIcon />,
+    })
     if (readOnly && EDIT_STATUSES.includes(order.status))
       options.push({
         label: "Modifier",
         handleClick: () => setReadOnly(false),
         icon: <EditIcon />,
       })
+    options.push({
+      label: "Changer le nom",
+      handleClick: () => handleOpenModal(MODALS.SAVE),
+      icon: <TitleIcon />,
+    })
+    options.push({
+      label: "Sauvegarder",
+      handleClick: () => handleSave(),
+      icon: <SaveAltIcon />,
+    })
 
     // if (order.quotations.length === 0)
     options.push({

@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, Typography } from "@mui/material"
+import { Box, Grid, Stack, Tooltip, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import { AppContext } from "../../../../contexts/AppContext"
 import { UserContext } from "../../../../contexts/UserContext"
@@ -366,59 +366,86 @@ function SelectAddressSection({
                 })
               }}
             >
-              <Box className="absolute" top={10} left={20}>
-                {activeAddressIndex === key ? (
-                  <RadioButtonCheckedIcon color="secondary" />
-                ) : (
-                  <RadioButtonUncheckedIcon sx={{ color: "dimgrey" }} />
-                )}
-              </Box>
-              <Stack className="row flex-center" gap={2} marginLeft="2rem">
-                <Stack flexGrow={1}>
-                  <AddressLine>{addr.fullname}</AddressLine>
-                  <AddressLine>{addr.phone}</AddressLine>
-                  <AddressLine>{addr.line1}</AddressLine>
-                  <AddressLine>{addr.line2}</AddressLine>
-                  <AddressLine>
-                    {addr.postal_code} {addr.city}
-                  </AddressLine>
-                  <AddressLine>
-                    {addr.region} {addr.country}
-                  </AddressLine>
-                  {delivery && <AddressLine>{addr.details}</AddressLine>}
+              <Stack sx={{ justifyContent: "space-between", height: "100%" }}>
+                <Box className="absolute" top={10} left={20}>
+                  {activeAddressIndex === key ? (
+                    <RadioButtonCheckedIcon color="secondary" />
+                  ) : (
+                    <RadioButtonUncheckedIcon sx={{ color: "dimgrey" }} />
+                  )}
+                </Box>
+                <Stack className="row flex-center" gap={2} marginLeft="2rem">
+                  <Stack flexGrow={1}>
+                    <AddressLine>{addr.fullname}</AddressLine>
+                    <AddressLine>{addr.phone}</AddressLine>
+                    <AddressLine>{addr.line1}</AddressLine>
+                    <AddressLine>{addr.line2}</AddressLine>
+                    <AddressLine>
+                      {addr.postal_code} {addr.city}
+                    </AddressLine>
+                    <AddressLine>
+                      {addr.region} {addr.country}
+                    </AddressLine>
+                    {delivery && <AddressLine>{addr.details}</AddressLine>}
+                  </Stack>
+
+                  {activeAddressIndex === key && (
+                    <Stack gap={2}>
+                      <Tooltip title="Modifier l'adresse">
+                        <div>
+                          <PillButton
+                            width="40px"
+                            padding=".5rem 0"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setActiveAddressIndex(key)
+                              setAddress({
+                                ...savedAddresses[key],
+                                postalCode: savedAddresses[key].postal_code,
+                              })
+                              setEdit(true)
+                            }}
+                          >
+                            <EditIcon />
+                          </PillButton>
+                        </div>
+                      </Tooltip>
+
+                      {addr.id !== idImpossibleToDelete && (
+                        <Tooltip title="Supprimer l'adresse">
+                          <div>
+                            <PillButton
+                              width="40px"
+                              padding=".5rem 0"
+                              color={(theme) => theme.palette.text.white}
+                              background={(theme) =>
+                                theme.palette.background.main
+                              }
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                handleDelete(key)
+                              }}
+                            >
+                              <DeleteOutlineIcon />
+                            </PillButton>
+                          </div>
+                        </Tooltip>
+                      )}
+                    </Stack>
+                  )}
                 </Stack>
 
                 {activeAddressIndex === key && (
-                  <Stack gap={2}>
-                    <PillButton
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        setActiveAddressIndex(key)
-                        setAddress({
-                          ...savedAddresses[key],
-                          postalCode: savedAddresses[key].postal_code,
-                        })
-                        setEdit(true)
-                      }}
-                    >
-                      <EditIcon />
-                    </PillButton>
-                    {addr.id !== idImpossibleToDelete && (
-                      <PillButton
-                        background="transparent"
-                        color={(theme) => theme.palette.secondary.main}
-                        border={(theme) =>
-                          `1px solid ${theme.palette.secondary.main}`
-                        }
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          handleDelete(key)
-                        }}
-                      >
-                        <DeleteOutlineIcon />
-                      </PillButton>
-                    )}
-                  </Stack>
+                  <PillButton
+                    endIcon={<EastIcon />}
+                    onClick={() => {
+                      handleNext()
+                      setParentAddress(address)
+                    }}
+                    display="flex"
+                  >
+                    Utiliser cette adresse
+                  </PillButton>
                 )}
               </Stack>
             </CustomCard>
@@ -426,55 +453,17 @@ function SelectAddressSection({
         ))}
       </Grid>
 
-      {savedAddresses.length > 0 && (
-        <>
-          {/* <Stack gap={2}>
-            <BodyText>
-              {delivery
-                ? "Votre commande sera livrée à cette adresse :"
-                : "La facture sera émise avec ces informations :"}
-            </BodyText>
-            <CustomCard>
-              <Stack>
-                <BodyText>{address.fullname}</BodyText>
-                <BodyText>{address.phone}</BodyText>
-                <BodyText>{user.email}</BodyText>
-                <BodyText>
-                  {address.line1 ? `${address.line1}` : ""}
-                  {address.line2 ? `, ${address.line2}` : ""}
-                  {address.postalCode ? `, ${address.postalCode}` : ""}
-                  {address.city ? `, ${address.city}` : ""}
-                  {address.region ? `, ${address.region}` : ""}
-                  {address.country ? `, ${address.country}` : ""}
-                </BodyText>
-                <BodyText>{address.details}</BodyText>
-              </Stack>
-            </CustomCard>
-          </Stack> */}
-
-          <Stack className="row">
-            {!!handleBack && (
-              <PillButton
-                onClick={() => {
-                  handleBack()
-                  setParentAddress(address)
-                }}
-              >
-                Précédent
-              </PillButton>
-            )}
-            <Stack flexGrow={1} />
-            <PillButton
-              endIcon={<EastIcon />}
-              onClick={() => {
-                handleNext()
-                setParentAddress(address)
-              }}
-            >
-              Utiliser cette adresse
-            </PillButton>
-          </Stack>
-        </>
+      {savedAddresses.length > 0 && !!handleBack && (
+        <Stack className="row">
+          <PillButton
+            onClick={() => {
+              handleBack()
+              setParentAddress(address)
+            }}
+          >
+            Précédent
+          </PillButton>
+        </Stack>
       )}
     </>
   )

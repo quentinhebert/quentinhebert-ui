@@ -12,9 +12,7 @@ export default function AccountLayout({ children, title, noBreadcrumbs }) {
       {!noBreadcrumbs && <Breadcrumbs panel="account" />}
       {!!title && <PageTitle zIndex={1} text={title} />}
 
-      <Stack className="full-width" marginTop={4}>
-        {children}
-      </Stack>
+      <Stack className="full-width">{children}</Stack>
     </Stack>
   )
 }

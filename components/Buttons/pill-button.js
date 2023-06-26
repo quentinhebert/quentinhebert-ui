@@ -92,6 +92,7 @@ function Btn({
             gap: gap || 0,
             width: width || "100%",
             display: display || "inline-flex",
+            minWidth: "0px !important",
             ...sx,
             "&:hover": hover,
           }}

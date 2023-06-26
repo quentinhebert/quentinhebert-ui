@@ -101,8 +101,9 @@ export default function SelectPaymentMethodSection({
   }
 
   return (
-    <CenteredMaxWidthContainer gap={4}>
+    <CenteredMaxWidthContainer percents={{ xs: "100%", md: "80%" }} gap={4}>
       <CustomCard
+        padding={{ xs: "2rem 1rem", md: "2rem" }}
         backgroundColor={(theme) => theme.palette.background.main}
         gap={4}
       >
