@@ -125,7 +125,7 @@ export default function Order_Main({ orderId }) {
             <BodyText
               fontSize="2rem"
               preventTransition
-              alignItems="start"
+              alignItems={{ xs: "start", md: "center" }}
               display="flex"
               gap={{ xs: 2, md: 2 }}
               width="100%"
