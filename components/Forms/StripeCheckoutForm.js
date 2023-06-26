@@ -30,8 +30,8 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
     }
   }
   useEffect(() => {
-    fetchClient()
-  }, [])
+    if (!!user) fetchClient()
+  }, [user])
 
   const [order, setOrder] = useState(null)
   const [loading, setLoading] = useState(true)
