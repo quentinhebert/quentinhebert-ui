@@ -53,6 +53,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
   const [invoiceAddress, setInvoiceAddress] = useState(null)
   const [deliveryAddress, setDeliveryAddress] = useState(null)
   const [is401, setIs401] = useState(false)
+  const [processing, setProcessing] = useState(false)
 
   const router = useRouter()
 
@@ -88,6 +89,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
     handleNext()
   }
   const handleRedirectCheckout = async () => {
+    setProcessing(true)
     const res = await apiCall.orders.getCheckoutClientSecret({
       order: { id: orderId },
       invoiceAddress,
@@ -96,7 +98,11 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
     })
     if (res && res.ok) {
       router.push(`/account/orders/${orderId}/checkout/success`)
-    } else alert("Une erreur est survenue")
+      setProcessing(false)
+    } else {
+      alert("Une erreur est survenue")
+      setProcessing(false)
+    }
   }
 
   const pmRef = useRef(null)
@@ -418,8 +424,11 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
             margin={{ xs: "1rem 0", md: "4rem 0" }}
             endIcon={<EastIcon />}
             onClick={handleRedirectCheckout}
+            disabled={processing}
           >
-            Payer et finaliser la commande
+            {processing
+              ? "Veuillez patienter..."
+              : "Payer et finaliser la commande"}
           </PillButton>
         )}
       </CenteredMaxWidthContainer>
