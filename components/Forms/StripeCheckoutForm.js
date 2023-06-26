@@ -135,8 +135,8 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
                 options={{
                   defaultValues: {
                     billingDetails: {
-                      name: "Quentin Hébert",
-                      email: "hebertquentin@aol.fr",
+                      name: user.firstname + " " + user.lastname || "",
+                      email: user.email || "",
                       address: {
                         line1: client?.line1 || "",
                         line2: client?.line2 || "",
