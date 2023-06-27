@@ -15,6 +15,8 @@ import { AnimatePresence } from "framer-motion"
 import { AppContext } from "../contexts/AppContext"
 import Snacks from "../components/Navigation/snacks"
 import AnimatedLogoLayout from "../components/Animation/animated-logo"
+import { defaultConfig } from "../config/defaultConfig"
+import { GoogleOAuthProvider } from "@react-oauth/google"
 
 function MyApp({ Component, pageProps, router }) {
   // User
@@ -92,23 +94,25 @@ function MyApp({ Component, pageProps, router }) {
         toggleLang,
       }}
     >
-      <UserContext.Provider value={{ user, setUser, fetchUser }}>
-        <ThemeProvider theme={theme}>
-          <AnimatePresence
-            exitBeforeEnter
-            onExitComplete={() => window.scrollTo(0, 0)}
-          >
-            <Component {...pageProps} key={router.route} />
-            <Snacks
-              severity={snackSeverity}
-              message={snackMessage}
-              setMessage={setSnackMessage}
-            />
-          </AnimatePresence>
+      <GoogleOAuthProvider clientId={defaultConfig.googleId}>
+        <UserContext.Provider value={{ user, setUser, fetchUser }}>
+          <ThemeProvider theme={theme}>
+            <AnimatePresence
+              exitBeforeEnter
+              onExitComplete={() => window.scrollTo(0, 0)}
+            >
+              <Component {...pageProps} key={router.route} />
+              <Snacks
+                severity={snackSeverity}
+                message={snackMessage}
+                setMessage={setSnackMessage}
+              />
+            </AnimatePresence>
 
-          {appLoading && <AnimatedLogoLayout />}
-        </ThemeProvider>
-      </UserContext.Provider>
+            {appLoading && <AnimatedLogoLayout />}
+          </ThemeProvider>
+        </UserContext.Provider>
+      </GoogleOAuthProvider>
     </AppContext.Provider>
   )
 }

@@ -1,5 +1,5 @@
 import { useState, useContext } from "react"
-import { Box, FormHelperText, Stack } from "@mui/material"
+import { Box, FormHelperText, Grid, Stack } from "@mui/material"
 import apiCall from "../../services/apiCalls/apiCall"
 import { USERTYPES } from "../../enums/userTypes"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
@@ -23,6 +23,9 @@ import Span from "../Text/span"
 import InTextLink from "../Links/in-text-link"
 import { defaultConfig } from "../../config/defaultConfig"
 import BottomButtons from "../Buttons/bottom-buttons"
+import { useGoogleLogin } from "@react-oauth/google"
+
+const OAUTH_TYPES = { GOOGLE: "Google", FACEBOOK: "Facebook", APPLE: "Apple" }
 
 export default function SignUpForm({
   handleClose,
@@ -35,6 +38,31 @@ export default function SignUpForm({
   // Check if user exists and if the user is admin
   const { user } = useContext(UserContext)
   const isAdmin = user && user.type === USERTYPES.ADMIN
+
+  // Google Login
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const res = await apiCall.users.auth.google.getInfo({
+        googleAccessToken: tokenResponse.access_token,
+      })
+      if (res && res.ok) {
+        setIsOauth(true)
+        setOauthType(OAUTH_TYPES.GOOGLE)
+        const jsonRes = await res.json()
+        console.debug("jsonRes", jsonRes)
+        setUserData({
+          ...userData,
+          email: jsonRes.email,
+          firstname: jsonRes.given_name,
+          lastname: jsonRes.family_name,
+        })
+      }
+    },
+    onError: () => {
+      setSnackMessage("Une erreur est survenue")
+      setSnackSeverity("error")
+    },
+  })
 
   /********** MODEL **********/
   const initialUserData = {
@@ -70,6 +98,8 @@ export default function SignUpForm({
   }
 
   /********** USE-STATES **********/
+  const [isOauth, setIsOauth] = useState(false)
+  const [oauthType, setOauthType] = useState(null)
   const [accept, setAccept] = useState({ policy: false })
   const [signupCompleted, setSignupCompleted] = useState(false)
   const [userData, setUserData] = useState(initialUserData)
@@ -85,8 +115,9 @@ export default function SignUpForm({
   /********** VARAIABLES FOR LIVE CHECK **********/
   const liveCheck = {
     password:
-      signupErrors.password ||
-      (userData.password.trim() !== "" && !checkPassword(userData.password)),
+      !isOauth &&
+      (signupErrors.password ||
+        (userData.password.trim() !== "" && !checkPassword(userData.password))),
     email:
       signupErrors.email ||
       (userData.email.trim() !== "" && !checkEmail(userData.email)),
@@ -98,6 +129,8 @@ export default function SignUpForm({
       (userData.vat_number.trim() !== "" &&
         !checkVATnumber(userData.vat_number)),
   }
+
+  console.debug("signupErrors", signupErrors)
 
   /********** FUNCTIONS **********/
   const handleChange = (attribute) => (event) => {
@@ -147,10 +180,14 @@ export default function SignUpForm({
   }
 
   /* Check all data at once onSubmit button click */
-  const checkAllData = () => {
+  const checkAllData = (props) => {
     const localErrors = initialSignUpErrors
 
-    const notRequiredFields = ["phone"]
+    const notRequiredFields = props || ["phone", "company"]
+
+    if (!isCompany || (isCompany && userData.vat_number?.trim() === ""))
+      notRequiredFields.push("vat_number")
+
     // Let's check that all input values are not null and not empty string
     Object.keys(userData).map((key) => {
       if (
@@ -189,6 +226,30 @@ export default function SignUpForm({
     }
   }
 
+  const signUpOauth = async (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+
+    const { errors, count } = checkAllData(["phone", "password", "company"])
+    setSignupErrors(errors)
+
+    console.debug("errors", errors)
+
+    // we dont send the createUser request if payload is invalid
+    if (count > 0) return
+
+    const res = await apiCall.users.createOauth({ userData })
+    if (res && res.ok) {
+      handleSignUpComplete()
+    } else {
+      const jsonRes = await res.json()
+      if (jsonRes.code === 1010) {
+        handleDuplicateSignup()
+      }
+      handleSignUpIncomplete()
+    }
+  }
+
   const handleCloseAndClear = () => {
     clearData()
     handleClose()
@@ -197,6 +258,35 @@ export default function SignUpForm({
   /********** RENDER **********/
   return (
     <Stack gap={4}>
+      {!isOauth ? (
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <OauthBtn
+              onClick={() => handleGoogleLogin()}
+              bgcolor={(theme) => theme.palette.background.main}
+              src="/medias/google-logo.png"
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <OauthBtn
+              onClick={() => handleGoogleLogin()}
+              bgcolor="#3b5998"
+              src="/medias/facebook-logo.png"
+            />
+          </Grid>
+        </Grid>
+      ) : (
+        <AlertInfo
+          content={{
+            show: true,
+            title: `Connexion avec un service tiers : ${oauthType}`,
+            text: `Une fois votre compte créé, vous pourrez vous connecter avec ${oauthType}.`,
+            severity: "info",
+          }}
+        />
+      )}
+
       <CustomForm>
         <DualInputLine>
           <CustomOutlinedInput
@@ -208,6 +298,7 @@ export default function SignUpForm({
             onChange={handleChange("firstname")}
             error={signupErrors.firstname}
             helperText={signupErrors.firstname && "Vérifiez ce champ"}
+            disabled={isOauth && userData.firstname?.trim() !== ""}
           />
           <CustomOutlinedInput
             required
@@ -218,6 +309,7 @@ export default function SignUpForm({
             onChange={handleChange("lastname")}
             error={signupErrors.lastname}
             helperText={signupErrors.lastname && "Vérifiez ce champ"}
+            disabled={isOauth && userData.lastname?.trim() !== ""}
           />
         </DualInputLine>
 
@@ -231,6 +323,7 @@ export default function SignUpForm({
             onChange={handleChange("email")}
             error={liveCheck.email || signupErrors.email}
             helperText={liveCheck.email && "Cet e-mail n'est pas valide"}
+            disabled={isOauth && userData.email?.trim() !== ""}
           />
           <CustomOutlinedInput
             type="phone"
@@ -279,18 +372,20 @@ export default function SignUpForm({
         </Stack>
 
         <DualInputLine>
-          <CustomOutlinedInput
-            required
-            type="input"
-            label="Mot de passe"
-            value={userData.password}
-            onChange={handleChange("password")}
-            error={liveCheck.password}
-            helperText={
-              liveCheck.password &&
-              "Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial"
-            }
-          />
+          {!isOauth && (
+            <CustomOutlinedInput
+              required
+              type="input"
+              label="Mot de passe"
+              value={userData.password}
+              onChange={handleChange("password")}
+              error={liveCheck.password}
+              helperText={
+                liveCheck.password &&
+                "Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial"
+              }
+            />
+          )}
 
           {isAdmin ? (
             <Stack flexDirection="column" width="100%">
@@ -351,12 +446,35 @@ export default function SignUpForm({
       </CustomForm>
 
       <BottomButtons
-        onClick={signUp}
+        onClick={isOauth ? signUpOauth : signUp}
         label="Enregistrer"
         disabled={!accept.policy || signupCompleted}
         cancelLabel={signupCompleted ? "Fermer" : "Annuler"}
         handleCancel={handleCloseAndClear}
       />
+    </Stack>
+  )
+}
+
+function OauthBtn({ onClick, bgcolor, src }) {
+  return (
+    <Stack
+      onClick={onClick}
+      padding={1.5}
+      flexDirection="row"
+      gap={2}
+      alignItems="center"
+      sx={{
+        borderRadius: "10px",
+        border: "1px solid transparent",
+        bgcolor,
+        cursor: "pointer",
+        "&:hover": {
+          border: `1px solid #fff`,
+        },
+      }}
+    >
+      <Box component="img" src={src} width="30px" height="30px" margin="auto" />
     </Stack>
   )
 }

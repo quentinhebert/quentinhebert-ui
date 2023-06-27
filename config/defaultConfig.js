@@ -5,4 +5,5 @@ export const defaultConfig = {
     process.env.NEXT_PUBLIC_WEBCLIENT_URL || "http://localhost:3000",
   ftpPublicBasePath: process.env.NEXT_PUBLIC_FTP_PUBLIC_BASEPATH,
   stage: process.env.NEXT_PUBLIC_STAGE,
+  googleId: process.env.NEXT_PUBLIC_GOOGLE_ID,
 }

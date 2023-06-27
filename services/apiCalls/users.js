@@ -46,6 +46,29 @@ const users = {
     }
   },
   // Admin allowed
+  createOauth: async ({ userData }) => {
+    try {
+      const body = JSON.stringify({
+        email: userData.email,
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        phone: userData.phone,
+        type: userData.type,
+        company: userData.company,
+        vat_number: userData.vat_number,
+      })
+      return await fetch(`${defaultConfig.apiUrl}/users/oauth`, {
+        method: "POST",
+        body,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  // Admin allowed
   get: async (id) => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/users/${id}`, {
@@ -315,6 +338,23 @@ const users = {
         console.error(error)
       }
     },
+    loginOauth: async ({ access_token, type }) => {
+      try {
+        const body = {
+          access_token,
+          type,
+        }
+        return await fetch(`${defaultConfig.apiUrl}/users/auth/login/oauth`, {
+          method: "PUT",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
     logout: async () => {
       try {
         const body = {
@@ -351,6 +391,24 @@ const users = {
       } catch (err) {
         console.error(err)
       }
+    },
+    google: {
+      getInfo: async ({ googleAccessToken }) => {
+        try {
+          return await fetch(
+            `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${googleAccessToken}`,
+            {
+              method: "GET",
+              headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${googleAccessToken}`,
+              },
+            }
+          )
+        } catch (error) {
+          console.error(error)
+        }
+      },
     },
   },
   paymentMethod: {
