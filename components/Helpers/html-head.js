@@ -59,10 +59,6 @@ export default function HtmlHead({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImg} />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta
-        name="facebook-domain-verification"
-        content="vqlmzqzk2nrsgks24lp58yuhf7guj7"
-      />
     </Head>
   )
 }
