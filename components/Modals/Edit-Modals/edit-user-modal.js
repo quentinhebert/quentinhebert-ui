@@ -37,7 +37,7 @@ export default function EditUserForm(props) {
     (user && user.email.trim() !== "" && !checkEmail(user.email))
   const phoneError =
     updateErrors.phone ||
-    (user && user.phone.trim() !== "" && !checkPhone(user.phone))
+    (user && user.phone?.trim() !== "" && !checkPhone(user.phone))
 
   // FUNCTIONS
   async function fetchUser() {

@@ -13,7 +13,14 @@ function AlertInfo({ content, noAnimation }) {
       transition={{ duration: 1 }}
       style={{ width: "100%" }}
     >
-      <Stack style={{ marginTop: 10, marginBottom: 10, width: "100%" }}>
+      <Stack
+        style={{
+          marginTop: 10,
+          marginBottom: 10,
+          width: "100%",
+          textAlign: "left",
+        }}
+      >
         <Alert
           variant="outlined"
           color={content.severity}

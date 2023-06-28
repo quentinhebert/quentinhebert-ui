@@ -7,10 +7,11 @@ export default function BottomButtons({
   label,
   cancelLabel,
   disabled,
+  mt,
   ...props
 }) {
   return (
-    <Stack gap={1} justifyContent="end">
+    <Stack gap={1} justifyContent="end" mt={mt} width="100%">
       <PillButton onClick={onClick} disabled={disabled || false} {...props}>
         {label || "Continuer"}
       </PillButton>

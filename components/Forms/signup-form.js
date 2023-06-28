@@ -1,8 +1,7 @@
 import { useState, useContext } from "react"
-import { Box, FormHelperText, Grid, Stack } from "@mui/material"
+import { Box, Divider, FormHelperText, Grid, Stack } from "@mui/material"
 import apiCall from "../../services/apiCalls/apiCall"
 import { USERTYPES } from "../../enums/userTypes"
-import { ModalTitle } from "../Modals/Modal-Components/modal-title"
 import {
   checkPhone,
   checkEmail,
@@ -13,8 +12,6 @@ import AlertInfo from "../Other/alert-info"
 import CustomSelect from "../Other/custom-select"
 import { UserContext } from "../../contexts/UserContext"
 import { AppContext } from "../../contexts/AppContext"
-import RectangleButton from "../Buttons/rectangle-button"
-import CustomOutlinedInput from "../Inputs/custom-outlined-input"
 import CustomCheckbox from "../Inputs/custom-checkbox"
 import CustomForm from "./custom-form"
 import DualInputLine from "../Containers/dual-input-line"
@@ -24,8 +21,10 @@ import InTextLink from "../Links/in-text-link"
 import { defaultConfig } from "../../config/defaultConfig"
 import BottomButtons from "../Buttons/bottom-buttons"
 import { useGoogleLogin } from "@react-oauth/google"
+import CustomFilledInput from "../Inputs/custom-filled-input"
 
 const OAUTH_TYPES = { GOOGLE: "Google", FACEBOOK: "Facebook", APPLE: "Apple" }
+const STEPS = ["name", "contact", "company", "password"]
 
 export default function SignUpForm({
   handleClose,
@@ -47,6 +46,7 @@ export default function SignUpForm({
       })
       if (res && res.ok) {
         setIsOauth(true)
+        setStep(STEPS[1])
         setOauthType(OAUTH_TYPES.GOOGLE)
         const jsonRes = await res.json()
         console.debug("jsonRes", jsonRes)
@@ -84,6 +84,7 @@ export default function SignUpForm({
 
   // Clear all data & errors
   const clearData = () => {
+    setIsOauth(false)
     setUserData(initialUserData)
     setSignupErrors(initialSignUpErrors)
     setAccept({ policy: false })
@@ -98,6 +99,7 @@ export default function SignUpForm({
   }
 
   /********** USE-STATES **********/
+  const [step, setStep] = useState(STEPS[0])
   const [isOauth, setIsOauth] = useState(false)
   const [oauthType, setOauthType] = useState(null)
   const [accept, setAccept] = useState({ policy: false })
@@ -130,8 +132,6 @@ export default function SignUpForm({
         !checkVATnumber(userData.vat_number)),
   }
 
-  console.debug("signupErrors", signupErrors)
-
   /********** FUNCTIONS **********/
   const handleChange = (attribute) => (event) => {
     // Update user data
@@ -145,11 +145,9 @@ export default function SignUpForm({
       [attribute]: false,
     })
   }
-
   const handleCheck = (attribute) => (e) => {
     setAccept({ ...accept, [attribute]: e.target.checked })
   }
-
   const handleSignUpComplete = () => {
     setSignupCompleted(true)
     if (!!setIsCompleted) setIsCompleted(true)
@@ -162,14 +160,12 @@ export default function SignUpForm({
       title: "Votre inscription est presque terminée",
     })
   }
-
   const handleSignUpIncomplete = () => {
     setSnackSeverity("error")
     setSnackMessage(
       "L'inscription a échouée, veuillez vérifier tous les champs"
     )
   }
-
   const handleDuplicateSignup = () => {
     setShowAlert({
       show: true,
@@ -252,129 +248,182 @@ export default function SignUpForm({
 
   const handleCloseAndClear = () => {
     clearData()
-    handleClose()
+    if (!!handleClose) handleClose()
   }
 
   /********** RENDER **********/
   return (
     <Stack gap={4}>
-      {!isOauth ? (
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <OauthBtn
-              onClick={() => handleGoogleLogin()}
-              bgcolor={(theme) => theme.palette.background.main}
-              src="/medias/google-logo.png"
-            />
+      {!isOauth && step === STEPS[0] && (
+        <>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <OauthBtn
+                onClick={() => handleGoogleLogin()}
+                bgcolor={(theme) => theme.palette.background.main}
+                src="/medias/google-logo.png"
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <OauthBtn
+                onClick={() => handleGoogleLogin()}
+                bgcolor="#3b5998"
+                src="/medias/facebook-logo.png"
+              />
+            </Grid>
           </Grid>
 
-          <Grid item xs={12} md={6}>
-            <OauthBtn
-              onClick={() => handleGoogleLogin()}
-              bgcolor="#3b5998"
-              src="/medias/facebook-logo.png"
-            />
-          </Grid>
-        </Grid>
-      ) : (
-        <AlertInfo
-          content={{
-            show: true,
-            title: `Connexion avec un service tiers : ${oauthType}`,
-            text: `Une fois votre compte créé, vous pourrez vous connecter avec ${oauthType}.`,
-            severity: "info",
-          }}
-        />
+          <Divider>
+            <BodyText>OU</BodyText>
+          </Divider>
+        </>
       )}
 
-      <CustomForm>
-        <DualInputLine>
-          <CustomOutlinedInput
-            required
-            type="input"
-            id="firstname"
-            label="Prénom"
-            value={userData.firstname}
-            onChange={handleChange("firstname")}
-            error={signupErrors.firstname}
-            helperText={signupErrors.firstname && "Vérifiez ce champ"}
-            disabled={isOauth && userData.firstname?.trim() !== ""}
+      <CustomForm minWidth={{ xs: "250px", md: "300px" }} maxWidth="300px">
+        {isOauth && (
+          <AlertInfo
+            content={{
+              show: true,
+              title: `Connexion avec un service tiers : ${oauthType}`,
+              text: `Une fois votre compte créé, vous pourrez vous connecter avec ${oauthType}.`,
+              severity: "info",
+            }}
           />
-          <CustomOutlinedInput
-            required
-            type="input"
-            id="lastname"
-            label="Nom"
-            value={userData.lastname}
-            onChange={handleChange("lastname")}
-            error={signupErrors.lastname}
-            helperText={signupErrors.lastname && "Vérifiez ce champ"}
-            disabled={isOauth && userData.lastname?.trim() !== ""}
-          />
-        </DualInputLine>
+        )}
 
-        <DualInputLine>
-          <CustomOutlinedInput
-            required
-            type="email"
-            id="email"
-            label="E-mail"
-            value={userData.email}
-            onChange={handleChange("email")}
-            error={liveCheck.email || signupErrors.email}
-            helperText={liveCheck.email && "Cet e-mail n'est pas valide"}
-            disabled={isOauth && userData.email?.trim() !== ""}
-          />
-          <CustomOutlinedInput
-            type="phone"
-            id="phone"
-            label="Téléphone"
-            value={userData.phone}
-            onChange={handleChange("phone")}
-            error={liveCheck.phone || signupErrors.phone}
-            helperText={liveCheck.phone && "Ce téléphone n'est pas valide"}
-          />
-        </DualInputLine>
+        {showAlert.show ? <AlertInfo content={showAlert} /> : null}
 
-        <Stack
-          gap={2}
-          width="100%"
-          bgcolor="background.main"
-          padding="1rem"
-          borderRadius="10px"
-        >
-          <CustomCheckbox
-            label="Je suis une entreprise"
-            onChange={(e) => setIsCompany(e.target.checked)}
-            value={isCompany}
-            labelcolor={(theme) => theme.palette.text.white}
-            fontSize="1rem"
-          />
-          {isCompany && (
-            <>
-              <CustomOutlinedInput
-                label="Nom de l'entreprise (optionnel)"
-                value={userData.company}
-                onChange={handleChange("company")}
+        {step === STEPS[0] && (
+          <>
+            <CustomFilledInput
+              type="input"
+              id="firstname"
+              label="Prénom"
+              value={userData.firstname}
+              onChange={handleChange("firstname")}
+              error={signupErrors.firstname}
+              helperText={signupErrors.firstname && "Vérifiez ce champ"}
+              disabled={isOauth && userData.firstname?.trim() !== ""}
+            />
+            <CustomFilledInput
+              type="input"
+              id="lastname"
+              label="Nom"
+              value={userData.lastname}
+              onChange={handleChange("lastname")}
+              error={signupErrors.lastname}
+              helperText={signupErrors.lastname && "Vérifiez ce champ"}
+              disabled={isOauth && userData.lastname?.trim() !== ""}
+            />
+
+            <BottomButtons
+              mt={2}
+              type="submit"
+              onClick={() => setStep(STEPS[1])}
+              label="Suivant"
+              disabled={
+                userData.firstname?.trim() === "" ||
+                userData.lastname?.trim() === ""
+              }
+              cancelLabel={signupCompleted ? "Fermer" : "Annuler"}
+              handleCancel={handleCloseAndClear}
+            />
+          </>
+        )}
+
+        {step === STEPS[1] && (
+          <>
+            <CustomFilledInput
+              type="email"
+              id="email"
+              label="E-mail"
+              value={userData.email}
+              onChange={handleChange("email")}
+              error={liveCheck.email || signupErrors.email}
+              helperText={liveCheck.email && "Cet e-mail n'est pas valide"}
+              disabled={isOauth && userData.email?.trim() !== ""}
+            />
+            <CustomFilledInput
+              type="phone"
+              id="phone"
+              label={<Span color="grey">Téléphone (optionnel)</Span>}
+              value={userData.phone}
+              onChange={handleChange("phone")}
+              error={liveCheck.phone || signupErrors.phone}
+              helperText={liveCheck.phone && "Ce téléphone n'est pas valide"}
+              borderColor="gray"
+            />
+
+            <BottomButtons
+              mt={2}
+              type="submit"
+              onClick={() => setStep(STEPS[2])}
+              label="Suivant"
+              disabled={userData.email?.trim() === ""}
+              cancelLabel={"Précédent"}
+              handleCancel={() => setStep(STEPS[0])}
+            />
+          </>
+        )}
+
+        {step === STEPS[2] && (
+          <>
+            <Stack
+              gap={2}
+              width="100%"
+              bgcolor="background.main"
+              padding="1rem"
+              borderRadius="10px"
+            >
+              <CustomCheckbox
+                label="Je suis une entreprise"
+                onChange={(e) => setIsCompany(e.target.checked)}
+                value={isCompany}
+                labelcolor={(theme) => theme.palette.text.white}
+                fontSize="1rem"
               />
-              <CustomOutlinedInput
-                label="N° TVA intracommunautaire"
-                value={userData.vat_number}
-                onChange={handleChange("vat_number")}
-                error={liveCheck.vat_number || signupErrors.vat_number}
-                helperText={
-                  liveCheck.vat_number && "Ce N° TVA n'est pas valide"
-                }
-                placeholder="FRXXXXXXXXXXX"
-              />
-            </>
-          )}
-        </Stack>
+              {isCompany && (
+                <>
+                  <CustomFilledInput
+                    label="Nom de l'entreprise (optionnel)"
+                    value={userData.company}
+                    onChange={handleChange("company")}
+                  />
+                  <CustomFilledInput
+                    label="N° TVA intracommunautaire"
+                    value={userData.vat_number}
+                    onChange={handleChange("vat_number")}
+                    error={liveCheck.vat_number || signupErrors.vat_number}
+                    helperText={
+                      liveCheck.vat_number && "Ce N° TVA n'est pas valide"
+                    }
+                    placeholder="FRXXXXXXXXXXX"
+                  />
+                </>
+              )}
+            </Stack>
 
-        <DualInputLine>
-          {!isOauth && (
-            <CustomOutlinedInput
-              required
+            <BottomButtons
+              mt={4}
+              type="submit"
+              onClick={() => {
+                if (!isOauth) setStep(STEPS[3])
+                else setStep(STEPS[4])
+              }}
+              label="Suivant"
+              disabled={
+                liveCheck.vat_number && userData.vat_number?.trim() !== ""
+              }
+              cancelLabel="Précédent"
+              handleCancel={() => setStep(STEPS[1])}
+            />
+          </>
+        )}
+
+        {!isOauth && step === STEPS[3] && (
+          <>
+            <CustomFilledInput
               type="input"
               label="Mot de passe"
               value={userData.password}
@@ -385,8 +434,20 @@ export default function SignUpForm({
                 "Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial"
               }
             />
-          )}
 
+            <BottomButtons
+              mt={4}
+              type="submit"
+              onClick={() => setStep(STEPS[4])}
+              label="Suivant"
+              disabled={liveCheck.password || userData.password?.trim() === ""}
+              cancelLabel="Précédent"
+              handleCancel={() => setStep(STEPS[2])}
+            />
+          </>
+        )}
+
+        <DualInputLine>
           {isAdmin ? (
             <Stack flexDirection="column" width="100%">
               <CustomSelect
@@ -415,43 +476,48 @@ export default function SignUpForm({
           ) : null}
         </DualInputLine>
 
-        <CustomCheckbox
-          label={
-            <Span>
-              J'accepte les{" "}
-              <Span className="cool-button">
-                <InTextLink
-                  text="CGU"
-                  href={`${defaultConfig.webclientUrl}/terms-of-use`}
-                  target="_blank"
-                />
-              </Span>{" "}
-              et{" "}
-              <Span className="cool-button">
-                <InTextLink
-                  text="CGV"
-                  href={`${defaultConfig.webclientUrl}/terms-and-conditions`}
-                  target="_blank"
-                />
-              </Span>{" "}
-              du site *
-            </Span>
-          }
-          onChange={handleCheck("policy")}
-          value={accept.policy}
-          labelcolor={(theme) => theme.palette.text.white}
-          fontSize="1rem"
-        />
-        {showAlert.show ? <AlertInfo content={showAlert} /> : null}
-      </CustomForm>
+        {step === STEPS[4] && !signupCompleted && (
+          <>
+            <CustomCheckbox
+              label={
+                <Span fontSize=".8rem">
+                  J'accepte les{" "}
+                  <Span sx={{ textDecoration: "underline", fontSize: ".8rem" }}>
+                    <InTextLink
+                      text="Conditions Générales d'Utilisation"
+                      href={`${defaultConfig.webclientUrl}/terms-of-use`}
+                      target="_blank"
+                    />
+                  </Span>{" "}
+                  et{" "}
+                  <Span sx={{ textDecoration: "underline", fontSize: ".8rem" }}>
+                    <InTextLink
+                      text="Conditions Générales de Vente"
+                      href={`${defaultConfig.webclientUrl}/terms-and-conditions`}
+                      target="_blank"
+                    />
+                  </Span>{" "}
+                  du site *
+                </Span>
+              }
+              onChange={handleCheck("policy")}
+              value={accept.policy}
+              labelcolor={(theme) => theme.palette.text.white}
+              fontSize="1rem"
+            />
 
-      <BottomButtons
-        onClick={isOauth ? signUpOauth : signUp}
-        label="Enregistrer"
-        disabled={!accept.policy || signupCompleted}
-        cancelLabel={signupCompleted ? "Fermer" : "Annuler"}
-        handleCancel={handleCloseAndClear}
-      />
+            <BottomButtons
+              mt={2}
+              type="submit"
+              onClick={isOauth ? signUpOauth : signUp}
+              label="Créer mon compte"
+              disabled={!accept.policy}
+              cancelLabel="Précédent"
+              handleCancel={() => setStep(STEPS[3])}
+            />
+          </>
+        )}
+      </CustomForm>
     </Stack>
   )
 }
