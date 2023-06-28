@@ -7,7 +7,7 @@ import CustomCardTitle from "../Titles/custom-card-title"
 export default function Signup_Main() {
   const router = useRouter()
   return (
-    <Stack flexGrow={1} minHeight="600px">
+    <Stack flexGrow={1} minHeight="800px">
       <Stack maxWidth="400px" margin="auto">
         <CustomCard
           gap={6}
