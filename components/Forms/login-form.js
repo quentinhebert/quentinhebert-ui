@@ -29,6 +29,7 @@ import PillButton from "../Buttons/pill-button"
 import { useGoogleLogin } from "@react-oauth/google"
 import BodyText from "../Text/body-text"
 import { AppContext } from "../../contexts/AppContext"
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props"
 
 export default function LoginForm(props) {
   /********** PROPS **********/
@@ -252,6 +253,9 @@ export default function LoginForm(props) {
       setSnackSeverity("error")
     },
   })
+  const handleFacebookLogin = (response) => {
+    console.log("Facebook response", response)
+  }
 
   const handleSetTokens = (token, refreshToken) => {
     setToken(token) // Cookies
@@ -296,10 +300,17 @@ export default function LoginForm(props) {
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <OauthBtn
-              onClick={() => handleGoogleLogin()}
-              bgcolor="#3b5998"
-              src="/medias/facebook-logo.png"
+            <FacebookLogin
+              appId="1655841144843553"
+              callback={handleFacebookLogin}
+              fields="name,email,picture"
+              render={(renderProps) => (
+                <OauthBtn
+                  onClick={renderProps.onClick}
+                  bgcolor="#3b5998"
+                  src="/medias/facebook-logo.png"
+                />
+              )}
             />
           </Grid>
         </Grid>
