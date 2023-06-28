@@ -254,7 +254,7 @@ export default function SignUpForm({
   /********** RENDER **********/
   return (
     <Stack gap={4}>
-      {!isOauth && step === STEPS[0] && (
+      {!isOauth && step === STEPS[0] && !isAdmin && (
         <>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
@@ -280,7 +280,7 @@ export default function SignUpForm({
         </>
       )}
 
-      <CustomForm minWidth={{ xs: "250px", md: "300px" }} maxWidth="300px">
+      <CustomForm minWidth={{ xs: "250px", md: "300px" }}>
         {isOauth && (
           <AlertInfo
             content={{
@@ -296,6 +296,32 @@ export default function SignUpForm({
 
         {step === STEPS[0] && (
           <>
+            {isAdmin ? (
+              <Stack flexDirection="column" width="100%">
+                <CustomSelect
+                  required
+                  size="small"
+                  placeholder="Role"
+                  options={[
+                    { id: "admin", label: "Admin" },
+                    { id: "client", label: "Client" },
+                    { id: "professional", label: "Employé" },
+                  ]}
+                  value={userData.type}
+                  setValue={(eventValue) =>
+                    setUserData({ ...userData, type: eventValue })
+                  }
+                  error={signupErrors.type}
+                />
+                {signupErrors.type && (
+                  <FormHelperText
+                    sx={{ color: (theme) => theme.palette.error.main }}
+                  >
+                    Vous devez sélectionner un rôle
+                  </FormHelperText>
+                )}
+              </Stack>
+            ) : null}
             <CustomFilledInput
               type="input"
               id="firstname"
@@ -446,35 +472,6 @@ export default function SignUpForm({
             />
           </>
         )}
-
-        <DualInputLine>
-          {isAdmin ? (
-            <Stack flexDirection="column" width="100%">
-              <CustomSelect
-                required
-                size="small"
-                placeholder="Role"
-                options={[
-                  { id: "admin", label: "Admin" },
-                  { id: "client", label: "Client" },
-                  { id: "professional", label: "Employé" },
-                ]}
-                value={userData.type}
-                setValue={(eventValue) =>
-                  setUserData({ ...userData, type: eventValue })
-                }
-                error={signupErrors.type}
-              />
-              {signupErrors.type && (
-                <FormHelperText
-                  sx={{ color: (theme) => theme.palette.error.main }}
-                >
-                  Vous devez sélectionner un rôle
-                </FormHelperText>
-              )}
-            </Stack>
-          ) : null}
-        </DualInputLine>
 
         {step === STEPS[4] && !signupCompleted && (
           <>
