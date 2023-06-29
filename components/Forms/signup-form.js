@@ -136,7 +136,7 @@ export default function SignUpForm({
         (userData.password.trim() !== "" && !checkPassword(userData.password))),
     email:
       signupErrors.email ||
-      (userData.email.trim() !== "" && !checkEmail(userData.email)),
+      (userData.email?.trim() !== "" && !checkEmail(userData.email)),
     phone:
       signupErrors.phone ||
       (userData.phone.trim() !== "" && !checkPhone(userData.phone)),
@@ -283,6 +283,7 @@ export default function SignUpForm({
               <FacebookLogin
                 appId={defaultConfig.facebookAppId}
                 callback={handleFacebookLogin}
+                autoLoad
                 fields="first_name,last_name,email,picture"
                 render={(renderProps) => (
                   <OauthBtn
