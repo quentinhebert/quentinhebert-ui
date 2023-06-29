@@ -30,6 +30,7 @@ import { useGoogleLogin } from "@react-oauth/google"
 import BodyText from "../Text/body-text"
 import { AppContext } from "../../contexts/AppContext"
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props"
+import { defaultConfig } from "../../config/defaultConfig"
 
 export default function LoginForm(props) {
   /********** PROPS **********/
@@ -328,8 +329,7 @@ export default function LoginForm(props) {
 
           <Grid item xs={12} md={6}>
             <FacebookLogin
-              // appId="1655841144843553"
-              appId="973992167258293"
+              appId={defaultConfig.facebookAppId}
               callback={handleFacebookLogin}
               fields="name,email,picture"
               render={(renderProps) => (

@@ -281,8 +281,7 @@ export default function SignUpForm({
 
             <Grid item xs={12} md={6}>
               <FacebookLogin
-                // appId="1655841144843553"
-                appId="973992167258293"
+                appId={defaultConfig.facebookAppId}
                 callback={handleFacebookLogin}
                 fields="first_name,last_name,email,picture"
                 render={(renderProps) => (

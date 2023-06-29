@@ -6,4 +6,5 @@ export const defaultConfig = {
   ftpPublicBasePath: process.env.NEXT_PUBLIC_FTP_PUBLIC_BASEPATH,
   stage: process.env.NEXT_PUBLIC_STAGE,
   googleId: process.env.NEXT_PUBLIC_GOOGLE_ID,
+  facebookAppId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
 }
