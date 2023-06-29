@@ -22,6 +22,7 @@ import { defaultConfig } from "../../config/defaultConfig"
 import BottomButtons from "../Buttons/bottom-buttons"
 import { useGoogleLogin } from "@react-oauth/google"
 import CustomFilledInput from "../Inputs/custom-filled-input"
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props"
 
 const OAUTH_TYPES = { GOOGLE: "Google", FACEBOOK: "Facebook", APPLE: "Apple" }
 const STEPS = ["name", "contact", "company", "password"]
@@ -49,7 +50,6 @@ export default function SignUpForm({
         setStep(STEPS[1])
         setOauthType(OAUTH_TYPES.GOOGLE)
         const jsonRes = await res.json()
-        console.debug("jsonRes", jsonRes)
         setUserData({
           ...userData,
           email: jsonRes.email,
@@ -63,6 +63,20 @@ export default function SignUpForm({
       setSnackSeverity("error")
     },
   })
+
+  const handleFacebookLogin = async (response) => {
+    if (!!response) {
+      setIsOauth(true)
+      setStep(STEPS[1])
+      setOauthType(OAUTH_TYPES.FACEBOOK)
+      setUserData({
+        ...userData,
+        email: response.email,
+        firstname: response.first_name,
+        lastname: response.last_name,
+      })
+    }
+  }
 
   /********** MODEL **********/
   const initialUserData = {
@@ -266,10 +280,18 @@ export default function SignUpForm({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <OauthBtn
-                onClick={() => handleGoogleLogin()}
-                bgcolor="#3b5998"
-                src="/medias/facebook-logo.png"
+              <FacebookLogin
+                // appId="1655841144843553"
+                appId="973992167258293"
+                callback={handleFacebookLogin}
+                fields="first_name,last_name,email,picture"
+                render={(renderProps) => (
+                  <OauthBtn
+                    onClick={renderProps.onClick}
+                    bgcolor="#3b5998"
+                    src="/medias/facebook-logo.png"
+                  />
+                )}
               />
             </Grid>
           </Grid>
