@@ -243,8 +243,6 @@ export default function SignUpForm({
     const { errors, count } = checkAllData(["phone", "password", "company"])
     setSignupErrors(errors)
 
-    console.debug("errors", errors)
-
     // we dont send the createUser request if payload is invalid
     if (count > 0) return
 
@@ -283,7 +281,6 @@ export default function SignUpForm({
               <FacebookLogin
                 appId={defaultConfig.facebookAppId}
                 callback={handleFacebookLogin}
-                autoLoad
                 fields="first_name,last_name,email,picture"
                 render={(renderProps) => (
                   <OauthBtn
