@@ -17,6 +17,7 @@ import Snacks from "../components/Navigation/snacks"
 import AnimatedLogoLayout from "../components/Animation/animated-logo"
 import { defaultConfig } from "../config/defaultConfig"
 import { GoogleOAuthProvider } from "@react-oauth/google"
+import { FacebookProvider } from "react-facebook"
 
 function MyApp({ Component, pageProps, router }) {
   // User
@@ -95,23 +96,25 @@ function MyApp({ Component, pageProps, router }) {
       }}
     >
       <GoogleOAuthProvider clientId={defaultConfig.googleId}>
-        <UserContext.Provider value={{ user, setUser, fetchUser }}>
-          <ThemeProvider theme={theme}>
-            <AnimatePresence
-              exitBeforeEnter
-              onExitComplete={() => window.scrollTo(0, 0)}
-            >
-              <Component {...pageProps} key={router.route} />
-              <Snacks
-                severity={snackSeverity}
-                message={snackMessage}
-                setMessage={setSnackMessage}
-              />
-            </AnimatePresence>
+        <FacebookProvider appId={defaultConfig.facebookAppId}>
+          <UserContext.Provider value={{ user, setUser, fetchUser }}>
+            <ThemeProvider theme={theme}>
+              <AnimatePresence
+                exitBeforeEnter
+                onExitComplete={() => window.scrollTo(0, 0)}
+              >
+                <Component {...pageProps} key={router.route} />
+                <Snacks
+                  severity={snackSeverity}
+                  message={snackMessage}
+                  setMessage={setSnackMessage}
+                />
+              </AnimatePresence>
 
-            {appLoading && <AnimatedLogoLayout />}
-          </ThemeProvider>
-        </UserContext.Provider>
+              {appLoading && <AnimatedLogoLayout />}
+            </ThemeProvider>
+          </UserContext.Provider>
+        </FacebookProvider>
       </GoogleOAuthProvider>
     </AppContext.Provider>
   )
