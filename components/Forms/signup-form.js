@@ -23,7 +23,7 @@ import BottomButtons from "../Buttons/bottom-buttons"
 import { useGoogleLogin } from "@react-oauth/google"
 import CustomFilledInput from "../Inputs/custom-filled-input"
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props"
-import { useLogin } from "react-facebook"
+import { useLogin, LoginButton } from "react-facebook"
 
 const OAUTH_TYPES = { GOOGLE: "Google", FACEBOOK: "Facebook", APPLE: "Apple" }
 const STEPS = ["name", "contact", "company", "password"]
@@ -316,7 +316,7 @@ export default function SignUpForm({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <FacebookLogin
+              {/* <FacebookLogin
                 appId={defaultConfig.facebookAppId}
                 callback={handleFacebookLogin}
                 fields="first_name,last_name,email,picture"
@@ -327,7 +327,14 @@ export default function SignUpForm({
                     src="/medias/facebook-logo.png"
                   />
                 )}
-              />
+              /> */}
+              <LoginButton
+                scope="email"
+                onError={() => alert(1)}
+                onSuccess={() => alert("success")}
+              >
+                Login via Facebook
+              </LoginButton>
             </Grid>
           </Grid>
 
