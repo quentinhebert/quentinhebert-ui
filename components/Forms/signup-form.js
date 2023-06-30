@@ -65,30 +65,33 @@ export default function SignUpForm({
     },
   })
 
-  const handleFacebookLogin = async (response) => {
-    if (!!response) {
-      setIsOauth(true)
-      setStep(STEPS[1])
-      setOauthType(OAUTH_TYPES.FACEBOOK)
-      setUserData({
-        ...userData,
-        email: response.email,
-        firstname: response.first_name,
-        lastname: response.last_name,
-      })
-    }
-  }
-  const { login, status, isLoading, error } = useLogin()
-  async function handleLogin() {
+  const { login, error } = useLogin()
+  const handleFacebookLogin = async () => {
     try {
       const response = await login({
         scope: "email",
       })
+      if (!response.authResponse?.accessToken || error) throw Error(error)
 
-      console.log(response.authResponse)
-      alert("success")
+      const res = await apiCall.users.auth.facebook.getInfo({
+        facebookAccessToken: response.authResponse.accessToken,
+      })
+      if (res && res.ok) {
+        const jsonRes = await res.json()
+        setIsOauth(true)
+        setStep(STEPS[1])
+        setOauthType(OAUTH_TYPES.FACEBOOK)
+        setUserData({
+          ...userData,
+          email: jsonRes.email,
+          firstname: jsonRes.first_name,
+          lastname: jsonRes.last_name,
+        })
+      }
     } catch (error) {
       console.log(error.message)
+      setSnackMessage("Une erreur est survenue")
+      setSnackSeverity("error")
     }
   }
 
@@ -292,30 +295,11 @@ export default function SignUpForm({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              {/* <FacebookLogin
-                appId={defaultConfig.facebookAppId}
-                callback={handleFacebookLogin}
-                fields="first_name,last_name,email,picture"
-                render={(renderProps) => (
-                  <OauthBtn
-                    onClick={renderProps.onClick}
-                    bgcolor="#3b5998"
-                    src="/medias/facebook-logo.png"
-                  />
-                )}
-              /> */}
               <OauthBtn
-                onClick={handleLogin}
+                onClick={handleFacebookLogin}
                 bgcolor="#3b5998"
                 src="/medias/facebook-logo.png"
               />
-              {/* <LoginButton
-                scope="email"
-                onError={(error) => console.log("error", error)}
-                onSuccess={() => alert("success")}
-              >
-                Login via Facebook
-              </LoginButton> */}
             </Grid>
           </Grid>
 

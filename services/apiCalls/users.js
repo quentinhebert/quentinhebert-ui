@@ -410,6 +410,25 @@ const users = {
         }
       },
     },
+    facebook: {
+      getInfo: async ({ facebookAccessToken }) => {
+        try {
+          return await fetch(
+            `https://graph.facebook.com/v17.0/me?access_token=${facebookAccessToken}&debug=all&fields=email,first_name,last_name&format=json&method=get&pretty=0&suppress_http_code=1&transport=cors`,
+            {
+              method: "GET",
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${facebookAccessToken}`,
+              },
+            }
+          )
+        } catch (error) {
+          console.error(error)
+        }
+      },
+    },
   },
   paymentMethod: {
     // User
