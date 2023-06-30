@@ -316,7 +316,7 @@ export default function SignUpForm({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              {/* <FacebookLogin
+              <FacebookLogin
                 appId={defaultConfig.facebookAppId}
                 callback={handleFacebookLogin}
                 fields="first_name,last_name,email,picture"
@@ -327,14 +327,14 @@ export default function SignUpForm({
                     src="/medias/facebook-logo.png"
                   />
                 )}
-              /> */}
-              <LoginButton
+              />
+              {/* <LoginButton
                 scope="email"
                 onError={(error) => console.log("error", error)}
                 onSuccess={() => alert("success")}
               >
                 Login via Facebook
-              </LoginButton>
+              </LoginButton> */}
             </Grid>
           </Grid>
 
