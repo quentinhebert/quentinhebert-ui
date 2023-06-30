@@ -303,21 +303,6 @@ export default function SignUpForm({
                   />
                 )}
               />
-              {/* <button onClick={handleLogin} disabled={isLoading}>
-                Login via Facebook
-              </button> */}
-              {/* <Login
-                  scope="email"
-                  onCompleted={(response) =>
-                    console.debug("response", response)
-                  }
-                >
-                    <OauthBtn
-                      onClick={handleFacebookLogin}
-                      bgcolor="#3b5998"
-                      src="/medias/facebook-logo.png"
-                    />
-                </Login> */}
             </Grid>
           </Grid>
 
