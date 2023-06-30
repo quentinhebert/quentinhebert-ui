@@ -330,7 +330,7 @@ export default function SignUpForm({
               /> */}
               <LoginButton
                 scope="email"
-                onError={() => alert(1)}
+                onError={(error) => console.log("error", error)}
                 onSuccess={() => alert("success")}
               >
                 Login via Facebook
