@@ -6,7 +6,7 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        <Script src="../scripts/facebook-init.js" />
+        <Script src="/facebook-init.js" />
       </Head>
       <body>
         <Main />

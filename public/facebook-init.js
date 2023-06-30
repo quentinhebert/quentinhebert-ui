@@ -1,9 +1,11 @@
+import { defaultConfig } from "../config/defaultConfig"
+
 window.fbAsyncInit = function () {
   FB.init({
-    appId: "{your-app-id}",
+    appId: defaultConfig.facebookAppId,
     cookie: true,
     xfbml: true,
-    version: "{api-version}",
+    version: "v8.0",
   })
 
   FB.AppEvents.logPageView()
