@@ -14,7 +14,6 @@ import { UserContext } from "../../contexts/UserContext"
 import { AppContext } from "../../contexts/AppContext"
 import CustomCheckbox from "../Inputs/custom-checkbox"
 import CustomForm from "./custom-form"
-import DualInputLine from "../Containers/dual-input-line"
 import BodyText from "../Text/body-text"
 import Span from "../Text/span"
 import InTextLink from "../Links/in-text-link"
@@ -22,8 +21,7 @@ import { defaultConfig } from "../../config/defaultConfig"
 import BottomButtons from "../Buttons/bottom-buttons"
 import { useGoogleLogin } from "@react-oauth/google"
 import CustomFilledInput from "../Inputs/custom-filled-input"
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props"
-import { useLogin, LoginButton } from "react-facebook"
+import { useLogin } from "react-facebook"
 
 const OAUTH_TYPES = { GOOGLE: "Google", FACEBOOK: "Facebook", APPLE: "Apple" }
 const STEPS = ["name", "contact", "company", "password"]
