@@ -78,18 +78,19 @@ export default function SignUpForm({
       })
     }
   }
-  // const { login, status, isLoading, error } = useLogin()
-  // async function handleLogin() {
-  //   try {
-  //     const response = await login({
-  //       scope: "email",
-  //     })
+  const { login, status, isLoading, error } = useLogin()
+  async function handleLogin() {
+    try {
+      const response = await login({
+        scope: "email,first_name,last_name,picture",
+      })
 
-  //     console.log(response.authResponse)
-  //   } catch (error) {
-  //     console.log(error.message)
-  //   }
-  // }
+      console.log(response.authResponse)
+      alert("success")
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
 
   /********** MODEL **********/
   const initialUserData = {
@@ -316,7 +317,7 @@ export default function SignUpForm({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <FacebookLogin
+              {/* <FacebookLogin
                 appId={defaultConfig.facebookAppId}
                 callback={handleFacebookLogin}
                 fields="first_name,last_name,email,picture"
@@ -327,6 +328,11 @@ export default function SignUpForm({
                     src="/medias/facebook-logo.png"
                   />
                 )}
+              /> */}
+              <OauthBtn
+                onClick={handleLogin}
+                bgcolor="#3b5998"
+                src="/medias/facebook-logo.png"
               />
               {/* <LoginButton
                 scope="email"
