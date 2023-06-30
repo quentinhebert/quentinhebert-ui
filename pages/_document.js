@@ -6,9 +6,7 @@ import { defaultConfig } from "../config/defaultConfig"
 export default function Document() {
   return (
     <Html>
-      <Head>
-        <Script src="/facebook-init.js" />
-      </Head>
+      <Head></Head>
       <body>
         <Main />
         <NextScript />
