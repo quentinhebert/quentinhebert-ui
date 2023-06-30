@@ -33,21 +33,23 @@ export default function SelectPaymentMethodSection({
   const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
 
   // HANDLERS
-  const handleRedirectCheckout = async ({ paymentMethodId }) => {
-    console.debug("paymentMethodId", paymentMethodId)
-    const res = await apiCall.orders.getCheckoutClientSecret({
-      order: { id: orderId },
-      invoiceAddress,
-      deliveryAddress,
-      payment_method: paymentMethodId,
-    })
-    if (res && res.ok) {
-      const jsonRes = await res.json()
-      router.push(
-        `/account/orders/${orderId}/checkout/${jsonRes.client_secret}`
-      )
+  const handleRedirectCheckout =
+    (paymentMethodType) =>
+    async ({ paymentMethodId }) => {
+      const res = await apiCall.orders.getCheckoutClientSecret({
+        order: { id: orderId },
+        invoiceAddress,
+        deliveryAddress,
+        payment_method: paymentMethodId,
+        payment_method_type: paymentMethodType,
+      })
+      if (res && res.ok) {
+        const jsonRes = await res.json()
+        router.push(
+          `/account/orders/${orderId}/checkout/${jsonRes.client_secret}`
+        )
+      }
     }
-  }
   const handleDetachPM = async (paymentMethod) => {
     setConfirmTitle(
       !!paymentMethod.card ? "Supprimer la carte" : "Supprimer le compte"
@@ -251,10 +253,18 @@ export default function SelectPaymentMethodSection({
         )}
 
         <Stack className="flex-center gap-10">
-          <PillButton onClick={handleRedirectCheckout} endIcon={<EastIcon />}>
-            Carte ou virement bancaire
+          <PillButton
+            onClick={handleRedirectCheckout("card")}
+            endIcon={<EastIcon />}
+          >
+            Carte bancaire
           </PillButton>
-          {/* <PillButton>Paypal</PillButton> */}
+          <PillButton onClick={handleRedirectCheckout("sepa_debit")}>
+            Prélèvement bancaire
+          </PillButton>
+          <PillButton onClick={handleRedirectCheckout("paypal")}>
+            Paypal
+          </PillButton>
         </Stack>
       </CustomCard>
 
