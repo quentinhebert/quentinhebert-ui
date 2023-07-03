@@ -29,6 +29,7 @@ const CssFormGroup = styled((props) => (
       sx={{
         color: props.labelcolor || ((theme) => theme.palette.text.primary),
         "& .MuiFormControlLabel-label": {
+          textAlign: "left",
           color: props.labelcolor || ((theme) => theme.palette.text.secondary),
           fontFamily: props.fontFamily || "Helmet",
           fontWeight: props.fontWeight || "",
@@ -37,7 +38,6 @@ const CssFormGroup = styled((props) => (
             sm: "0.9rem",
             md: "1rem",
           },
-          letterSpacing: { xs: 0.25, sm: 0.5, md: 1 },
         },
       }}
       label={props.label}

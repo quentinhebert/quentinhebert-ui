@@ -47,6 +47,7 @@ const SelectFormControl = styled((props) => (
     sx={{
       width: "100%",
       ".MuiOutlinedInput-input": {
+        textAlign: "left",
         padding: "0.8rem",
         // color of the select value text
         color: "#fff !important",

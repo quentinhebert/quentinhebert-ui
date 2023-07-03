@@ -1,5 +1,5 @@
 import { Box, Grid, Stack, Typography } from "@mui/material"
-import { useEffect, useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import Custom404_Main from "../../Main/Errors/Custom404_Main"
 import SelectAddressSection from "../../Sections/Account/Orders/select-address-section"
@@ -20,6 +20,7 @@ import { formatPrice, zeroPad } from "../../../services/utils"
 import PillButton from "../../Buttons/pill-button"
 import EastIcon from "@mui/icons-material/East"
 import { useRouter } from "next/router"
+import { UserContext } from "../../../contexts/UserContext"
 
 const steps = [
   "Adresse de facturation",
@@ -47,6 +48,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
     payment_fractions: [],
   }
   const initialPM = {}
+  const { user } = useContext(UserContext)
   const [order, setOrder] = useState(initialOrder)
   const [paymentMethod, setPaymentMethod] = useState(initialPM)
   const [loading, setLoading] = useState(false)
@@ -173,6 +175,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
         {activeStep === 0 && (
           <CenteredMaxWidthContainer percents={{ xs: "100%", md: "80%" }}>
             <CustomCard
+              padding={{ xs: "1rem", md: "2rem" }}
               backgroundColor={(theme) => theme.palette.background.main}
             >
               <Typography variant="h2" color="secondary" textAlign="center">
@@ -267,18 +270,24 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
               backgroundColor={(theme) => theme.palette.background.black}
             >
               <BodyText>
-                <strong>{invoiceAddress.fullname}</strong>
+                <Span fontWeight="bold" fontSize="1.2rem">
+                  {invoiceAddress.fullname}
+                </Span>
                 <br />
-                {invoiceAddress.phone}
+                {user.email}
                 <br />
-                {invoiceAddress.line1}
-                {invoiceAddress.line2}
-                <br />
-                {`${invoiceAddress.postal_code || invoiceAddress.postalCode} ${
-                  invoiceAddress.city
-                }`}
-                <br />
-                {invoiceAddress.region} {invoiceAddress.country}
+                {!!invoiceAddress.phone && (
+                  <>
+                    {invoiceAddress.phone}
+                    <br />
+                  </>
+                )}
+                {!!invoiceAddress.line1 && <>{invoiceAddress.line1}, </>}
+                {!!invoiceAddress.line2 && <>{invoiceAddress.line2}, </>}
+                {invoiceAddress.postal_code || invoiceAddress.postalCode}{" "}
+                {invoiceAddress.city},{" "}
+                {!!invoiceAddress.region && <>{invoiceAddress.region}, </>}
+                {invoiceAddress.country}
                 <br />
               </BodyText>
             </CustomCard>

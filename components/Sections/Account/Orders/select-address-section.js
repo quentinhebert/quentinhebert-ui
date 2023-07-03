@@ -18,6 +18,8 @@ import PageTitle from "../../../Titles/page-title"
 import DualInputLine from "../../../Containers/dual-input-line"
 import EastIcon from "@mui/icons-material/East"
 import BodyText from "../../../Text/body-text"
+import CustomFilledSelect from "../../../Inputs/custom-filled-select"
+import CustomSelectOption from "../../../Inputs/custom-select-option"
 
 const AddressLine = (props) => (
   <BodyText {...props} preventTransition fontSize="1rem" />
@@ -35,6 +37,7 @@ function SelectAddressSection({
   setConfirmTitle,
   setNextButtonText,
   setConfirmContent,
+  setConfirmVariant,
 }) {
   const { user } = useContext(UserContext)
   const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
@@ -50,7 +53,7 @@ function SelectAddressSection({
     postalCode: "",
     city: "",
     region: "",
-    country: "FRANCE",
+    country: "France",
     details: "",
   }
   const [address, setAddress] = useState(initialAddress)
@@ -64,7 +67,15 @@ function SelectAddressSection({
   })
   const [errors, setErrors] = useState(initialErrors)
   const [activeAddressIndex, setActiveAddressIndex] = useState(null)
+  const [countries, setCountries] = useState(null)
 
+  const fetchCountries = async () => {
+    const res = await apiCall.application.countries.get()
+    if (res && res.ok) {
+      const jsonRes = await res.json()
+      setCountries(jsonRes)
+    }
+  }
   const fetchSavedAddresses = async () => {
     const res = await apiCall.clients.addresses.getAll(user)
     if (res && res.ok) {
@@ -100,11 +111,9 @@ function SelectAddressSection({
       }
     }
   }
-
   const handleChange = (attribute) => (event) => {
     setAddress({ ...address, [attribute]: event.target.value })
   }
-
   const checkRequiredFields = () => {
     const localErrors = initialErrors
     requiredFields.map((field) => {
@@ -119,7 +128,6 @@ function SelectAddressSection({
     setErrors(localErrors) // Update errors helper texts
     return { errorsCount }
   }
-
   const addAddress = async (e) => {
     e.preventDefault()
     const { errorsCount } = checkRequiredFields()
@@ -137,7 +145,6 @@ function SelectAddressSection({
     }
     setCertificate(false)
   }
-
   const updateInformations = async () => {
     const { errorsCount } = checkRequiredFields()
     if (errorsCount > 0) return
@@ -156,14 +163,12 @@ function SelectAddressSection({
       fetchSavedAddresses()
     }
   }
-
   const handleCancel = () => {
     setEdit(false)
     setNewAddress(false)
     setCertificate(false)
     fetchSavedAddresses()
   }
-
   const handleDeleteSuccess = () => {
     setSnackMessage("Adresse supprimée")
     setSnackSeverity("success")
@@ -174,7 +179,6 @@ function SelectAddressSection({
     })
     fetchSavedAddresses()
   }
-
   const handleDeleteError = () => {
     setSnackMessage("Erreur lors de la suppression de l'adresse")
     setSnackSeverity("error")
@@ -190,26 +194,26 @@ function SelectAddressSection({
   const handleDelete = (key) => {
     setActionToFire(() => async () => deleteAddress(key))
     setConfirmTitle("Supprimer")
-    setNextButtonText("Supprimer")
+    setNextButtonText("Oui, supprimer l'adresse")
     setConfirmContent({
       text: "Voulez vous réellement supprimer cette adresse ?",
     })
+    setConfirmVariant("delete")
     setOpenConfirmModal(true)
   }
 
   useEffect(() => {
     fetchSavedAddresses()
+    fetchCountries()
   }, [])
 
   if (newAddress || edit)
     return (
-      <CenteredMaxWidthContainer>
+      <CenteredMaxWidthContainer percents={{ xs: "100%", md: "80%" }}>
         <Stack sx={{ gap: { xs: 1, md: 2 } }}>
-          <PageTitle
-            text={edit ? "Modifier l'adresse" : "Ajouter une adresse"}
-            textAlign="center"
-            marginBottom={4}
-          />
+          <BodyText marginBottom={4} preventTransition>
+            {edit ? "Modifier l'adresse" : "Ajouter une adresse"}
+          </BodyText>
 
           <DualInputLine>
             <CustomFilledInput
@@ -258,6 +262,9 @@ function SelectAddressSection({
               helperText={errors.city && "Veuillez remplir ce champ"}
             />
             <CustomFilledInput
+              type={address.country === "France" ? "tel" : "text"}
+              maxlength="5"
+              minlength="5"
               required
               className="full-width"
               label="Code postal"
@@ -275,7 +282,7 @@ function SelectAddressSection({
               value={address.region}
               onChange={handleChange("region")}
             />
-            <CustomFilledInput
+            {/* <CustomFilledInput
               required
               className="full-width"
               label="Pays"
@@ -283,7 +290,35 @@ function SelectAddressSection({
               onChange={handleChange("country")}
               error={errors.country}
               helperText={errors.country && "Veuillez remplir ce champ"}
-            />
+            /> */}
+
+            <CustomFilledSelect
+              required
+              id="country"
+              value={address.country}
+              onChange={handleChange("country")}
+              renderValue={
+                // Trick for placeholder hiding
+                address.country !== "" || !address.country
+                  ? undefined
+                  : () => <Typography>Pays</Typography>
+              }
+            >
+              {!!countries?.length &&
+                countries.map((option, key) => (
+                  <CustomSelectOption value={option.name} key={key}>
+                    <Stack
+                      alignItems="center"
+                      justifyContent="start"
+                      flexDirection="row-reverse"
+                      gap={1}
+                    >
+                      <Stack>{option.name}</Stack>
+                      <Stack fontSize="1.5rem">{option.emoji}</Stack>
+                    </Stack>
+                  </CustomSelectOption>
+                ))}
+            </CustomFilledSelect>
           </DualInputLine>
 
           {delivery && (
@@ -295,7 +330,7 @@ function SelectAddressSection({
             />
           )}
 
-          <Stack>
+          <Stack margin="1rem 0">
             {/* {newAddress && (
               <CustomCheckbox
                 label="Se souvenir de mes informations la prochaine fois"
@@ -310,9 +345,18 @@ function SelectAddressSection({
             />
           </Stack>
 
-          <Stack className="row" justifyContent="space-between">
+          <Stack gap={1}>
+            <PillButton
+              width="100%"
+              onClick={edit ? updateInformations : addAddress}
+              disabled={!certificate}
+            >
+              {edit ? "Enregistrer" : "Ajouter"}
+            </PillButton>
+
             {savedAddresses.length > 0 && (
               <PillButton
+                width="100%"
                 onClick={handleCancel}
                 background="transparent"
                 border={(theme) => `1px solid ${theme.palette.secondary.main}`}
@@ -321,12 +365,6 @@ function SelectAddressSection({
                 Annuler
               </PillButton>
             )}
-            <PillButton
-              onClick={edit ? updateInformations : addAddress}
-              disabled={!certificate}
-            >
-              {edit ? "Enregistrer" : "Ajouter"}
-            </PillButton>
           </Stack>
         </Stack>
       </CenteredMaxWidthContainer>
@@ -334,7 +372,11 @@ function SelectAddressSection({
 
   return (
     <>
-      <Grid container rowSpacing={4} columnSpacing={4}>
+      <Grid
+        container
+        rowSpacing={{ xs: 2, md: 4 }}
+        columnSpacing={{ xs: 2, md: 4 }}
+      >
         <Grid item xs={12}>
           <Stack>
             <PillButton

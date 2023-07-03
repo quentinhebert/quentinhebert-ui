@@ -5,6 +5,11 @@ import CustomModal from "../Modals/custom-modal"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
 import BodyText from "../Text/body-text"
 import PillButton from "../Buttons/pill-button"
+import EastIcon from "@mui/icons-material/East"
+import DeleteIcon from "@mui/icons-material/Delete"
+import AddIcon from "@mui/icons-material/Add"
+
+const VARIANTS = ["delete", "add", "next", "default"]
 
 function withConfirmAction(WrappedComponent) {
   function Enhancer(props) {
@@ -16,6 +21,7 @@ function withConfirmAction(WrappedComponent) {
       text: null,
       js: null,
     })
+    const [variant, setVariant] = useState("default")
 
     const closeAndcleanState = () => {
       setActionToFire(null)
@@ -35,6 +41,42 @@ function withConfirmAction(WrappedComponent) {
       actionToFire()
       closeAndcleanState()
     }
+    const getBtnBgColor = () => {
+      switch (variant) {
+        case "add":
+          return (theme) => theme.palette.secondary.main
+        case "delete":
+          return (theme) => theme.palette.error.main
+        case "next":
+          return (theme) => theme.palette.secondary.main
+        case "default":
+          return (theme) => theme.palette.secondary.main
+      }
+    }
+    const getBtnColor = () => {
+      switch (variant) {
+        case "add":
+          return "#000"
+        case "delete":
+          return (theme) => theme.palette.text.white
+        case "next":
+          return "#000"
+        case "default":
+          return "#000"
+      }
+    }
+    const getBtnIcon = () => {
+      switch (variant) {
+        case "add":
+          return <AddIcon />
+        case "delete":
+          return <DeleteIcon />
+        case "next":
+          return <EastIcon />
+        case "default":
+          return <></>
+      }
+    }
 
     return (
       <>
@@ -45,6 +87,7 @@ function withConfirmAction(WrappedComponent) {
           setConfirmTitle={setConfirmTitle}
           setNextButtonText={setNextButtonText}
           setConfirmContent={setConfirmContent}
+          setConfirmVariant={setVariant}
         />
 
         <CustomModal
@@ -71,7 +114,14 @@ function withConfirmAction(WrappedComponent) {
 
           {/**** BOTTOM BUTTONS ****/}
           <Stack gap={2} justifyContent="end">
-            <PillButton onClick={handleNext}>{nextButtonText}</PillButton>
+            <PillButton
+              onClick={handleNext}
+              background={getBtnBgColor()}
+              color={getBtnColor()}
+              gap={1}
+            >
+              {nextButtonText} {getBtnIcon()}
+            </PillButton>
             <PillButton
               onClick={handleCancel}
               background="transparent"

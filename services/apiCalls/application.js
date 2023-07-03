@@ -288,6 +288,21 @@ const application = {
       }
     },
   },
+  countries: {
+    get: async () => {
+      try {
+        return await fetch(
+          `https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json`,
+          {
+            method: "GET",
+            mode: "cors",
+          }
+        )
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  },
 }
 
 export default application

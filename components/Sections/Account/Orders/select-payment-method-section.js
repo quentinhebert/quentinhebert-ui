@@ -8,9 +8,14 @@ import EastIcon from "@mui/icons-material/East"
 import BodyText from "../../../Text/body-text"
 import { zeroPad } from "../../../../services/utils"
 import useConfirm from "../../../../hooks/useConfirm"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { UserContext } from "../../../../contexts/UserContext"
 import { AppContext } from "../../../../contexts/AppContext"
+import CreditCardIcon from "@mui/icons-material/CreditCard"
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance"
+import { Paypal } from "grommet-icons"
+import { lightTheme } from "../../../../config/theme"
+import PleaseWait from "../../../Helpers/please-wait"
 
 export default function SelectPaymentMethodSection({
   orderId,
@@ -32,10 +37,13 @@ export default function SelectPaymentMethodSection({
   const { user } = useContext(UserContext)
   const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
 
+  const [loading, setLoading] = useState(false)
+
   // HANDLERS
   const handleRedirectCheckout =
     (paymentMethodType) =>
     async ({ paymentMethodId }) => {
+      setLoading(true)
       const res = await apiCall.orders.getCheckoutClientSecret({
         order: { id: orderId },
         invoiceAddress,
@@ -49,6 +57,7 @@ export default function SelectPaymentMethodSection({
           `/account/orders/${orderId}/checkout/${jsonRes.client_secret}`
         )
       }
+      setLoading(false)
     }
   const handleDetachPM = async (paymentMethod) => {
     setConfirmTitle(
@@ -113,7 +122,9 @@ export default function SelectPaymentMethodSection({
           Moyen de paiement
         </Typography>
 
-        {!!order.payment_methods?.length && (
+        {!!order.payment_methods?.filter(
+          (pm) => pm.type === "card" || pm.type === "sepa_debit"
+        )?.length && (
           <>
             <Stack className="flex-center gap-10">
               <Typography>Utilisez un moyen de paiement enregistré</Typography>
@@ -252,19 +263,37 @@ export default function SelectPaymentMethodSection({
           </>
         )}
 
-        <Stack className="flex-center gap-10">
-          <PillButton
-            onClick={handleRedirectCheckout("card")}
-            endIcon={<EastIcon />}
-          >
-            Carte bancaire
-          </PillButton>
-          <PillButton onClick={handleRedirectCheckout("sepa_debit")}>
-            Prélèvement bancaire
-          </PillButton>
-          <PillButton onClick={handleRedirectCheckout("paypal")}>
-            Paypal
-          </PillButton>
+        <Stack className="flex-center">
+          {loading ? (
+            <PleaseWait />
+          ) : (
+            <Stack maxWidth="400px" margin="0 auto" gap={1}>
+              <PillButton
+                preventTransitionOut
+                width="100%"
+                onClick={handleRedirectCheckout("card")}
+                startIcon={<CreditCardIcon />}
+              >
+                Carte bancaire
+              </PillButton>
+              <PillButton
+                preventTransitionOut
+                width="100%"
+                onClick={handleRedirectCheckout("sepa_debit")}
+                startIcon={<AccountBalanceIcon />}
+              >
+                Prélèvement bancaire
+              </PillButton>
+              <PillButton
+                preventTransitionOut
+                width="100%"
+                onClick={handleRedirectCheckout("paypal")}
+                startIcon={<Paypal color="#000" />}
+              >
+                Paypal
+              </PillButton>
+            </Stack>
+          )}
         </Stack>
       </CustomCard>
 
