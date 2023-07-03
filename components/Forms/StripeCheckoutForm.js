@@ -132,6 +132,7 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
               )}
               <PaymentElement
                 id="payment-element"
+                className="form-control"
                 options={{
                   defaultValues: {
                     billingDetails: {
