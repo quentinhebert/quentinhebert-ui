@@ -51,6 +51,7 @@ export function getPaymentFractionsDetails({ order }) {
     (p) => p.status === "succeeded"
   )
 
+  let isLastPaymentDone = false
   // We browse all fractions and remove matching payments + add attribute paid (boolean)
   fractions.map((f, key) => {
     if (!payments) return
@@ -68,9 +69,14 @@ export function getPaymentFractionsDetails({ order }) {
     }
     // 2nd Step : Handle last payment (= 1st element of payments)
     else {
-      if (payments[0]?.status !== "succeeded" && key < payments.length) {
+      if (
+        payments[0]?.status !== "succeeded" &&
+        key < payments.length &&
+        !isLastPaymentDone
+      ) {
         f.paymentStatus = payments[0]?.status
       }
+      isLastPaymentDone = true
     }
   })
 
