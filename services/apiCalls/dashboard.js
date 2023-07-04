@@ -33,6 +33,24 @@ const dashboard = {
       }
     },
   },
+  payments: {
+    getPerMonth: async ({ month, year }) => {
+      try {
+        return await fetch(
+          `${defaultConfig.apiUrl}/dashboard/payments/${year}/${month}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${await getFreshToken()}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+      } catch (err) {
+        console.error(err)
+      }
+    },
+  },
   payouts: {
     initiate: async () => {
       try {

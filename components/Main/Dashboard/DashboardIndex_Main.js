@@ -7,7 +7,7 @@ import MarkEmailUnreadOutlinedIcon from "@mui/icons-material/MarkEmailUnreadOutl
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined"
 import TaskIcon from "@mui/icons-material/Task"
 import NewDocModule from "../../Sections/Dashboard/new-doc-module"
-import KpiModule from "../../Sections/Dashboard/kpi-module"
+import KpiModule, { TurnoverModule } from "../../Sections/Dashboard/kpi-module"
 import LeaderboardIcon from "@mui/icons-material/Leaderboard"
 import { useEffect, useState } from "react"
 import EuroIcon from "@mui/icons-material/Euro"
@@ -104,7 +104,12 @@ export default function AdminIndex_Main() {
       <Stack zIndex={0} gap={4}>
         <OneActionBubblesGrid cards={CARDS} activeTab={activeTab} />
 
-        {(activeTab === "stats" || !activeTab) && <KpiModule />}
+        {(activeTab === "stats" || !activeTab) && (
+          <>
+            <KpiModule />
+            <TurnoverModule />
+          </>
+        )}
         {activeTab === "calendar" && <UserAgenda />}
         {activeTab === "prospects" && <QuotationRequests_Main />}
         {activeTab === "orders" && <Orders_Main />}
