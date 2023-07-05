@@ -33,7 +33,7 @@ export function CustomTab({ label, disabled, ...props }) {
         "&.MuiTab-root": {
           minHeight: "",
           minWidth: "40px",
-          padding: ".5rem .75rem",
+          padding: ".5rem 1rem",
           display: "flex",
           margin: "auto .5rem",
           background: "rgb(256, 256, 256, 0.015)",

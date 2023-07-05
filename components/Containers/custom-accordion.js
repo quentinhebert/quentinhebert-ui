@@ -4,7 +4,7 @@ import AccordionSummary from "@mui/material/AccordionSummary"
 import AccordionDetails from "@mui/material/AccordionDetails"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import BodyText from "../Text/body-text"
-import { Typography } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 
 export default function CustomAccordion({
   title,

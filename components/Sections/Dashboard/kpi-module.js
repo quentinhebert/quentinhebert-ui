@@ -1,11 +1,10 @@
-import { Box, Grid, Stack, Tab, Tabs, Typography } from "@mui/material"
+import { Box, Grid, Stack, Typography } from "@mui/material"
 import CustomCard from "../../Cards/custom-card"
 import BodyText from "../../Text/body-text"
 import { Fragment, useContext, useEffect, useState } from "react"
 import { UserContext } from "../../../contexts/UserContext"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { formatPrice } from "../../../services/utils"
-import PillButton from "../../Buttons/pill-button"
 import { convertDateToShortString } from "../../../services/date-time"
 import { defaultConfig } from "../../../config/defaultConfig"
 import CustomAccordion from "../../Containers/custom-accordion"
@@ -121,7 +120,7 @@ function TurnoverModule({}) {
     <CustomCard
       borderRadius="15px"
       backgroundColor={(theme) => theme.palette.background.main}
-      background={"transparent"}
+      background="transparent"
       padding="1rem"
       gap={0.5}
       marginBottom={0}
@@ -133,7 +132,6 @@ function TurnoverModule({}) {
           padding: ".5rem 1rem",
         }}
         width="100%"
-        overflow="hidden"
       >
         <Box width="100%" display="flex" justifyContent="center">
           <CustomTabs value={activeYear} onChange={handleChangeYear}>
@@ -162,6 +160,7 @@ function TurnoverModule({}) {
         <CustomTabPanel value={selectedMonth} index={index}>
           <Box>
             <CustomAccordion
+              defaultExpanded
               title="Chiffres d'affaire"
               noBorder
               background="rgb(0,0,0,0.3)"
