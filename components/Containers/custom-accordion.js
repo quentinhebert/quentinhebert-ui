@@ -4,16 +4,32 @@ import AccordionSummary from "@mui/material/AccordionSummary"
 import AccordionDetails from "@mui/material/AccordionDetails"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import BodyText from "../Text/body-text"
+import { Typography } from "@mui/material"
 
-export default function CustomAccordion({ title, ...props }) {
+export default function CustomAccordion({
+  title,
+  noBorder,
+  background,
+  borderRadius,
+  defaultExpanded,
+  ...props
+}) {
   return (
     <Accordion
+      defaultExpanded={defaultExpanded}
+      disableGutters
+      square="false"
       sx={{
         width: "100%",
-        border: (theme) => `1px solid ${theme.palette.secondary.main}`,
+        border: (theme) =>
+          noBorder ? "none" : `1px solid ${theme.palette.secondary.main}`,
+        borderRadius: borderRadius || "inherit",
         "&.MuiAccordion-root": {
+          "&:before": {
+            display: "none",
+          },
           backgroundImage: "none",
-          backgroundColor: "transparent",
+          backgroundColor: background || "transparent",
         },
       }}
     >
@@ -22,12 +38,12 @@ export default function CustomAccordion({ title, ...props }) {
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <BodyText
+        <Typography
           fontSize="1rem"
           color={(theme) => theme.palette.text.secondary}
         >
           {title}
-        </BodyText>
+        </Typography>
       </AccordionSummary>
       <AccordionDetails {...props} />
     </Accordion>
@@ -60,9 +76,7 @@ export function SoberAccordion({ title, ...props }) {
         id="panel1a-header"
         sx={{ color: "#fff", "& .Mui-expanded": { color: "text.secondary" } }}
       >
-        <BodyText preventTransition color="inherit">
-          {title}
-        </BodyText>
+        <Typography color="inherit">{title}</Typography>
       </AccordionSummary>
       <AccordionDetails {...props} />
     </Accordion>

@@ -2,12 +2,8 @@ import { Stack } from "@mui/material"
 import FixedBackground from "../../Backgrounds/fixed-background"
 import { useRouter } from "next/router"
 import OneActionBubblesGrid from "../../Cards/one-action-bubbles-grid"
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined"
 import MarkEmailUnreadOutlinedIcon from "@mui/icons-material/MarkEmailUnreadOutlined"
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined"
-import TaskIcon from "@mui/icons-material/Task"
-import NewDocModule from "../../Sections/Dashboard/new-doc-module"
-import KpiModule, { TurnoverModule } from "../../Sections/Dashboard/kpi-module"
 import LeaderboardIcon from "@mui/icons-material/Leaderboard"
 import { useEffect, useState } from "react"
 import EuroIcon from "@mui/icons-material/Euro"
@@ -18,6 +14,7 @@ import EventIcon from "@mui/icons-material/Event"
 import useSWR from "swr"
 import UserAgenda from "../../Sections/Dashboard/user-agenda"
 import BalanceSection from "../../Sections/Dashboard/balance-section"
+import StatsModule from "../../Sections/Dashboard/kpi-module"
 
 export default function AdminIndex_Main() {
   const router = useRouter()
@@ -104,12 +101,7 @@ export default function AdminIndex_Main() {
       <Stack zIndex={0} gap={4}>
         <OneActionBubblesGrid cards={CARDS} activeTab={activeTab} />
 
-        {(activeTab === "stats" || !activeTab) && (
-          <>
-            <KpiModule />
-            <TurnoverModule />
-          </>
-        )}
+        {(activeTab === "stats" || !activeTab) && <StatsModule />}
         {activeTab === "calendar" && <UserAgenda />}
         {activeTab === "prospects" && <QuotationRequests_Main />}
         {activeTab === "orders" && <Orders_Main />}
