@@ -276,7 +276,7 @@ function TurnoverModule({}) {
                           payment.order.client_lastname}
                       </GridItem>
                       <GridItem size={2} align="right">
-                        {getTypeInfo(payment.type, payment.metadata)}
+                        {payment.type}
                       </GridItem>
                       <GridItem
                         size={1.5}
