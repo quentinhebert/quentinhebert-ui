@@ -10,6 +10,7 @@ import { convertDateToShortString } from "../../../services/date-time"
 import { defaultConfig } from "../../../config/defaultConfig"
 import CustomAccordion from "../../Containers/custom-accordion"
 import JsPDF from "jspdf"
+import CustomTabs, { CustomTab } from "../../Navigation/Tabs/cutom-tabs"
 
 const MONTHS = [
   "Janvier",
@@ -101,6 +102,7 @@ function TurnoverModule({}) {
   const [turnover, setTurnover] = useState(initialTurnover)
   const [payments, setPayments] = useState(initialPayments)
   const [selectedMonth, setSelectedMonth] = useState(currentMonth)
+  const [activeYear, setActiveYear] = useState(0)
   const [selectedYear, setSelectedYear] = useState(currentYear)
   useEffect(() => {
     setTurnover(initialTurnover)
@@ -132,95 +134,27 @@ function TurnoverModule({}) {
         }}
         width="100%"
         overflow="hidden"
-        gap={1}
       >
-        <Box
-          display="flex"
-          maxWidth="100%"
-          margin="auto"
-          sx={{
-            flexDirection: "row",
-            gap: 2,
-            overflowX: "scroll",
-            padding: "0 0 17px",
-            marginBottom: "-34px",
-            scrollbarColor: "transparent transparent",
-            flexWrap: "no-wrap",
-          }}
-        >
-          {YEARS.map((year, key) => {
-            const isSelectedYear = year === selectedYear
-            return (
-              <PillButton
-                onClick={() => setSelectedYear(year)}
-                padding=".25rem .75rem"
-                background={
-                  isSelectedYear
-                    ? (theme) => theme.palette.secondary.main
-                    : "rgb(256,256,256,0.015)"
-                }
-                color={
-                  isSelectedYear
-                    ? (theme) => theme.palette.text.black
-                    : (theme) => theme.palette.text.white
-                }
-                key={key}
-              >
-                {year}
-              </PillButton>
-            )
-          })}
+        <Box width="100%" display="flex" justifyContent="center">
+          <CustomTabs value={activeYear} onChange={handleChangeYear}>
+            {YEARS.map((year, key) => {
+              return <CustomTab label={year} key={key} />
+            })}
+          </CustomTabs>
         </Box>
 
-        <Box width="100%" display="flex" justifyContent="center" mb={-1}>
-          <Tabs
-            value={selectedMonth}
-            onChange={handleChangeMonth}
-            textColor="#fff"
-            indicatorColor="transparent"
-            variant="scrollable"
-            scrollButtons
-            allowScrollButtonsMobile
-            sx={{
-              "& .MuiTabs-scroller": {
-                display: "flex",
-              },
-            }}
-          >
+        <Box width="100%" display="flex" justifyContent="center">
+          <CustomTabs value={selectedMonth} onChange={handleChangeMonth}>
             {MONTHS.map((month, key) => (
-              <Tab
+              <CustomTab
                 label={month}
                 key={key}
-                id={`tab-${month}`}
-                aria-controls={`tabpanel-${month}`}
-                sx={{
-                  borderRadius: "30px",
-                  textTransform: "capitalize",
-                  padding: 1,
-                  "&.MuiTab-root": {
-                    minHeight: "",
-                    minWidth: "40px",
-                    padding: ".5rem .75rem",
-                    display: "flex",
-                    margin: "auto .5rem",
-                    background: "rgb(256, 256, 256, 0.015)",
-                  },
-                  "&.Mui-selected": {
-                    background: (theme) => theme.palette.secondary.main,
-                    color: "#000",
-                    fontWeight: "bold",
-                  },
-                  "&.Mui-disabled": {
-                    color: "rgb(256,256,256,0.1) !important",
-                    background: "transparent",
-                  },
-                }}
                 disabled={
                   selectedYear === currentYear && key > new Date().getMonth()
                 }
               />
             ))}
-          </Tabs>
+          </CustomTabs>
         </Box>
       </Stack>
 
@@ -366,6 +300,10 @@ function TurnoverModule({}) {
     </CustomCard>
   )
 
+  function handleChangeYear(e, newValue) {
+    setSelectedYear(YEARS[newValue])
+    return setActiveYear(newValue)
+  }
   function handleChangeMonth(e, newValue) {
     return setSelectedMonth(newValue)
   }
@@ -540,8 +478,4 @@ function GridItem({ size, align, href, ...props }) {
       </Box>
     </Grid>
   )
-}
-
-function CustomTabPanel({}) {
-  return <></>
 }
