@@ -89,7 +89,7 @@ function KpiModule({}) {
   }
 }
 function TurnoverModule({}) {
-  const businessActivityStart = 2015
+  const businessActivityStart = 2022
   const currentYear = new Date().getFullYear()
   const currentMonth = new Date().getMonth()
   // Populate YEARS array
