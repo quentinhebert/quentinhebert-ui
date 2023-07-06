@@ -6,6 +6,7 @@ import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive"
 import Slide from "@mui/material/Slide"
 import { AppContext } from "../../contexts/AppContext"
 import translations from "../../services/translation"
+import { UserContext } from "../../contexts/UserContext"
 
 export default function ScrollToTopBtn(props) {
   const { refForScroll } = props
@@ -38,6 +39,7 @@ export default function ScrollToTopBtn(props) {
   const [showButton, setShowButton] = useState(false)
 
   const { lang } = useContext(AppContext)
+  const { user } = useContext(UserContext)
 
   return (
     <Slide direction="left" in={showButton} mountOnEnter unmountOnExit>
@@ -47,7 +49,7 @@ export default function ScrollToTopBtn(props) {
         right="5%"
         zIndex={100}
         sx={{
-          bottom: "5%",
+          bottom: { xs: user ? "10%" : "5%", md: "5%" },
         }}
       >
         <Button
