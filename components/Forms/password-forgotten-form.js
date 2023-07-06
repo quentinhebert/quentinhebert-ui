@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import { useState, useEffect } from "react"
 import apiCall from "../../services/apiCalls/apiCall"
 import AlertInfo from "../Other/alert-info"
@@ -8,6 +8,7 @@ import { useInView } from "react-intersection-observer"
 import RectangleButton from "../Buttons/rectangle-button"
 import CustomForm from "./custom-form"
 import CustomFilledInput from "../Inputs/custom-filled-input"
+import PillButton from "../Buttons/pill-button"
 
 export default function PasswordForgottenForm(props) {
   /********** PROPS **********/
@@ -73,7 +74,6 @@ export default function PasswordForgottenForm(props) {
       style={{
         width: "100%",
         padding: "2rem",
-        border: `1px solid #fff`,
         borderRadius: "10px",
       }}
     >
@@ -112,17 +112,24 @@ export default function PasswordForgottenForm(props) {
             initial="hidden"
             variants={variants(3)}
             animate={controls}
-            style={{ width: "100%", display: "flex", justifyContent: "end" }}
+            style={{ width: "100%", display: "flex" }}
           >
-            <Stack flexDirection="row" gap={2}>
-              <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
-              <RectangleButton
-                secondary="true"
+            <Stack gap={2} width="100%">
+              <PillButton
                 onClick={handleSendPasswordForgotten}
                 disabled={!emailInput || emailInput.trim() === ""}
               >
                 Envoyer
-              </RectangleButton>
+              </PillButton>
+              <Box margin="auto">
+                <Typography
+                  onClick={handleCancel}
+                  color="#fff"
+                  className="cool-button pointer"
+                >
+                  Annuler
+                </Typography>
+              </Box>
             </Stack>
           </motion.div>
         </CustomForm>

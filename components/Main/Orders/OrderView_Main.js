@@ -264,11 +264,21 @@ export default function OrderView_Main({}) {
           </Stack>
 
           {mode === MODES.login && (
-            <LoginForm
-              handleClickPasswordForgotten={() =>
-                setMode(MODES.passwordForgotten)
-              }
-            />
+            <Stack sx={{ border: `1px solid #fff`, borderRadius: "15px" }}>
+              <LoginForm
+                handleClickPasswordForgotten={() =>
+                  setMode(MODES.passwordForgotten)
+                }
+              />
+            </Stack>
+          )}
+          {mode === MODES.passwordForgotten && (
+            <Stack sx={{ border: `1px solid #fff`, borderRadius: "15px" }}>
+              <PasswordForgottenForm
+                handleCancel={() => setMode(MODES.login)}
+                defaultEmail={""}
+              />
+            </Stack>
           )}
           {mode === MODES.signup && (
             <Stack
@@ -305,12 +315,6 @@ export default function OrderView_Main({}) {
                 </>
               )}
             </Stack>
-          )}
-          {mode === MODES.passwordForgotten && (
-            <PasswordForgottenForm
-              handleCancel={() => setMode(MODES.login)}
-              defaultEmail={""}
-            />
           )}
 
           <Stack gap={2}>

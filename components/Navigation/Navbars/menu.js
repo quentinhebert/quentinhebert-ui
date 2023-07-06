@@ -12,6 +12,8 @@ import styles from "../../../styles/TextShine.module.css"
 import translations from "../../../services/translation"
 import ChangeLangSection from "../../Sections/Navbar/change-lang"
 import ContactBtnSection from "../../Sections/Navbar/contact-btn-section"
+import EastOutlinedIcon from "@mui/icons-material/EastOutlined"
+import { UserContext } from "../../../contexts/UserContext"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />
@@ -26,6 +28,7 @@ export default function Menu({
   ...props
 }) {
   const { lang } = useContext(AppContext)
+  const { user } = useContext(UserContext)
 
   const handleCloseReset = () => {
     handleClose()
@@ -209,6 +212,28 @@ export default function Menu({
                     </Link>
                   </BottomLink>
                 </Stack>
+
+                {!user && (
+                  <Stack
+                    gap={{ xs: 2, lg: 4 }}
+                    sx={{ flexDirection: { xs: "column", lg: "row" } }}
+                    width="100%"
+                    alignItems="center"
+                  >
+                    <BottomLink display="flex" alignItems="center" gap={1}>
+                      <Link href="/login" passHref>
+                        {translations.login[lang]}
+                      </Link>
+                      <EastOutlinedIcon />
+                    </BottomLink>
+                    <BottomLink display="flex" alignItems="center" gap={1}>
+                      <Link href="/signup" passHref>
+                        {translations.signup[lang]}
+                      </Link>
+                      <EastOutlinedIcon />
+                    </BottomLink>
+                  </Stack>
+                )}
 
                 <Stack
                   justifyContent="end"

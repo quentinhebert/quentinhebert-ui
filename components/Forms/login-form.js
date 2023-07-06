@@ -312,7 +312,6 @@ export default function LoginForm(props) {
       style={{
         width: "100%",
         padding: "2rem",
-        border: `1px solid #fff`,
         borderRadius: "10px",
         background: background || "transparent",
       }}
@@ -324,7 +323,7 @@ export default function LoginForm(props) {
           animate={controls}
           style={{ width: "100%" }}
         >
-          <ModalTitle>Se connecter</ModalTitle>
+          <ModalTitle>Me connecter</ModalTitle>
         </motion.div>
 
         <Grid container spacing={2}>

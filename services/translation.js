@@ -57,6 +57,14 @@ const translations = {
     fr: "Fermer",
     en: "Close",
   },
+  login: {
+    en: "Sign in",
+    fr: "J'ai un compte",
+  },
+  signup: {
+    en: "Sign up",
+    fr: "Créer mon compte",
+  },
   contact: {
     catchPhrase: {
       fr: "Vous avez un projet...",
