@@ -35,7 +35,7 @@ export function CustomTab({ label, disabled, ...props }) {
           minWidth: "40px",
           padding: ".5rem 1rem",
           display: "flex",
-          margin: "auto .5rem",
+          margin: "auto .25rem",
           background: "rgb(256, 256, 256, 0.015)",
         },
         "&.Mui-selected": {

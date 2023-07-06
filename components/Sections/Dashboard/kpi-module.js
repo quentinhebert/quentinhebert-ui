@@ -207,14 +207,15 @@ function TurnoverModule({}) {
                 >
                   <Grid
                     item
-                    xs={8}
+                    xs={6}
+                    md={8}
                     sx={{
                       textAlign: "left",
                     }}
                   >
                     <Typography>Chiffre d'affaire réel</Typography>
                   </Grid>
-                  <Grid item xs={4} sx={{ textAlign: "right" }}>
+                  <Grid item xs={6} md={4} sx={{ textAlign: "right" }}>
                     <Typography
                       color="green"
                       fontSize="1.5rem"
@@ -241,9 +242,9 @@ function TurnoverModule({}) {
                   minWidth="1000px"
                   width="100%"
                   sx={{
-                    borderRadius: "7.5px",
+                    borderRadius: "7.5px 7.5px 0 0",
                     background: "rgb(0,0,0,0.5)",
-                    padding: 2,
+                    padding: ".5rem 1rem",
                   }}
                 >
                   <GridHeadItem size={1} label="Montant" />
@@ -257,40 +258,51 @@ function TurnoverModule({}) {
                   />
                   <GridHeadItem size={1.5} label="Facture" align="right" />
                   <GridHeadItem size={1.5} label="Encaissement" align="right" />
-
-                  {payments.map((payment, key) => (
-                    <Fragment key={key}>
-                      <GridItem size={1}>
-                        {formatPrice(payment.amount)}€
-                      </GridItem>
-                      <GridItem size={1}>{getFees(payment.fees)}€</GridItem>
-                      <GridItem
-                        size={3}
-                        href={`/dashboard/orders/${payment.order.id}/edit`}
-                      >
-                        {payment.order.label}
-                      </GridItem>
-                      <GridItem size={2}>
-                        {payment.order.client_firstname +
-                          " " +
-                          payment.order.client_lastname}
-                      </GridItem>
-                      <GridItem size={2} align="right">
-                        {payment.type}
-                      </GridItem>
-                      <GridItem
-                        size={1.5}
-                        href={`${defaultConfig.ftpPublicBasePath}${payment.path}`}
-                        align="right"
-                      >
-                        {payment.invoice_number}
-                      </GridItem>
-                      <GridItem size={1.5} align="right">
-                        {convertDateToShortString(payment.last_update)}
-                      </GridItem>
-                    </Fragment>
-                  ))}
                 </Grid>
+
+                {payments.map((payment, key) => (
+                  <Grid
+                    key={key}
+                    id={`report-line-${key}`}
+                    container
+                    minWidth="1000px"
+                    width="100%"
+                    sx={{
+                      borderRadius:
+                        key === payments.length ? "0 0 7.5px 7.5px" : "0",
+                      background:
+                        key % 2 === 0 ? "rgb(0,0,0,0.15)" : "rgb(0,0,0,0.3.5)",
+                      padding: "0 1rem",
+                    }}
+                  >
+                    <GridItem size={1}>{formatPrice(payment.amount)}€</GridItem>
+                    <GridItem size={1}>{formatPrice(payment.fees)}€</GridItem>
+                    <GridItem
+                      size={3}
+                      href={`/dashboard/orders/${payment.order.id}/edit`}
+                    >
+                      {payment.order.label}
+                    </GridItem>
+                    <GridItem size={2}>
+                      {payment.order.client_firstname +
+                        " " +
+                        payment.order.client_lastname}
+                    </GridItem>
+                    <GridItem size={2} align="right">
+                      {payment.type}
+                    </GridItem>
+                    <GridItem
+                      size={1.5}
+                      href={`${defaultConfig.ftpPublicBasePath}${payment.path}`}
+                      align="right"
+                    >
+                      {payment.invoice_number}
+                    </GridItem>
+                    <GridItem size={1.5} align="right">
+                      {convertDateToShortString(payment.last_update)}
+                    </GridItem>
+                  </Grid>
+                ))}
               </Box>
             </CustomAccordion>
           </Box>
