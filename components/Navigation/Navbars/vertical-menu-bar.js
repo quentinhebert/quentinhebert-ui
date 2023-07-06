@@ -293,7 +293,7 @@ export function VerticalMenuBar({}) {
         <IconButtonWrapper
           onClick={() => toggleMobileDrawer(true)}
           tooltip="Menu"
-          sx={{ display: { xs: "flex", md: "none" } }}
+          sx={{ display: { xs: "flex", md: "none" }, mb: 1 }}
         >
           <MenuRoundedIcon />
         </IconButtonWrapper>
