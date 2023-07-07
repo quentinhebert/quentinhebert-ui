@@ -34,10 +34,28 @@ const dashboard = {
     },
   },
   payments: {
+    // Admin only
     getPerMonth: async ({ month, year }) => {
       try {
         return await fetch(
           `${defaultConfig.apiUrl}/dashboard/payments/${year}/${month}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${await getFreshToken()}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    // Admin only
+    downloadMonthReport: async ({ month, year }) => {
+      try {
+        return await fetch(
+          `${defaultConfig.apiUrl}/dashboard/payments-reports/${year}/${month}`,
           {
             method: "GET",
             headers: {

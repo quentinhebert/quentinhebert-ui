@@ -4,12 +4,16 @@ import BodyText from "../../Text/body-text"
 import { Fragment, useContext, useEffect, useState } from "react"
 import { UserContext } from "../../../contexts/UserContext"
 import apiCall from "../../../services/apiCalls/apiCall"
-import { formatPrice } from "../../../services/utils"
+import { buildPublicURL, formatPrice } from "../../../services/utils"
 import { convertDateToShortString } from "../../../services/date-time"
 import { defaultConfig } from "../../../config/defaultConfig"
 import CustomAccordion from "../../Containers/custom-accordion"
 import JsPDF from "jspdf"
 import CustomTabs, { CustomTab } from "../../Navigation/Tabs/cutom-tabs"
+import PillButton from "../../Buttons/pill-button"
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf"
+import DownloadIcon from "@mui/icons-material/Download"
+import { AppContext } from "../../../contexts/AppContext"
 
 const MONTHS = [
   "Janvier",
@@ -88,6 +92,7 @@ function KpiModule({}) {
   }
 }
 function TurnoverModule({}) {
+  const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
   const businessActivityStart = 2022
   const currentYear = new Date().getFullYear()
   const currentMonth = new Date().getMonth()
@@ -98,6 +103,9 @@ function TurnoverModule({}) {
   }
   const initialTurnover = { total: 0, real: 0, total_fees: 0 }
   const initialPayments = []
+  const initialPdf = { path: null }
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false)
+  const [pdf, setPdf] = useState(initialPdf)
   const [turnover, setTurnover] = useState(initialTurnover)
   const [payments, setPayments] = useState(initialPayments)
   const [selectedMonth, setSelectedMonth] = useState(currentMonth)
@@ -115,6 +123,26 @@ function TurnoverModule({}) {
   //     report.save("report.pdf")
   //   })
   // }
+
+  const handleGenerateReport = async () => {
+    setSnackMessage("Votre livre de recettes est en cours de génération...")
+    setSnackSeverity("info")
+    setIsGeneratingPdf(true)
+    const res = await apiCall.dashboard.payments.downloadMonthReport({
+      year: selectedYear,
+      month: selectedMonth,
+    })
+    if (res && res.ok) {
+      setSnackMessage("Livre de recettes généré au format PDF")
+      setSnackSeverity("success")
+      await fetchData()
+    } else {
+      setSnackMessage("Une erreur est survenue...")
+      setSnackSeverity("error")
+    }
+    setIsGeneratingPdf(false)
+  }
+  const handleDownloadReport = async () => {}
 
   return (
     <CustomCard
@@ -235,7 +263,7 @@ function TurnoverModule({}) {
               background="rgb(0,0,0,0.3)"
               borderRadius="0 0 7.5px 7.5px"
             >
-              <Box overflow="auto">
+              <Box overflow="auto" mb={2}>
                 <Grid
                   id="report"
                   container
@@ -304,6 +332,32 @@ function TurnoverModule({}) {
                   </Grid>
                 ))}
               </Box>
+
+              <CustomCard borderRadius="15px">
+                {!!pdf.path ? (
+                  <Box
+                    component="a"
+                    href={`${buildPublicURL(pdf.path)}`}
+                    target="_blank"
+                  >
+                    <PillButton preventTransition startIcon={<DownloadIcon />}>
+                      Livre de recettes de {MONTHS[selectedMonth]}{" "}
+                      {selectedYear}
+                    </PillButton>
+                  </Box>
+                ) : (
+                  <PillButton
+                    preventTransition
+                    onClick={handleGenerateReport}
+                    startIcon={<PictureAsPdfIcon />}
+                    disabled={isGeneratingPdf}
+                  >
+                    {isGeneratingPdf
+                      ? "Veuillez patienter..."
+                      : "Générer le PDF"}
+                  </PillButton>
+                )}
+              </CustomCard>
             </CustomAccordion>
           </Box>
         </CustomTabPanel>
@@ -384,6 +438,8 @@ function TurnoverModule({}) {
       const jsonRes = await res.json()
       setPayments(jsonRes.payments)
       setTurnover(jsonRes.turnover)
+      console.debug("jsonRes", jsonRes)
+      setPdf(jsonRes.file)
     }
   }
 }
