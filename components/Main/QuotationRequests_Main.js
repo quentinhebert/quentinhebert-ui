@@ -27,7 +27,6 @@ import useAddProspect from "../../hooks/useAddProspect"
 import { ACTIVITY_TYPES } from "../../enums/activityTypesEnum"
 import PROSPECT_STATES from "../../enums/prospectStates"
 import useEditProspect from "../../hooks/useEditProspect"
-import { alignProperty } from "@mui/material/styles/cssUtils"
 
 export default function QuotationRequests_Main({}) {
   const MODES = { FORM: "FORM", LIST: "LIST" }
