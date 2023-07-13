@@ -85,7 +85,7 @@ export default function ContactInformationSection(props) {
 
 function SocialButton({ item }) {
   return (
-    <Box component="a" href={item.link} target="_blank" rel="noreferrer">
+    <Box component="a" href={item.value} target="_blank" rel="noreferrer">
       <motion.div variants={moveLeftVariants}>
         <ScaleUpOnHoverStack>
           <Box sx={{ marginRight: ".5rem" }}>
