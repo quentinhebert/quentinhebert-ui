@@ -11,6 +11,7 @@ import OneActionCardsGrid from "../../Cards/one-action-cards-grid"
 import FixedBackground from "../../Backgrounds/fixed-background"
 import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 import AdminQandAForm from "../../Forms/admin/admin-q-and-a-form"
+import AdminIntroVideoForm from "../../Forms/admin/admin-intro-video-form"
 
 export default function WebsiteInfoPanel_Main() {
   const [openModal, setOpenModal] = useState(false)
@@ -114,6 +115,20 @@ export default function WebsiteInfoPanel_Main() {
         },
       },
     },
+    {
+      id: "introduction_video",
+      title: "Vidéo de présentation",
+      description:
+        "Indiquez l'URL Youtube ou Vimeo de votre vidéo de présentation.",
+      button: {
+        text: "Modifier",
+        onClick: () => {
+          setOpenModal(true)
+          setModalFullscreen(false)
+          setDialogContent("introduction_video")
+        },
+      },
+    },
   ]
 
   return (
@@ -149,6 +164,9 @@ export default function WebsiteInfoPanel_Main() {
           )}
           {dialogContent === "q_and_a" && (
             <AdminQandAForm handleClose={handleClose} />
+          )}
+          {dialogContent === "introduction_video" && (
+            <AdminIntroVideoForm handleClose={handleClose} />
           )}
         </CenteredMaxWidthContainer>
       </CustomModal>

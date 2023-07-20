@@ -123,4 +123,24 @@ export const formatPrice = (price) => {
   return Number(price / 100).toFixed(2)
 }
 
+export const VimeoYoutubeURLparser = (url) => {
+  let service = ""
+  let id = ""
+  if (!url) return { service, id }
+
+  if (url.includes("youtu")) {
+    service = "youtube"
+    if (url.includes("watch?v=")) id = url.split("watch?v=")[1].split("&")[0]
+    else if (url.includes("youtu.be/"))
+      id = url.split("youtu.be/")[1].split("?")[0].split("/")[0]
+  }
+
+  if (url.includes("vimeo")) {
+    service = "vimeo"
+    id = url.split("vimeo.com/")[1].split("?")[0]
+  }
+
+  return { service, id }
+}
+
 export const zeroPad = (num, places) => String(num).padStart(places, "0")

@@ -11,6 +11,8 @@ import MotionDivOnMount from "../Animation/motion-div-on-mount"
 import { AppContext } from "../../contexts/AppContext"
 import { background, ignoreNavbar } from "../../styles/helper"
 import translations from "../../services/translation"
+import apiCall from "../../services/apiCalls/apiCall"
+import { VimeoYoutubeURLparser } from "../../services/utils"
 
 const Text = (props) => (
   <MotionDivOnMount hidden={{ x: 0, y: -20 }} visible={{ x: 0, y: 0 }}>
@@ -21,13 +23,35 @@ const Text = (props) => (
 export default function About_Main() {
   const [slide, setSlide] = useState(0)
   const [render, setRender] = useState(false)
+  const [youtubeId, setYoutubeId] = useState(null)
+  const [vimeoId, setVimeoId] = useState(null)
   const handleNext = () => setSlide(slide + 1)
-
+  const handleRestart = () => setSlide(0)
   const { appLoading, lang } = useContext(AppContext)
 
-  const handleRestart = () => setSlide(0)
+  const fetchData = async () => {
+    const res = await apiCall.application.introductionVideo.get()
+    if (res && res.ok) {
+      const jsonRes = await res.json()
+      const url = jsonRes.url
+      const { service, id } = VimeoYoutubeURLparser(url)
+      switch (service) {
+        case "youtube":
+          setYoutubeId(id)
+          break
+        case "vimeo":
+          setVimeoId(id)
+          break
+        default:
+          break
+      }
+    }
+  }
 
-  useEffect(() => setRender(true), [])
+  useEffect(() => {
+    setRender(true)
+    fetchData()
+  }, [])
 
   return (
     <Stack
@@ -115,7 +139,7 @@ export default function About_Main() {
                 }}
               >
                 {render ? (
-                  <CustomReactPlayer youtubeId={"wWpM97f-RHg"} />
+                  <CustomReactPlayer youtubeId={youtubeId} vimeoId={vimeoId} />
                 ) : null}
               </Stack>
             </Stack>

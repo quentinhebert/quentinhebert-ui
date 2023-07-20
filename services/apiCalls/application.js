@@ -303,6 +303,43 @@ const application = {
       }
     },
   },
+  introductionVideo: {
+    // Public
+    get: async () => {
+      try {
+        return await fetch(
+          `${defaultConfig.apiUrl}/application/introduction-video`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    // Admin only
+    update: async ({ url }) => {
+      try {
+        const body = JSON.stringify({ url })
+        return await fetch(
+          `${defaultConfig.apiUrl}/application/introduction-video`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${await getFreshToken()}`,
+            },
+            body,
+          }
+        )
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  },
 }
 
 export default application

@@ -7,10 +7,39 @@ import styles from "../../../styles/TypeWriter.module.css"
 import { useInView } from "react-intersection-observer"
 import { AppContext } from "../../../contexts/AppContext"
 import translations from "../../../services/translation"
+import apiCall from "../../../services/apiCalls/apiCall"
+import { VimeoYoutubeURLparser } from "../../../services/utils"
 
 export default function IntroductionVideoSection({ topRef, ...props }) {
+  const [youtubeId, setYoutubeId] = useState(null)
+  const [vimeoId, setVimeoId] = useState(null)
   const [render, setRender] = useState(false)
-  useEffect(() => setRender(true), [])
+  useEffect(() => {
+    setRender(true)
+  }, [])
+
+  const fetchData = async () => {
+    const res = await apiCall.application.introductionVideo.get()
+    if (res && res.ok) {
+      const jsonRes = await res.json()
+      const url = jsonRes.url
+      const { service, id } = VimeoYoutubeURLparser(url)
+      switch (service) {
+        case "youtube":
+          setYoutubeId(id)
+          break
+        case "vimeo":
+          setVimeoId(id)
+          break
+        default:
+          break
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   const { lang } = useContext(AppContext)
 
@@ -19,11 +48,8 @@ export default function IntroductionVideoSection({ topRef, ...props }) {
   const [animationRef, inView] = useInView()
   const [itshere, setItshere] = useState(false)
   useEffect(() => {
-    if (inView && !appLoading) {
-      setItshere(true)
-    } else {
-      setItshere(false)
-    }
+    if (inView && !appLoading) setItshere(true)
+    else setItshere(false)
   }, [inView, appLoading])
 
   return (
@@ -93,7 +119,7 @@ export default function IntroductionVideoSection({ topRef, ...props }) {
                 }}
               >
                 {render ? (
-                  <CustomReactPlayer youtubeId={"wWpM97f-RHg"} />
+                  <CustomReactPlayer youtubeId={youtubeId} vimeoId={vimeoId} />
                 ) : null}
               </Stack>
             </Stack>

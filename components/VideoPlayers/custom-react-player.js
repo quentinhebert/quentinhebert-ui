@@ -75,9 +75,7 @@ function Player({ youtubeId, vimeoId, disableAutoplay }) {
         onPause={() => setPlaying(false)}
         config={{
           youtube: {
-            onUnstarted: () => {
-              setPlaying(false)
-            },
+            onUnstarted: () => setPlaying(false),
           },
         }}
         width="100%"
