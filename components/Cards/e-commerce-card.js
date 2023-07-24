@@ -30,7 +30,7 @@ export default function ECommerceCard({
           <Box
             component="img"
             draggable="false"
-            src={img || "/medias/default.jpg"}
+            src={img || imgCover || "/medias/default.jpg"}
             alt={title || ""}
             sx={{
               height: "100%",

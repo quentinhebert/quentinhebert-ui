@@ -22,10 +22,10 @@ const SortableECard = SortableElement(
         }}
       >
         <ECommerceCard
-          img={img}
           title={item.title || item.label.fr}
           description={item.description}
           imgCover={imgCover}
+          img={img}
         >
           <Stack {...props} />
         </ECommerceCard>
@@ -129,9 +129,9 @@ const SortableCard = ({
       disabled={disabled}
       showMenu={disabled}
       item={item}
-      img={img}
       index={index}
       imgCover={imgCover}
+      img={img}
       {...props}
     />
   )
