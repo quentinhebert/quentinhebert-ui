@@ -92,7 +92,7 @@ export default function QuotationRequests_Main({}) {
         />
       </Stack>
 
-      <Stack gap={2}>
+      <Stack gap={2} overflow="hidden">
         {loading && <PleaseWait />}
         {mode === MODES.FORM &&
           !!list?.length &&
@@ -118,22 +118,38 @@ export default function QuotationRequests_Main({}) {
             )
           })}
         {mode === MODES.LIST && !!prospects?.length && (
-          <Stack>
-            <Grid container padding=".25rem .5rem" columnSpacing={2}>
+          <Box overflow="auto">
+            <Grid
+              container
+              padding=".25rem .5rem"
+              columnSpacing={2}
+              width="100%"
+              minWidth="800px"
+            >
               <Grid item xs={1}>
-                <BodyText color="gray">Service(s)</BodyText>
+                <BodyText color="gray" preventTransition>
+                  Service(s)
+                </BodyText>
               </Grid>
               <Grid item xs={2}>
-                <BodyText color="gray">Contact</BodyText>
+                <BodyText color="gray" preventTransition>
+                  Contact
+                </BodyText>
               </Grid>
               <Grid item xs={2}>
-                <BodyText color="gray">Entreprise</BodyText>
+                <BodyText color="gray" preventTransition>
+                  Entreprise
+                </BodyText>
               </Grid>
               <Grid item xs={5}>
-                <BodyText color="gray">Description</BodyText>
+                <BodyText color="gray" preventTransition>
+                  Description
+                </BodyText>
               </Grid>
               <Grid item xs={2}>
-                <BodyText color="gray">Status</BodyText>
+                <BodyText color="gray" preventTransition>
+                  Status
+                </BodyText>
               </Grid>
             </Grid>
             {prospects.map((item, key) => {
@@ -161,7 +177,7 @@ export default function QuotationRequests_Main({}) {
                 />
               )
             })}
-          </Stack>
+          </Box>
         )}
 
         {AddProspectDialog({})}
@@ -366,6 +382,8 @@ function PropsectsCard({
         container
         padding=".5rem"
         className="pointer"
+        width="100%"
+        minWidth="800px"
         sx={{
           background: index % 2 !== 0 ? "transparent" : "rgb(0,0,0,0.3)",
           "&:hover": {
@@ -374,7 +392,7 @@ function PropsectsCard({
         }}
       >
         <Grid item xs={1}>
-          <BodyText color="gray">
+          <BodyText color="gray" preventTransition>
             {activity_type.map((item) => (
               <Box>{ACTIVITY_TYPES[item]}</Box>
             ))}
@@ -412,10 +430,12 @@ function PropsectsCard({
 
         <Grid item xs={2}>
           <BodyText
+            preventTransition
             sx={{
               width: "auto",
               padding: ".2rem .5rem",
               borderRadius: "15px",
+              whiteSpace: "nowrap",
               background: (theme) =>
                 theme.alert.title[PROSPECT_STATES[status].severity].background,
               border: "1px solid",

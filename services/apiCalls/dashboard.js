@@ -202,6 +202,23 @@ const dashboard = {
         console.error(err)
       }
     },
+    // Admin only
+    delete: async ({ id }) => {
+      try {
+        return await fetch(
+          `${defaultConfig.apiUrl}/dashboard/prospects/${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${await getFreshToken()}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+      } catch (err) {
+        console.error(err)
+      }
+    },
   },
 }
 

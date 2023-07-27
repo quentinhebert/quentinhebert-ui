@@ -30,10 +30,12 @@ export default function useAddProspect({ refreshData }) {
     description: "",
   }
   const [formData, setFormData] = useState(initialData)
+  const [processing, setProcessing] = useState(false)
 
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   async function handleAddProspect() {
+    setProcessing(true)
     const res = await apiCall.dashboard.prospects.add(formData)
     if (res && res.ok) {
       setSnackMessage("Le prospect à bien été ajouté")
@@ -43,6 +45,7 @@ export default function useAddProspect({ refreshData }) {
       setSnackSeverity("error")
     }
     handleClose()
+    setProcessing(false)
     if (!!refreshData) refreshData()
   }
   function handleChange(attribute) {
@@ -130,7 +133,9 @@ export default function useAddProspect({ refreshData }) {
 
         {/**** BOTTOM BUTTONS ****/}
         <Stack gap={2} width="100%">
-          <PillButton onClick={handleAddProspect}>Ajouter</PillButton>
+          <PillButton onClick={handleAddProspect} disabled={processing}>
+            Ajouter
+          </PillButton>
           <CancelButton variant="text" handleCancel={handleCancel} />
         </Stack>
       </CustomModal>
