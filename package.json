@@ -43,6 +43,7 @@
     "lottie-colorify": "^0.8.0",
     "material-ui-popup-state": "^2.0.0",
     "mime-types": "^2.1.35",
+    "mui-tel-input": "^3.2.2",
     "next": "^13.1.1",
     "react": "^18.2.0",
     "react-animate-height": "^3.0.4",

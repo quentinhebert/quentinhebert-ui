@@ -340,6 +340,24 @@ const application = {
       }
     },
   },
+  redirections: {
+    // Public
+    getOrinialUrl: async ({ id }) => {
+      try {
+        return await fetch(
+          `${defaultConfig.apiUrl}/application/redirections/${id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  },
 }
 
 export default application

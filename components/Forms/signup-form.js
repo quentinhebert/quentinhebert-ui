@@ -22,6 +22,8 @@ import BottomButtons from "../Buttons/bottom-buttons"
 import { useGoogleLogin } from "@react-oauth/google"
 import CustomFilledInput from "../Inputs/custom-filled-input"
 import { useLogin } from "react-facebook"
+import { MuiTelInput, matchIsValidTel } from "mui-tel-input"
+import CustomFilledPhoneInput from "../Inputs/custom-filled-phone-input"
 
 const OAUTH_TYPES = { GOOGLE: "Google", FACEBOOK: "Facebook", APPLE: "Apple" }
 const STEPS = ["name", "contact", "company", "password"]
@@ -335,9 +337,10 @@ export default function SignUpForm({
                     { id: "professional", label: "Employé" },
                   ]}
                   value={userData.type}
-                  setValue={(eventValue) =>
+                  setValue={(eventValue) => {
+                    console.log("eventValue", eventValue)
                     setUserData({ ...userData, type: eventValue })
-                  }
+                  }}
                   error={signupErrors.type}
                 />
                 {signupErrors.type && (
@@ -397,15 +400,13 @@ export default function SignUpForm({
               helperText={liveCheck.email && "Cet e-mail n'est pas valide"}
               disabled={isOauth && userData.email?.trim() !== ""}
             />
-            <CustomFilledInput
-              type="phone"
-              id="phone"
-              label={<Span color="grey">Téléphone (optionnel)</Span>}
+            <CustomFilledPhoneInput
               value={userData.phone}
-              onChange={handleChange("phone")}
-              error={liveCheck.phone || signupErrors.phone}
-              helperText={liveCheck.phone && "Ce téléphone n'est pas valide"}
-              borderColor="gray"
+              handleChange={(newValue) =>
+                setUserData({ ...userData, phone: newValue })
+              }
+              error={signupErrors.phone}
+              helperText="Ce téléphone n'est pas valide"
             />
 
             <BottomButtons

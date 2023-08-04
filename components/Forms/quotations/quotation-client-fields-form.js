@@ -14,6 +14,7 @@ import Span from "../../Text/span"
 import InTextLink from "../../Links/in-text-link"
 import { defaultConfig } from "../../../config/defaultConfig"
 import { AppContext } from "../../../contexts/AppContext"
+import CustomFilledPhoneInput from "../../Inputs/custom-filled-phone-input"
 
 const SectionTitle = (props) => (
   <Stack className="full-width">
@@ -166,7 +167,7 @@ export default function QuotationClientFieldsForm({
             error={liveCheck.email || errors.email}
             helperText={liveCheck.email && "Cet e-mail n'est pas valide"}
           />
-          <CustomFilledInput
+          {/* <CustomFilledInput
             type="phone"
             id="phone"
             label="Téléphone"
@@ -174,6 +175,15 @@ export default function QuotationClientFieldsForm({
             onChange={handleChange("phone")}
             error={liveCheck.phone || errors.phone}
             helperText={liveCheck.phone && "Ce téléphone n'est pas valide"}
+          /> */}
+          <CustomFilledPhoneInput
+            required
+            value={client.phone}
+            handleChange={(newValue) =>
+              setClient({ ...client, phone: newValue })
+            }
+            error={errors.phone}
+            helperText="Ce téléphone n'est pas valide"
           />
         </DualInputLine>
       </Card>

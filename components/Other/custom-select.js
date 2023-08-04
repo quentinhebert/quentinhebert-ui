@@ -39,7 +39,7 @@ export default function CustomSelect({
         labelId="select-label"
         value={value}
         label={placeholder}
-        onChange={!!handleChange ? customHandleChange : handleChange}
+        onChange={!!customHandleChange ? customHandleChange : handleChange}
         sx={{
           backgroundColor: backgroundColor || "transparent",
           "&:hover": {

@@ -28,7 +28,7 @@ const users = {
         password: encodedPassword,
         firstname: userData.firstname,
         lastname: userData.lastname,
-        phone: userData.phone,
+        phone: userData.phone.replaceAll(" ", ""), // Format phone number from +33 6 XX XX... to +336XXXX
         type: userData.type,
         company: userData.company,
         vat_number: userData.vat_number,
