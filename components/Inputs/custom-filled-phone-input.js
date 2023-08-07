@@ -67,6 +67,9 @@ export default function CustomFilledPhoneInput({
                 ? "grey"
                 : theme.palette.secondary.main,
           },
+          "&.Mui-active": {
+            background: "#000",
+          },
         },
         "& .MuiFormHelperText-root": {
           ml: 0,
