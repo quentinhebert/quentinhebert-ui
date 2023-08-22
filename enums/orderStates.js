@@ -10,6 +10,11 @@ export const ORDERSTATES = {
     description: "Votre commande est en cours.",
     severity: "disabled",
   },
+  REQUIRES_ACTION: {
+    label: "Action requise",
+    description: "Une action de votre part est requise.",
+    severity: "warning",
+  },
   FINISHED: {
     label: "En cours",
     description: "Votre commande terminée.",
