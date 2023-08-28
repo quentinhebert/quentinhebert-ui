@@ -21,6 +21,7 @@ import PillButton from "../../Buttons/pill-button"
 import EastIcon from "@mui/icons-material/East"
 import { useRouter } from "next/router"
 import { UserContext } from "../../../contexts/UserContext"
+import { AppContext } from "../../../contexts/AppContext"
 
 const steps = [
   "Adresse de facturation",
@@ -48,7 +49,10 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
     payment_fractions: [],
   }
   const initialPM = {}
+
   const { user } = useContext(UserContext)
+  const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
+
   const [order, setOrder] = useState(initialOrder)
   const [paymentMethod, setPaymentMethod] = useState(initialPM)
   const [loading, setLoading] = useState(false)
@@ -99,12 +103,19 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
       payment_method: paymentMethod,
     })
     if (res && res.ok) {
-      router.push(`/account/orders/${orderId}/checkout/success`)
-      setProcessing(false)
+      const jsonRes = await res.json()
+      if (!!jsonRes.next_action?.url)
+        window.location.href = jsonRes.next_action.url
+      else {
+        router.push(`/account/orders/${orderId}/checkout/success`)
+        setSnackMessage("Paiement réussi ! ✅")
+        setSnackSeverity("success")
+      }
     } else {
-      alert("Une erreur est survenue")
-      setProcessing(false)
+      setSnackMessage("Une erreur est survenue lors du paiement...")
+      setSnackSeverity("error")
     }
+    setProcessing(false)
   }
 
   const pmRef = useRef(null)
