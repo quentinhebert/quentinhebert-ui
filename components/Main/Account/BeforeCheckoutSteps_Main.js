@@ -107,7 +107,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
       if (!!jsonRes.next_action?.url)
         window.location.href = jsonRes.next_action.url
       else {
-        router.push(`/account/orders/${orderId}/checkout/success`)
+        router.push(`/account/orders/${orderId}/checkout/result`)
         setSnackMessage("Paiement réussi ! ✅")
         setSnackSeverity("success")
       }

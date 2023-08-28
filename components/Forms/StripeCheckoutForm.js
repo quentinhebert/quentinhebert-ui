@@ -76,7 +76,7 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${defaultConfig.webclientUrl}/account/orders/${orderId}/checkout/success`,
+        return_url: `${defaultConfig.webclientUrl}/account/orders/${orderId}/checkout/result`,
       },
       redirect: "if_required",
     })
@@ -93,7 +93,7 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
       return
     } else {
       if (result.paymentIntent.status === "succeeded") {
-        return router.push(`/account/orders/${orderId}/checkout/success`)
+        return router.push(`/account/orders/${orderId}/checkout/result`)
       }
 
       if (result.paymentIntent.status === "processing") {
