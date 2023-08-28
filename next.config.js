@@ -5,7 +5,7 @@ const nextConfig = {
     optimizeCss: true,
   },
   images: {
-    domains: ["creaqor.com"],
+    domains: ["creaqor.com", "qhstorage.com"],
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
