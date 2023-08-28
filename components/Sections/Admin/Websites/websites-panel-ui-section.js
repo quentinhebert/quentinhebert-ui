@@ -48,6 +48,7 @@ const SortableListItem = sortableElement(
     }
     const handleOpenDeleteModal = (e) => {
       e.stopPropagation() // Prevent from open edit modal
+      e.preventDefault()
       setClickedWebsite(item)
       setOpenDeleteModal(true)
       triggerDestroyDelete(false)
@@ -61,12 +62,7 @@ const SortableListItem = sortableElement(
 
     return (
       <>
-        <Box
-          component="li"
-          className="list-style-none"
-          width="calc(33% - 3px)"
-          // onClick={handleOpenEditModal}
-        >
+        <Box component="li" className="list-style-none" width="calc(33% - 3px)">
           <NextLink href={`/admin/back-office/websites/${item.id}/edit`}>
             <Stack
               className="no-select flex-center relative"
@@ -126,6 +122,7 @@ const SortableListItem = sortableElement(
             websiteId={clickedWebsite?.id}
             openEditModal={openEditModal}
             handleCloseEditModal={handleCloseEditModal}
+            refreshData={fetchWebsites}
           />
         )}
 
@@ -134,6 +131,7 @@ const SortableListItem = sortableElement(
             website={clickedWebsite}
             open={openDeleteModal}
             handleClose={handleCloseDeleteModal}
+            refreshData={fetchWebsites}
           />
         )}
       </>

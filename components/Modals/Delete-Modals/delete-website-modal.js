@@ -10,7 +10,7 @@ import CustomCircularProgress from "../../Helpers/custom-circular-progress"
 import BodyText from "../../Text/body-text"
 
 export default function DeleteWebsiteModal(props) {
-  const { website, open, handleClose } = props
+  const { website, open, handleClose, refreshData } = props
 
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
@@ -36,6 +36,7 @@ export default function DeleteWebsiteModal(props) {
     const res = await apiCall.websites.delete(website)
     if (res && res.ok) {
       handleSuccess()
+      if (!!refreshData) refreshData()
     } else {
       // TODO: if new thumbnail uploaded but website update fails, need to remove file just uploaded (DB and FTP)
       handleError()

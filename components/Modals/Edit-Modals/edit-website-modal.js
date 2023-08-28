@@ -30,7 +30,7 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer"
 const currentYear = new Date().getFullYear()
 
 export default function EditWebsiteModal(props) {
-  const { websiteId, openEditModal, handleCloseEditModal } = props
+  const { websiteId, openEditModal, handleCloseEditModal, refreshData } = props
 
   // APP CONTEXT
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
@@ -148,6 +148,7 @@ export default function EditWebsiteModal(props) {
     const res = await apiCall.websites.update(localWebsite)
     if (res && res.ok) {
       handleSuccess()
+      if (!!refreshData) refreshData()
     } else {
       // TODO: if new thumbnail uploaded but website update fails, need to remove file just uploaded (DB and FTP)
       handleError()
