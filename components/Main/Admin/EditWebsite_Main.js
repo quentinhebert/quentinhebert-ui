@@ -174,7 +174,7 @@ function EditWebsite_Main({
         const thumbnailJson = await uploadThumbnailRes.json()
         return thumbnailJson.id
       } else {
-        handleErrorThumbnail()
+        handleError()
         return null
       }
     }
