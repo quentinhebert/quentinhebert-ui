@@ -1,16 +1,18 @@
-import { Stack } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
-import { AppContext } from "../../../../contexts/AppContext"
-import { UserContext } from "../../../../contexts/UserContext"
-import apiCall from "../../../../services/apiCalls/apiCall"
-import { checkEmail, checkPhone } from "../../../../services/utils"
-import RectangleButton from "../../../Buttons/rectangle-button"
-import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
+import ClearIcon from "@mui/icons-material/Clear"
+
 import DualInputLine from "../../../Containers/dual-input-line"
 import CustomForm from "../../../Forms/custom-form"
 import CustomOutlinedInput from "../../../Inputs/custom-outlined-input"
 import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
+import { AppContext } from "../../../../contexts/AppContext"
+import { UserContext } from "../../../../contexts/UserContext"
+import apiCall from "../../../../services/apiCalls/apiCall"
+import { checkEmail } from "../../../../services/utils"
 import AlertInfo from "../../../Other/alert-info"
+import PillButton from "../../../Buttons/pill-button"
+import CustomFilledInput from "../../../Inputs/custom-filled-input"
 
 export default function ChangePersonalInformationSection(props) {
   const {} = props
@@ -35,12 +37,14 @@ export default function ChangePersonalInformationSection(props) {
   })
 
   async function fetchUser() {
+    setLoadingButton(true)
     const res = await apiCall.users.get(user.id)
     if (res && res.ok) {
       const jsonRes = await res.json()
       setUser(jsonRes)
       setLocalUser(user)
     }
+    setLoadingButton(false)
   }
 
   // FETCH DATA
@@ -100,86 +104,88 @@ export default function ChangePersonalInformationSection(props) {
   }
 
   return (
-    <CenteredMaxWidthContainer>
-      <CustomForm>
-        <Stack
-          gap={4}
-          padding={4}
-          width="100%"
-          alignItems="center"
-          borderRadius="10px"
-          sx={{ backgroundColor: (theme) => theme.palette.background.main }}
-        >
-          <ModalTitle>Modifier mes informations personnelles</ModalTitle>
+    <CustomForm>
+      <Stack
+        gap={4}
+        padding={4}
+        width="100%"
+        alignItems="center"
+        borderRadius="10px"
+        sx={{ backgroundColor: (theme) => theme.palette.background.main }}
+      >
+        <ModalTitle>Modifier mes informations personnelles</ModalTitle>
 
-          <Stack width="100%" gap={2}>
-            <DualInputLine>
-              <CustomOutlinedInput
-                required
-                type="input"
-                id="firstname"
-                label="Prénom"
-                value={localUser.firstname || ""}
-                onChange={handleChange("firstname")}
-                error={updateErrors.firstname}
-                helperText={
-                  updateErrors.firstname && "Veuillez vérifier ce champ"
-                }
-              />
-              <CustomOutlinedInput
-                required
-                type="input"
-                id="lastname"
-                label="Nom"
-                value={localUser.lastname || ""}
-                onChange={handleChange("lastname")}
-                error={updateErrors.lastname}
-                helperText={
-                  updateErrors.lastname && "Veuillez vérifier ce champ"
-                }
-              />
-            </DualInputLine>
+        <Stack width="100%" gap={2}>
+          <DualInputLine>
+            <CustomFilledInput
+              required
+              type="input"
+              id="firstname"
+              label="Prénom"
+              value={localUser.firstname || ""}
+              onChange={handleChange("firstname")}
+              error={updateErrors.firstname}
+              helperText={
+                updateErrors.firstname && "Veuillez vérifier ce champ"
+              }
+            />
+            <CustomFilledInput
+              required
+              type="input"
+              id="lastname"
+              label="Nom"
+              value={localUser.lastname || ""}
+              onChange={handleChange("lastname")}
+              error={updateErrors.lastname}
+              helperText={updateErrors.lastname && "Veuillez vérifier ce champ"}
+            />
+          </DualInputLine>
 
-            <DualInputLine>
-              <CustomOutlinedInput
-                required
-                type="email"
-                id="email"
-                label="E-mail"
-                value={localUser.email || ""}
-                onChange={handleChange("email")}
-                error={emailError || updateErrors.email}
-                helperText={emailError && "Cet adresse e-mail n'est pas valide"}
-              />
-              <CustomOutlinedInput
-                type="phone"
-                id="phone"
-                label="Téléphone"
-                value={localUser.phone || ""}
-                onChange={handleChange("phone")}
-                error={updateErrors.phone}
-                helperText={
-                  updateErrors.phone &&
-                  "Ce numéro de téléphone n'est pas valide"
-                }
-              />
-            </DualInputLine>
-          </Stack>
+          <DualInputLine>
+            <CustomFilledInput
+              required
+              type="email"
+              id="email"
+              label="E-mail"
+              value={localUser.email || ""}
+              onChange={handleChange("email")}
+              error={emailError || updateErrors.email}
+              helperText={emailError && "Cet adresse e-mail n'est pas valide"}
+            />
+            <CustomFilledInput
+              type="phone"
+              id="phone"
+              label="Téléphone"
+              value={localUser.phone || ""}
+              onChange={handleChange("phone")}
+              error={updateErrors.phone}
+              helperText={
+                updateErrors.phone && "Ce numéro de téléphone n'est pas valide"
+              }
+            />
+          </DualInputLine>
+        </Stack>
 
-          {showAlert.show ? <AlertInfo content={showAlert} /> : null}
+        {showAlert.show ? <AlertInfo content={showAlert} /> : null}
 
-          <Stack flexDirection="row" gap={2} justifyContent="end">
-            <RectangleButton onClick={fetchUser}>Reset</RectangleButton>
-            <RectangleButton
-              secondary="true"
-              onClick={handleSaveUser}
-              disabled={loadingButton}
-            >
-              Enregistrer
-            </RectangleButton>
+        <Stack gap={1} justifyContent="end" width="100%">
+          <PillButton
+            onClick={handleSaveUser}
+            disabled={loadingButton}
+            preventTransitionOut
+          >
+            Enregistrer
+          </PillButton>
+          <Stack
+            onClick={fetchUser}
+            color="#fff"
+            className="flex-center pointer"
+            sx={{ "&:hover": { textDecoration: "underline" } }}
+          >
+            <Typography>Annuler</Typography>
           </Stack>
         </Stack>
-      </CustomForm>
-    </CenteredMaxWidthContainer>
+      </Stack>
+    </CustomForm>
   )
 }

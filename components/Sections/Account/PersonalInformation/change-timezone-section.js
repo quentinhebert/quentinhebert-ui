@@ -1,13 +1,13 @@
-import { Box, Stack } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import { useContext, useState } from "react"
 import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import { UserContext } from "../../../../contexts/UserContext"
 import apiCall from "../../../../services/apiCalls/apiCall"
 import { AppContext } from "../../../../contexts/AppContext"
-import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
 import CustomForm from "../../../Forms/custom-form"
 import CustomOutlinedAutocomplete from "../../../Inputs/custom-outlined-autocomplete"
 import RectangleButton from "../../../Buttons/rectangle-button"
+import PillButton from "../../../Buttons/pill-button"
 
 export default function ChangeTimezoneSection(props) {
   const {} = props
@@ -60,48 +60,53 @@ export default function ChangeTimezoneSection(props) {
   }
 
   return (
-    <CenteredMaxWidthContainer key={key}>
-      <CustomForm>
-        <Stack
-          gap={4}
-          padding={4}
-          width="100%"
-          alignItems="center"
-          borderRadius="10px"
-          sx={{ backgroundColor: (theme) => theme.palette.background.main }}
-        >
-          <ModalTitle>Modifier ma timezone</ModalTitle>
+    <CustomForm key={key}>
+      <Stack
+        gap={4}
+        padding={4}
+        width="100%"
+        alignItems="center"
+        borderRadius="10px"
+        sx={{ backgroundColor: (theme) => theme.palette.background.main }}
+      >
+        <ModalTitle>Modifier ma timezone</ModalTitle>
 
-          <Stack width="100%" gap={2}>
-            <CustomOutlinedAutocomplete
-              options={timezones}
-              groupBy={(option) => option.continent}
-              getOptionLabel={(option) => option.label}
-              label="Sélectionner une timezone"
-              renderOption={(props, option) => (
-                <Box component="li" {...props}>
-                  {option.city}
-                </Box>
-              )}
-              onChange={(event, newValue) => {
-                setValue(newValue)
-              }}
-              inputValue={inputValue}
-              onInputChange={(event, newInputValue) => {
-                setInputValue(newInputValue)
-              }}
-              defaultValue={timezones.find((v) => v.label === user.timezone)}
-            />
-          </Stack>
+        <Stack width="100%" gap={2}>
+          <CustomOutlinedAutocomplete
+            options={timezones}
+            groupBy={(option) => option.continent}
+            getOptionLabel={(option) => option.label}
+            label="Sélectionner une timezone"
+            renderOption={(props, option) => (
+              <Box component="li" {...props}>
+                {option.city}
+              </Box>
+            )}
+            onChange={(event, newValue) => {
+              setValue(newValue)
+            }}
+            inputValue={inputValue}
+            onInputChange={(event, newInputValue) => {
+              setInputValue(newInputValue)
+            }}
+            defaultValue={timezones.find((v) => v.label === user.timezone)}
+          />
+        </Stack>
 
-          <Stack flexDirection="row" gap={2} justifyContent="center">
-            <RectangleButton onClick={handleReset}>Reset</RectangleButton>
-            <RectangleButton secondary="true" onClick={handleSave}>
-              Enregistrer
-            </RectangleButton>
+        <Stack justifyContent="center" width="100%" gap={1}>
+          <PillButton onClick={handleSave} preventTransitionOut>
+            Enregistrer
+          </PillButton>
+          <Stack
+            onClick={handleReset}
+            color="#fff"
+            className="flex-center pointer"
+            sx={{ "&:hover": { textDecoration: "underline" } }}
+          >
+            <Typography>Annuler</Typography>
           </Stack>
         </Stack>
-      </CustomForm>
-    </CenteredMaxWidthContainer>
+      </Stack>
+    </CustomForm>
   )
 }

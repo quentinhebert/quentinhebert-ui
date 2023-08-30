@@ -1,26 +1,34 @@
+import { Stack, Tooltip, Typography } from "@mui/material"
 import DeleteIcon from "@mui/icons-material/Delete"
-import { Stack } from "@mui/material"
+import EditIcon from "@mui/icons-material/Edit"
+
 import PillButton from "./pill-button"
 
 export default function EditDeleteButtons({ handleDelete, handleEdit }) {
   return (
-    <Stack gap={2} direction="row" className="flex-center">
+    <Stack gap={2} className="flex-center">
       <PillButton
-        onClick={handleDelete}
-        background="transparent"
-        border={(theme) => `1px solid ${theme.palette.secondary.main}`}
-        color={(theme) => theme.palette.text.white}
-        padding="0.5rem"
-      >
-        <DeleteIcon color="secondary" sx={{ fontSize: "1rem" }} />
-      </PillButton>
-      <PillButton
+        width="100%"
         onClick={handleEdit}
-        color={(theme) => theme.palette.text.primary}
-        fontSize="0.8rem"
+        startIcon={<EditIcon />}
+        preventTransitionOut
       >
         Modifier
       </PillButton>
+
+      <Stack
+        color="error.main"
+        onClick={handleDelete}
+        width="100%"
+        className="row flex-center pointer"
+        gap={1}
+        sx={{
+          "&:hover": { textDecoration: "underline" },
+        }}
+      >
+        <DeleteIcon />
+        <Typography>Supprimer</Typography>
+      </Stack>
     </Stack>
   )
 }

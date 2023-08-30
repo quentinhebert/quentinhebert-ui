@@ -16,12 +16,12 @@ export default function ECommerceCard({
   return (
     <Card
       shadow="sm"
-      p="lg"
+      p="xs"
       radius="lg"
       sx={{
+        width: "100%",
         display: "flex",
         flexDirection: "column",
-        flexGrow: 1,
         background: theme.palette.background.main,
       }}
     >
@@ -42,20 +42,23 @@ export default function ECommerceCard({
         </Box>
       </Card.Section>
 
-      <Group position="apart" mt="md" mb="xs">
-        <BodyText>{title || ""}</BodyText>
-      </Group>
+      {!!title && (
+        <Group position="apart" mt="md" mb="xs">
+          <BodyText>{title}</BodyText>
+        </Group>
+      )}
 
-      <BodyText>{description || ""}</BodyText>
+      {!!description && <BodyText>{description}</BodyText>}
 
       <Stack
         flexGrow={1}
         justifyContent="end"
         className="full-width"
-        marginTop="1rem"
+        padding="1rem"
       >
         <Stack {...props} />
-        {btnText && (
+
+        {!!btnText && (
           <PillButton onClick={onClick || (() => {})} fullWidth>
             {btnText}
           </PillButton>

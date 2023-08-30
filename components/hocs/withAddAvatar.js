@@ -1,6 +1,8 @@
-import { CircularProgress, Stack } from "@mui/material"
+import { Box, CircularProgress, Stack, Typography } from "@mui/material"
 import React, { useCallback, useContext, useState } from "react"
 import { useDropzone } from "react-dropzone"
+import ImageIcon from "@mui/icons-material/Image"
+
 import AlertInfo from "../Other/alert-info"
 import apiCall from "../../services/apiCalls/apiCall"
 import { ModalTitle } from "../Modals/Modal-Components/modal-title"
@@ -9,7 +11,7 @@ import { UserContext } from "../../contexts/UserContext"
 import { AppContext } from "../../contexts/AppContext"
 import CustomModal from "../Modals/custom-modal"
 import BodyText from "../Text/body-text"
-import RectangleButton from "../Buttons/rectangle-button"
+import PillButton from "../Buttons/pill-button"
 
 export default function withAddAvatar(WrappedComponent) {
   return function Enhancer(props) {
@@ -48,6 +50,7 @@ export default function withAddAvatar(WrappedComponent) {
       setSnackSeverity("success")
       setOpenModal(false)
       setIsLoading(false)
+      setFiles([])
       setUploadSuccess(true) // to notify lower component
     }
     const handleError = () => {
@@ -86,7 +89,7 @@ export default function withAddAvatar(WrappedComponent) {
           uploadSuccess={uploadSuccess}
         />
 
-        <CustomModal open={openModal} handleClose={handleClose} gap={2}>
+        <CustomModal open={openModal} handleClose={handleClose} gap={4}>
           <ModalTitle>Modifiez votre avatar</ModalTitle>
 
           {isLoading ? (
@@ -98,28 +101,36 @@ export default function withAddAvatar(WrappedComponent) {
                 flexDirection="column"
                 justifyContent="center"
                 alignItems="center"
-                minHeight="100px"
+                minHeight="200px"
                 borderRadius="5px"
                 padding="1rem"
+                gap={2}
                 sx={{
-                  border: `solid 1px #fff`,
+                  transition: ".2s ease",
+                  border: `solid 1px`,
+                  borderColor: "gray",
+                  color: "gray",
                   cursor: "pointer",
+                  "&:hover": {
+                    borderColor: "#fff",
+                    color: "#fff",
+                  },
                 }}
               >
                 <input {...getInputProps()} />
 
+                {!!files.length && !!files[0]?.URL ? (
+                  <Box component="img" src={files[0].URL} width="200px" />
+                ) : (
+                  <ImageIcon sx={{ fontSize: "3rem" }} />
+                )}
+
                 {files && files.length ? (
-                  <BodyText fontSize="1rem" textAlign="center">
-                    Déposez ou cliquez pour sélectionner une autre image...
-                    <br />
-                    (la nouvelle image écrasera la sélection actuelle)
-                    <p />
-                    Fichier sélectionné :
-                    <br />
-                    {files[0].name}
+                  <BodyText fontSize="1rem" textAlign="center" color="inherit">
+                    Déposez ou cliquez pour remplacer l'image...
                   </BodyText>
                 ) : (
-                  <BodyText fontSize="1rem" textAlign="center">
+                  <BodyText fontSize="1rem" textAlign="center" color="inherit">
                     Déposez ou cliquez pour sélectionner une image...
                   </BodyText>
                 )}
@@ -134,15 +145,23 @@ export default function withAddAvatar(WrappedComponent) {
             </>
           )}
 
-          <Stack flexDirection="row" gap={2} justifyContent="end">
-            <RectangleButton onClick={handleCancel}>Annuler</RectangleButton>
-            <RectangleButton
+          <Stack gap={1} justifyContent="end">
+            <PillButton
               secondary="true"
               onClick={handleSendAvatar}
-              disabled={!(files && files.length)}
+              disabled={!(files && files.length) || isLoading}
             >
               Ajouter
-            </RectangleButton>
+            </PillButton>
+            <Stack
+              onClick={handleCancel}
+              color="#fff"
+              className="flex-center pointer"
+              sx={{ "&:hover": { textDecoration: "underline" } }}
+              disabled
+            >
+              <Typography>Annuler</Typography>
+            </Stack>
           </Stack>
         </CustomModal>
       </>

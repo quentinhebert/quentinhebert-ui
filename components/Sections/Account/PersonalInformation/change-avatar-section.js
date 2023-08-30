@@ -8,8 +8,9 @@ import withConfirmAction from "../../../hocs/withConfirmAction"
 import { UserContext } from "../../../../contexts/UserContext"
 import { AppContext } from "../../../../contexts/AppContext"
 import CustomForm from "../../../Forms/custom-form"
-import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
 import RectangleButton from "../../../Buttons/rectangle-button"
+import PillButton from "../../../Buttons/pill-button"
+import EditDeleteButtons from "../../../Buttons/edit-delete-buttons"
 
 function ChangeAvatarSection(props) {
   const {
@@ -70,41 +71,35 @@ function ChangeAvatarSection(props) {
   }
 
   return (
-    <CenteredMaxWidthContainer>
-      <CustomForm>
-        <Stack
-          gap={4}
-          padding={4}
-          width="100%"
-          alignItems="center"
-          borderRadius="10px"
-          sx={{ backgroundColor: (theme) => theme.palette.background.main }}
-        >
-          <ModalTitle>Modifier mon avatar</ModalTitle>
+    <CustomForm>
+      <Stack
+        gap={4}
+        padding={4}
+        width="100%"
+        alignItems="center"
+        borderRadius="10px"
+        sx={{ backgroundColor: (theme) => theme.palette.background.main }}
+      >
+        <ModalTitle>Modifier mon avatar</ModalTitle>
 
-          <Avatar
-            alt="Avatar"
-            src={user.avatar_path}
-            sx={{ width: 100, height: 100 }}
+        <Avatar
+          alt="Avatar"
+          src={user.avatar_path}
+          sx={{
+            width: 100,
+            height: 100,
+            boxShadow: "0 0 10px 1px",
+          }}
+        />
+
+        <Stack justifyContent="end" width="100%">
+          <EditDeleteButtons
+            handleDelete={handleDeleteAvatar}
+            handleEdit={() => setOpenAddNewPhotosModal(true)}
           />
-
-          <Stack flexDirection="row" gap={2} justifyContent="end">
-            <RectangleButton
-              onClick={handleDeleteAvatar}
-              disabled={!user.avatar_path}
-            >
-              Supprimer
-            </RectangleButton>
-            <RectangleButton
-              secondary="true"
-              onClick={(e) => setOpenAddNewPhotosModal(true)}
-            >
-              {user.avatar_path ? "Modifier" : "Ajouter"}
-            </RectangleButton>
-          </Stack>
         </Stack>
-      </CustomForm>
-    </CenteredMaxWidthContainer>
+      </Stack>
+    </CustomForm>
   )
 }
 
