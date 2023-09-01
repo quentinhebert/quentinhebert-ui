@@ -11,7 +11,7 @@ import PillButton from "../../../Buttons/pill-button"
 
 export default function ChangeTimezoneSection({}) {
   // USER CONTEXT
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
   // APP CONTEXT
   const { handleSuccess, handleError } = useContext(AppContext)
 
@@ -29,12 +29,13 @@ export default function ChangeTimezoneSection({}) {
   })
 
   // USE-STATES
-  const defaultTZ = Intl.DateTimeFormat().resolvedOptions().timeZone.toString()
   const [isLoading, setIsLoading] = useState(false)
   const [value, setValue] = useState(
     timezones.find((v) => v.label === user.timezone)
   )
   const [inputValue, setInputValue] = useState("")
+  const [key, setKey] = useState(0)
+  const [latestTZ, setLatestTZ] = useState(user.timezone)
 
   return (
     <CustomForm>
@@ -50,6 +51,7 @@ export default function ChangeTimezoneSection({}) {
 
         <Stack width="100%" gap={2}>
           <CustomOutlinedAutocomplete
+            key={key}
             options={timezones}
             groupBy={(option) => option.continent}
             getOptionLabel={(option) => option.label}
@@ -73,7 +75,8 @@ export default function ChangeTimezoneSection({}) {
         <Stack justifyContent="center" width="100%" gap={1}>
           <PillButton
             onClick={handleSave}
-            disabled={isLoading}
+            // disabled={isLoading || !inputValue}
+            disabled={isLoading || !inputValue || latestTZ === value?.label}
             preventTransitionOut
           >
             Enregistrer
@@ -94,12 +97,16 @@ export default function ChangeTimezoneSection({}) {
   // HANDLERS
   function handleReset() {
     setValue(timezones.find((v) => v.label === user.timezone))
+    setKey(key + 1)
   }
   async function handleSave() {
     setIsLoading(true)
     const res = await apiCall.users.updateTimeZone(user.id, value)
-    if (res && res.ok) handleSuccess("Votre timezone a été modifiée")
-    else
+    if (res && res.ok) {
+      setUser({ ...user, timezone: value.label }) // Update context
+      setLatestTZ(value.label)
+      handleSuccess("Votre timezone a été modifiée")
+    } else
       handleError(
         "Une erreur est survenue lors de la modification de votre timezone..."
       )
