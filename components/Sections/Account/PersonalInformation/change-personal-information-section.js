@@ -1,10 +1,8 @@
 import { Stack, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
-import ClearIcon from "@mui/icons-material/Clear"
 
 import DualInputLine from "../../../Containers/dual-input-line"
 import CustomForm from "../../../Forms/custom-form"
-import CustomOutlinedInput from "../../../Inputs/custom-outlined-input"
 import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import { AppContext } from "../../../../contexts/AppContext"
 import { UserContext } from "../../../../contexts/UserContext"
@@ -14,11 +12,9 @@ import AlertInfo from "../../../Other/alert-info"
 import PillButton from "../../../Buttons/pill-button"
 import CustomFilledInput from "../../../Inputs/custom-filled-input"
 
-export default function ChangePersonalInformationSection(props) {
-  const {} = props
-
+export default function ChangePersonalInformationSection({}) {
   const { user, setUser } = useContext(UserContext)
-  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+  const { handleError, handleSuccess } = useContext(AppContext)
 
   const [loadingButton, setLoadingButton] = useState(false)
   const [localUser, setLocalUser] = useState(user) // Prevent from live changing navbar firstname...
@@ -36,18 +32,7 @@ export default function ChangePersonalInformationSection(props) {
     title: null,
   })
 
-  async function fetchUser() {
-    setLoadingButton(true)
-    const res = await apiCall.users.get(user.id)
-    if (res && res.ok) {
-      const jsonRes = await res.json()
-      setUser(jsonRes)
-      setLocalUser(user)
-    }
-    setLoadingButton(false)
-  }
-
-  // FETCH DATA
+  // INITIAL FETCH
   useEffect(() => {
     if (user.id) fetchUser()
   }, [user.id])
@@ -56,58 +41,11 @@ export default function ChangePersonalInformationSection(props) {
     updateErrors.email ||
     (localUser && localUser.email.trim() !== "" && !checkEmail(localUser.email))
 
-  const handleChange = (attribute) => (event) => {
-    setLocalUser({ ...localUser, [attribute]: event.target.value })
-    setUpdateErrors({ ...updateErrors, [attribute]: false })
-  }
-  const handleSuccess = () => {
-    setSnackSeverity("success")
-    setSnackMessage("Utilisateur modifié ✅")
-  }
-  const handleError = () => {
-    setSnackSeverity("error")
-    setSnackMessage("Une erreur est survenue lors de la modification 🙁")
-  }
-  const handleErrorDuplicate = () => {
-    setSnackSeverity("error")
-    setSnackMessage(
-      "L'adresse e-mail ou le numéro de téléphone existe déjà pour un autre utilisateur ❌"
-    )
-  }
-
-  const handleSaveUser = async () => {
-    setLoadingButton(true)
-    const res = await apiCall.users.update(localUser)
-    if (res && res.ok) {
-      const jsonRes = await res.json()
-      handleSuccess()
-      await fetchUser()
-      if (jsonRes.change_email_sent) {
-        setShowAlert({
-          severity: "info",
-          show: true,
-          title: "Vous venez de recevoir un e-mail...",
-          text: "Un e-mail de confirmation vient de vous être envoyé pour finaliser la modification de votre adresse e-mail. N'oubliez pas de vérifier vos spams 😉",
-        })
-      }
-    } else if (res) {
-      const jsonRes = await res.json()
-      if (jsonRes.code === 1011) {
-        handleErrorDuplicate()
-      } else {
-        handleError()
-      }
-    } else {
-      handleError()
-    }
-    setLoadingButton(false)
-  }
-
   return (
     <CustomForm>
       <Stack
         gap={4}
-        padding={4}
+        padding={{ xs: "2rem 1rem", md: "2rem" }}
         width="100%"
         alignItems="center"
         borderRadius="10px"
@@ -115,7 +53,7 @@ export default function ChangePersonalInformationSection(props) {
       >
         <ModalTitle>Modifier mes informations personnelles</ModalTitle>
 
-        <Stack width="100%" gap={2}>
+        <Stack width="100%" gap={{ xs: 1, md: 2 }}>
           <DualInputLine>
             <CustomFilledInput
               required
@@ -188,4 +126,49 @@ export default function ChangePersonalInformationSection(props) {
       </Stack>
     </CustomForm>
   )
+
+  // FETCH DATA
+  async function fetchUser() {
+    setLoadingButton(true)
+    const res = await apiCall.users.get(user.id)
+    if (res && res.ok) {
+      const jsonRes = await res.json()
+      setUser(jsonRes)
+      setLocalUser(user)
+    }
+    setLoadingButton(false)
+  }
+  // HANDLERS
+  function handleChange(attribute) {
+    return (event) => {
+      setLocalUser({ ...localUser, [attribute]: event.target.value })
+      setUpdateErrors({ ...updateErrors, [attribute]: false })
+    }
+  }
+  async function handleSaveUser() {
+    setLoadingButton(true)
+    const res = await apiCall.users.update(localUser)
+
+    if (!res?.ok)
+      return handleError("Une erreur est survenue lors de la modification 🙁")
+
+    const jsonRes = await res.json()
+    if (jsonRes.code === 1011)
+      return handleError(
+        "L'adresse e-mail ou le numéro de téléphone existe déjà pour un autre utilisateur ❌"
+      )
+
+    // Handle use case when user has updated email
+    if (jsonRes.change_email_sent)
+      setShowAlert({
+        severity: "info",
+        show: true,
+        title: "Vous venez de recevoir un e-mail...",
+        text: "Un e-mail de confirmation vient de vous être envoyé pour finaliser la modification de votre adresse e-mail. N'oubliez pas de vérifier vos spams 😉",
+      })
+
+    handleSuccess("Modifications enregistrées ✅")
+    setLoadingButton(false)
+    await fetchUser()
+  }
 }

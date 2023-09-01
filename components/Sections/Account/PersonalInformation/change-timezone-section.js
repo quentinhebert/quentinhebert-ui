@@ -1,21 +1,19 @@
 import { Box, Stack, Typography } from "@mui/material"
 import { useContext, useState } from "react"
+
 import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import { UserContext } from "../../../../contexts/UserContext"
 import apiCall from "../../../../services/apiCalls/apiCall"
 import { AppContext } from "../../../../contexts/AppContext"
 import CustomForm from "../../../Forms/custom-form"
 import CustomOutlinedAutocomplete from "../../../Inputs/custom-outlined-autocomplete"
-import RectangleButton from "../../../Buttons/rectangle-button"
 import PillButton from "../../../Buttons/pill-button"
 
-export default function ChangeTimezoneSection(props) {
-  const {} = props
-
+export default function ChangeTimezoneSection({}) {
   // USER CONTEXT
   const { user } = useContext(UserContext)
   // APP CONTEXT
-  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+  const { handleSuccess, handleError } = useContext(AppContext)
 
   // Populate list of all official timezones
   const timezones = []
@@ -37,33 +35,12 @@ export default function ChangeTimezoneSection(props) {
     timezones.find((v) => v.label === user.timezone)
   )
   const [inputValue, setInputValue] = useState("")
-  const [key, setKey] = useState(0)
-
-  // HANDLERS
-  const handleReset = () => setKey(key + 1)
-  const handleSuccess = () => {
-    setSnackMessage("Votre timezone a été modifiée")
-    setSnackSeverity("success")
-  }
-  const handleError = () => {
-    setSnackMessage(
-      "Une erreur est survenue lors de la modification de votre timezone..."
-    )
-    setSnackSeverity("error")
-  }
-  const handleSave = async () => {
-    setIsLoading(true)
-    const res = await apiCall.users.updateTimeZone(user.id, value)
-    if (res && res.ok) handleSuccess()
-    else handleError()
-    setIsLoading(false)
-  }
 
   return (
-    <CustomForm key={key}>
+    <CustomForm>
       <Stack
         gap={4}
-        padding={4}
+        padding={{ xs: "2rem 1rem", md: "2rem" }}
         width="100%"
         alignItems="center"
         borderRadius="10px"
@@ -94,7 +71,11 @@ export default function ChangeTimezoneSection(props) {
         </Stack>
 
         <Stack justifyContent="center" width="100%" gap={1}>
-          <PillButton onClick={handleSave} preventTransitionOut>
+          <PillButton
+            onClick={handleSave}
+            disabled={isLoading}
+            preventTransitionOut
+          >
             Enregistrer
           </PillButton>
           <Stack
@@ -109,4 +90,19 @@ export default function ChangeTimezoneSection(props) {
       </Stack>
     </CustomForm>
   )
+
+  // HANDLERS
+  function handleReset() {
+    setValue(timezones.find((v) => v.label === user.timezone))
+  }
+  async function handleSave() {
+    setIsLoading(true)
+    const res = await apiCall.users.updateTimeZone(user.id, value)
+    if (res && res.ok) handleSuccess("Votre timezone a été modifiée")
+    else
+      handleError(
+        "Une erreur est survenue lors de la modification de votre timezone..."
+      )
+    setIsLoading(false)
+  }
 }

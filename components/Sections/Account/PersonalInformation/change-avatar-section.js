@@ -8,21 +8,17 @@ import withConfirmAction from "../../../hocs/withConfirmAction"
 import { UserContext } from "../../../../contexts/UserContext"
 import { AppContext } from "../../../../contexts/AppContext"
 import CustomForm from "../../../Forms/custom-form"
-import RectangleButton from "../../../Buttons/rectangle-button"
-import PillButton from "../../../Buttons/pill-button"
 import EditDeleteButtons from "../../../Buttons/edit-delete-buttons"
 
-function ChangeAvatarSection(props) {
-  const {
-    setOpenAddNewPhotosModal,
-    uploadSuccess,
-    setActionToFire,
-    setOpenConfirmModal,
-    setConfirmTitle,
-    setNextButtonText,
-    setConfirmContent,
-  } = props
-
+function ChangeAvatarSection({
+  setOpenAddNewPhotosModal,
+  uploadSuccess,
+  setActionToFire,
+  setOpenConfirmModal,
+  setConfirmTitle,
+  setNextButtonText,
+  setConfirmContent,
+}) {
   const { user, setUser } = useContext(UserContext)
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
@@ -74,7 +70,7 @@ function ChangeAvatarSection(props) {
     <CustomForm>
       <Stack
         gap={4}
-        padding={4}
+        padding={{ xs: "2rem 1rem", md: "2rem" }}
         width="100%"
         alignItems="center"
         borderRadius="10px"
