@@ -192,6 +192,18 @@ const users = {
         console.error(err)
       }
     },
+    deleteAll: async (userId) => {
+      try {
+        return await fetch(`${defaultConfig.apiUrl}/users/${userId}/sessions`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+          },
+        })
+      } catch (err) {
+        console.error(err)
+      }
+    },
     delete: async (userId, sessionId) => {
       try {
         return await fetch(

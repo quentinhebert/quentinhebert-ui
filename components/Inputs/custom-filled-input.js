@@ -5,7 +5,7 @@ const CssFilledInput = styled(({ width, ...props }) => (
   <TextField
     size="small"
     variant="filled"
-    InputProps={{ disableUnderline: true }}
+    InputProps={{ disableUnderline: true, endAdornment: props?.endAdornment }}
     sx={{
       width: width || "100%",
     }}

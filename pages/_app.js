@@ -34,6 +34,19 @@ function MyApp({ Component, pageProps, router }) {
   const [snackSeverity, setSnackSeverity] = useState("error")
   const [snackMessage, setSnackMessage] = useState("")
 
+  function handleSuccess(msg) {
+    setSnackSeverity("success")
+    setSnackMessage(msg)
+  }
+  function handleError(msg) {
+    setSnackSeverity("error")
+    setSnackMessage(msg)
+  }
+  function handleInfo(msg) {
+    setSnackSeverity("info")
+    setSnackMessage(msg)
+  }
+
   // In case user is logged in and app is restarted
   const fetchUser = async () => {
     setIsUserDataFetching(true)
@@ -91,6 +104,9 @@ function MyApp({ Component, pageProps, router }) {
         setAppLoading,
         setSnackSeverity,
         setSnackMessage,
+        handleSuccess,
+        handleError,
+        handleInfo,
         lang,
         toggleLang,
       }}

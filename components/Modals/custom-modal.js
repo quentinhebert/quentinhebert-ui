@@ -1,6 +1,6 @@
-import { forwardRef } from "react"
 import Dialog from "@mui/material/Dialog"
 import { Slide, Stack, useMediaQuery } from "@mui/material"
+import { forwardRef } from "react"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -22,7 +22,7 @@ export default function CustomModal({
       open={open}
       onClose={handleClose}
       TransitionComponent={Transition}
-      // keepMounted
+      keepMounted
       sx={{
         backgroundColor: "rgb(0,0,0, 0.9)",
         "& .MuiDialog-paper": {
@@ -34,6 +34,7 @@ export default function CustomModal({
       <Stack
         sx={{
           padding: { xs: 2, md: 4 },
+          gap: 4,
           margin: "auto 0",
           // height: fullscreen ? "auto" : { xs: "100%", md: "" },
           flexGrow: fullscreen ? 1 : null,

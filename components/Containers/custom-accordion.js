@@ -8,7 +8,6 @@ import { Stack, Typography } from "@mui/material"
 
 export default function CustomAccordion({
   title,
-  noBorder,
   background,
   borderRadius,
   defaultExpanded,
@@ -21,15 +20,14 @@ export default function CustomAccordion({
       square="false"
       sx={{
         width: "100%",
-        border: (theme) =>
-          noBorder ? "none" : `1px solid ${theme.palette.secondary.main}`,
-        borderRadius: borderRadius || "inherit",
+        borderRadius: borderRadius || "15px",
+        margin: ".25rem 0",
         "&.MuiAccordion-root": {
           "&:before": {
             display: "none",
           },
           backgroundImage: "none",
-          backgroundColor: background || "transparent",
+          backgroundColor: background || "rgb(0,0,0,0.4)",
         },
       }}
     >

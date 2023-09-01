@@ -1,79 +1,94 @@
-import { Box, Stack, Typography } from "@mui/material"
+import { Box, Grid, Stack, Typography } from "@mui/material"
 import { useContext, useState } from "react"
-import apiCall from "../../../../services/apiCalls/apiCall"
-import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import { Clock, Map, PhoneVertical, Language, Wifi } from "grommet-icons"
+import LogoutIcon from "@mui/icons-material/Logout"
 import ComputerRoundedIcon from "@mui/icons-material/ComputerRounded"
 import TabletRoundedIcon from "@mui/icons-material/TabletRounded"
-import withConfirmAction from "../../../hocs/withConfirmAction"
-import LogoutIcon from "@mui/icons-material/Logout"
+
 import {
   convertToLongString,
   convertToShortString,
   getLocaleDateTime,
 } from "../../../../services/date-time"
+import apiCall from "../../../../services/apiCalls/apiCall"
+import { ModalTitle } from "../../../Modals/Modal-Components/modal-title"
 import { UserContext } from "../../../../contexts/UserContext"
 import { AppContext } from "../../../../contexts/AppContext"
-import CustomForm from "../../../Forms/custom-form"
 import PleaseWait from "../../../Helpers/please-wait"
 import BodyText from "../../../Text/body-text"
-import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
 import RefreshButton from "../../../Buttons/refresh-button"
 import CustomAccordion from "../../../Containers/custom-accordion"
-import RectangleButton from "../../../Buttons/rectangle-button"
+import PillButton from "../../../Buttons/pill-button"
+import useConfirm from "../../../../hooks/useConfirm"
+import CustomModal from "../../../Modals/custom-modal"
 
-const DataRow = (props) => (
-  <BodyText
-    gap={1}
-    sx={{
-      display: "inline-flex",
-      alignItems: "center",
-      flexDirection: { xs: "column", md: "row" },
-    }}
-    {...props}
-  />
-)
-
-const DataValue = (props) => (
-  <Box color="text.secondary" fontStyle="italic" {...props} />
-)
-
-const DeviceIcon = ({ type }) => {
-  switch (type) {
-    case "desktop":
-      return <ComputerRoundedIcon sx={{ color: "#fff" }} />
-    case "tablet":
-      return <TabletRoundedIcon sx={{ color: "#fff" }} />
-    case "smartphone":
-      return <PhoneVertical color="#fff" size="medium" />
-    case "mobile":
-      return <PhoneVertical color="#fff" size="medium" />
-    case "phone":
-      return <PhoneVertical color="#fff" size="medium" />
-    default:
-      return <ComputerRoundedIcon sx={{ color: "#fff" }} />
-  }
-}
-
-const RenderSessions = (props) => {
-  const {
-    setActionToFire,
-    setOpenConfirmModal,
-    setConfirmTitle,
-    setNextButtonText,
-    setConfirmContent,
-  } = props
-
-  // USER CONTEXT
-  const { user } = useContext(UserContext)
-  // APP CONTEXT
-  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
-
+export default function SessionsSection({}) {
   // USE-STATES
   const [sessions, setSessions] = useState([])
   const [isFetching, setIsFetching] = useState(false)
 
-  const fetchSessions = async () => {
+  // CONTEXTS & HOOKS
+  const { user } = useContext(UserContext)
+  const { handleSuccess, handleError } = useContext(AppContext)
+  const ConfirmDialog = useConfirm()
+
+  // Initial fetch
+  useState(() => {
+    fetchSessions()
+  }, [])
+
+  if (!user) return <></>
+
+  return (
+    <>
+      <Stack
+        gap={4}
+        padding={{ xs: "2rem 1rem", md: "2rem" }}
+        width="100%"
+        alignItems="center"
+        borderRadius="10px"
+        sx={{ backgroundColor: (theme) => theme.palette.background.main }}
+      >
+        <ModalTitle>Sessions de connexion</ModalTitle>
+
+        <BodyText fontSize="1rem">
+          Gérez toutes le sessions actives connectées à votre compte.
+        </BodyText>
+
+        <Stack width="100%">
+          <Stack alignItems="flex-end" width="100%">
+            <RefreshButton refresh={fetchSessions} loading={isFetching} />
+          </Stack>
+
+          <RenderSessions
+            refresh={fetchSessions}
+            sessions={sessions}
+            isFetching={isFetching}
+          />
+        </Stack>
+
+        <PillButton
+          width="100%"
+          background={(theme) => theme.palette.error.main}
+          color="#fff"
+          startIcon={<LogoutIcon />}
+          onClick={handleDeleteSessions}
+        >
+          Déconnecter tout
+        </PillButton>
+      </Stack>
+
+      <CustomModal
+        open={ConfirmDialog.open}
+        handleClose={ConfirmDialog.handleClose}
+      >
+        <ConfirmDialog.DialogContent />
+      </CustomModal>
+    </>
+  )
+
+  // HANDLERS
+  async function fetchSessions() {
     setIsFetching(true)
     const res = await apiCall.users.sessions.get(user.id)
     if (res && res.ok) {
@@ -82,49 +97,58 @@ const RenderSessions = (props) => {
     }
     setIsFetching(false)
   }
-
-  // Initial fetch
-  useState(() => {
+  async function deleteSessions() {
+    const res = await apiCall.users.sessions.deleteAll(user.id)
+    if (!res?.ok)
+      return handleError(
+        "Une erreur est survenue lors de la déconnexion des appareils..."
+      )
+    handleSuccess("Les appareils ont bien été déconnectés.")
     fetchSessions()
-  }, [])
+  }
+  async function handleDeleteSessions(sessionId) {
+    const title = "Déconnecter tous les appareils"
+    const message = `Les appareils seront automatiquement déconnectés dans 1 minute si vous cliquez sur "Confirmer". L'utilisateur devra se connecter de nouveau sur tous ses appareils.`
+    const nextAction = async () => await deleteSessions(sessionId)
+
+    ConfirmDialog.setContent({ title, message, nextAction })
+    ConfirmDialog.handleOpen()
+  }
+}
+
+function RenderSessions({ sessions, refresh, isFetching }) {
+  // USER CONTEXT
+  const { user } = useContext(UserContext)
+  // APP CONTEXT
+  const { handleSuccess, handleError } = useContext(AppContext)
+
+  const ConfirmDialog = useConfirm()
 
   // HANDLERS
-  const handleSuccess = async () => {
-    setSnackSeverity("success")
-    setSnackMessage("L'appareil a bien été déconnecté.")
-    await fetchSessions() // Refresh data
-  }
-  const handleError = () => {
-    setSnackSeverity("error")
-    setSnackMessage(
-      "Une erreur est survenue lors de la déconnexion de l'appareil..."
-    )
-  }
   const deleteSession = async (sessionId) => {
     const res = await apiCall.users.sessions.delete(user.id, sessionId)
-    if (res && res.ok) await handleSuccess()
-    else handleError()
+    if (!res?.ok)
+      return handleError(
+        "Une erreur est survenue lors de la déconnexion de l'appareil..."
+      )
+    handleSuccess("L'appareil a bien été déconnecté.")
+    refresh() // Fetch sessions
   }
   const handleDeleteSession = async (sessionId) => {
-    setActionToFire(() => async () => await deleteSession(sessionId))
-    setConfirmTitle("Déconnecter l'appareil")
-    setNextButtonText("Confirmer")
-    setConfirmContent({
-      text: 'Cet appareil sera automatiquement déconnecté dans 1 minute si vous cliquez sur "Confirmer". L\'utilisateur devra se connecter de nouveau sur cet appareil.',
-    })
-    setOpenConfirmModal(true)
+    const title = "Déconnecter un appareil"
+    const message =
+      'Cet appareil sera automatiquement déconnecté dans 1 minute si vous cliquez sur "Confirmer". L\'utilisateur devra se connecter de nouveau sur cet appareil.'
+    const nextBtnText = "Déconnecter l'appareil"
+    const nextAction = async () => await deleteSession(sessionId)
+
+    ConfirmDialog.setContent({ title, message, nextBtnText, nextAction })
+    ConfirmDialog.handleOpen()
   }
 
   if (isFetching) return <PleaseWait />
 
   return (
-    <Stack gap={2}>
-      <Stack width="100%">
-        <Stack alignSelf="flex-end">
-          <RefreshButton refresh={fetchSessions} />
-        </Stack>
-      </Stack>
-
+    <>
       <Stack width="100%">
         {sessions &&
           sessions.map((session, key) => {
@@ -203,114 +227,115 @@ const RenderSessions = (props) => {
                   </Stack>
                 }
               >
-                <Stack gap={2}>
-                  <DataRow>
-                    <DeviceIcon type={session.device.type} />
-                    Appareil :{" "}
-                    <DataValue>
-                      {`${session.device.model || ""} ${
-                        session.device.os.name
-                      } (${session.device.os.version})`}
-                    </DataValue>
-                  </DataRow>
-                  <DataRow>
-                    <Language color="#fff" size="medium" />
-                    Navigateur :{" "}
-                    <DataValue>
-                      {session.device.browser || "Navigateur inconnu"}
-                    </DataValue>
-                  </DataRow>
-                  <DataRow>
-                    <Wifi color="#fff" size="medium" />
-                    Réseau :{" "}
-                    <DataValue>
-                      {mainLocation?.network || "Réseau inconnu"}
-                    </DataValue>
-                  </DataRow>
-                  <DataRow>
-                    <Clock color="#fff" size="medium" />
-                    Dernière connexion : <DataValue>{formattedDate}</DataValue>
-                  </DataRow>
-                  <DataRow>
-                    <Map color="#fff" size="medium" />
-                    Localisation 1 :{" "}
-                    <DataValue>{formattedMainLocation}</DataValue>
-                  </DataRow>
-                  <DataRow>
-                    <Map color="#fff" size="medium" />
-                    Localisation 2 :{" "}
-                    <DataValue>{formattedSecondaryLocation}</DataValue>
-                  </DataRow>
+                <Stack gap={4}>
+                  <Grid container spacing={4}>
+                    <DataRow>
+                      <DeviceIcon type={session.device.type} />
+                      <Label>Appareil</Label>
+                      <DataValue>
+                        {`${session.device.model || ""} ${
+                          session.device.os.name
+                        } (${session.device.os.version})`}
+                      </DataValue>
+                    </DataRow>
+                    <DataRow>
+                      <Language color="#fff" size="medium" />
+                      <Label>Navigateur</Label>
+                      <DataValue>
+                        {session.device.browser || "Navigateur inconnu"}
+                      </DataValue>
+                    </DataRow>
+                    <DataRow>
+                      <Wifi color="#fff" size="medium" />
+                      <Label>Réseau</Label>
+                      <DataValue>
+                        {mainLocation?.network || "Réseau inconnu"}
+                      </DataValue>
+                    </DataRow>
+                    <DataRow>
+                      <Clock color="#fff" size="medium" />
+                      <Label>Dernière connexion</Label>
+                      <DataValue>{formattedDate}</DataValue>
+                    </DataRow>
+                    <DataRow>
+                      <Map color="#fff" size="medium" />
+                      <Label>Localisation 1</Label>
+                      <DataValue>{formattedMainLocation}</DataValue>
+                    </DataRow>
+                    <DataRow>
+                      <Map color="#fff" size="medium" />
+                      <Label>Localisation 2</Label>
+                      <DataValue>{formattedSecondaryLocation}</DataValue>
+                    </DataRow>
+                  </Grid>
 
-                  <Stack
-                    flexDirection="row"
-                    gap={2}
-                    justifyContent="end"
-                    marginTop={4}
+                  <PillButton
+                    background={(theme) => theme.palette.error.main}
+                    color="#fff"
+                    preventTransitionOut
+                    startIcon={<LogoutIcon />}
+                    onClick={() => handleDeleteSession(session.id)}
                   >
-                    <RectangleButton
-                      secondary="true"
-                      startIcon={<LogoutIcon />}
-                      onClick={() => handleDeleteSession(session.id)}
-                    >
-                      Déconnecter
-                    </RectangleButton>
-                  </Stack>
+                    Déconnecter
+                  </PillButton>
                 </Stack>
               </CustomAccordion>
             )
           })}
       </Stack>
-    </Stack>
+
+      <CustomModal
+        open={ConfirmDialog.open}
+        handleClose={ConfirmDialog.handleClose}
+      >
+        <ConfirmDialog.DialogContent
+          btnBackground={(theme) => theme.palette.error.main}
+          btnColor="#fff"
+        />
+      </CustomModal>
+    </>
   )
 }
 
-function SessionsSection(props) {
-  const {
-    setActionToFire,
-    setOpenConfirmModal,
-    setConfirmTitle,
-    setNextButtonText,
-    setConfirmContent,
-  } = props
-
-  // USER CONTEXT
-  const { user } = useContext(UserContext)
-
-  if (!user) return <></>
-
+function DataRow(props) {
   return (
-    <CenteredMaxWidthContainer>
-      <CustomForm>
-        <Stack
-          gap={4}
-          padding={4}
-          width="100%"
-          alignItems="center"
-          borderRadius="10px"
-          sx={{ backgroundColor: (theme) => theme.palette.background.main }}
-        >
-          <ModalTitle>Sessions de connexion</ModalTitle>
-
-          <Stack width="100%">
-            <BodyText fontSize="1rem">
-              Gérez toutes le sessions actives de connexion à votre compte.
-            </BodyText>
-          </Stack>
-
-          <Stack width="100%">
-            <RenderSessions
-              setActionToFire={setActionToFire}
-              setOpenConfirmModal={setOpenConfirmModal}
-              setConfirmTitle={setConfirmTitle}
-              setNextButtonText={setNextButtonText}
-              setConfirmContent={setConfirmContent}
-            />
-          </Stack>
-        </Stack>
-      </CustomForm>
-    </CenteredMaxWidthContainer>
+    <Grid item xs={12} sm={6} md={4}>
+      <Stack
+        sx={{
+          alignItems: "center",
+        }}
+        {...props}
+      />
+    </Grid>
   )
 }
-
-export default withConfirmAction(SessionsSection)
+function Label(props) {
+  return <BodyText preventTransition textAlign="center" {...props} />
+}
+function DataValue(props) {
+  return (
+    <BodyText
+      color={(theme) => theme.palette.secondary.main}
+      fontStyle="italic"
+      preventTransitionOut
+      textAlign="center"
+      {...props}
+    />
+  )
+}
+function DeviceIcon({ type }) {
+  switch (type) {
+    case "desktop":
+      return <ComputerRoundedIcon sx={{ color: "#fff" }} />
+    case "tablet":
+      return <TabletRoundedIcon sx={{ color: "#fff" }} />
+    case "smartphone":
+      return <PhoneVertical color="#fff" size="medium" />
+    case "mobile":
+      return <PhoneVertical color="#fff" size="medium" />
+    case "phone":
+      return <PhoneVertical color="#fff" size="medium" />
+    default:
+      return <ComputerRoundedIcon sx={{ color: "#fff" }} />
+  }
+}

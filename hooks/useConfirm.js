@@ -1,54 +1,59 @@
 import { Stack } from "@mui/material"
 import { useState } from "react"
-import CustomModal from "../components/Modals/custom-modal"
 import BodyText from "../components/Text/body-text"
 import { ModalTitle } from "../components/Modals/Modal-Components/modal-title"
 import PillButton from "../components/Buttons/pill-button"
 import CancelButton from "../components/Buttons/cancel-button"
 
 export default function useConfirm() {
-  const [confirmAction, setConfirmAction] = useState(null)
-  const [nextBtnText, setNextBtnText] = useState(null)
-  const [confirmTitle, setConfirmTitle] = useState(null)
-  const [confirmMsg, setConfirmMsg] = useState(null)
+  const [confirmContent, setConfirmContent] = useState({})
   const [open, setOpen] = useState(false)
 
-  const handleClose = () => setOpen(false)
-  const handleOpen = () => setOpen(true)
-  const handleCancel = handleClose
+  function setContent({ title, message, nextAction, nextBtnText }) {
+    setConfirmContent({ title, message, nextAction, nextBtnText })
+  }
 
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
   const handleNext = () => {
-    if (!!confirmAction) confirmAction()
+    if (!!confirmContent.nextAction) confirmContent.nextAction()
     return handleClose()
   }
 
-  const ConfirmationDialog = ({ bg }) => (
-    <CustomModal open={open} handleClose={handleClose} gap={6}>
-      {/**** TITLE ****/}
-      <ModalTitle>{confirmTitle}</ModalTitle>
+  // New system that replaces the deprecated dialog
+  const DialogContent = ({ btnBackground, btnColor }) => {
+    if (!confirmContent.title || !confirmContent.nextAction) return <></>
 
-      {/**** COMPLEX JS ****/}
-      <BodyText preventTransition>{confirmMsg}</BodyText>
+    return (
+      <>
+        {/**** TITLE ****/}
+        <ModalTitle>{confirmContent?.title || ""}</ModalTitle>
+        {/**** DESCRIPTION ****/}
+        <BodyText preventTransition>{confirmContent?.message || ""}</BodyText>
+        {/**** BOTTOM BUTTONS ****/}
+        <Stack gap={2} alignItems="center">
+          <PillButton
+            width="100%"
+            color={btnColor || "#000"}
+            background={
+              btnBackground || ((theme) => theme.palette.secondary.main)
+            }
+            onClick={handleNext || (() => {})}
+          >
+            {confirmContent.nextBtnText || "Confirmer"}
+          </PillButton>
+          <CancelButton variant="text" handleCancel={handleClose} />
+        </Stack>
+      </>
+    )
+  }
 
-      {/**** BOTTOM BUTTONS ****/}
-      <Stack gap={2} alignItems="center">
-        <PillButton
-          background={bg || ((theme) => theme.palette.secondary.main)}
-          onClick={handleNext}
-        >
-          {nextBtnText}
-        </PillButton>
-        <CancelButton variant="text" handleCancel={handleCancel} />
-      </Stack>
-    </CustomModal>
-  )
-
-  return [
-    setConfirmTitle,
-    setConfirmMsg,
-    setNextBtnText,
-    setConfirmAction,
+  return {
+    open,
+    setOpen,
+    DialogContent,
+    setContent,
     handleOpen,
-    ConfirmationDialog,
-  ]
+    handleClose,
+  }
 }
