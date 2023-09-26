@@ -16,6 +16,7 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance"
 import { Paypal } from "grommet-icons"
 import { lightTheme } from "../../../../config/theme"
 import PleaseWait from "../../../Helpers/please-wait"
+import CustomModal from "../../../Modals/custom-modal"
 
 export default function SelectPaymentMethodSection({
   orderId,
@@ -26,14 +27,15 @@ export default function SelectPaymentMethodSection({
   handleSelectPm,
 }) {
   const router = useRouter()
-  const [
-    setConfirmTitle,
-    setConfirmMsg,
-    setNextBtnText,
-    setConfirmAction,
-    handleOpen,
-    ConfirmationDialog,
-  ] = useConfirm()
+  const ConfirmationDialog = useConfirm()
+  // const [
+  //   setConfirmTitle,
+  //   setConfirmMsg,
+  //   setNextBtnText,
+  //   setConfirmAction,
+  //   handleOpen,
+  //   ConfirmationDialog,
+  // ] = useConfirm()
   const { user } = useContext(UserContext)
   const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
 
@@ -60,38 +62,35 @@ export default function SelectPaymentMethodSection({
       setLoading(false)
     }
   const handleDetachPM = async (paymentMethod) => {
-    setConfirmTitle(
-      !!paymentMethod.card ? "Supprimer la carte" : "Supprimer le compte"
+    const title = !!paymentMethod.card
+      ? "Supprimer la carte"
+      : "Supprimer le compte"
+
+    const message = !!paymentMethod.card ? (
+      <>
+        Êtes-vous sûr de vouloir supprimer la carte ci-dessous ?
+        <p />
+        Num. **** **** **** {paymentMethod.card.last4}
+        <br />
+        Exp. {zeroPad(paymentMethod.card.exp_month, 2)}/
+        {paymentMethod.card.exp_year}
+      </>
+    ) : (
+      <>
+        Êtes-vous sûr de vouloir supprimer le compte bancaire ci-dessous ?
+        <p />
+        IBAN {paymentMethod.sepa_debit.country} ** **** **** **** ***
+        {paymentMethod.sepa_debit.last4[0]} {paymentMethod.sepa_debit.last4[1]}
+        {paymentMethod.sepa_debit.last4[2]}
+        {paymentMethod.sepa_debit.last4[3]}
+      </>
     )
-    setConfirmMsg(
-      !!paymentMethod.card ? (
-        <>
-          Êtes-vous sûr de vouloir supprimer la carte ci-dessous ?
-          <p />
-          Num. **** **** **** {paymentMethod.card.last4}
-          <br />
-          Exp. {zeroPad(paymentMethod.card.exp_month, 2)}/
-          {paymentMethod.card.exp_year}
-        </>
-      ) : (
-        <>
-          Êtes-vous sûr de vouloir supprimer le compte bancaire ci-dessous ?
-          <p />
-          IBAN {paymentMethod.sepa_debit.country} ** **** **** **** ***
-          {paymentMethod.sepa_debit.last4[0]}{" "}
-          {paymentMethod.sepa_debit.last4[1]}
-          {paymentMethod.sepa_debit.last4[2]}
-          {paymentMethod.sepa_debit.last4[3]}
-        </>
-      )
-    )
-    setNextBtnText(
-      !!paymentMethod.card
-        ? "Oui, supprimer la carte"
-        : "Oui, supprimer le compte"
-    )
-    setConfirmAction(() => async () => await detachPM(paymentMethod))
-    handleOpen()
+    const nextBtnText = !!paymentMethod.card
+      ? "Oui, supprimer la carte"
+      : "Oui, supprimer le compte"
+    const nextAction = async () => await detachPM(paymentMethod)
+    ConfirmationDialog.setContent({ title, message, nextAction, nextBtnText })
+    ConfirmationDialog.handleOpen()
   }
   const detachPM = async (paymentMethod) => {
     const res = await apiCall.users.paymentMethod.detach({
@@ -297,7 +296,12 @@ export default function SelectPaymentMethodSection({
         </Stack>
       </CustomCard>
 
-      <ConfirmationDialog />
+      <CustomModal
+        open={ConfirmationDialog.open}
+        handleClose={ConfirmationDialog.handleClose}
+      >
+        <ConfirmationDialog.DialogContent />
+      </CustomModal>
     </CenteredMaxWidthContainer>
   )
 }
