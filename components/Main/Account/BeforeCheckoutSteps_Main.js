@@ -103,10 +103,16 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
       payment_method: paymentMethod,
     })
     if (res && res.ok) {
-      const jsonRes = await res.json()
-      if (!!jsonRes.next_action?.url)
-        window.location.href = jsonRes.next_action.url
-      else {
+      if (res.status === 200) {
+        const jsonRes = await res.json()
+        if (!!jsonRes.next_action?.url)
+          window.location.href = jsonRes.next_action.url
+        else {
+          router.push(`/account/orders/${orderId}/checkout/result`)
+          setSnackMessage("Paiement réussi ! ✅")
+          setSnackSeverity("success")
+        }
+      } else if (res.status === 204) {
         router.push(`/account/orders/${orderId}/checkout/result`)
         setSnackMessage("Paiement réussi ! ✅")
         setSnackSeverity("success")
