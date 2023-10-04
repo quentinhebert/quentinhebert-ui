@@ -364,6 +364,8 @@ const DocumentsSection = ({
         <Stack gap={2}>
           <DocumentHeader>
             <DocumentType>Factures</DocumentType>
+
+            <RefreshButton refresh={refreshData} loading={loading} />
           </DocumentHeader>
 
           {(!order.invoices || order.invoices?.length === 0) && (
