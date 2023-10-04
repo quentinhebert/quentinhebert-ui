@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react"
+import { useState, useContext, useEffect, useRef } from "react"
 import {
   Box,
   Grid,
@@ -88,6 +88,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox"
 import CheckIcon from "@mui/icons-material/CheckCircleOutline"
 import InsertLinkIcon from "@mui/icons-material/InsertLink"
 import SimpleCheckIcon from "@mui/icons-material/Check"
+import RefreshButton from "../../Buttons/refresh-button"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -283,11 +284,15 @@ const QuotationsListItem = ({ quotation, router, handleSend }) => {
         <GridItem xs={2}>{version}</GridItem>
         <GridItem color={color}>{label}</GridItem>
         <GridItem>
-          <ActionButton
-            icon={<DownloadIcon />}
-            label="Télécharger"
-            onClick={handleDownload}
-          />
+          {!!quotation?.path ? (
+            <ActionButton
+              icon={<DownloadIcon />}
+              label="Télécharger"
+              onClick={handleDownload}
+            />
+          ) : (
+            "Patientez..."
+          )}
         </GridItem>
         <GridItem>
           <ActionButton
@@ -309,6 +314,8 @@ const DocumentsSection = ({
   handleGenerate,
   handleSend,
   isQuotationGenerating,
+  refreshData,
+  loading,
 }) => {
   const router = useRouter()
   return (
@@ -317,11 +324,15 @@ const DocumentsSection = ({
         <Stack gap={2}>
           <DocumentHeader>
             <DocumentType>Devis</DocumentType>
-            <AddButton
-              disabled={order.status !== "DRAFT" || isQuotationGenerating}
-              onClick={handleGenerate}
-              isQuotationGenerating={isQuotationGenerating}
-            />
+
+            <Stack className="row gap-10 flex-center">
+              <RefreshButton refresh={refreshData} loading={loading} />
+              <AddButton
+                disabled={order.status !== "DRAFT" || isQuotationGenerating}
+                onClick={handleGenerate}
+                isQuotationGenerating={isQuotationGenerating}
+              />
+            </Stack>
           </DocumentHeader>
 
           <BodyText preventTransition fontSize="1rem">
@@ -898,10 +909,6 @@ function OrderForm({
       if (res && res.ok) {
         setSnackMessage("Devis en cours de création...")
         setSnackSeverity("info")
-        if (await fetchOrder()) {
-          setSnackMessage("Devis ajouté avec succès !")
-          setSnackSeverity("success")
-        }
       }
     } else {
       setSnackMessage(
@@ -910,8 +917,23 @@ function OrderForm({
       setSnackSeverity("error")
       setReadOnly(false)
     }
-    setIsQuotationGenerating(false)
   }
+
+  const [awaitingQuotes, setAwaitingQuotes] = useState(0)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAwaitingQuotes((prevState) => {
+        const localAQ = order.quotations.filter((q) => !q.path).length
+        if (prevState === 1 && localAQ === 0) setIsQuotationGenerating(false)
+        return localAQ
+      })
+
+      if (isQuotationGenerating) fetchOrder()
+    }, 1000 * 5) // in milliseconds
+
+    return () => clearInterval(interval)
+  }, [order.quotations])
+
   const handleGeneratePaymentLink = async () => {
     const localErrors = checkBeforeGen(order)
 
@@ -1365,6 +1387,8 @@ function OrderForm({
                   handleGenerate={handleGenerate}
                   handleSend={handleSend}
                   isQuotationGenerating={isQuotationGenerating}
+                  refreshData={fetchOrder}
+                  loading={loading}
                 />
               )}
             </>
