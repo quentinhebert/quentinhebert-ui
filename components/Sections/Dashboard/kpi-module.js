@@ -117,32 +117,38 @@ function TurnoverModule({}) {
     fetchData()
   }, [selectedMonth, selectedYear])
 
-  // const generatePDF = () => {
-  //   const report = new JsPDF("portrait", "pt", "a1")
-  //   report.html(document.querySelector("#report")).then(() => {
-  //     report.save("report.pdf")
-  //   })
-  // }
-
   const handleGenerateReport = async () => {
-    setSnackMessage("Votre livre de recettes est en cours de génération...")
-    setSnackSeverity("info")
     setIsGeneratingPdf(true)
     const res = await apiCall.dashboard.payments.downloadMonthReport({
       year: selectedYear,
       month: selectedMonth,
     })
     if (res && res.ok) {
-      setSnackMessage("Livre de recettes généré au format PDF")
-      setSnackSeverity("success")
-      await fetchData()
+      setSnackMessage(
+        "Votre livre de recettes va être généré au format PDF dans quelques instants..."
+      )
+      setSnackSeverity("info")
     } else {
       setSnackMessage("Une erreur est survenue...")
       setSnackSeverity("error")
     }
-    setIsGeneratingPdf(false)
   }
-  const handleDownloadReport = async () => {}
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (isGeneratingPdf) fetchData()
+    }, 1000 * 5) // in milliseconds
+
+    return () => clearInterval(intervalId)
+  }, [isGeneratingPdf])
+
+  useEffect(() => {
+    if (!!pdf?.path) {
+      setIsGeneratingPdf(false)
+      setSnackMessage("Génération terminée !")
+      setSnackSeverity("success")
+    }
+  }, [pdf?.path])
 
   return (
     <CustomCard
@@ -397,38 +403,6 @@ function TurnoverModule({}) {
       </Box>
     )
   }
-  function getTypeInfo(type, metadata) {
-    switch (type) {
-      case "CHECK":
-        return <>Chèque</>
-      case "CARD":
-        return <>CB</>
-      case "CASH":
-        return <>Espèces</>
-      case "TRANSFER":
-        return <>Virement bancaire</>
-      case "STRIPE":
-        switch (metadata.type) {
-          case "card":
-            return <>Stripe / CB</>
-          case "sepa_debit":
-            return <>Stripe / Prélèvement SEPA</>
-          case "paypal":
-            return <>Stripe / PayPal</>
-          default:
-            return <></>
-        }
-      default:
-        return <></>
-    }
-  }
-  function getFees(fees) {
-    let localFees = 0
-    fees.map((fee) => {
-      localFees += fee.amount
-    })
-    return formatPrice(localFees)
-  }
   async function fetchData() {
     const res = await apiCall.dashboard.payments.getPerMonth({
       month: selectedMonth,
@@ -438,7 +412,6 @@ function TurnoverModule({}) {
       const jsonRes = await res.json()
       setPayments(jsonRes.payments)
       setTurnover(jsonRes.turnover)
-      console.debug("jsonRes", jsonRes)
       setPdf(jsonRes.file)
     }
   }
