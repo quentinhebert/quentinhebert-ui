@@ -165,43 +165,69 @@ export default function Order_Main({ orderId }) {
                 paddingBottom={17}
                 marginBottom={-17}
               >
-                {order.invoices.map((invoice, key) => (
-                  <Stack key={key} alignItems="center">
-                    <Tooltip
-                      title={formatDayDate({ timestamp: invoice.created_at })}
-                    >
-                      <Box
-                        component="a"
-                        href={buildPublicURL(invoice.path)}
-                        target="_blank"
-                        sx={{
-                          border: (theme) =>
-                            `1px solid ${theme.palette.secondary.main}`,
-                          borderRadius: "15px",
-                          padding: "1rem",
-                          minWidth: "150px",
-                        }}
+                <Stack sx={{ flexDirection: "row", gap: 2 }}>
+                  {order.invoices.map((invoice, key) => (
+                    <Stack key={key} alignItems="center">
+                      <Tooltip
+                        title={formatDayDate({ timestamp: invoice.created_at })}
                       >
-                        <Stack className="flex-center" gap={1}>
-                          <DownloadIcon color="secondary" />
+                        <Box
+                          component="a"
+                          href={buildPublicURL(invoice.path)}
+                          target="_blank"
+                          className="flex-center"
+                          gap={3}
+                          minWidth="100px"
+                        >
+                          <Stack
+                            className="flex-center"
+                            sx={{
+                              background: "transparent",
+                              borderRadius: "30px",
+                              height: "50px",
+                              width: "50px",
+                              margin: "auto",
+                              border: (theme) =>
+                                `1px solid ${theme.palette.secondary.main}`,
+                              transition: ".3s ease",
+                              "&:hover": {
+                                "& > .MuiSvgIcon-root": {
+                                  display: "flex",
+                                },
+                                "& > .MuiTypography-root": {
+                                  display: "none",
+                                },
+                                background: (theme) =>
+                                  theme.palette.secondary.main,
+                              },
+                            }}
+                          >
+                            <DownloadIcon
+                              sx={{
+                                display: "none",
+                              }}
+                            />
+                            <Typography color="secondary">
+                              {
+                                getPaymentFractionsDetails({ order })[key]
+                                  ?.percent
+                              }
+                            </Typography>
+                          </Stack>
                           <Typography
                             color="secondary"
                             letterSpacing={1}
-                            className="cool-button"
                             textTransform="capitalize"
+                            textAlign="center"
+                            margin=".75rem auto"
                           >
-                            {INVOICETYPES[invoice.type]} (
-                            {
-                              getPaymentFractionsDetails({ order })[key]
-                                ?.percent
-                            }
-                            )
+                            {INVOICETYPES[invoice.type]}
                           </Typography>
-                        </Stack>
-                      </Box>
-                    </Tooltip>
-                  </Stack>
-                ))}
+                        </Box>
+                      </Tooltip>
+                    </Stack>
+                  ))}
+                </Stack>
               </Stack>
             </Stack>
           )}
