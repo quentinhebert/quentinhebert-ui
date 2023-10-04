@@ -1,5 +1,10 @@
 import { Stack, TextField, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
+import DeleteIcon from "@mui/icons-material/Delete"
+import CheckIcon from "@mui/icons-material/Check"
+import LanguageIcon from "@mui/icons-material/Language"
+import LocalOfferIcon from "@mui/icons-material/LocalOffer"
+
 import apiCall from "../../../services/apiCalls/apiCall"
 import { ModalTitle } from "../Modal-Components/modal-title"
 import CustomModal from "../../Modals/custom-modal"
@@ -14,18 +19,14 @@ import DropzoneShowImage from "../../Images/drop-zone-show-image"
 import compressImage from "../../../services/images"
 import { AppContext } from "../../../contexts/AppContext"
 import PillButton from "../../Buttons/pill-button"
-import DeleteIcon from "@mui/icons-material/Delete"
-import CheckIcon from "@mui/icons-material/Check"
 import RectangleButton from "../../Buttons/rectangle-button"
 import CustomCircularProgress from "../../Helpers/custom-circular-progress"
-import LanguageIcon from "@mui/icons-material/Language"
 import AddEditToggle from "../../Navigation/add-edit-toggle"
 import { ADD_EDIT_ENUM } from "../../../enums/modesEnum"
 import BasicTooltip from "../../Helpers/basic-tooltip"
 import BodyText from "../../Text/body-text"
 import AlertInfo from "../../Other/alert-info"
 import useConfirm from "../../../hooks/useConfirm"
-import LocalOfferIcon from "@mui/icons-material/LocalOffer"
 
 const currentYear = new Date().getFullYear()
 
@@ -33,7 +34,8 @@ export default function EditWebsiteModal(props) {
   const { websiteId, openEditModal, handleCloseEditModal, refreshData } = props
 
   // APP CONTEXT
-  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+  const { setSnackSeverity, setSnackMessage, handleError, handleSuccess } =
+    useContext(AppContext)
 
   const initialWebsite = {
     id: null,
@@ -53,14 +55,7 @@ export default function EditWebsiteModal(props) {
   const [newTag, setNewTag] = useState(initialNewTag)
   const [mode, setMode] = useState(ADD_EDIT_ENUM.ADD)
 
-  const [
-    setConfirmTitle,
-    setConfirmContent,
-    setNextBtnText,
-    setActionToFire,
-    setOpenConfirmModal,
-    ConfirmationDialog,
-  ] = useConfirm()
+  const ConfirmDialog = useConfirm()
 
   // Fetch data
   const fetchData = async () => {
@@ -110,20 +105,10 @@ export default function EditWebsiteModal(props) {
   const handleCancel = () => {
     handleCloseEditModal()
   }
-  const handleSuccess = () => {
-    setSnackSeverity("success")
-    setSnackMessage("Le site web a été mis à jour !")
-    setFile(null)
-    handleCloseEditModal()
-  }
-  const handleError = () => {
-    setSnackSeverity("error")
-    setSnackMessage("Une erreur est survenue")
-  }
   const processThumbnail = async () => {
     if (file) {
       const compressedImage = await compressImage(file)
-      if (!compressedImage) return handleError()
+      if (!compressedImage) return handleError("Une erreur est survenue")
       const uploadThumbnailRes = await apiCall.websites.addThumbnail(
         compressedImage
       )
@@ -131,7 +116,7 @@ export default function EditWebsiteModal(props) {
         const thumbnailJson = await uploadThumbnailRes.json()
         return thumbnailJson.id
       } else {
-        handleErrorThumbnail()
+        handleError("Une erreur est survenue lors de l'optimisation de l'image")
         return null
       }
     }
@@ -147,11 +132,13 @@ export default function EditWebsiteModal(props) {
     const localWebsite = { ...website, thumbnail: { id: thumbnailId } }
     const res = await apiCall.websites.update(localWebsite)
     if (res && res.ok) {
-      handleSuccess()
+      handleSuccess("Le site web a été mis à jour !")
+      setFile(null)
+      handleCloseEditModal()
       if (!!refreshData) refreshData()
     } else {
       // TODO: if new thumbnail uploaded but website update fails, need to remove file just uploaded (DB and FTP)
-      handleError()
+      handleError("Une erreur est survenue")
     }
     setIsLoading(false)
   }
@@ -184,15 +171,13 @@ export default function EditWebsiteModal(props) {
     }
   }
   const handleDeleteWebsiteTag = (tag) => {
-    setActionToFire(() => async () => await deleteWebsiteTag(tag))
-    setOpenConfirmModal(true)
-    setConfirmTitle(
-      `Voulez vous vraiment supprimer définitivement le tag "${tag.label.fr}" ?`
-    )
-    setConfirmContent(
+    const title = `Voulez vous vraiment supprimer définitivement le tag "${tag.label.fr}" ?`
+    const message =
       "La suppression est définitive et affectera tous les sites web reliés à ce tag."
-    )
-    setNextBtnText("Supprimer")
+    const nextBtnText = "Supprimer"
+    const nextAction = async () => await deleteWebsiteTag(tag)
+
+    ConfirmDialog.setContent({ title, message, nextBtnText, nextAction })
   }
   const handleCancelEditTags = async () => {
     await fetchWebsiteTags()
@@ -473,7 +458,12 @@ export default function EditWebsiteModal(props) {
         </Stack>
       </CustomForm>
 
-      <ConfirmationDialog />
+      <CustomModal
+        open={ConfirmDialog.open}
+        handleClose={ConfirmDialog.handleClose}
+      >
+        <ConfirmDialog.DialogContent />
+      </CustomModal>
     </CustomModal>
   )
 }

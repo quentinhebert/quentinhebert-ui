@@ -4,9 +4,10 @@ export const PAYMENT_TYPES = {
   CASH: { id: "CASH", label: "Espèces" },
   CHECK: { id: "CHECK", label: "Chèque" },
   TRANSFER: { id: "TRANSFER", label: "Virement bancaire manuel" },
+  CARD: { id: "CARD", label: "CB" },
 }
 
 export const STRIPE_PM = {
-  card: "CB",
+  card: "CB en ligne",
   sepa_debit: "Virement bancaire",
 }
