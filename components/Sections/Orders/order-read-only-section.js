@@ -289,7 +289,7 @@ export default function OrderReadOnlySection({
           </Stack>
 
           {!hidePriceDetails && (
-            <Stack alignSelf="end">
+            <Stack alignSelf="end" maxWidth="400px">
               <PriceDetails items={items} order={order} />
             </Stack>
           )}
