@@ -37,7 +37,9 @@ export default function SuccessPaymentPage() {
   }
 
   useEffect(() => {
-    fetchData()
+    setTimeout(() => {
+      fetchData()
+    }, 3000)
   }, [order?.id])
 
   return (
