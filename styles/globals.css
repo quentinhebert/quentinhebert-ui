@@ -197,6 +197,9 @@ body {
 .opacity-hover:hover {
   opacity: 0.5;
 }
+.nowrap {
+  white-space: no-wrap;
+}
 
 
 /* Hide input type numbers arrows */

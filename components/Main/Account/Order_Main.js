@@ -1,4 +1,4 @@
-import { Box, Stack, Tooltip, Typography } from "@mui/material"
+import { Box, Grid, Stack, Tooltip, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import Custom404_Main from "../../Main/Errors/Custom404_Main"
@@ -17,6 +17,7 @@ import { getNextPaymentDetails } from "../../../services/orders"
 import RefreshButton from "../../Buttons/refresh-button"
 import DownloadIcon from "@mui/icons-material/Download"
 import { getPaymentFractionsDetails } from "../../../services/orders"
+import PriceDetails from "../../Sections/Account/Orders/price-details"
 
 const allowedStatesForPaying = [
   "WAITING_FOR_PAYMENT",
@@ -97,19 +98,17 @@ export default function Order_Main({ orderId }) {
     if (!nextPayment) return <></>
     return (
       allowedStatesForPaying.includes(order.status) && (
-        <Stack alignItems="center">
-          <PillButton
-            startIcon={<ShoppingCartIcon />}
-            textTransform="initial"
-            onClick={() =>
-              router.push(
-                `/account/orders/${orderId}/checkout/before-checkout-steps`
-              )
-            }
-          >
-            Payer {nextPayment.amount / 100}€ ({nextPayment.label})
-          </PillButton>
-        </Stack>
+        <PillButton
+          startIcon={<ShoppingCartIcon />}
+          textTransform="initial"
+          onClick={() =>
+            router.push(
+              `/account/orders/${orderId}/checkout/before-checkout-steps`
+            )
+          }
+        >
+          Payer {nextPayment.amount / 100}€ ({nextPayment.label})
+        </PillButton>
       )
     )
   }
@@ -152,7 +151,50 @@ export default function Order_Main({ orderId }) {
             </BodyText>
           </Stack>
 
-          <CheckoutBtn />
+          <Stack maxWidth="300px" margin="auto">
+            <CheckoutBtn />
+          </Stack>
+
+          <Stack gap={2}>
+            <H2>Détail de ma commande</H2>
+
+            <Grid container spacing={2} position="relative" alignItems="start">
+              <Grid
+                item
+                lg={8}
+                xl={9}
+                gap={2}
+                display="flex"
+                flexDirection="column"
+              >
+                <OrderReadOnlySection
+                  items={order.items}
+                  order={order}
+                  hideDetails
+                />
+                <OrderReadOnlySection
+                  items={order.items}
+                  order={order}
+                  hideModalities
+                  hidePriceDetails
+                />
+              </Grid>
+
+              <Grid
+                item
+                lg={4}
+                xl={3}
+                sx={{ position: "sticky", top: "60px" }}
+                flexDirection="column"
+                display="flex"
+                gap={2}
+              >
+                <PriceDetails items={order.items} order={order} />
+
+                <CheckoutBtn />
+              </Grid>
+            </Grid>
+          </Stack>
 
           {order.invoices?.length > 0 && (
             <Stack gap={2}>
@@ -231,25 +273,6 @@ export default function Order_Main({ orderId }) {
               </Stack>
             </Stack>
           )}
-
-          <Stack gap={2}>
-            <H2>Détail de ma commande</H2>
-
-            <OrderReadOnlySection
-              items={order.items}
-              order={order}
-              hideDetails
-            />
-            <OrderReadOnlySection
-              items={order.items}
-              order={order}
-              hideModalities
-            />
-
-            <Stack width="100%" alignItems="end">
-              <CheckoutBtn />
-            </Stack>
-          </Stack>
         </Stack>
       )}
     </>

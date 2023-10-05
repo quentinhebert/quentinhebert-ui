@@ -99,7 +99,7 @@ export default function PriceDetails({ items, order }) {
         padding: 2,
       }}
     >
-      <Grid container width={{ xs: "100%", lg: "320px" }}>
+      <Grid container minWidth={{ xs: "100%", lg: "200px" }}>
         <Label color="#fff">Total TTC</Label>
         <Price>{formatPrice(totalPrice)} €</Price>
         <Label>Dont TVA</Label>
