@@ -210,7 +210,7 @@ export default function Order_Main({ orderId }) {
                 item
                 xs={12}
                 lg={5}
-                xl={3}
+                xl={4}
                 sx={{
                   position: { xs: "relative", lg: "sticky" },
                   top: { xs: "0px", lg: "60px" },
@@ -219,6 +219,8 @@ export default function Order_Main({ orderId }) {
                 display="flex"
                 gap={2}
               >
+                <H2>Paiement(s)</H2>
+
                 <Stack
                   gap={2}
                   bgcolor="background.main"
@@ -235,7 +237,7 @@ export default function Order_Main({ orderId }) {
                 item
                 xs={12}
                 lg={7}
-                xl={9}
+                xl={8}
                 gap={2}
                 display="flex"
                 flexDirection="column"
@@ -261,8 +263,9 @@ export default function Order_Main({ orderId }) {
                 />
 
                 {order.invoices?.length > 0 && (
-                  <Stack gap={2}>
+                  <Stack gap={4} mt={6}>
                     <H2>Mes factures</H2>
+
                     <Stack gap={2} position="relative">
                       <Stack overflow="hidden" boxSizing="content-box">
                         <DetectableOverflow

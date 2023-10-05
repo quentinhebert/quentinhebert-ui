@@ -442,7 +442,9 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
               })}
           </Stack>
 
-          <PriceDetails items={order.items} order={order} />
+          <Stack maxWidth="400px">
+            <PriceDetails items={order.items} order={order} />
+          </Stack>
         </Stack>
 
         {activeStep === 2 && (
