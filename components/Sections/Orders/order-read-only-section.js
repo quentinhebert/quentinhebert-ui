@@ -140,6 +140,8 @@ export default function OrderReadOnlySection({
   hideDetails,
   hideModalities,
   hidePriceDetails,
+  hidePaymentDetails,
+  hideDates,
 }) {
   let paymentOptionsArray = []
   Object.keys(order.payment_options).map((opt) => {
@@ -166,58 +168,61 @@ export default function OrderReadOnlySection({
             borderRadius: "20px",
           }}
         >
-          <Card>
-            <Stack
-              gap={2}
-              sx={{
-                justifyContent: "space-between",
-                flexDirection: { xs: "column", sm: "row" },
-              }}
-            >
-              <DateInfo label="Prestation">
-                {convertDateToShortString(order.date)}
-              </DateInfo>
-
-              {/* Optional */}
-              {!!order.duration && order.duration.trim !== "" && (
-                <DateInfo label="Durée estimée de la prestation">
-                  {order.duration}
+          {!hideDates && (
+            <Card>
+              <Stack
+                gap={2}
+                sx={{
+                  justifyContent: "space-between",
+                  flexDirection: { xs: "column", sm: "row" },
+                }}
+              >
+                <DateInfo label="Prestation">
+                  {convertDateToShortString(order.date)}
                 </DateInfo>
-              )}
 
-              <DateInfo label="Livraison prévue le" textAlign="right">
-                {convertDateToShortString(order.delivery_date)}
-              </DateInfo>
-            </Stack>
-          </Card>
+                {/* Optional */}
+                {!!order.duration && order.duration.trim !== "" && (
+                  <DateInfo label="Durée estimée de la prestation">
+                    {order.duration}
+                  </DateInfo>
+                )}
 
-          <Card>
-            <Table
-              sx={{
-                "& .MuiTableCell-root": {
-                  verticalAlign: "initial",
-                  borderBottom: "none",
-                  padding: ".5rem .25rem",
-                  paddingRight: "1rem",
-                  paddingBottom: "1rem",
-                },
-              }}
-            >
-              <Info title="Moyen(s) de paiement acceptés">
-                {paymentOptionsString}
-              </Info>
+                <DateInfo label="Livraison prévue le" textAlign="right">
+                  {convertDateToShortString(order.delivery_date)}
+                </DateInfo>
+              </Stack>
+            </Card>
+          )}
+          {!hidePaymentDetails && (
+            <Card>
+              <Table
+                sx={{
+                  "& .MuiTableCell-root": {
+                    verticalAlign: "initial",
+                    borderBottom: "none",
+                    padding: ".5rem .25rem",
+                    paddingRight: "1rem",
+                    paddingBottom: "1rem",
+                  },
+                }}
+              >
+                <Info title="Moyen(s) de paiement acceptés">
+                  {paymentOptionsString}
+                </Info>
 
-              <Info title="Conditions">
-                {order.payment_conditions}
-                <br />
-                <BodyText preventTransition>{fractionsString}</BodyText>
-              </Info>
+                <Info title="Conditions">
+                  {order.payment_conditions}
+                  <br />
+                  <BodyText preventTransition>{fractionsString}</BodyText>
+                </Info>
 
-              <Info title="Pénalités de retard">
-                {order.payment_delay_penalties}
-              </Info>
-            </Table>
-          </Card>
+                <Info title="Pénalités de retard">
+                  {order.payment_delay_penalties}
+                </Info>
+              </Table>
+            </Card>
+          )}
 
           {/* Optional */}
           {!!order.validity_end_date && (
