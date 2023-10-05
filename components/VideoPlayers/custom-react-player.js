@@ -4,6 +4,7 @@ import ReactPlayer from "react-player"
 import VolumeUpIcon from "@mui/icons-material/VolumeUp"
 import VolumeOffIcon from "@mui/icons-material/VolumeOff"
 import PillButton from "../Buttons/pill-button"
+import { useInView } from "react-intersection-observer"
 
 function arePropsEqual(prevProps, nextProps) {
   return (
@@ -14,7 +15,7 @@ function arePropsEqual(prevProps, nextProps) {
 const CustomReactPlayer = memo((props) => <Player {...props} />, arePropsEqual)
 export default CustomReactPlayer
 
-function Player({ youtubeId, vimeoId, disableAutoplay }) {
+function Player({ youtubeId, vimeoId, disableAutoplay, triggerPlayInView }) {
   const [playing, setPlaying] = useState(false)
   const [volume, setVolume] = useState(1)
   const [showControls, setShowControls] = useState(true)
@@ -42,6 +43,12 @@ function Player({ youtubeId, vimeoId, disableAutoplay }) {
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
+  const [ref, inView] = useInView()
+  useEffect(() => {
+    if (inView && triggerPlayInView) setPlaying(true)
+    else if (!inView && triggerPlayInView) setPlaying(false)
+  }, [inView])
+
   return (
     <Stack
       width="100%"
@@ -52,6 +59,7 @@ function Player({ youtubeId, vimeoId, disableAutoplay }) {
         display: "flex",
         backgroundColor: (theme) => theme.palette.background.black,
       }}
+      ref={ref}
     >
       <ReactPlayer
         playsinline

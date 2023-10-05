@@ -119,7 +119,12 @@ export default function IntroductionVideoSection({ topRef, ...props }) {
                 }}
               >
                 {render ? (
-                  <CustomReactPlayer youtubeId={youtubeId} vimeoId={vimeoId} />
+                  <CustomReactPlayer
+                    youtubeId={youtubeId}
+                    vimeoId={vimeoId}
+                    disableAutoplay
+                    triggerPlayInView
+                  />
                 ) : null}
               </Stack>
             </Stack>
