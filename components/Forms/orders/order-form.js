@@ -323,7 +323,12 @@ const DocumentsSection = ({
       <FormCard>
         <Stack gap={2}>
           <DocumentHeader>
-            <DocumentType>Devis</DocumentType>
+            <DocumentType>
+              Devis
+              {!!order.quotations?.length
+                ? ` (${order.quotations.length})`
+                : ""}
+            </DocumentType>
 
             <Stack className="row gap-10 flex-center">
               <RefreshButton refresh={refreshData} loading={loading} />
@@ -363,7 +368,10 @@ const DocumentsSection = ({
       <FormCard>
         <Stack gap={2}>
           <DocumentHeader>
-            <DocumentType>Factures</DocumentType>
+            <DocumentType>
+              Factures
+              {!!order.invoices?.length ? ` (${order.invoices.length})` : ""}
+            </DocumentType>
 
             <RefreshButton refresh={refreshData} loading={loading} />
           </DocumentHeader>
