@@ -163,12 +163,11 @@ export default function Order_Main({ orderId }) {
   }
 
   if (!order.id && !loading) return <Custom404_Main />
+  if (!order.id && loading) return <PleaseWait />
 
   return (
     <>
-      {loading && <PleaseWait />}
-
-      {order.id && !loading && (
+      {!!order.id && (
         <Stack gap={4}>
           <Stack gap={2}>
             <BodyText
@@ -191,7 +190,7 @@ export default function Order_Main({ orderId }) {
               >
                 <StatusChip order={order} />
                 <Stack flexGrow={1} />
-                <RefreshButton refresh={fetchOrder} />
+                <RefreshButton refresh={fetchOrder} loading={loading} />
               </Stack>
             </BodyText>
 

@@ -1,4 +1,13 @@
-import { Box, Grid, Stack, Table, TableCell, TableRow } from "@mui/material"
+import {
+  Box,
+  Grid,
+  Stack,
+  Table,
+  TableCell,
+  TableRow,
+  Tooltip,
+  Typography,
+} from "@mui/material"
 import {
   convertDateToLongString,
   convertDateToShortString,
@@ -9,6 +18,9 @@ import HourglassTopIcon from "@mui/icons-material/HourglassTop"
 import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
 import PriceDetails from "../Account/Orders/price-details"
 import { getPaymentFractionsDetails } from "../../../services/orders"
+import LocalShippingIcon from "@mui/icons-material/LocalShipping"
+import TodayIcon from "@mui/icons-material/Today"
+import TimerIcon from "@mui/icons-material/Timer"
 
 const PAYMENT_OPTIONS = [
   { id: "CARD", label: "carte bancaire" },
@@ -68,42 +80,48 @@ const Line = (props) => (
     {...props}
   />
 )
-const DateInfo = ({ label, textAlign, ...props }) => (
-  <Stack sx={{ textAlign: { xs: "left", sm: textAlign || "left" } }}>
-    <Title textAlign={{ xs: "left", sm: textAlign || "left" }}>{label}</Title>
-    <BodyText
-      preventTransition
-      fontSize="1rem"
-      textTransform="capitalize"
-      {...props}
-      textAlign={{ xs: "left", sm: textAlign || "left" }}
-    />
-  </Stack>
+const DateInfo = ({ label, textAlign, icon, value, ...props }) => (
+  <Tooltip title={label}>
+    <Stack
+      sx={{ textAlign: { xs: "left", sm: textAlign || "left" } }}
+      className="flex-center"
+      flexDirection="row"
+      gap={1}
+    >
+      <Typography
+        color={(theme) => theme.palette.secondary.main}
+        textAlign={{ xs: "left", sm: textAlign || "left" }}
+        display="flex"
+      >
+        {icon}
+      </Typography>
+      <BodyText
+        preventTransition
+        fontSize="1rem"
+        textTransform="capitalize"
+        textAlign={{ xs: "left", sm: textAlign || "left" }}
+      >
+        {value}
+      </BodyText>
+    </Stack>
+  </Tooltip>
 )
 const Title = (props) => (
   <Stack>
+    <BodyText fontSize="1rem" preventTransition {...props} />
+  </Stack>
+)
+const Info = ({ title, ...props }) => (
+  <Stack mb={2}>
+    <Title>{title}</Title>
     <BodyText
-      fontSize="1rem"
       preventTransition
+      fontSize="1rem"
+      className="initial-cap"
       color={(theme) => theme.palette.text.grey}
       {...props}
     />
   </Stack>
-)
-const Info = ({ title, ...props }) => (
-  <TableRow>
-    <TableCell sx={{ verticalAlign: "top !important" }}>
-      <Title>{title}</Title>
-    </TableCell>
-    <TableCell>
-      <BodyText
-        preventTransition
-        fontSize="1rem"
-        className="initial-cap"
-        {...props}
-      />
-    </TableCell>
-  </TableRow>
 )
 const Card = ({ title, icon, fullwidth, ...props }) => (
   // <Grid item xs={12} sm={6} md={4} lg={3} display="flex">
@@ -177,20 +195,28 @@ export default function OrderReadOnlySection({
                   flexDirection: { xs: "column", sm: "row" },
                 }}
               >
-                <DateInfo label="Prestation">
-                  {convertDateToShortString(order.date)}
-                </DateInfo>
+                <DateInfo
+                  label="Prestation"
+                  icon={<TodayIcon sx={{ fontSize: "2rem" }} />}
+                  value={convertDateToShortString(order.date)}
+                />
 
                 {/* Optional */}
                 {!!order.duration && order.duration.trim !== "" && (
-                  <DateInfo label="Durée estimée de la prestation">
-                    {order.duration}
-                  </DateInfo>
+                  <DateInfo
+                    label="Durée estimée de la prestation"
+                    value={order.duration}
+                    textAlign="center"
+                    icon={<TimerIcon />}
+                  />
                 )}
 
-                <DateInfo label="Livraison prévue le" textAlign="right">
-                  {convertDateToShortString(order.delivery_date)}
-                </DateInfo>
+                <DateInfo
+                  label="Livraison prévue le"
+                  textAlign="right"
+                  icon={<LocalShippingIcon sx={{ fontSize: "2rem" }} />}
+                  value={convertDateToShortString(order.delivery_date)}
+                />
               </Stack>
             </Card>
           )}
@@ -214,7 +240,12 @@ export default function OrderReadOnlySection({
                 <Info title="Conditions">
                   {order.payment_conditions}
                   <br />
-                  <BodyText preventTransition>{fractionsString}</BodyText>
+                  <BodyText
+                    preventTransition
+                    color={(theme) => theme.palette.text.grey}
+                  >
+                    {fractionsString}
+                  </BodyText>
                 </Info>
 
                 <Info title="Pénalités de retard">
