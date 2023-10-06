@@ -1,4 +1,12 @@
-import { Box, Grid, Stack } from "@mui/material"
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material"
 import { Fragment } from "react"
 import {
   getPaymentFractionsDetails,
@@ -7,6 +15,7 @@ import {
 import BodyText from "../../../Text/body-text"
 import Span from "../../../Text/span"
 import { formatPrice } from "../../../../services/utils"
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 
 const Label = (props) => (
   <Grid
@@ -92,6 +101,7 @@ export default function PriceDetails({ items, order }) {
 
   return (
     <Stack
+      width="100%"
       sx={{
         alignSelf: "start",
         background: (theme) => theme.palette.background.main,
@@ -114,41 +124,78 @@ export default function PriceDetails({ items, order }) {
               }}
             />
 
-            {paymentFractions.map((f, key) => {
-              return (
-                <Fragment key={key}>
-                  <Label
-                    color={
-                      (!paymentFractions[key].paid &&
-                        paymentFractions[key - 1]?.paid) ||
-                      (key === 0 && !f.paid)
-                        ? (theme) => theme.palette.secondary.main
-                        : null
-                    }
-                  >
-                    {f.label} TTC ({f.percent}){" "}
-                    {f.paid ? (
-                      <PaidChip />
-                    ) : f.paymentStatus === "processing" ? (
-                      <ProcessingChip />
-                    ) : f.paymentStatus === "failed" ? (
-                      <FailedChip />
-                    ) : null}
-                  </Label>
-                  <Price
-                    color={
-                      (!paymentFractions[key].paid &&
-                        paymentFractions[key - 1]?.paid) ||
-                      (key === 0 && !f.paid)
-                        ? (theme) => theme.palette.secondary.main
-                        : null
-                    }
-                  >
-                    {formatPrice(f.amount)} €
-                  </Price>
-                </Fragment>
-              )
-            })}
+            <Accordion
+              sx={{
+                width: "100%",
+                "&.MuiAccordion-root": {
+                  margin: 0,
+                  boxShadow: "none",
+                  backgroundImage: "none",
+                  "&:before": { backgroundColor: "transparent" },
+                },
+                "& .MuiAccordionSummary-root": {
+                  padding: 0,
+                  minHeight: "0 !important",
+                },
+                "& .MuiAccordionSummary-content": {
+                  margin: "0 !important",
+                },
+                "& .MuiAccordionDetails-root": {
+                  padding: "1rem 0 0",
+                },
+              }}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon color="secondary" />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                sx={{
+                  color: "#fff",
+                  "& .Mui-expanded": { color: "text.secondary" },
+                }}
+              >
+                <Typography color="inherit">Détails des échéances</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid container width="100%">
+                  {paymentFractions.map((f, key) => {
+                    return (
+                      <Fragment key={key}>
+                        <Label
+                          color={
+                            (!paymentFractions[key].paid &&
+                              paymentFractions[key - 1]?.paid) ||
+                            (key === 0 && !f.paid)
+                              ? (theme) => theme.palette.secondary.main
+                              : null
+                          }
+                        >
+                          {f.label} TTC ({f.percent}){" "}
+                          {f.paid ? (
+                            <PaidChip />
+                          ) : f.paymentStatus === "processing" ? (
+                            <ProcessingChip />
+                          ) : f.paymentStatus === "failed" ? (
+                            <FailedChip />
+                          ) : null}
+                        </Label>
+                        <Price
+                          color={
+                            (!paymentFractions[key].paid &&
+                              paymentFractions[key - 1]?.paid) ||
+                            (key === 0 && !f.paid)
+                              ? (theme) => theme.palette.secondary.main
+                              : null
+                          }
+                        >
+                          {formatPrice(f.amount)} €
+                        </Price>
+                      </Fragment>
+                    )
+                  })}
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
           </>
         )}
       </Grid>
