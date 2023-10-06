@@ -146,15 +146,19 @@ export default function PriceDetails({ items, order }) {
               }}
             >
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon color="secondary" />}
+                expandIcon={<ExpandMoreIcon sx={{ color: "text.grey" }} />}
                 aria-controls="panel1a-content"
                 id="panel1a-header"
                 sx={{
-                  color: "#fff",
-                  "& .Mui-expanded": { color: "text.secondary" },
+                  color: (theme) => theme.palette.text.grey,
                 }}
               >
-                <Typography color="inherit">Détails des échéances</Typography>
+                <Typography color="inherit">
+                  Détails des échéances
+                  {paymentFractions?.length
+                    ? ` (${paymentFractions.length})`
+                    : ""}
+                </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Grid container width="100%">
