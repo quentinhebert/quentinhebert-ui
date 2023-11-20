@@ -1386,7 +1386,7 @@ function OrderForm({
             <Cell>{item.vat} %</Cell>
           </Grid>
           <Grid item xs={1}>
-            <Cell>{item.no_vat_price} €</Cell>
+            <Cell>{formatPrice(item.no_vat_price)} €</Cell>
           </Grid>
           <Grid item xs={1}>
             <Cell>
