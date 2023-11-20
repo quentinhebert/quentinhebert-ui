@@ -39,7 +39,7 @@ const Label = (props) => (
 
 const Price = (props) => (
   <Grid item xs={3} textAlign="right">
-    <BodyText preventTransition {...props} fontSize="1rem" />
+    <Typography {...props} minWidth="60px" />
   </Grid>
 )
 
@@ -111,7 +111,7 @@ export default function PriceDetails({ items, order }) {
     >
       <Grid container minWidth={{ xs: "100%", lg: "200px" }}>
         <Label color="#fff">Total TTC</Label>
-        <Price>{formatPrice(totalPrice)} €</Price>
+        <Price color="#fff">{formatPrice(totalPrice)} €</Price>
         <Label>Dont TVA</Label>
         <Price color="grey">{formatPrice(totalVAT)} €</Price>
         {paymentFractions.length > 1 && (

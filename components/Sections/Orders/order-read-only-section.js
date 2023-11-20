@@ -21,6 +21,7 @@ import { getPaymentFractionsDetails } from "../../../services/orders"
 import LocalShippingIcon from "@mui/icons-material/LocalShipping"
 import TodayIcon from "@mui/icons-material/Today"
 import TimerIcon from "@mui/icons-material/Timer"
+import { formatPrice } from "../../../services/utils"
 
 const PAYMENT_OPTIONS = [
   { id: "CARD", label: "carte bancaire" },
@@ -309,9 +310,9 @@ export default function OrderReadOnlySection({
                   <Cell>{item.vat} %</Cell>
                   <Cell>{item.no_vat_price / 100} €</Cell>
                   <Cell>
-                    {(item.no_vat_price / 100) *
-                      item.quantity *
-                      (1 + item.vat / 100)}{" "}
+                    {formatPrice(
+                      item.no_vat_price * item.quantity * (1 + item.vat / 100)
+                    )}{" "}
                     €
                   </Cell>
                 </Line>

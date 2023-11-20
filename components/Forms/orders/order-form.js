@@ -812,8 +812,6 @@ function OrderForm({
     handleOpenModal(MODALS.SAVE)
   }
   const handleEdit = (item, key) => {
-    console.log(key)
-    console.log(item.description)
     setSelectedItem(item)
     setSelectedItemIndex(key)
     handleOpenModal(MODALS.EDIT_ITEM)
@@ -1851,9 +1849,11 @@ function OrderForm({
                       <Cell>{item.vat} %</Cell>
                       <Cell>{item.no_vat_price / 100} €</Cell>
                       <Cell>
-                        {(item.no_vat_price / 100) *
-                          item.quantity *
-                          (1 + item.vat / 100)}{" "}
+                        {formatPrice(
+                          item.no_vat_price *
+                            item.quantity *
+                            (1 + item.vat / 100)
+                        )}{" "}
                         €
                       </Cell>
                     </Line>
