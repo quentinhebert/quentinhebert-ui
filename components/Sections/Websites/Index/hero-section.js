@@ -9,67 +9,7 @@ import { AppContext } from "../../../../contexts/AppContext"
 import Span from "../../../Text/span"
 import translations from "../../../../services/translation"
 import AnimatedScrollDownBtn from "../../../Animation/animated-scroll-down-btn"
-
-const CTAIsland = ({ ...props }) => (
-  <MotionDivOnMount
-    hidden={{ opacity: 0, y: -5 }}
-    visible={{ opacity: 1, y: 0 }}
-    delay={0.5}
-    style={{ margin: "2rem 0" }}
-  >
-    <Stack
-      margin="auto"
-      padding="1rem 2rem"
-      sx={{
-        minWidth: "300px",
-        background: "#000",
-        flexDirection: "row",
-        borderRadius: "100px",
-        boxShadow: (theme) =>
-          `0px 0px 30px 5px ${theme.palette.secondary.main}`,
-        textShadow: (theme) => `0px 0px 20px ${theme.palette.secondary.main}`,
-        marginTop: { xs: "8vh", md: 0 },
-      }}
-      {...props}
-    />
-  </MotionDivOnMount>
-)
-const CTAButton = ({ onClick, label, delay }) => (
-  <Stack width="50%" textAlign="center">
-    <MotionDivOnMount
-      hidden={{ opacity: 0, y: -5 }}
-      visible={{ opacity: 1, y: 0 }}
-      delay={delay || 0}
-    >
-      <Typography
-        color="secondary"
-        className="flex-center"
-        display="flex"
-        fontFamily="Trophy"
-        gap={1}
-        sx={{
-          padding: "0 1rem",
-          fontSize: { xs: ".6rem", sm: ".8rem", lg: "1.3rem" },
-          cursor: "pointer",
-          transition: "0.3s ease-in-out",
-          "& > .MuiSvgIcon-root": {
-            transition: "0.3s ease-in-out",
-          },
-          "&:hover": {
-            transform: "scale(1.1)",
-            "& > .MuiSvgIcon-root": {
-              transition: "0.3s ease-in-out",
-              translate: { xs: "5px", md: "10px", lg: "15px" },
-            },
-          },
-        }}
-        onClick={onClick}
-      >
-        {label} <ArrowRightAltIcon />
-      </Typography>
-    </MotionDivOnMount>
-  </Stack>
-)
+import Image from "next/image"
 
 export default function HeroSection(props) {
   const { refsForScroll } = props
@@ -93,6 +33,7 @@ export default function HeroSection(props) {
         width: "100%",
         minHeight: "600px",
         height: { xs: "70vh", md: "100svh" },
+        overflow: "hidden",
       }}
     >
       {/* Right Text */}
@@ -100,17 +41,12 @@ export default function HeroSection(props) {
         <Stack
           sx={{
             alignSelf: "end",
-            width: { xs: "100%", sm: "80%", md: "60%" },
+            width: { xs: "100%", sm: "80%", md: "70%", lg: "60%" },
             height: "100%",
-            padding: {
-              xs: "1rem 1.5rem 0 1rem",
-              sm: "1rem 1.5rem 0 1rem",
-              md: "1rem 1.5rem 0 5rem",
-            },
             justifyContent: "center",
           }}
         >
-          <Stack>
+          <Stack padding="2rem">
             <Typography
               variant="h1"
               sx={{
@@ -125,6 +61,7 @@ export default function HeroSection(props) {
                   sm: "12vw",
                   md: "10vw",
                 },
+                marginRight: "-2rem",
               }}
             >
               <Span
@@ -133,7 +70,7 @@ export default function HeroSection(props) {
                     `-webkit-linear-gradient(-78deg, ${theme.palette.secondary.main}, ${theme.palette.tersary.main})`,
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  paddingRight: { xs: 2, md: 5 },
+                  padding: "0 5%",
                 }}
               >
                 {translations.websites.hero.title[lang]}
@@ -178,28 +115,31 @@ export default function HeroSection(props) {
         <Box
           sx={{
             position: "absolute",
-            backgroundImage: "url(/medias/developper-alpha.png)",
-            backgroundSize: {
-              xs: "220%",
-              sm: "230%",
-              md: "200%",
-              lg: "220%",
-            },
-            backgroundPosition: {
-              xs: "40% 20%",
-              sm: "40% 60%",
-              md: "30% 40%",
-            },
-            backgroundRepeat: "no-repeat",
-            width: "70%",
             pointerEvents: "none",
-            left: 0,
-            top: 0,
-            minHeight: { xs: "500px", md: "600px" },
-            height: { xs: "70vh", md: "100svh" },
+            minHeight: "600px",
+            height: { xs: "calc(70% - 5vw)", sm: "calc(100svh - 5vw)" },
             zIndex: 1,
+            width: {
+              xs: "80%",
+            },
+            top: {
+              xs: "18vw",
+              sm: "-5vw",
+              md: "5vw",
+            },
+            left: {
+              xs: "-45vw",
+              sm: "-35vw",
+              md: "-25vw",
+            },
           }}
-        />
+        >
+          <Image
+            src="/medias/developper-alpha2.png"
+            fill
+            style={{ objectFit: "cover", objectPosition: "100% 0%" }}
+          />
+        </Box>
       </Slide>
 
       <Stack
@@ -217,6 +157,74 @@ export default function HeroSection(props) {
           refForScroll={refsForScroll.cta}
         />
       </Stack>
+    </Stack>
+  )
+}
+
+function CTAIsland({ ...props }) {
+  return (
+    <MotionDivOnMount
+      hidden={{ opacity: 0, y: -5 }}
+      visible={{ opacity: 1, y: 0 }}
+      delay={0.5}
+      style={{
+        margin: "0 0 0 auto",
+        maxWidth: "700px",
+        width: { xs: "80%", sm: "100%" },
+      }}
+    >
+      <Stack
+        padding="1rem 2rem"
+        sx={{
+          width: "100%",
+          background: "#000",
+          flexDirection: "row",
+          borderRadius: "100px",
+          boxShadow: (theme) =>
+            `0px 0px 30px 5px ${theme.palette.secondary.main}`,
+          textShadow: (theme) => `0px 0px 20px ${theme.palette.secondary.main}`,
+          marginTop: { xs: "8vh" },
+        }}
+        {...props}
+      />
+    </MotionDivOnMount>
+  )
+}
+function CTAButton({ onClick, label, delay }) {
+  return (
+    <Stack width="50%" textAlign="center">
+      <MotionDivOnMount
+        hidden={{ opacity: 0, y: -5 }}
+        visible={{ opacity: 1, y: 0 }}
+        delay={delay || 0}
+      >
+        <Typography
+          color="secondary"
+          className="flex-center"
+          display="flex"
+          fontFamily="Trophy"
+          gap={1}
+          sx={{
+            padding: "0 1rem",
+            fontSize: { xs: ".6rem", sm: ".8rem", lg: "1.3rem" },
+            cursor: "pointer",
+            transition: "0.3s ease-in-out",
+            "& > .MuiSvgIcon-root": {
+              transition: "0.3s ease-in-out",
+            },
+            "&:hover": {
+              transform: "scale(1.1)",
+              "& > .MuiSvgIcon-root": {
+                transition: "0.3s ease-in-out",
+                translate: { xs: "5px", md: "10px", lg: "15px" },
+              },
+            },
+          }}
+          onClick={onClick}
+        >
+          {label} <ArrowRightAltIcon />
+        </Typography>
+      </MotionDivOnMount>
     </Stack>
   )
 }
