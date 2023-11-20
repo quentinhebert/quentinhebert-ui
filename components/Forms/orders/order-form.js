@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useRef } from "react"
+import { useState, useContext, useEffect } from "react"
 import {
   Box,
   Grid,
@@ -36,7 +36,6 @@ import OrderReadOnlySection from "../../Sections/Orders/order-read-only-section"
 import ClientAutocomplete from "../admin/client-autocomplete"
 import SubmitButton from "../../Buttons/submit-button"
 import CancelButton from "../../Buttons/cancel-button"
-import { Cell, HeadCell, Line } from "../../Tables/table-components"
 import theme from "../../../config/theme"
 import CustomDatePicker from "../../Inputs/custom-date-picker"
 import DualInputLine from "../../Containers/dual-input-line"
@@ -89,6 +88,8 @@ import CheckIcon from "@mui/icons-material/CheckCircleOutline"
 import InsertLinkIcon from "@mui/icons-material/InsertLink"
 import SimpleCheckIcon from "@mui/icons-material/Check"
 import RefreshButton from "../../Buttons/refresh-button"
+import { SortableContainer, SortableElement } from "react-sortable-hoc"
+import { arrayMoveImmutable } from "array-move"
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -796,6 +797,7 @@ function OrderForm({
         setSnackMessage("Commande sauvegardée")
       }
       setOpenModal(false)
+      window.scrollTo({ top: 0, behavior: "smooth" })
       // if no id provided === user is on CreateQuotationPage (not EditQuotationPage), we redirect the user onto the edit page (with the same quotationForm component)
       if (!id) return router.push(`/dashboard/orders/${jsonRes.id}/edit`)
       await fetchOrder()
@@ -1316,11 +1318,138 @@ function OrderForm({
       {text}
     </Box>
   )
+  const Cell = (props) => (
+    <Stack
+      sx={{
+        padding: 2,
+        height: "100%",
+      }}
+    >
+      <BodyText color="#fff" {...props} preventTransition />
+    </Stack>
+  )
+  const HeadCell = (props) => (
+    <Stack
+      sx={{
+        bgcolor: "primary.main",
+        padding: 2,
+        height: "100%",
+      }}
+    >
+      <BodyText color="#fff" {...props} preventTransition />
+    </Stack>
+  )
 
   const fractionSum = order.payment_fractions.reduce(
     (a, b) => Number(a) + Number(b),
     0
   )
+
+  const onSortEnd = (e) => {
+    const newState = arrayMoveImmutable(items, e.oldIndex, e.newIndex)
+    setItems(newState)
+    document.body.style.cursor = "default"
+  }
+  const SortableRow = SortableElement(({ item, index, onClick, ...props }) => {
+    return (
+      <Box
+        onClick={onClick}
+        component="li"
+        className="list-style-none no-select"
+        display="flex"
+        sx={{
+          position: "relative",
+        }}
+      >
+        <Grid
+          container
+          sx={{
+            "&:hover": {
+              cursor: "pointer",
+              background: "rgb(256,256,256, 0.05)",
+            },
+          }}
+        >
+          <Grid item xs={2}>
+            <Cell>{item.type}</Cell>
+          </Grid>
+          <Grid item xs={2}>
+            <Cell>{item.label}</Cell>
+          </Grid>
+          <Grid item xs={4}>
+            <Cell>{item.description}</Cell>
+          </Grid>
+          <Grid item xs={1}>
+            <Cell>{item.quantity}</Cell>
+          </Grid>
+          <Grid item xs={1}>
+            <Cell>{item.vat} %</Cell>
+          </Grid>
+          <Grid item xs={1}>
+            <Cell>{item.no_vat_price} €</Cell>
+          </Grid>
+          <Grid item xs={1}>
+            <Cell>
+              {formatPrice(
+                item.no_vat_price * item.quantity * (1 + item.vat / 100)
+              )}{" "}
+              €
+            </Cell>
+          </Grid>
+        </Grid>
+      </Box>
+    )
+  })
+  const SortableList = SortableContainer(({ items }) => (
+    <Stack
+      minWidth="1000px"
+      overflow="hidden"
+      borderRadius="10px"
+      border={`1px solid ${theme.palette.secondary.main}`}
+    >
+      <Box className="no-padding full-width">
+        <Grid container>
+          <Grid item xs={2}>
+            <HeadCell>type</HeadCell>
+          </Grid>
+          <Grid item xs={2}>
+            <HeadCell>label</HeadCell>
+          </Grid>
+          <Grid item xs={4}>
+            <HeadCell>description</HeadCell>
+          </Grid>
+          <Grid item xs={1}>
+            <HeadCell>Qté.</HeadCell>
+          </Grid>
+          <Grid item xs={1}>
+            <HeadCell>TVA</HeadCell>
+          </Grid>
+          <Grid item xs={1}>
+            <HeadCell>Prix unit.</HeadCell>
+          </Grid>
+          <Grid item xs={1}>
+            <HeadCell>total</HeadCell>
+          </Grid>
+        </Grid>
+      </Box>
+
+      <Box
+        component="ul"
+        className="list-style-none no-padding full-width"
+        margin={0}
+      >
+        {items.map((item, index) => (
+          <SortableRow
+            axis="xy"
+            key={index}
+            index={index}
+            item={item}
+            onClick={() => handleEdit(item, index)}
+          />
+        ))}
+      </Box>
+    </Stack>
+  ))
 
   if (order.file?.path)
     return (
@@ -1814,51 +1943,27 @@ function OrderForm({
                 Détails des produits / services <Span color="#fff">(5/5)</Span>
               </SmallTitle>
 
-              <Stack gap={2} width="100%" overflow="auto">
-                <Box
-                  component="table"
-                  sx={{
-                    width: "99%",
-                    margin: "0.5%",
-                    borderCollapse: "collapse",
-                    borderStyle: "hidden",
-                    borderRadius: "20px",
-                    boxShadow: (theme) =>
-                      `0 0 0 2px ${theme.palette.secondary.main}`,
-                    overflow: "hidden",
-                  }}
-                >
-                  {HEAD.map((item, key) => (
-                    <HeadCell key={key} width={item.width}>
-                      {item.label}
-                    </HeadCell>
-                  ))}
+              <CustomFilledTextArea
+                label="Objet de la commande"
+                value={order.description}
+                onChange={(e) =>
+                  setOrder({ ...order, description: e.target.value })
+                }
+              />
 
-                  {items.map((item, key) => (
-                    <Line key={key} onClick={() => handleEdit(item, key)}>
-                      <Cell>
-                        {
-                          QUOTATION_ITEM_TYPES.filter(
-                            (elt) => elt.id === item.type
-                          )[0].label
-                        }
-                      </Cell>
-                      <Cell>{item.label}</Cell>
-                      <Cell>{item.description}</Cell>
-                      <Cell>{item.quantity}</Cell>
-                      <Cell>{item.vat} %</Cell>
-                      <Cell>{item.no_vat_price / 100} €</Cell>
-                      <Cell>
-                        {formatPrice(
-                          item.no_vat_price *
-                            item.quantity *
-                            (1 + item.vat / 100)
-                        )}{" "}
-                        €
-                      </Cell>
-                    </Line>
-                  ))}
-                </Box>
+              <Stack gap={2} width="100%" overflow="auto">
+                <SortableList
+                  component="ul"
+                  className="list-style-none no-padding full-width flex-wrap"
+                  gap=".5rem"
+                  axis="xy"
+                  items={items}
+                  pressDelay={100}
+                  onSortStart={() => {
+                    document.body.style.cursor = "grabbing"
+                  }}
+                  onSortEnd={onSortEnd}
+                />
               </Stack>
 
               {/********** NEW LINE BUTTON **********/}
@@ -1873,7 +1978,7 @@ function OrderForm({
               </Stack>
 
               {/********** TOTAL PRICES **********/}
-              <Stack alignSelf="end">
+              <Stack alignSelf="center" mt={4}>
                 <PriceDetails order={order} items={items} />
               </Stack>
             </>

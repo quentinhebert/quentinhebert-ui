@@ -120,6 +120,7 @@ const orders = {
     body = {
       id,
       label,
+      description,
       status,
       items,
       date,
