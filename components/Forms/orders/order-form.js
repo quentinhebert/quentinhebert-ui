@@ -750,6 +750,8 @@ function OrderForm({
     setOpenModal(false)
     setEmailInput("")
     setNewClient(false)
+    setSelectedItemIndex(null)
+    setSelectedItem(null)
   }
   const handleChange = (attribute) => (e) => {
     setOrder({ ...order, [attribute]: e.target.value })
@@ -810,6 +812,8 @@ function OrderForm({
     handleOpenModal(MODALS.SAVE)
   }
   const handleEdit = (item, key) => {
+    console.log(key)
+    console.log(item.description)
     setSelectedItem(item)
     setSelectedItemIndex(key)
     handleOpenModal(MODALS.EDIT_ITEM)
@@ -1894,10 +1898,10 @@ function OrderForm({
           <EditOrderItemForm
             noVat={order.no_vat}
             handleClose={handleCloseModal}
-            incomingItem={selectedItem}
             items={items}
             setItems={setItems}
             itemIndex={selectedItemIndex}
+            incomingItem={selectedItem}
             handleDetectChange={handleDetectChange}
           />
         )}

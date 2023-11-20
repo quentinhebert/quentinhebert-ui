@@ -1,5 +1,5 @@
-import { useState, useContext } from "react"
-import { Button, Grid, InputAdornment, Stack } from "@mui/material"
+import { useState, useContext, useEffect } from "react"
+import { Button, Grid, InputAdornment, Stack, Typography } from "@mui/material"
 import AlertInfo from "../../Other/alert-info"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import { AppContext } from "../../../contexts/AppContext"
@@ -34,7 +34,6 @@ function EditOrderItemForm({
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   /********** USE-STATES **********/
-  const [credits, setCredits] = useState("")
   const [showAlert, setShowAlert] = useState({
     show: false,
     severity: null,
@@ -42,13 +41,23 @@ function EditOrderItemForm({
     title: null,
   })
   const [item, setItem] = useState({
-    type: incomingItem.type || "",
-    label: incomingItem.label || "",
-    description: incomingItem.description || "",
-    quantity: incomingItem.quantity || 1,
-    vat: incomingItem.vat || 0,
-    no_vat_price: incomingItem.no_vat_price / 100 || 0,
+    type: incomingItem?.type || "",
+    label: incomingItem?.label || "",
+    description: incomingItem?.description || "",
+    quantity: incomingItem?.quantity || 1,
+    vat: incomingItem?.vat || 0,
+    no_vat_price: incomingItem?.no_vat_price / 100 || 0,
   })
+  useEffect(() => {
+    setItem({
+      type: incomingItem?.type || "",
+      label: incomingItem?.label || "",
+      description: incomingItem?.description || "",
+      quantity: incomingItem?.quantity || 1,
+      vat: incomingItem?.vat || 0,
+      no_vat_price: incomingItem?.no_vat_price / 100 || 0,
+    })
+  }, [itemIndex])
 
   const handleChange = (attribute) => (e) => {
     if (INTEGER_FIELDS.includes(attribute)) {
