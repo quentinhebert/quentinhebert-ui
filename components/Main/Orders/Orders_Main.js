@@ -21,7 +21,7 @@ const inProgressStatuses = [
   "WAITING_FOR_PAYMENT",
   "PARTIALLY_PAID",
   "DEPOSIT_PAID",
-  "PAYMENT_SUCCEEDED",
+  // "PAYMENT_SUCCEEDED",
 ]
 
 const STATUS_OPTIONS = [
@@ -36,7 +36,11 @@ const STATUS_OPTIONS = [
     statuses: inProgressStatuses,
     label: "en cours",
   },
-  { id: "FINISHED", statuses: ["FINISHED"], label: "terminées" },
+  {
+    id: "FINISHED",
+    statuses: ["FINISHED", "PAYMENT_SUCCEEDED"],
+    label: "terminées",
+  },
   { id: "CANCELED", statuses: ["CANCELED"], label: "annulées" },
   { id: "ARCHIVED", statuses: ["ARCHIVED"], label: "archivées" },
 ]
