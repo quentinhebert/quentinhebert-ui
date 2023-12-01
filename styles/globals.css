@@ -22,6 +22,10 @@ body {
   background: #c6900e;
   border-radius: 10px;
 }
+::selection {
+  color: #000;
+  background-color: #c6900e;
+} 
 
 .cool-button {
   display: inline-block;
