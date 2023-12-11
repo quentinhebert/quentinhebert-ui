@@ -1176,23 +1176,20 @@ function OrderForm({
       >
         {readOnly ? (
           <>
-            <Stack
-              flexDirection={{ xs: "column-reverse", md: "row" }}
-              alignItems={{ xs: "left", md: "center" }}
-              gap={1}
+            <BodyText
+              preventTransition
+              fontSize="1.5rem"
+              color={(theme) => theme.palette.text.secondary}
             >
-              <BodyText preventTransition color="grey" fontSize="1rem">
-                Commande
-                {!!order.client.firstname
-                  ? ` de ${order.client.firstname} ${
-                      order.client.lastname || ""
-                    }`
-                  : null}
-                {!!order.client.company && ` / ${order.client.company}`}
-              </BodyText>
-
-              <Status />
-            </Stack>
+              {order.label || "Sans nom"}
+            </BodyText>
+            <BodyText preventTransition color="grey" fontSize="1rem">
+              Commande
+              {!!order.client.firstname
+                ? ` de ${order.client.firstname} ${order.client.lastname || ""}`
+                : null}
+              {!!order.client.company && ` / ${order.client.company}`}
+            </BodyText>
 
             <Stack
               alignItems="end"
@@ -1201,38 +1198,16 @@ function OrderForm({
               justifyContent="space-between"
               gap={2}
             >
-              <Stack gap={1}>
-                <BodyText
-                  preventTransition
-                  fontSize="1.5rem"
-                  color={(theme) => theme.palette.text.secondary}
-                >
-                  {order.label || "Sans nom"}
-                </BodyText>
-
+              <Stack gap={1} className="flex-center row">
                 <BodyText fontSize="1.5rem" preventTransition>
                   {(
                     Math.round(parseOrderPrice({ order, items }).totalPrice) /
                     100
                   ).toFixed(2)}
                   €
-                  {/* {paymentFractions.length > 1 && (
-                    <Box
-                      component="span"
-                      color="grey"
-                      fontSize="1.2rem"
-                      display={{
-                        xs: "none",
-                        sm: "inline-block",
-                        whiteSpace: "pre",
-                      }}
-                    >
-                      {" ("}
-                      {amountSumArray.join(" + ")}
-                      {")"}
-                    </Box>
-                  )} */}
                 </BodyText>
+
+                <Status />
               </Stack>
 
               <Stack
