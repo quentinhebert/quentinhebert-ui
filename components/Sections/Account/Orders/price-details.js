@@ -161,7 +161,7 @@ export default function PriceDetails({ items, order }) {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Grid container width="100%">
+                <Grid container width="100%" color="grey">
                   {paymentFractions.map((f, key) => {
                     return (
                       <Fragment key={key}>
