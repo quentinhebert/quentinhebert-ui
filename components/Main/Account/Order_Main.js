@@ -341,10 +341,16 @@ export default function Order_Main({ orderId }) {
                                       />
                                       <Typography color="secondary">
                                         {
-                                          getPaymentFractionsDetails({ order })[
-                                            key
-                                          ]?.percent
+                                          // getPaymentFractionsDetails({ order })[
+                                          //   key
+                                          // ]?.percent
+                                          Number(
+                                            getPaymentFractionsDetails({
+                                              order,
+                                            })[key]?.percent.split("%")[0]
+                                          ).toFixed(0)
                                         }
+                                        %
                                       </Typography>
                                     </Stack>
                                     <Typography

@@ -174,7 +174,8 @@ export default function PriceDetails({ items, order }) {
                               : null
                           }
                         >
-                          {f.label} TTC ({f.percent}){" "}
+                          {f.label} TTC (
+                          {Number(f.percent.split("%")[0]).toFixed(2)}%){" "}
                           {f.paid ? (
                             <PaidChip />
                           ) : f.paymentStatus === "processing" ? (
