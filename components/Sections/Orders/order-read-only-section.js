@@ -55,6 +55,7 @@ const HeadCell = ({ width, ...props }) => (
       color={(theme) => theme.palette.text.grey}
       fontSize={{ xs: "0.8rem", md: "1rem" }}
       display="flex"
+      whiteSpace="nowrap"
       {...props}
     />
   </Box>
@@ -117,7 +118,7 @@ const Info = ({ title, ...props }) => (
     <Title>{title}</Title>
     <BodyText
       preventTransition
-      fontSize="1rem"
+      fontSize=".8rem"
       className="initial-cap"
       color={(theme) => theme.palette.text.grey}
       {...props}
@@ -238,11 +239,12 @@ export default function OrderReadOnlySection({
                   {paymentOptionsString}
                 </Info>
 
-                <Info title="Conditions">
+                <Info title="Échéances">
                   {order.payment_conditions}
                   <br />
                   <BodyText
                     preventTransition
+                    fontSize=".8rem"
                     color={(theme) => theme.palette.text.grey}
                   >
                     {fractionsString}
@@ -296,11 +298,13 @@ export default function OrderReadOnlySection({
                       )[0].label
                     }
                   </Cell>
-                  <Cell>
+                  <Cell fontStyle="italic">
                     {item.label}
                     <br />
                     <Box
                       component="span"
+                      fontStyle="normal"
+                      fontSize={{ xs: ".8rem", md: "1rem" }}
                       color={(theme) => theme.palette.text.grey}
                     >
                       {item.description}
@@ -308,7 +312,9 @@ export default function OrderReadOnlySection({
                   </Cell>
                   <Cell>{item.quantity}</Cell>
                   <Cell whiteSpace="nowrap">{item.vat} %</Cell>
-                  <Cell whiteSpace="nowrap">{item.no_vat_price / 100} €</Cell>
+                  <Cell whiteSpace="nowrap">
+                    {formatPrice(item.no_vat_price)} €
+                  </Cell>
                   <Cell whiteSpace="nowrap">
                     {formatPrice(
                       item.no_vat_price * item.quantity * (1 + item.vat / 100)

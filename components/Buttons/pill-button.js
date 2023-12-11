@@ -78,6 +78,7 @@ function Btn({
           variant="contained"
           disabled={disabled}
           sx={{
+            lineHeight: fontSize || "1.2rem",
             background: background || ((theme) => theme.palette.secondary.main),
             color: color || "#000",
             fontWeight: "bold",

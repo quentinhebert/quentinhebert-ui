@@ -128,7 +128,7 @@ const FormCard = ({ title, width, icon, gap, step, totalSteps, ...props }) => (
   <Stack
     sx={{
       width: width || "100%",
-      padding: "2rem",
+      padding: { xs: "1rem", md: "2rem" },
       backgroundColor: (theme) => theme.palette.background.main,
       borderRadius: "20px",
       gap: 2,
@@ -192,8 +192,13 @@ const DocumentHeader = (props) => (
     {...props}
   />
 )
-const GridItem = ({ xs, textAlign, ...props }) => (
-  <Grid item xs={xs || 2.5} textAlign={textAlign || "left"}>
+const GridItem = ({ xs, md, textAlign, ...props }) => (
+  <Grid
+    item
+    xs={xs || 2.5}
+    md={md || xs || 2.5}
+    textAlign={textAlign || "left"}
+  >
     <BodyText {...props} preventTransition fontSize="1rem" />
   </Grid>
 )
@@ -215,23 +220,23 @@ const OrderListHead = ({}) => (
   </Grid>
 )
 const QuotationsListHead = ({}) => (
-  <Grid container marginTop={2} minWidth="700px">
+  <Grid container marginTop={2} minWidth="400px">
     <GridItem color="grey" fontSize="1rem" xs={2}>
       Version
     </GridItem>
     <GridItem color="grey" fontSize="1rem">
       Status
     </GridItem>
-    <GridItem color="grey" fontSize="1rem"></GridItem>
-    <GridItem color="grey" fontSize="1rem"></GridItem>
-    <GridItem color="grey" fontSize="1rem" textAlign="right">
+    <GridItem color="grey" fontSize="1rem" xs={2} md={2.5}></GridItem>
+    <GridItem color="grey" fontSize="1rem" xs={2} md={2.5}></GridItem>
+    <GridItem color="grey" fontSize="1rem" xs={3.5} md={2.5} textAlign="right">
       Créé le
     </GridItem>
   </Grid>
 )
 const ActionButton = ({ onClick, label, icon }) => (
   <GridItem
-    className="pointer flex gap-10 flex-center"
+    className="flex pointer gap-10"
     preventTransition
     onClick={onClick}
     sx={{
@@ -240,7 +245,10 @@ const ActionButton = ({ onClick, label, icon }) => (
       },
     }}
   >
-    {icon} {label}
+    {icon}{" "}
+    <Box component="span" sx={{ display: { xs: "none", md: "block" } }}>
+      {label}
+    </Box>
   </GridItem>
 )
 const OrderListItem = ({ invoice }) => {
@@ -280,11 +288,18 @@ const QuotationsListItem = ({ quotation, router, handleSend }) => {
     router.push(`/quotation-view/${quotation.id}`)
   }
   return (
-    <Stack sx={{ justifyContent: "space-between" }} minWidth="700px">
+    <Stack sx={{ justifyContent: "space-between" }} minWidth="400px">
       <Grid container>
         <GridItem xs={2}>{version}</GridItem>
         <GridItem color={color}>{label}</GridItem>
-        <GridItem>
+        <GridItem
+          xs={2}
+          md={2.5}
+          sx={{
+            display: "flex !important",
+            justifyContent: "center !important",
+          }}
+        >
           {!!quotation?.path ? (
             <ActionButton
               icon={<DownloadIcon />}
@@ -295,15 +310,21 @@ const QuotationsListItem = ({ quotation, router, handleSend }) => {
             "Patientez..."
           )}
         </GridItem>
-        <GridItem>
+        <GridItem
+          xs={2}
+          md={2.5}
+          sx={{
+            display: "flex !important",
+            justifyContent: "center !important",
+          }}
+        >
           <ActionButton
             icon={<SendIcon />}
             label="Envoyer"
             onClick={() => handleSend(quotation.id)}
           />
         </GridItem>
-
-        <GridItem color="grey" textAlign="right">
+        <GridItem color="grey" xs={3.5} md={2.5} textAlign="right">
           {formatDayDate({ timestamp: quotation.last_update })}
         </GridItem>
       </Grid>
@@ -396,23 +417,37 @@ const DocumentsSection = ({
 }
 const ClientSection = ({ order, handleOpenAssign }) => {
   const Title = (props) => (
-    <TableCell>
+    <TableCell sx={{ verticalAlign: "baseline" }}>
       <BodyText
         preventTransition
         fontSize="1rem"
+        whiteSpace="nowrap"
         {...props}
         color={(theme) => theme.palette.text.grey}
       />
     </TableCell>
   )
   const Value = (props) => (
-    <TableCell>
+    <TableCell sx={{ textAlign: "right", verticalAlign: "baseline" }}>
       <BodyText preventTransition fontSize="1rem" {...props} />
     </TableCell>
   )
   const Identity = (props) => (
     <BodyText preventTransition fontSize="1.2rem" {...props} />
   )
+  function UndefinedValue() {
+    return (
+      <Box
+        component="span"
+        sx={{
+          color: (theme) => `${theme.palette.error.main} !important`,
+          fontStyle: "italic",
+        }}
+      >
+        Non renseigné
+      </Box>
+    )
+  }
   return (
     <>
       {!order.client?.id && (
@@ -437,21 +472,30 @@ const ClientSection = ({ order, handleOpenAssign }) => {
 
         <Table
           sx={{
-            width: "fit-content",
+            width: "100%",
             "& .MuiTableCell-root": {
               borderBottom: "none",
               padding: ".5rem .25rem",
               paddingRight: "1rem",
+              overflowWrap: "break-word",
+              wordWrap: "break-word",
+              "-ms-word-break": "break-all",
+              wordBreak: "break-all",
+              wordBreak: "break-word",
+              "-ms-hyphens": "auto",
+              "-moz-hyphens": "auto",
+              "-webkit-hyphens": "auto",
+              hyphens: "auto",
             },
           }}
         >
           <TableRow>
             <Title>E-mail</Title>
-            <Value>{order.client.email || ""}</Value>
+            <Value>{order.client.email || <UndefinedValue />}</Value>
           </TableRow>
           <TableRow>
             <Title>Téléphone</Title>
-            <Value>{order.client.phone || ""}</Value>
+            <Value>{order.client.phone || <UndefinedValue />}</Value>
           </TableRow>
           <TableRow>
             <Title>Addresse</Title>
@@ -1056,6 +1100,7 @@ function OrderForm({
         color={theme.alert.title[ORDERSTATES[order.status].severity].color}
         fontSize="0.8rem"
         preventTransition
+        whiteSpace="nowrap"
       >
         {ORDERSTATES[order.status].label}
       </BodyText>
@@ -1122,7 +1167,7 @@ function OrderForm({
             width: "100vw",
             position: "absolute",
             bottom: 0,
-            left: "-1rem",
+            left: { xs: "-1rem", md: "-3rem" },
             borderBottom: (theme) =>
               `1px solid ${theme.palette.secondary.main}`,
             content: `''`,
@@ -1132,9 +1177,8 @@ function OrderForm({
         {readOnly ? (
           <>
             <Stack
-              flexDirection="row"
-              // justifyContent="space-between"
-              alignItems="center"
+              flexDirection={{ xs: "column-reverse", md: "row" }}
+              alignItems={{ xs: "left", md: "center" }}
               gap={1}
             >
               <BodyText preventTransition color="grey" fontSize="1rem">
