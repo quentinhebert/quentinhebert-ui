@@ -307,9 +307,9 @@ export default function OrderReadOnlySection({
                     </Box>
                   </Cell>
                   <Cell>{item.quantity}</Cell>
-                  <Cell>{item.vat} %</Cell>
-                  <Cell>{item.no_vat_price / 100} €</Cell>
-                  <Cell>
+                  <Cell whiteSpace="nowrap">{item.vat} %</Cell>
+                  <Cell whiteSpace="nowrap">{item.no_vat_price / 100} €</Cell>
+                  <Cell whiteSpace="nowrap">
                     {formatPrice(
                       item.no_vat_price * item.quantity * (1 + item.vat / 100)
                     )}{" "}
