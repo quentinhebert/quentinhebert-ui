@@ -69,7 +69,13 @@ const Cell = (props) => (
       padding: ".5rem 1rem",
     }}
   >
-    <BodyText preventTransition color="#fff" {...props} fontSize="1rem" />
+    <BodyText
+      preventTransition
+      color="#fff"
+      {...props}
+      fontSize="1rem"
+      lineHeight="1rem"
+    />
   </Box>
 )
 const Line = (props) => (
@@ -298,12 +304,18 @@ export default function OrderReadOnlySection({
                       )[0].label
                     }
                   </Cell>
-                  <Cell fontStyle="italic">
-                    {item.label}
-                    <br />
+                  <Cell>
                     <Box
                       component="span"
-                      fontStyle="normal"
+                      fontSize=".9rem"
+                      color="#fff"
+                      fontStyle="italic"
+                    >
+                      {item.label}
+                    </Box>
+                    <Box
+                      mt={1}
+                      component="div"
                       fontSize={{ xs: ".8rem", md: "1rem" }}
                       color={(theme) => theme.palette.text.grey}
                     >
