@@ -166,7 +166,7 @@ export default function OrderView_Main({}) {
       </CenteredMaxWidthContainer>
     )
 
-  if (!access)
+  if (!access && !loading)
     return (
       <CenteredMaxWidthContainer>
         <Stack padding="0 1rem" gap={4}>
