@@ -1117,12 +1117,12 @@ function OrderForm({
           margin: "1rem 0",
           "&::after": {
             zIndex: -1,
-            background: "#000",
+            background: "transparent",
             height: "100%",
-            width: "146vw",
+            width: "100vw",
             position: "absolute",
             bottom: 0,
-            left: "-50vw",
+            left: "-1rem",
             borderBottom: (theme) =>
               `1px solid ${theme.palette.secondary.main}`,
             content: `''`,
