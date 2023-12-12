@@ -11,6 +11,7 @@ import { fetchers } from "../../../services/public-fetchers"
 import NextLink from "../../Helpers/next-link"
 import ChangeLangSection from "../../Sections/Navbar/change-lang"
 import ContactBtnSection from "../../Sections/Navbar/contact-btn-section"
+import Image from "next/image"
 
 const MobileNavbar = dynamic(() => import("./mobile-navbar"))
 
@@ -101,13 +102,17 @@ export default function Navbar(props) {
                 }}
               >
                 {data?.logo?.URL && (
-                  <Box
-                    component="img"
-                    src={data.logo.URL}
-                    width="100%"
-                    height="100%"
-                    zIndex={1000}
-                  />
+                  <Box width="100%" height="100%" zIndex={1000}>
+                    <Image
+                      src={data.logo.URL}
+                      alt="Logo"
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      style={{ width: "100%", height: "100%" }}
+                      loading="lazy"
+                    />
+                  </Box>
                 )}
               </Stack>
             </ScaleUpOnHoverStack>

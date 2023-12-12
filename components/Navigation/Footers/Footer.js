@@ -26,6 +26,7 @@ import translations from "../../../services/translation"
 import Multiline from "../../Text/multiline"
 import BodyText from "../../Text/body-text"
 import ChangeLangSection from "../../Sections/Navbar/change-lang"
+import Image from "next/image"
 
 /********** CONSTANTES **********/
 const logoQH = "/logos/logo-qh.png"
@@ -146,13 +147,17 @@ const LogoQH = ({ logoUrl }) => (
   <ScaleUpOnHoverStack direction="row" justifyContent="center">
     <NextLink href="/">
       {logoUrl && (
-        <Box
-          component="img"
-          src={logoUrl}
-          width="80px"
-          height="65px"
-          zIndex={100000}
-        />
+        <Box width="80px" height="65px" zIndex={100000}>
+          <Image
+            src={logoUrl}
+            alt="Logo"
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: "100%", height: "100%" }}
+            loading="lazy"
+          />
+        </Box>
       )}
     </NextLink>
   </ScaleUpOnHoverStack>
