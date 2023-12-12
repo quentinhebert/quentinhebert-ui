@@ -43,16 +43,6 @@ export default class AutoPlayCarousel extends React.Component {
       ? this.props.references.map((ref, index) => (
           <SlideItem key={index}>
             <Tooltip title={ref.label}>
-              {/* <Box
-                component="img"
-                src={ref.logo_url}
-                alt={ref.label}
-                sx={{
-                  width: { xs: "5rem", md: "6rem" },
-                  filter: "grayscale(100%)",
-                  "&:hover": { filter: "grayscale(0)" },
-                }}
-              /> */}
               <Box
                 sx={{
                   width: { xs: "5rem", md: "6rem" },
