@@ -1,6 +1,7 @@
 import React from "react"
 import ItemsCarousel from "react-items-carousel"
 import { Box, Stack, Tooltip } from "@mui/material"
+import Image from "next/image"
 
 const autoPlayDelay = 3000
 
@@ -42,7 +43,7 @@ export default class AutoPlayCarousel extends React.Component {
       ? this.props.references.map((ref, index) => (
           <SlideItem key={index}>
             <Tooltip title={ref.label}>
-              <Box
+              {/* <Box
                 component="img"
                 src={ref.logo_url}
                 alt={ref.label}
@@ -51,7 +52,24 @@ export default class AutoPlayCarousel extends React.Component {
                   filter: "grayscale(100%)",
                   "&:hover": { filter: "grayscale(0)" },
                 }}
-              />
+              /> */}
+              <Box
+                sx={{
+                  width: { xs: "5rem", md: "6rem" },
+                  filter: "grayscale(100%)",
+                  "&:hover": { filter: "grayscale(0)" },
+                }}
+              >
+                <Image
+                  src={ref.logo_url}
+                  alt={ref.label}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{ width: "100%", height: "100%" }}
+                  loading="lazy"
+                />
+              </Box>
             </Tooltip>
           </SlideItem>
         ))
