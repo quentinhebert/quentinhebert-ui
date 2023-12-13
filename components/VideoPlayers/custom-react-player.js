@@ -4,18 +4,18 @@ import ReactPlayer from "react-player"
 import VolumeUpIcon from "@mui/icons-material/VolumeUp"
 import VolumeOffIcon from "@mui/icons-material/VolumeOff"
 import PillButton from "../Buttons/pill-button"
-import { useInView } from "react-intersection-observer"
 
 function arePropsEqual(prevProps, nextProps) {
   return (
     prevProps.youtubeId === nextProps.youtubeId &&
-    prevProps.vimeoId === nextProps.vimeoId
+    prevProps.vimeoId === nextProps.vimeoId &&
+    prevProps.play === nextProps.play
   )
 }
 const CustomReactPlayer = memo((props) => <Player {...props} />, arePropsEqual)
 export default CustomReactPlayer
 
-function Player({ youtubeId, vimeoId, disableAutoplay, triggerPlayInView }) {
+function Player({ youtubeId, vimeoId, disableAutoplay, play }) {
   const [playing, setPlaying] = useState(false)
   const [volume, setVolume] = useState(1)
   const [showControls, setShowControls] = useState(true)
@@ -24,8 +24,6 @@ function Player({ youtubeId, vimeoId, disableAutoplay, triggerPlayInView }) {
     if (volume === 0) setVolume(1)
     else setVolume(0)
   }
-
-  const togglePlay = () => setPlaying(!playing)
 
   useEffect(() => {
     let timeout = 0
@@ -43,11 +41,10 @@ function Player({ youtubeId, vimeoId, disableAutoplay, triggerPlayInView }) {
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
-  const [ref, inView] = useInView()
   useEffect(() => {
-    if (inView && triggerPlayInView) setPlaying(true)
-    else if (!inView && triggerPlayInView) setPlaying(false)
-  }, [inView])
+    if (play) setPlaying(true)
+    else if (play === false) setPlaying(false)
+  }, [play])
 
   return (
     <Stack
@@ -59,7 +56,6 @@ function Player({ youtubeId, vimeoId, disableAutoplay, triggerPlayInView }) {
         display: "flex",
         backgroundColor: (theme) => theme.palette.background.black,
       }}
-      ref={ref}
     >
       <ReactPlayer
         playsinline
@@ -92,8 +88,6 @@ function Player({ youtubeId, vimeoId, disableAutoplay, triggerPlayInView }) {
           position: "absolute",
           flexGrow: 1,
           height: "100%",
-          // visibility: playing ? "visible" : "hidden",
-          // opacity: playing ? 1 : 0,
           transition: "opacity 0.7s ease-in-out",
         }}
       />
