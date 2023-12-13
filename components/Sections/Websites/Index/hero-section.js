@@ -168,7 +168,7 @@ function CTAIsland({ ...props }) {
       visible={{ opacity: 1, y: 0 }}
       delay={0.5}
       style={{
-        margin: "0 0 0 auto",
+        margin: "0 0 0 12%",
         maxWidth: "700px",
         width: { xs: "80%", sm: "100%" },
       }}
