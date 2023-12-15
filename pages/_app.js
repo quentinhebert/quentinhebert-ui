@@ -160,15 +160,16 @@ function PageTransitionIn({ duration, delay, background, ...props }) {
         top: 0,
         left: 0,
         height: "100vh",
-        width: "100%",
+        minWidth: "100vh",
+        width: "100vw",
         background: background || "#fff",
         zIndex: 1000000000000,
       }}
       initial={{
         y: "-100vh",
-        borderRadius: "0 0 200% 200%",
+        borderRadius: "0 0 100% 100%",
       }}
-      animate={{ y: "-100vh", borderRadius: "0 0 200% 200%" }}
+      animate={{ y: "-100vh", borderRadius: "0 0 100% 100%" }}
       exit={{ y: 0, borderRadius: "0%" }}
       transition={{
         duration: duration || 1,
@@ -187,12 +188,13 @@ function PageTransitionOut({ duration, delay, background }) {
         top: 0,
         left: 0,
         height: "100vh",
-        width: "100%",
+        minWidth: "100vh",
+        width: "100vw",
         background: background || "#fff",
         zIndex: 1000000000000,
       }}
       initial={{ y: 0, borderRadius: "0%" }}
-      animate={{ y: "100vh", borderRadius: "200% 200% 0 0 " }}
+      animate={{ y: "100vh", borderRadius: "100% 100% 0 0" }}
       transition={{
         duration: duration || 1,
         delay: delay || 0,
