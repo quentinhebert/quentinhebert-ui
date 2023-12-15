@@ -133,6 +133,8 @@ function MyApp({ Component, pageProps }) {
                     setMessage={setSnackMessage}
                   />
 
+                  {appLoading && <AnimatedLogoLayout />}
+
                   <PageTransitionIn
                     duration={0.5}
                     background={theme.palette.secondary.main}
@@ -142,8 +144,6 @@ function MyApp({ Component, pageProps }) {
                   />
                 </motion.div>
               </AnimatePresence>
-
-              {/* {appLoading && <AnimatedLogoLayout />} */}
             </ThemeProvider>
           </UserContext.Provider>
         </FacebookProvider>
@@ -189,7 +189,7 @@ function PageTransitionOut({ duration, delay, background }) {
         height: "100vh",
         width: "100%",
         background: background || "#fff",
-        zIndex: 100000000,
+        zIndex: 1000000000000,
       }}
       initial={{ y: 0, borderRadius: "0%" }}
       animate={{ y: "100vh", borderRadius: "200% 200% 0 0 " }}
