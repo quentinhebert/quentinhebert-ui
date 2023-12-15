@@ -123,6 +123,7 @@ function MyApp({ Component, pageProps }) {
               <AnimatePresence
                 mode="wait"
                 exitBeforeEnter
+                initial={false}
                 onExitComplete={() => window.scrollTo(0, 0)}
               >
                 <motion.div key={router.pathname}>
@@ -135,10 +136,7 @@ function MyApp({ Component, pageProps }) {
 
                   {appLoading && <AnimatedLogoLayout />}
 
-                  <PageTransitionIn
-                    duration={0.5}
-                    background={theme.palette.secondary.main}
-                  />
+                  <PageTransitionIn background={theme.palette.secondary.main} />
                   <PageTransitionOut
                     background={theme.palette.secondary.main}
                   />
