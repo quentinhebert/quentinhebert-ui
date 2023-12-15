@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@mui/material"
+import { Box, ThemeProvider } from "@mui/material"
 import "../styles/globals.css"
 import theme from "../config/theme"
 import { useEffect, useState } from "react"
@@ -18,8 +18,11 @@ import AnimatedLogoLayout from "../components/Animation/animated-logo"
 import { defaultConfig } from "../config/defaultConfig"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import { FacebookProvider } from "react-facebook"
+import { motion } from "framer-motion"
+import { useRouter } from "next/router"
+import Image from "next/image"
 
-function MyApp({ Component, pageProps, router }) {
+function MyApp({ Component, pageProps }) {
   // User
   const [user, setUser] = useState(null)
 
@@ -29,6 +32,8 @@ function MyApp({ Component, pageProps, router }) {
   const [isAnimationProcessing, setIsAnimationProcessing] = useState(false)
   const [firstLoad, setFirstLoad] = useState(true)
   const [lang, setLang] = useState("fr")
+
+  const router = useRouter()
 
   // Snacks
   const [snackSeverity, setSnackSeverity] = useState("error")
@@ -116,23 +121,84 @@ function MyApp({ Component, pageProps, router }) {
           <UserContext.Provider value={{ user, setUser, fetchUser }}>
             <ThemeProvider theme={theme}>
               <AnimatePresence
+                mode="wait"
                 exitBeforeEnter
                 onExitComplete={() => window.scrollTo(0, 0)}
               >
-                <Component {...pageProps} key={router.route} />
-                <Snacks
-                  severity={snackSeverity}
-                  message={snackMessage}
-                  setMessage={setSnackMessage}
-                />
+                <motion.div key={router.pathname}>
+                  <Component {...pageProps} />
+                  <Snacks
+                    severity={snackSeverity}
+                    message={snackMessage}
+                    setMessage={setSnackMessage}
+                  />
+
+                  <PageTransitionIn
+                    duration={0.5}
+                    background={theme.palette.secondary.main}
+                  />
+                  <PageTransitionOut
+                    background={theme.palette.secondary.main}
+                  />
+                </motion.div>
               </AnimatePresence>
 
-              {appLoading && <AnimatedLogoLayout />}
+              {/* {appLoading && <AnimatedLogoLayout />} */}
             </ThemeProvider>
           </UserContext.Provider>
         </FacebookProvider>
       </GoogleOAuthProvider>
     </AppContext.Provider>
+  )
+}
+
+function PageTransitionIn({ duration, delay, background, ...props }) {
+  return (
+    <motion.div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        height: "100vh",
+        width: "100%",
+        background: background || "#fff",
+        zIndex: 1000000000000,
+      }}
+      initial={{
+        y: "-100vh",
+        borderRadius: "0 0 200% 200%",
+      }}
+      animate={{ y: "-100vh", borderRadius: "0 0 200% 200%" }}
+      exit={{ y: 0, borderRadius: "0%" }}
+      transition={{
+        duration: duration || 1,
+        delay: delay || 0,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      {...props}
+    ></motion.div>
+  )
+}
+function PageTransitionOut({ duration, delay, background }) {
+  return (
+    <motion.div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        height: "100vh",
+        width: "100%",
+        background: background || "#fff",
+        zIndex: 100000000,
+      }}
+      initial={{ y: 0, borderRadius: "0%" }}
+      animate={{ y: "100vh", borderRadius: "200% 200% 0 0 " }}
+      transition={{
+        duration: duration || 1,
+        delay: delay || 0,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    ></motion.div>
   )
 }
 
