@@ -27,6 +27,7 @@ import useAddProspect from "../../hooks/useAddProspect"
 import { ACTIVITY_TYPES } from "../../enums/activityTypesEnum"
 import PROSPECT_STATES from "../../enums/prospectStates"
 import useEditProspect from "../../hooks/useEditProspect"
+import useViewProspect from "../../hooks/useViewProspect"
 
 export default function QuotationRequests_Main({}) {
   const MODES = { FORM: "FORM", LIST: "LIST" }
@@ -360,24 +361,28 @@ function PropsectsCard({
   activity_type,
   refreshData,
 }) {
-  const { handleOpenEditProspectModal, EditProspectDialog } = useEditProspect({
+  // const { handleOpenEditProspectModal, ViewProspectDialog } = useEditProspect({
+  //   id,
+  //   refreshData,
+  // })
+  const { handleOpenViewProspectModal, ViewProspectDialog } = useViewProspect({
     id,
     refreshData,
   })
-  const router = useRouter()
-  const options = [
-    {
-      label: "Ouvrir dans un nouvel onglet",
-      handleClick: () =>
-        window.open(`/dashboard/quotation-requests/${id}`, "_blank").focus(),
-      icon: <OpenInNewIcon />,
-    },
-  ]
+  // const router = useRouter()
+  // const options = [
+  //   {
+  //     label: "Ouvrir dans un nouvel onglet",
+  //     handleClick: () =>
+  //       window.open(`/dashboard/quotation-requests/${id}`, "_blank").focus(),
+  //     icon: <OpenInNewIcon />,
+  //   },
+  // ]
 
   return (
     <>
       <Grid
-        onClick={handleOpenEditProspectModal}
+        onClick={handleOpenViewProspectModal}
         columnSpacing={2}
         container
         padding=".5rem"
@@ -450,7 +455,7 @@ function PropsectsCard({
         </Grid>
       </Grid>
 
-      {EditProspectDialog({})}
+      {ViewProspectDialog({})}
     </>
   )
 }
