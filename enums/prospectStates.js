@@ -5,7 +5,11 @@ const PROSPECT_STATES = {
   },
   CONTACTED: {
     severity: "warning",
-    label: "Contacté(e)",
+    label: "Icebreaker envoyé",
+  },
+  AWAITING: {
+    severity: "info",
+    label: "Discussion ouverte",
   },
   CONVERTED: {
     severity: "success",
@@ -20,6 +24,7 @@ const PROSPECT_STATES = {
 export const PROSPECT_STATES_ENUM = [
   "DRAFT",
   "CONTACTED",
+  "AWAITING",
   "CONVERTED",
   "CANCELED",
 ]

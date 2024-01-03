@@ -13,6 +13,7 @@ const CustomSelect = styled((props) => (
       borderColor:
         props.borderColor || ((theme) => theme.palette.secondary.main),
       borderRadius: "10px",
+      overflow: "hidden",
       "& .MuiOutlinedInput-notchedOutline": {
         border: "none",
       },
@@ -48,7 +49,7 @@ const SelectFormControl = styled((props) => (
       width: "100%",
       ".MuiOutlinedInput-input": {
         textAlign: "left",
-        padding: "0.8rem",
+        padding: props.padding || "0.8rem",
         // color of the select value text
         color: "#fff !important",
       },
@@ -62,7 +63,7 @@ const SelectFormControl = styled((props) => (
 
 export default function CustomFilledSelect(props) {
   return (
-    <SelectFormControl>
+    <SelectFormControl {...props}>
       <CustomSelect {...props} />
     </SelectFormControl>
   )
