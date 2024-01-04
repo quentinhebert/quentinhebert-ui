@@ -8,6 +8,8 @@ import apiCall from "../services/apiCalls/apiCall"
 import ProspectDD from "../components/Data-Display/Prospect-DD"
 import useEditProspect from "./useEditProspect"
 import OpenInNewIcon from "@mui/icons-material/OpenInNew"
+import BodyText from "../components/Text/body-text"
+import PROSPECT_STATES from "../enums/prospectStates"
 
 export default function useViewProspect({ id, refreshData }) {
   const [open, setOpen] = useState(false)
@@ -58,16 +60,38 @@ export default function useViewProspect({ id, refreshData }) {
     if (!open) {
       setData(initialData)
       refreshData()
-    }
-    handleOpenRequest()
-    fetchData()
+    } else fetchData()
   }, [open])
+  useEffect(() => {
+    if (!!data.id) handleOpenRequest()
+  }, [data.id])
 
   const ViewProspectDialog = ({}) => {
     return (
       <CustomModal open={open} handleClose={handleClose} gap={6}>
         {/**** TITLE ****/}
-        <ModalTitle>Prospect</ModalTitle>
+        <Stack alignItems="center" flexDirection="row" gap={2}>
+          <ModalTitle>Prospect</ModalTitle>
+          <BodyText
+            preventTransition
+            sx={{
+              width: "auto",
+              padding: ".2rem .5rem",
+              borderRadius: "15px",
+              whiteSpace: "nowrap",
+              background: (theme) =>
+                theme.alert.title[PROSPECT_STATES[data.status].severity]
+                  .background,
+              border: "1px solid",
+              borderColor: (theme) =>
+                theme.alert.title[PROSPECT_STATES[data.status].severity].color,
+              color: (theme) =>
+                theme.alert.title[PROSPECT_STATES[data.status].severity].color,
+            }}
+          >
+            {PROSPECT_STATES[data.status].label}
+          </BodyText>
+        </Stack>
 
         <ProspectDD
           id={id}
