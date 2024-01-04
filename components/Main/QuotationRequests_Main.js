@@ -533,7 +533,7 @@ function ProspectRow({
           <BodyText
             fontWeight="bold"
             preventTransition
-            color={(theme) => (opened ? "#fff" : theme.palette.secondary.main)}
+            color={(theme) => (opened ? "grey" : theme.palette.secondary.main)}
           >
             {firstname || ""} {lastname || ""}
           </BodyText>
