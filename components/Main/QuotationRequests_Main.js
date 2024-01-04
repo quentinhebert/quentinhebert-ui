@@ -155,15 +155,14 @@ export default function QuotationRequests_Main({}) {
         {loading && <PleaseWait />}
 
         {mode === MODES.FORM && (
-          // <RequestsPanel
-          //   list={list}
-          //   handleClick={(id) => {
-          //     setSelectedProspectId(id)
-          //     handleOpenViewProspectModal()
-          //   }}
-          //   refreshData={fetchData}
-          // />
-          <></>
+          <RequestsPanel
+            list={list}
+            handleClick={(id) => {
+              setSelectedProspectId(id)
+              handleOpenViewProspectModal()
+            }}
+            refreshData={fetchData}
+          />
         )}
 
         {mode === MODES.LIST && (

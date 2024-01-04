@@ -3,13 +3,17 @@ export const PROSPECT_STATES = {
     severity: "disabled2",
     label: "Tout",
   },
+  REQUEST: {
+    severity: "warning",
+    label: "Demande de contact (reçue)",
+  },
   DRAFT: {
     severity: "disabled",
     label: "Non contacté(e)",
   },
   CONTACTED: {
     severity: "warning",
-    label: "Premier contact",
+    label: "Demande de contact (émise)",
   },
   AWAITING: {
     severity: "info",
@@ -28,6 +32,7 @@ export const PROSPECT_STATES = {
 export const PROSPECT_STATES_ENUM = [
   "ALL",
   "DRAFT",
+  "REQUEST",
   "CONTACTED",
   "AWAITING",
   "CONVERTED",
