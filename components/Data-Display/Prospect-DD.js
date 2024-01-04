@@ -12,6 +12,7 @@ export default function ProspectDD(
   request = {
     id,
     created_at,
+    last_update,
     firstname,
     lastname,
     email,
@@ -32,13 +33,36 @@ export default function ProspectDD(
         timezone: user.timezone,
       })
     : ""
+  const formattedLastUpdate = !!request.last_update
+    ? formatDayDate({
+        timestamp: request.last_update,
+        timezone: user.timezone,
+      })
+    : ""
 
   // RENDER
   return (
     <Stack flexGrow={1} gap={2}>
       <Stack className="row" justifyContent="space-between" alignItems="center">
         <ServiceChips />
-        <BodyText>{formattedDate}</BodyText>
+        <Stack fontSize=".7rem" lineHeight="1rem" color="grey">
+          <BodyText
+            fontSize="inherit"
+            lineHeight="inherit"
+            color="inherit"
+            textAlign="right"
+          >
+            Création : {formattedDate}
+          </BodyText>
+          <BodyText
+            fontSize="inherit"
+            lineHeight="inherit"
+            color="inherit"
+            textAlign="right"
+          >
+            Dernière modification : {formattedLastUpdate}
+          </BodyText>
+        </Stack>
       </Stack>
       <ContactInfos />
       <BudgetInfos />

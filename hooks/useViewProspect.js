@@ -120,6 +120,7 @@ export default function useViewProspect({ id, refreshData }) {
           lastname={data.lastname}
           budget={data.budget}
           created_at={data.created_at}
+          last_update={data.last_update}
           email={data.email}
           description={data.description}
           opened={data.opened}

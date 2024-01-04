@@ -198,8 +198,13 @@ function ProspectsPanel({ list, handleClick, showStatus }) {
             </BodyText>
           </TableCell>
           <TableCell sx={{ textAlign: "right" }}>
+            <BodyText color="gray" preventTransition whiteSpace="nowrap">
+              Modifié le
+            </BodyText>
+          </TableCell>
+          <TableCell sx={{ textAlign: "right" }}>
             <BodyText color="gray" preventTransition>
-              Date
+              Créé le
             </BodyText>
           </TableCell>
         </TableRow>
@@ -222,6 +227,7 @@ function ProspectsPanel({ list, handleClick, showStatus }) {
               showStatus={showStatus}
               opened={item.opened}
               created_at={item.created_at}
+              last_update={item.last_update}
             />
           ))}
       </Table>
@@ -240,6 +246,7 @@ function ProspectRow({
   showStatus,
   opened,
   created_at,
+  last_update,
 }) {
   const user = useContext(UserContext)
   return (
@@ -355,6 +362,18 @@ function ProspectRow({
             }}
           >
             {PROSPECT_STATES[status].label}
+          </BodyText>
+        </TableCell>
+
+        <TableCell sx={{ textAlign: "right" }}>
+          <BodyText
+            color={(theme) => (opened ? "gray" : theme.palette.secondary.main)}
+            fontSize="1rem"
+            fontStyle="italic"
+            preventTransition
+            whiteSpace="nowrap"
+          >
+            {formatDayDate({ timestamp: last_update, timezone: user.timezone })}
           </BodyText>
         </TableCell>
 
