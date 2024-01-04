@@ -1,22 +1,3 @@
-import { AppContext } from "../../contexts/AppContext"
-import { UserContext } from "../../contexts/UserContext"
-import useAddProspect from "../../hooks/useAddProspect"
-import useViewProspect from "../../hooks/useViewProspect"
-import apiCall from "../../services/apiCalls/apiCall"
-import { formatDayDate } from "../../services/date-time"
-import Pill from "../Text/pill"
-import BodyText from "../Text/body-text"
-import PleaseWait from "../Helpers/please-wait"
-import CustomFilledSelect from "../Inputs/custom-filled-select"
-import CustomSelectOption from "../Inputs/custom-select-option"
-import DropdownOptions from "../Dropdown/dropdown-options"
-import CustomIconButton from "../Buttons/custom-icon-button"
-import { ACTIVITY_TYPES, servicesS } from "../../enums/activityTypesEnum"
-import {
-  PROSPECT_STATES,
-  PROSPECT_STATES_ENUM,
-} from "../../enums/prospectStates"
-
 import {
   Box,
   Stack,
@@ -36,9 +17,26 @@ import ListIcon from "@mui/icons-material/List"
 import AddRoundedIcon from "@mui/icons-material/AddRounded"
 import RefreshIcon from "@mui/icons-material/Refresh"
 
+import { AppContext } from "../../contexts/AppContext"
+import { UserContext } from "../../contexts/UserContext"
+import useAddProspect from "../../hooks/useAddProspect"
+import useViewProspect from "../../hooks/useViewProspect"
+import apiCall from "../../services/apiCalls/apiCall"
+import { formatDayDate } from "../../services/date-time"
+import Pill from "../Text/pill"
+import BodyText from "../Text/body-text"
+import PleaseWait from "../Helpers/please-wait"
+import CustomFilledSelect from "../Inputs/custom-filled-select"
+import CustomSelectOption from "../Inputs/custom-select-option"
+import DropdownOptions from "../Dropdown/dropdown-options"
+import CustomIconButton from "../Buttons/custom-icon-button"
+import {
+  PROSPECT_STATES,
+  PROSPECT_STATES_ENUM,
+} from "../../enums/prospectStates"
+
 export default function QuotationRequests_Main({}) {
   const MODES = { FORM: "FORM", LIST: "LIST" }
-  const { user } = useContext(UserContext)
   const [list, setList] = useState([])
   const [prospects, setProspects] = useState([])
   const [statusFilter, setStatusFilter] = useState("AWAITING")
@@ -474,9 +472,32 @@ function ProspectRow({
         }}
       >
         <TableCell>
-          <BodyText color="gray" preventTransition>
-            {services.map((item) => (
-              <Box>{ACTIVITY_TYPES[item]}</Box>
+          <BodyText
+            color="gray"
+            preventTransition
+            whiteSpace="nowrap"
+            gap={0.5}
+            display="flex"
+          >
+            {services.sort().map((service, key) => (
+              <Pill
+                key={key}
+                lineHeight="0.8rem"
+                margin="0rem"
+                padding="0 0.5rem"
+                preventTransition
+                bgColor={(theme) => theme.alert.title["disabled"].background}
+                border="1px solid"
+                borderColor={(theme) => theme.alert.title["disabled"].color}
+              >
+                <BodyText
+                  fontSize="0.8rem"
+                  color={(theme) => theme.alert.title["disabled"].color}
+                  preventTransition
+                >
+                  {service}
+                </BodyText>
+              </Pill>
             ))}
           </BodyText>
         </TableCell>
