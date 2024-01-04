@@ -32,6 +32,7 @@ export default function useViewProspect({ id, refreshData }) {
     website: "",
     description: "",
     status: "DRAFT",
+    opened: false,
   }
   const [data, setData] = useState(initialData)
   const [loading, setLoading] = useState(false)
@@ -45,9 +46,21 @@ export default function useViewProspect({ id, refreshData }) {
     }
     setLoading(false)
   }
+  const handleOpenRequest = async () => {
+    const res = await apiCall.dashboard.prospects.update({
+      ...data,
+      opened: true,
+    })
+    if (!res || !res.ok)
+      alert("An error occurred while marking the prospect request to `opened`")
+  }
   useEffect(() => {
-    if (open) fetchData()
-    else setData(initialData)
+    if (!open) {
+      setData(initialData)
+      refreshData()
+    }
+    handleOpenRequest()
+    fetchData()
   }, [open])
 
   const ViewProspectDialog = ({}) => {

@@ -94,7 +94,12 @@ export default function QuotationRequests_Main({}) {
           sx={{ textTransform: "capitalize", gap: 1 }}
         >
           <ListIcon />
-          Prospects {prospects.length ? `(${prospects.length})` : null}
+          Prospects{" "}
+          {prospects.filter((elt) => elt.opened === false).length
+            ? `(${
+                prospects.filter((elt) => elt.opened === false).length
+              } demandes en attente)`
+            : null}
         </ToggleButton>
       </ToggleButtonGroup>
 
@@ -451,6 +456,7 @@ function ProspectsPanel({ list, handleClick, showStatus }) {
               date={formattedDate}
               onClick={() => handleClick(item.id)}
               showStatus={showStatus}
+              opened={item.opened}
             />
           )
         })}
@@ -468,6 +474,7 @@ function ProspectRow({
   services,
   onClick,
   showStatus,
+  opened,
 }) {
   return (
     <>
@@ -486,7 +493,6 @@ function ProspectRow({
       >
         <TableCell>
           <BodyText
-            color="gray"
             preventTransition
             whiteSpace="nowrap"
             gap={0.5}
@@ -501,11 +507,19 @@ function ProspectRow({
                 preventTransition
                 bgColor={(theme) => theme.alert.title["disabled"].background}
                 border="1px solid"
-                borderColor={(theme) => theme.alert.title["disabled"].color}
+                borderColor={(theme) =>
+                  opened
+                    ? theme.alert.title["disabled"].color
+                    : theme.palette.secondary.main
+                }
               >
                 <BodyText
                   fontSize="0.8rem"
-                  color={(theme) => theme.alert.title["disabled"].color}
+                  color={(theme) =>
+                    opened
+                      ? theme.alert.title["disabled"].color
+                      : theme.palette.secondary.main
+                  }
                   preventTransition
                 >
                   {service}
@@ -516,20 +530,28 @@ function ProspectRow({
         </TableCell>
 
         <TableCell>
-          <BodyText fontWeight="bold" preventTransition>
+          <BodyText
+            fontWeight="bold"
+            preventTransition
+            color={(theme) => (opened ? "#fff" : theme.palette.secondary.main)}
+          >
             {firstname || ""} {lastname || ""}
           </BodyText>
         </TableCell>
 
         <TableCell>
-          <BodyText fontWeight="bold" preventTransition>
-            {company || ""}
+          <BodyText
+            fontWeight="bold"
+            preventTransition
+            color={(theme) => (opened ? "gray" : theme.palette.secondary.main)}
+          >
+            {company || "-"}
           </BodyText>
         </TableCell>
 
         <TableCell>
           <BodyText
-            color="gray"
+            color={(theme) => (opened ? "gray" : theme.palette.secondary.main)}
             fontSize="1rem"
             preventTransition
             sx={{

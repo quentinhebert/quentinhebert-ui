@@ -183,6 +183,7 @@ const dashboard = {
         company,
         website,
         services,
+        opened,
       }
     ) => {
       const body = JSON.stringify(payload)
