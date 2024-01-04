@@ -106,13 +106,19 @@ export default function ProspectDD(
           <PersonIcon />
           Contact
         </CardTitle>
-        <Grid container sx={{ gap: { xs: 1, md: 0 } }}>
-          <InfoLine label="Nom" textTransform="capitalize">
+        <Grid container>
+          <InfoLine
+            label="Nom"
+            textTransform="capitalize"
+            background="rgb(0,0,0,0.3)"
+          >
             {request.firstname} {request.lastname}
           </InfoLine>
           <InfoLine label="E-mail">{request.email}</InfoLine>
           {request.phone !== "" ? (
-            <InfoLine label="Tél.">{request.phone}</InfoLine>
+            <InfoLine label="Tél." background="rgb(0,0,0,0.3)">
+              {request.phone}
+            </InfoLine>
           ) : null}
           {request.company !== "" ? (
             <InfoLine label="Entreprise">{request.company}</InfoLine>
@@ -147,16 +153,29 @@ export default function ProspectDD(
       </Card>
     )
   }
-  function InfoLine({ label, ...props }) {
+  function InfoLine({ label, background, ...props }) {
     return (
-      <Stack width="100%" className="row gap-10">
-        <BodyText preventTransition>{label} :</BodyText>
-        <BodyText
-          preventTransition
-          color={(theme) => theme.palette.secondary.main}
-          {...props}
-        />
-      </Stack>
+      <>
+        <Grid
+          item
+          xs={4}
+          sx={{ padding: ".25rem .75rem", background: background || "" }}
+        >
+          <BodyText preventTransition>{label}</BodyText>
+        </Grid>
+        <Grid
+          item
+          xs={8}
+          sx={{ padding: ".25rem .75rem", background: background || "" }}
+        >
+          <Typography
+            textAlign="right"
+            right={0}
+            color={(theme) => theme.palette.secondary.main}
+            {...props}
+          />
+        </Grid>
+      </>
     )
   }
 }
