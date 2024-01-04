@@ -36,7 +36,7 @@ export default function useEditProspect({ id, refreshData }) {
     email: "",
     phone: "",
     company: "",
-    activity_type: [],
+    services: [],
     budget: "",
     website: "",
     description: "",
@@ -140,9 +140,9 @@ export default function useEditProspect({ id, refreshData }) {
           <ToggleButtonGroup
             sx={{ width: "100%" }}
             color="secondary"
-            value={formData.activity_type}
+            value={formData.services}
             onChange={(e, newValue) => {
-              setFormData({ ...formData, activity_type: newValue })
+              setFormData({ ...formData, services: newValue })
             }}
           >
             <ToggleButton

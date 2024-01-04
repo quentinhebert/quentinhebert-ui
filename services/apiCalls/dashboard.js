@@ -154,7 +154,7 @@ const dashboard = {
         budget,
         company,
         website,
-        activity_type,
+        services,
       }
     ) => {
       const body = JSON.stringify(payload)
@@ -182,7 +182,7 @@ const dashboard = {
         budget,
         company,
         website,
-        activity_type,
+        services,
       }
     ) => {
       const body = JSON.stringify(payload)

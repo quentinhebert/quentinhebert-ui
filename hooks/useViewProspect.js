@@ -27,7 +27,7 @@ export default function useViewProspect({ id, refreshData }) {
     email: "",
     phone: "",
     company: "",
-    activity_type: [],
+    services: [],
     budget: "",
     website: "",
     description: "",
@@ -67,7 +67,7 @@ export default function useViewProspect({ id, refreshData }) {
           opened={data.opened}
           company={data.company}
           phone={data.phone}
-          services={data.activity_type}
+          services={data.services}
         />
 
         {/**** BOTTOM BUTTONS ****/}

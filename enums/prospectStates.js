@@ -1,15 +1,19 @@
-const PROSPECT_STATES = {
+export const PROSPECT_STATES = {
+  ALL: {
+    severity: "disabled2",
+    label: "Tout",
+  },
   DRAFT: {
     severity: "disabled",
     label: "Non contacté(e)",
   },
   CONTACTED: {
     severity: "warning",
-    label: "Icebreaker envoyé",
+    label: "Premier contact",
   },
   AWAITING: {
     severity: "info",
-    label: "Discussion ouverte",
+    label: "Discussion en cours",
   },
   CONVERTED: {
     severity: "success",
@@ -22,6 +26,7 @@ const PROSPECT_STATES = {
 }
 
 export const PROSPECT_STATES_ENUM = [
+  "ALL",
   "DRAFT",
   "CONTACTED",
   "AWAITING",

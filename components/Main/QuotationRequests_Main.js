@@ -1,38 +1,40 @@
-import {
-  Box,
-  Grid,
-  Stack,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material"
-import BodyText from "../Text/body-text"
-import CircleIcon from "@mui/icons-material/Circle"
-import { useContext, useEffect, useState } from "react"
+import { AppContext } from "../../contexts/AppContext"
+import { UserContext } from "../../contexts/UserContext"
+import useAddProspect from "../../hooks/useAddProspect"
+import useViewProspect from "../../hooks/useViewProspect"
 import apiCall from "../../services/apiCalls/apiCall"
 import { formatDayDate } from "../../services/date-time"
-import { UserContext } from "../../contexts/UserContext"
-import PleaseWait from "../Helpers/please-wait"
-import MarkEmailUnreadOutlinedIcon from "@mui/icons-material/MarkEmailUnreadOutlined"
 import Pill from "../Text/pill"
+import BodyText from "../Text/body-text"
+import PleaseWait from "../Helpers/please-wait"
+import CustomFilledSelect from "../Inputs/custom-filled-select"
+import CustomSelectOption from "../Inputs/custom-select-option"
 import DropdownOptions from "../Dropdown/dropdown-options"
+import CustomIconButton from "../Buttons/custom-icon-button"
+import { ACTIVITY_TYPES, servicesS } from "../../enums/activityTypesEnum"
+import {
+  PROSPECT_STATES,
+  PROSPECT_STATES_ENUM,
+} from "../../enums/prospectStates"
+
+import {
+  Box,
+  Stack,
+  Table,
+  TableCell,
+  TableRow,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@mui/material"
+import CircleIcon from "@mui/icons-material/Circle"
+import { useContext, useEffect, useState } from "react"
+import MarkEmailUnreadOutlinedIcon from "@mui/icons-material/MarkEmailUnreadOutlined"
 import { useRouter } from "next/router"
-import { AppContext } from "../../contexts/AppContext"
 import MarkEmailUnreadIcon from "@mui/icons-material/MarkEmailUnread"
 import OpenInNewIcon from "@mui/icons-material/OpenInNew"
 import ListIcon from "@mui/icons-material/List"
-import CustomIconButton from "../Buttons/custom-icon-button"
 import AddRoundedIcon from "@mui/icons-material/AddRounded"
-import useAddProspect from "../../hooks/useAddProspect"
-import { ACTIVITY_TYPES } from "../../enums/activityTypesEnum"
-import PROSPECT_STATES, {
-  PROSPECT_STATES_ENUM,
-} from "../../enums/prospectStates"
-import useEditProspect from "../../hooks/useEditProspect"
-import useViewProspect from "../../hooks/useViewProspect"
 import RefreshIcon from "@mui/icons-material/Refresh"
-import CustomFilledSelect from "../Inputs/custom-filled-select"
-import CustomSelectOption from "../Inputs/custom-select-option"
 
 export default function QuotationRequests_Main({}) {
   const MODES = { FORM: "FORM", LIST: "LIST" }
@@ -42,15 +44,21 @@ export default function QuotationRequests_Main({}) {
   const [statusFilter, setStatusFilter] = useState("AWAITING")
   const [loading, setLoading] = useState(false)
   const [mode, setMode] = useState(MODES.FORM)
+  const [selectedProspectId, setSelectedProspectId] = useState(null)
   const newNotifList = list.filter((item) => item.opened === false)
 
   const { handleOpenAddProspectModal, AddProspectDialog } = useAddProspect({
     refreshData: fetchProspects,
   })
+  const { handleOpenViewProspectModal, ViewProspectDialog } = useViewProspect({
+    id: selectedProspectId,
+    refreshData: fetchProspects,
+  })
 
-  const filteredProspects = prospects.filter(
-    (elt) => elt.status === statusFilter
-  )
+  const filteredProspects =
+    statusFilter === "ALL"
+      ? prospects
+      : prospects.filter((elt) => elt.status === statusFilter)
 
   // Fetch data
   useEffect(() => {
@@ -88,7 +96,7 @@ export default function QuotationRequests_Main({}) {
           sx={{ textTransform: "capitalize", gap: 1 }}
         >
           <ListIcon />
-          Liste personnelle {prospects.length ? `(${prospects.length})` : null}
+          Prospects {prospects.length ? `(${prospects.length})` : null}
         </ToggleButton>
       </ToggleButtonGroup>
 
@@ -105,6 +113,9 @@ export default function QuotationRequests_Main({}) {
           tooltip="Raffraîchir"
         />
 
+        <Stack flexGrow={1} />
+
+        {/* SELECT STATUS FILTER */}
         {mode === MODES.LIST ? (
           <Box>
             <CustomFilledSelect
@@ -142,93 +153,31 @@ export default function QuotationRequests_Main({}) {
 
       <Stack gap={2} overflow="hidden">
         {loading && <PleaseWait />}
-        {mode === MODES.FORM &&
-          !!list?.length &&
-          list.map((item) => {
-            // Format date
-            const formattedDate = formatDayDate({
-              timestamp: item.created_at,
-              timezone: user.timezone,
-            })
 
-            return (
-              <QuotationRequestsCard
-                key={item.id}
-                id={item.id}
-                opened={item.opened}
-                firstname={item.firstname}
-                email={item.email}
-                description={item.description}
-                services={item.services}
-                date={formattedDate}
-                refreshData={fetchData}
-              />
-            )
-          })}
-        {mode === MODES.LIST && !!filteredProspects?.length && (
-          <Box overflow="auto">
-            <Grid
-              container
-              padding=".25rem .5rem"
-              columnSpacing={2}
-              width="100%"
-              minWidth="800px"
-            >
-              <Grid item xs={1}>
-                <BodyText color="gray" preventTransition>
-                  Service(s)
-                </BodyText>
-              </Grid>
-              <Grid item xs={2}>
-                <BodyText color="gray" preventTransition>
-                  Contact
-                </BodyText>
-              </Grid>
-              <Grid item xs={2}>
-                <BodyText color="gray" preventTransition>
-                  Entreprise
-                </BodyText>
-              </Grid>
-              <Grid item xs={5}>
-                <BodyText color="gray" preventTransition>
-                  Description
-                </BodyText>
-              </Grid>
-              <Grid item xs={2}>
-                <BodyText color="gray" preventTransition>
-                  Status
-                </BodyText>
-              </Grid>
-            </Grid>
-            {filteredProspects.map((item, key) => {
-              // Format date
-              const formattedDate = formatDayDate({
-                timestamp: item.created_at,
-                timezone: user.timezone,
-              })
+        {mode === MODES.FORM && (
+          // <RequestsPanel
+          //   list={list}
+          //   handleClick={(id) => {
+          //     setSelectedProspectId(id)
+          //     handleOpenViewProspectModal()
+          //   }}
+          //   refreshData={fetchData}
+          // />
+          <></>
+        )}
 
-              return (
-                <PropsectsCard
-                  key={key}
-                  index={key}
-                  id={item.id}
-                  status={item.status}
-                  firstname={item.firstname}
-                  lastname={item.lastname}
-                  email={item.email}
-                  company={item.company}
-                  description={item.description}
-                  contacted={item.contacted}
-                  activity_type={item.activity_type}
-                  date={formattedDate}
-                  refreshData={fetchProspects}
-                />
-              )
-            })}
-          </Box>
+        {mode === MODES.LIST && (
+          <ProspectsPanel
+            list={filteredProspects}
+            handleClick={(id) => {
+              setSelectedProspectId(id)
+              handleOpenViewProspectModal()
+            }}
+          />
         )}
 
         {AddProspectDialog({})}
+        {ViewProspectDialog({})}
       </Stack>
     </Stack>
   )
@@ -260,6 +209,34 @@ export default function QuotationRequests_Main({}) {
   }
 }
 
+function RequestsPanel({ list, handleClick, refreshData }) {
+  if (!list?.length) return <></>
+
+  const { user } = useContext(UserContext)
+
+  return list.map((item) => {
+    // Format date
+    const formattedDate = formatDayDate({
+      timestamp: item.created_at,
+      timezone: user.timezone,
+    })
+
+    return (
+      <QuotationRequestsCard
+        key={item.id}
+        id={item.id}
+        opened={item.opened}
+        firstname={item.firstname}
+        email={item.email}
+        description={item.description}
+        services={item.services}
+        date={formattedDate}
+        onClick={handleClick}
+        refreshData={refreshData}
+      />
+    )
+  })
+}
 function QuotationRequestsCard({
   id,
   opened,
@@ -269,6 +246,7 @@ function QuotationRequestsCard({
   date,
   services,
   refreshData,
+  onClick,
 }) {
   const router = useRouter()
   const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
@@ -314,7 +292,8 @@ function QuotationRequestsCard({
       </Stack>
 
       <Stack
-        onClick={(e) => router.push(`/dashboard/quotation-requests/${id}`)}
+        // onClick={(e) => router.push(`/dashboard/quotation-requests/${id}`)}
+        onClick={onClick}
         flexGrow={1}
         sx={{
           cursor: "pointer",
@@ -400,41 +379,90 @@ function QuotationRequestsCard({
   }
 }
 
-function PropsectsCard({
+function ProspectsPanel({ list, handleClick }) {
+  if (!list?.length) return <></>
+
+  const { user } = useContext(UserContext)
+
+  return (
+    <Box overflow="auto">
+      <Table
+        padding=".25rem .5rem"
+        width="100%"
+        minWidth="800px"
+        sx={{ "& td": { border: 0 } }}
+      >
+        <TableRow>
+          <TableCell>
+            <BodyText color="gray" preventTransition>
+              Service(s)
+            </BodyText>
+          </TableCell>
+          <TableCell>
+            <BodyText color="gray" preventTransition>
+              Contact
+            </BodyText>
+          </TableCell>
+          <TableCell>
+            <BodyText color="gray" preventTransition>
+              Entreprise
+            </BodyText>
+          </TableCell>
+          <TableCell>
+            <BodyText color="gray" preventTransition>
+              Description
+            </BodyText>
+          </TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
+            <BodyText color="gray" preventTransition>
+              Status
+            </BodyText>
+          </TableCell>
+        </TableRow>
+
+        {list.map((item, key) => {
+          // Format date
+          const formattedDate = formatDayDate({
+            timestamp: item.created_at,
+            timezone: user.timezone,
+          })
+
+          return (
+            <ProspectRow
+              key={key}
+              index={key}
+              id={item.id}
+              status={item.status}
+              firstname={item.firstname}
+              lastname={item.lastname}
+              email={item.email}
+              company={item.company}
+              description={item.description}
+              contacted={item.contacted}
+              services={item.services}
+              date={formattedDate}
+              onClick={() => handleClick(item.id)}
+            />
+          )
+        })}
+      </Table>
+    </Box>
+  )
+}
+function ProspectRow({
   index,
-  id,
   status,
   firstname,
   lastname,
   company,
   description,
-  activity_type,
-  refreshData,
+  services,
+  onClick,
 }) {
-  // const { handleOpenEditProspectModal, ViewProspectDialog } = useEditProspect({
-  //   id,
-  //   refreshData,
-  // })
-  const { handleOpenViewProspectModal, ViewProspectDialog } = useViewProspect({
-    id,
-    refreshData,
-  })
-  // const router = useRouter()
-  // const options = [
-  //   {
-  //     label: "Ouvrir dans un nouvel onglet",
-  //     handleClick: () =>
-  //       window.open(`/dashboard/quotation-requests/${id}`, "_blank").focus(),
-  //     icon: <OpenInNewIcon />,
-  //   },
-  // ]
-
   return (
     <>
-      <Grid
-        onClick={handleOpenViewProspectModal}
-        columnSpacing={2}
-        container
+      <TableRow
+        onClick={onClick}
         padding=".5rem"
         className="pointer"
         width="100%"
@@ -446,29 +474,29 @@ function PropsectsCard({
           },
         }}
       >
-        <Grid item xs={1}>
+        <TableCell>
           <BodyText color="gray" preventTransition>
-            {activity_type.map((item) => (
+            {services.map((item) => (
               <Box>{ACTIVITY_TYPES[item]}</Box>
             ))}
           </BodyText>
-        </Grid>
+        </TableCell>
 
-        <Grid item xs={2}>
+        <TableCell>
           <BodyText fontWeight="bold" preventTransition>
             {firstname || ""} {lastname || ""}
           </BodyText>
-        </Grid>
+        </TableCell>
 
-        <Grid item xs={2}>
+        <TableCell>
           <BodyText fontWeight="bold" preventTransition>
             {company || ""}
           </BodyText>
-        </Grid>
+        </TableCell>
 
-        <Grid item xs={5}>
+        <TableCell>
           <BodyText
-            color={"gray"}
+            color="gray"
             fontSize="1rem"
             preventTransition
             sx={{
@@ -481,9 +509,9 @@ function PropsectsCard({
           >
             {description || ""}
           </BodyText>
-        </Grid>
+        </TableCell>
 
-        <Grid item xs={2}>
+        <TableCell sx={{ textAlign: "center" }}>
           <BodyText
             preventTransition
             sx={{
@@ -502,10 +530,8 @@ function PropsectsCard({
           >
             {PROSPECT_STATES[status].label}
           </BodyText>
-        </Grid>
-      </Grid>
-
-      {ViewProspectDialog({})}
+        </TableCell>
+      </TableRow>
     </>
   )
 }
