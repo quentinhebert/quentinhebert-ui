@@ -114,15 +114,11 @@ export default function ProspectDD(
           >
             {request.firstname} {request.lastname}
           </InfoLine>
-          <InfoLine label="E-mail">{request.email}</InfoLine>
-          {request.phone !== "" ? (
-            <InfoLine label="Tél." background="rgb(0,0,0,0.3)">
-              {request.phone}
-            </InfoLine>
-          ) : null}
-          {request.company !== "" ? (
-            <InfoLine label="Entreprise">{request.company}</InfoLine>
-          ) : null}
+          <InfoLine label="E-mail">{request.email || "-"}</InfoLine>
+          <InfoLine label="Tél." background="rgb(0,0,0,0.3)">
+            {request.phone || "-"}
+          </InfoLine>
+          <InfoLine label="Entreprise">{request.company || "-"}</InfoLine>
         </Grid>
       </Card>
     )

@@ -22,6 +22,7 @@ import { formatDayDate } from "../services/date-time"
 import { UserContext } from "../contexts/UserContext"
 import DeleteIcon from "@mui/icons-material/Delete"
 import useConfirm from "./useConfirm"
+import MarkEmailUnreadIcon from "@mui/icons-material/MarkEmailUnread"
 
 export default function useViewProspect({ id, refreshData }) {
   const [open, setOpen] = useState(false)
@@ -61,23 +62,27 @@ export default function useViewProspect({ id, refreshData }) {
     }
     setLoading(false)
   }
-  const handleOpenRequest = async () => {
+  const handleOpenRequest = async (bool) => {
     const res = await apiCall.dashboard.prospects.markAsOpened({
       id,
-      opened: true,
+      opened: bool,
     })
     if (!res || !res.ok)
       alert("An error occurred while marking the prospect request to `opened`")
-    else mutate()
+    else {
+      mutate()
+      refreshData()
+    }
   }
   useEffect(() => {
-    if (!!id) handleOpenRequest()
+    if (!!id && open) handleOpenRequest(true)
     if (!open) {
       setData(initialData)
       refreshData()
     }
     fetchData()
   }, [open])
+
   useEffect(() => {
     fetchData()
   }, [EditProspect.open])
@@ -147,6 +152,16 @@ export default function useViewProspect({ id, refreshData }) {
               icon={<CloseIcon />}
               tooltip="Fermer"
             />
+            {data.status === "REQUEST" && (
+              <CustomIconButton
+                onClick={() => {
+                  handleOpenRequest(false)
+                  handleClose()
+                }}
+                icon={<MarkEmailUnreadIcon />}
+                tooltip="Marquer comme non lu"
+              />
+            )}
             <CustomIconButton
               loading={loading}
               onClick={EditProspect.handleOpenModal}
