@@ -39,7 +39,7 @@ export default function QuotationRequests_Main({}) {
   const MODES = { FORM: "FORM", LIST: "LIST" }
   const [list, setList] = useState([])
   const [prospects, setProspects] = useState([])
-  const [statusFilter, setStatusFilter] = useState("AWAITING")
+  const [statusFilter, setStatusFilter] = useState("REQUEST")
   const [loading, setLoading] = useState(false)
   const [mode, setMode] = useState(MODES.FORM)
   const [selectedProspectId, setSelectedProspectId] = useState(null)
