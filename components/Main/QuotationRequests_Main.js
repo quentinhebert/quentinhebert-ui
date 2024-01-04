@@ -125,7 +125,10 @@ export default function QuotationRequests_Main({}) {
             >
               {PROSPECT_STATES_ENUM.map((option, key) => (
                 <CustomSelectOption value={option} key={key} padding="0rem">
-                  <Box
+                  <Stack
+                    flexDirection="row"
+                    alignItems="center"
+                    gap={1}
                     sx={{
                       width: "100%",
                       background: (theme) =>
@@ -140,9 +143,10 @@ export default function QuotationRequests_Main({}) {
                       },
                     }}
                   >
+                    {PROSPECT_STATES[option].icon}
                     {PROSPECT_STATES[option].label}{" "}
                     {option === "ALL" ? `(${prospects.length})` : null}
-                  </Box>
+                  </Stack>
                 </CustomSelectOption>
               ))}
             </CustomFilledSelect>
@@ -167,6 +171,7 @@ export default function QuotationRequests_Main({}) {
         {mode === MODES.LIST && (
           <ProspectsPanel
             list={filteredProspects}
+            showStatus={statusFilter === "ALL"}
             handleClick={(id) => {
               setSelectedProspectId(id)
               handleOpenViewProspectModal()
@@ -377,7 +382,7 @@ function QuotationRequestsCard({
   }
 }
 
-function ProspectsPanel({ list, handleClick }) {
+function ProspectsPanel({ list, handleClick, showStatus }) {
   if (!list?.length) return <></>
 
   const { user } = useContext(UserContext)
@@ -408,10 +413,15 @@ function ProspectsPanel({ list, handleClick }) {
           </TableCell>
           <TableCell>
             <BodyText color="gray" preventTransition>
-              Description
+              Détail
             </BodyText>
           </TableCell>
-          <TableCell sx={{ textAlign: "center" }}>
+          <TableCell
+            sx={{
+              textAlign: "center",
+              display: showStatus ? "" : "none",
+            }}
+          >
             <BodyText color="gray" preventTransition>
               Status
             </BodyText>
@@ -440,6 +450,7 @@ function ProspectsPanel({ list, handleClick }) {
               services={item.services}
               date={formattedDate}
               onClick={() => handleClick(item.id)}
+              showStatus={showStatus}
             />
           )
         })}
@@ -456,6 +467,7 @@ function ProspectRow({
   description,
   services,
   onClick,
+  showStatus,
 }) {
   return (
     <>
@@ -532,7 +544,12 @@ function ProspectRow({
           </BodyText>
         </TableCell>
 
-        <TableCell sx={{ textAlign: "center" }}>
+        <TableCell
+          sx={{
+            textAlign: "center",
+            display: showStatus ? "" : "none",
+          }}
+        >
           <BodyText
             preventTransition
             sx={{
