@@ -122,7 +122,7 @@ const mainTheme = createTheme({
       disabled: { color: "#fff", background: darkGrey },
       disabled2: {
         color: "#fff",
-        background: "transparent",
+        background: "#000",
       },
     },
   },

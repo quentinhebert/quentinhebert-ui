@@ -140,7 +140,8 @@ export default function QuotationRequests_Main({}) {
                       },
                     }}
                   >
-                    {PROSPECT_STATES[option].label}
+                    {PROSPECT_STATES[option].label}{" "}
+                    {option === "ALL" ? `(${prospects.length})` : null}
                   </Box>
                 </CustomSelectOption>
               ))}
