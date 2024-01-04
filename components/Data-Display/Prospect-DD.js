@@ -54,7 +54,7 @@ export default function ProspectDD(
           <InfoOutlinedIcon />
           Informations
         </CardTitle>
-        <BodyText fontStyle="italic" preventTransition>
+        <BodyText fontStyle="italic" preventTransition whiteSpace="pre-line">
           {request.description}
         </BodyText>
       </Card>

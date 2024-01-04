@@ -27,7 +27,8 @@ export default function CustomModal({
         backgroundColor: "rgb(0,0,0, 0.9)",
         "& .MuiDialog-paper": {
           background: "none",
-          borderRadius: "20px",
+          borderRadius: fullscreen || sm ? "" : "20px",
+          overflowX: "hidden",
         },
       }}
     >

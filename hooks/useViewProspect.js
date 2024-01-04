@@ -109,7 +109,18 @@ export default function useViewProspect({ id, refreshData }) {
         />
 
         {/**** BOTTOM BUTTONS ****/}
-        <Stack gap={2} width="100%">
+        <Stack
+          gap={2}
+          width="120%"
+          position="sticky"
+          bottom="-3.5rem"
+          sx={{
+            transform: "translate(-8%, 10%)",
+            background: (theme) => theme.palette.background.main,
+            padding: "1rem 2rem",
+            boxShadow: "0 0 50px 5px rgb(0,0,0,0.5)",
+          }}
+        >
           <PillButton disabled={loading} onClick={handleOpenEditProspectModal}>
             Modifier
           </PillButton>
