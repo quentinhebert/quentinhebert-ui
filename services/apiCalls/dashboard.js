@@ -244,6 +244,59 @@ const dashboard = {
         console.error(err)
       }
     },
+    // Admin only
+    getComments: async (prospect = { id }) => {
+      try {
+        return await fetch(
+          `${defaultConfig.apiUrl}/dashboard/prospects/${prospect.id}/comments`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${await getFreshToken()}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    // Admin only
+    postComment: async ({ prospectId, description }) => {
+      try {
+        const body = JSON.stringify({ description })
+        return await fetch(
+          `${defaultConfig.apiUrl}/dashboard/prospects/${prospectId}/comment`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${await getFreshToken()}`,
+              "Content-Type": "application/json",
+            },
+            body,
+          }
+        )
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    // Admin only
+    deleteComment: async ({ id }) => {
+      try {
+        return await fetch(
+          `${defaultConfig.apiUrl}/dashboard/prospects/comment/${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${await getFreshToken()}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+      } catch (err) {
+        console.error(err)
+      }
+    },
   },
 }
 

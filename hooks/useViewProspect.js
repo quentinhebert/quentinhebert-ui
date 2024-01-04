@@ -1,9 +1,8 @@
-import { Box, Divider, Stack } from "@mui/material"
-import { useEffect, useState } from "react"
+import { Box, Divider, Stack, Typography } from "@mui/material"
+import { useContext, useEffect, useState } from "react"
 import CustomModal from "../components/Modals/custom-modal"
 import { ModalTitle } from "../components/Modals/Modal-Components/modal-title"
 import PillButton from "../components/Buttons/pill-button"
-import CancelButton from "../components/Buttons/cancel-button"
 import apiCall from "../services/apiCalls/apiCall"
 import ProspectDD from "../components/Data-Display/Prospect-DD"
 import useEditProspect from "./useEditProspect"
@@ -11,6 +10,18 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew"
 import BodyText from "../components/Text/body-text"
 import PROSPECT_STATES from "../enums/prospectStates"
 import useSWR from "swr"
+import CustomFilledTextArea from "../components/Inputs/custom-filled-text-area"
+import CustomIconButton from "../components/Buttons/custom-icon-button"
+import EditIcon from "@mui/icons-material/Edit"
+import CloseIcon from "@mui/icons-material/Close"
+import ModeCommentIcon from "@mui/icons-material/ModeComment"
+import SendIcon from "@mui/icons-material/Send"
+import { AppContext } from "../contexts/AppContext"
+import PleaseWait from "../components/Helpers/please-wait"
+import { formatDayDate } from "../services/date-time"
+import { UserContext } from "../contexts/UserContext"
+import DeleteIcon from "@mui/icons-material/Delete"
+import useConfirm from "./useConfirm"
 
 export default function useViewProspect({ id, refreshData }) {
   const [open, setOpen] = useState(false)
@@ -108,8 +119,13 @@ export default function useViewProspect({ id, refreshData }) {
           services={data.services}
         />
 
+        <Divider />
+
+        <Comments prospectId={id} />
+
         {/**** BOTTOM BUTTONS ****/}
         <Stack
+          zIndex={10}
           gap={2}
           width="120%"
           position="sticky"
@@ -121,14 +137,19 @@ export default function useViewProspect({ id, refreshData }) {
             boxShadow: "0 0 50px 5px rgb(0,0,0,0.5)",
           }}
         >
-          <PillButton disabled={loading} onClick={handleOpenEditProspectModal}>
-            Modifier
-          </PillButton>
-          <CancelButton
-            variant="text"
-            handleCancel={handleCancel}
-            label="Fermer"
-          />
+          <Stack flexDirection="row" gap={2} margin="auto">
+            <CustomIconButton
+              onClick={handleCancel}
+              icon={<CloseIcon />}
+              tooltip="Fermer"
+            />
+            <CustomIconButton
+              loading={loading}
+              onClick={handleOpenEditProspectModal}
+              icon={<EditIcon />}
+              tooltip="Modifier le prospect"
+            />
+          </Stack>
 
           <Divider />
 
@@ -147,6 +168,166 @@ export default function useViewProspect({ id, refreshData }) {
 
         {EditProspectDialog({})}
       </CustomModal>
+    )
+  }
+
+  function Comments({ prospectId }) {
+    const [newComment, setNewComment] = useState("")
+    const [comments, setComments] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
+    const { user } = useContext(UserContext)
+    const Confirm = useConfirm()
+
+    async function fetchComments() {
+      setLoading(true)
+      const res = await apiCall.dashboard.prospects.getComments({
+        id: prospectId,
+      })
+      if (res && res.ok) {
+        const jsonRes = await res.json()
+        setComments(jsonRes)
+      }
+      setLoading(false)
+    }
+    async function postComment() {
+      const res = await apiCall.dashboard.prospects.postComment({
+        description: newComment,
+        prospectId,
+      })
+      if (res && res.ok) {
+        fetchComments()
+        setNewComment("")
+        setSnackMessage("Commentaire posté")
+        setSnackSeverity("success")
+      } else {
+        setSnackMessage("Votre commentaire n'a pas pu être posté...")
+        setSnackSeverity("error")
+      }
+    }
+    async function deleteComment(id) {
+      const res = await apiCall.dashboard.prospects.deleteComment({ id })
+      if (res && res.ok) {
+        fetchComments()
+        setSnackMessage("Commentaire supprimé")
+        setSnackSeverity("success")
+      } else {
+        setSnackMessage("Votre commentaire n'a pas pu être supprimé...")
+        setSnackSeverity("error")
+      }
+    }
+    function handleDeleteComment(id) {
+      Confirm.setContent({
+        title: "Supprimer le commentaire",
+        message: "Voulez-vous vraiment supprimer ce commentaire ?",
+        nextAction: () => deleteComment(id),
+        nextBtnText: "Oui, supprimer",
+      })
+      Confirm.handleOpen()
+    }
+
+    useEffect(() => {
+      fetchComments()
+    }, [])
+
+    return (
+      <Card>
+        <CardTitle>
+          <ModeCommentIcon />
+          Commentaires
+        </CardTitle>
+
+        <Stack gap={0.5}>
+          {loading && <PleaseWait />}
+          {comments.map((comment, key) => (
+            <Stack
+              key={key}
+              sx={{
+                gap: 1,
+                padding: ".5rem 1rem",
+                background: "rgb(0,0,0,0.4)",
+                borderRadius: "10px",
+              }}
+            >
+              <Typography whiteSpace="pre-line" color="#fff">
+                {comment.description}
+              </Typography>
+
+              <Divider />
+
+              <Stack flexDirection="row" justifyContent="space-between">
+                <Typography
+                  color="secondary"
+                  textAlign="right"
+                  fontSize=".8rem"
+                >
+                  {formatDayDate({
+                    timestamp: comment.created_at,
+                    timezone: user.timezone,
+                  })}
+                </Typography>
+                <Typography
+                  onClick={() => handleDeleteComment(comment.id)}
+                  color="grey"
+                  textAlign="left"
+                  fontSize=".8rem"
+                  className="pointer"
+                  sx={{
+                    gap: 0.5,
+                    alignItems: "center",
+                    display: "flex",
+                    "&:hover": {
+                      color: (theme) => theme.palette.error.main,
+                    },
+                  }}
+                >
+                  <DeleteIcon fontSize="inherit" /> Supprimer
+                </Typography>
+              </Stack>
+            </Stack>
+          ))}
+        </Stack>
+
+        <CustomFilledTextArea
+          label="Nouveau commentaire"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+        />
+        <PillButton startIcon={<SendIcon />} onClick={postComment}>
+          Poster
+        </PillButton>
+
+        <CustomModal open={Confirm.open} handleClose={Confirm.handleClose}>
+          <Confirm.DialogContent />
+        </CustomModal>
+      </Card>
+    )
+  }
+
+  function Card(props) {
+    return (
+      <Stack
+        gap={2}
+        sx={{
+          boxShadow: "0 0 20px 1px rgb(0,0,0,0.5)",
+          padding: 2,
+          borderRadius: "15px",
+        }}
+        {...props}
+      />
+    )
+  }
+  function CardTitle(props) {
+    return (
+      <Typography
+        variant="h5"
+        color="#fff"
+        {...props}
+        display="flex"
+        alignItems="center"
+        gap={2}
+      />
     )
   }
 
