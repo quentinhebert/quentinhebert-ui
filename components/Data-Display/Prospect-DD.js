@@ -6,7 +6,7 @@ import PersonIcon from "@mui/icons-material/Person"
 import EuroIcon from "@mui/icons-material/Euro"
 import Pill from "../Text/pill"
 import { UserContext } from "../../contexts/UserContext"
-import CommentIcon from "@mui/icons-material/Comment"
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 
 export default function ProspectDD(
   request = {
@@ -51,11 +51,11 @@ export default function ProspectDD(
     return (
       <Card>
         <CardTitle>
-          <CommentIcon />
-          Commentaire
+          <InfoOutlinedIcon />
+          Informations
         </CardTitle>
         <BodyText fontStyle="italic" preventTransition>
-          “{request.description}”
+          {request.description}
         </BodyText>
       </Card>
     )
@@ -104,7 +104,7 @@ export default function ProspectDD(
       <Card>
         <CardTitle>
           <PersonIcon />
-          Envoyée par
+          Contact
         </CardTitle>
         <Grid container sx={{ gap: { xs: 1, md: 0 } }}>
           <InfoLine label="Nom" textTransform="capitalize">
