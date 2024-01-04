@@ -89,7 +89,18 @@ export function formatDayDate({ timestamp, timezone }) {
   )
   const date = dateTime.split(" ")[0]
   const time = dateTime.split(" ")[1]
-  let formattedDate = `${date} à ${time}`
+
+  const dateTimeStr = getLocaleDateTime(new Date(timestamp), timezone)
+    .toLocaleDateString("fr-FR", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+    .split(",")
+
+  let formattedDate = dateTimeStr
   if (date === today) formattedDate = `${time}`
   if (date === yesterday) formattedDate = `Hier à ${time}`
   return formattedDate

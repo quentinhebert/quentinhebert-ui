@@ -204,6 +204,30 @@ const dashboard = {
       }
     },
     // Admin only
+    markAsOpened: async (
+      payload = {
+        id,
+        opened,
+      }
+    ) => {
+      const body = JSON.stringify(payload)
+      try {
+        return await fetch(
+          `${defaultConfig.apiUrl}/dashboard/prospects/${payload.id}/open`,
+          {
+            method: "PATCH",
+            headers: {
+              Authorization: `Bearer ${await getFreshToken()}`,
+              "Content-Type": "application/json",
+            },
+            body,
+          }
+        )
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    // Admin only
     delete: async ({ id }) => {
       try {
         return await fetch(
