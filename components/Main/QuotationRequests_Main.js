@@ -58,7 +58,7 @@ export default function QuotationRequests_Main({}) {
         background: (theme) => theme.palette.background.main,
         borderRadius: "30px",
       }}
-      padding="2rem"
+      padding={{ xs: "2rem .75rem", md: "2rem" }}
     >
       <Typography variant="h5" color="#fff" textAlign="center">
         Prospects{" "}
@@ -67,20 +67,30 @@ export default function QuotationRequests_Main({}) {
           : null}
       </Typography>
 
-      <Stack width="100%" alignItems="center" flexDirection="row" gap={1}>
-        <CustomIconButton
-          onClick={handleOpenAddProspectModal}
-          icon={<AddRoundedIcon sx={{ fontSize: "1.5rem" }} />}
-          tooltip="Ajouter un prospect"
-        />
-        <CustomIconButton
-          onClick={fetchProspects}
-          icon={<RefreshIcon sx={{ fontSize: "1.5rem" }} />}
-          loading={loading}
-          tooltip="Raffraîchir"
-        />
-
-        <Stack flexGrow={1} />
+      <Stack
+        width="100%"
+        alignItems="center"
+        justifyContent={{ xs: "", md: "space-between" }}
+        flexDirection={{ xs: "column", md: "row" }}
+        gap={4}
+      >
+        <Stack flexDirection="row" gap={1}>
+          <CustomIconButton
+            onClick={handleOpenAddProspectModal}
+            icon={
+              <AddRoundedIcon sx={{ fontSize: { xs: "1rem", md: "1.5rem" } }} />
+            }
+            tooltip="Ajouter un prospect"
+          />
+          <CustomIconButton
+            onClick={fetchProspects}
+            icon={
+              <RefreshIcon sx={{ fontSize: { xs: "1rem", md: "1.5rem" } }} />
+            }
+            loading={loading}
+            tooltip="Raffraîchir"
+          />
+        </Stack>
 
         {/* SELECT STATUS FILTER */}
         <Box>
@@ -98,6 +108,7 @@ export default function QuotationRequests_Main({}) {
                   alignItems="center"
                   gap={1}
                   sx={{
+                    fontSize: { xs: ".8rem", md: "1rem" },
                     width: "100%",
                     background: (theme) =>
                       theme.alert.title[PROSPECT_STATES[option].severity]
@@ -304,7 +315,7 @@ function ProspectRow({
           </BodyText>
         </TableCell>
 
-        <TableCell>
+        <TableCell sx={{ minWidth: "300px" }}>
           <BodyText
             color={(theme) => (opened ? "gray" : theme.palette.secondary.main)}
             fontSize="1rem"
@@ -353,6 +364,7 @@ function ProspectRow({
             fontSize="1rem"
             fontStyle="italic"
             preventTransition
+            whiteSpace="nowrap"
           >
             {formatDayDate({ timestamp: created_at, timezone: user.timezone })}
           </BodyText>

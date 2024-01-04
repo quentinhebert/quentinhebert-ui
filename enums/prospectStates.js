@@ -13,32 +13,32 @@ export const PROSPECT_STATES = {
   REQUEST: {
     severity: "warning",
     label: "Demande de contact (reçue)",
-    icon: <MarkEmailUnreadRoundedIcon />,
+    icon: <MarkEmailUnreadRoundedIcon fontSize="inherit" />,
   },
   DRAFT: {
     severity: "disabled",
     label: "Non contacté(e)",
-    icon: <HourglassTopRoundedIcon />,
+    icon: <HourglassTopRoundedIcon fontSize="inherit" />,
   },
   CONTACTED: {
     severity: "warning",
     label: "Demande de contact (émise)",
-    icon: <ForwardToInboxRoundedIcon />,
+    icon: <ForwardToInboxRoundedIcon fontSize="inherit" />,
   },
   AWAITING: {
     severity: "info",
     label: "Discussion en cours",
-    icon: <ChatBubbleRoundedIcon />,
+    icon: <ChatBubbleRoundedIcon fontSize="inherit" />,
   },
   CONVERTED: {
     severity: "success",
     label: "Converti(e)",
-    icon: <CheckCircleOutlineRoundedIcon />,
+    icon: <CheckCircleOutlineRoundedIcon fontSize="inherit" />,
   },
   CANCELED: {
     severity: "error",
     label: "Abandonné(e)",
-    icon: <CloseRoundedIcon />,
+    icon: <CloseRoundedIcon fontSize="inherit" />,
   },
 }
 

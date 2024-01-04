@@ -6,6 +6,7 @@ const SelectOption = styled((props) => (
     sx={{
       ...props.sx,
       padding: props.padding || "",
+      minHeight: 0,
       color: (theme) => theme.palette.text.secondary,
       "&&.Mui-selected": {
         color: "#000",
