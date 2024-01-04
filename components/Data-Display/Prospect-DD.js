@@ -4,11 +4,9 @@ import { formatDayDate } from "../../services/date-time"
 import BodyText from "../Text/body-text"
 import PersonIcon from "@mui/icons-material/Person"
 import EuroIcon from "@mui/icons-material/Euro"
-import OpenInNewIcon from "@mui/icons-material/OpenInNew"
 import Pill from "../Text/pill"
 import { UserContext } from "../../contexts/UserContext"
 import CommentIcon from "@mui/icons-material/Comment"
-import PillButton from "../Buttons/pill-button"
 
 export default function ProspectDD(
   request = {
