@@ -29,7 +29,7 @@ export default function useViewProspect({ id, refreshData }) {
   const handleClose = () => setOpen(false)
   const handleOpenViewProspectModal = () => setOpen(true)
   const handleCancel = handleClose
-  const { handleOpenEditProspectModal, EditProspectDialog } = useEditProspect({
+  const EditProspect = useEditProspect({
     id,
     refreshData,
   })
@@ -75,8 +75,12 @@ export default function useViewProspect({ id, refreshData }) {
     if (!open) {
       setData(initialData)
       refreshData()
-    } else fetchData()
+    }
+    fetchData()
   }, [open])
+  useEffect(() => {
+    fetchData()
+  }, [EditProspect.open])
 
   const ViewProspectDialog = ({}) => {
     return (
@@ -145,7 +149,7 @@ export default function useViewProspect({ id, refreshData }) {
             />
             <CustomIconButton
               loading={loading}
-              onClick={handleOpenEditProspectModal}
+              onClick={EditProspect.handleOpenModal}
               icon={<EditIcon />}
               tooltip="Modifier le prospect"
             />
@@ -166,7 +170,7 @@ export default function useViewProspect({ id, refreshData }) {
           </Box>
         </Stack>
 
-        {EditProspectDialog({})}
+        {EditProspect.Dialog({})}
       </CustomModal>
     )
   }

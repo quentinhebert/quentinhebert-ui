@@ -26,7 +26,7 @@ export default function useEditProspect({ id, refreshData }) {
   const [open, setOpen] = useState(false)
 
   const handleClose = () => setOpen(false)
-  const handleOpenEditProspectModal = () => setOpen(true)
+  const handleOpenModal = () => setOpen(true)
   const handleCancel = handleClose
 
   const initialData = {
@@ -94,7 +94,7 @@ export default function useEditProspect({ id, refreshData }) {
     return (e) => setFormData({ ...formData, [attribute]: e.target.value })
   }
 
-  const EditProspectDialog = ({}) => {
+  const Dialog = ({}) => {
     return (
       <CustomModal open={open} handleClose={handleClose} gap={6}>
         {/**** TITLE ****/}
@@ -235,5 +235,5 @@ export default function useEditProspect({ id, refreshData }) {
     )
   }
 
-  return { handleOpenEditProspectModal, EditProspectDialog }
+  return { handleOpenModal, Dialog, open }
 }
