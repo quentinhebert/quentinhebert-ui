@@ -10,6 +10,7 @@ import useEditProspect from "./useEditProspect"
 import OpenInNewIcon from "@mui/icons-material/OpenInNew"
 import BodyText from "../components/Text/body-text"
 import PROSPECT_STATES from "../enums/prospectStates"
+import useSWR from "swr"
 
 export default function useViewProspect({ id, refreshData }) {
   const [open, setOpen] = useState(false)
@@ -38,6 +39,7 @@ export default function useViewProspect({ id, refreshData }) {
   }
   const [data, setData] = useState(initialData)
   const [loading, setLoading] = useState(false)
+  const { mutate } = useSWR("dashboardNotifications")
 
   const fetchData = async () => {
     setLoading(true)
@@ -55,6 +57,7 @@ export default function useViewProspect({ id, refreshData }) {
     })
     if (!res || !res.ok)
       alert("An error occurred while marking the prospect request to `opened`")
+    else mutate()
   }
   useEffect(() => {
     if (!!id) handleOpenRequest()

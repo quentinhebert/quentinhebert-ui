@@ -69,7 +69,7 @@ export default function AdminIndex_Main() {
       title: "Prospects",
       icon: <MarkEmailUnreadOutlinedIcon className="full-width full-height" />,
       onClick: () => navigate("prospects"),
-      notifications: notifications?.quotation_requests || 0,
+      notifications: notifications?.prospects || 0,
     },
     {
       id: "orders",
