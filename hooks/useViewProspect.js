@@ -131,7 +131,7 @@ export default function useViewProspect({ id, refreshData }) {
 
         <Divider />
 
-        <Comments prospectId={id} />
+        {!!id && <Comments prospectId={id} />}
 
         {/**** BOTTOM BUTTONS ****/}
         <Stack
