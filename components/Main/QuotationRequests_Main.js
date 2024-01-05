@@ -302,7 +302,7 @@ function ProspectRow({
           </BodyText>
         </TableCell>
 
-        <TableCell>
+        <TableCell sx={{ minWidth: "200px" }}>
           <BodyText
             fontWeight="bold"
             preventTransition
