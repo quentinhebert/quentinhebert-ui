@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material"
 import { styled } from "@mui/system"
 
-const CssFilledInput = styled(({ width, ...props }) => (
+const CssFilledInput = styled(({ width, background, ...props }) => (
   <TextField
     size="small"
     variant="filled"
@@ -11,7 +11,7 @@ const CssFilledInput = styled(({ width, ...props }) => (
     }}
     {...props}
   />
-))(({ theme, borderColor }) => ({
+))(({ theme, borderColor, background }) => ({
   "& .MuiFilledInput-root": {
     overflow: "hidden",
     borderRadius: 4,
@@ -19,7 +19,7 @@ const CssFilledInput = styled(({ width, ...props }) => (
     border: `1px solid ${borderColor || theme.palette.secondary.main}`,
     // background: `linear-gradient(-90deg, transparent 0%, ${theme.palette.background.main} 10%)`,
     // background: theme.palette.background.main,
-    background: "#000",
+    background: background || "#000",
     color: theme.palette.text.white, // input value
     borderRadius: "10px",
     "&:hover": {

@@ -3,7 +3,7 @@ import CustomFilledInput from "./custom-filled-input"
 
 const CssFilledTextArea = styled((props) => {
   const { rows } = props
-  return <CustomFilledInput multiline rows={rows || 4} {...props} />
+  return <CustomFilledInput multiline maxRows={rows || 4} {...props} />
 })(() => ({}))
 
 export default function CustomFilledTextArea(props = { rows }) {

@@ -1,5 +1,5 @@
 import { Box, Divider, Stack, Typography } from "@mui/material"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useMemo, useRef, useState } from "react"
 import CustomModal from "../components/Modals/custom-modal"
 import { ModalTitle } from "../components/Modals/Modal-Components/modal-title"
 import PillButton from "../components/Buttons/pill-button"
@@ -131,7 +131,7 @@ export default function useViewProspect({ id, refreshData }) {
 
         <Divider />
 
-        {!!id && <Comments prospectId={id} />}
+        <Comments prospectId={id} />
 
         {/**** BOTTOM BUTTONS ****/}
         <Stack
@@ -192,24 +192,34 @@ export default function useViewProspect({ id, refreshData }) {
   }
 
   function Comments({ prospectId }) {
+    if (!prospectId) return <></>
     const [newComment, setNewComment] = useState("")
-    const [comments, setComments] = useState([])
-    const [loading, setLoading] = useState(false)
+    let comments = []
 
     const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
     const { user } = useContext(UserContext)
     const Confirm = useConfirm()
 
+    const swr = useSWR(
+      `prospect-comments-${prospectId}`,
+      async () => fetchComments(),
+      {
+        fallbackData: comments, // cached data initially returned by SWR
+        revalidateOnMount: true,
+      }
+    )
+    if (!!swr.data) comments = swr.data
+    const { mutate } = useSWR(`prospect-comments-${prospectId}`)
+
     async function fetchComments() {
-      setLoading(true)
       const res = await apiCall.dashboard.prospects.getComments({
         id: prospectId,
       })
       if (res && res.ok) {
         const jsonRes = await res.json()
-        setComments(jsonRes)
+        return jsonRes
       }
-      setLoading(false)
+      return []
     }
     async function postComment() {
       const res = await apiCall.dashboard.prospects.postComment({
@@ -217,10 +227,8 @@ export default function useViewProspect({ id, refreshData }) {
         prospectId,
       })
       if (res && res.ok) {
-        fetchComments()
         setNewComment("")
-        setSnackMessage("Commentaire posté")
-        setSnackSeverity("success")
+        mutate()
       } else {
         setSnackMessage("Votre commentaire n'a pas pu être posté...")
         setSnackSeverity("error")
@@ -228,11 +236,8 @@ export default function useViewProspect({ id, refreshData }) {
     }
     async function deleteComment(id) {
       const res = await apiCall.dashboard.prospects.deleteComment({ id })
-      if (res && res.ok) {
-        fetchComments()
-        setSnackMessage("Commentaire supprimé")
-        setSnackSeverity("success")
-      } else {
+      if (res && res.ok) mutate()
+      else {
         setSnackMessage("Votre commentaire n'a pas pu être supprimé...")
         setSnackSeverity("error")
       }
@@ -247,10 +252,6 @@ export default function useViewProspect({ id, refreshData }) {
       Confirm.handleOpen()
     }
 
-    useEffect(() => {
-      fetchComments()
-    }, [])
-
     return (
       <Card>
         <CardTitle>
@@ -259,8 +260,7 @@ export default function useViewProspect({ id, refreshData }) {
         </CardTitle>
 
         <Stack gap={0.5}>
-          {loading && <PleaseWait />}
-          {comments.map((comment, key) => (
+          {comments?.map((comment, key) => (
             <Stack
               key={key}
               sx={{
@@ -310,6 +310,12 @@ export default function useViewProspect({ id, refreshData }) {
         </Stack>
 
         <CustomFilledTextArea
+          onKeyDown={(event) => {
+            if ((event.ctrlKey || event.metaKey) && event.key == "Enter")
+              postComment()
+          }}
+          background="rgb(0,0,0,0.2)"
+          borderColor="transparent"
           label="Nouveau commentaire"
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
