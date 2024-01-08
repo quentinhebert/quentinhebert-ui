@@ -1,4 +1,4 @@
-import { Box, ThemeProvider } from "@mui/material"
+import { ThemeProvider } from "@mui/material"
 import "../styles/globals.css"
 import theme from "../config/theme"
 import { useEffect, useState } from "react"
@@ -20,7 +20,6 @@ import { GoogleOAuthProvider } from "@react-oauth/google"
 import { FacebookProvider } from "react-facebook"
 import { motion } from "framer-motion"
 import { useRouter } from "next/router"
-import Image from "next/image"
 
 function MyApp({ Component, pageProps }) {
   // User
