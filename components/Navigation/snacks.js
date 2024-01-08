@@ -23,9 +23,7 @@ function SlideTransition(props) {
   return <Slide {...props} direction="left" />
 }
 
-function Snacks(props) {
-  const { severity, message, setMessage } = props
-
+function Snacks({ severity, message, setMessage }) {
   const [openSnackBar, setOpenSnackBar] = useState(false)
 
   useEffect(() => {
@@ -59,7 +57,6 @@ function Snacks(props) {
             fontWeight: "bold",
             backgroundColor: getBgColor(severity),
           }}
-          onClose={handleClose}
         >
           {message}
         </Alert>
