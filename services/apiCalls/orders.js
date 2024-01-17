@@ -306,6 +306,19 @@ const orders = {
       console.error(err)
     }
   },
+  getLogs: async (order = { id }) => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/orders/${order.id}/logs`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
 }
 
 export default orders

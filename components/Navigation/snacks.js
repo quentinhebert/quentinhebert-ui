@@ -54,7 +54,8 @@ function Snacks({ severity, message, setMessage }) {
           variant="filled"
           severity={severity}
           sx={{
-            fontWeight: "bold",
+            color: "#fff",
+            // fontWeight: "bold",
             backgroundColor: getBgColor(severity),
           }}
         >

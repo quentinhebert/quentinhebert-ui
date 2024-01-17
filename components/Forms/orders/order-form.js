@@ -22,7 +22,6 @@ import CreateOrderItemForm from "./create-order-item-form"
 import EditOrderItemForm from "./edit-order-item-form"
 import CustomFilledInput from "../../Inputs/custom-filled-input"
 import { QUOTATION_STATUS } from "../../../enums/quotationStatus"
-import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
 import DropdownOptions from "../../Dropdown/dropdown-options"
 import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
 import { useRouter } from "next/router"
@@ -66,6 +65,8 @@ import Span from "../../Text/span"
 import CustomCard from "../../Cards/custom-card"
 
 // Icons
+import Timeline from "@mui/lab/Timeline"
+import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import SendIcon from "@mui/icons-material/Send"
 import DoneIcon from "@mui/icons-material/Done"
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd"
@@ -90,6 +91,20 @@ import SimpleCheckIcon from "@mui/icons-material/Check"
 import RefreshButton from "../../Buttons/refresh-button"
 import { SortableContainer, SortableElement } from "react-sortable-hoc"
 import { arrayMoveImmutable } from "array-move"
+import {
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+  TimelineItem,
+  TimelineSeparator,
+  timelineItemClasses,
+} from "@mui/lab"
+import { UserContext } from "../../../contexts/UserContext"
+import CustomAccordion from "../../Containers/custom-accordion"
+import { LOG_CONTENT } from "../../../services/logs"
+import dynamic from "next/dynamic"
+import ReactLinkify from "react-linkify"
+const ReactJson = dynamic(() => import("react-json-view"), { ssr: false })
 
 // CONSTANTS
 const PAYMENT_OPTIONS = [
@@ -777,6 +792,9 @@ function OrderForm({
     {
       label: "Document(s)",
       badge: order.quotations?.length + order.invoices?.length,
+    },
+    {
+      label: "Historique",
     },
   ]
 
@@ -1551,6 +1569,7 @@ function OrderForm({
                   loading={loading}
                 />
               )}
+              {activeTab === 5 && <LogsSection orderId={order.id} />}
             </>
           )}
 
@@ -2233,6 +2252,112 @@ function OrderForm({
         )}
       </CustomModal>
     </>
+  )
+}
+
+function LogsSection({ orderId }) {
+  const [logs, setLogs] = useState([])
+  const user = useContext(UserContext)
+
+  async function fetchLogs() {
+    const res = await apiCall.orders.getLogs({ id: orderId })
+    if (res?.ok) {
+      const jsonRes = await res.json()
+      setLogs(jsonRes)
+    }
+  }
+  function getIcon({ severity }) {
+    return (
+      <TimelineDot
+        sx={{ background: (theme) => theme.alert.title[severity].background }}
+      >
+        <CheckCircleIcon
+          sx={{ color: (theme) => theme.alert.title[severity].color }}
+        />
+      </TimelineDot>
+    )
+  }
+
+  useEffect(() => {
+    fetchLogs()
+  }, [])
+
+  return (
+    <Stack width="100%" gap={2}>
+      <FormCard>
+        <Stack gap={2}>
+          <DocumentHeader>
+            <DocumentType>Historique</DocumentType>
+          </DocumentHeader>
+
+          <Timeline
+            sx={{
+              "&.MuiTimeline-root": {
+                padding: "0",
+              },
+              [`& .${timelineItemClasses.root}:before`]: {
+                flex: 0,
+                padding: 0,
+              },
+            }}
+          >
+            {logs.map((log, key) => (
+              <TimelineItem key={key}>
+                <TimelineSeparator sx={{ margin: "1.25rem 0 0" }}>
+                  {getIcon({ severity: log.severity })}
+                  <TimelineConnector />
+                </TimelineSeparator>
+
+                <TimelineContent sx={{ py: "12px", px: 2 }}>
+                  <Typography color="grey" fontSize="0.8rem">
+                    {formatDayDate({
+                      timestamp: log.created_at,
+                      timezone: user.timezone,
+                    })}
+                  </Typography>
+
+                  <Typography
+                    variant="h6"
+                    component="span"
+                    sx={{
+                      color: (theme) => theme.alert.title[log.severity].color,
+                    }}
+                  >
+                    {LOG_CONTENT[log?.metadata?.event]?.label}
+                  </Typography>
+
+                  <Typography color="grey" my={1}>
+                    {LOG_CONTENT[log?.metadata?.event]?.description(
+                      log.metadata
+                    )}
+                  </Typography>
+
+                  <CustomAccordion title="Metadata">
+                    <Stack overflow="auto" width="100%">
+                      <ReactJson
+                        indentWidth={1.5}
+                        displayDataTypes={false}
+                        src={log?.metadata}
+                        theme="pop"
+                        enableClipboard={false}
+                        style={{
+                          zIndex: 0,
+                          padding: "1rem .5rem",
+                          borderRadius: "10px",
+                          fontSize: "0.8rem",
+                          cursor: "text",
+                          wordBreak: "break-all",
+                        }}
+                      />
+                    </Stack>
+                  </CustomAccordion>
+                </TimelineContent>
+              </TimelineItem>
+            ))}
+          </Timeline>
+        </Stack>
+      </FormCard>
+    </Stack>
   )
 }
 
