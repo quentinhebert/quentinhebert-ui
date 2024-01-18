@@ -127,15 +127,6 @@ const MODALS = {
   PAYMENT: "PAYMENT",
   TAG: "TAG",
 }
-const HEAD = [
-  { label: "Type" },
-  { label: "Intitulé" },
-  { label: "Description", width: { xs: "200px", md: "20%" } },
-  { label: "Qté." },
-  { label: "TVA" },
-  { label: "Prix unit. HT" },
-  { label: "Total" },
-]
 const PAYMENT_MODES = { ONCE: "ONCE", TWICE: "TWICE", MULTIPLE: "MULTIPLE" }
 
 /********** OTHER COMPONENTS **********/

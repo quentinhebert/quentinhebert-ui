@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material"
+import { Typography } from "@mui/material"
 
 export const LOG_CONTENT = {
   "order.created": {
