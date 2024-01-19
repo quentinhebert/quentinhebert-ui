@@ -63,6 +63,10 @@ import CustomFilledTextArea from "../../Inputs/custom-filled-text-area"
 import { ACTIVITY_TYPES } from "../../../enums/activityTypesEnum"
 import Span from "../../Text/span"
 import CustomCard from "../../Cards/custom-card"
+import { UserContext } from "../../../contexts/UserContext"
+import CustomAccordion from "../../Containers/custom-accordion"
+import { LOG_CONTENT } from "../../../services/logs"
+import RefreshButton from "../../Buttons/refresh-button"
 
 // Icons
 import Timeline from "@mui/lab/Timeline"
@@ -88,9 +92,9 @@ import AddBoxIcon from "@mui/icons-material/AddBox"
 import CheckIcon from "@mui/icons-material/CheckCircleOutline"
 import InsertLinkIcon from "@mui/icons-material/InsertLink"
 import SimpleCheckIcon from "@mui/icons-material/Check"
-import RefreshButton from "../../Buttons/refresh-button"
 import { SortableContainer, SortableElement } from "react-sortable-hoc"
 import { arrayMoveImmutable } from "array-move"
+import ErrorIcon from "@mui/icons-material/Error"
 import {
   TimelineConnector,
   TimelineContent,
@@ -99,11 +103,7 @@ import {
   TimelineSeparator,
   timelineItemClasses,
 } from "@mui/lab"
-import { UserContext } from "../../../contexts/UserContext"
-import CustomAccordion from "../../Containers/custom-accordion"
-import { LOG_CONTENT } from "../../../services/logs"
 import dynamic from "next/dynamic"
-import ReactLinkify from "react-linkify"
 const ReactJson = dynamic(() => import("react-json-view"), { ssr: false })
 
 // CONSTANTS
@@ -707,6 +707,7 @@ function OrderForm({
     payment_fractions: [100],
     activity_type: ACTIVITY_TYPES.video,
   }
+  const initialOrderToUpdate = { id }
 
   /********** USE-STATES **********/
   const [order, setOrder] = useState(initialOrder)
@@ -735,6 +736,7 @@ function OrderForm({
   const [paymentMode, setPaymentMode] = useState(PAYMENT_MODES.ONCE)
   const [processing, setProcessing] = useState(false)
   const [isQuotationGenerating, setIsQuotationGenerating] = useState(false)
+  const [orderToUpdate, setOrderToUpdate] = useState(initialOrderToUpdate)
 
   // DEBUG
   const nextPayment = getNextPaymentDetails({ order })
@@ -775,6 +777,11 @@ function OrderForm({
     fetchOrder()
   }, [id])
 
+  // Go back to top each time view and edit modes are toggled
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }, [readOnly])
+
   const TABS = [
     { label: "Détails" },
     { label: "Modalités" },
@@ -809,12 +816,14 @@ function OrderForm({
   }
   const handleChange = (attribute) => (e) => {
     setOrder({ ...order, [attribute]: e.target.value })
+    setOrderToUpdate({ ...orderToUpdate, [attribute]: e.target.value })
     if (errors[attribute]) setErrors({ ...errors, [attribute]: false })
     handleDetectChange()
   }
   const handleChangeDate = (attribute) => (newValue) => {
     if (errors[attribute]) setErrors({ ...errors, [attribute]: false })
     setOrder({ ...order, [attribute]: newValue })
+    setOrderToUpdate({ ...orderToUpdate, [attribute]: newValue })
     handleDetectChange()
   }
   const handleChangeActivityType = (activityType) =>
@@ -831,6 +840,7 @@ function OrderForm({
     handleDetectChange()
   }
   const save = async ({ noSnack }) => {
+    console.debug("orderToUpdate", orderToUpdate)
     let res = null
     if (!id) {
       // If order is not created yet
@@ -838,7 +848,8 @@ function OrderForm({
     } else {
       // If order is created and needs to be saved/updated
       res = await apiCall.orders.save({
-        ...order,
+        // ...order,
+        ...orderToUpdate,
         items,
         id,
       })
@@ -850,11 +861,11 @@ function OrderForm({
         setSnackMessage("Commande sauvegardée")
       }
       setOpenModal(false)
-      window.scrollTo({ top: 0, behavior: "smooth" })
       // if no id provided === user is on CreateQuotationPage (not EditQuotationPage), we redirect the user onto the edit page (with the same quotationForm component)
       if (!id) return router.push(`/dashboard/orders/${jsonRes.id}/edit`)
       await fetchOrder()
       setReadOnly(true)
+      setOrderToUpdate(initialOrderToUpdate)
       return true
     } else {
       setSnackSeverity("error")
@@ -954,9 +965,10 @@ function OrderForm({
       ...order,
       no_vat: bool,
     })
+    setOrderToUpdate({ ...orderToUpdate, no_vat: bool })
     handleDetectChange()
   }
-  const handleGenerate = async () => {
+  function checkMissingFields() {
     const localErrors = checkBeforeGen(order)
 
     setErrors(localErrors)
@@ -964,25 +976,28 @@ function OrderForm({
       (elt) => elt === true
     ).length
 
-    if (errorsCount === 0 || (errorsCount === 1 && localErrors.client)) {
+    if (errorsCount !== 0 && !(errorsCount === 1 && localErrors.client))
+      throw Error("missing_fields")
+  }
+  const handleGenerate = async () => {
+    try {
+      checkMissingFields()
+
       setIsQuotationGenerating(true)
 
-      // Save before exit page
-      const saved = await save({
-        noSnack: true,
-      })
-      if (!saved) return
       const res = await apiCall.orders.generateQuotation(order)
-      if (res && res.ok) {
-        setSnackMessage("Devis en cours de création...")
-        setSnackSeverity("info")
-      }
-    } else {
-      setSnackMessage(
-        `Certains champs sont manquants dans les conditions et mentions obligatoires.`
-      )
+      if (!res?.ok) throw Error("Le devis n'a pas pu être généré....")
+
+      setSnackMessage("Devis en cours de création...")
+      setSnackSeverity("info")
+    } catch (err) {
       setSnackSeverity("error")
-      setReadOnly(false)
+      setSnackMessage(
+        err.message === "missing_fields"
+          ? "Certains champs sont manquants dans les conditions et mentions obligatoires."
+          : err.message
+      )
+      if (err.message === "missing_fields") setReadOnly(false)
     }
   }
 
@@ -1054,20 +1069,28 @@ function OrderForm({
     }
   }
   const updateOrderReady = async () => {
-    if (order.status !== "DRAFT") return
-    const res = await apiCall.orders.save({
-      ...order,
-      status: "WAITING_FOR_PAYMENT",
-      items,
-      id,
-    })
-    if (res && res.ok) {
+    try {
+      checkMissingFields()
+
+      if (order.status !== "DRAFT") return
+      const res = await apiCall.orders.save({
+        ...orderToUpdate,
+        status: "WAITING_FOR_PAYMENT",
+        items,
+        id,
+      })
+      if (!res?.ok) throw Error("Un problème est survenu")
       setSnackMessage("Votre commande est en attente de paiement")
       setSnackSeverity("success")
       fetchOrder()
-    } else {
-      setSnackMessage("Un problème est survenu...")
+    } catch (err) {
       setSnackSeverity("error")
+      setSnackMessage(
+        err.message === "missing_fields"
+          ? "Certains champs sont manquants dans les conditions et mentions obligatoires."
+          : err.message
+      )
+      if (err.message === "missing_fields") setReadOnly(false)
     }
   }
   const handleOrderReady = () => {
@@ -1228,7 +1251,7 @@ function OrderForm({
                   <PillButton
                     preventTransition
                     width="auto"
-                    padding="0 1rem"
+                    padding=".25rem 1rem"
                     startIcon={<CheckIcon />}
                     display={{ xs: "none", md: "flex" }}
                     onClick={handleOrderReady}
@@ -1277,12 +1300,18 @@ function OrderForm({
         switch (val) {
           case PAYMENT_MODES.ONCE:
             setOrder({ ...order, payment_fractions: [100] })
+            setOrderToUpdate({ ...orderToUpdate, payment_fractions: [100] })
             break
           case PAYMENT_MODES.TWICE:
             setOrder({ ...order, payment_fractions: [60, 40] })
+            setOrderToUpdate({ ...orderToUpdate, payment_fractions: [60, 40] })
             break
           case PAYMENT_MODES.MULTIPLE:
             setOrder({ ...order, payment_fractions: [40, 30, 30] })
+            setOrderToUpdate({
+              ...orderToUpdate,
+              payment_fractions: [40, 30, 30],
+            })
             break
         }
         setPaymentMode(val)
@@ -1337,7 +1366,10 @@ function OrderForm({
   const Li = ({ attribute, text }) => (
     <Box
       component="li"
-      onClick={() => setOrder({ ...order, [attribute]: text })}
+      onClick={() => {
+        setOrder({ ...order, [attribute]: text })
+        setOrderToUpdate({ ...orderToUpdate, [attribute]: text })
+      }}
       sx={{
         cursor: "pointer",
         "&:hover": { color: (theme) => theme.palette.text.secondary },
@@ -1914,6 +1946,13 @@ function OrderForm({
                                 [opt.id]: value,
                               },
                             })
+                            setOrderToUpdate({
+                              ...orderToUpdate,
+                              payment_options: {
+                                ...orderToUpdate.payment_options,
+                                [opt.id]: value,
+                              },
+                            })
                           }}
                         >
                           <BodyText
@@ -2262,9 +2301,16 @@ function LogsSection({ orderId }) {
       <TimelineDot
         sx={{ background: (theme) => theme.alert.title[severity].background }}
       >
-        <CheckCircleIcon
-          sx={{ color: (theme) => theme.alert.title[severity].color }}
-        />
+        {severity === "success" ? (
+          <CheckCircleIcon
+            sx={{ color: (theme) => theme.alert.title[severity].color }}
+          />
+        ) : null}
+        {severity === "error" ? (
+          <ErrorIcon
+            sx={{ color: (theme) => theme.alert.title[severity].color }}
+          />
+        ) : null}
       </TimelineDot>
     )
   }

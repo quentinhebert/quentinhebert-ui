@@ -117,22 +117,23 @@ const orders = {
   },
   // Admin only
   save: async (
-    body = {
-      id,
-      label,
-      description,
-      status,
-      items,
-      date,
-      delivery_date,
-      duration,
-      validity_end_date,
-      payment_options,
-      payment_conditions,
-      additional_mentions,
-      no_vat,
-      payment_delay_penalties,
-    }
+    // body = {
+    //   id,
+    //   label,
+    //   description,
+    //   status,
+    //   items,
+    //   date,
+    //   delivery_date,
+    //   duration,
+    //   validity_end_date,
+    //   payment_options,
+    //   payment_conditions,
+    //   additional_mentions,
+    //   no_vat,
+    //   payment_delay_penalties,
+    // }
+    body
   ) => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/orders/${body.id}`, {

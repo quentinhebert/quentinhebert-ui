@@ -1,4 +1,6 @@
 import { Typography } from "@mui/material"
+import { formatPrice } from "./utils"
+import { PAYMENT_TYPES } from "../enums/paymentTypes"
 
 export const LOG_CONTENT = {
   "order.created": {
@@ -13,16 +15,26 @@ export const LOG_CONTENT = {
     label: "Commande modifiée",
     description: ({ order }) => <>La commande a été modifiée.</>,
   },
-  "order.client_assigned": {
-    label: "Nouveau client associé",
+  "order.ready": {
+    label: "Commande prête",
     description: ({ order }) => (
-      <>
-        <Hightlight>
-          {order?.client[0]?.firstname} {order?.client[0]?.lastname}
-        </Hightlight>{" "}
-        a été associé à la commande.
-      </>
+      <>La commande a été marquée comme prête. Le règlement est en attente.</>
     ),
+  },
+  "order.client_assigned": {
+    label: "Client modifié",
+    description: ({ order }) => {
+      if (!order?.client)
+        return <>L'ancien client associé à la commande a été dissocié.</>
+      return (
+        <>
+          <Hightlight>
+            {order?.client[0]?.firstname} {order?.client[0]?.lastname}
+          </Hightlight>{" "}
+          a été associé à la commande.
+        </>
+      )
+    },
   },
   "order.payment_link_sent": {
     label: "Lien de paiement envoyé",
@@ -32,6 +44,49 @@ export const LOG_CONTENT = {
         envoyé à <Hightlight>{order?.email}</Hightlight>.
         <br />
         <Link url={order?.link} label="" />
+      </>
+    ),
+  },
+  "order.tag_as_paid": {
+    label: "Un paiement a été réglé manuellement",
+    description: ({ payment }) => (
+      <>
+        Un paiement de <Hightlight>{formatPrice(payment?.amount)} €</Hightlight>{" "}
+        a été réglé manuellement avec le moyen{" "}
+        <Hightlight>{PAYMENT_TYPES[payment?.type].label}</Hightlight>.
+      </>
+    ),
+  },
+  "order.invoice_generated": {
+    label: "Nouvelle facture",
+    description: ({ order }) => (
+      <>
+        Une nouvelle facture a été générée. Facture N°{" "}
+        <Hightlight>{order.invoice.number}</Hightlight>.
+        <br />
+        <Link url={order?.invoice?.url} label="Télécharhger la facture" />
+      </>
+    ),
+  },
+  "order.quotation_generated": {
+    label: "Nouveau devis",
+    description: ({ order }) => (
+      <>
+        Une nouvelle facture a été générée. Facture N°{" "}
+        <Hightlight>{order.quotation.number}</Hightlight>.
+        <br />
+        <Link url={order?.quotation?.url} label="Télécharger le devis" />
+      </>
+    ),
+  },
+  "order.quotation_sent": {
+    label: "Devis envoyé",
+    description: ({ order }) => (
+      <>
+        Un devis a été envoyé à l'adresse
+        <Hightlight>{order.quotation.destination_email}</Hightlight>.
+        <br />
+        <Link url={order?.quotation?.url} label="Télécharger le devis" />
       </>
     ),
   },
