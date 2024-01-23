@@ -9,9 +9,11 @@ import CustomRadio from "../../../../../../Inputs/custom-radio"
 import { Stack } from "@mui/material"
 import CancelTextButton from "../../../../../../Buttons/cancel-text-button"
 import PillButton from "../../../../../../Buttons/pill-button"
+import { AppContext } from "../../../../../../../contexts/AppContext"
 
 export default function ModalTagAsPaid() {
   const { state, setState } = useContext(Context)
+  const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
   const [paymentMethod, setPaymentMethod] = useState(PAYMENT_OPTIONS[0].id)
   const [processing, setProcessing] = useState(false)
 
