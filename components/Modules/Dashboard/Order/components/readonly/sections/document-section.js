@@ -23,6 +23,7 @@ import { AppContext } from "../../../../../../../contexts/AppContext"
 import apiCall from "../../../../../../../services/apiCalls/apiCall"
 import { checkBeforeGen } from "../../../../../../../services/quotations"
 import { INVOICETYPES } from "../../../../../../../enums/invoiceTypes"
+import { buildPublicURL } from "../../../../../../../services/utils"
 
 export default function DocumentsSection() {
   const { state, setState, fetchOrder, checkMissingFields, handleSend } =
