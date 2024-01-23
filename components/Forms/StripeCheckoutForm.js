@@ -16,6 +16,7 @@ import { UserContext } from "../../contexts/UserContext"
 import { defaultConfig } from "../../config/defaultConfig"
 
 export default function StripeCheckoutForm({ orderId, clientSecret }) {
+  if (!clientSecret) return <></>
   const stripe = useStripe()
   const elements = useElements()
 
@@ -37,7 +38,6 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
   const [order, setOrder] = useState(null)
   const [loading, setLoading] = useState(true)
   const [processing, setProcessing] = useState(false)
-  const [success, setSuccess] = useState(false)
 
   const initalAlert = {
     show: false,
@@ -103,6 +103,7 @@ export default function StripeCheckoutForm({ orderId, clientSecret }) {
   }
 
   const handleCancel = async () => {
+    if (!clientSecret) return
     const res = await apiCall.orders.cancelPaymentIntent({
       orderId,
       clientSecret,

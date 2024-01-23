@@ -1,10 +1,8 @@
-import { Box, Button, Divider, Grid, Stack, Typography } from "@mui/material"
+import { Button, Divider, Grid, Stack, Typography } from "@mui/material"
 import apiCall from "../../../../services/apiCalls/apiCall"
 import { useRouter } from "next/router"
-import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
 import PillButton from "../../../Buttons/pill-button"
 import CustomCard from "../../../Cards/custom-card"
-import EastIcon from "@mui/icons-material/East"
 import BodyText from "../../../Text/body-text"
 import { zeroPad } from "../../../../services/utils"
 import useConfirm from "../../../../hooks/useConfirm"
@@ -14,7 +12,6 @@ import { AppContext } from "../../../../contexts/AppContext"
 import CreditCardIcon from "@mui/icons-material/CreditCard"
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance"
 import { Paypal } from "grommet-icons"
-import { lightTheme } from "../../../../config/theme"
 import PleaseWait from "../../../Helpers/please-wait"
 import CustomModal from "../../../Modals/custom-modal"
 
@@ -28,14 +25,6 @@ export default function SelectPaymentMethodSection({
 }) {
   const router = useRouter()
   const ConfirmationDialog = useConfirm()
-  // const [
-  //   setConfirmTitle,
-  //   setConfirmMsg,
-  //   setNextBtnText,
-  //   setConfirmAction,
-  //   handleOpen,
-  //   ConfirmationDialog,
-  // ] = useConfirm()
   const { user } = useContext(UserContext)
   const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
 
@@ -111,8 +100,9 @@ export default function SelectPaymentMethodSection({
   }
 
   return (
-    <CenteredMaxWidthContainer percents={{ xs: "100%", md: "80%" }} gap={4}>
+    <>
       <CustomCard
+        borderRadius="20px"
         padding={{ xs: "2rem 1rem", md: "2rem" }}
         backgroundColor={(theme) => theme.palette.background.main}
         gap={4}
@@ -132,7 +122,7 @@ export default function SelectPaymentMethodSection({
                 {order.payment_methods.map((pm) => {
                   if (pm.type === "card")
                     return (
-                      <Grid item xs={12} md={6} xl={4}>
+                      <Grid item xs={12} sm={6} lg={6} xl={4}>
                         <CustomCard gap="0" height="100%" marginBottom="0">
                           <BodyText
                             textTransform="uppercase"
@@ -302,6 +292,6 @@ export default function SelectPaymentMethodSection({
       >
         <ConfirmationDialog.DialogContent />
       </CustomModal>
-    </CenteredMaxWidthContainer>
+    </>
   )
 }

@@ -6,7 +6,6 @@ import SelectAddressSection from "../../Sections/Account/Orders/select-address-s
 import SelectPaymentMethodSection from "../../Sections/Account/Orders/select-payment-method-section"
 import PleaseWait from "../../Helpers/please-wait"
 import CustomStepper from "../../Navigation/custom-stepper"
-import CenteredMaxWidthContainer from "../../Containers/centered-max-width-container"
 import Custom401_Main from "../Errors/Custom401_Main"
 import BodyText from "../../Text/body-text"
 import PriceDetails from "../../Sections/Account/Orders/price-details"
@@ -22,6 +21,10 @@ import EastIcon from "@mui/icons-material/East"
 import { useRouter } from "next/router"
 import { UserContext } from "../../../contexts/UserContext"
 import { AppContext } from "../../../contexts/AppContext"
+import EditIcon from "@mui/icons-material/Edit"
+import CreditCardIcon from "@mui/icons-material/CreditCard"
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance"
+import { Paypal } from "grommet-icons"
 
 const steps = [
   "Adresse de facturation",
@@ -135,7 +138,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
     checkout: checkoutRef,
   }
   const scrollTo = (ref) => {
-    ref.current.scrollIntoView({
+    ref?.current?.scrollIntoView({
       behavior: "smooth",
     })
   }
@@ -145,11 +148,6 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
   }, [])
 
   useEffect(() => {
-    if (
-      !RefsForScroll.invoicing.current ||
-      !RefsForScroll.paymentMethod.current
-    )
-      return
     if (activeStep === 0) scrollTo(RefsForScroll.invoicing)
     else if (activeStep === 1) scrollTo(RefsForScroll.paymentMethod)
     else if (activeStep === 2) scrollTo(RefsForScroll.checkout)
@@ -162,38 +160,197 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
   if (!order.id && !loading) return <Custom404_Main />
 
   return (
-    <Stack gap={{ xs: 0, md: 6 }} padding={{ xs: "0", md: "2rem 0" }}>
+    <>
+      {/********** STEPPER **********/}
+      <Stack
+        position="sticky"
+        top="56px"
+        paddingTop="10px"
+        alignSelf="flex-start"
+        width="100%"
+        zIndex={1}
+        bgcolor="background.black"
+      >
+        <CustomCard
+          marginBottom="1rem"
+          backgroundColor={(theme) => theme.palette.background.main}
+          padding={{ xs: "2rem 0.5rem", md: "1rem" }}
+          borderRadius="20px"
+        >
+          <CustomStepper
+            steps={steps}
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+          />
+        </CustomCard>
+      </Stack>
+
       {loading && <PleaseWait />}
 
-      <Stack>
-        {/********** STEPPER **********/}
-        <Stack
-          ref={RefsForScroll.checkout}
-          sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
-        />
-        <CenteredMaxWidthContainer percents={{ xs: "100%", md: "80%" }}>
-          <CustomCard
-            backgroundColor={(theme) => theme.palette.background.main}
-            padding={{ xs: "2rem 0.5rem", md: "2rem" }}
-          >
-            <CustomStepper
-              steps={steps}
-              activeStep={activeStep}
-              setActiveStep={setActiveStep}
-            />
-          </CustomCard>
-        </CenteredMaxWidthContainer>
+      <Stack
+        gap={2}
+        padding={{ xs: "0", md: "2rem 0" }}
+        flexDirection={{ xs: "column", lg: "row" }}
+        position="relative"
+      >
+        <Stack width="100%">
+          <Stack
+            ref={RefsForScroll.invoicing}
+            sx={{ scrollMarginTop: "200px" }}
+          />
+          {activeStep !== 0 && (
+            <>
+              <CustomCard
+                marginBottom="1rem"
+                borderRadius="20px"
+                padding={{ xs: "1rem", md: "2rem" }}
+                backgroundColor={(theme) => theme.palette.background.main}
+                gap={2}
+              >
+                <Stack flexDirection="row" justifyContent="space-between">
+                  <Typography variant="h6" color="text.grey" textAlign="left">
+                    Adresse de facturation
+                  </Typography>
+                  <EditButton
+                    setActiveStep={setActiveStep}
+                    targetStepIndex={0}
+                  />
+                </Stack>
 
-        {/********** FORMS **********/}
-        <Stack
-          ref={RefsForScroll.invoicing}
-          sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
-        />
-        {activeStep === 0 && (
-          <CenteredMaxWidthContainer percents={{ xs: "100%", md: "80%" }}>
+                <BodyText>
+                  <Span fontWeight="bold" fontSize="1.2rem">
+                    {invoiceAddress.fullname}
+                  </Span>
+                  <br />
+                  {user.email}
+                  <br />
+                  {!!invoiceAddress.phone && (
+                    <>
+                      {invoiceAddress.phone}
+                      <br />
+                    </>
+                  )}
+                  {!!invoiceAddress.line1 && <>{invoiceAddress.line1}, </>}
+                  {!!invoiceAddress.line2 && <>{invoiceAddress.line2}, </>}
+                  {invoiceAddress.postal_code || invoiceAddress.postalCode}{" "}
+                  {invoiceAddress.city},{" "}
+                  {!!invoiceAddress.region && <>{invoiceAddress.region}, </>}
+                  {invoiceAddress.country}
+                  <br />
+                </BodyText>
+              </CustomCard>
+            </>
+          )}
+
+          <Stack
+            ref={RefsForScroll.checkout}
+            sx={{ scrollMarginTop: "200px" }}
+          />
+          {activeStep === 2 && (
+            <>
+              <CustomCard
+                padding={{ xs: "1rem", md: "2rem" }}
+                backgroundColor={(theme) => theme.palette.background.main}
+                marginBottom="1rem"
+                borderRadius="20px"
+              >
+                <Stack flexDirection="row" justifyContent="space-between">
+                  <Typography variant="h6" color="text.grey" textAlign="left">
+                    Moyen de paiement
+                  </Typography>
+                  <EditButton
+                    setActiveStep={setActiveStep}
+                    targetStepIndex={1}
+                  />
+                </Stack>
+
+                <Stack width="100%" maxWidth="300px" alignSelf="center">
+                  {!!paymentMethod.sepa_debit && (
+                    <CustomCard
+                      backgroundColor={(theme) =>
+                        theme.palette.background.black
+                      }
+                      marginBottom={1}
+                    >
+                      <BodyText
+                        textTransform="uppercase"
+                        textAlign="right"
+                        fontWeight="bold"
+                      >
+                        Prélèvement bancaire
+                      </BodyText>
+                      <Grid container mt={2}>
+                        <Grid item xs={2} textAlign="left">
+                          <BodyText color="grey" fontSize="0.7rem">
+                            IBAN
+                          </BodyText>
+                        </Grid>
+                        <Grid item xs={10} textAlign="right">
+                          <BodyText>
+                            {paymentMethod.sepa_debit.country}** **** **** ****
+                            **
+                            {paymentMethod.sepa_debit.last4[0]}{" "}
+                            {paymentMethod.sepa_debit.last4[1]}
+                            {paymentMethod.sepa_debit.last4[2]}
+                            {paymentMethod.sepa_debit.last4[3]}{" "}
+                          </BodyText>
+                        </Grid>
+                      </Grid>
+                    </CustomCard>
+                  )}
+                  {!!paymentMethod.card && (
+                    <CustomCard
+                      marginBottom={1}
+                      backgroundColor={(theme) =>
+                        theme.palette.background.black
+                      }
+                      gap={1}
+                    >
+                      <BodyText
+                        textTransform="uppercase"
+                        textAlign="right"
+                        fontWeight="bold"
+                      >
+                        {paymentMethod.card.brand}
+                      </BodyText>
+                      <Grid container mt={2}>
+                        <Grid item xs={2} textAlign="left">
+                          <BodyText color="grey" fontSize="0.7rem">
+                            Num.
+                          </BodyText>
+                        </Grid>
+                        <Grid item xs={10} textAlign="right">
+                          <BodyText>
+                            **** **** **** {paymentMethod.card.last4}
+                          </BodyText>
+                        </Grid>
+                      </Grid>
+                      <Grid container>
+                        <Grid item xs={2} textAlign="left">
+                          <BodyText color="grey" fontSize="0.7rem">
+                            Exp.
+                          </BodyText>
+                        </Grid>
+                        <Grid item xs={10} textAlign="right">
+                          <BodyText>
+                            {zeroPad(paymentMethod.card.exp_month, 2)}/
+                            {paymentMethod.card.exp_year}
+                          </BodyText>
+                        </Grid>
+                      </Grid>
+                    </CustomCard>
+                  )}
+                </Stack>
+              </CustomCard>
+            </>
+          )}
+
+          {/********** FORMS **********/}
+          {activeStep === 0 && (
             <CustomCard
               padding={{ xs: "1rem", md: "2rem" }}
               backgroundColor={(theme) => theme.palette.background.main}
+              borderRadius="20px"
             >
               <Typography variant="h2" color="secondary" textAlign="center">
                 Facturation
@@ -204,10 +361,9 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
                 setParentAddress={setInvoiceAddress}
               />
             </CustomCard>
-          </CenteredMaxWidthContainer>
-        )}
+          )}
 
-        {/* {activeStep === 1 && (
+          {/* {activeStep === 1 && (
           <>
             <CenteredMaxWidthContainer>
               <AlertInfo
@@ -228,238 +384,136 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
             />
           </>
         )} */}
+          {activeStep === 1 && (
+            <>
+              <Stack
+                ref={RefsForScroll.paymentMethod}
+                sx={{ scrollMarginTop: "200px" }}
+              />
+              <SelectPaymentMethodSection
+                orderId={orderId}
+                order={order}
+                setOrder={setOrder}
+                invoiceAddress={invoiceAddress}
+                deliveryAddress={deliveryAddress}
+                handleSelectPm={handleSelectPm}
+              />
+            </>
+          )}
+        </Stack>
 
-        <Stack
-          ref={RefsForScroll.paymentMethod}
-          sx={{ scrollMarginTop: (theme) => theme.navbar.marginTop }}
-        />
-        {activeStep === 1 && (
-          <>
-            <SelectPaymentMethodSection
-              orderId={orderId}
-              order={order}
-              setOrder={setOrder}
-              invoiceAddress={invoiceAddress}
-              deliveryAddress={deliveryAddress}
-              handleSelectPm={handleSelectPm}
-            />
-          </>
-        )}
-      </Stack>
-
-      {/********** PRICE & ACTION DETAILS **********/}
-      <CenteredMaxWidthContainer percents={{ xs: "100%", md: "80%" }}>
-        <Typography
-          variant="h6"
-          color="secondary"
-          textAlign="left"
-          fontStyle="italic"
-        >
-          Récapitulatif de votre commande
-        </Typography>
-
-        <Stack
-          sx={{
-            width: "100%",
-            height: "3px",
-            background: (theme) =>
-              `linear-gradient(90deg, ${theme.palette.secondary.main}, ${theme.palette.background.black})`,
-            mb: 4,
-            borderRadius: "100px",
-          }}
-        />
-
-        {activeStep !== 0 && (
-          <CustomCard
-            marginBottom="1rem"
-            padding={{ xs: "1rem", md: "2rem" }}
-            backgroundColor={(theme) => theme.palette.background.main}
-            gap={2}
-          >
-            <Typography variant="h2" color="secondary" textAlign="center">
-              Facturation
-            </Typography>
-
-            <BodyText>La facture sera émise avec ces informations :</BodyText>
-
-            <CustomCard
-              marginBottom="1rem"
-              backgroundColor={(theme) => theme.palette.background.black}
-            >
-              <BodyText>
-                <Span fontWeight="bold" fontSize="1.2rem">
-                  {invoiceAddress.fullname}
-                </Span>
-                <br />
-                {user.email}
-                <br />
-                {!!invoiceAddress.phone && (
-                  <>
-                    {invoiceAddress.phone}
-                    <br />
-                  </>
-                )}
-                {!!invoiceAddress.line1 && <>{invoiceAddress.line1}, </>}
-                {!!invoiceAddress.line2 && <>{invoiceAddress.line2}, </>}
-                {invoiceAddress.postal_code || invoiceAddress.postalCode}{" "}
-                {invoiceAddress.city},{" "}
-                {!!invoiceAddress.region && <>{invoiceAddress.region}, </>}
-                {invoiceAddress.country}
-                <br />
-              </BodyText>
-            </CustomCard>
-          </CustomCard>
-        )}
-        {activeStep === 2 && (
-          <CustomCard
-            padding={{ xs: "1rem", md: "2rem" }}
-            backgroundColor={(theme) => theme.palette.background.main}
-            marginBottom="1rem"
-          >
-            <Typography variant="h2" color="secondary" textAlign="center">
-              Moyen de paiement
-            </Typography>
-
-            <Stack width="100%" maxWidth="400px" alignSelf="center">
-              {!!paymentMethod.sepa_debit && (
-                <CustomCard
-                  backgroundColor={(theme) => theme.palette.background.black}
-                  marginBottom={1}
-                >
-                  <BodyText
-                    textTransform="uppercase"
-                    textAlign="right"
-                    fontWeight="bold"
-                  >
-                    Prélèvement bancaire
-                  </BodyText>
-                  <Grid container mt={2}>
-                    <Grid item xs={2} textAlign="left">
-                      <BodyText color="grey" fontSize="0.7rem">
-                        IBAN
-                      </BodyText>
-                    </Grid>
-                    <Grid item xs={10} textAlign="right">
-                      <BodyText>
-                        {paymentMethod.sepa_debit.country}** **** **** **** **
-                        {paymentMethod.sepa_debit.last4[0]}{" "}
-                        {paymentMethod.sepa_debit.last4[1]}
-                        {paymentMethod.sepa_debit.last4[2]}
-                        {paymentMethod.sepa_debit.last4[3]}{" "}
-                      </BodyText>
-                    </Grid>
-                  </Grid>
-                </CustomCard>
-              )}
-              {!!paymentMethod.card && (
-                <CustomCard
-                  marginBottom={1}
-                  backgroundColor={(theme) => theme.palette.background.black}
-                >
-                  <BodyText
-                    textTransform="uppercase"
-                    textAlign="right"
-                    fontWeight="bold"
-                  >
-                    {paymentMethod.card.brand}
-                  </BodyText>
-                  <Grid container mt={2}>
-                    <Grid item xs={2} textAlign="left">
-                      <BodyText color="grey" fontSize="0.7rem">
-                        Num.
-                      </BodyText>
-                    </Grid>
-                    <Grid item xs={10} textAlign="right">
-                      <BodyText>
-                        **** **** **** {paymentMethod.card.last4}
-                      </BodyText>
-                    </Grid>
-                  </Grid>
-                  <Grid container>
-                    <Grid item xs={2} textAlign="left">
-                      <BodyText color="grey" fontSize="0.7rem">
-                        Exp.
-                      </BodyText>
-                    </Grid>
-                    <Grid item xs={10} textAlign="right">
-                      <BodyText>
-                        {zeroPad(paymentMethod.card.exp_month, 2)}/
-                        {paymentMethod.card.exp_year}
-                      </BodyText>
-                    </Grid>
-                  </Grid>
-                </CustomCard>
-              )}
-            </Stack>
-          </CustomCard>
-        )}
-
-        <Stack sx={{ flexDirection: { xs: "column", md: "row" } }} gap={2}>
-          <Stack
-            sx={{
-              // width: "50%",
-              flexGrow: 1,
-              padding: { xs: "1rem", md: 3 },
-              gap: 2,
-              borderRadius: "20px",
-              background: (theme) => theme.palette.background.main,
-            }}
-          >
-            {paymentFractions.length > 0 &&
-              paymentFractions.map((f, key) => {
-                const isNextPayment = key === nextPayment.index
-                return (
-                  isNextPayment && (
-                    <Stack>
-                      {isNextPayment && (
-                        <ActionTitle>Je règle maintenant</ActionTitle>
-                      )}
-                      <ActionText key={key}>
-                        <Box
-                          color={(theme) =>
-                            isNextPayment
-                              ? theme.palette.text.secondary
-                              : "grey"
-                          }
-                          component="span"
-                          fontSize="1rem"
-                        >
-                          <Box
-                            component="span"
-                            color="grey"
-                            className="initial-cap"
-                          >
-                            {paymentFractions.length === 1
-                              ? null
-                              : `${f.label} de ${f.percent}`}
-                          </Box>
-                          <Span ml={1}>{formatPrice(f.amount)}€ TTC</Span>
-                        </Box>
-                      </ActionText>
-                    </Stack>
-                  )
-                )
-              })}
-          </Stack>
-
+        {/********** PRICE LATERAL BAR **********/}
+        <Stack gap={1} position="sticky" top="180px" alignSelf="flex-start">
           <Stack maxWidth="400px">
             <PriceDetails items={order.items} order={order} />
           </Stack>
-        </Stack>
 
-        {activeStep === 2 && (
-          <PillButton
-            margin={{ xs: "1rem 0", md: "4rem 0" }}
-            endIcon={<EastIcon />}
-            onClick={handleRedirectCheckout}
-            disabled={processing}
-          >
-            {processing
-              ? "Veuillez patienter..."
-              : "Payer et finaliser la commande"}
-          </PillButton>
-        )}
-      </CenteredMaxWidthContainer>
-    </Stack>
+          {!!nextPayment && (
+            <Stack
+              sx={{
+                padding: { xs: "1rem", md: 3 },
+                gap: 2,
+                borderRadius: "20px",
+                background: (theme) => theme.palette.background.main,
+              }}
+            >
+              {paymentFractions.length > 0 &&
+                paymentFractions.map((f, key) => {
+                  const isNextPayment = key === nextPayment.index
+                  return (
+                    isNextPayment && (
+                      <Stack>
+                        {isNextPayment && (
+                          <ActionTitle>Je règle maintenant</ActionTitle>
+                        )}
+                        <ActionText key={key}>
+                          <Box
+                            color={(theme) =>
+                              isNextPayment
+                                ? theme.palette.text.secondary
+                                : "grey"
+                            }
+                            component="span"
+                            fontSize="1rem"
+                          >
+                            <Box
+                              component="span"
+                              color="grey"
+                              className="initial-cap"
+                            >
+                              {paymentFractions.length === 1
+                                ? null
+                                : `${f.label} de ${f.percent}`}
+                            </Box>
+                            <Span ml={1}>{formatPrice(f.amount)}€ TTC</Span>
+                          </Box>
+                        </ActionText>
+                      </Stack>
+                    )
+                  )
+                })}
+            </Stack>
+          )}
+
+          <Stack mt={2}>
+            {activeStep === 2 && (
+              <PillButton
+                endIcon={<EastIcon />}
+                onClick={handleRedirectCheckout}
+                disabled={processing}
+              >
+                {processing
+                  ? "Veuillez patienter..."
+                  : "Payer et finaliser la commande"}
+              </PillButton>
+            )}
+
+            {/* {activeStep === 1 && (
+              <Stack width="100%" gap={1}>
+                <PillButton
+                  preventTransitionOut
+                  width="100%"
+                  onClick={handleRedirectCheckout("card")}
+                  startIcon={<CreditCardIcon />}
+                >
+                  Carte bancaire
+                </PillButton>
+                <PillButton
+                  preventTransitionOut
+                  width="100%"
+                  onClick={handleRedirectCheckout("sepa_debit")}
+                  startIcon={<AccountBalanceIcon />}
+                >
+                  Prélèvement bancaire
+                </PillButton>
+                <PillButton
+                  preventTransitionOut
+                  width="100%"
+                  onClick={handleRedirectCheckout("paypal")}
+                  startIcon={<Paypal color="#000" />}
+                >
+                  Paypal
+                </PillButton>
+              </Stack>
+            )} */}
+          </Stack>
+        </Stack>
+      </Stack>
+    </>
+  )
+}
+
+function EditButton({ setActiveStep, targetStepIndex }) {
+  return (
+    <PillButton
+      onClick={() => setActiveStep(targetStepIndex)}
+      background="transparent"
+      border={(theme) => `1px solid ${theme.palette.secondary.main}`}
+      color={(theme) => theme.palette.secondary.main}
+      padding=".25rem .75rem"
+      startIcon={<EditIcon />}
+    >
+      Modifier
+    </PillButton>
   )
 }
