@@ -25,12 +25,14 @@ import apiCall from "../../../../../../../services/apiCalls/apiCall"
 import { LOG_CONTENT } from "../../../../../../../services/logs"
 import CustomAccordion from "../../../../../../Containers/custom-accordion"
 import { formatDayDate } from "../../../../../../../services/date-time"
+import PleaseWait from "../../../../../../Helpers/please-wait"
 
 export default function LogsSection() {
   const { state } = useContext(Context)
   const user = useContext(UserContext)
 
   const [logs, setLogs] = useState([])
+  const [fetching, setFetching] = useState(true)
 
   useEffect(() => {
     fetchLogs()
@@ -43,6 +45,12 @@ export default function LogsSection() {
           <DocumentHeader>
             <DocumentType>Historique</DocumentType>
           </DocumentHeader>
+
+          {fetching && <PleaseWait />}
+
+          {!fetching && (!logs.length || logs.length === 0) && (
+            <Typography color="text.grey">Rien pour le moment.</Typography>
+          )}
 
           <Timeline
             sx={{
@@ -120,6 +128,7 @@ export default function LogsSection() {
       const jsonRes = await res.json()
       setLogs(jsonRes)
     }
+    setFetching(false)
   }
   function getIcon({ severity }) {
     return (
