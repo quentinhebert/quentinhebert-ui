@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { Context, MODES } from "../../../module"
 import PillButton from "../../../../../../Buttons/pill-button"
 import useConfirm from "../../../../../../../hooks/useConfirm"
@@ -39,6 +39,7 @@ export default function ReadyBtn() {
     Confirm.setContent({
       title: "Marquer la commande comme prête",
       nextBtnText: "Oui, ma commande est prête",
+      cancelLabel: "Je souhaite encore modifier ma commande",
       message: (
         <>
           <BodyText>Voulez-vous vraiment publier la commande ?</BodyText>
@@ -52,7 +53,7 @@ export default function ReadyBtn() {
           />
         </>
       ),
-      nextAction: updateOrderAsReady(),
+      nextAction: updateOrderAsReady,
     })
     Confirm.setOpen(true)
   }
@@ -81,6 +82,7 @@ export default function ReadyBtn() {
       )
       if (err.message === "missing_fields")
         setState({ ...state, mode: MODES.EDIT })
+      Confirm.setLoading(false)
     }
   }
 }

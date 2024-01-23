@@ -9,8 +9,14 @@ export default function useConfirm() {
   const [confirmContent, setConfirmContent] = useState({})
   const [open, setOpen] = useState(false)
 
-  function setContent({ title, message, nextAction, nextBtnText }) {
-    setConfirmContent({ title, message, nextAction, nextBtnText })
+  function setContent({
+    title,
+    message,
+    nextAction,
+    nextBtnText,
+    cancelLabel,
+  }) {
+    setConfirmContent({ title, message, nextAction, nextBtnText, cancelLabel })
   }
 
   const handleOpen = () => setOpen(true)
@@ -19,6 +25,8 @@ export default function useConfirm() {
     if (!!confirmContent.nextAction) confirmContent.nextAction()
     return handleClose()
   }
+
+  const [loading, setLoading] = useState(false)
 
   // New system that replaces the deprecated dialog
   const DialogContent = ({ btnBackground, btnColor }) => {
@@ -39,10 +47,15 @@ export default function useConfirm() {
               btnBackground || ((theme) => theme.palette.secondary.main)
             }
             onClick={handleNext || (() => {})}
+            disabled={loading}
           >
             {confirmContent.nextBtnText || "Confirmer"}
           </PillButton>
-          <CancelButton variant="text" handleCancel={handleClose} />
+          <CancelButton
+            variant="text"
+            handleCancel={handleClose}
+            label={confirmContent.cancelLabel}
+          />
         </Stack>
       </>
     )
@@ -55,5 +68,6 @@ export default function useConfirm() {
     setContent,
     handleOpen,
     handleClose,
+    setLoading,
   }
 }

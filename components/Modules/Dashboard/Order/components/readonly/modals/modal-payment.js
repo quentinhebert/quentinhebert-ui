@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import { Context, MODALS } from "../../../module"
+import { Context } from "../../../module"
 import { ModalTitle } from "../../../../../../Modals/Modal-Components/modal-title"
 import CustomForm from "../../../../../../Forms/custom-form"
 import CustomFilledInput from "../../../../../../Inputs/custom-filled-input"
@@ -12,11 +12,12 @@ import { AppContext } from "../../../../../../../contexts/AppContext"
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
 
 export default function ModalPayment() {
-  const { state, setState } = useContext(Context)
+  const { state, setState, handleCloseModal } = useContext(Context)
   const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
   const [paymentEmail, setPaymentEmail] = useState(
     state.order.client?.email || ""
   )
+  const [loading, setLoading] = useState(false)
 
   const emailError = paymentEmail.trim() !== "" && !checkEmail(paymentEmail)
 
@@ -37,19 +38,23 @@ export default function ModalPayment() {
             </Stack>
           }
         />
-        <Stack className="row" gap={2} alignItems="center">
+
+        <Stack width="100%" gap="1rem">
+          <PillButton onClick={generatePaymentLink} disabled={loading}>
+            Envoyer
+          </PillButton>
           <CancelTextButton
             handleCancel={() => setState({ ...state, openModal: false })}
+            alignSelf="center"
           />
-          <PillButton onClick={generatePaymentLink}>Envoyer</PillButton>
         </Stack>
       </CustomForm>
     </>
   )
 
   async function generatePaymentLink() {
+    setLoading(true)
     if (paymentEmail.trim === "") setPaymentEmail(state.order.client?.email)
-    handleOpenModal(MODALS.PAYMENT)
     const res = await apiCall.orders.sendPaymentLink({
       id: state.order.id,
       email: paymentEmail,
@@ -62,5 +67,6 @@ export default function ModalPayment() {
       setSnackMessage("Erreur")
       setSnackSeverity("error")
     }
+    setLoading(false)
   }
 }
