@@ -12,7 +12,10 @@ import PillButton from "../../../../../../Buttons/pill-button"
 import { checkBeforeGen } from "../../../../../../../services/quotations"
 import { AppContext } from "../../../../../../../contexts/AppContext"
 import Pill from "../../../../../../Text/pill"
-import { PAYMENT_TYPES } from "../../../../../../../enums/paymentTypes"
+import {
+  PAYMENT_TYPES,
+  STRIPE_PM,
+} from "../../../../../../../enums/paymentTypes"
 import { formatDayDate } from "../../../../../../../services/date-time"
 
 export function PaymentSection() {
