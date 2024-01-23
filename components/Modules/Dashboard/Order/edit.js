@@ -1,5 +1,5 @@
 import { Stack } from "@mui/material"
-import Toolbar from "./components/edit/Toolbar"
+import Toolbar from "./components/edit/toolbar"
 import ActivityType from "./components/edit/sections/activity-type"
 import MissionDate from "./components/edit/sections/mission-date"
 import { createContext, useContext } from "react"
