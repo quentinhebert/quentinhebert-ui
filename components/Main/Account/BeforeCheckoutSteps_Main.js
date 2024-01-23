@@ -22,9 +22,6 @@ import { useRouter } from "next/router"
 import { UserContext } from "../../../contexts/UserContext"
 import { AppContext } from "../../../contexts/AppContext"
 import EditIcon from "@mui/icons-material/Edit"
-import CreditCardIcon from "@mui/icons-material/CreditCard"
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance"
-import { Paypal } from "grommet-icons"
 
 const steps = [
   "Adresse de facturation",
@@ -365,7 +362,6 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
 
           {/* {activeStep === 1 && (
           <>
-            <CenteredMaxWidthContainer>
               <AlertInfo
                 content={{
                   title: "Pourquoi dois-je renseigner mon adresse ?",
@@ -373,7 +369,6 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
                   text: "Votre adresse est nécessaire pour la livraison de votre commande.",
                 }}
               />
-            </CenteredMaxWidthContainer>
             <SelectAddressSection
               handleNext={handleNext}
               handleBack={handleBack}
