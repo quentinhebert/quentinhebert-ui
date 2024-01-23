@@ -1,15 +1,15 @@
 import { Stack } from "@mui/material"
-import ClientAutocomplete from "../../../../../Forms/admin/client-autocomplete"
-import CustomForm from "../../../../../Forms/custom-form"
-import QuotationClientFieldsForm from "../../../../../Forms/quotations/quotation-client-fields-form"
-import SwitchButton from "../../../../../Inputs/switch-button"
-import { ModalTitle } from "../../../../../Modals/Modal-Components/modal-title"
-import CancelButton from "../../../../../Buttons/cancel-button"
-import PillButton from "../../../../../Buttons/pill-button"
+import ClientAutocomplete from "../../../../../../Forms/admin/client-autocomplete"
+import CustomForm from "../../../../../../Forms/custom-form"
+import QuotationClientFieldsForm from "../../../../../../Forms/quotations/quotation-client-fields-form"
+import SwitchButton from "../../../../../../Inputs/switch-button"
+import { ModalTitle } from "../../../../../../Modals/Modal-Components/modal-title"
+import CancelButton from "../../../../../../Buttons/cancel-button"
+import PillButton from "../../../../../../Buttons/pill-button"
 import { useContext, useState } from "react"
 import { Context } from "../../../module"
-import apiCall from "../../../../../../services/apiCalls/apiCall"
-import { AppContext } from "../../../../../../contexts/AppContext"
+import apiCall from "../../../../../../../services/apiCalls/apiCall"
+import { AppContext } from "../../../../../../../contexts/AppContext"
 
 export default function ModalClient() {
   const { state, setState, fetchOrder, handleCloseModal } = useContext(Context)
@@ -31,7 +31,7 @@ export default function ModalClient() {
 
       {newClient ? (
         <QuotationClientFieldsForm
-          orderId={order.id}
+          orderId={state.order.id}
           handleFinish={async () => {
             handleCloseModal()
             fetchOrder()

@@ -1,14 +1,14 @@
 import { useContext } from "react"
 import { Context, MODES } from "../../../module"
-import PillButton from "../../../../../Buttons/pill-button"
-import useConfirm from "../../../../../../hooks/useConfirm"
-import CustomModal from "../../../../../Modals/custom-modal"
-import BodyText from "../../../../../Text/body-text"
-import AlertInfo from "../../../../../Other/alert-info"
-import { AppContext } from "../../../../../../contexts/AppContext"
+import PillButton from "../../../../../../Buttons/pill-button"
+import useConfirm from "../../../../../../../hooks/useConfirm"
+import CustomModal from "../../../../../../Modals/custom-modal"
+import BodyText from "../../../../../../Text/body-text"
+import AlertInfo from "../../../../../../Other/alert-info"
+import { AppContext } from "../../../../../../../contexts/AppContext"
 
 import CheckIcon from "@mui/icons-material/CheckCircleOutline"
-import apiCall from "../../../../../../services/apiCalls/apiCall"
+import apiCall from "../../../../../../../services/apiCalls/apiCall"
 
 export default function ReadyBtn() {
   const Confirm = useConfirm()

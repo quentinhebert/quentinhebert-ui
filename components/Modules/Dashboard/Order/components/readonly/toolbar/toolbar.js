@@ -1,13 +1,13 @@
 import { useContext } from "react"
 import { Context, MODALS, MODES } from "../../../module"
-import { QUOTATION_STATUS } from "../../../../../../enums/quotationStatus"
-import BodyText from "../../../../../Text/body-text"
-import { parseOrderPrice } from "../../../../../../services/orders"
-import { ORDERSTATES } from "../../../../../../enums/orderStates"
-import theme from "../../../../../../config/theme"
-import Pill from "../../../../../Text/pill"
+import { QUOTATION_STATUS } from "../../../../../../../enums/quotationStatus"
+import BodyText from "../../../../../../Text/body-text"
+import { parseOrderPrice } from "../../../../../../../services/orders"
+import { ORDERSTATES } from "../../../../../../../enums/orderStates"
+import theme from "../../../../../../../config/theme"
+import Pill from "../../../../../../Text/pill"
 import ReadyBtn from "./ready-btn"
-import DropdownOptions from "../../../../../Dropdown/dropdown-options"
+import DropdownOptions from "../../../../../../Dropdown/dropdown-options"
 
 import SimpleCheckIcon from "@mui/icons-material/Check"
 import EditIcon from "@mui/icons-material/Edit"
@@ -23,33 +23,34 @@ const EDIT_STATUSES = [
 ]
 
 export default function Toolbar() {
-  const options = []
-
   const { state, setState, handleDelete, handleOpenModal } = useContext(Context)
 
-  options.push({
-    label: "La commande est prête",
-    handleClick: () => handleOrderReady(),
-    icon: <SimpleCheckIcon />,
-  })
-  if (EDIT_STATUSES.includes(state.order.status))
-    options.push({
+  const options = [
+    {
+      label: "La commande est prête",
+      handleClick: () => handleOpenModal(MODALS.TAG),
+      icon: <SimpleCheckIcon />,
+    },
+    {
       label: "Modifier",
       handleClick: () => setState({ ...state, mode: MODES.EDIT }),
       icon: <EditIcon />,
-    })
-  options.push({
-    label: "Changer le nom",
-    handleClick: () => handleOpenModal(MODALS.SAVE),
-    icon: <TitleIcon />,
-  })
-  options.push({
-    label: "Assigner un client",
-    handleClick: () => handleOpenModal(MODALS.ASSIGN),
-    icon: <AssignmentIndIcon />,
-  })
+    },
+    {
+      label: "Changer le nom",
+      handleClick: () => handleOpenModal(MODALS.SAVE),
+      icon: <TitleIcon />,
+    },
+    {
+      label: "Assigner un client",
+      handleClick: () => handleOpenModal(MODALS.ASSIGN),
+      icon: <AssignmentIndIcon />,
+    },
+  ]
 
-  if (!!state.order.id)
+  if (!EDIT_STATUSES.includes(state.order.status)) {
+    delete options[options.findIndex((elt) => elt.label === "Modifier")]
+  } else
     options.push({
       label: "Supprimer la commande",
       handleClick: handleDelete,

@@ -1,28 +1,24 @@
 import { useState, useContext, useEffect } from "react"
 import { Button, Grid, InputAdornment, Stack, Typography } from "@mui/material"
-import AlertInfo from "../../Other/alert-info"
-import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
-import { AppContext } from "../../../contexts/AppContext"
-import CustomForm from "../custom-form"
-import RectangleButton from "../../Buttons/rectangle-button"
-import CustomFilledTextArea from "../../Inputs/custom-filled-text-area"
-import CustomFilledInput from "../../Inputs/custom-filled-input"
-import CustomFilledSelect from "../../Inputs/custom-filled-select"
-import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
-import CustomSelectOption from "../../Inputs/custom-select-option"
+import AlertInfo from "../../../../../../Other/alert-info"
+import { ModalTitle } from "../../../../../../Modals/Modal-Components/modal-title"
+import { AppContext } from "../../../../../../../contexts/AppContext"
+import CustomForm from "../../../../../../Forms/custom-form"
+import RectangleButton from "../../../../../../Buttons/rectangle-button"
+import CustomFilledTextArea from "../../../../../../Inputs/custom-filled-text-area"
+import CustomFilledInput from "../../../../../../Inputs/custom-filled-input"
+import CustomFilledSelect from "../../../../../../Inputs/custom-filled-select"
+import { QUOTATION_ITEM_TYPES } from "../../../../../../../enums/quotationItemTypes"
+import CustomSelectOption from "../../../../../../Inputs/custom-select-option"
 import DeleteIcon from "@mui/icons-material/Delete"
-import withConfirmAction from "../../hocs/withConfirmAction"
-import BasicTooltip from "../../Helpers/basic-tooltip"
+import withConfirmAction from "../../../../../../hocs/withConfirmAction"
+import BasicTooltip from "../../../../../../Helpers/basic-tooltip"
+import { Context } from "../../../module"
 
 const INTEGER_FIELDS = ["quantity"]
 const FLOAT_FIELDS = ["no_vat_price", "vat"]
 
-function EditOrderItemForm({
-  handleClose,
-  incomingItem,
-  itemIndex,
-  items,
-  setItems,
+function ModalEditItem({
   setActionToFire,
   setOpenConfirmModal,
   setConfirmTitle,
@@ -32,6 +28,7 @@ function EditOrderItemForm({
   noVat,
 }) {
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+  const { state, setState } = useContext(Context)
 
   /********** USE-STATES **********/
   const [showAlert, setShowAlert] = useState({
@@ -41,23 +38,23 @@ function EditOrderItemForm({
     title: null,
   })
   const [item, setItem] = useState({
-    type: incomingItem?.type || "",
-    label: incomingItem?.label || "",
-    description: incomingItem?.description || "",
-    quantity: incomingItem?.quantity || 1,
-    vat: incomingItem?.vat || 0,
-    no_vat_price: incomingItem?.no_vat_price / 100 || 0,
+    type: state.selectedItem?.type || "",
+    label: state.selectedItem?.label || "",
+    description: state.selectedItem?.description || "",
+    quantity: state.selectedItem?.quantity || 1,
+    vat: state.selectedItem?.vat || 0,
+    no_vat_price: state.selectedItem?.no_vat_price / 100 || 0,
   })
   useEffect(() => {
     setItem({
-      type: incomingItem?.type || "",
-      label: incomingItem?.label || "",
-      description: incomingItem?.description || "",
-      quantity: incomingItem?.quantity || 1,
-      vat: incomingItem?.vat || 0,
-      no_vat_price: incomingItem?.no_vat_price / 100 || 0,
+      type: state.selectedItem?.type || "",
+      label: state.selectedItem?.label || "",
+      description: state.selectedItem?.description || "",
+      quantity: state.selectedItem?.quantity || 1,
+      vat: state.selectedItem?.vat || 0,
+      no_vat_price: state.selectedItem?.no_vat_price / 100 || 0,
     })
-  }, [itemIndex])
+  }, [state.selectedItemIndex])
 
   const handleChange = (attribute) => (e) => {
     if (INTEGER_FIELDS.includes(attribute)) {
@@ -103,15 +100,18 @@ function EditOrderItemForm({
   }
 
   const handleCancel = async () => {
-    if (handleClose) handleClose()
+    setState({
+      ...state,
+      selectedItemIndex: null,
+      selectedItem: {},
+      openModal: false,
+    })
   }
 
   const deleteItem = () => {
-    const localItems = items
-    localItems.splice(itemIndex, 1) // remove item from array
-    setItems(localItems)
-    handleDetectChange()
-    if (handleClose) handleClose()
+    const localItems = state.items
+    localItems.splice(state.selectedItemIndex, 1) // remove item from array
+    setState({ ...state, items: localItems, openModal: false })
   }
 
   const handleDelete = () => {
@@ -294,4 +294,4 @@ function EditOrderItemForm({
   )
 }
 
-export default withConfirmAction(EditOrderItemForm)
+export default withConfirmAction(ModalEditItem)

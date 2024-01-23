@@ -1,26 +1,23 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Grid, InputAdornment, Stack, Typography } from "@mui/material"
-import AlertInfo from "../../Other/alert-info"
-import { ModalTitle } from "../../Modals/Modal-Components/modal-title"
-import CustomForm from "../custom-form"
-import RectangleButton from "../../Buttons/rectangle-button"
-import CustomFilledTextArea from "../../Inputs/custom-filled-text-area"
-import CustomFilledInput from "../../Inputs/custom-filled-input"
-import CustomSelectOption from "../../Inputs/custom-select-option"
-import CustomFilledSelect from "../../Inputs/custom-filled-select"
-import { QUOTATION_ITEM_TYPES } from "../../../enums/quotationItemTypes"
-import BasicTooltip from "../../Helpers/basic-tooltip"
+import AlertInfo from "../../../../../../Other/alert-info"
+import CustomForm from "../../../../../../Forms/custom-form"
+import RectangleButton from "../../../../../../Buttons/rectangle-button"
+import CustomFilledTextArea from "../../../../../../Inputs/custom-filled-text-area"
+import CustomFilledInput from "../../../../../../Inputs/custom-filled-input"
+import CustomSelectOption from "../../../../../../Inputs/custom-select-option"
+import CustomFilledSelect from "../../../../../../Inputs/custom-filled-select"
+import BasicTooltip from "../../../../../../Helpers/basic-tooltip"
+import { Context } from "../../../module"
+import { QUOTATION_ITEM_TYPES } from "../../../../../../../enums/quotationItemTypes"
+import { ModalTitle } from "../../../../../../Modals/Modal-Components/modal-title"
 
 const INTEGER_FIELDS = ["quantity"]
 const FLOAT_FIELDS = ["no_vat_price", "vat"]
 
-export default function CreateOrderItemForm({
-  handleClose,
-  items,
-  setItems,
-  handleDetectChange,
-  noVat,
-}) {
+export default function ModalCreateItem({}) {
+  const { state, setState } = useContext(Context)
+
   /********** USE-STATES **********/
   const [showAlert, setShowAlert] = useState({
     show: false,
@@ -36,54 +33,6 @@ export default function CreateOrderItemForm({
     vat: 0,
     no_vat_price: 0,
   })
-
-  const handleChange = (attribute) => (e) => {
-    if (INTEGER_FIELDS.includes(attribute)) {
-      return setItem({
-        ...item,
-        [attribute]: !Number.isNaN(Number(e.target.value))
-          ? Number(e.target.value)
-          : item[attribute],
-      })
-    }
-
-    if (FLOAT_FIELDS.includes(attribute)) {
-      const value = e.target.value
-      const formattedValue = e.target.value.replace(",", ".")
-
-      const floatSeparators = [",", "."]
-      const endWithFloatSeparator = floatSeparators.includes(
-        value.charAt(value.length - 1)
-      )
-
-      return setItem({
-        ...item,
-        [attribute]:
-          !Number.isNaN(Number(formattedValue)) && !endWithFloatSeparator
-            ? Number(formattedValue) // valid number
-            : value, // invalid number but user can continue to type
-      })
-    }
-
-    setItem({ ...item, [attribute]: e.target.value })
-  }
-
-  const handleAdd = async () => {
-    const localItems = items
-    const localItem = item
-
-    // Format price from euros to cents
-    localItem.no_vat_price = localItem.no_vat_price * 100
-
-    localItems.push(item)
-    setItems(localItems)
-    handleDetectChange()
-    if (handleClose) handleClose()
-  }
-
-  const handleCancel = async () => {
-    if (handleClose) handleClose()
-  }
 
   const tooManyDecimals = (numb) => numb.toString().split(".")[1]?.length > 2
   const invalidPercentage = (percent) => percent < 0 || percent > 100
@@ -168,11 +117,11 @@ export default function CreateOrderItemForm({
             <Grid item xs={3}>
               <BasicTooltip
                 title={`Pour modifier la TVA, veuillez décocher "TVA non applicable" à l'étape (4/6).`}
-                disabled={!noVat}
+                disabled={!state.order.noVat}
               >
                 <Stack>
                   <CustomFilledInput
-                    disabled={noVat}
+                    disabled={state.order.noVat}
                     inputProps={{
                       // WARNING: inputProps !== InputProps
                       inputmode: "decimal", // Numeric pad on mobile
@@ -243,4 +192,52 @@ export default function CreateOrderItemForm({
       </CustomForm>
     </Stack>
   )
+
+  function handleChange(attribute) {
+    return (e) => {
+      if (INTEGER_FIELDS.includes(attribute)) {
+        return setItem({
+          ...item,
+          [attribute]: !Number.isNaN(Number(e.target.value))
+            ? Number(e.target.value)
+            : item[attribute],
+        })
+      }
+
+      if (FLOAT_FIELDS.includes(attribute)) {
+        const value = e.target.value
+        const formattedValue = e.target.value.replace(",", ".")
+
+        const floatSeparators = [",", "."]
+        const endWithFloatSeparator = floatSeparators.includes(
+          value.charAt(value.length - 1)
+        )
+
+        return setItem({
+          ...item,
+          [attribute]:
+            !Number.isNaN(Number(formattedValue)) && !endWithFloatSeparator
+              ? Number(formattedValue) // valid number
+              : value, // invalid number but user can continue to type
+        })
+      }
+
+      setItem({ ...item, [attribute]: e.target.value })
+    }
+  }
+
+  async function handleAdd() {
+    const localItems = state.items
+    const localItem = item
+
+    // Format price from euros to cents
+    localItem.no_vat_price = localItem.no_vat_price * 100
+
+    localItems.push(item)
+    setState({ ...state, items: localItems, modal: null, openModal: false })
+  }
+
+  async function handleCancel() {
+    setState({ ...state, modal: null, openModal: false })
+  }
 }

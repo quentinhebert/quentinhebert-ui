@@ -1,14 +1,15 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { QUOTATION_STATUS } from "../../../enums/quotationStatus"
-import { ACTIVITY_TYPES } from "../../../enums/activityTypesEnum"
+import { QUOTATION_STATUS } from "../../../../enums/quotationStatus"
+import { ACTIVITY_TYPES } from "../../../../enums/activityTypesEnum"
 import dynamic from "next/dynamic"
-import { checkBeforeGen } from "../../../services/quotations"
-import apiCall from "../../../services/apiCalls/apiCall"
+import apiCall from "../../../../services/apiCalls/apiCall"
 import Modals from "./components/readonly/modals/modals"
-import { AppContext } from "../../../contexts/AppContext"
-import BodyText from "../../Text/body-text"
+import { AppContext } from "../../../../contexts/AppContext"
+import BodyText from "../../../Text/body-text"
 import { Box, Grid, Stack } from "@mui/material"
-const OrderForm = dynamic(() => import("./edit"))
+import SmallTitle from "../../../Titles/small-title"
+import { checkBeforeGen } from "../../../../services/quotations"
+const OrderEdit = dynamic(() => import("./edit"))
 const OrderReadonly = dynamic(() => import("./readonly"))
 
 export default function OrderModule({ id, defaultMode }) {
@@ -38,7 +39,7 @@ export default function OrderModule({ id, defaultMode }) {
       "Une indemnité forfaitaire de 40€, à laquelle s'ajoute un taux d'Intérêt de retard de 15%. Calcul des intérêts de retard : Somme due TTC * jours de retard * taux d’intérêt / (365 * 100). Les jours de retard sont calculés à partir de la date de réception de la facture.",
     quotations: [],
     payments: [],
-    payment_fractions: [100],
+    payment_fractions: [60, 40],
     activity_type: ACTIVITY_TYPES.video,
   }
   const initialState = {
@@ -56,6 +57,9 @@ export default function OrderModule({ id, defaultMode }) {
     modal: null,
     openModal: false,
     activeTab: 0,
+    selectedItem: {},
+    selectedItemIndex: null,
+    selectedQuotation: {},
   }
   // MODULE STATE
   const [state, setState] = useState(initialState)
@@ -79,11 +83,13 @@ export default function OrderModule({ id, defaultMode }) {
         handleCloseModal,
         handleSave,
         handleChange,
-        handleSend,
       }}
     >
-      {state.mode === MODES.EDIT && <OrderForm />}
-      {state.mode === MODES.READONLY && <OrderReadonly />}
+      {state.mode === MODES.READONLY ? (
+        <OrderReadonly />
+      ) : state.mode === MODES.EDIT ? (
+        <OrderEdit />
+      ) : null}
 
       <Modals />
     </Context.Provider>
@@ -97,12 +103,14 @@ export default function OrderModule({ id, defaultMode }) {
       const res = await apiCall.orders.get({ id })
       if (!res?.ok) throw Error("Fetching request has failed!")
       const jsonRes = await res.json()
+
       setState({
         ...state,
         items: jsonRes.items,
         order: jsonRes,
         isFetching: false,
         openModal: false,
+        mode: MODES.READONLY,
       })
     } catch (err) {
       console.error(err.message)
@@ -145,6 +153,7 @@ export default function OrderModule({ id, defaultMode }) {
   function handleCloseModal() {
     setState({ ...state, openModal: false })
   }
+  // TODO: add, edit, delete order item => update a copy of items, and allow save or cancel
   function handleChange(attribute) {
     return (e) =>
       setState({
@@ -190,51 +199,15 @@ export default function OrderModule({ id, defaultMode }) {
     }
   }
   async function handleSave() {
-    if (!!state.orderToUpdate.label) return await save({ noSnack: false })
+    if (!!state.order.label) return await save({ noSnack: false })
     handleOpenModal(MODALS.SAVE)
-  }
-  function missingFieldsSnack() {
-    setSnackMessage(`Certains champs obligatoires sont manquants.`)
-    setSnackSeverity("error")
-  }
-  async function sendQuotation(quotationId, email) {
-    const res = await apiCall.quotations.send({
-      id: quotationId,
-      email: email || emailInput,
-    })
-    if (res && res.ok) {
-      setSnackSeverity("success")
-      setSnackMessage("Succès")
-      fetchOrder()
-    } else {
-      setSnackSeverity("error")
-      setSnackMessage("Erreur")
-    }
-  }
-  async function handleSend(quotationId, email) {
-    const localErrors = checkBeforeGen(order)
-    setState({ ...state, errors: localErrors })
-    const errorsCount = Object.values(localErrors).filter(
-      (elt) => elt === true
-    ).length
-
-    // No problem
-    if (errorsCount > 0 && !(errorsCount === 1 && localErrors.client))
-      return missingFieldsSnack()
-
-    if (!!email || (emailInput.trim() !== "" && !emailError))
-      return await sendQuotation(quotationId, email)
-
-    const res = await apiCall.quotations.get({ id: quotationId })
-    if (res && res.ok) {
-      const jsonRes = await res.json()
-      setSelectedQuotation(jsonRes)
-    }
-    handleOpenModal(MODALS.SEND)
   }
 }
 
+// CONTEXT
 export const Context = createContext()
+
+// GLOBALS FOR MODULE
 export const MODES = { EDIT: "EDIT", READONLY: "READONLY" }
 export const MODALS = {
   SAVE: "SAVE",
@@ -245,8 +218,11 @@ export const MODALS = {
   PAYMENT: "PAYMENT",
   TAG: "TAG",
 }
-
-// Global components for module
+export const PAYMENT_MODES = {
+  ONCE: "ONCE",
+  TWICE: "TWICE",
+  MULTIPLE: "MULTIPLE",
+}
 export function FormCard({
   title,
   width,

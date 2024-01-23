@@ -5,7 +5,7 @@ import { useContext } from "react"
 import { UserContext } from "../../../contexts/UserContext"
 import { USERTYPES } from "../../../enums/userTypes"
 import DashboardLayout from "../../../components/Layouts/DashboardLayout"
-import OrderForm from "../../../components/Forms/orders/order-form"
+import OrderModule from "../../../components/Modules/Dashboard/Order/module"
 
 const head = {
   // Main meta tags
@@ -34,7 +34,7 @@ export default function CreateQuotationPage() {
 
       {!!user && user.type === USERTYPES.ADMIN && (
         <DashboardLayout title="Nouvelle commande">
-          <OrderForm />
+          <OrderModule defaultMode="EDIT" />
         </DashboardLayout>
       )}
     </PagesLayout>

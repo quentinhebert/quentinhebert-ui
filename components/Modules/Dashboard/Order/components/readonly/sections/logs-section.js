@@ -20,11 +20,11 @@ import {
   DocumentType,
   FormCard,
 } from "../../../module"
-import { UserContext } from "../../../../../../contexts/UserContext"
-import apiCall from "../../../../../../services/apiCalls/apiCall"
-import { LOG_CONTENT } from "../../../../../../services/logs"
-import CustomAccordion from "../../../../../Containers/custom-accordion"
-import { formatDayDate } from "../../../../../../services/date-time"
+import { UserContext } from "../../../../../../../contexts/UserContext"
+import apiCall from "../../../../../../../services/apiCalls/apiCall"
+import { LOG_CONTENT } from "../../../../../../../services/logs"
+import CustomAccordion from "../../../../../../Containers/custom-accordion"
+import { formatDayDate } from "../../../../../../../services/date-time"
 
 export default function LogsSection() {
   const { state } = useContext(Context)

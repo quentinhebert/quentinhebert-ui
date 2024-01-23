@@ -64,7 +64,7 @@ export const LOG_CONTENT = {
         Une nouvelle facture a été générée. Facture N°{" "}
         <Hightlight>{order.invoice.number}</Hightlight>.
         <br />
-        <Link url={order?.invoice?.url} label="Télécharhger la facture" />
+        <Link url={order?.invoice?.url} label="Télécharger la facture" />
       </>
     ),
   },

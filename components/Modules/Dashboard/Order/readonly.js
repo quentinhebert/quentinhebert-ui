@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import FullWidthTabs from "../../Navigation/full-width-tabs"
+import FullWidthTabs from "../../../Navigation/full-width-tabs"
 import { Context } from "./module"
 import Toolbar from "./components/readonly/toolbar/toolbar"
 import TabContent from "./components/readonly/sections"
