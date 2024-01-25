@@ -27,7 +27,7 @@ class AnimatedLogoLayout extends Component {
         {/* <GrainOverlay /> */}
         <Stack>
           <MotionDivFadeInOnMount>
-            <Lottie options={defaultOptions} height={200} width={200} />
+            <Lottie options={defaultOptions} height={150} width={150} />
           </MotionDivFadeInOnMount>
         </Stack>
       </Stack>
