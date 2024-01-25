@@ -11,7 +11,7 @@ class AnimatedLogoLayout extends Component {
       loop: false,
       autoplay: true,
       animationData: animationData,
-      renderer: "svg",
+      renderer: "canvas",
     }
     return (
       <Stack
