@@ -7,7 +7,6 @@ import { Stack } from "@mui/material"
 
 export default function OrderReadonly({}) {
   const { state, setState } = useContext(Context)
-  const [activeTab, setActiveTab] = useState(0)
 
   const nbPayments = state.order.payments?.length
   const hasClient = !!state.order.client?.id

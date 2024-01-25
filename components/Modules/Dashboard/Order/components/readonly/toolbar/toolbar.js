@@ -15,6 +15,7 @@ import TitleIcon from "@mui/icons-material/Title"
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { Stack } from "@mui/material"
+import DeliveredBtn from "./delivered-btn"
 
 const EDIT_STATUSES = [
   QUOTATION_STATUS.DRAFT.id,
@@ -104,6 +105,8 @@ export default function Toolbar() {
           : null}
         {!!state.order.client.company && ` / ${state.order.client.company}`}
       </BodyText>
+
+      {state.order.status !== "DRAFT" && <DeliveredBtn />}
 
       <Stack
         alignItems="end"

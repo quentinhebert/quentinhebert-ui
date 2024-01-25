@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material"
 import { formatPrice } from "./utils"
 import { PAYMENT_TYPES } from "../enums/paymentTypes"
+import { convertDateToShortString } from "./date-time"
 
 export const LOG_CONTENT = {
   "order.created": {
@@ -87,6 +88,18 @@ export const LOG_CONTENT = {
         <Hightlight>{order.quotation.destination_email}</Hightlight>.
         <br />
         <Link url={order?.quotation?.url} label="Télécharger le devis" />
+      </>
+    ),
+  },
+  "order.delivered": {
+    label: "Commande livrée",
+    description: ({ order }) => (
+      <>
+        Vous avez indiqué que la commande a été livrée le{" "}
+        <Hightlight>
+          {convertDateToShortString(order.delivered_date)}
+        </Hightlight>
+        .
       </>
     ),
   },

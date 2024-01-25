@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { Context, MODES } from "../../../module"
 import PillButton from "../../../../../../Buttons/pill-button"
 import useConfirm from "../../../../../../../hooks/useConfirm"

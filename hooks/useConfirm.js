@@ -15,8 +15,16 @@ export default function useConfirm() {
     nextAction,
     nextBtnText,
     cancelLabel,
+    MsgComponent,
   }) {
-    setConfirmContent({ title, message, nextAction, nextBtnText, cancelLabel })
+    setConfirmContent({
+      title,
+      message,
+      nextAction,
+      nextBtnText,
+      cancelLabel,
+      MsgComponent,
+    })
   }
 
   const handleOpen = () => setOpen(true)
@@ -30,27 +38,32 @@ export default function useConfirm() {
 
   // New system that replaces the deprecated dialog
   const DialogContent = ({ btnBackground, btnColor }) => {
-    if (!confirmContent.title || !confirmContent.nextAction) return <></>
+    if (!confirmContent.title) return <></>
 
     return (
       <>
         {/**** TITLE ****/}
         <ModalTitle>{confirmContent?.title || ""}</ModalTitle>
         {/**** DESCRIPTION ****/}
-        <BodyText preventTransition>{confirmContent?.message || ""}</BodyText>
+        {!!confirmContent?.message && (
+          <BodyText preventTransition>{confirmContent?.message || ""}</BodyText>
+        )}
+        <confirmContent.MsgComponent />
         {/**** BOTTOM BUTTONS ****/}
         <Stack gap={2} alignItems="center">
-          <PillButton
-            width="100%"
-            color={btnColor || "#000"}
-            background={
-              btnBackground || ((theme) => theme.palette.secondary.main)
-            }
-            onClick={handleNext || (() => {})}
-            disabled={loading}
-          >
-            {confirmContent.nextBtnText || "Confirmer"}
-          </PillButton>
+          {!!confirmContent.nextAction && (
+            <PillButton
+              width="100%"
+              color={btnColor || "#000"}
+              background={
+                btnBackground || ((theme) => theme.palette.secondary.main)
+              }
+              onClick={handleNext || (() => {})}
+              disabled={loading}
+            >
+              {confirmContent.nextBtnText || "Confirmer"}
+            </PillButton>
+          )}
           <CancelButton
             variant="text"
             handleCancel={handleClose}
