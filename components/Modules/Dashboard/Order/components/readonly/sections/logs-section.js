@@ -25,7 +25,7 @@ import apiCall from "../../../../../../../services/apiCalls/apiCall"
 import { LOG_CONTENT } from "../../../../../../../services/logs"
 import CustomAccordion from "../../../../../../Containers/custom-accordion"
 import { formatDayDate } from "../../../../../../../services/date-time"
-import PleaseWait from "../../../../../../Helpers/please-wait"
+import RefreshButton from "../../../../../../Buttons/refresh-button"
 
 export default function LogsSection() {
   const { state } = useContext(Context)
@@ -44,9 +44,9 @@ export default function LogsSection() {
         <Stack gap={2}>
           <DocumentHeader>
             <DocumentType>Historique</DocumentType>
-          </DocumentHeader>
 
-          {fetching && <PleaseWait />}
+            <RefreshButton refresh={fetchLogs} loading={fetching} />
+          </DocumentHeader>
 
           {!fetching && (!logs.length || logs.length === 0) && (
             <Typography color="text.grey">Rien pour le moment.</Typography>
@@ -123,6 +123,7 @@ export default function LogsSection() {
   )
 
   async function fetchLogs() {
+    setFetching(true)
     const res = await apiCall.orders.getLogs({ id: state.order.id })
     if (res?.ok) {
       const jsonRes = await res.json()
