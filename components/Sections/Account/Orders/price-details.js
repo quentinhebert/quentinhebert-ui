@@ -2,7 +2,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box,
   Grid,
   Stack,
   Typography,
@@ -16,78 +15,6 @@ import BodyText from "../../../Text/body-text"
 import Span from "../../../Text/span"
 import { formatPrice } from "../../../../services/utils"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-
-const Label = (props) => (
-  <Grid
-    item
-    xs={9}
-    sx={{
-      "&:first-letter": {
-        textTransform: "capitalize",
-      },
-    }}
-  >
-    <BodyText
-      className="initial-cap"
-      preventTransition
-      color={(theme) => theme.palette.text.grey}
-      fontSize="1rem"
-      {...props}
-    />
-  </Grid>
-)
-
-const Price = (props) => (
-  <Grid item xs={3} textAlign="right">
-    <Typography {...props} minWidth="60px" />
-  </Grid>
-)
-
-const PaidChip = ({}) => (
-  <Span
-    color={(theme) => theme.alert.title.success.color}
-    sx={{
-      fontSize: ".8rem",
-      padding: "0 .5rem",
-      borderRadius: "30px",
-      border: (theme) => `1px solid ${theme.alert.title.success.color}`,
-      background: (theme) => theme.alert.title.success.background,
-      ml: 0.5,
-    }}
-  >
-    payé
-  </Span>
-)
-const ProcessingChip = ({}) => (
-  <Span
-    color={(theme) => theme.alert.title.warning.color}
-    sx={{
-      fontSize: ".8rem",
-      padding: "0 .5rem",
-      borderRadius: "30px",
-      border: (theme) => `1px solid ${theme.alert.title.warning.color}`,
-      background: (theme) => theme.alert.title.warning.background,
-      ml: 0.5,
-    }}
-  >
-    En cours
-  </Span>
-)
-const FailedChip = ({}) => (
-  <Span
-    color={(theme) => theme.alert.title.error.color}
-    sx={{
-      fontSize: ".8rem",
-      padding: "0 .5rem",
-      borderRadius: "30px",
-      border: (theme) => `1px solid ${theme.alert.title.error.color}`,
-      background: (theme) => theme.alert.title.error.background,
-      ml: 0.5,
-    }}
-  >
-    Échec
-  </Span>
-)
 
 export default function PriceDetails({ items, order }) {
   let localOrder = order
@@ -207,3 +134,74 @@ export default function PriceDetails({ items, order }) {
     </Stack>
   )
 }
+
+const Label = (props) => (
+  <Grid
+    item
+    xs={9}
+    sx={{
+      "&:first-letter": {
+        textTransform: "capitalize",
+      },
+    }}
+  >
+    <BodyText
+      className="initial-cap"
+      preventTransition
+      color={(theme) => theme.palette.text.grey}
+      fontSize="1rem"
+      {...props}
+    />
+  </Grid>
+)
+
+const Price = (props) => (
+  <Grid item xs={3} textAlign="right">
+    <Typography {...props} minWidth="60px" />
+  </Grid>
+)
+const PaidChip = ({}) => (
+  <Span
+    color={(theme) => theme.alert.title.success.color}
+    sx={{
+      fontSize: ".8rem",
+      padding: "0 .5rem",
+      borderRadius: "30px",
+      border: (theme) => `1px solid ${theme.alert.title.success.color}`,
+      background: (theme) => theme.alert.title.success.background,
+      ml: 0.5,
+    }}
+  >
+    payé
+  </Span>
+)
+const ProcessingChip = ({}) => (
+  <Span
+    color={(theme) => theme.alert.title.warning.color}
+    sx={{
+      fontSize: ".8rem",
+      padding: "0 .5rem",
+      borderRadius: "30px",
+      border: (theme) => `1px solid ${theme.alert.title.warning.color}`,
+      background: (theme) => theme.alert.title.warning.background,
+      ml: 0.5,
+    }}
+  >
+    En cours
+  </Span>
+)
+const FailedChip = ({}) => (
+  <Span
+    color={(theme) => theme.alert.title.error.color}
+    sx={{
+      fontSize: ".8rem",
+      padding: "0 .5rem",
+      borderRadius: "30px",
+      border: (theme) => `1px solid ${theme.alert.title.error.color}`,
+      background: (theme) => theme.alert.title.error.background,
+      ml: 0.5,
+    }}
+  >
+    Échec
+  </Span>
+)

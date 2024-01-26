@@ -23,143 +23,6 @@ import TodayIcon from "@mui/icons-material/Today"
 import TimerIcon from "@mui/icons-material/Timer"
 import { formatPrice } from "../../../services/utils"
 
-const PAYMENT_OPTIONS = [
-  { id: "CARD", label: "carte bancaire" },
-  { id: "TRANSFER", label: "virement" },
-  { id: "CHECK", label: "chèque" },
-  { id: "CASH", label: "espèces" },
-  { id: "STRIPE", label: "paiement en ligne" },
-]
-const HEAD = [
-  { label: "Type" },
-  { label: "Description", width: { xs: "200px", md: "20%" } },
-  { label: "Qté." },
-  { label: "TVA" },
-  { label: "Prix unit. HT" },
-  { label: "Total" },
-]
-const HeadCell = ({ width, ...props }) => (
-  <Box
-    component="th"
-    textAlign="left"
-    alignItems="center"
-    justifyContent="center"
-    sx={{
-      border: (theme) => `1px solid #000`,
-      padding: ".5rem 1rem",
-      minWidth: width || "10%",
-    }}
-  >
-    <BodyText
-      preventTransition
-      color={(theme) => theme.palette.text.grey}
-      fontSize={{ xs: "0.8rem", md: "1rem" }}
-      display="flex"
-      whiteSpace="nowrap"
-      {...props}
-    />
-  </Box>
-)
-const Cell = (props) => (
-  <Box
-    component="td"
-    textAlign="left"
-    sx={{
-      border: (theme) => `1px solid #000`,
-      padding: ".5rem 1rem",
-    }}
-  >
-    <BodyText
-      preventTransition
-      color="#fff"
-      {...props}
-      fontSize="1rem"
-      lineHeight="1rem"
-    />
-  </Box>
-)
-const Line = (props) => (
-  <Box
-    component="tr"
-    sx={{
-      border: (theme) => `1px solid #000`,
-      padding: 2,
-    }}
-    {...props}
-  />
-)
-const DateInfo = ({ label, textAlign, icon, value, ...props }) => (
-  <Tooltip title={label}>
-    <Stack
-      sx={{ textAlign: { xs: "left", sm: textAlign || "left" } }}
-      className="flex-center"
-      flexDirection="row"
-      gap={1}
-    >
-      <Typography
-        color={(theme) => theme.palette.secondary.main}
-        textAlign={{ xs: "left", sm: textAlign || "left" }}
-        display="flex"
-      >
-        {icon}
-      </Typography>
-      <BodyText
-        preventTransition
-        fontSize="1rem"
-        textTransform="capitalize"
-        textAlign={{ xs: "left", sm: textAlign || "left" }}
-      >
-        {value}
-      </BodyText>
-    </Stack>
-  </Tooltip>
-)
-const Title = (props) => (
-  <Stack>
-    <BodyText fontSize="1rem" preventTransition {...props} />
-  </Stack>
-)
-const Info = ({ title, ...props }) => (
-  <Stack mb={2}>
-    <Title>{title}</Title>
-    <BodyText
-      preventTransition
-      fontSize=".8rem"
-      className="initial-cap"
-      color={(theme) => theme.palette.text.grey}
-      {...props}
-    />
-  </Stack>
-)
-const Card = ({ title, icon, fullwidth, ...props }) => (
-  // <Grid item xs={12} sm={6} md={4} lg={3} display="flex">
-  <Grid item xs={12} display="flex">
-    <Stack
-      width="100%"
-      sx={{
-        background: (theme) => theme.palette.background.main,
-        padding: 2,
-        gap: 4,
-        borderRadius: "20px",
-      }}
-    >
-      {!!title && (
-        <SmallTitle
-          alignItems="center"
-          gap={1}
-          display="flex"
-          color="#fff"
-          textTransform="capitalize"
-        >
-          {icon}
-          {title}
-        </SmallTitle>
-      )}
-      <Stack {...props} gap={2} />
-    </Stack>
-  </Grid>
-)
-
 export default function OrderReadOnlySection({
   items,
   order,
@@ -289,14 +152,10 @@ export default function OrderReadOnlySection({
                 overflow: "hidden",
               }}
             >
-              {HEAD.map((item, key) => (
-                <HeadCell key={key} width={item.width}>
-                  {item.label}
-                </HeadCell>
-              ))}
+              <TableHead />
 
               {items.map((item, key) => (
-                <Line key={key}>
+                <Line key={key} index={key}>
                   <Cell>
                     {
                       QUOTATION_ITEM_TYPES.filter(
@@ -348,3 +207,149 @@ export default function OrderReadOnlySection({
     </Stack>
   )
 }
+
+const PAYMENT_OPTIONS = [
+  { id: "CARD", label: "carte bancaire" },
+  { id: "TRANSFER", label: "virement" },
+  { id: "CHECK", label: "chèque" },
+  { id: "CASH", label: "espèces" },
+  { id: "STRIPE", label: "paiement en ligne" },
+]
+const HEAD = [
+  { label: "Type" },
+  { label: "Description", width: { xs: "200px", md: "20%" } },
+  { label: "Qté." },
+  { label: "TVA" },
+  { label: "Prix unit. HT" },
+  { label: "Total" },
+]
+function TableHead() {
+  return HEAD.map((item, key) => (
+    <HeadCell key={key} width={item.width}>
+      {item.label}
+    </HeadCell>
+  ))
+
+  function HeadCell({ width, ...props }) {
+    return (
+      <Box
+        component="th"
+        textAlign="left"
+        alignItems="center"
+        justifyContent="center"
+        sx={{
+          padding: ".5rem 1rem",
+          minWidth: width || "10%",
+          background: "rgb(0,0,0,0.6)",
+        }}
+      >
+        <BodyText
+          preventTransition
+          color={(theme) => theme.palette.text.grey}
+          fontSize={{ xs: "0.8rem", md: "1rem" }}
+          display="flex"
+          whiteSpace="nowrap"
+          {...props}
+        />
+      </Box>
+    )
+  }
+}
+const Cell = (props) => (
+  <Box
+    component="td"
+    textAlign="left"
+    sx={{
+      padding: ".5rem 1rem",
+    }}
+  >
+    <BodyText
+      preventTransition
+      color="#fff"
+      {...props}
+      fontSize="1rem"
+      lineHeight="1rem"
+    />
+  </Box>
+)
+const Line = ({ index, ...props }) => (
+  <Box
+    component="tr"
+    sx={{
+      background: index % 2 === 0 ? "rgb(0,0,0,0.0)" : "rgb(0,0,0,0.1)",
+      padding: 2,
+    }}
+    {...props}
+  />
+)
+const DateInfo = ({ label, textAlign, icon, value, ...props }) => (
+  <Tooltip title={label}>
+    <Stack
+      sx={{ textAlign: { xs: "left", sm: textAlign || "left" } }}
+      className="flex-center"
+      flexDirection="row"
+      gap={1}
+    >
+      <Typography
+        color={(theme) => theme.palette.secondary.main}
+        textAlign={{ xs: "left", sm: textAlign || "left" }}
+        display="flex"
+      >
+        {icon}
+      </Typography>
+      <BodyText
+        preventTransition
+        fontSize="1rem"
+        textTransform="capitalize"
+        textAlign={{ xs: "left", sm: textAlign || "left" }}
+      >
+        {value}
+      </BodyText>
+    </Stack>
+  </Tooltip>
+)
+const Title = (props) => (
+  <Stack>
+    <BodyText fontSize="1rem" preventTransition {...props} />
+  </Stack>
+)
+const Info = ({ title, ...props }) => (
+  <Stack mb={2}>
+    <Title>{title}</Title>
+    <BodyText
+      preventTransition
+      fontSize=".8rem"
+      className="initial-cap"
+      color={(theme) => theme.palette.text.grey}
+      {...props}
+    />
+  </Stack>
+)
+const Card = ({ title, icon, fullwidth, ...props }) => (
+  // <Grid item xs={12} sm={6} md={4} lg={3} display="flex">
+  <Grid item xs={12} display="flex">
+    <Stack
+      width="100%"
+      sx={{
+        background: (theme) => theme.palette.background.main,
+        padding: 2,
+        gap: 4,
+        borderRadius: "20px",
+      }}
+    >
+      {!!title && (
+        <SmallTitle
+          alignItems="center"
+          gap={1}
+          display="flex"
+          color="#fff"
+          textTransform="capitalize"
+        >
+          {icon}
+          {title}
+        </SmallTitle>
+      )}
+      <Stack {...props} gap={2} />
+    </Stack>
+  </Grid>
+)
