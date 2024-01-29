@@ -8,6 +8,8 @@ export default function DeliveryDate() {
   const { state } = useContext(Context)
   const { handleChangeDate } = useContext(EditContext)
 
+  console.debug("state.errors", state.errors)
+
   return (
     <FormCard
       title="Livraison"

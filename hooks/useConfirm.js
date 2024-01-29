@@ -48,7 +48,7 @@ export default function useConfirm() {
         {!!confirmContent?.message && (
           <BodyText preventTransition>{confirmContent?.message || ""}</BodyText>
         )}
-        <confirmContent.MsgComponent />
+        {!!confirmContent.MsgComponent && <confirmContent.MsgComponent />}
         {/**** BOTTOM BUTTONS ****/}
         <Stack gap={2} alignItems="center">
           {!!confirmContent.nextAction && (

@@ -1,14 +1,13 @@
 import { Box, Grid, Stack, Typography } from "@mui/material"
 import CustomCard from "../../Cards/custom-card"
 import BodyText from "../../Text/body-text"
-import { Fragment, useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../../../contexts/UserContext"
 import apiCall from "../../../services/apiCalls/apiCall"
 import { buildPublicURL, formatPrice } from "../../../services/utils"
 import { convertDateToShortString } from "../../../services/date-time"
 import { defaultConfig } from "../../../config/defaultConfig"
 import CustomAccordion from "../../Containers/custom-accordion"
-import JsPDF from "jspdf"
 import CustomTabs, { CustomTab } from "../../Navigation/Tabs/cutom-tabs"
 import PillButton from "../../Buttons/pill-button"
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf"
@@ -45,14 +44,17 @@ function KpiModule({}) {
     this_week: {
       prospects: 0,
       orders: 0,
+      delivered: 0,
     },
     this_month: {
       prospects: 0,
       orders: 0,
+      delivered: 0,
     },
     this_year: {
       prospects: 0,
       orders: 0,
+      delivered: 0,
     },
   }
   const [kpi, setKpi] = useState(initialKpi)
@@ -443,7 +445,7 @@ function RenderKpi({ data, title }) {
         <Label>Commandes en cours</Label>
         <Value>{data.orders}</Value>
         <Label>Projets livrés</Label>
-        <Value>0</Value>
+        <Value>{data.delivered}</Value>
         {/* <Label>C.A.</Label>
     <Value>{data.turnover / 100}€</Value> */}
       </Grid>

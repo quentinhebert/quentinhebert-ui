@@ -15,6 +15,7 @@ import useSWR from "swr"
 import UserAgenda from "../../Sections/Dashboard/user-agenda"
 import BalanceSection from "../../Sections/Dashboard/balance-section"
 import StatsModule from "../../Sections/Dashboard/kpi-module"
+import OrdersModule from "../../Modules/Dashboard/Orders/module"
 
 export default function AdminIndex_Main() {
   const router = useRouter()
@@ -104,7 +105,8 @@ export default function AdminIndex_Main() {
         {(activeTab === "stats" || !activeTab) && <StatsModule />}
         {activeTab === "calendar" && <UserAgenda />}
         {activeTab === "prospects" && <QuotationRequests_Main />}
-        {activeTab === "orders" && <Orders_Main />}
+        {/* {activeTab === "orders" && <Orders_Main />} */}
+        {activeTab === "orders" && <OrdersModule />}
         {activeTab === "balance" && <BalanceSection />}
       </Stack>
     </>

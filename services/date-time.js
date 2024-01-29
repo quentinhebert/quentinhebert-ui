@@ -90,14 +90,21 @@ export function formatDayDate({ timestamp, timezone }) {
   const date = dateTime.split(" ")[0]
   const time = dateTime.split(" ")[1]
 
+  const options = {
+    month: "short",
+    day: "numeric",
+  }
+
+  if (new Date(timestamp).getFullYear() !== new Date().getFullYear())
+    options.year = "numeric"
+  else if (date === today || date === yesterday) {
+    // Display time if today or yesterday
+    options.hour = "2-digit"
+    options.minute = "2-digit"
+  }
+
   const dateTimeStr = getLocaleDateTime(new Date(timestamp), timezone)
-    .toLocaleDateString("fr-FR", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
+    .toLocaleDateString("fr-FR", options)
     .split(",")
 
   let formattedDate = dateTimeStr

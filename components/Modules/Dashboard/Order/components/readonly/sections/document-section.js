@@ -126,8 +126,10 @@ export default function DocumentsSection() {
   )
 
   async function handleGenerate() {
+    let errors = null
     try {
-      checkMissingFields()
+      errors = checkMissingFields()
+      if (!!errors) throw Error("missing_fields")
 
       setIsQuotationGenerating(true)
       setTotalQuotes(totalQuotes + 1)
@@ -144,8 +146,9 @@ export default function DocumentsSection() {
           ? "Certains champs sont manquants dans les conditions et mentions obligatoires."
           : err.message
       )
+
       if (err.message === "missing_fields")
-        setState({ ...state, mode: MODES.EDIT })
+        setState({ ...state, errors, mode: MODES.EDIT })
     }
   }
 }

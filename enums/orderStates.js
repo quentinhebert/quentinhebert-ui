@@ -38,22 +38,22 @@ export const ORDERSTATES = {
   DEPOSIT_PAID: {
     label: "Acompte payé",
     description: "Passez au paiement suivant.",
-    severity: "disabled",
+    severity: "info",
   },
   PARTIALLY_PAID: {
     label: "Partiellement payée",
     description: "La commande n'est pas entièrement payée.",
-    severity: "disabled",
+    severity: "info",
   },
   PAYMENT_FAILED: {
     label: "Échec de paiement",
     description: "Veuillez procéder au paiement à nouveau.",
     severity: "error",
   },
-  CANCELLED: {
+  CANCELED: {
     label: "Annulée",
     description: "Vous avez annulé votre commande.",
-    severity: "disabled",
+    severity: "error",
   },
   ASK_FOR_REFUND: {
     label: "Remboursement demandé",
@@ -83,6 +83,11 @@ export const ORDERSTATES = {
   REVIEWED: {
     label: "Notée",
     description: "La commande est terminée et vous l'avez notée.",
+    severity: "success",
+  },
+  ARCHIVED: {
+    label: "Archivée",
+    description: "La commande est archivée.",
     severity: "success",
   },
 }

@@ -4,13 +4,17 @@ import MenuItem from "@mui/material/MenuItem"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { useState } from "react"
 
-export default function DropdownOptions({ options }) {
+export default function DropdownOptions({ options, visible }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
+    event.stopPropagation()
+    event.preventDefault()
     setAnchorEl(event.currentTarget)
   }
-  const handleClose = () => {
+  const handleClose = (event) => {
+    event?.stopPropagation()
+    event?.preventDefault()
     setAnchorEl(null)
   }
 
@@ -23,6 +27,7 @@ export default function DropdownOptions({ options }) {
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
         onClick={handleClick}
+        sx={{ visibility: visible ? "visible" : "hidden" }}
       >
         <MoreVertIcon />
       </IconButton>
@@ -44,8 +49,10 @@ export default function DropdownOptions({ options }) {
         {options.map((option, key) => (
           <MenuItem
             key={key}
-            onClick={() => {
-              option.handleClick()
+            onClick={(e) => {
+              e?.stopPropagation()
+              e?.preventDefault()
+              option.handleClick(e)
               handleClose()
             }}
             sx={{ color: "white", display: "flex", gap: 2 }}

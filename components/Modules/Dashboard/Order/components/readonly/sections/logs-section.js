@@ -24,7 +24,10 @@ import { UserContext } from "../../../../../../../contexts/UserContext"
 import apiCall from "../../../../../../../services/apiCalls/apiCall"
 import { LOG_CONTENT } from "../../../../../../../services/logs"
 import CustomAccordion from "../../../../../../Containers/custom-accordion"
-import { formatDayDate } from "../../../../../../../services/date-time"
+import {
+  convertToLongString,
+  formatDayDate,
+} from "../../../../../../../services/date-time"
 import RefreshButton from "../../../../../../Buttons/refresh-button"
 
 export default function LogsSection() {
@@ -72,10 +75,7 @@ export default function LogsSection() {
 
                 <TimelineContent sx={{ py: "12px", px: 2 }}>
                   <Typography color="grey" fontSize="0.8rem">
-                    {formatDayDate({
-                      timestamp: log.created_at,
-                      timezone: user.timezone,
-                    })}
+                    {convertToLongString(new Date(log.created_at))}
                   </Typography>
 
                   <Typography

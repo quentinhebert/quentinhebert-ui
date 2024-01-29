@@ -9,6 +9,7 @@ import BodyText from "../../../Text/body-text"
 import { Box, Grid, Stack } from "@mui/material"
 import SmallTitle from "../../../Titles/small-title"
 import { checkBeforeGen } from "../../../../services/quotations"
+import { useRouter } from "next/router"
 const OrderEdit = dynamic(() => import("./edit"))
 const OrderReadonly = dynamic(() => import("./readonly"))
 
@@ -63,6 +64,7 @@ export default function OrderModule({ id, defaultMode }) {
   }
   // MODULE STATE
   const [state, setState] = useState(initialState)
+  const router = useRouter()
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   // INITIAL FETCH
@@ -140,12 +142,13 @@ export default function OrderModule({ id, defaultMode }) {
   }
   function checkMissingFields() {
     const errors = checkBeforeGen(state.order)
-    setState({ ...state, errors })
+
     const errorsCount = Object.values(errors).filter(
       (elt) => elt === true
     ).length
     if (errorsCount !== 0 && !(errorsCount === 1 && errors.client))
-      throw Error("missing_fields")
+      return errors
+    return null
   }
   function handleOpenModal(modal) {
     setState({ ...state, openModal: true, modal })
