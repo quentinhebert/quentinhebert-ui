@@ -1,19 +1,21 @@
 import HourglassTopRoundedIcon from "@mui/icons-material/HourglassTopRounded"
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded"
 import ForwardToInboxRoundedIcon from "@mui/icons-material/ForwardToInboxRounded"
-import MarkEmailUnreadRoundedIcon from "@mui/icons-material/MarkEmailUnreadRounded"
-import ChatBubbleRoundedIcon from "@mui/icons-material/ChatBubbleRounded"
+import MarkEmailUnreadOutlinedIcon from "@mui/icons-material/MarkEmailUnreadOutlined"
+import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined"
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
+import SubjectOutlinedIcon from "@mui/icons-material/SubjectOutlined"
 
 export const PROSPECT_STATES = {
   ALL: {
     severity: "disabled2",
-    label: "Tout",
+    label: "Tous les prospects",
+    icon: <SubjectOutlinedIcon fontSize="inherit" />,
   },
   REQUEST: {
     severity: "warning",
-    label: "Demande de contact (reçue)",
-    icon: <MarkEmailUnreadRoundedIcon fontSize="inherit" />,
+    label: "1er contact reçu",
+    icon: <MarkEmailUnreadOutlinedIcon fontSize="inherit" />,
   },
   DRAFT: {
     severity: "disabled",
@@ -22,13 +24,13 @@ export const PROSPECT_STATES = {
   },
   CONTACTED: {
     severity: "warning",
-    label: "Demande de contact (émise)",
+    label: "1er contact émis",
     icon: <ForwardToInboxRoundedIcon fontSize="inherit" />,
   },
   AWAITING: {
     severity: "info",
     label: "Discussion en cours",
-    icon: <ChatBubbleRoundedIcon fontSize="inherit" />,
+    icon: <ChatBubbleOutlineOutlinedIcon fontSize="inherit" />,
   },
   CONVERTED: {
     severity: "success",
