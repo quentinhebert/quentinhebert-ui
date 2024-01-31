@@ -88,15 +88,14 @@ function ModalEditItem({
   }
 
   const handleSave = async () => {
-    const localItems = items
+    const localItems = state.items
 
     // Format price from euros to cents
     const localItem = item
     localItem.no_vat_price = item.no_vat_price * 100
 
-    localItems[itemIndex] = item
-    handleDetectChange()
-    if (handleClose) handleClose()
+    localItems[state.selectedItemIndex] = item
+    setState({ ...state, modal: null, openModal: false })
   }
 
   const handleCancel = async () => {

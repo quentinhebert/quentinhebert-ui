@@ -135,7 +135,7 @@ export default function Toolbar() {
           flexDirection={{ xs: "column", md: "row" }}
         >
           {state.order.status === "DRAFT" && <ReadyBtn />}
-          <DropdownOptions options={options} />
+          <DropdownOptions options={options} visible />
         </Stack>
       </Stack>
     </Stack>
