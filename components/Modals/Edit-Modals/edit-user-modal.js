@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react"
 import FormControl from "@mui/material/FormControl"
 import {
   Avatar,
-  Box,
   Divider,
   InputAdornment,
   Stack,
@@ -14,21 +13,17 @@ import { ModalTitle } from "../Modal-Components/modal-title"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AlertInfo from "../../Other/alert-info"
 import { checkEmail, checkPhone } from "../../../services/utils"
-import EditIcon from "@mui/icons-material/Edit"
 import CustomModal from "../../Modals/custom-modal"
 import CustomForm from "../../Forms/custom-form"
 import CustomCheckbox from "../../Inputs/custom-checkbox"
 import { AppContext } from "../../../contexts/AppContext"
-import RectangleButton from "../../Buttons/rectangle-button"
 import CustomFilledSelect from "../../Inputs/custom-filled-select"
 import CustomSelectOption from "../../Inputs/custom-select-option"
 import CustomFilledInput from "../../Inputs/custom-filled-input"
 import CustomFilledPhoneInput from "../../Inputs/custom-filled-phone-input"
 import PillButton from "../../Buttons/pill-button"
 import CancelButton from "../../Buttons/cancel-button"
-import CustomAccordion, {
-  InvisibleAccordion,
-} from "../../Containers/custom-accordion"
+import { InvisibleAccordion } from "../../Containers/custom-accordion"
 
 export default function EditUserForm({
   userId,
