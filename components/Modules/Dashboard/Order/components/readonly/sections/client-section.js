@@ -65,6 +65,14 @@ export default function ClientSection() {
           <TableRow>
             <Title>Addresse</Title>
             <Value>
+              {!(
+                !!state.order.client.line1 ||
+                !!state.order.client.line2 ||
+                !!state.order.client.postal_code ||
+                !!state.order.client.city ||
+                !!state.order.client.region ||
+                !!state.order.client.country
+              ) && <UndefinedValue />}
               {state.order.client.line1 || ""} {state.order.client.line2 || ""}{" "}
               {state.order.client.postal_code || ""}{" "}
               {state.order.client.city || ""} {state.order.client.region || ""}{" "}
