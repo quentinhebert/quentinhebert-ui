@@ -9,6 +9,7 @@ const errorColor = "#AE1B1E"
 const grey = "#696969"
 const darkGrey = "#161616"
 const black = "#050505"
+const mainDark = "#171717"
 const white = "#E7E0D2"
 
 let theme = createTheme({})
@@ -31,6 +32,7 @@ const mainTheme = createTheme({
     background: {
       black: black,
       main: primary,
+      mainDark: mainDark,
       primary: primary,
       secondary: secondary,
       paper: primary,

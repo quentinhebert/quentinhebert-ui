@@ -11,7 +11,7 @@ const CssFilledInput = styled(({ width, background, ...props }) => (
     }}
     {...props}
   />
-))(({ theme, borderColor, background }) => ({
+))(({ theme, borderColor, labelColor, background }) => ({
   "& .MuiFilledInput-root": {
     overflow: "hidden",
     borderRadius: 4,
@@ -36,11 +36,14 @@ const CssFilledInput = styled(({ width, background, ...props }) => (
     // background: `linear-gradient(-90deg, transparent 0%, ${theme.palette.background.main} 10%)`,
     color: "grey",
   },
+  "& .MuiFormLabel-root": {
+    color: labelColor || theme.palette.secondary.main,
+  },
   "& .MuiFormLabel-root.Mui-focused.Mui-error": {
     color: theme.palette.error.main,
   },
   "& .MuiFormLabel-root.Mui-focused": {
-    color: theme.palette.secondary.main,
+    color: labelColor || theme.palette.secondary.main,
   },
   "& .MuiFilledInput-root.Mui-error": {
     color: theme.palette.error.main,

@@ -11,6 +11,8 @@ export default function CustomModal({
   open,
   handleClose,
   background,
+  StickyTop,
+  StickyBottom,
   ...props
 }) {
   const sm = useMediaQuery((theme) => theme.breakpoints.down("sm"))
@@ -32,6 +34,22 @@ export default function CustomModal({
         },
       }}
     >
+      {StickyTop && (
+        <Stack
+          zIndex={1}
+          position="sticky"
+          top={0}
+          padding="1rem 2rem"
+          sx={{
+            boxShadow: "0 0 10px 10px rgb(0,0,0,0.1)",
+            background:
+              background || ((theme) => theme.palette.background.mainDark),
+          }}
+        >
+          {StickyTop}
+        </Stack>
+      )}
+
       <Stack
         sx={{
           padding: { xs: 2, md: 4 },
@@ -43,6 +61,22 @@ export default function CustomModal({
         }}
         {...props}
       />
+
+      {StickyBottom && (
+        <Stack
+          zIndex={1}
+          position="sticky"
+          bottom={0}
+          padding="1rem 2rem"
+          sx={{
+            boxShadow: "0 0 10px 10px rgb(0,0,0,0.1)",
+            background:
+              background || ((theme) => theme.palette.background.mainDark),
+          }}
+        >
+          {StickyBottom}
+        </Stack>
+      )}
     </Dialog>
   )
 }

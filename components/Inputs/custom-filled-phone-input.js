@@ -6,16 +6,14 @@ export default function CustomFilledPhoneInput({
   value,
   handleChange,
   label,
-  error,
   helperText,
+  borderColor,
 }) {
-  const [hasError, setHasError] = useState(error)
+  const [hasError, setHasError] = useState(null)
 
   const onChange = (newValue, info) => {
     if (info.countryCallingCode === null) return
-    setHasError(
-      (!matchIsValidTel(newValue) || error) && info.nationalNumber !== ""
-    )
+    setHasError(!matchIsValidTel(newValue) && info.nationalNumber !== "")
     return handleChange(info.numberValue)
   }
 
@@ -43,13 +41,13 @@ export default function CustomFilledPhoneInput({
               hasError
                 ? theme.palette.error.main
                 : !required
-                ? "grey"
-                : theme.palette.secondary.main
+                ? borderColor || "grey"
+                : borderColor || theme.palette.secondary.main
             }`,
           borderRadius: "10px",
           background: "#000",
         },
-        borderColor: (theme) => theme.palette.secondary.main,
+        borderColor: (theme) => borderColor || theme.palette.secondary.main,
         color: "#fff",
         "& .MuiInputLabel-root": {
           transform: "translate(12px, 4px) scale(0.75)",

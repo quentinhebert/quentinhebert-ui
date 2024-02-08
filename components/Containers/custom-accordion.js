@@ -80,3 +80,40 @@ export function SoberAccordion({ title, ...props }) {
     </Accordion>
   )
 }
+
+export function InvisibleAccordion({ title, ...props }) {
+  return (
+    <Accordion
+      sx={{
+        width: "100%",
+        border: "none",
+        padding: "0",
+        backgroundImage: "none",
+        backgroundColor: "main",
+        boxShadow: 0,
+        "& .MuiAccordionDetails-root": {
+          padding: "0",
+        },
+        "& .MuiAccordionSummary-root": {
+          padding: "0",
+        },
+        "&.Mui-expanded": {
+          margin: "0",
+        },
+        "&:before": { backgroundColor: "transparent", margin: 0 },
+      }}
+    >
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon color="#fff" />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+        sx={{ color: "#fff", "& .Mui-expanded": { color: "#fff" } }}
+      >
+        <Typography color="inherit">{title}</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Stack {...props} />
+      </AccordionDetails>
+    </Accordion>
+  )
+}

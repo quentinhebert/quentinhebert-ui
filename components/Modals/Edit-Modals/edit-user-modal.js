@@ -1,29 +1,45 @@
 import { useState, useEffect, useContext } from "react"
 import FormControl from "@mui/material/FormControl"
-import { Avatar, Box, Stack } from "@mui/material"
+import {
+  Avatar,
+  Box,
+  Divider,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material"
 import SendIcon from "@mui/icons-material/Send"
 import { ModalTitle } from "../Modal-Components/modal-title"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AlertInfo from "../../Other/alert-info"
 import { checkEmail, checkPhone } from "../../../services/utils"
-import RefreshIcon from "@mui/icons-material/Refresh"
+import EditIcon from "@mui/icons-material/Edit"
 import CustomModal from "../../Modals/custom-modal"
 import CustomForm from "../../Forms/custom-form"
-import CustomOutlinedInput from "../../Inputs/custom-outlined-input"
-import CustomSelect from "../../Other/custom-select"
-import DualInputLine from "../../Containers/dual-input-line"
 import CustomCheckbox from "../../Inputs/custom-checkbox"
 import { AppContext } from "../../../contexts/AppContext"
 import RectangleButton from "../../Buttons/rectangle-button"
+import CustomFilledSelect from "../../Inputs/custom-filled-select"
+import CustomSelectOption from "../../Inputs/custom-select-option"
+import CustomFilledInput from "../../Inputs/custom-filled-input"
+import CustomFilledPhoneInput from "../../Inputs/custom-filled-phone-input"
+import PillButton from "../../Buttons/pill-button"
+import CancelButton from "../../Buttons/cancel-button"
+import CustomAccordion, {
+  InvisibleAccordion,
+} from "../../Containers/custom-accordion"
 
-export default function EditUserForm(props) {
-  // PROPS
-  const { userId, openEditModal, handleCloseEditModal } = props
-
+export default function EditUserForm({
+  userId,
+  openEditModal,
+  handleCloseEditModal,
+}) {
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   // USE-STATES
   const [user, setUser] = useState(null)
+  const [copyText, setCopyText] = useState(null)
   const [loadingButton, setLoadingButton] = useState(false)
   const [updateErrors, setUpdateErrors] = useState({
     firstname: false,
@@ -36,8 +52,201 @@ export default function EditUserForm(props) {
     updateErrors.email ||
     (user && user.email.trim() !== "" && !checkEmail(user.email))
   const phoneError =
-    updateErrors.phone ||
-    (user && user.phone?.trim() !== "" && !checkPhone(user.phone))
+    user?.phone !== null &&
+    user?.phone?.trim() !== "" &&
+    (updateErrors.phone || !checkPhone(user?.phone))
+
+  // FETCH DATA
+  useEffect(() => {
+    if (userId) fetchUser()
+  }, [userId])
+
+  // Handle auto hide copy text msg
+  useEffect(() => {
+    if (!!copyText) setTimeout(() => setCopyText(null), 3000)
+  }, [copyText])
+
+  // HANDLE NO RENDER
+  if (!user) return <></>
+
+  // RENDER
+  return (
+    <CustomModal
+      open={openEditModal}
+      handleClose={handleCloseEditModal}
+      StickyTop={
+        <ModalTitle>
+          Utilisateur
+          <Typography
+            color="text.grey"
+            fontSize=".8rem"
+            className="pointer"
+            onClick={() => {
+              navigator.clipboard.writeText(user.id)
+              setCopyText(<>✅ ID copié</>)
+            }}
+            sx={{
+              "&:hover": { color: (theme) => theme.palette.secondary.main },
+            }}
+          >
+            {copyText || user.id || ""}
+          </Typography>
+        </ModalTitle>
+      }
+      StickyBottom={
+        <Stack gap={2}>
+          <PillButton onClick={handleSaveUser} disabled={loadingButton}>
+            Enregistrer
+          </PillButton>
+          <CancelButton
+            handleCancel={() => {
+              handleCloseEditModal()
+              fetchUser()
+            }}
+          />
+        </Stack>
+      }
+    >
+      <Stack gap={4} position="relative">
+        <CustomForm>
+          <FormControl fullWidth sx={{ gap: 2 }}>
+            <Stack width="100%" flexDirection="row" alignItems="center" gap={2}>
+              <Avatar
+                src={user.avatar_path}
+                sx={{
+                  width: "150px",
+                  height: "150px",
+                  marginBottom: "1rem",
+                  border: (theme) => `1px solid rgb(256,256,256, 0.5)`,
+                }}
+              />
+              <Stack gap={1}>
+                <NameInput
+                  placeholder="Prénom"
+                  value={user.firstname || ""}
+                  onChange={handleChange("firstname")}
+                />
+                <NameInput
+                  placeholder="Nom"
+                  value={user.lastname || ""}
+                  onChange={handleChange("lastname")}
+                />
+              </Stack>
+            </Stack>
+
+            <Typography variant="h6" color="#fff">
+              Type d'utilisateur
+            </Typography>
+            <CustomFilledSelect
+              borderColor="transparent"
+              value={user.type}
+              onChange={handleChange("type")}
+            >
+              {USER_TYPES.map((opt, key) => (
+                <CustomSelectOption key={key} value={opt.id}>
+                  {opt.label}
+                </CustomSelectOption>
+              ))}
+            </CustomFilledSelect>
+
+            <Divider />
+
+            <Typography variant="h6" color="#fff">
+              Coordonnées
+            </Typography>
+            <Stack gap={1}>
+              <CustomFilledInput
+                required
+                type="email"
+                id="email"
+                label="E-mail"
+                borderColor="transparent"
+                value={user.email || ""}
+                onChange={handleChange("email")}
+                error={emailError || updateErrors.email}
+                helperText={emailError && "Adresse e-mail invalide"}
+              />
+              <CustomFilledPhoneInput
+                borderColor="transparent"
+                value={user.phone || ""}
+                handleChange={(newValue) =>
+                  setUser({ ...user, phone: newValue })
+                }
+                error={phoneError || updateErrors.phone}
+                helperText={phoneError && "Numéro de téléphone invalide"}
+              />
+            </Stack>
+
+            <Divider />
+
+            <InvisibleAccordion title="Entreprise" gap={1}>
+              <CustomFilledInput
+                borderColor="transparent"
+                labelColor="grey"
+                label="Raison sociale (optionnel)"
+                value={user.company || ""}
+                onChange={handleChange("company")}
+              />
+              <CustomFilledInput
+                borderColor="transparent"
+                labelColor="grey"
+                label="N° TVA (optionnel)"
+                value={user.vat_number || ""}
+                onChange={handleChange("vat_number")}
+              />
+            </InvisibleAccordion>
+
+            <Divider />
+
+            <InvisibleAccordion title="Options" gap={1}>
+              <CustomCheckbox
+                required
+                label="E-mail confirmé"
+                onChange={handleCheck("email_confirmed")}
+                value={user.email_confirmed || false}
+                checked={user.email_confirmed || false}
+                labelcolor={(theme) => theme.palette.text.white}
+                fontSize="1rem"
+              />
+              <InfoEmailConfirm user={user} />
+              <CustomCheckbox
+                label="Banni"
+                onChange={handleCheck("banned")}
+                value={user.banned || false}
+                checked={user.banned || false}
+                labelcolor={(theme) => theme.palette.text.white}
+                fontSize="1rem"
+              />
+              <InfoBanned user={user} />
+              <CustomCheckbox
+                label="Mot de passe oublié"
+                onChange={handleCheck("password_forgotten")}
+                checked={user.password_forgotten || false}
+                value={user.password_forgotten || false}
+                labelcolor={(theme) => theme.palette.text.white}
+                fontSize="1rem"
+              />
+              <InfoPasswordForgotten user={user} />
+            </InvisibleAccordion>
+
+            <Divider />
+
+            <InvisibleAccordion title="Actions" gap={1}>
+              <PillButton
+                startIcon={<SendIcon />}
+                onClick={sendPasswordForgottenEmail}
+              >
+                Réinitialiser le mot de passe
+              </PillButton>
+              <PillButton startIcon={<SendIcon />} onClick={resendConfirmEmail}>
+                Confirmer l'e-mail
+              </PillButton>
+            </InvisibleAccordion>
+          </FormControl>
+        </CustomForm>
+      </Stack>
+    </CustomModal>
+  )
 
   // FUNCTIONS
   async function fetchUser() {
@@ -47,71 +256,107 @@ export default function EditUserForm(props) {
       setUser(jsonRes)
     }
   }
-  const handleChange = (attribute) => (event) => {
-    setUser({ ...user, [attribute]: event.target.value })
+  function handleChange(attribute) {
+    return (event) => {
+      setUser({ ...user, [attribute]: event.target.value })
+    }
   }
-  const handleCheck = (attribute) => (event) => {
-    setUser({ ...user, [attribute]: event.target.checked })
+  function handleCheck() {
+    return (attribute) => (event) => {
+      setUser({ ...user, [attribute]: event.target.checked })
+    }
   }
-  const handleSuccess = () => {
+  function handleSuccess() {
     setSnackSeverity("success")
     setSnackMessage("Utilisateur modifié avec succès")
   }
-  const handleError = () => {
+  function handleError() {
     setSnackSeverity("error")
     setSnackMessage(
       "Un problème est survenu lors de la modification de l'utilisateur"
     )
   }
-  const handleErrorDuplicate = () => {
+  function handleErrorDuplicate() {
     setSnackSeverity("error")
     setSnackMessage(
       "L'e-mail ou le téléphone existe déjà pour un autre utilisateur"
     )
   }
-  const handleSaveUser = async () => {
+  async function handleSaveUser() {
     setLoadingButton(true)
     const res = await apiCall.users.update(user)
-    if (res && res.ok) {
+    if (res?.ok) {
       handleCloseEditModal()
       handleSuccess()
     } else if (res) {
       const jsonRes = await res.json()
-      if (jsonRes.code === 1011) {
-        handleErrorDuplicate()
-      } else {
-        handleError()
-      }
-    } else {
-      handleError()
-    }
+      if (jsonRes.code === 1011) handleErrorDuplicate()
+      else handleError()
+    } else handleError()
+
     setLoadingButton(false)
   }
-  const handleEmailSent = async () => {
+  async function handleEmailSent() {
     setSnackSeverity("success")
-    setSnackMessage("Email envoyé avec succès")
+    setSnackMessage("E-mail envoyé à l'utilisateur avec succès")
   }
-  const handleEmailNotSent = async () => {
+  async function handleEmailNotSent() {
     setSnackSeverity("error")
     setSnackMessage("Un problème est survenu lors de l'envoi de l'email")
   }
-  const resendConfirmEmail = async () => {
+  async function resendConfirmEmail() {
     const res = await apiCall.users.resendConfirmEmail({
       email: user.email,
     })
     if (res && res.ok) handleEmailSent()
     else handleEmailNotSent()
   }
-  const sendPasswordForgottenEmail = async () => {
+  async function sendPasswordForgottenEmail() {
     const res = await apiCall.users.security.password.forgotten({
       email: user.email,
     })
     if (res && res.ok) handleEmailSent()
     else handleEmailNotSent()
   }
+}
 
-  // SUB-COMPONENTS
-  const InfoEmailConfirm = ({ user }) =>
+const USER_TYPES = [
+  { id: "admin", label: "Admin" },
+  { id: "client", label: "Client" },
+  { id: "professional", label: "Employé" },
+]
+
+// SUB-COMPONENTS
+function NameInput({ ...props }) {
+  return (
+    <TextField
+      required
+      type="input"
+      variant="standard"
+      InputProps={{
+        disableUnderline: true,
+        sx: {
+          color: (theme) => theme.palette.text.white,
+          fontSize: "2rem",
+          background: "rgb(256,256,256, 0.1)",
+          padding: "0 1rem",
+          borderRadius: 30,
+        },
+        endAdornment: (
+          <InputAdornment position="end">
+            {/* <EditIcon sx={{ color: "grey !important" }} /> */}
+            <Typography color="grey" fontSize=".75rem">
+              Modifier
+            </Typography>
+          </InputAdornment>
+        ),
+      }}
+      {...props}
+    />
+  )
+}
+function InfoEmailConfirm({ user }) {
+  return (
     !!user &&
     !user.email_confirmed && (
       <AlertInfo
@@ -122,7 +367,10 @@ export default function EditUserForm(props) {
         }}
       />
     )
-  const InfoBanned = ({ user }) =>
+  )
+}
+function InfoBanned({ user }) {
+  return (
     user.banned && (
       <AlertInfo
         content={{
@@ -132,7 +380,10 @@ export default function EditUserForm(props) {
         }}
       />
     )
-  const InfoPasswordForgotten = ({ user }) =>
+  )
+}
+function InfoPasswordForgotten({ user }) {
+  return (
     user.password_forgotten && (
       <AlertInfo
         content={{
@@ -142,167 +393,5 @@ export default function EditUserForm(props) {
         }}
       />
     )
-
-  // FETCH DATA
-  useEffect(() => {
-    if (userId) fetchUser()
-  }, [userId])
-
-  // HANDLE NO RENDER
-  if (!user) return <></>
-
-  // RENDER
-  return (
-    <CustomModal open={openEditModal} handleClose={handleCloseEditModal}>
-      <ModalTitle>Modifier l'utilisateur</ModalTitle>
-
-      <Stack direction="row" justifyContent="flex-end">
-        <RectangleButton
-          startIcon={<RefreshIcon />}
-          onClick={(e) => fetchUser()}
-        >
-          Rafraîchir
-        </RectangleButton>
-      </Stack>
-
-      <CustomForm>
-        <Avatar
-          src={user.avatar_path}
-          sx={{
-            width: "150px",
-            height: "150px",
-            marginBottom: "1rem",
-            border: (theme) => `1px solid rgb(256,256,256, 0.5)`,
-          }}
-        />
-        <FormControl fullWidth sx={{ gap: 2 }}>
-          <CustomOutlinedInput
-            disabled
-            type="input"
-            id="id"
-            label="ID"
-            value={user.id || ""}
-          />
-
-          <CustomSelect
-            required
-            size="small"
-            placeholder="Type"
-            options={[
-              { id: "admin", label: "Admin" },
-              { id: "client", label: "Client" },
-              { id: "professional", label: "Employé" },
-            ]}
-            value={user.type}
-            customHandleChange={handleChange("type")}
-          />
-
-          <DualInputLine>
-            <CustomOutlinedInput
-              required
-              type="input"
-              id="firstname"
-              label="Prénom"
-              value={user.firstname || ""}
-              onChange={handleChange("firstname")}
-            />
-            <CustomOutlinedInput
-              required
-              type="input"
-              id="lastname"
-              label="Nom"
-              value={user.lastname || ""}
-              onChange={handleChange("lastname")}
-            />
-          </DualInputLine>
-
-          <DualInputLine>
-            <CustomOutlinedInput
-              required
-              type="email"
-              id="email"
-              label="E-mail"
-              value={user.email || ""}
-              onChange={handleChange("email")}
-              error={emailError || updateErrors.email}
-              helperText={emailError && "The email is not valid"}
-            />
-            <CustomOutlinedInput
-              required
-              type="phone"
-              id="phone"
-              label="Téléphone"
-              value={user.phone || ""}
-              onChange={handleChange("phone")}
-              error={phoneError || updateErrors.phone}
-              helperText={phoneError && "This phone is not valid"}
-            />
-          </DualInputLine>
-
-          <RectangleButton
-            maxWidth="100%"
-            onClick={sendPasswordForgottenEmail}
-            startIcon={<SendIcon />}
-            fontSize="0.8rem"
-          >
-            Envoyer un e-mail de réinitialisation de mot de passe
-          </RectangleButton>
-          <RectangleButton
-            maxWidth="100%"
-            onClick={resendConfirmEmail}
-            startIcon={<SendIcon />}
-            fontSize="0.8rem"
-          >
-            Envoyer un email de confirmation d'e-mail
-          </RectangleButton>
-
-          <Box>
-            <CustomCheckbox
-              required
-              label="E-mail confirmé"
-              onChange={handleCheck("email_confirmed")}
-              value={user.email_confirmed || false}
-              checked={user.email_confirmed || false}
-              labelcolor={(theme) => theme.palette.text.white}
-              fontSize="1rem"
-            />
-            <InfoEmailConfirm user={user} />
-
-            <CustomCheckbox
-              label="Banni"
-              onChange={handleCheck("banned")}
-              value={user.banned || false}
-              checked={user.banned || false}
-              labelcolor={(theme) => theme.palette.text.white}
-              fontSize="1rem"
-            />
-            <InfoBanned user={user} />
-
-            <CustomCheckbox
-              label="Mot de passe oublié"
-              onChange={handleCheck("password_forgotten")}
-              checked={user.password_forgotten || false}
-              value={user.password_forgotten || false}
-              labelcolor={(theme) => theme.palette.text.white}
-              fontSize="1rem"
-            />
-            <InfoPasswordForgotten user={user} />
-          </Box>
-        </FormControl>
-      </CustomForm>
-
-      <Stack flexDirection="row" gap={2} justifyContent="end">
-        <RectangleButton onClick={handleCloseEditModal}>
-          Annuler
-        </RectangleButton>
-        <RectangleButton
-          secondary="true"
-          onClick={handleSaveUser}
-          disabled={loadingButton}
-        >
-          Enregistrer
-        </RectangleButton>
-      </Stack>
-    </CustomModal>
   )
 }
