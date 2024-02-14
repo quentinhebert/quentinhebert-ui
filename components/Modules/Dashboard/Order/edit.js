@@ -12,7 +12,7 @@ import PriceTable from "./components/edit/sections/price-table"
 export default function OrderEdit({}) {
   const { state, setState } = useContext(Context)
   return (
-    <EditContext.Provider value={{ handleChangeDate }}>
+    <EditContext.Provider value={{ handleChangeDate, handleChange }}>
       <Stack gap={2}>
         <Toolbar />
 
@@ -44,6 +44,17 @@ export default function OrderEdit({}) {
         ...state,
         order: { ...state.order, [attribute]: newValue },
         orderToUpdate: { ...state.orderToUpdate, [attribute]: newValue },
+      })
+    }
+  }
+  function handleChange(attribute) {
+    return (e) => {
+      if (state.errors[attribute])
+        setState({ ...state, errors: { ...state.errors, [attribute]: false } })
+      setState({
+        ...state,
+        order: { ...state.order, [attribute]: e.target.value },
+        orderToUpdate: { ...state.orderToUpdate, [attribute]: e.target.value },
       })
     }
   }

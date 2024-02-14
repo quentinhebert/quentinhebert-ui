@@ -9,7 +9,7 @@ import { EditContext } from "../../../edit"
 
 export default function MissionDate() {
   const { state, setState } = useContext(Context)
-  const { handleChangeDate } = useContext(EditContext)
+  const { handleChange, handleChangeDate } = useContext(EditContext)
 
   return (
     <FormCard
@@ -31,12 +31,7 @@ export default function MissionDate() {
         <CustomFilledInput
           width={{ xs: "100%", md: "50%" }}
           value={state.order.duration}
-          onChange={(e) =>
-            setState({
-              ...state,
-              order: { ...state.order, duration: e.target.value },
-            })
-          }
+          onChange={handleChange("duration")}
           label="Durée estimée (optionnel)"
           placeholder="1 jour de tournage et 3 jours de montage"
         />

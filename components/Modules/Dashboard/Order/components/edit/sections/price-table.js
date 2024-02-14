@@ -14,7 +14,7 @@ import SubmitButton from "../../../../../../Buttons/submit-button"
 import PriceDetails from "../../../../../../Sections/Account/Orders/price-details"
 
 export default function PriceTable() {
-  const { state, setState } = useContext(Context)
+  const { state, setState, handleChange } = useContext(Context)
 
   return (
     <>
@@ -32,12 +32,7 @@ export default function PriceTable() {
       <CustomFilledTextArea
         label="Objet de la commande"
         value={state.order.description}
-        onChange={(e) =>
-          setState({
-            ...state,
-            order: { ...state.order, description: e.target.value },
-          })
-        }
+        onChange={handleChange("description")}
       />
 
       <Stack gap={2} width="100%" overflow="auto" id="list-container">
