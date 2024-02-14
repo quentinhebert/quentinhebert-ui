@@ -91,6 +91,13 @@ export default function OrderReadOnlySection({
               </Stack>
             </Card>
           )}
+          {!!order.description && (
+            <Card>
+              <Info title="Informations complémentaires">
+                {order.description}
+              </Info>
+            </Card>
+          )}
           {!hidePaymentDetails && (
             <Card>
               <Table
