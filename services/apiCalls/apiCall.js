@@ -10,6 +10,7 @@ import clients from "../apiCalls/clients"
 import quotations from "../apiCalls/quotations"
 import dashboard from "../apiCalls/dashboard"
 import events from "../apiCalls/events"
+import reviews from "../apiCalls/reviews"
 
 const apiCall = {
   application,
@@ -24,6 +25,7 @@ const apiCall = {
   quotations,
   dashboard,
   events,
+  reviews,
 }
 
 export default apiCall

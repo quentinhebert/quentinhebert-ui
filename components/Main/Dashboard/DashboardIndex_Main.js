@@ -4,13 +4,14 @@ import OneActionBubblesGrid from "../../Cards/one-action-bubbles-grid"
 import MarkEmailUnreadOutlinedIcon from "@mui/icons-material/MarkEmailUnreadOutlined"
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined"
 import LeaderboardIcon from "@mui/icons-material/Leaderboard"
+import ThumbUpIcon from "@mui/icons-material/ThumbUp"
 import { useEffect, useState } from "react"
 import EuroIcon from "@mui/icons-material/Euro"
-import QuotationRequests_Main from "../QuotationRequests_Main"
 import apiCall from "../../../services/apiCalls/apiCall"
 import EventIcon from "@mui/icons-material/Event"
 import useSWR from "swr"
 import UserAgenda from "../../Sections/Dashboard/user-agenda"
+import UserReviewsModule from "../../Modules/Dashboard/Reviews/module"
 import BalanceSection from "../../Sections/Dashboard/balance-section"
 import StatsModule from "../../Sections/Dashboard/kpi-module"
 import OrdersModule from "../../Modules/Dashboard/Orders/module"
@@ -53,6 +54,7 @@ export default function AdminIndex_Main() {
       {activeTab === "prospects" && <ProspectsModule />}
       {activeTab === "orders" && <OrdersModule />}
       {activeTab === "calendar" && <UserAgenda />}
+      {activeTab === "reviews" && <UserReviewsModule />}
       {activeTab === "balance" && <BalanceSection />}
     </Stack>
   )
@@ -99,6 +101,13 @@ export default function AdminIndex_Main() {
         title: "Agenda",
         icon: <EventIcon className="full-width full-height" />,
         onClick: () => navigate("calendar"),
+        notifications: 0,
+      },
+      {
+        id: "reviews",
+        title: "Avis",
+        icon: <ThumbUpIcon className="full-width full-height" />,
+        onClick: () => navigate("reviews"),
         notifications: 0,
       },
       {
