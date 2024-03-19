@@ -1,4 +1,4 @@
-import { Box } from "@mui/material"
+import { Box, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
 import apiCall from "../../../services/apiCalls/apiCall"
 import CustomOutlinedAutocomplete from "../../Inputs/custom-outlined-autocomplete"
@@ -44,9 +44,22 @@ export default function ClientAutocomplete({
       }
       label="Client"
       renderOption={(props, option) => (
-        <Box component="li" {...props}>
-          {`${option.email} (${option.firstname} ${option.lastname})`}
-        </Box>
+        <Stack
+          component="li"
+          borderBottom={`1px solid rgb(256,256,256,0.1)`}
+          sx={{ ":last-of-type": { borderBottom: "none" } }}
+          {...props}
+        >
+          <Stack width="100%" flexDirection="row" alignItems="center" gap={0.5}>
+            {option.firstname} {option.lastname}{" "}
+            <Box fontSize=".9rem" color="gray">
+              {!!option.company && `/ ${option.company}`}
+            </Box>
+          </Stack>
+          <Stack width="100%" color="gray" fontSize=".9rem">
+            <em>{option.email}</em>
+          </Stack>
+        </Stack>
       )}
       onChange={(event, newValue) => setValue(newValue)}
       inputValue={inputValue}
