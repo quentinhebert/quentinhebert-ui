@@ -112,7 +112,7 @@ function ReviewRow({
           },
         }}
       >
-        <TableCell sx={{ minWidth: "300px" }}>
+        <TableCell sx={{ minWidth: "200px" }}>
           <BodyText
             color={"gray"}
             fontSize="1rem"
@@ -146,7 +146,7 @@ function ReviewRow({
           </BodyText>
         </TableCell>
 
-        <TableCell sx={{ minWidth: "300px" }}>
+        <TableCell>
           <BodyText color={"gray"} fontSize="1rem" preventTransition>
             {grade || "-"}
           </BodyText>
