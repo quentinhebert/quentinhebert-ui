@@ -44,7 +44,7 @@ export default function ReferencesSection(props) {
         background: (theme) =>
           `linear-gradient(${theme.palette.secondary.main} 10%, ${theme.palette.background.black} 60%)`,
         height: "auto",
-        padding: "14rem 0",
+        padding: "14rem 0 6rem",
         zIndex: 0,
       }}
     >

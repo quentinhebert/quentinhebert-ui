@@ -7,6 +7,7 @@ import ReferencesSection from "../Sections/Homepage/references-section"
 import { ParallaxProvider } from "react-scroll-parallax"
 import IntroductionVideoSection from "../Sections/Homepage/introduction-video-section"
 import QandALandingCTA from "../Sections/QandA/landing-CTA"
+import ReviewsSection from "../Sections/Homepage/reviews-section"
 
 export default function Index_Main(props) {
   const {} = props
@@ -49,6 +50,9 @@ export default function Index_Main(props) {
 
         {/* REFERENCES */}
         <ReferencesSection />
+
+        {/* REVIEWS */}
+        <ReviewsSection />
       </Stack>
     </ParallaxProvider>
   )

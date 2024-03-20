@@ -356,6 +356,12 @@ const translations = {
         en: "Thank you to them !",
       },
     },
+    reviews: {
+      title: {
+        fr: "Je vous donne la parole...",
+        en: "I give you the floor...",
+      },
+    },
   },
   films: {
     hero: {
