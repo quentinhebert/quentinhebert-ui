@@ -13,7 +13,7 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import MotionDivOnMount from "../../components/Animation/motion-div-on-mount"
 import TaskAltIcon from "@mui/icons-material/TaskAlt"
 import CustomCard from "../../components/Cards/custom-card"
-import BodyText from "../../components/Text/body-text"
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import { AppContext } from "../../contexts/AppContext"
 
 const head = {
@@ -128,6 +128,7 @@ export default function ReviewPage({ navbar, footer }) {
                   },
                 }}
               />
+
               <CustomFilledInput
                 label="Intitulé"
                 placeholder="Excellente prestation"
@@ -138,13 +139,29 @@ export default function ReviewPage({ navbar, footer }) {
               />
               <CustomFilledTextArea
                 label="Raccontez votre expérience"
-                rows={10}
+                rows={6}
                 placeholder="Quentin a été très professionnel et a su nous guider tout au long du projet..."
                 value={review.description}
                 onChange={(e) =>
                   setReview({ ...review, description: e.target.value })
                 }
               />
+
+              {!!review.user_id?.company && (
+                <Stack
+                  color="gray"
+                  flexDirection="row"
+                  gap={0.5}
+                  width="100%"
+                  alignItems="center"
+                >
+                  <InfoOutlinedIcon fontSize=".8rem" />
+                  <Typography textAlign="center" fontSize=".8rem">
+                    Vous publiez sous le nom de{" "}
+                    <em>{review.user_id.company}</em>.
+                  </Typography>
+                </Stack>
+              )}
 
               <CTAButton label="Envoyer" onClick={handleSubmit} />
             </CustomForm>
@@ -165,7 +182,7 @@ function CTAButton({ label, onClick }) {
       borderRadius={30}
       padding="1rem 2rem"
       width={{ xs: "200px", md: "400px" }}
-      marginTop={2}
+      marginTop={4}
       onClick={onClick}
     >
       <MotionDivOnMount
