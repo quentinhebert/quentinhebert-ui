@@ -4,6 +4,10 @@ import { useContext } from "react"
 import { Context } from "../module"
 import { UserContext } from "../../../../../contexts/UserContext"
 import { formatDayDate } from "../../../../../services/date-time"
+import EditRoundedIcon from "@mui/icons-material/EditRounded"
+import EditOffRoundedIcon from "@mui/icons-material/EditOffRounded"
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded"
+import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded"
 
 export default function ProspectsList({ handleOpenEditModal }) {
   const { state } = useContext(Context)
@@ -180,7 +184,7 @@ function ReviewRow({
           </BodyText>
         </TableCell>
 
-        <TableCell sx={{ textAlign: "right" }}>
+        <TableCell sx={{ textAlign: "center" }}>
           <BodyText
             color={"gray"}
             fontSize="1rem"
@@ -188,11 +192,19 @@ function ReviewRow({
             preventTransition
             whiteSpace="nowrap"
           >
-            {editable ? "oui" : "non"}
+            {editable ? (
+              <EditRoundedIcon
+                sx={{ color: (theme) => theme.alert.title.success.color }}
+              />
+            ) : (
+              <EditOffRoundedIcon
+                sx={{ color: (theme) => theme.alert.title.error.color }}
+              />
+            )}
           </BodyText>
         </TableCell>
 
-        <TableCell sx={{ textAlign: "right" }}>
+        <TableCell sx={{ textAlign: "center" }}>
           <BodyText
             color={"gray"}
             fontSize="1rem"
@@ -200,7 +212,15 @@ function ReviewRow({
             preventTransition
             whiteSpace="nowrap"
           >
-            {visible ? "oui" : "non"}
+            {visible ? (
+              <VisibilityRoundedIcon
+                sx={{ color: (theme) => theme.alert.title.success.color }}
+              />
+            ) : (
+              <VisibilityOffRoundedIcon
+                sx={{ color: (theme) => theme.alert.title.error.color }}
+              />
+            )}
           </BodyText>
         </TableCell>
       </TableRow>
