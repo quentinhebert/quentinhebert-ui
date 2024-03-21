@@ -1,12 +1,17 @@
 import { Rating, Stack, Typography } from "@mui/material"
 import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { AppContext } from "../../../contexts/AppContext"
 import translations from "../../../services/translation"
 import AutoPlaySlider from "../../Carousels/AutoPlaySlider"
 import FormatQuoteRoundedIcon from "@mui/icons-material/FormatQuoteRounded"
 import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown"
+import styles from "../../../styles/TextShine.module.css"
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
+import PillButton from "../../Buttons/pill-button"
+import CustomModal from "../../Modals/custom-modal"
+import BrowserLayout from "../../Layouts/BrowserLayout"
 
 async function fetchUpToDateReviews() {
   const res = await apiCall.reviews.getAll()
@@ -24,6 +29,9 @@ export default function ReviewsSection(props) {
 
   const reviews = data
 
+  const [selectedReviewKey, setSelectedReviewKey] = useState(null)
+  const [openReviewDetails, setOpenReviewDetails] = useState(false)
+
   // Populate Items for the slider
   const Items = []
   !!reviews.length
@@ -38,37 +46,83 @@ export default function ReviewsSection(props) {
             sx={{
               boxShadow: (theme) =>
                 `0 0 30px 2px ${theme.palette.secondary.main}`,
-              zIndex: -2,
             }}
           >
             <FormatQuoteRoundedIcon
               color="secondary"
               sx={{ rotate: "180deg", fontSize: "4rem" }}
             />
-            <Typography variant="h5">{review.label}</Typography>
-            <Typography fontStyle="italic">{review.description}</Typography>
-            <Stack
-              mt={3}
-              alignSelf="flex-end"
-              flexDirection="row"
-              alignItems="center"
-              gap={2}
+
+            <Typography
+              sx={{
+                fontSize: { xs: "1.2rem", md: "2rem" },
+                lineHeight: { xs: "1.2rem", md: "2rem" },
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+              }}
             >
-              <Rating
-                readOnly
-                precision={0.5}
-                size="medium"
-                value={review.grade}
-                sx={{
-                  "&.MuiRating-root": {
-                    color: (theme) =>
-                      `${theme.palette.secondary.main} !important`,
-                  },
+              {review.label}
+            </Typography>
+            <Typography
+              fontStyle="italic"
+              sx={{
+                display: "-webkit-box",
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: "vertical",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                opacity: 0.7,
+              }}
+            >
+              {review.description}
+            </Typography>
+
+            <Stack
+              mt={2}
+              flexDirection={{ xs: "column-reverse", xl: "row" }}
+              width="100%"
+              alignItems="center"
+              justifyContent="space-between"
+              gap={4}
+            >
+              <PillButton
+                color={(theme) => theme.palette.secondary.main}
+                background="transparent"
+                padding="0"
+                endIcon={<ArrowRightAltIcon sx={{ fontSize: "3rem" }} />}
+                onClick={() => {
+                  setOpenReviewDetails(true)
+                  setSelectedReviewKey(key)
                 }}
-              />
-              <Typography color="gray">
-                {review.company || review.firstname + " " + review.lastname}
-              </Typography>
+              >
+                Afficher en entier
+              </PillButton>
+              <Stack
+                flexDirection={{ xs: "column", md: "row" }}
+                alignItems="center"
+                gap={2}
+              >
+                <Rating
+                  readOnly
+                  precision={0.5}
+                  size="small"
+                  value={review.grade}
+                  sx={{
+                    "&.MuiRating-root": {
+                      color: (theme) =>
+                        `${theme.palette.secondary.main} !important`,
+                      filter: (theme) =>
+                        `drop-shadow(0 0 8px ${theme.palette.secondary.main})`,
+                    },
+                  }}
+                />
+                <Typography color="#fff" className={styles.shine}>
+                  {review.company || review.firstname + " " + review.lastname}
+                </Typography>
+              </Stack>
             </Stack>
           </Stack>
         ))
@@ -106,6 +160,69 @@ export default function ReviewsSection(props) {
       </Stack>
 
       <AutoPlaySlider reviews={reviews} Items={Items} />
+
+      <CustomModal
+        fullscreen
+        open={openReviewDetails}
+        handleClose={() => setOpenReviewDetails(false)}
+        background="transparent"
+      >
+        <BrowserLayout
+          title="Retour d'expérience"
+          onBtnClicks={{ red: () => setOpenReviewDetails(false) }}
+          boxShadow={(theme) =>
+            `0 0 100px 10px ${theme.palette.secondary.main}`
+          }
+          height="90vh"
+        >
+          <Stack padding={4} gap={2} overflow="auto">
+            <FormatQuoteRoundedIcon
+              color="secondary"
+              sx={{ rotate: "180deg", fontSize: "4rem" }}
+            />
+
+            <Typography color="#fff" variant="h4">
+              {reviews[selectedReviewKey]?.label}
+            </Typography>
+            <Typography color="grey" fontSize="1.3rem" fontStyle="italic">
+              {reviews[selectedReviewKey]?.description}
+            </Typography>
+
+            <Stack
+              mt={4}
+              flexDirection={{ xs: "column", md: "row" }}
+              alignSelf="end"
+              alignItems={{ xs: "end", md: "center" }}
+              gap={2}
+            >
+              <Rating
+                readOnly
+                value={reviews[selectedReviewKey]?.grade || 5}
+                precision={0.5}
+                size="large"
+                sx={{
+                  "&.MuiRating-root": {
+                    color: (theme) =>
+                      `${theme.palette.secondary.main} !important`,
+                    filter: (theme) =>
+                      `drop-shadow(0 0 8px ${theme.palette.secondary.main})`,
+                  },
+                }}
+              />
+              <Typography
+                color="#fff"
+                className={styles.shine}
+                fontSize="1.5rem"
+              >
+                {reviews[selectedReviewKey]?.company ||
+                  reviews[selectedReviewKey]?.firstname +
+                    " " +
+                    reviews[selectedReviewKey]?.lastname}
+              </Typography>
+            </Stack>
+          </Stack>
+        </BrowserLayout>
+      </CustomModal>
     </Stack>
   )
 }

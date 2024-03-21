@@ -25,18 +25,16 @@ export default function AutoPlaySlider({ Items }) {
         ref={swiperRef}
         style={{
           width: "100%",
-          //   height: "800px",
           display: "flex",
           alignItems: "center !important",
           justifyContent: "center !important",
         }}
         wrapperClass="alignItemsCenter"
         loop={loop}
-        spaceBetween={30}
-        centeredSlides={true}
+        slidesPerView={1}
         autoplay={{
           delay: 10000,
-          disableOnInteraction: false,
+          disableOnInteraction: true,
         }}
         onBeforeInit={(swiper) => {
           swiper.params.navigation.prevEl = navigationPrevRef.current
