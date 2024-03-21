@@ -8,8 +8,9 @@ export default function ArrowButton({
   totalItems,
   ...props
 }) {
-  const hasPrevious = !!left && index !== 0
-  const hasNext = !!right && index < totalItems - 1
+  const hasPrevious = !index && !totalItems ? true : !!left && index !== 0
+  const hasNext =
+    !index && !totalItems ? true : !!right && index < totalItems - 1
 
   return (
     <Stack
