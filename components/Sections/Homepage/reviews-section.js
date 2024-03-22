@@ -14,7 +14,7 @@ import CustomModal from "../../Modals/custom-modal"
 import BrowserLayout from "../../Layouts/BrowserLayout"
 
 async function fetchUpToDateReviews() {
-  const res = await apiCall.reviews.getAll()
+  const res = await apiCall.reviews.getAllPublic()
   const jsonRes = await res.json()
   return jsonRes
 }

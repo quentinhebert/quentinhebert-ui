@@ -66,6 +66,19 @@ const reviews = {
       return await fetch(`${defaultConfig.apiUrl}/reviews`, {
         method: "GET",
         headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
+  getAllPublic: async () => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/reviews/public`, {
+        method: "GET",
+        headers: {
           "Content-Type": "application/json",
         },
       })
