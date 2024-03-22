@@ -719,6 +719,10 @@ const translations = {
     publishAs: { fr: "Vous publiez sous le nom de", en: "You publish as" },
     details: { fr: "Votre commentaire", en: "Your review" },
   },
+  pleaseWait: {
+    en: "Please wait...",
+    fr: "Veuillez patienter...",
+  },
 }
 
 export default translations
