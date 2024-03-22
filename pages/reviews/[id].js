@@ -15,6 +15,7 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt"
 import CustomCard from "../../components/Cards/custom-card"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import { AppContext } from "../../contexts/AppContext"
+import translations from "../../services/translation"
 
 const head = {
   // Main meta tags
@@ -32,7 +33,7 @@ export default function ReviewPage({ navbar, footer }) {
   const router = useRouter()
   const id = router.query.id
 
-  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+  const { setSnackSeverity, setSnackMessage, lang } = useContext(AppContext)
 
   const initialReview = {
     id,
@@ -105,11 +106,10 @@ export default function ReviewPage({ navbar, footer }) {
                 color="secondary.main"
                 textAlign="center"
               >
-                {review.user_id.firstname}, qu'avez-vous pensé de la prestation
-                de Quentin ?
+                {review.user_id.firstname}, {translations.reviews.title[lang]}
               </Typography>
               <Typography variant="h6" textAlign="center">
-                Faites-lui part de votre expérience !
+                {translations.reviews.subtitle[lang]}
               </Typography>
 
               <Rating
@@ -130,17 +130,17 @@ export default function ReviewPage({ navbar, footer }) {
               />
 
               <CustomFilledInput
-                label="Intitulé"
-                placeholder="Excellente prestation"
+                label={translations.reviews.label.label[lang]}
+                placeholder={translations.reviews.label.placeholder[lang]}
                 value={review.label}
                 onChange={(e) =>
                   setReview({ ...review, label: e.target.value })
                 }
               />
               <CustomFilledTextArea
-                label="Raccontez votre expérience"
+                label={translations.reviews.description.label[lang]}
                 rows={6}
-                placeholder="Quentin a été très professionnel et a su nous guider tout au long du projet..."
+                placeholder={translations.reviews.description.placeholder[lang]}
                 value={review.description}
                 onChange={(e) =>
                   setReview({ ...review, description: e.target.value })
@@ -157,13 +157,16 @@ export default function ReviewPage({ navbar, footer }) {
                 >
                   <InfoOutlinedIcon fontSize=".8rem" />
                   <Typography textAlign="center" fontSize=".8rem">
-                    Vous publiez sous le nom de{" "}
+                    {translations.reviews.publishAs[lang]}{" "}
                     <em>{review.user_id.company}</em>.
                   </Typography>
                 </Stack>
               )}
 
-              <CTAButton label="Envoyer" onClick={handleSubmit} />
+              <CTAButton
+                label={translations.reviews.submit[lang]}
+                onClick={handleSubmit}
+              />
             </CustomForm>
           </CenteredMaxWidthContainer>
         </Stack>
@@ -220,6 +223,7 @@ function CTAButton({ label, onClick }) {
 }
 
 function ThankYou({ review, success }) {
+  const { lang } = useContext(AppContext)
   return (
     <CenteredMaxWidthContainer>
       <Stack paddingY="8rem" gap={4}>
@@ -238,13 +242,13 @@ function ThankYou({ review, success }) {
                 fontSize: "3rem",
               }}
             />
-            Merci d'avoir laissé un commentaire !
+            {translations.reviews.thankYou[lang]}
           </Typography>
         )}
 
         <CustomCard backgroundColor={(theme) => theme.palette.background.main}>
           <Typography variant="h5" color="gray" textAlign="center">
-            Votre commentaire
+            {translations.reviews.details[lang]}
           </Typography>
 
           <Stack flexDirection="row" gap={2}>

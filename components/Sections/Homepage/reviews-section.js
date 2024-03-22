@@ -98,7 +98,7 @@ export default function ReviewsSection(props) {
                   setSelectedReviewKey(key)
                 }}
               >
-                Afficher en entier
+                {translations.homepage.reviews.showDetails[lang]}
               </PillButton>
               <Stack
                 flexDirection={{ xs: "column", md: "row" }}

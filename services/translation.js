@@ -361,6 +361,10 @@ const translations = {
         fr: "Je vous donne la parole...",
         en: "I give you the floor...",
       },
+      showDetails: {
+        fr: "Afficher en entier",
+        en: "Show more",
+      },
     },
   },
   films: {
@@ -686,6 +690,34 @@ const translations = {
         en: "Read Q&A",
       },
     },
+  },
+  reviews: {
+    title: {
+      fr: "qu'avez-vous pensé de la prestation de Quentin ?",
+      en: "what did you think about Quentin's services?",
+    },
+    subtitle: {
+      fr: "Faites-lui part de votre expérience !",
+      en: "Share your experience with him",
+    },
+    label: {
+      label: { fr: "Intitulé", en: "Title" },
+      placeholder: { fr: "Excellente prestation", en: "Excellent service" },
+    },
+    description: {
+      label: { fr: "Racontez votre expérience", en: "Tell your experience" },
+      placeholder: {
+        fr: "Quentin a été très professionnel et a su nous guider tout au long du projet...",
+        en: "Quentin has been very professional and knew how to lead and direct during the entire project...",
+      },
+    },
+    submit: { fr: "Envoyer", en: "Submit" },
+    thankYou: {
+      fr: "Merci d'avoir laissé un commentaire !",
+      en: "Thanks for rating!",
+    },
+    publishAs: { fr: "Vous publiez sous le nom de", en: "You publish as" },
+    details: { fr: "Votre commentaire", en: "Your review" },
   },
 }
 
