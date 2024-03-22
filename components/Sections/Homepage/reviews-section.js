@@ -132,32 +132,15 @@ export default function ReviewsSection(props) {
   return (
     <Stack
       className="full-width flex-center"
-      gap={10}
       sx={{
         background: "#000",
-        height: "auto",
-        padding: "10rem 0",
+        padding: "4rem 0",
         zIndex: 0,
       }}
     >
-      <Stack position="relative">
-        <Typography variant="h2" color="secondary">
-          {translations.homepage.reviews.title[lang]}
-        </Typography>
-        <ThumbsUpDownIcon
-          sx={{
-            color: "#000",
-            fontSize: "20rem",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            filter: (theme) =>
-              `drop-shadow(0 0 20px ${theme.palette.secondary.main})`,
-            zIndex: -1,
-          }}
-        />
-      </Stack>
+      <Typography variant="h2" color="secondary">
+        {translations.homepage.reviews.title[lang]}
+      </Typography>
 
       <AutoPlaySlider reviews={reviews} Items={Items} />
 

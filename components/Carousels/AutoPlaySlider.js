@@ -1,23 +1,30 @@
 import ArrowButton from "../Buttons/arrow-button"
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
+import theme from "../../config/theme"
 
 import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
 
-import { Autoplay, Navigation } from "swiper/modules"
-import { Stack } from "@mui/material"
+import { Autoplay, Navigation, Pagination } from "swiper/modules"
+import { Box, Stack } from "@mui/material"
 
 export default function AutoPlaySlider({ Items }) {
-  const [loop, setLoop] = useState(false)
-  useEffect(() => {
-    setLoop(true)
-  }, [])
-
   const swiperRef = useRef(null)
   const navigationPrevRef = useRef(null)
   const navigationNextRef = useRef(null)
+
+  const pagination = {
+    clickable: true,
+    el: ".swiper-pagination",
+    renderBullet: function (index, className) {
+      return `
+      <span class="${className}"
+        style="background: ${theme.palette.secondary.main};box-shadow: 0 0 10px 3px ${theme.palette.secondary.main};"
+      ></span>`
+    },
+  }
 
   return (
     <>
@@ -30,7 +37,7 @@ export default function AutoPlaySlider({ Items }) {
           justifyContent: "center !important",
         }}
         wrapperClass="alignItemsCenter"
-        loop={loop}
+        loop={true}
         slidesPerView={1}
         autoplay={{
           delay: 10000,
@@ -44,7 +51,8 @@ export default function AutoPlaySlider({ Items }) {
           prevEl: navigationPrevRef.current,
           nextEl: navigationNextRef.current,
         }}
-        modules={[Autoplay, Navigation]}
+        pagination={pagination}
+        modules={[Autoplay, Pagination, Navigation]}
       >
         {Items.map((Item, key) => (
           <SwiperSlide key={key}>
@@ -54,6 +62,8 @@ export default function AutoPlaySlider({ Items }) {
           </SwiperSlide>
         ))}
 
+        <div class="swiper-pagination"></div>
+
         {/* SLIDER CONTROLS */}
         <Stack
           flexDirection="row"
@@ -61,7 +71,8 @@ export default function AutoPlaySlider({ Items }) {
           alignItems="center"
           padding={{ xs: "2%", md: "5%" }}
           sx={{
-            width: { xs: "100%", md: "90%", lg: "70%" },
+            display: { xs: "none", md: "flex" },
+            width: { xs: "100%", md: "100%", lg: "85%", xl: "70%" },
             height: "100%",
             position: "absolute",
             top: "0",
@@ -87,12 +98,15 @@ function SwiperSlideContent({ ...props }) {
   return (
     <Stack
       sx={{
-        width: { sm: "100%", md: "80%", lg: "50%" },
+        width: { sm: "100%", md: "80%", lg: "70%", xl: "50%" },
         height: "100%",
         margin: "auto",
         alignItems: "center",
         justifyContent: "center",
-        padding: "4rem",
+        padding: {
+          xs: "2rem 1.5rem 4rem",
+          md: "2rem 4rem 4rem",
+        },
       }}
       {...props}
     />
