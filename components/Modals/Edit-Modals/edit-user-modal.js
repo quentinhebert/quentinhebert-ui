@@ -25,8 +25,9 @@ import PillButton from "../../Buttons/pill-button"
 import CancelButton from "../../Buttons/cancel-button"
 import { InvisibleAccordion } from "../../Containers/custom-accordion"
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt"
-import { useRouter } from "next/router"
 import { setToken } from "../../../services/cookies"
+import useConfirm from "../../../hooks/useConfirm"
+import BodyText from "../../Text/body-text"
 
 export default function EditUserForm({
   userId,
@@ -35,7 +36,7 @@ export default function EditUserForm({
 }) {
   const { setSnackSeverity, setSnackMessage, handleSetTokens } =
     useContext(AppContext)
-  const router = useRouter()
+  const Confirm = useConfirm()
 
   // USE-STATES
   const [user, setUser] = useState(null)
@@ -254,6 +255,10 @@ export default function EditUserForm({
           </FormControl>
         </CustomForm>
       </Stack>
+
+      <CustomModal open={Confirm.open} handleClose={Confirm.handleClose}>
+        <Confirm.DialogContent />
+      </CustomModal>
     </CustomModal>
   )
 
@@ -327,7 +332,7 @@ export default function EditUserForm({
     if (res && res.ok) handleEmailSent()
     else handleEmailNotSent()
   }
-  async function handleImpersonate() {
+  async function impersonate() {
     const res = await apiCall.users.impersonate({ id: userId })
     if (res && res.ok) {
       const jsonRes = await res.json()
@@ -340,6 +345,33 @@ export default function EditUserForm({
         window.location.href = "/account"
       }
     }
+  }
+  async function handleImpersonate() {
+    Confirm.setContent({
+      title: "Impersonate",
+      nextBtnText: "Oui, je veux prendre le contrôle",
+      nextAction: async () => await impersonate(),
+      MsgComponent: () => {
+        return (
+          <Stack gap={2}>
+            <BodyText>
+              Voulez-vous impersonate le compte de {user.firstname}{" "}
+              {user.lastname} ?
+            </BodyText>
+
+            <AlertInfo
+              content={{
+                show: true,
+                severity: "info",
+                text: "Impersonate, c'est usurper le compte d'un autre utilisateur. Cela permet de prendre le contrôle de ce compte.",
+                title: `C'est quoi "impersonate" ?`,
+              }}
+            />
+          </Stack>
+        )
+      },
+    })
+    Confirm.setOpen(true)
   }
 }
 
