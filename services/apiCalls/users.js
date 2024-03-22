@@ -179,6 +179,20 @@ const users = {
       console.error(err)
     }
   },
+  // Admin only
+  impersonate: async ({ id }) => {
+    try {
+      return await fetch(`${defaultConfig.apiUrl}/users/${id}/impersonate`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${await getFreshToken()}`,
+          "Content-Type": "application/json",
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  },
   sessions: {
     get: async (userId) => {
       try {

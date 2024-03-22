@@ -12,7 +12,7 @@ import SendIcon from "@mui/icons-material/Send"
 import { ModalTitle } from "../Modal-Components/modal-title"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AlertInfo from "../../Other/alert-info"
-import { checkEmail, checkPhone } from "../../../services/utils"
+import { checkEmail, checkPhone, getUser } from "../../../services/utils"
 import CustomModal from "../../Modals/custom-modal"
 import CustomForm from "../../Forms/custom-form"
 import CustomCheckbox from "../../Inputs/custom-checkbox"
@@ -24,13 +24,18 @@ import CustomFilledPhoneInput from "../../Inputs/custom-filled-phone-input"
 import PillButton from "../../Buttons/pill-button"
 import CancelButton from "../../Buttons/cancel-button"
 import { InvisibleAccordion } from "../../Containers/custom-accordion"
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt"
+import { useRouter } from "next/router"
+import { setToken } from "../../../services/cookies"
 
 export default function EditUserForm({
   userId,
   openEditModal,
   handleCloseEditModal,
 }) {
-  const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
+  const { setSnackSeverity, setSnackMessage, handleSetTokens } =
+    useContext(AppContext)
+  const router = useRouter()
 
   // USE-STATES
   const [user, setUser] = useState(null)
@@ -92,6 +97,15 @@ export default function EditUserForm({
         <Stack gap={2}>
           <PillButton onClick={handleSaveUser} disabled={loadingButton}>
             Enregistrer
+          </PillButton>
+          <PillButton
+            onClick={handleImpersonate}
+            background={(theme) =>
+              `linear-gradient(45deg, ${theme.palette.tersary.main} 0%, ${theme.palette.secondary.main} 100%)`
+            }
+            startIcon={<PeopleAltIcon />}
+          >
+            Impersonate
           </PillButton>
           <CancelButton
             handleCancel={() => {
@@ -312,6 +326,20 @@ export default function EditUserForm({
     })
     if (res && res.ok) handleEmailSent()
     else handleEmailNotSent()
+  }
+  async function handleImpersonate() {
+    const res = await apiCall.users.impersonate({ id: userId })
+    if (res && res.ok) {
+      const jsonRes = await res.json()
+      setToken(jsonRes.token) // cookies
+      const userFromToken = getUser()
+      const result = await apiCall.users.get(userFromToken.id)
+      if (result && result.ok) {
+        const userData = await result.json()
+        setUser(userData) // React context
+        window.location.href = "/account"
+      }
+    }
   }
 }
 
