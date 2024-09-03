@@ -244,7 +244,7 @@ export default function VideoPlayer(props) {
             <MemoPlayer player={player} videoId={videoId} />
 
             {!!video?.teaser_url ? (
-              <Stack mt="3rem">
+              <Stack mt="3rem" mb="1.5rem">
                 <VideoTitle>Teaser</VideoTitle>
                 <CustomReactPlayer
                   youtubeId={video?.teaser_url}
