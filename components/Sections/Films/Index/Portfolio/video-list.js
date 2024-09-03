@@ -12,6 +12,7 @@ import PillButton from "../../../../Buttons/pill-button"
 import Pill from "../../../../Text/pill"
 import translations from "../../../../../services/translation"
 import { AppContext } from "../../../../../contexts/AppContext"
+import { buildPublicURL } from "../../../../../services/utils"
 
 // const DATA = [
 //   {
@@ -501,6 +502,7 @@ const ImgListItem = (props) => (
     item
     xs={6}
     md={4}
+    key={props.index}
     sx={{
       position: "relative",
       cursor: "pointer",
@@ -709,42 +711,44 @@ export default function VideoList({ height, setHeight, ...props }) {
         <FilterSection ref={heightRef} handleFilter={handleFilter} />
 
         <ImgList>
-          {filteredData?.length
-            ? filteredData?.map((item, key) => {
-                if (key < limit)
-                  return (
-                    <ImgListItem
-                      key={item.id}
-                      onClick={() => handleVideoClick(item)}
+          {filteredData?.length ? (
+            filteredData?.map((item, key) => {
+              if (key < limit)
+                return (
+                  <ImgListItem
+                    index={item.id}
+                    onClick={() => handleVideoClick(item)}
+                  >
+                    <motion.div
+                      key={key}
+                      initial="hidden"
+                      variants={variants(key)}
+                      animate={controls}
+                      style={{
+                        width: "100%",
+                        height: "calc(100% - 1rem)",
+                        overflow: "hidden",
+                        borderRadius: "100%",
+                        display: "block",
+                        transform: "translateZ(0)",
+                      }}
                     >
-                      <motion.div
-                        key={key}
-                        initial="hidden"
-                        variants={variants(key)}
-                        animate={controls}
-                        style={{
-                          width: "100%",
-                          height: "calc(100% - 1rem)",
-                          overflow: "hidden",
-                          borderRadius: "100%",
-                          display: "block",
-                          transform: "translateZ(0)",
-                        }}
-                      >
-                        <Thumbnail
-                          src={item.img}
-                          srcSet={item.img}
-                          alt={item.title}
-                        />
-                        <Overlay>
-                          <PlayBtn />
-                          <VideoTitle>{item.title}</VideoTitle>
-                        </Overlay>
-                      </motion.div>
-                    </ImgListItem>
-                  )
-              })
-            : null}
+                      <Thumbnail
+                        src={buildPublicURL(item.thumbnail_path)}
+                        srcSet={buildPublicURL(item.thumbnail_path)}
+                        alt={item.title}
+                      />
+                      <Overlay>
+                        <PlayBtn />
+                        <VideoTitle>{item.title}</VideoTitle>
+                      </Overlay>
+                    </motion.div>
+                  </ImgListItem>
+                )
+            })
+          ) : (
+            <></>
+          )}
         </ImgList>
 
         <Stack
