@@ -43,7 +43,7 @@ function Player({ youtubeId, vimeoId, disableAutoplay, play }) {
 
   useEffect(() => {
     if (play) setPlaying(true)
-    else if (play === false) setPlaying(false)
+    else if (play === "false") setPlaying(false)
   }, [play])
 
   return (

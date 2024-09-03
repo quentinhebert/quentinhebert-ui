@@ -233,14 +233,28 @@ export default function VideoPlayer(props) {
             <Header video={video} />
           </Box>
 
-          {/****** FILM PLAYER ******/}
-          <Stack
-            width={isVertical ? "100%" : "70%"}
-            className="flex-center relative"
-            zIndex={1000}
+          {/****** TEASER PLAYER ******/}
+          <Box
+            width={isVertical ? "96%" : "70%"}
+            textAlign="left"
+            justifyContent="left"
+            padding="1rem 0"
+            sx={{ marginTop: { xs: "2rem", md: 0 } }}
           >
             <MemoPlayer player={player} videoId={videoId} />
-          </Stack>
+
+            {!!video?.teaser_url ? (
+              <Stack mt="3rem">
+                <VideoTitle>Teaser</VideoTitle>
+                <CustomReactPlayer
+                  youtubeId={video?.teaser_url}
+                  disableAutoplay
+                />
+              </Stack>
+            ) : (
+              <></>
+            )}
+          </Box>
 
           {hasVideoInfo && (
             <Stack alignItems="center" sx={{ transform: "translateY(40px)" }}>
