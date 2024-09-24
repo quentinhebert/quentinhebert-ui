@@ -97,7 +97,7 @@ export default function PricingSection(props) {
                   "Un format compact qui retrace les plus beaux moments du jour
                   J."
                 </Typography>
-                <Divider sx={{ my: 4 }} />
+                <Divider sx={{ my: { xs: 2, md: 4 } }} />
                 <Feature icon="🎥">
                   <Strong>8h de présence</Strong> le jour J
                 </Feature>
@@ -115,7 +115,7 @@ export default function PricingSection(props) {
                 <Typography color="grey" fontStyle="italic" textAlign="center">
                   "Un format gourmand, pour ceux qui aiment prendre leur temps."
                 </Typography>
-                <Divider sx={{ my: 4 }} />
+                <Divider sx={{ my: { xs: 2, md: 4 } }} />
                 <Feature icon="🎥">
                   <Strong>+12h de présence</Strong> le jour J
                 </Feature>
@@ -178,7 +178,7 @@ function Feature({ icon, ...props }) {
         </Typography>
         <Typography color="#fff" fontSize="1.5rem" {...props} />
       </Stack>
-      <Divider sx={{ my: 4 }} />
+      <Divider sx={{ my: { xs: 2, md: 4 } }} />
     </>
   )
 }

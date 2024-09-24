@@ -64,34 +64,37 @@ export default function VideoList({ ...props }) {
               gap: "1rem",
             }}
           >
-            <iframe
-              width="100%"
-              height="50%"
-              src={item.url}
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-              style={{
-                aspectRatio: "16/9",
-                borderRadius: "20px",
-              }}
-            ></iframe>
-            <iframe
-              width="100%"
-              height="50%"
-              src={item.teaser}
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-              style={{
-                aspectRatio: "16/9",
-                borderRadius: "20px",
-              }}
-            ></iframe>
+            <Stack width="100%" height="100%">
+              <iframe
+                width="100%"
+                height="50%"
+                src={item.url}
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+                style={{
+                  aspectRatio: "16/9",
+                  borderRadius: "20px",
+                }}
+              ></iframe>
+            </Stack>
+            <Stack width="100%" height="100%">
+              <iframe
+                width="100%"
+                src={item.teaser}
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+                style={{
+                  aspectRatio: "16/9",
+                  borderRadius: "20px",
+                }}
+              ></iframe>
+            </Stack>
           </motion.div>
         ))}
       </Stack>
