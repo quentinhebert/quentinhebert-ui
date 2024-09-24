@@ -12,6 +12,7 @@ import PillButton from "../../../../Buttons/pill-button"
 import Pill from "../../../../Text/pill"
 import translations from "../../../../../services/translation"
 import { AppContext } from "../../../../../contexts/AppContext"
+import { buildPublicURL } from "../../../../../services/utils"
 
 // const DATA = [
 //   {
@@ -423,7 +424,7 @@ import { AppContext } from "../../../../../contexts/AppContext"
 //   },
 // ]
 
-const FilterSection = ({ handleFilter }) => {
+const FilterSection = ({ handleFilter, activeFilter }) => {
   const { lang } = useContext(AppContext)
   return (
     <Stack className="full-width flex-center">
@@ -443,7 +444,17 @@ const FilterSection = ({ handleFilter }) => {
             scaleUpOnHover
             boxShadowOnHover
             margin={{ xs: "0.25rem", md: "0.5rem" }}
-            bgColor={(theme) => theme.palette.secondary.main}
+            color={
+              activeFilter === category.id
+                ? "black"
+                : (theme) => theme.palette.secondary.main
+            }
+            bgColor={
+              activeFilter === category.id
+                ? (theme) => theme.palette.secondary.main
+                : "transparent"
+            }
+            border={(theme) => `1px solid ${theme.palette.secondary.main}`}
             onClick={() => handleFilter(category.id)}
           >
             {category[lang]}
@@ -593,6 +604,7 @@ export default function VideoList({ height, setHeight, ...props }) {
   /********** USE STATES **********/
   const [openVideoPlayer, setOpenVideoPlayer] = useState(false)
   const [videoClicked, setVideoClicked] = useState(null)
+  const [activeFilter, setActiveFilter] = useState("all")
   const [filteredData, setFilteredData] = useState(data)
   const [hasMoreFilms, setHasMoreFilms] = useState(false)
   const [limit, setLimit] = useState(initialLimit)
@@ -606,6 +618,7 @@ export default function VideoList({ height, setHeight, ...props }) {
     setOpenVideoPlayer(false)
   }
   const handleFilter = (categoryId) => {
+    setActiveFilter(categoryId)
     if (categoryId === "all" && data === filteredData) return
     // Systematically remove the show more button
     setHasMoreFilms(false)
@@ -706,11 +719,16 @@ export default function VideoList({ height, setHeight, ...props }) {
         padding="0 0 2rem"
         gap={2}
       >
-        <FilterSection ref={heightRef} handleFilter={handleFilter} />
+        <FilterSection
+          ref={heightRef}
+          handleFilter={handleFilter}
+          activeFilter={activeFilter}
+        />
 
         <ImgList>
           {filteredData?.length
             ? filteredData?.map((item, key) => {
+                console.debug("item", item)
                 if (key < limit)
                   return (
                     <ImgListItem
@@ -732,8 +750,8 @@ export default function VideoList({ height, setHeight, ...props }) {
                         }}
                       >
                         <Thumbnail
-                          src={item.img}
-                          srcSet={item.img}
+                          src={buildPublicURL(item.thumbnail_path)}
+                          srcSet={buildPublicURL(item.thumbnail_path)}
                           alt={item.title}
                         />
                         <Overlay>

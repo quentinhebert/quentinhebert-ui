@@ -416,14 +416,19 @@ const translations = {
           en: "All",
         },
         {
+          id: "wedding",
+          fr: "Mariage",
+          en: "Wedding",
+        },
+        { id: "corporate", fr: "Entreprise", en: "Corporate" },
+        { id: "short_film", fr: "Court-métrage", en: "Short film" },
+        { id: "clip", fr: "Clip", en: "Music clip" },
+        { id: "sport", fr: "Sport", en: "Sport" },
+        {
           id: "event",
           fr: "Événementiel",
           en: "Events",
         },
-        { id: "short_film", fr: "Court-métrage", en: "Short film" },
-        { id: "clip", fr: "Clip", en: "Music clip" },
-        { id: "corporate", fr: "Entreprise", en: "Corporate" },
-        { id: "sport", fr: "Sport", en: "Sport" },
       ],
       showMore: {
         fr: "Afficher plus",
