@@ -5,6 +5,7 @@ import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import PlayCircleIcon from "@mui/icons-material/PlayCircle"
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import useSWR from "swr"
 import { fetchers } from "../../../../../services/public-fetchers"
 import { FilmsHomePageContext } from "../../../../../contexts/PagesContexts"
@@ -12,6 +13,8 @@ import PillButton from "../../../../Buttons/pill-button"
 import Pill from "../../../../Text/pill"
 import translations from "../../../../../services/translation"
 import { AppContext } from "../../../../../contexts/AppContext"
+import { buildPublicURL } from "../../../../../services/utils"
+import Link from "next/link"
 import { buildPublicURL } from "../../../../../services/utils"
 
 // const DATA = [
@@ -424,7 +427,7 @@ import { buildPublicURL } from "../../../../../services/utils"
 //   },
 // ]
 
-const FilterSection = ({ handleFilter }) => {
+const FilterSection = ({ handleFilter, activeFilter }) => {
   const { lang } = useContext(AppContext)
   return (
     <Stack className="full-width flex-center">
@@ -444,7 +447,17 @@ const FilterSection = ({ handleFilter }) => {
             scaleUpOnHover
             boxShadowOnHover
             margin={{ xs: "0.25rem", md: "0.5rem" }}
-            bgColor={(theme) => theme.palette.secondary.main}
+            color={
+              activeFilter === category.id
+                ? "black"
+                : (theme) => theme.palette.secondary.main
+            }
+            bgColor={
+              activeFilter === category.id
+                ? (theme) => theme.palette.secondary.main
+                : "transparent"
+            }
+            border={(theme) => `1px solid ${theme.palette.secondary.main}`}
             onClick={() => handleFilter(category.id)}
           >
             {category[lang]}
@@ -595,6 +608,7 @@ export default function VideoList({ height, setHeight, ...props }) {
   /********** USE STATES **********/
   const [openVideoPlayer, setOpenVideoPlayer] = useState(false)
   const [videoClicked, setVideoClicked] = useState(null)
+  const [activeFilter, setActiveFilter] = useState("all")
   const [filteredData, setFilteredData] = useState(data)
   const [hasMoreFilms, setHasMoreFilms] = useState(false)
   const [limit, setLimit] = useState(initialLimit)
@@ -608,6 +622,7 @@ export default function VideoList({ height, setHeight, ...props }) {
     setOpenVideoPlayer(false)
   }
   const handleFilter = (categoryId) => {
+    setActiveFilter(categoryId)
     if (categoryId === "all" && data === filteredData) return
     // Systematically remove the show more button
     setHasMoreFilms(false)
@@ -708,49 +723,67 @@ export default function VideoList({ height, setHeight, ...props }) {
         padding="0 0 2rem"
         gap={2}
       >
-        <FilterSection ref={heightRef} handleFilter={handleFilter} />
+        <FilterSection
+          ref={heightRef}
+          handleFilter={handleFilter}
+          activeFilter={activeFilter}
+        />
+
+        {activeFilter === "wedding" ? (
+          <Link
+            href="/wedding"
+            passHref
+            style={{ margin: "auto" }}
+            target="_blank"
+          >
+            <PillButton
+              margin="1rem auto"
+              width="auto"
+              endIcon={<ArrowRightAltIcon />}
+            >
+              💍 En savoir plus sur les films de mariage
+            </PillButton>
+          </Link>
+        ) : null}
 
         <ImgList>
-          {filteredData?.length ? (
-            filteredData?.map((item, key) => {
-              if (key < limit)
-                return (
-                  <ImgListItem
-                    index={item.id}
-                    onClick={() => handleVideoClick(item)}
-                  >
-                    <motion.div
-                      key={key}
-                      initial="hidden"
-                      variants={variants(key)}
-                      animate={controls}
-                      style={{
-                        width: "100%",
-                        height: "calc(100% - 1rem)",
-                        overflow: "hidden",
-                        borderRadius: "100%",
-                        display: "block",
-                        transform: "translateZ(0)",
-                      }}
+          {filteredData?.length
+            ? filteredData?.map((item, key) => {
+                if (key < limit)
+                  return (
+                    <ImgListItem
+                      key={item.id}
+                      onClick={() => handleVideoClick(item)}
                     >
-                      <Thumbnail
-                        src={buildPublicURL(item.thumbnail_path)}
-                        srcSet={buildPublicURL(item.thumbnail_path)}
-                        alt={item.title}
-                      />
-                      <Overlay>
-                        <PlayBtn />
-                        <VideoTitle>{item.title}</VideoTitle>
-                      </Overlay>
-                    </motion.div>
-                  </ImgListItem>
-                )
-            })
-          ) : (
-            <></>
-          )}
+                      <motion.div
+                        key={key}
+                        initial="hidden"
+                        variants={variants(key)}
+                        animate={controls}
+                        style={{
+                          width: "100%",
+                          height: "calc(100% - 1rem)",
+                          overflow: "hidden",
+                          borderRadius: "100%",
+                          display: "block",
+                          transform: "translateZ(0)",
+                        }}
+                      >
+                        <Thumbnail
+                          src={item.img}
+                          srcSet={item.img}
+                          alt={item.title}
+                        />
+                        <Overlay>
+                          <PlayBtn />
+                          <VideoTitle>{item.title}</VideoTitle>
+                        </Overlay>
+                      </motion.div>
+                    </ImgListItem>
+                  )
+              })
+            : null}
         </ImgList>
-
         <Stack
           width="100%"
           className="flex-center"

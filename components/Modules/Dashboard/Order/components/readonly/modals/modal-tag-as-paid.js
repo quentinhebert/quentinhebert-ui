@@ -12,7 +12,7 @@ import PillButton from "../../../../../../Buttons/pill-button"
 import { AppContext } from "../../../../../../../contexts/AppContext"
 
 export default function ModalTagAsPaid() {
-  const { state, setState } = useContext(Context)
+  const { state, setState, fetchOrder, handleCloseModal } = useContext(Context)
   const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
   const [paymentMethod, setPaymentMethod] = useState(PAYMENT_OPTIONS[0].id)
   const [processing, setProcessing] = useState(false)

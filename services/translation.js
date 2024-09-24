@@ -367,6 +367,78 @@ const translations = {
       },
     },
   },
+  wedding: {
+    hero: {
+      title: {
+        fr: "Vidéaste de mariage",
+        en: "Wedding filmmaker",
+      },
+      iam: {
+        fr: "QUENTIN HÉBERT",
+        en: "QUENTIN HÉBERT",
+      },
+      job1: {
+        fr: "Réalisateur",
+        en: "Director",
+      },
+      job2: {
+        fr: "Cadreur",
+        en: "Camera operator",
+      },
+      job3: {
+        fr: "Monteur",
+        en: "Editor",
+      },
+      btn: {
+        fr: "Bande démo",
+        en: "Showreel",
+      },
+    },
+    pricing: {
+      title: {
+        fr: "Mes formules vidéo",
+        en: "My video packs",
+      },
+      btn: {
+        fr: "Contactez-moi",
+        en: "Contact me",
+      },
+    },
+    portfolio: {
+      title: {
+        fr: "Mes films de mariage",
+        en: "My wedding films",
+      },
+      showMore: {
+        fr: "Afficher plus",
+        en: "Show more",
+      },
+      showLess: {
+        fr: "Afficher moins",
+        en: "Show less",
+      },
+      scrollToTop: {
+        fr: "Revenir en haut",
+        en: "Go back to top",
+      },
+      description: {
+        fr: "Quelques mots",
+        en: "A few words",
+      },
+      roles: {
+        fr: "Sur ce projet, je suis...",
+        en: "On that project, I was...",
+      },
+      gear: {
+        fr: "Matériel utilisé",
+        en: "The gear I've used",
+      },
+      client: {
+        fr: "Pour",
+        en: "For",
+      },
+    },
+  },
   films: {
     hero: {
       title: {
@@ -416,14 +488,19 @@ const translations = {
           en: "All",
         },
         {
+          id: "wedding",
+          fr: "Mariage",
+          en: "Wedding",
+        },
+        { id: "corporate", fr: "Entreprise", en: "Corporate" },
+        { id: "short_film", fr: "Court-métrage", en: "Short film" },
+        { id: "clip", fr: "Clip", en: "Music clip" },
+        { id: "sport", fr: "Sport", en: "Sport" },
+        {
           id: "event",
           fr: "Événementiel",
           en: "Events",
         },
-        { id: "short_film", fr: "Court-métrage", en: "Short film" },
-        { id: "clip", fr: "Clip", en: "Music clip" },
-        { id: "corporate", fr: "Entreprise", en: "Corporate" },
-        { id: "sport", fr: "Sport", en: "Sport" },
       ],
       showMore: {
         fr: "Afficher plus",

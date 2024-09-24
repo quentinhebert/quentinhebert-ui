@@ -1,13 +1,22 @@
-import { Stack, Typography, useMediaQuery } from "@mui/material"
+import {
+  Box,
+  Grid,
+  Stack,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from "@mui/material"
 import theme from "../../../config/theme"
 import useSWR from "swr"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AutoPlayCarousel from "../../Carousels/AutoPlayCarousel"
 import styles from "../../../styles/TextShine.module.css"
 import MediumTitle from "../../Titles/medium-title"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { AppContext } from "../../../contexts/AppContext"
 import translations from "../../../services/translation"
+import { useInView } from "react-intersection-observer"
+import { motion, useAnimation } from "framer-motion"
 
 async function fetchUpToDateReferences() {
   const res = await apiCall.references.getAllPublic()
@@ -34,7 +43,75 @@ export default function ReferencesSection(props) {
 
   const ReferencesImgList = () => {
     if (!references.length) return <></>
-    return <AutoPlayCarousel references={references} noOfCards={noOfCards} />
+    // return <AutoPlayCarousel references={references} noOfCards={noOfCards} />
+
+    /********** ANIMATION **********/
+    const [ref, inView] = useInView()
+    const controls = useAnimation()
+    useEffect(() => {
+      if (inView) {
+        controls.start("visible")
+      } else {
+        controls.start("hidden")
+      }
+    }, [controls, inView])
+
+    return (
+      <Grid
+        container
+        ref={ref}
+        justifyContent="center"
+        p={{ xs: "4rem 0", sm: "4rem 1rem", md: "4rem", lg: "4rem 10rem" }}
+      >
+        {references.map((r, key) => (
+          <Grid
+            item
+            key={key}
+            xs={2}
+            sm={1.5}
+            xl={1.25}
+            sx={{
+              borderRadius: { xs: "1rem", lg: "2rem" },
+              margin: { xs: ".5rem", sm: ".5rem 1rem" },
+              overflow: "hidden",
+            }}
+          >
+            <motion.div
+              initial="hidden"
+              variants={{
+                visible: {
+                  opacity: 1,
+                  transition: {
+                    duration: 0.5,
+                    delay: key / 13,
+                    ease: [0.32, 0, 0.67, 0],
+                  },
+                },
+                hidden: { opacity: 0 },
+              }}
+              animate={controls}
+              style={{ height: "100%" }}
+            >
+              <Tooltip title={r.label}>
+                <Box
+                  width="100%"
+                  height="100%"
+                  component="img"
+                  src={r.logo_url}
+                  sx={{
+                    objectFit: "cover",
+                    objectPosition: "50%",
+                    filter: "grayscale(100%)",
+                    transition: ".1s ease-in-out",
+                    "&:hover": { filter: "grayscale(0)" },
+                  }}
+                />
+              </Tooltip>
+            </motion.div>
+          </Grid>
+        ))}
+      </Grid>
+    )
   }
 
   return (
