@@ -13,6 +13,8 @@ import PillButton from "../../../../Buttons/pill-button"
 import Pill from "../../../../Text/pill"
 import translations from "../../../../../services/translation"
 import { AppContext } from "../../../../../contexts/AppContext"
+import { buildPublicURL } from "../../../../../services/utils"
+import Link from "next/link"
 
 // const DATA = [
 //   {
