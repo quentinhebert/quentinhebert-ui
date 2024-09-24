@@ -5,6 +5,7 @@ import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import PlayCircleIcon from "@mui/icons-material/PlayCircle"
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
 import useSWR from "swr"
 import { fetchers } from "../../../../../services/public-fetchers"
 import { FilmsHomePageContext } from "../../../../../contexts/PagesContexts"
@@ -13,6 +14,7 @@ import Pill from "../../../../Text/pill"
 import translations from "../../../../../services/translation"
 import { AppContext } from "../../../../../contexts/AppContext"
 import { buildPublicURL } from "../../../../../services/utils"
+import Link from "next/link"
 
 // const DATA = [
 //   {
@@ -725,10 +727,26 @@ export default function VideoList({ height, setHeight, ...props }) {
           activeFilter={activeFilter}
         />
 
+        {activeFilter === "wedding" ? (
+          <Link
+            href="/wedding"
+            passHref
+            style={{ margin: "auto" }}
+            target="_blank"
+          >
+            <PillButton
+              margin="1rem auto"
+              width="auto"
+              endIcon={<ArrowRightAltIcon />}
+            >
+              💍 En savoir plus sur les films de mariage
+            </PillButton>
+          </Link>
+        ) : null}
+
         <ImgList>
           {filteredData?.length
             ? filteredData?.map((item, key) => {
-                console.debug("item", item)
                 if (key < limit)
                   return (
                     <ImgListItem
@@ -764,7 +782,6 @@ export default function VideoList({ height, setHeight, ...props }) {
               })
             : null}
         </ImgList>
-
         <Stack
           width="100%"
           className="flex-center"
