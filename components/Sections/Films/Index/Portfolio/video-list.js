@@ -13,9 +13,6 @@ import PillButton from "../../../../Buttons/pill-button"
 import Pill from "../../../../Text/pill"
 import translations from "../../../../../services/translation"
 import { AppContext } from "../../../../../contexts/AppContext"
-import { buildPublicURL } from "../../../../../services/utils"
-import Link from "next/link"
-import { buildPublicURL } from "../../../../../services/utils"
 
 // const DATA = [
 //   {
@@ -770,8 +767,8 @@ export default function VideoList({ height, setHeight, ...props }) {
                         }}
                       >
                         <Thumbnail
-                          src={item.img}
-                          srcSet={item.img}
+                          src={buildPublicURL(item.thumbnail_path)}
+                          srcSet={buildPublicURL(item.thumbnail_path)}
                           alt={item.title}
                         />
                         <Overlay>
