@@ -45,21 +45,27 @@ export default function OrdersSection() {
   function populateFilteredOrders() {
     switch (STATUS_OPTIONS[state.tab].id) {
       case "ALL":
-        return state.orders
+        return state.orders || []
       case "FINISHED":
-        return state.orders.filter(
-          (elt) => !!elt.delivered_date && elt.status !== "ARCHIVED"
-        )
+        return !!state.orders
+          ? state.orders.filter(
+              (elt) => !!elt.delivered_date && elt.status !== "ARCHIVED"
+            )
+          : []
       case "ARCHIVED":
-        return state.orders.filter((elt) => elt.status === "ARCHIVED")
+        return !!state.orders
+          ? state.orders.filter((elt) => elt.status === "ARCHIVED")
+          : []
       default:
-        return state.orders.filter(
-          (elt) =>
-            !elt.delivered_date &&
-            STATUS_OPTIONS.filter(
-              (opt) => opt.id === STATUS_OPTIONS[state.tab].id
-            )[0].statuses.includes(elt.status)
-        )
+        return !!state.orders
+          ? state.orders.filter(
+              (elt) =>
+                !elt.delivered_date &&
+                STATUS_OPTIONS.filter(
+                  (opt) => opt.id === STATUS_OPTIONS[state.tab].id
+                )[0].statuses.includes(elt.status)
+            )
+          : []
     }
   }
 }

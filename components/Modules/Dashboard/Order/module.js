@@ -9,7 +9,9 @@ import BodyText from "../../../Text/body-text"
 import { Box, Grid, Stack } from "@mui/material"
 import SmallTitle from "../../../Titles/small-title"
 import { checkBeforeGen } from "../../../../services/quotations"
+import useConfirm from "../../../../hooks/useConfirm"
 import { useRouter } from "next/router"
+import CustomModal from "../../../Modals/custom-modal"
 const OrderEdit = dynamic(() => import("./edit"))
 const OrderReadonly = dynamic(() => import("./readonly"))
 
@@ -65,6 +67,7 @@ export default function OrderModule({ id, defaultMode }) {
   // MODULE STATE
   const [state, setState] = useState(initialState)
   const router = useRouter()
+  const Confirm = useConfirm()
   const { setSnackSeverity, setSnackMessage } = useContext(AppContext)
 
   // INITIAL FETCH
@@ -94,6 +97,10 @@ export default function OrderModule({ id, defaultMode }) {
       ) : null}
 
       <Modals />
+
+      <CustomModal open={Confirm.open} handleClose={Confirm.handleClose}>
+        <Confirm.DialogContent />
+      </CustomModal>
     </Context.Provider>
   )
 
@@ -120,25 +127,32 @@ export default function OrderModule({ id, defaultMode }) {
     }
   }
   async function handleDelete() {
-    setOpenConfirmModal(true)
-    setNextButtonText("Supprimer")
-    setConfirmTitle("Supprimer la commande")
-    setConfirmContent({
-      text: `Voulez vous vraiment supprimer la commande ${order.label} ? Les devis et factures associés seront également supprimés.`,
+    Confirm.setContent({
+      title: "Supprimer la commande",
+      nextBtnText: "Supprimer",
+      cancelLabel: "Je souhaite encore modifier ma commande",
+      message: (
+        <BodyText>
+          Voulez vous vraiment supprimer la commande {state.order.label} ? Les
+          devis associés seront également supprimés. Les factures seront
+          sauvegardées mais uniquement accessibles depuis l'hébergeur ou la DB.
+        </BodyText>
+      ),
+      nextAction: async function () {
+        setState({ ...state, isFetching: true })
+        const res = await apiCall.orders.delete({ id: state.order.id })
+        if (res && res.ok) {
+          setSnackMessage("Devis supprimé")
+          setSnackSeverity("success")
+          router.push("/dashboard?active_tab=orders")
+        } else {
+          setSnackMessage("Un problème est survenu")
+          setSnackSeverity("error")
+        }
+        setState({ ...state, isFetching: false })
+      },
     })
-    setActionToFire(() => async () => {
-      setLoading(true)
-      const res = await apiCall.orders.delete(order)
-      if (res && res.ok) {
-        setSnackMessage("Devis supprimé")
-        setSnackSeverity("success")
-        router.push("/dashboard?active_tab=orders")
-      } else {
-        setSnackMessage("Un problème est survenu")
-        setSnackSeverity("error")
-      }
-      setLoading(false)
-    })
+    Confirm.setOpen(true)
   }
   function checkMissingFields() {
     const errors = checkBeforeGen(state.order)
