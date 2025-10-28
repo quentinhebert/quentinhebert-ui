@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import { Box, FormHelperText, Stack, Typography } from "@mui/material"
+import { Alert, Box, FormHelperText, Stack, Typography } from "@mui/material"
 import { checkEmail } from "../../services/utils"
 import apiCall from "../../services/apiCalls/apiCall"
 import styles from "../../styles/WordsCaroussel.module.css"
@@ -242,6 +242,18 @@ export default function ContactForm({
     const { errorsCount } = checkRequiredFields()
     if (errorsCount > 0) return // We don't send the request if missing fields
     setIsFetching(true)
+
+    // Check if suspicious caracters chain
+    const regex = /^(?=.{10,}$)(?=(?:.*[A-Z]){4,})(?=(?:.*[a-z]){4,})\S+$/
+    if (
+      regex.test(formData.firstname) ||
+      regex.test(formData.lastname) ||
+      regex.test(formData.budget) ||
+      regex.test(formData.description)
+    )
+      return handleSuccess() // Fake success to avoid reverse engineering + bot error learning
+    // Button submit not appearing back, in order to force bots to reload page to access again to form fulfilling
+
     const res = await apiCall.application.contact.sendForm(formData)
     if (res && res.ok) handleSuccess()
     else handleError()
@@ -255,6 +267,21 @@ export default function ContactForm({
 
   return (
     <CustomForm width="100%" gap={4} paddingBottom="1.5rem">
+      <Stack
+        sx={{
+          background: "rgb(0,0,0,0.7)",
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          zIndex: 10,
+        }}
+      >
+        <Alert severity="warning">
+          Le formulaire est momentannément indisponible. Veuillez me contacter
+          directement sur mon adresse e-mail.
+        </Alert>
+      </Stack>
+
       {showServicesBoxes && (
         <Stack width="100%" alignItems="center">
           <BodyText preventTransition gap={2} display="flex" alignItems="end">
