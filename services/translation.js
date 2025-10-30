@@ -227,6 +227,30 @@ const translations = {
       },
       submit: { fr: "Envoyer", en: "Submit" },
     },
+    captcha: {
+      label: {
+        fr: "Je ne suis pas Mr. Robot 🤖",
+        en: "I am not Mr Robot 🤖",
+      },
+      label: {
+        fr: "Je ne suis pas Mr. Robot 🤖",
+        en: "I am not Mr Robot 🤖",
+      },
+      missingCaptcha: {
+        fr: "Veuillez cocher la case.",
+        en: "Please check the box.",
+      },
+      alerts: {
+        too_many_attemps: {
+          fr: "Trop de tentatives. Réessayez dans quelques secondes.",
+          en: "Too many attempts. Please try again in few seconds.",
+        },
+        blacklist: {
+          fr: "Votre adresse IP est blacklistée.",
+          en: "Your IP address is blacklisted.",
+        },
+      },
+    },
     socialNetworks: {
       fr: "Suis-moi, je te fuis !",
       en: "Follow One's Heart !",

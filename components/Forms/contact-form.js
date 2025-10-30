@@ -18,6 +18,7 @@ import RedoRoundedIcon from "@mui/icons-material/RedoRounded"
 import SendIcon from "@mui/icons-material/Send"
 import Span from "../Text/span"
 import translations from "../../services/translation"
+import { useCaptcha } from "../../hooks/useCaptcha"
 
 /** CONSTANTS **/
 const BUDGET_OPTIONS = [
@@ -78,6 +79,15 @@ export default function ContactForm({
   defaultDirection,
 }) {
   const { setSnackSeverity, setSnackMessage, lang } = useContext(AppContext)
+
+  // CAPTCHA
+  const {
+    CaptchaComponent,
+    captcha,
+    Honeypot,
+    handleResetCaptcha,
+    setMissingCaptcha,
+  } = useCaptcha()
 
   const PLACEHOLDERS = {
     firstname: {
@@ -239,24 +249,28 @@ export default function ContactForm({
     setSnackMessage(translations.contact.snackMsg.error[lang])
   }
   const handleSendRequest = async () => {
+    const clickTime = Date.now()
     const { errorsCount } = checkRequiredFields()
+
+    if (!captcha) return setMissingCaptcha(true)
+
     if (errorsCount > 0) return // We don't send the request if missing fields
     setIsFetching(true)
 
-    // Check if suspicious caracters chain
-    const regex = /^(?=.{10,}$)(?=(?:.*[A-Z]){4,})(?=(?:.*[a-z]){4,})\S+$/
-    if (
-      regex.test(formData.firstname) ||
-      regex.test(formData.lastname) ||
-      regex.test(formData.budget) ||
-      regex.test(formData.description)
-    )
-      return handleSuccess() // Fake success to avoid reverse engineering + bot error learning
-    // Button submit not appearing back, in order to force bots to reload page to access again to form fulfilling
+    const res = await apiCall.application.contact.sendForm({
+      formData,
+      captcha: {
+        ...captcha,
+        heuristique: {
+          start: captcha?.heuristique?.start,
+          responseTime: clickTime - captcha.heuristique.start,
+        },
+      },
+    })
 
-    const res = await apiCall.application.contact.sendForm(formData)
     if (res && res.ok) handleSuccess()
     else handleError()
+    handleResetCaptcha() // Reset Captcha que ce soit un success ou non
     setIsFetching(false)
   }
 
@@ -267,21 +281,6 @@ export default function ContactForm({
 
   return (
     <CustomForm width="100%" gap={4} paddingBottom="1.5rem">
-      <Stack
-        sx={{
-          background: "rgb(0,0,0,0.7)",
-          width: "100%",
-          height: "100%",
-          position: "absolute",
-          zIndex: 10,
-        }}
-      >
-        <Alert severity="warning">
-          Le formulaire est momentannément indisponible. Veuillez me contacter
-          directement sur mon adresse e-mail.
-        </Alert>
-      </Stack>
-
       {showServicesBoxes && (
         <Stack width="100%" alignItems="center">
           <BodyText preventTransition gap={2} display="flex" alignItems="end">
@@ -492,7 +491,13 @@ export default function ContactForm({
             helperText={errors.description && "Veuillez remplir ce champ"}
           />
         </Stack>
+
+        {/* COMPOSANT CACHÉ */}
+        <Honeypot />
+
+        <CaptchaComponent />
       </Stack>
+
       <RightSubmitButton onClick={handleSendRequest} disabled={isFetching}>
         {isFetching
           ? translations.contact.btn.processing[lang]
