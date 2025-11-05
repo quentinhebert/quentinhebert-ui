@@ -5,7 +5,14 @@ const nextConfig = {
     optimizeCss: true,
   },
   images: {
-    domains: ["creaqor.com", "qhstorage.com"],
+    // domains: ["creaqor.com", "qhstorage.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: ["creaqor.com", "qhstorage.com"],
+        pathname: "/**",
+      },
+    ],
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
