@@ -82,6 +82,7 @@
     "use-boop": "^1.1.1"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.14.5",
     "eslint": "8.11.0",
     "eslint-config-next": "^12.0.4"
   }
