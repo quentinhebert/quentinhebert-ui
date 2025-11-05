@@ -9,7 +9,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: ["creaqor.com", "qhstorage.com"],
+        hostname: "qhstorage.com",
         pathname: "/**",
       },
     ],
