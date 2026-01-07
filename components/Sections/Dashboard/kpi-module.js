@@ -15,6 +15,7 @@ import DownloadIcon from "@mui/icons-material/Download"
 import { AppContext } from "../../../contexts/AppContext"
 
 const MONTHS = [
+  "Année entière",
   "Janvier",
   "Février",
   "Mars",
@@ -110,7 +111,7 @@ function TurnoverModule({}) {
   const [pdf, setPdf] = useState(initialPdf)
   const [turnover, setTurnover] = useState(initialTurnover)
   const [payments, setPayments] = useState(initialPayments)
-  const [selectedMonth, setSelectedMonth] = useState(currentMonth)
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth + 1)
   const [activeYear, setActiveYear] = useState(0)
   const [selectedYear, setSelectedYear] = useState(currentYear)
   useEffect(() => {
@@ -184,7 +185,8 @@ function TurnoverModule({}) {
                 label={month}
                 key={key}
                 disabled={
-                  selectedYear === currentYear && key > new Date().getMonth()
+                  selectedYear === currentYear &&
+                  key > new Date().getMonth() + 1
                 }
               />
             ))}
