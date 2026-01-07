@@ -96,7 +96,7 @@ function KpiModule({}) {
 }
 function TurnoverModule({}) {
   const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
-  const businessActivityStart = 2022
+  const businessActivityStart = 2023
   const currentYear = new Date().getFullYear()
   const currentMonth = new Date().getMonth()
   // Populate YEARS array
@@ -191,8 +191,9 @@ function TurnoverModule({}) {
                 label={month}
                 key={key}
                 disabled={
-                  selectedYear === currentYear &&
-                  key > new Date().getMonth() + 1
+                  (key !== 0 && selectedYear === 2023 && key < 6) || // Condition to not display months before my company was created
+                  (selectedYear === currentYear &&
+                    key > new Date().getMonth() + 1)
                 }
               />
             ))}
