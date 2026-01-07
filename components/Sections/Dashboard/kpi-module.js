@@ -123,12 +123,16 @@ function TurnoverModule({}) {
     setTurnover(initialTurnover)
     setPayments(initialPayments)
     /******** Specific condition bloc because my company was not created ********/
-    // So we automatically select first month of activity (june) for year 2023 (january>may are disabled)
-    // Otherwise, replace condition bloc by : setSelectedMonth(1)
-    if (selectedYear !== 2023) setSelectedMonth(1)
-    else setSelectedMonth(6)
+    // Default select first available month on new selected year
+    if (selectedMonth === 0) setSelectedMonth(0)
+    // Do nothing if month === 0 (it means we want to compare whole years)
+    else if (selectedYear === 2023) setSelectedMonth(6)
+    // All years have all months except 2023 (starts at June)
+    else setSelectedMonth(1) // All years (except 2023) start at January
     /****************************************************************************/
-    fetchData({ month: 1 })
+    fetchData({
+      month: selectedMonth === 0 ? 0 : 1,
+    })
   }, [selectedYear])
 
   const handleGenerateReport = async () => {
