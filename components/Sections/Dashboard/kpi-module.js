@@ -329,7 +329,7 @@ function TurnoverModule({}) {
                     </GridItem>
                     <GridItem
                       size={1.5}
-                      href={`${defaultConfig.ftpPublicBasePath}${payment.path}`}
+                      href={`${defaultConfig.ftpPublicBasePath}${payment.file_path}`}
                       align="right"
                     >
                       {payment.invoice_number}
