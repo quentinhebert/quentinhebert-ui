@@ -117,8 +117,14 @@ function TurnoverModule({}) {
   useEffect(() => {
     setTurnover(initialTurnover)
     setPayments(initialPayments)
-    fetchData()
-  }, [selectedMonth, selectedYear])
+    fetchData({})
+  }, [selectedMonth])
+  useEffect(() => {
+    setTurnover(initialTurnover)
+    setPayments(initialPayments)
+    setSelectedMonth(1)
+    fetchData({ month: 1 })
+  }, [selectedYear])
 
   const handleGenerateReport = async () => {
     setIsGeneratingPdf(true)
@@ -139,7 +145,7 @@ function TurnoverModule({}) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      if (isGeneratingPdf) fetchData()
+      if (isGeneratingPdf) fetchData({})
     }, 1000 * 5) // in milliseconds
 
     return () => clearInterval(intervalId)
@@ -407,9 +413,9 @@ function TurnoverModule({}) {
       </Box>
     )
   }
-  async function fetchData() {
+  async function fetchData({ month }) {
     const res = await apiCall.dashboard.payments.getPerMonth({
-      month: selectedMonth,
+      month: month || selectedMonth,
       year: selectedYear,
     })
     if (res && res.ok) {
