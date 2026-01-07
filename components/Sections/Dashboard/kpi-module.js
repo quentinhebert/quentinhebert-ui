@@ -122,7 +122,12 @@ function TurnoverModule({}) {
   useEffect(() => {
     setTurnover(initialTurnover)
     setPayments(initialPayments)
-    setSelectedMonth(1)
+    /******** Specific condition bloc because my company was not created ********/
+    // So we automatically select first month of activity (june) for year 2023 (january>may are disabled)
+    // Otherwise, replace condition bloc by : setSelectedMonth(1)
+    if (selectedYear !== 2023) setSelectedMonth(1)
+    else setSelectedMonth(6)
+    /****************************************************************************/
     fetchData({ month: 1 })
   }, [selectedYear])
 
