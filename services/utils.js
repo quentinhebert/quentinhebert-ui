@@ -120,7 +120,10 @@ export const scrollTo = (ref) => {
 }
 
 export const formatPrice = (price) => {
-  return Number(price / 100).toFixed(2)
+  return new Intl.NumberFormat("fr-FR", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(Number(price / 100).toFixed(2))
 }
 
 export const VimeoYoutubeURLparser = (url) => {
