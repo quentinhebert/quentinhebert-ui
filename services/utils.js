@@ -121,9 +121,9 @@ export const scrollTo = (ref) => {
 
 export const formatPrice = (price) => {
   return new Intl.NumberFormat("fr-FR", {
-    minimumFractionDigits: 0,
+    minimumFractionDigits: Number(price / 100) % 1 === 0 ? 0 : 2,
     maximumFractionDigits: 2,
-  }).format(Number(price / 100).toFixed(2))
+  }).format(Number(price / 100))
 }
 
 export const VimeoYoutubeURLparser = (url) => {
