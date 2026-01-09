@@ -18,6 +18,23 @@ const orders = {
     }
   },
   // Admin only
+  generateInvoiceBeforePayment: async ({ orderId }) => {
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/orders/${orderId}/generate-invoice-before-payment`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  // Admin only
   sendPaymentLink: async ({ id, email }) => {
     const body = { email }
     try {

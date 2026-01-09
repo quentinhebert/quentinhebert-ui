@@ -9,7 +9,7 @@ import {
   MODALS,
   MODES,
 } from "../../../module"
-import { Grid, Stack } from "@mui/material"
+import { Grid, Stack, Tooltip } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import BodyText from "../../../../../../Text/body-text"
 import RefreshButton from "../../../../../../Buttons/refresh-button"
@@ -24,6 +24,9 @@ import apiCall from "../../../../../../../services/apiCalls/apiCall"
 import { checkBeforeGen } from "../../../../../../../services/quotations"
 import { INVOICETYPES } from "../../../../../../../enums/invoiceTypes"
 import { buildPublicURL } from "../../../../../../../services/utils"
+import { PAYMENT_TYPES } from "../../../../../../../enums/paymentTypes"
+import useConfirm from "../../../../../../../hooks/useConfirm"
+import CustomModal from "../../../../../../Modals/custom-modal"
 
 export default function DocumentsSection() {
   const { state, setState, fetchOrder, checkMissingFields, handleSend } =
@@ -31,9 +34,14 @@ export default function DocumentsSection() {
   const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
   const router = useRouter()
   const [isQuotationGenerating, setIsQuotationGenerating] = useState(false)
+  const [isInvoiceGenerating, setIsInvoiceGenerating] = useState(false)
   const [totalQuotes, setTotalQuotes] = useState(
     state.order.quotations?.length || 0
   )
+  const [expectedTotalInvoices, setExpectedTotalInvoices] = useState(
+    state.order.invoices?.length || 0
+  )
+  const Confirm = useConfirm()
 
   useEffect(() => {
     const incomingTotal = state.order.quotations.length
@@ -46,83 +54,122 @@ export default function DocumentsSection() {
     return () => clearInterval(interval)
   }, [state.order.quotations, totalQuotes])
 
+  useEffect(() => {
+    const currentTotal = state.order.invoices.length
+    if (isInvoiceGenerating)
+      setIsInvoiceGenerating(currentTotal !== expectedTotalInvoices)
+    const interval = setInterval(() => {
+      if (isInvoiceGenerating) return fetchOrder()
+    }, 1000 * 5) // in milliseconds
+
+    return () => clearInterval(interval)
+  }, [state.order.invoices, expectedTotalInvoices])
+
   return (
-    <Stack width="100%" gap={2}>
-      <FormCard>
-        <Stack gap={2}>
-          <DocumentHeader>
-            <DocumentType>
-              Devis
-              {!!state.order.quotations?.length
-                ? ` (${state.order.quotations.length})`
-                : ""}
-            </DocumentType>
+    <>
+      <Stack width="100%" gap={2}>
+        <FormCard>
+          <Stack gap={2}>
+            <DocumentHeader>
+              <DocumentType>
+                Devis
+                {!!state.order.quotations?.length
+                  ? ` (${state.order.quotations.length})`
+                  : ""}
+              </DocumentType>
 
-            <Stack className="row gap-10 flex-center">
-              <RefreshButton refresh={fetchOrder} loading={state.isFetching} />
-              <AddButton
-                disabled={
-                  state.order.status !== "DRAFT" || isQuotationGenerating
-                }
-                onClick={handleGenerate}
-                isQuotationGenerating={isQuotationGenerating}
-              />
-            </Stack>
-          </DocumentHeader>
+              <Stack className="row gap-10 flex-center">
+                <RefreshButton
+                  refresh={fetchOrder}
+                  loading={state.isFetching}
+                />
+                <AddButton
+                  disabled={
+                    state.order.status !== "DRAFT" || isQuotationGenerating
+                  }
+                  onClick={handleGenerate}
+                  isLoading={isQuotationGenerating}
+                />
+              </Stack>
+            </DocumentHeader>
 
-          <BodyText preventTransition fontSize="1rem">
-            Rappel : devis obligatoire pour les commandes dont le montant est
-            supérieur à 1500€.
-          </BodyText>
-
-          {state.order.quotations.length === 0 && (
-            <BodyText fontSize="1rem" color="grey" preventTransition>
-              Aucun devis.
+            <BodyText preventTransition fontSize="1rem">
+              Rappel : devis obligatoire pour les commandes dont le montant est
+              supérieur à 1500€.
             </BodyText>
-          )}
 
-          <Stack gap={2} padding="0" overflow="auto">
-            {state.order.quotations?.length > 0 && <QuotationsListHead />}
-            {state.order.quotations.map((quotation, key) => (
-              <QuotationsListItem
-                quotation={quotation}
-                router={router}
-                handleSend={handleSend}
-                key={key}
-              />
-            ))}
-          </Stack>
-        </Stack>
-      </FormCard>
+            {state.order.quotations.length === 0 && (
+              <BodyText fontSize="1rem" color="grey" preventTransition>
+                Aucun devis.
+              </BodyText>
+            )}
 
-      <FormCard>
-        <Stack gap={2}>
-          <DocumentHeader>
-            <DocumentType>
-              Factures
-              {!!state.order.invoices?.length
-                ? ` (${state.order.invoices.length})`
-                : ""}
-            </DocumentType>
-
-            <RefreshButton refresh={fetchOrder} loading={state.isFetching} />
-          </DocumentHeader>
-
-          {(!state.order.invoices || state.order.invoices?.length === 0) && (
-            <BodyText fontSize="1rem" color="grey" preventTransition>
-              Aucune facture.
-            </BodyText>
-          )}
-          <Stack gap={2} overflow="auto" width="100%">
-            {state.order.invoices?.length > 0 && <OrderListHead />}
-            {!!state.order.invoices &&
-              state.order.invoices.map((invoice, key) => (
-                <OrderListItem invoice={invoice} router={router} key={key} />
+            <Stack gap={2} padding="0" overflow="auto">
+              {state.order.quotations?.length > 0 && <QuotationsListHead />}
+              {state.order.quotations.map((quotation, key) => (
+                <QuotationsListItem
+                  quotation={quotation}
+                  router={router}
+                  handleSend={handleSend}
+                  key={key}
+                />
               ))}
+            </Stack>
           </Stack>
-        </Stack>
-      </FormCard>
-    </Stack>
+        </FormCard>
+
+        <FormCard>
+          <Stack gap={2}>
+            <DocumentHeader>
+              <DocumentType>
+                Factures
+                {!!state.order.invoices?.length
+                  ? ` (${state.order.invoices.length})`
+                  : ""}
+              </DocumentType>
+
+              <Stack className="row gap-10 flex-center">
+                <RefreshButton
+                  refresh={fetchOrder}
+                  loading={state.isFetching}
+                />
+                <AddButton
+                  disabled={
+                    isInvoiceGenerating ||
+                    state.order.invoices.length ===
+                      state.order.payment_fractions.length
+                  }
+                  onClick={handleGenerateInvoiceToPay}
+                  isLoading={isInvoiceGenerating}
+                />
+              </Stack>
+            </DocumentHeader>
+
+            {(!state.order.invoices || state.order.invoices?.length === 0) && (
+              <BodyText fontSize="1rem" color="grey" preventTransition>
+                Aucune facture.
+              </BodyText>
+            )}
+            <Stack gap={2} overflow="auto" width="100%">
+              {state.order.invoices?.length > 0 && <InvoicesListHead />}
+              {!!state.order.invoices &&
+                state.order.invoices.map((invoice, key) => (
+                  <InvoicesListItem
+                    invoice={invoice}
+                    payments={state.order.payments}
+                    router={router}
+                    key={key}
+                  />
+                ))}
+            </Stack>
+          </Stack>
+        </FormCard>
+      </Stack>
+
+      <CustomModal open={Confirm.open} handleClose={Confirm.handleClose}>
+        <Confirm.DialogContent />
+      </CustomModal>
+    </>
   )
 
   async function handleGenerate() {
@@ -151,6 +198,58 @@ export default function DocumentsSection() {
         setState({ ...state, errors, mode: MODES.EDIT })
     }
   }
+  async function handleGenerateInvoiceToPay() {
+    Confirm.setContent({
+      title: "Facture avant paiement",
+      message:
+        "Vous souhaitez générer une nouvelle facture avant que le règlement n'ait été émis ?",
+      nextAction: () => generateInvoiceToPay(),
+      nextBtnText: "Générer",
+    })
+    Confirm.handleOpen()
+  }
+  async function generateInvoiceToPay() {
+    let errors = null
+    try {
+      // On vérifie que la facture peut se générer sans souci de champs manquants
+      errors = checkMissingFields()
+      if (!!errors) throw Error("missing_fields")
+
+      // Checks supplémentaire sur le client
+      const clientValid =
+        !!state.order.client?.id &&
+        !!state.order.client?.line1 &&
+        !!state.order.client?.postal_code &&
+        !!state.order.client?.city &&
+        !!state.order.client?.email
+      if (!clientValid) throw Error("missing_client_fields")
+
+      // Loading state
+      setIsInvoiceGenerating(true)
+      // Prepare for refetch listener
+      setExpectedTotalInvoices(expectedTotalInvoices + 1)
+
+      const res = await apiCall.orders.generateInvoiceBeforePayment({
+        orderId: state.order.id,
+      })
+      if (!res?.ok) throw Error("La facture n'a pas pu être générée....")
+
+      setSnackMessage("Facture en cours de création...")
+      setSnackSeverity("info")
+    } catch (err) {
+      setSnackSeverity("error")
+      setSnackMessage(
+        err.message === "missing_fields"
+          ? "Certains champs sont manquants dans les conditions et mentions obligatoires."
+          : err.message === "missing_client_fields"
+          ? "Merci de vérifier les informations du client"
+          : err.message
+      )
+
+      if (err.message === "missing_fields")
+        setState({ ...state, errors, mode: MODES.EDIT })
+    }
+  }
 }
 
 function QuotationsListItem({ quotation }) {
@@ -171,9 +270,20 @@ function QuotationsListItem({ quotation }) {
       <Grid container>
         <GridItem xs={2}>{version}</GridItem>
         <GridItem color={color}>{label}</GridItem>
+        <GridItem color={color}></GridItem>
         <GridItem
-          xs={2}
-          md={2.5}
+          sx={{
+            display: "flex !important",
+            justifyContent: "start !important",
+          }}
+        >
+          <ActionButton
+            icon={<SendIcon />}
+            label="Envoyer"
+            onClick={() => handleSend(quotation.id)}
+          />
+        </GridItem>
+        <GridItem
           sx={{
             display: "flex !important",
             justifyContent: "center !important",
@@ -189,21 +299,7 @@ function QuotationsListItem({ quotation }) {
             "Patientez..."
           )}
         </GridItem>
-        <GridItem
-          xs={2}
-          md={2.5}
-          sx={{
-            display: "flex !important",
-            justifyContent: "center !important",
-          }}
-        >
-          <ActionButton
-            icon={<SendIcon />}
-            label="Envoyer"
-            onClick={() => handleSend(quotation.id)}
-          />
-        </GridItem>
-        <GridItem color="grey" xs={3.5} md={2.5} textAlign="right">
+        <GridItem color="grey" textAlign="right">
           {formatDayDate({ timestamp: quotation.last_update })}
         </GridItem>
       </Grid>
@@ -238,10 +334,10 @@ function QuotationsListItem({ quotation }) {
     }
   }
 }
-function AddButton({ onClick, isQuotationGenerating, ...props }) {
+function AddButton({ onClick, isLoading, ...props }) {
   return (
     <PillButton
-      disabled={isQuotationGenerating}
+      disabled={isLoading}
       startIcon={<AddIcon />}
       fontSize="0.8rem"
       padding=".25rem 1rem"
@@ -249,7 +345,7 @@ function AddButton({ onClick, isQuotationGenerating, ...props }) {
       onClick={onClick}
       {...props}
     >
-      {isQuotationGenerating ? "Veuillez patienter..." : "Ajouter"}
+      {isLoading ? "Veuillez patienter..." : "Ajouter"}
     </PillButton>
   )
 }
@@ -262,21 +358,16 @@ function QuotationsListHead({}) {
       <GridItem color="grey" fontSize="1rem">
         Status
       </GridItem>
-      <GridItem color="grey" fontSize="1rem" xs={2} md={2.5}></GridItem>
-      <GridItem color="grey" fontSize="1rem" xs={2} md={2.5}></GridItem>
-      <GridItem
-        color="grey"
-        fontSize="1rem"
-        xs={3.5}
-        md={2.5}
-        textAlign="right"
-      >
+      <GridItem color="grey" fontSize="1rem"></GridItem>
+      <GridItem color="grey" fontSize="1rem"></GridItem>
+      <GridItem color="grey" fontSize="1rem"></GridItem>
+      <GridItem color="grey" fontSize="1rem" textAlign="right">
         Créé le
       </GridItem>
     </Grid>
   )
 }
-function OrderListHead() {
+function InvoicesListHead() {
   return (
     <Grid container marginTop={2} minWidth="700px">
       <GridItem color="grey" fontSize="1rem" xs={2}>
@@ -288,6 +379,9 @@ function OrderListHead() {
       <GridItem color="grey" fontSize="1rem">
         Montant
       </GridItem>
+      <GridItem color="grey" fontSize="1rem">
+        Réglée
+      </GridItem>
       <GridItem color="grey" fontSize="1rem"></GridItem>
       <GridItem color="grey" fontSize="1rem" textAlign="right">
         Émise le
@@ -295,10 +389,23 @@ function OrderListHead() {
     </Grid>
   )
 }
-function OrderListItem({ invoice }) {
+function InvoicesListItem({ invoice, payments }) {
   const handleDownload = () => {
     if (invoice.path) return window.open(buildPublicURL(invoice.path))
   }
+  // Check if invoice matches a payment
+  const matchingPaymentIndex = Array.isArray(payments)
+    ? payments.findIndex(
+        (payment) =>
+          payment.amount === invoice.amount_paid &&
+          payment.status === "succeeded" &&
+          payment.invoice_number === invoice.number
+      )
+    : -1
+
+  let payment = null
+  if (matchingPaymentIndex !== -1) payment = payments[matchingPaymentIndex]
+
   return (
     <Stack sx={{ justifyContent: "space-between" }} minWidth="700px">
       <Grid container>
@@ -308,11 +415,26 @@ function OrderListItem({ invoice }) {
         </GridItem>
         <GridItem>{invoice.amount_paid / 100}€</GridItem>
         <GridItem>
-          <ActionButton
-            icon={<DownloadIcon />}
-            label="Télécharger"
-            onClick={handleDownload}
-          />
+          {!!payment ? (
+            <Tooltip
+              title={formatDayDate({ timestamp: payment.created_at })}
+              placement="right"
+              arrow
+            >
+              {!!payment?.created_at && PAYMENT_TYPES[payment.type].label}
+            </Tooltip>
+          ) : (
+            <>Marquer la facture comme réglée (soon)</>
+          )}
+        </GridItem>
+        <GridItem>
+          <Stack width="100%" alignItems="center">
+            <ActionButton
+              icon={<DownloadIcon />}
+              label="Télécharger"
+              onClick={handleDownload}
+            />
+          </Stack>
         </GridItem>
 
         <GridItem color="grey" textAlign="right">
