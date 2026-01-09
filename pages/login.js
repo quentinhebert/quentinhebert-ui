@@ -29,9 +29,15 @@ export default function LoginPage({ navbar, footer }) {
   return (
     <PagesLayout head={head} navbarData={navbar} footerData={footer}>
       {!user ? (
-        <Login_Main redirect={redirect || "/account"} />
+        <Login_Main
+          redirect={
+            redirect || user?.type === "admin" ? "dashboard" : "/account/orders"
+          }
+        />
       ) : !!user ? (
-        <Redirect target="/account" />
+        <Redirect
+          target={user?.type === "admin" ? "dashboard" : "/account/orders"}
+        />
       ) : (
         <Stack flexGrow={1} justifyContent="center">
           <PleaseWait />
