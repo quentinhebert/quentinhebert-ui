@@ -292,7 +292,7 @@ const application = {
     get: async () => {
       try {
         return await fetch(
-          `https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json`,
+          `https://cdn.simplelocalize.io/public/v1/countries`,
           {
             method: "GET",
             mode: "cors",

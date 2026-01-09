@@ -313,8 +313,8 @@ function SelectAddressSection({
                       flexDirection="row-reverse"
                       gap={1}
                     >
-                      <Stack>{option.name}</Stack>
-                      <Stack fontSize="1.5rem">{option.emoji}</Stack>
+                      <Stack>{option.name_local || option.name}</Stack>
+                      <Stack fontSize="1.5rem">{option.flag}</Stack>
                     </Stack>
                   </CustomSelectOption>
                 ))}
