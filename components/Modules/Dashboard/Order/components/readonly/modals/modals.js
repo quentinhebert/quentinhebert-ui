@@ -11,17 +11,18 @@ const ModalTagAsPaid = dynamic(() => import("./modal-tag-as-paid"))
 const ModalSendQuote = dynamic(() => import("./modal-send-quote"))
 const ModalCreateItem = dynamic(() => import("./modal-create-item"))
 const ModalClient = dynamic(() => import("./modal-client"))
+const ModalClientAddress = dynamic(() => import("./modal-client-address"))
 
 export default function Modals() {
-  const { state, handleCloseModal } = useContext(Context)
+  const { state, handleCloseModal, fetchOrder } = useContext(Context)
   return (
     <CustomModal open={state.openModal} handleClose={handleCloseModal} gap={4}>
-      <ModalContent />
+      <ModalContent fetchOrder={fetchOrder} />
     </CustomModal>
   )
 }
 
-function ModalContent() {
+function ModalContent({ fetchOrder }) {
   const { state } = useContext(Context)
   switch (state.modal) {
     case MODALS.CREATE_ITEM:
@@ -36,6 +37,13 @@ function ModalContent() {
       return <ModalPayment />
     case MODALS.TAG:
       return <ModalTagAsPaid />
+    case MODALS.CLIENT_ADDRESS:
+      return (
+        <ModalClientAddress
+          clientId={state.order.client?.id}
+          refreshData={fetchOrder}
+        />
+      )
     default: // MODALS.SAVE
       return <ModalSave />
   }

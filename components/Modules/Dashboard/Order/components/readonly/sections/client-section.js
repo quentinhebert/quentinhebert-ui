@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { Box, Table, TableCell, TableRow } from "@mui/material"
+import { Box, IconButton, Table, TableCell, TableRow } from "@mui/material"
 import EditIcon from "@mui/icons-material/Edit"
 
 import { Context, DocumentHeader, FormCard, MODALS } from "../../../module"
@@ -77,6 +77,9 @@ export default function ClientSection() {
               {state.order.client.postal_code || ""}{" "}
               {state.order.client.city || ""} {state.order.client.region || ""}{" "}
               {state.order.client.country || ""}
+              <SimpleEditButton
+                onClick={() => handleOpenModal(MODALS.CLIENT_ADDRESS)}
+              />
             </Value>
           </TableRow>
         </Table>
@@ -132,5 +135,12 @@ function EditButton({ onClick, label }) {
     >
       {label || "Modifier"}
     </PillButton>
+  )
+}
+function SimpleEditButton({ onClick, label }) {
+  return (
+    <IconButton color="secondary" onClick={onClick} size="small">
+      <EditIcon fontSize="inherit" />
+    </IconButton>
   )
 }

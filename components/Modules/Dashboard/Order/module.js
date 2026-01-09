@@ -234,6 +234,7 @@ export const MODALS = {
   EDIT_ITEM: "EDIT_ITEM",
   PAYMENT: "PAYMENT",
   TAG: "TAG",
+  CLIENT_ADDRESS: "CLIENT_ADDRESS",
 }
 export const PAYMENT_MODES = {
   ONCE: "ONCE",
@@ -319,12 +320,7 @@ export function ActionButton({ onClick, label, icon }) {
 }
 export function GridItem({ xs, md, textAlign, ...props }) {
   return (
-    <Grid
-      item
-      xs={xs || 2.5}
-      md={md || xs || 2.5}
-      textAlign={textAlign || "left"}
-    >
+    <Grid item xs={xs || 2} md={md || xs || 2} textAlign={textAlign || "left"}>
       <BodyText {...props} preventTransition fontSize="1rem" />
     </Grid>
   )

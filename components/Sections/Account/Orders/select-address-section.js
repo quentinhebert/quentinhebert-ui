@@ -14,7 +14,6 @@ import CustomCard from "../../../Cards/custom-card"
 import CenteredMaxWidthContainer from "../../../Containers/centered-max-width-container"
 import CustomCheckbox from "../../../Inputs/custom-checkbox"
 import CustomFilledInput from "../../../Inputs/custom-filled-input"
-import PageTitle from "../../../Titles/page-title"
 import DualInputLine from "../../../Containers/dual-input-line"
 import EastIcon from "@mui/icons-material/East"
 import BodyText from "../../../Text/body-text"
@@ -26,10 +25,12 @@ const AddressLine = (props) => (
 )
 
 function SelectAddressSection({
+  givenUserId,
   defaultId,
   setParentAddress,
   delivery,
   handleNext,
+  nextBtnText,
   handleBack,
   idImpossibleToDelete,
   setActionToFire,
@@ -39,7 +40,25 @@ function SelectAddressSection({
   setConfirmContent,
   setConfirmVariant,
 }) {
-  const { user } = useContext(UserContext)
+  const userContext = useContext(UserContext) // If no given user (default case when a client wants to update his address)
+
+  const [user, setUser] = useState({})
+
+  const fetchGivenUser = async () => {
+    // Only admin
+    // Case when admin wants to update a client's address
+    const res = await apiCall.users.get(givenUserId)
+    if (res && res.ok) {
+      const userData = await res.json()
+      setUser(userData)
+    } else console.error("Impossible de fetch le user")
+  }
+
+  useEffect(() => {
+    if (!!givenUserId) fetchGivenUser()
+    else setUser(userContext.user)
+  }, [])
+
   const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
 
   const [savedAddresses, setSavedAddresses] = useState([])
@@ -203,9 +222,9 @@ function SelectAddressSection({
   }
 
   useEffect(() => {
-    fetchSavedAddresses()
+    if (!!user?.id) fetchSavedAddresses()
     fetchCountries()
-  }, [])
+  }, [user])
 
   if (newAddress || edit)
     return (
@@ -481,12 +500,12 @@ function SelectAddressSection({
                   <PillButton
                     endIcon={<EastIcon />}
                     onClick={() => {
-                      handleNext()
                       setParentAddress(address)
+                      handleNext()
                     }}
                     display="flex"
                   >
-                    Utiliser cette adresse
+                    {nextBtnText || "Utiliser cette adresse"}
                   </PillButton>
                 )}
               </Stack>
