@@ -6,7 +6,7 @@ import apiCall from "../../../../services/apiCalls/apiCall"
 import Modals from "./components/readonly/modals/modals"
 import { AppContext } from "../../../../contexts/AppContext"
 import BodyText from "../../../Text/body-text"
-import { Box, Grid, Stack } from "@mui/material"
+import { Box, Button, Grid, Stack } from "@mui/material"
 import SmallTitle from "../../../Titles/small-title"
 import { checkBeforeGen } from "../../../../services/quotations"
 import useConfirm from "../../../../hooks/useConfirm"
@@ -301,21 +301,21 @@ export function DocumentType(props) {
 }
 export function ActionButton({ onClick, label, icon }) {
   return (
-    <GridItem
+    <Stack
       className="flex pointer gap-10"
-      preventTransition
       onClick={onClick}
       sx={{
+        flexDirection: "row",
         "&:hover": {
           color: (theme) => theme.palette.text.secondary,
         },
       }}
     >
       {icon}{" "}
-      <Box component="span" sx={{ display: { xs: "none", md: "block" } }}>
+      <Box component="span" sx={{ display: { xs: "none", lg: "block" } }}>
         {label}
       </Box>
-    </GridItem>
+    </Stack>
   )
 }
 export function GridItem({ xs, md, textAlign, ...props }) {

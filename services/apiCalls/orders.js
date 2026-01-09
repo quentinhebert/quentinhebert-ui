@@ -308,6 +308,24 @@ const orders = {
       console.error(err)
     }
   },
+  tagInvoiceAsPaid: async ({ invoice, paymentMethod, paymentDate }) => {
+    const body = { payment_method: paymentMethod, payment_date: paymentDate }
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/orders/invoice/${invoice.id}/paid`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
   getLastPaymentStatus: async (order = { id }) => {
     try {
       return await fetch(

@@ -14,9 +14,12 @@ export default function CustomDatePicker({
   noPicker,
   disabled,
   disablePast,
+  disableFuture,
 }) {
   let minDate = null
+  let maxDate = null
   if (disablePast) minDate = new Date()
+  if (disableFuture) maxDate = new Date()
 
   return (
     <Stack
@@ -30,6 +33,7 @@ export default function CustomDatePicker({
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"fr"}>
         <DatePicker
           minDate={minDate}
+          maxDate={maxDate}
           disabled={disabled}
           disableOpenPicker={noPicker}
           label={label || "Date"}

@@ -9,7 +9,7 @@ import {
   MODALS,
   MODES,
 } from "../../../module"
-import { Grid, Stack, Tooltip } from "@mui/material"
+import { Box, Button, Grid, Stack, Tooltip } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import BodyText from "../../../../../../Text/body-text"
 import RefreshButton from "../../../../../../Buttons/refresh-button"
@@ -23,14 +23,27 @@ import { AppContext } from "../../../../../../../contexts/AppContext"
 import apiCall from "../../../../../../../services/apiCalls/apiCall"
 import { checkBeforeGen } from "../../../../../../../services/quotations"
 import { INVOICETYPES } from "../../../../../../../enums/invoiceTypes"
-import { buildPublicURL } from "../../../../../../../services/utils"
+import {
+  buildPublicURL,
+  formatPrice,
+} from "../../../../../../../services/utils"
 import { PAYMENT_TYPES } from "../../../../../../../enums/paymentTypes"
 import useConfirm from "../../../../../../../hooks/useConfirm"
 import CustomModal from "../../../../../../Modals/custom-modal"
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange"
+import CustomDatePicker from "../../../../../../Inputs/custom-date-picker"
+import SelectPaymentMethod from "../select-payment-method"
+import ModalTagInvoiceAsPaid from "../modals/modal-tag-invoice-as-paid"
 
 export default function DocumentsSection() {
-  const { state, setState, fetchOrder, checkMissingFields, handleSend } =
-    useContext(Context)
+  const {
+    state,
+    setState,
+    fetchOrder,
+    checkMissingFields,
+    handleSend,
+    handleOpenModal,
+  } = useContext(Context)
   const { setSnackMessage, setSnackSeverity } = useContext(AppContext)
   const router = useRouter()
   const [isQuotationGenerating, setIsQuotationGenerating] = useState(false)
@@ -42,6 +55,8 @@ export default function DocumentsSection() {
     state.order.invoices?.length || 0
   )
   const Confirm = useConfirm()
+  const [openInvoiceModal, setOpenInvoiceModal] = useState(false)
+  const [selectedInvoice, setSelectedInvoice] = useState(null)
 
   useEffect(() => {
     const incomingTotal = state.order.quotations.length
@@ -159,6 +174,9 @@ export default function DocumentsSection() {
                     payments={state.order.payments}
                     router={router}
                     key={key}
+                    handleOpenModal={handleOpenModal}
+                    setOpenInvoiceModal={setOpenInvoiceModal}
+                    setSelectedInvoice={setSelectedInvoice}
                   />
                 ))}
             </Stack>
@@ -168,6 +186,17 @@ export default function DocumentsSection() {
 
       <CustomModal open={Confirm.open} handleClose={Confirm.handleClose}>
         <Confirm.DialogContent />
+      </CustomModal>
+
+      <CustomModal
+        open={openInvoiceModal}
+        handleClose={() => setOpenInvoiceModal()}
+        gap={4}
+      >
+        <ModalTagInvoiceAsPaid
+          invoice={selectedInvoice}
+          handleClose={() => setOpenInvoiceModal()}
+        />
       </CustomModal>
     </>
   )
@@ -389,10 +418,17 @@ function InvoicesListHead() {
     </Grid>
   )
 }
-function InvoicesListItem({ invoice, payments }) {
+function InvoicesListItem({
+  invoice,
+  payments,
+  setOpenInvoiceModal,
+  setSelectedInvoice,
+}) {
   const handleDownload = () => {
     if (invoice.path) return window.open(buildPublicURL(invoice.path))
   }
+
+  console.debug("payments", payments)
   // Check if invoice matches a payment
   const matchingPaymentIndex = Array.isArray(payments)
     ? payments.findIndex(
@@ -407,40 +443,49 @@ function InvoicesListItem({ invoice, payments }) {
   if (matchingPaymentIndex !== -1) payment = payments[matchingPaymentIndex]
 
   return (
-    <Stack sx={{ justifyContent: "space-between" }} minWidth="700px">
-      <Grid container>
-        <GridItem xs={2}>{invoice.number}</GridItem>
-        <GridItem textTransform="capitalize">
-          {INVOICETYPES[invoice.type]}
-        </GridItem>
-        <GridItem>{invoice.amount_paid / 100}€</GridItem>
-        <GridItem>
-          {!!payment ? (
-            <Tooltip
-              title={formatDayDate({ timestamp: payment.created_at })}
-              placement="right"
-              arrow
-            >
-              {!!payment?.created_at && PAYMENT_TYPES[payment.type].label}
-            </Tooltip>
-          ) : (
-            <>Marquer la facture comme réglée (soon)</>
-          )}
-        </GridItem>
-        <GridItem>
-          <Stack width="100%" alignItems="center">
-            <ActionButton
-              icon={<DownloadIcon />}
-              label="Télécharger"
-              onClick={handleDownload}
-            />
-          </Stack>
-        </GridItem>
+    <>
+      <Stack sx={{ justifyContent: "space-between" }} minWidth="700px">
+        <Grid container>
+          <GridItem xs={2}>{invoice.number}</GridItem>
+          <GridItem textTransform="capitalize">
+            {INVOICETYPES[invoice.type]}
+          </GridItem>
+          <GridItem>{invoice.amount_paid / 100}€</GridItem>
+          <GridItem>
+            {!!payment ? (
+              <Tooltip
+                title={formatDayDate({ timestamp: payment.created_at })}
+                placement="right"
+                arrow
+              >
+                {!!payment?.created_at && PAYMENT_TYPES[payment.type].label}
+              </Tooltip>
+            ) : (
+              <ActionButton
+                icon={<CurrencyExchangeIcon />}
+                label="Encaisser la facture"
+                onClick={() => {
+                  setSelectedInvoice(invoice)
+                  setOpenInvoiceModal(true)
+                }}
+              />
+            )}
+          </GridItem>
+          <GridItem>
+            <Stack width="100%" alignItems="center">
+              <ActionButton
+                icon={<DownloadIcon />}
+                label="Télécharger"
+                onClick={handleDownload}
+              />
+            </Stack>
+          </GridItem>
 
-        <GridItem color="grey" textAlign="right">
-          {formatDayDate({ timestamp: invoice.created_at })}
-        </GridItem>
-      </Grid>
-    </Stack>
+          <GridItem color="grey" textAlign="right">
+            {formatDayDate({ timestamp: invoice.created_at })}
+          </GridItem>
+        </Grid>
+      </Stack>
+    </>
   )
 }
