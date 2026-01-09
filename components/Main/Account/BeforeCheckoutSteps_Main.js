@@ -165,7 +165,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
         paddingTop="10px"
         alignSelf="flex-start"
         width="100%"
-        zIndex={1}
+        zIndex={5}
         bgcolor="background.black"
       >
         <CustomCard
