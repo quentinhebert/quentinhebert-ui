@@ -1,14 +1,11 @@
 import { Grid, Stack } from "@mui/material"
 import BodyText from "../../../../../Text/body-text"
-import { useEffect, useState } from "react"
 import CreditCardIcon from "@mui/icons-material/CreditCard"
 import MoneyIcon from "@mui/icons-material/Money"
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance"
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet"
 
-export default function SelectPaymentMethod({ setValue }) {
-  const [selectedId, setSelectedId] = useState(null)
-
+export default function SelectPaymentMethod({ method, setMethod }) {
   return (
     <Grid container>
       {PAYMENT_OPTIONS.map(({ id, label, icon }) => (
@@ -17,13 +14,10 @@ export default function SelectPaymentMethod({ setValue }) {
             bgcolor="#000"
             borderRadius={3}
             className="pointer"
-            onClick={() => {
-              setSelectedId(id)
-              setValue(id)
-            }}
+            onClick={() => setMethod(id)}
             sx={{
               border: (theme) =>
-                id === selectedId
+                id === method
                   ? `solid 1px ${theme.palette.secondary.main}`
                   : `solid 1px #000`,
               "&:hover": {
@@ -36,7 +30,7 @@ export default function SelectPaymentMethod({ setValue }) {
             }}
           >
             {icon}
-            <BodyText color={id === selectedId ? "secondary" : null}>
+            <BodyText color={id === method ? "secondary" : null}>
               {label}
             </BodyText>
           </Stack>

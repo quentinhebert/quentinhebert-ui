@@ -9,7 +9,7 @@ import {
   MODALS,
   MODES,
 } from "../../../module"
-import { Box, Button, Grid, Stack, Tooltip } from "@mui/material"
+import { Grid, Stack, Tooltip } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import BodyText from "../../../../../../Text/body-text"
 import RefreshButton from "../../../../../../Buttons/refresh-button"
@@ -23,16 +23,11 @@ import { AppContext } from "../../../../../../../contexts/AppContext"
 import apiCall from "../../../../../../../services/apiCalls/apiCall"
 import { checkBeforeGen } from "../../../../../../../services/quotations"
 import { INVOICETYPES } from "../../../../../../../enums/invoiceTypes"
-import {
-  buildPublicURL,
-  formatPrice,
-} from "../../../../../../../services/utils"
+import { buildPublicURL } from "../../../../../../../services/utils"
 import { PAYMENT_TYPES } from "../../../../../../../enums/paymentTypes"
 import useConfirm from "../../../../../../../hooks/useConfirm"
 import CustomModal from "../../../../../../Modals/custom-modal"
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange"
-import CustomDatePicker from "../../../../../../Inputs/custom-date-picker"
-import SelectPaymentMethod from "../select-payment-method"
 import ModalTagInvoiceAsPaid from "../modals/modal-tag-invoice-as-paid"
 
 export default function DocumentsSection() {
@@ -188,16 +183,12 @@ export default function DocumentsSection() {
         <Confirm.DialogContent />
       </CustomModal>
 
-      <CustomModal
+      <ModalTagInvoiceAsPaid
         open={openInvoiceModal}
-        handleClose={() => setOpenInvoiceModal()}
-        gap={4}
-      >
-        <ModalTagInvoiceAsPaid
-          invoice={selectedInvoice}
-          handleClose={() => setOpenInvoiceModal()}
-        />
-      </CustomModal>
+        invoice={selectedInvoice}
+        handleClose={() => setOpenInvoiceModal(false)}
+        refreshData={fetchOrder}
+      />
     </>
   )
 
@@ -428,7 +419,6 @@ function InvoicesListItem({
     if (invoice.path) return window.open(buildPublicURL(invoice.path))
   }
 
-  console.debug("payments", payments)
   // Check if invoice matches a payment
   const matchingPaymentIndex = Array.isArray(payments)
     ? payments.findIndex(
