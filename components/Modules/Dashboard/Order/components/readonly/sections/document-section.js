@@ -23,7 +23,10 @@ import { AppContext } from "../../../../../../../contexts/AppContext"
 import apiCall from "../../../../../../../services/apiCalls/apiCall"
 import { checkBeforeGen } from "../../../../../../../services/quotations"
 import { INVOICETYPES } from "../../../../../../../enums/invoiceTypes"
-import { buildPublicURL } from "../../../../../../../services/utils"
+import {
+  buildPublicURL,
+  formatPrice,
+} from "../../../../../../../services/utils"
 import { PAYMENT_TYPES } from "../../../../../../../enums/paymentTypes"
 import useConfirm from "../../../../../../../hooks/useConfirm"
 import CustomModal from "../../../../../../Modals/custom-modal"
@@ -144,11 +147,6 @@ export default function DocumentsSection() {
                   loading={state.isFetching}
                 />
                 <AddButton
-                  disabled={
-                    isInvoiceGenerating ||
-                    state.order.invoices.length ===
-                      state.order.payment_fractions.length
-                  }
                   onClick={handleGenerateInvoiceToPay}
                   isLoading={isInvoiceGenerating}
                 />
@@ -440,7 +438,7 @@ function InvoicesListItem({
           <GridItem textTransform="capitalize">
             {INVOICETYPES[invoice.type]}
           </GridItem>
-          <GridItem>{invoice.amount_paid / 100}€</GridItem>
+          <GridItem>{formatPrice(invoice.amount_paid)}€</GridItem>
           <GridItem>
             {!!payment ? (
               <Tooltip
