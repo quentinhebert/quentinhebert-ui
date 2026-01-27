@@ -5,6 +5,14 @@ import { useInView } from "react-intersection-observer"
 
 const data = [
   {
+    url: "https://www.youtube.com/embed/hKdZa0Hhfxc",
+    teaser: "https://www.youtube.com/embed/TvDJ7pT_ws8",
+  },
+  {
+    url: "https://www.youtube.com/embed/C_ENoZrtlB4",
+    teaser: "https://www.youtube.com/embed/g2humxzl-3g",
+  },
+  {
     url: "https://www.youtube.com/embed/AatbVWu-6ww",
     teaser: "https://www.youtube.com/embed/Inig-aZCo90",
   },

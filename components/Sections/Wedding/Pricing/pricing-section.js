@@ -1,5 +1,12 @@
 import React, { useContext, useEffect } from "react"
-import { Box, Divider, Stack, Typography, useMediaQuery } from "@mui/material"
+import {
+  Box,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+  useMediaQuery,
+} from "@mui/material"
 import AnimateHeight from "react-animate-height"
 import { useAnimation, motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
@@ -87,17 +94,21 @@ export default function PricingSection(props) {
             </Stack>
 
             <Stack
-              flexDirection={{ xs: "column", md: "row" }}
+              flexDirection={{ xs: "column", lg: "row" }}
               width="100%"
               gap="2rem"
             >
               <Card>
-                <Title>Format court</Title>
-                <Typography color="grey" fontStyle="italic" textAlign="center">
-                  Un format compact qui retrace les plus beaux moments du jour
-                  J.
+                <Title>Le Grand Jour</Title>
+                <Typography
+                  color="grey"
+                  fontStyle="italic"
+                  textAlign="center"
+                  minHeight={50}
+                >
+                  « Un voyage émotionnel à travers les plus beaux instants de
+                  votre mariage. »
                 </Typography>
-                <Price>1800 €</Price>
                 <Divider sx={{ my: { xs: 1, md: 2 } }} />
                 <Feature icon="🍿">
                   Teaser <Strong>(2 min)</Strong>
@@ -105,64 +116,83 @@ export default function PricingSection(props) {
                 <Feature icon="🎬">
                   Film <Strong>(8 min)</Strong>
                 </Feature>
-                <Feature icon="🎥" noDivider={true}>
-                  <Strong>8h de présence</Strong> le jour J *
+                <Feature icon="🎥" noDivider>
+                  <Strong>8h de présence</Strong> le jour J
                 </Feature>
                 <MoreText>
-                  <MediumText>
-                    Généralement de la cérémonie jusqu’au gâteau.
-                  </MediumText>
-                  <SmallText>
-                    * Surfacturation au-delà de 8h (150€ / heure supplémentaire
-                    entamée)
-                  </SmallText>
+                  Généralement de la cérémonie jusqu’au gâteau. Surfacturation
+                  au-delà de 8h (150€ / heure supplémentaire entamée).
                 </MoreText>
-                <Feature icon="🎤">
-                  Enregistrement des discours <Strong>(option +250€)</Strong>
+                <Feature icon="🎤">Enregistrement des discours</Feature>
+                <Feature icon="🎥" noDivider invisible>
+                  <Strong>Séance couple - A Love Story</Strong>
                 </Feature>
-                <Feature icon="🎞️">
-                  Livraison des discours intégraux{" "}
-                  <Strong>(option +400€)</Strong>
-                </Feature>
-                <Feature icon="⏱️" noDivider={true}>
-                  Présence journée entière <Strong>(option +400€)</Strong>
-                </Feature>
-                <MoreText noDivider={true}>
-                  <MediumText>
-                    Des préparatifs à la soirée, pas de surfacturation.
-                  </MediumText>
+                <MoreText noDivider invisible>
+                  Une journée de tournage supplémentaire, avant ou après votre
+                  grand jour dans des décors poétiques, pour créer des séquences
+                  dignes du cinéma.
                 </MoreText>
+                <Divider sx={{ margin: "4rem 0 1rem 0" }}>
+                  <Typography color="secondary">OPTIONS</Typography>
+                </Divider>
+                <Feature icon="🎞️" noDivider option="+400€">
+                  Livraison des discours intégraux
+                </Feature>
+                <Feature icon="⏱️" noDivider option="+400€">
+                  Présence journée entière
+                </Feature>
+                <MoreText>
+                  Des préparatifs à la soirée, pas de surfacturation.
+                </MoreText>
+                <FromPrice>1900 €</FromPrice>
               </Card>
 
               <Card>
-                <Title>Format long</Title>
-                <Typography color="grey" fontStyle="italic" textAlign="center">
-                  Un format gourmand, pour ceux qui aiment prendre leur temps.
+                <Title>A Love Story</Title>
+                <Typography
+                  color="grey"
+                  fontStyle="italic"
+                  textAlign="center"
+                  minHeight={50}
+                >
+                  « Une fresque romantique mêlant authenticité et cinéma. »
                 </Typography>
-                <Price>2500 €</Price>
                 <Divider sx={{ my: { xs: 1, md: 2 } }} />
                 <Feature icon="🍿">
                   Teaser <Strong>(2 min)</Strong>
                 </Feature>
                 <Feature icon="🎬">
-                  Film <Strong>(15 min)</Strong>
+                  Film <Strong>(12 min)</Strong>
                 </Feature>
                 <Feature icon="🎥" noDivider={true}>
-                  <Strong>+12h de présence</Strong> le jour J *
+                  <Strong>+12h de présence</Strong> le jour J
                 </Feature>
                 <MoreText>
-                  <MediumText>Des préparatifs à la soirée.</MediumText>
-                  <SmallText>
-                    * Pas de surfacturation en cas de dépassement
-                  </SmallText>
+                  Du début des préparatifs à la soirée. Pas de surfacturation en
+                  cas de dépassement.
                 </MoreText>
-                <Feature icon="🎤">
-                  Enregistrement des discours <Strong>(inclus)</Strong>
+                <Feature icon="🎤">Enregistrement des discours</Feature>
+                <Feature icon="🎥" noDivider>
+                  <Strong>Séance couple</Strong> - A Love Story
                 </Feature>
-                <Feature icon="🎞️" noDivider>
-                  Livraison des discours intégraux{" "}
-                  <Strong>(option +400€)</Strong>
+                <MoreText noDivider>
+                  Une journée de tournage supplémentaire, avant ou après votre
+                  grand jour dans des décors poétiques, pour créer des séquences
+                  dignes du cinéma.
+                </MoreText>
+                <Divider sx={{ margin: "4rem 0 1rem 0" }}>
+                  <Typography color="secondary">OPTIONS</Typography>
+                </Divider>
+                <Feature icon="🎞️" noDivider option="+400€">
+                  Livraison des discours intégraux
                 </Feature>
+                <Feature icon="⏱️" noDivider option="+400€" invisible>
+                  Présence journée entière
+                </Feature>
+                <MoreText invisible>
+                  Des préparatifs à la soirée, pas de surfacturation.
+                </MoreText>
+                <FromPrice>3000 €</FromPrice>
               </Card>
             </Stack>
           </Stack>
@@ -176,7 +206,7 @@ function Card({ ...props }) {
   return (
     <Stack
       bgcolor="black"
-      width={{ xs: "100%", md: "50%" }}
+      width={{ xs: "100%", lg: "50%" }}
       borderRadius="50px"
       padding="2rem"
       {...props}
@@ -191,15 +221,23 @@ function Title({ ...props }) {
       fontSize={"3rem !important"}
       alignSelf="center"
       my={2}
+      fontWeight="bold !important"
+      letterSpacing="-0.15rem"
       {...props}
     />
   )
 }
-function Price({ ...props }) {
+function FromPrice({ ...props }) {
   return (
     <>
-      <Typography color="secondary" variant="h4" alignSelf="center" mt={2}>
-        <Box component="span" mr={1} sx={{ fontSize: "0.6rem" }}>
+      <Typography
+        color="secondary"
+        variant="h3"
+        fontSize="4rem !important"
+        alignSelf="center"
+        mt={2}
+      >
+        <Box component="span" mr={1} sx={{ fontSize: "1.3rem" }}>
           À partir de
         </Box>
         <span {...props} />
@@ -207,23 +245,68 @@ function Price({ ...props }) {
     </>
   )
 }
-function Feature({ icon, noDivider, ...props }) {
+function Feature({ icon, noDivider, option, invisible, ...props }) {
   return (
     <>
-      <Stack flexDirection="row" alignItems="center">
-        <Typography fontSize="2rem" mr="1rem">
-          {icon}
-        </Typography>
-        <Typography color="#fff" fontSize="1.5rem" {...props} />
-      </Stack>
+      <Grid
+        container
+        width="100%"
+        sx={{ visibility: invisible ? "hidden" : "visible" }}
+      >
+        <Grid item xs={1} display="flex" alignItems="center">
+          <Typography fontSize="2rem" mr="1rem">
+            {icon}
+          </Typography>
+        </Grid>
+        <Grid item xs={8} display="flex" alignItems="center" paddingLeft={2}>
+          <Typography
+            color="#fff"
+            fontSize="1.5rem"
+            lineHeight="1.7rem"
+            {...props}
+          />
+        </Grid>
+        <Grid
+          item
+          xs={3}
+          display="flex"
+          alignItems="center"
+          justifyContent="end"
+        >
+          <Typography color="#fff" fontSize="1rem" fontStyle="italic">
+            {!!option ? option : "Inclus"}
+          </Typography>
+        </Grid>
+      </Grid>
       {!noDivider ? <Divider sx={{ my: { xs: 1, md: 2 } }} /> : <></>}
     </>
   )
 }
-function MoreText({ noDivider, ...props }) {
+function MoreText({ noDivider, invisible, ...props }) {
   return (
     <>
-      <Stack pl={6} {...props} />
+      <Grid
+        container
+        width="100%"
+        sx={{ visibility: invisible ? "hidden" : "visible" }}
+      >
+        <Grid item xs={1} />
+        <Grid item xs={8} display="flex" alignItems="center" paddingLeft={2}>
+          <Typography
+            color="#fff"
+            fontSize="0.8rem"
+            sx={{
+              fontSize: "0.7rem",
+              fontWeight: "light",
+              color: "grey",
+              fontStyle: "italic",
+              textAlign: "justify",
+            }}
+            {...props}
+          />
+        </Grid>
+        <Grid item xs={3} />
+      </Grid>
       {noDivider ? (
         <></>
       ) : (
@@ -239,32 +322,6 @@ function Strong({ ...props }) {
       sx={{
         fontWeight: "bold",
         color: (theme) => theme.palette.secondary.main,
-      }}
-      {...props}
-    />
-  )
-}
-function SmallText({ ...props }) {
-  return (
-    <Typography
-      mt={4}
-      sx={{
-        fontSize: "0.7rem",
-        fontWeight: "light",
-        color: "grey",
-        fontStyle: "italic",
-        textAlign: "justify",
-      }}
-      {...props}
-    />
-  )
-}
-function MediumText({ ...props }) {
-  return (
-    <Typography
-      sx={{
-        fontSize: "1rem",
-        color: "#fff",
       }}
       {...props}
     />
