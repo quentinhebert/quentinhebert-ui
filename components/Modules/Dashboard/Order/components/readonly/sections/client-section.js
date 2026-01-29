@@ -82,6 +82,22 @@ export default function ClientSection() {
               />
             </Value>
           </TableRow>
+          {!!state.order.client.siret ? (
+            <>
+              <TableRow>
+                <Title>SIRET</Title>
+                <Value>{state.order.client.siret}</Value>
+              </TableRow>
+              <TableRow>
+                <Title>N° TVA</Title>
+                <Value>
+                  {state.order.client.vat_number || <UndefinedValue />}
+                </Value>
+              </TableRow>
+            </>
+          ) : (
+            <></>
+          )}
         </Table>
       </FormCard>
     </>

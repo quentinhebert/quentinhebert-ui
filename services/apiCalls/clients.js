@@ -23,6 +23,7 @@ const clients = {
       firstname,
       lastname,
       vat_number,
+      siret,
       company,
       phone,
       line1,
@@ -31,7 +32,7 @@ const clients = {
       city,
       region,
       country,
-    }
+    },
   ) => {
     try {
       const body = JSON.stringify(props)
@@ -73,7 +74,7 @@ const clients = {
               Authorization: `Bearer ${await getFreshToken()}`,
               "Content-Type": "application/json",
             },
-          }
+          },
         )
       } catch (err) {
         console.error(err)
@@ -102,7 +103,7 @@ const clients = {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(body),
-          }
+          },
         )
       } catch (err) {
         console.error(err)
@@ -131,7 +132,7 @@ const clients = {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(body),
-          }
+          },
         )
       } catch (err) {
         console.error(err)
@@ -148,7 +149,7 @@ const clients = {
               Authorization: `Bearer ${await getFreshToken()}`,
               "Content-Type": "application/json",
             },
-          }
+          },
         )
       } catch (err) {
         console.error(err)

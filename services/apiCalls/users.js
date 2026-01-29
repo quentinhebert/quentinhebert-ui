@@ -21,7 +21,7 @@ const users = {
   create: async ({ userData }) => {
     try {
       const encodedPassword = new Buffer.from(userData.password).toString(
-        "base64"
+        "base64",
       )
       const payload = {
         email: userData.email,
@@ -32,6 +32,7 @@ const users = {
         type: userData.type,
         company: userData.company,
         vat_number: userData.vat_number,
+        siret: userData.siret,
       }
       return await fetch(`${defaultConfig.apiUrl}/users`, {
         method: "POST",
@@ -123,7 +124,7 @@ const users = {
           headers: {
             Authorization: `Bearer ${await getFreshToken()}`,
           },
-        }
+        },
       )
     } catch (err) {
       console.error(err)
@@ -173,7 +174,7 @@ const users = {
             Authorization: `Bearer ${await getFreshToken()}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       )
     } catch (err) {
       console.error(err)
@@ -227,7 +228,7 @@ const users = {
             headers: {
               Authorization: `Bearer ${await getFreshToken()}`,
             },
-          }
+          },
         )
       } catch (err) {
         console.error(err)
@@ -268,10 +269,10 @@ const users = {
       update: async (user) => {
         try {
           const encodedPassword = new Buffer.from(user.password).toString(
-            "base64"
+            "base64",
           )
           const encodedNewPassword = new Buffer.from(user.newPassword).toString(
-            "base64"
+            "base64",
           )
           const payload = {
             password: encodedPassword,
@@ -286,7 +287,7 @@ const users = {
                 Authorization: `Bearer ${await getFreshToken()}`,
                 "Content-Type": "application/json",
               },
-            }
+            },
           )
         } catch (err) {
           console.error(err)
@@ -317,7 +318,7 @@ const users = {
               headers: {
                 "Content-Type": "application/json",
               },
-            }
+            },
           )
         } catch (error) {
           console.error(error)
@@ -336,7 +337,7 @@ const users = {
               headers: {
                 "Content-Type": "application/json",
               },
-            }
+            },
           )
         } catch (error) {
           console.error(error)
@@ -395,7 +396,7 @@ const users = {
               Authorization: `Bearer ${await getFreshToken()}`,
               "Content-Type": "application/json",
             },
-          }
+          },
         )
       } catch (err) {
         console.error(err)
@@ -429,7 +430,7 @@ const users = {
                 Accept: "application/json",
                 Authorization: `Bearer ${googleAccessToken}`,
               },
-            }
+            },
           )
         } catch (error) {
           console.error(error)
@@ -448,7 +449,7 @@ const users = {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${facebookAccessToken}`,
               },
-            }
+            },
           )
         } catch (error) {
           console.error(error)
@@ -470,7 +471,7 @@ const users = {
               "Content-Type": "application/json",
               Authorization: `Bearer ${await getFreshToken()}`,
             },
-          }
+          },
         )
       } catch (error) {
         console.error(error)

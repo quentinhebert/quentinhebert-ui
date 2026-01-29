@@ -219,6 +219,8 @@ export default function SignUpForm({
     if (!isCompany || (isCompany && userData.vat_number?.trim() === ""))
       notRequiredFields.push("vat_number")
 
+    if (!isCompany) notRequiredFields.push("siret")
+
     // Let's check that all input values are not null and not empty string
     Object.keys(userData).map((key) => {
       if (
