@@ -60,6 +60,7 @@ export default function QuotationClientFieldsForm({
     country: defaultClient?.country || "FRANCE",
     vat_number: defaultClient?.vat_number || "",
     company: defaultClient?.company || "",
+    siret: defaultClient?.siret || "",
   }
 
   // Set initial errors on false
@@ -72,6 +73,7 @@ export default function QuotationClientFieldsForm({
   const [isProcessing, setIsProcessing] = useState(false)
   const [accept, setAccept] = useState({ policy: false })
   const [isCompany, setIsCompany] = useState(false)
+  const [hasVAT, setHasVAT] = useState(false)
 
   const liveCheck = {
     email:
@@ -81,6 +83,10 @@ export default function QuotationClientFieldsForm({
     vat_number:
       errors.vat_number ||
       (client.vat_number.trim() !== "" && !checkVATnumber(client.vat_number)),
+    siret:
+      errors.siret ||
+      (client.siret.trim() !== "" && String(client.siret).length !== 14) ||
+      isNaN(client.siret),
   }
 
   const handleChange = (attribute) => (e) =>
@@ -91,6 +97,7 @@ export default function QuotationClientFieldsForm({
   }
 
   const toggleShowCompany = (e) => setIsCompany(e.target.checked)
+  const toggleShowVAT = (e) => setHasVAT(e.target.checked)
 
   const handleGeneratePDF = async () => {
     setIsProcessing(true)
@@ -189,33 +196,54 @@ export default function QuotationClientFieldsForm({
       </Card>
 
       <Card title="Entreprise">
-        <CustomFilledInput
-          label="Nom de l'entreprise (optionnel)"
-          value={client.company}
-          onChange={handleChange("company")}
-          error={errors.company}
+        <CustomCheckbox
+          label="Je suis une entreprise..."
+          onChange={toggleShowCompany}
+          value={isCompany}
+          labelcolor={(theme) => theme.palette.text.white}
+          fontSize="1rem"
         />
-        <DualInputLine>
-          <CustomCheckbox
-            label="Je suis une entreprise assujettie à la TVA"
-            onChange={toggleShowCompany}
-            value={isCompany}
-            labelcolor={(theme) => theme.palette.text.white}
-            fontSize="1rem"
-          />
-          {isCompany && (
+        {isCompany ? (
+          <>
             <CustomFilledInput
-              label="N° TVA intracommunautaire"
-              placeholder="FRXXXXXXXXXXX"
-              value={client.vat_number}
-              onChange={handleChange("vat_number")}
-              error={liveCheck.vat_number || errors.vat_number}
+              label="SIRET"
+              placeholder="14 chiffres"
+              value={client.siret}
+              onChange={handleChange("siret")}
+              error={liveCheck.siret || errors.siret}
               helperText={
-                liveCheck.phone && "Ce numéro de TVA n'est pas valide"
+                liveCheck.siret && "Ce numéro de SIRET n'est pas valide"
               }
             />
-          )}
-        </DualInputLine>
+            <CustomFilledInput
+              label="Nom de l'entreprise (optionnel)"
+              value={client.company}
+              onChange={handleChange("company")}
+              error={errors.company}
+            />
+            <CustomCheckbox
+              label="... assujettie à la TVA"
+              onChange={toggleShowVAT}
+              value={isCompany}
+              labelcolor={(theme) => theme.palette.text.white}
+              fontSize="1rem"
+            />
+            {hasVAT && (
+              <CustomFilledInput
+                label="N° TVA intracommunautaire"
+                placeholder="FRXXXXXXXXXXX"
+                value={client.vat_number}
+                onChange={handleChange("vat_number")}
+                error={liveCheck.vat_number || errors.vat_number}
+                helperText={
+                  liveCheck.phone && "Ce numéro de TVA n'est pas valide"
+                }
+              />
+            )}
+          </>
+        ) : (
+          <></>
+        )}
       </Card>
 
       <Card title="Adresse postale">

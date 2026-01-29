@@ -22,7 +22,6 @@ import BottomButtons from "../Buttons/bottom-buttons"
 import { useGoogleLogin } from "@react-oauth/google"
 import CustomFilledInput from "../Inputs/custom-filled-input"
 import { useLogin } from "react-facebook"
-import { MuiTelInput, matchIsValidTel } from "mui-tel-input"
 import CustomFilledPhoneInput from "../Inputs/custom-filled-phone-input"
 
 const OAUTH_TYPES = { GOOGLE: "Google", FACEBOOK: "Facebook", APPLE: "Apple" }
@@ -104,6 +103,7 @@ export default function SignUpForm({
     phone: defaultValues?.phone || "",
     company: defaultValues?.company || "",
     vat_number: defaultValues?.vat_number || "",
+    siret: defaultValues?.siret || "",
     type: isAdmin ? "" : USERTYPES.CLIENT,
   }
   // Set initial errors on false
@@ -161,6 +161,10 @@ export default function SignUpForm({
       signupErrors.vat_number ||
       (userData.vat_number.trim() !== "" &&
         !checkVATnumber(userData.vat_number)),
+    siret:
+      errors.siret ||
+      (userData.siret.trim() !== "" && String(userData.siret).length !== 14) ||
+      isNaN(userData.siret),
   }
 
   /********** FUNCTIONS **********/
@@ -194,7 +198,7 @@ export default function SignUpForm({
   const handleSignUpIncomplete = () => {
     setSnackSeverity("error")
     setSnackMessage(
-      "L'inscription a échouée, veuillez vérifier tous les champs"
+      "L'inscription a échouée, veuillez vérifier tous les champs",
     )
   }
   const handleDuplicateSignup = () => {
@@ -443,6 +447,16 @@ export default function SignUpForm({
                     label="Nom de l'entreprise (optionnel)"
                     value={userData.company}
                     onChange={handleChange("company")}
+                  />
+                  <CustomFilledInput
+                    label="SIRET"
+                    placeholder="14 chiffres"
+                    value={userData.siret}
+                    onChange={handleChange("siret")}
+                    error={liveCheck.siret || signupErrors.siret}
+                    helperText={
+                      liveCheck.siret && "Ce numéro de SIRET n'est pas valide"
+                    }
                   />
                   <CustomFilledInput
                     label="N° TVA intracommunautaire"
