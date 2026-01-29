@@ -12,11 +12,11 @@ export function useSnack() {
     handleError,
   }) => {
     if (condition) {
-      setSnackMessage(successMsg)
+      if (!!successMsg) setSnackMessage(successMsg)
       setSnackSeverity("success")
       if (!!handleSuccess) handleSuccess()
     } else {
-      setSnackMessage(errorMsg)
+      if (!!errorMsg) setSnackMessage(errorMsg)
       setSnackSeverity("error")
       if (!!handleError) handleError()
     }
