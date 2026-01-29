@@ -158,7 +158,7 @@ export default function OrderModule({ id, defaultMode }) {
     const errors = checkBeforeGen(state.order)
 
     const errorsCount = Object.values(errors).filter(
-      (elt) => elt === true
+      (elt) => elt === true,
     ).length
     if (errorsCount !== 0 && !(errorsCount === 1 && errors.client))
       return errors

@@ -28,7 +28,7 @@ const orders = {
             Authorization: `Bearer ${await getFreshToken()}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       )
     } catch (err) {
       console.error(err)
@@ -116,7 +116,7 @@ const orders = {
       additional_mentions,
       activity_type,
     },
-    items
+    items,
   ) => {
     const body = { ...order, items }
     try {
@@ -150,7 +150,7 @@ const orders = {
     //   no_vat,
     //   payment_delay_penalties,
     // }
-    body
+    body,
   ) => {
     try {
       return await fetch(`${defaultConfig.apiUrl}/orders/${body.id}`, {
@@ -269,7 +269,7 @@ const orders = {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(body),
-        }
+        },
       )
     } catch (err) {
       console.error(err)
@@ -287,7 +287,7 @@ const orders = {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(body),
-        }
+        },
       )
     } catch (err) {
       console.error(err)
@@ -320,7 +320,23 @@ const orders = {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(body),
-        }
+        },
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  getFacturXjson: async ({ invoice }) => {
+    try {
+      return await fetch(
+        `${defaultConfig.apiUrl}/orders/invoice/${invoice.id}/factur-x-json`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${await getFreshToken()}`,
+            "Content-Type": "application/json",
+          },
+        },
       )
     } catch (err) {
       console.error(err)
@@ -336,7 +352,7 @@ const orders = {
             Authorization: `Bearer ${await getFreshToken()}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       )
     } catch (err) {
       console.error(err)

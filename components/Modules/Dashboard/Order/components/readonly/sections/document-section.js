@@ -32,6 +32,8 @@ import useConfirm from "../../../../../../../hooks/useConfirm"
 import CustomModal from "../../../../../../Modals/custom-modal"
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange"
 import ModalTagInvoiceAsPaid from "../modals/modal-tag-invoice-as-paid"
+import CodeIcon from "@mui/icons-material/Code"
+import ModalFacturXjson from "../modals/modal-facturx-json"
 
 export default function DocumentsSection() {
   const {
@@ -47,14 +49,15 @@ export default function DocumentsSection() {
   const [isQuotationGenerating, setIsQuotationGenerating] = useState(false)
   const [isInvoiceGenerating, setIsInvoiceGenerating] = useState(false)
   const [totalQuotes, setTotalQuotes] = useState(
-    state.order.quotations?.length || 0
+    state.order.quotations?.length || 0,
   )
   const [expectedTotalInvoices, setExpectedTotalInvoices] = useState(
-    state.order.invoices?.length || 0
+    state.order.invoices?.length || 0,
   )
   const Confirm = useConfirm()
-  const [openInvoiceModal, setOpenInvoiceModal] = useState(false)
   const [selectedInvoice, setSelectedInvoice] = useState(null)
+  const [openInvoiceModal, setOpenInvoiceModal] = useState(false)
+  const [openJsonFacturXModal, setOpenJsonFacturXModal] = useState(false)
 
   useEffect(() => {
     const incomingTotal = state.order.quotations.length
@@ -169,6 +172,7 @@ export default function DocumentsSection() {
                     key={key}
                     handleOpenModal={handleOpenModal}
                     setOpenInvoiceModal={setOpenInvoiceModal}
+                    setOpenJsonFacturXModal={setOpenJsonFacturXModal}
                     setSelectedInvoice={setSelectedInvoice}
                   />
                 ))}
@@ -187,6 +191,15 @@ export default function DocumentsSection() {
         handleClose={() => setOpenInvoiceModal(false)}
         refreshData={fetchOrder}
       />
+      {openJsonFacturXModal ? (
+        <ModalFacturXjson
+          open={openJsonFacturXModal}
+          invoice={selectedInvoice}
+          handleClose={() => setOpenJsonFacturXModal(false)}
+        />
+      ) : (
+        <></>
+      )}
     </>
   )
 
@@ -209,7 +222,7 @@ export default function DocumentsSection() {
       setSnackMessage(
         err.message === "missing_fields"
           ? "Certains champs sont manquants dans les conditions et mentions obligatoires."
-          : err.message
+          : err.message,
       )
 
       if (err.message === "missing_fields")
@@ -260,8 +273,8 @@ export default function DocumentsSection() {
         err.message === "missing_fields"
           ? "Certains champs sont manquants dans les conditions et mentions obligatoires."
           : err.message === "missing_client_fields"
-          ? "Merci de vérifier les informations du client"
-          : err.message
+            ? "Merci de vérifier les informations du client"
+            : err.message,
       )
 
       if (err.message === "missing_fields")
@@ -333,7 +346,7 @@ function QuotationsListItem({ quotation }) {
     const localErrors = checkBeforeGen(state.order)
     setState({ ...state, errors: localErrors })
     const errorsCount = Object.values(localErrors).filter(
-      (elt) => elt === true
+      (elt) => elt === true,
     ).length
 
     // No problem
@@ -394,13 +407,14 @@ function InvoicesListHead() {
       <GridItem color="grey" fontSize="1rem">
         Type
       </GridItem>
-      <GridItem color="grey" fontSize="1rem">
+      <GridItem color="grey" fontSize="1rem" xs={2} md={1}>
         Montant
       </GridItem>
       <GridItem color="grey" fontSize="1rem">
         Réglée
       </GridItem>
       <GridItem color="grey" fontSize="1rem"></GridItem>
+      <GridItem color="grey" fontSize="1rem" xs={0} md={1}></GridItem>
       <GridItem color="grey" fontSize="1rem" textAlign="right">
         Émise le
       </GridItem>
@@ -412,6 +426,7 @@ function InvoicesListItem({
   payments,
   setOpenInvoiceModal,
   setSelectedInvoice,
+  setOpenJsonFacturXModal,
 }) {
   const handleDownload = () => {
     if (invoice.path) return window.open(buildPublicURL(invoice.path))
@@ -423,7 +438,7 @@ function InvoicesListItem({
         (payment) =>
           payment.amount === invoice.amount_paid &&
           payment.status === "succeeded" &&
-          payment.invoice_number === invoice.number
+          payment.invoice_number === invoice.number,
       )
     : -1
 
@@ -438,7 +453,9 @@ function InvoicesListItem({
           <GridItem textTransform="capitalize">
             {INVOICETYPES[invoice.type]}
           </GridItem>
-          <GridItem>{formatPrice(invoice.amount_paid)}€</GridItem>
+          <GridItem xs={2} md={1}>
+            {formatPrice(invoice.amount_paid)}€
+          </GridItem>
           <GridItem>
             {!!payment ? (
               <Tooltip
@@ -459,12 +476,26 @@ function InvoicesListItem({
               />
             )}
           </GridItem>
+
           <GridItem>
             <Stack width="100%" alignItems="center">
               <ActionButton
                 icon={<DownloadIcon />}
                 label="Télécharger"
                 onClick={handleDownload}
+              />
+            </Stack>
+          </GridItem>
+
+          <GridItem xs={0} md={1}>
+            <Stack width="100%" alignItems="center">
+              <ActionButton
+                icon={<CodeIcon />}
+                label="Facture-X"
+                onClick={() => {
+                  setSelectedInvoice(invoice)
+                  setOpenJsonFacturXModal(true)
+                }}
               />
             </Stack>
           </GridItem>
