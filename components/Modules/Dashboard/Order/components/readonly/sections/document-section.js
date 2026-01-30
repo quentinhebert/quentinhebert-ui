@@ -174,6 +174,7 @@ export default function DocumentsSection() {
                     setOpenInvoiceModal={setOpenInvoiceModal}
                     setOpenJsonFacturXModal={setOpenJsonFacturXModal}
                     setSelectedInvoice={setSelectedInvoice}
+                    isCompany={!!state.order.client?.siret}
                   />
                 ))}
             </Stack>
@@ -407,14 +408,14 @@ function InvoicesListHead() {
       <GridItem color="grey" fontSize="1rem">
         Type
       </GridItem>
-      <GridItem color="grey" fontSize="1rem" xs={2} md={1}>
+      <GridItem color="grey" fontSize="1rem" xs={2} lg={1}>
         Montant
       </GridItem>
-      <GridItem color="grey" fontSize="1rem">
-        Réglée
+      <GridItem color="grey" fontSize="1rem" textAlign="right" xs={2} lg={1}>
+        Réglée le
       </GridItem>
-      <GridItem color="grey" fontSize="1rem"></GridItem>
-      <GridItem color="grey" fontSize="1rem" xs={0} md={1}></GridItem>
+      <GridItem color="grey" fontSize="1rem" xs={1} lg={2}></GridItem>
+      <GridItem color="grey" fontSize="1rem" xs={1} lg={2}></GridItem>
       <GridItem color="grey" fontSize="1rem" textAlign="right">
         Émise le
       </GridItem>
@@ -427,6 +428,7 @@ function InvoicesListItem({
   setOpenInvoiceModal,
   setSelectedInvoice,
   setOpenJsonFacturXModal,
+  isCompany,
 }) {
   const handleDownload = () => {
     if (invoice.path) return window.open(buildPublicURL(invoice.path))
@@ -453,17 +455,19 @@ function InvoicesListItem({
           <GridItem textTransform="capitalize">
             {INVOICETYPES[invoice.type]}
           </GridItem>
-          <GridItem xs={2} md={1}>
+          <GridItem xs={2} lg={1}>
             {formatPrice(invoice.amount_paid)}€
           </GridItem>
-          <GridItem>
+          <GridItem textAlign="right" xs={2} lg={1}>
             {!!payment ? (
               <Tooltip
-                title={formatDayDate({ timestamp: payment.created_at })}
+                title={
+                  !!payment?.created_at && PAYMENT_TYPES[payment.type].label
+                }
                 placement="right"
                 arrow
               >
-                {!!payment?.created_at && PAYMENT_TYPES[payment.type].label}
+                {formatDayDate({ timestamp: payment.created_at })}
               </Tooltip>
             ) : (
               <ActionButton
@@ -477,8 +481,8 @@ function InvoicesListItem({
             )}
           </GridItem>
 
-          <GridItem>
-            <Stack width="100%" alignItems="center">
+          <GridItem xs={1} lg={2}>
+            <Stack width="100%" alignItems="end">
               <ActionButton
                 icon={<DownloadIcon />}
                 label="Télécharger"
@@ -487,17 +491,21 @@ function InvoicesListItem({
             </Stack>
           </GridItem>
 
-          <GridItem xs={0} md={1}>
-            <Stack width="100%" alignItems="center">
-              <ActionButton
-                icon={<CodeIcon />}
-                label="Facture-X"
-                onClick={() => {
-                  setSelectedInvoice(invoice)
-                  setOpenJsonFacturXModal(true)
-                }}
-              />
-            </Stack>
+          <GridItem xs={1} lg={2}>
+            {isCompany ? (
+              <Stack width="100%" alignItems="end">
+                <ActionButton
+                  icon={<CodeIcon />}
+                  label="Facture-X"
+                  onClick={() => {
+                    setSelectedInvoice(invoice)
+                    setOpenJsonFacturXModal(true)
+                  }}
+                />
+              </Stack>
+            ) : (
+              <></>
+            )}
           </GridItem>
 
           <GridItem color="grey" textAlign="right">

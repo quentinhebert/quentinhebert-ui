@@ -318,9 +318,15 @@ export function ActionButton({ onClick, label, icon }) {
     </Stack>
   )
 }
-export function GridItem({ xs, md, textAlign, ...props }) {
+export function GridItem({ xs, md, lg, textAlign, ...props }) {
   return (
-    <Grid item xs={xs || 2} md={md || xs || 2} textAlign={textAlign || "left"}>
+    <Grid
+      item
+      xs={xs || 2}
+      md={md || xs || 2}
+      lg={lg || md || xs || 2}
+      textAlign={textAlign || "left"}
+    >
       <BodyText {...props} preventTransition fontSize="1rem" />
     </Grid>
   )
