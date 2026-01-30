@@ -191,7 +191,7 @@ export default function DocumentsSection() {
         handleClose={() => setOpenInvoiceModal(false)}
         refreshData={fetchOrder}
       />
-      {openJsonFacturXModal ? (
+      {openJsonFacturXModal && selectedInvoice ? (
         <ModalFacturXjson
           open={openJsonFacturXModal}
           invoice={selectedInvoice}

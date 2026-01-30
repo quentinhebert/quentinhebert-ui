@@ -8,7 +8,10 @@ import CancelButton from "../../../../../../Buttons/cancel-button"
 import apiCall from "../../../../../../../services/apiCalls/apiCall"
 import { useSnack } from "../../../../../../../hooks/useSnack"
 import CustomModal from "../../../../../../Modals/custom-modal"
-import ReactJson from "react-json-view"
+import dynamic from "next/dynamic"
+const ReactJson = dynamic(() => import("react-json-view"), {
+  ssr: false,
+})
 
 const data = {
   number: "FV-N09830",
@@ -73,7 +76,7 @@ const data = {
 export default function ModalFacturXjson({ open, handleClose, invoice }) {
   const { notifySuccessError } = useSnack()
 
-  const [json, setJson] = useState(data)
+  const [json, setJson] = useState(null)
 
   useEffect(() => {
     fetchJson()
@@ -120,7 +123,7 @@ export default function ModalFacturXjson({ open, handleClose, invoice }) {
         </Stack>
       }
     >
-      {!invoice ? (
+      {!invoice?.number ? (
         <></>
       ) : (
         <>
