@@ -71,6 +71,10 @@ export default function Payment() {
                   ...state.order,
                   payment_fractions: [newValue, 100 - newValue],
                 },
+                orderToUpdate: {
+                  ...state.orderToUpdate,
+                  payment_fractions: [newValue, 100 - newValue],
+                },
               })
             }
             step={5}
@@ -88,7 +92,7 @@ export default function Payment() {
         <Stack spacing={2}>
           {state.order.payment_fractions.reduce(
             (partialSum, a) => partialSum + parseInt(a),
-            0
+            0,
           ) !== 100 && (
             <AlertInfo
               content={{
@@ -97,7 +101,7 @@ export default function Payment() {
                 title: "Pourcentages incorrects",
                 text: `Veuillez vérifier le total des pourcentages des échéances de paiements. Le total doit être égal à 100%. Le total est actuellement de ${state.order.payment_fractions.reduce(
                   (partialSum, a) => partialSum + parseInt(a),
-                  0
+                  0,
                 )}%.`,
               }}
             />
@@ -109,6 +113,10 @@ export default function Payment() {
               setState({
                 ...state,
                 order: { ...state.order, payment_fractions: localFractions },
+                orderToUpdate: {
+                  ...state.orderToUpdate,
+                  payment_fractions: localFractions,
+                },
               })
             }}
           >
@@ -130,10 +138,10 @@ export default function Payment() {
                   {key === 0
                     ? "Acompte"
                     : key === state.order.payment_fractions.length - 1
-                    ? "Solde"
-                    : `Échéance ${key + 1}/${
-                        state.order.payment_fractions.length
-                      }`}
+                      ? "Solde"
+                      : `Échéance ${key + 1}/${
+                          state.order.payment_fractions.length
+                        }`}
                 </BodyText>
                 <Stack flexDirection="row" alignItems="center" gap={2}>
                   <Stack flexDirection="row" gap={1}>
@@ -154,6 +162,10 @@ export default function Payment() {
                         setState({
                           ...state,
                           order: { ...state.order, payment_fractions },
+                          orderToUpdate: {
+                            ...state.orderToUpdate,
+                            payment_fractions,
+                          },
                         })
                       }}
                     />
@@ -173,6 +185,10 @@ export default function Payment() {
                         setState({
                           ...state,
                           order: { ...state.order, payment_fractions },
+                          orderToUpdate: {
+                            ...state.orderToUpdate,
+                            payment_fractions,
+                          },
                         })
                       }}
                     />
@@ -193,6 +209,10 @@ export default function Payment() {
                         setState({
                           ...state,
                           order: { ...state.order, payment_fractions },
+                          orderToUpdate: {
+                            ...state.orderToUpdate,
+                            payment_fractions,
+                          },
                         })
                       }}
                     />
@@ -209,6 +229,10 @@ export default function Payment() {
                       setState({
                         ...state,
                         order: { ...state.order, payment_fractions },
+                        orderToUpdate: {
+                          ...state.orderToUpdate,
+                          payment_fractions,
+                        },
                       })
                     }}
                   />
@@ -431,7 +455,7 @@ export default function Payment() {
   function fractionSum() {
     return state.order.payment_fractions.reduce(
       (a, b) => Number(a) + Number(b),
-      0
+      0,
     )
   }
   function handleChange(attribute) {
