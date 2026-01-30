@@ -144,13 +144,15 @@ export default function ModalFacturXjson({ open, handleClose, invoice }) {
               </Box>
             </BodyText>
 
-            <ReactJson
-              src={json}
-              theme="pop"
-              style={{ padding: "1rem 0" }}
-              enableClipboard={false}
-              displayDataTypes={false}
-            />
+            {!!json && (
+              <ReactJson
+                src={json}
+                theme="pop"
+                style={{ padding: "1rem 0" }}
+                enableClipboard={false}
+                displayDataTypes={false}
+              />
+            )}
           </Stack>
         </>
       )}
