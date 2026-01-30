@@ -12,7 +12,12 @@ import SendIcon from "@mui/icons-material/Send"
 import { ModalTitle } from "../Modal-Components/modal-title"
 import apiCall from "../../../services/apiCalls/apiCall"
 import AlertInfo from "../../Other/alert-info"
-import { checkEmail, checkPhone, getUser } from "../../../services/utils"
+import {
+  checkEmail,
+  checkPhone,
+  checkSiret,
+  getUser,
+} from "../../../services/utils"
 import CustomModal from "../../Modals/custom-modal"
 import CustomForm from "../../Forms/custom-form"
 import CustomCheckbox from "../../Inputs/custom-checkbox"
@@ -48,6 +53,7 @@ export default function EditUserForm({
     email: false,
     phone: false,
     type: false,
+    siret: false,
   })
   const emailError =
     updateErrors.email ||
@@ -56,6 +62,10 @@ export default function EditUserForm({
     user?.phone !== null &&
     user?.phone?.trim() !== "" &&
     (updateErrors.phone || !checkPhone(user?.phone))
+  const siretError =
+    user?.siret !== null &&
+    user?.siret?.trim() !== "" &&
+    (updateErrors.siret || !checkSiret(user?.siret))
 
   // FETCH DATA
   useEffect(() => {
@@ -198,6 +208,16 @@ export default function EditUserForm({
                 onChange={handleChange("company")}
               />
               <CustomFilledInput
+                label="SIRET"
+                labelColor="grey"
+                borderColor="transparent"
+                placeholder="14 chiffres"
+                value={user.siret}
+                onChange={handleChange("siret")}
+                error={siretError || updateErrors.siret}
+                helperText={siretError && "Ce numéro de SIRET n'est pas valide"}
+              />
+              <CustomFilledInput
                 borderColor="transparent"
                 labelColor="grey"
                 label="N° TVA (optionnel)"
@@ -287,13 +307,13 @@ export default function EditUserForm({
   function handleError() {
     setSnackSeverity("error")
     setSnackMessage(
-      "Un problème est survenu lors de la modification de l'utilisateur"
+      "Un problème est survenu lors de la modification de l'utilisateur",
     )
   }
   function handleErrorDuplicate() {
     setSnackSeverity("error")
     setSnackMessage(
-      "L'e-mail ou le téléphone existe déjà pour un autre utilisateur"
+      "L'e-mail ou le téléphone existe déjà pour un autre utilisateur",
     )
   }
   async function handleSaveUser() {
