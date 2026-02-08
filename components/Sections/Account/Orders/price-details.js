@@ -6,7 +6,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material"
-import { Fragment } from "react"
+import { Fragment, useEffect, useState } from "react"
 import {
   getPaymentFractionsDetails,
   parseOrderPrice,
@@ -34,7 +34,22 @@ export default function PriceDetails({ order, items }) {
     },
   }) // all prices in cents
 
-  const paymentFractions = getPaymentFractionsDetails({ order })
+  const [paymentFractions, setPaymentFractions] = useState(
+    getPaymentFractionsDetails({
+      order: { ...order, items: items || order.items },
+    }),
+  )
+  useEffect(() => {
+    setPaymentFractions(
+      getPaymentFractionsDetails({
+        order: {
+          ...order,
+          total_price: price,
+          items: order.items,
+        },
+      }),
+    )
+  }, [price, order.payment_fractions])
 
   return (
     <Stack
