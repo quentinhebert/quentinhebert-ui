@@ -36,7 +36,7 @@ export default function OrderReadOnlySection({
   Object.keys(order.payment_options).map((opt) => {
     if (order.payment_options[opt] === true) {
       paymentOptionsArray.push(
-        PAYMENT_OPTIONS.filter((elt) => elt.id === opt)[0].label
+        PAYMENT_OPTIONS.filter((elt) => elt.id === opt)[0].label,
       )
     }
   })
@@ -111,6 +111,12 @@ export default function OrderReadOnlySection({
                   },
                 }}
               >
+                <Info title="TVA applicable">
+                  {order.no_vat
+                    ? "TVA non applicable, article 293B du Code Général des Impôts (CGI)"
+                    : "Oui"}
+                </Info>
+
                 <Info title="Moyen(s) de paiement acceptés">
                   {paymentOptionsString}
                 </Info>
@@ -166,7 +172,7 @@ export default function OrderReadOnlySection({
                   <Cell>
                     {
                       QUOTATION_ITEM_TYPES.filter(
-                        (elt) => elt.id === item.type
+                        (elt) => elt.id === item.type,
                       )[0].label
                     }
                   </Cell>
@@ -188,16 +194,15 @@ export default function OrderReadOnlySection({
                       {item.description}
                     </Box>
                   </Cell>
-                  <Cell>{item.quantity}</Cell>
-                  <Cell whiteSpace="nowrap">{item.vat} %</Cell>
-                  <Cell whiteSpace="nowrap">
+                  <Cell textAlign="right">{item.quantity}</Cell>
+                  <Cell whiteSpace="nowrap" textAlign="right">
                     {formatPrice(item.no_vat_price)} €
                   </Cell>
-                  <Cell whiteSpace="nowrap">
-                    {formatPrice(
-                      item.no_vat_price * item.quantity * (1 + item.vat / 100)
-                    )}{" "}
-                    €
+                  <Cell whiteSpace="nowrap" textAlign="right">
+                    {item.vat} %
+                  </Cell>
+                  <Cell whiteSpace="nowrap" textAlign="right">
+                    {formatPrice(item.no_vat_price * item.quantity)} €
                   </Cell>
                 </Line>
               ))}
@@ -205,7 +210,7 @@ export default function OrderReadOnlySection({
           </Stack>
 
           {!hidePriceDetails && (
-            <Stack alignSelf="end" maxWidth="400px">
+            <Stack alignSelf="end" maxWidth="420px">
               <PriceDetails items={items} order={order} />
             </Stack>
           )}
@@ -225,23 +230,22 @@ const PAYMENT_OPTIONS = [
 const HEAD = [
   { label: "Type" },
   { label: "Description", width: { xs: "200px", md: "20%" } },
-  { label: "Qté." },
-  { label: "TVA" },
-  { label: "Prix unit. HT" },
-  { label: "Total" },
+  { label: "Qté.", textAlign: "right" },
+  { label: "Prix unit. HT", textAlign: "right" },
+  { label: "TVA", textAlign: "right" },
+  { label: "Total HT", textAlign: "right" },
 ]
 function TableHead() {
   return HEAD.map((item, key) => (
-    <HeadCell key={key} width={item.width}>
+    <HeadCell key={key} width={item.width} textAlign={item.textAlign || "left"}>
       {item.label}
     </HeadCell>
   ))
 
-  function HeadCell({ width, ...props }) {
+  function HeadCell({ width, textAlign, ...props }) {
     return (
       <Box
         component="th"
-        textAlign="left"
         alignItems="center"
         justifyContent="center"
         sx={{
@@ -255,6 +259,7 @@ function TableHead() {
           color={(theme) => theme.palette.text.grey}
           fontSize={{ xs: "0.8rem", md: "1rem" }}
           display="flex"
+          justifyContent={textAlign === "right" ? "end" : ""}
           whiteSpace="nowrap"
           {...props}
         />
@@ -265,7 +270,7 @@ function TableHead() {
 const Cell = (props) => (
   <Box
     component="td"
-    textAlign="left"
+    textAlign={props.textAlign || "left"}
     sx={{
       padding: ".5rem 1rem",
     }}

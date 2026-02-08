@@ -16,6 +16,7 @@ import AssignmentIndIcon from "@mui/icons-material/AssignmentInd"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { Stack } from "@mui/material"
 import DeliveredBtn from "./delivered-btn"
+import { formatPrice } from "../../../../../../../services/utils"
 
 const EDIT_STATUSES = [
   QUOTATION_STATUS.DRAFT.id,
@@ -61,7 +62,7 @@ export default function Toolbar() {
   let amountSumArray = []
   !!state?.order?.paymentFractions?.length &&
     state?.order?.paymentFractions.map((elt) =>
-      amountSumArray.push(`${elt.amount / 100}€`)
+      amountSumArray.push(`${elt.amount / 100}€`),
     )
 
   return (
@@ -117,13 +118,7 @@ export default function Toolbar() {
       >
         <Stack gap={1} className="flex-center row">
           <BodyText fontSize="1.5rem" preventTransition>
-            {(
-              Math.round(
-                parseOrderPrice({ order: state.order, items: state.items })
-                  .totalPrice
-              ) / 100
-            ).toFixed(2)}
-            €
+            {formatPrice(parseOrderPrice({ order: state.order }).price)}€
           </BodyText>
 
           <Status />

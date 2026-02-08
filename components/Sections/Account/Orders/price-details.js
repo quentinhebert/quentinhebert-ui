@@ -16,15 +16,25 @@ import Span from "../../../Text/span"
 import { formatPrice } from "../../../../services/utils"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 
-export default function PriceDetails({ items, order }) {
-  let localOrder = order
-  const { totalVAT, totalPrice } = parseOrderPrice({
-    order,
-    items,
+export default function PriceDetails({ order, items }) {
+  const {
+    price,
+    noVatPrice,
+    vat,
+    vat5,
+    vat10,
+    vat20,
+    basisVat5,
+    basisVat10,
+    basisVat20,
+  } = parseOrderPrice({
+    order: {
+      items: items || order.items,
+      payment_fractions: order.payment_fractions,
+    },
   }) // all prices in cents
-  if (!localOrder.total_price) localOrder.total_price = totalPrice
 
-  const paymentFractions = getPaymentFractionsDetails({ order: localOrder })
+  const paymentFractions = getPaymentFractionsDetails({ order })
 
   return (
     <Stack
@@ -37,19 +47,58 @@ export default function PriceDetails({ items, order }) {
       }}
     >
       <Grid container minWidth={{ xs: "100%", lg: "200px" }}>
-        <Label color="#fff">Total TTC</Label>
-        <Price color="#fff">{formatPrice(totalPrice)} €</Price>
-        <Label>Dont TVA</Label>
-        <Price color="grey">{formatPrice(totalVAT)} €</Price>
+        <Label color="#fff">Sous-total HT</Label>
+        <Price color="#fff">{formatPrice(noVatPrice)} €</Price>
+
+        {basisVat20 > 0 && (
+          <>
+            <Label indent italic>
+              20% de {formatPrice(basisVat20)} €
+            </Label>
+            <Price indent italic color="grey">
+              {formatPrice(vat20)} €
+            </Price>
+          </>
+        )}
+        {basisVat10 > 0 && (
+          <>
+            <Label indent italic>
+              10% de {formatPrice(basisVat10)} €
+            </Label>
+            <Price indent italic color="grey">
+              {formatPrice(vat10)} €
+            </Price>
+          </>
+        )}
+        {basisVat5 > 0 && (
+          <>
+            <Label indent italic>
+              5,5% de {formatPrice(basisVat5)} €
+            </Label>
+            <Price indent italic color="grey">
+              {formatPrice(vat5)} €
+            </Price>
+          </>
+        )}
+        {(basisVat20 > 0) + (basisVat10 > 0) + (basisVat5 > 0) >= 2 && (
+          <>
+            <Label>Total TVA</Label>
+            <Price color="grey">{formatPrice(vat)} €</Price>
+          </>
+        )}
+
+        <Separator />
+
+        <Label big color="#fff">
+          Total TTC
+        </Label>
+        <Price big color="#fff">
+          {formatPrice(price)} €
+        </Price>
+
         {paymentFractions.length > 1 && (
           <>
-            <Stack
-              sx={{
-                borderBottom: "1px solid rgb(256,256,256, 0.1)",
-                width: "100%",
-                margin: "1rem 0",
-              }}
-            />
+            <Separator />
 
             <Accordion
               sx={{
@@ -135,10 +184,20 @@ export default function PriceDetails({ items, order }) {
   )
 }
 
+const Separator = () => (
+  <Stack
+    sx={{
+      borderBottom: "1px solid rgb(256,256,256, 0.1)",
+      width: "100%",
+      margin: "1rem 0",
+    }}
+  />
+)
+
 const Label = (props) => (
   <Grid
     item
-    xs={9}
+    xs={8}
     sx={{
       "&:first-letter": {
         textTransform: "capitalize",
@@ -149,15 +208,26 @@ const Label = (props) => (
       className="initial-cap"
       preventTransition
       color={(theme) => theme.palette.text.grey}
-      fontSize="1rem"
+      fontSize={props.big ? "1.8rem" : "1rem"}
+      marginLeft={props.indent ? "1rem" : 0}
+      fontStyle={props.italic ? "italic" : ""}
       {...props}
     />
   </Grid>
 )
 
 const Price = (props) => (
-  <Grid item xs={3} textAlign="right">
-    <Typography {...props} minWidth="60px" />
+  <Grid item xs={4} textAlign="right">
+    <Typography
+      {...props}
+      minWidth="60px"
+      fontSize={props.big ? "1.8rem" : "1rem"}
+      lineHeight={props.big ? "1.8rem" : "1rem"}
+      marginRight={props.indent ? "1rem" : 0}
+      fontStyle={props.italic ? "italic" : ""}
+      whiteSpace="nowrap"
+      textOverflow="unset"
+    />
   </Grid>
 )
 const PaidChip = ({}) => (

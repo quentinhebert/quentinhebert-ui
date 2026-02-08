@@ -210,7 +210,7 @@ export default function ModalCreateItem({}) {
 
         const floatSeparators = [",", "."]
         const endWithFloatSeparator = floatSeparators.includes(
-          value.charAt(value.length - 1)
+          value.charAt(value.length - 1),
         )
 
         return setItem({
@@ -231,7 +231,7 @@ export default function ModalCreateItem({}) {
     const localItem = item
 
     // Format price from euros to cents
-    localItem.no_vat_price = localItem.no_vat_price * 100
+    localItem.no_vat_price = Math.round(localItem.no_vat_price * 100)
 
     localItems.push(item)
     setState({ ...state, items: localItems, modal: null, openModal: false })

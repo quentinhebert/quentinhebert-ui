@@ -26,6 +26,7 @@ import { parseOrderPrice } from "../../../../../services/orders"
 import { Context, inProgressStatuses } from "../module"
 import DropdownOptions from "../../../../Dropdown/dropdown-options"
 import { UserContext } from "../../../../../contexts/UserContext"
+import { formatPrice } from "../../../../../services/utils"
 
 function OrderCard({
   order,
@@ -40,7 +41,7 @@ function OrderCard({
   const user = useContext(UserContext)
   const router = useRouter()
 
-  const { totalPrice } = parseOrderPrice(order)
+  const { price } = parseOrderPrice({ order })
   const options = populateOptions()
 
   return (
@@ -90,7 +91,7 @@ function OrderCard({
           >
             <Label label={order.label} />
             <Typography fontSize="2rem" lineHeight={1} color="grey">
-              {totalPrice / 100}€
+              {formatPrice(price)} €
             </Typography>
           </Stack>
         </Link>

@@ -8,7 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import withConfirmAction from "../../hocs/withConfirmAction"
 import { AppContext } from "../../../contexts/AppContext"
 import CustomCard from "../custom-card"
-import { buildPublicURL } from "../../../services/utils"
+import { buildPublicURL, formatPrice } from "../../../services/utils"
 import DropdownOptions from "../../Dropdown/dropdown-options"
 import Pill from "../../Text/pill"
 import VisibilityIcon from "@mui/icons-material/Visibility"
@@ -101,7 +101,7 @@ function OrderCard({
       icon: <VisibilityIcon />,
     })
 
-  const { totalPrice } = parseOrderPrice(order)
+  const { price } = parseOrderPrice({ order })
 
   return (
     <CustomCard
@@ -138,7 +138,7 @@ function OrderCard({
         <Stack flexDirection="row" alignItems="center">
           <Status status={order.status} />
           <Typography fontSize="1rem" color="#fff">
-            {totalPrice / 100}€
+            {formatPrice(price)}€
           </Typography>
         </Stack>
 
