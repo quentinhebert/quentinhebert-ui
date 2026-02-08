@@ -62,7 +62,7 @@ export default function Payment() {
           <Slider
             color="secondary"
             aria-label="Temperature"
-            value={state.order.payment_fractions[0] || 60}
+            value={state.order.payment_fractions[0] || 30}
             valueLabelDisplay="auto"
             onChange={(e, newValue) =>
               setState({
@@ -255,7 +255,7 @@ export default function Payment() {
 
       <CustomFilledInput
         label="Conditions de règlement"
-        placeholder="Acompte de 60% lors de la signature du devis. Solde de 40% entre le jour de la prestation et la livraison."
+        placeholder="Acompte de 30% lors de la signature du devis. Solde de 70% entre le jour de la prestation et la livraison."
         value={state.order.payment_conditions}
         onChange={handleChange("payment_conditions")}
         helperText={
@@ -266,9 +266,11 @@ export default function Payment() {
             />
             <Li
               attribute="payment_conditions"
-              text="
-                Acompte de 60% lors de la signature du devis. Solde de
-                40% entre le jour de la prestation et la livraison."
+              text={
+                paymentMode === PAYMENT_MODES.TWICE
+                  ? `Acompte de ${state.order.payment_fractions[0]}% lors de la signature du devis. Solde de ${100 - state.order.payment_fractions[0]}% entre le jour de la prestation et la livraison.`
+                  : "Acompte de 30% lors de la signature du devis. Solde de 70% entre le jour de la prestation et la livraison."
+              }
             />
             <Li
               attribute="payment_conditions"

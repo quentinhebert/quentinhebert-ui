@@ -42,7 +42,7 @@ export default function OrderModule({ id, defaultMode }) {
       "Une indemnité forfaitaire de 40€, à laquelle s'ajoute un taux d'Intérêt de retard de 15%. Calcul des intérêts de retard : Somme due TTC * jours de retard * taux d’intérêt / (365 * 100). Les jours de retard sont calculés à partir de la date de réception de la facture.",
     quotations: [],
     payments: [],
-    payment_fractions: [60, 40],
+    payment_fractions: [30, 70],
     activity_type: ACTIVITY_TYPES.video,
   }
   const initialState = {
