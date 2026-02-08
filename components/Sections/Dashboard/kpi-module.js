@@ -114,6 +114,15 @@ function TurnoverModule({}) {
   const [selectedMonth, setSelectedMonth] = useState(currentMonth + 1)
   const [activeYear, setActiveYear] = useState(0)
   const [selectedYear, setSelectedYear] = useState(currentYear)
+  const [totals, setTotals] = useState({ vat: 0 })
+
+  useEffect(() => {
+    const localTotals = { vat: 0 }
+    payments.map((p) => {
+      localTotals.vat += p.totals?.vat || 0
+    })
+    setTotals(localTotals)
+  }, [payments])
   useEffect(() => {
     setTurnover(initialTurnover)
     setPayments(initialPayments)
@@ -128,10 +137,10 @@ function TurnoverModule({}) {
     // Do nothing if month === 0 (it means we want to compare whole years)
     else if (selectedYear === 2023) setSelectedMonth(6)
     // All years have all months except 2023 (starts at June)
-    else setSelectedMonth(1) // All years (except 2023) start at January
+    else setSelectedMonth(currentMonth + 1) // All years (except 2023) start at January
     /****************************************************************************/
     fetchData({
-      month: selectedMonth === 0 ? 0 : 1,
+      month: selectedMonth === 0 ? 0 : currentMonth + 1,
     })
   }, [selectedYear])
 
@@ -143,7 +152,7 @@ function TurnoverModule({}) {
     })
     if (res && res.ok) {
       setSnackMessage(
-        "Votre livre de recettes va être généré au format PDF dans quelques instants..."
+        "Votre livre de recettes va être généré au format PDF dans quelques instants...",
       )
       setSnackSeverity("info")
     } else {
@@ -230,11 +239,21 @@ function TurnoverModule({}) {
                   }}
                 >
                   <Grid item xs={8} sx={{ textAlign: "left" }}>
-                    <Typography color="grey">Montant total perçu</Typography>
+                    <Typography color="grey">
+                      Chiffre d'affaire facturé
+                    </Typography>
                   </Grid>
                   <Grid item xs={4} sx={{ textAlign: "right" }}>
                     <Typography color="secondary" fontStyle="italic">
                       + {formatPrice(Number(turnover.total))} €
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={8} sx={{ textAlign: "left" }}>
+                    <Typography color="grey">Dont TVA</Typography>
+                  </Grid>
+                  <Grid item xs={4} sx={{ textAlign: "right" }}>
+                    <Typography color="error.main" fontStyle="italic">
+                      - {formatPrice(Number(totals.vat))} €
                     </Typography>
                   </Grid>
                   <Grid item xs={8} sx={{ textAlign: "left" }}>
@@ -267,7 +286,7 @@ function TurnoverModule({}) {
                       textAlign: "left",
                     }}
                   >
-                    <Typography>Chiffre d'affaire réel</Typography>
+                    <Typography>Chiffre d'affaire perçu</Typography>
                   </Grid>
                   <Grid item xs={6} md={4} sx={{ textAlign: "right" }}>
                     <Typography
@@ -275,7 +294,28 @@ function TurnoverModule({}) {
                       fontSize="1.5rem"
                       whiteSpace="nowrap"
                     >
-                      + {formatPrice(Number(turnover.real))} €
+                      + {formatPrice(Number(turnover.real) - totals.vat)} €
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={6}
+                    md={8}
+                    sx={{
+                      textAlign: "left",
+                    }}
+                  >
+                    <Typography color="grey">Estimation du revenu</Typography>
+                  </Grid>
+                  <Grid item xs={6} md={4} sx={{ textAlign: "right" }}>
+                    <Typography
+                      color="grey"
+                      fontSize="1rem"
+                      whiteSpace="nowrap"
+                    >
+                      +{" "}
+                      {formatPrice((Number(turnover.real) - totals.vat) * 0.7)}{" "}
+                      €
                     </Typography>
                   </Grid>
                 </Grid>
@@ -302,11 +342,12 @@ function TurnoverModule({}) {
                   }}
                 >
                   <GridHeadItem size={1} label="Montant" />
+                  <GridHeadItem size={1} label="TVA" />
                   <GridHeadItem size={1} label="Frais" />
                   <GridHeadItem size={3} label="Commande" />
-                  <GridHeadItem size={2} label="Client" />
+                  <GridHeadItem size={1.5} label="Client" />
                   <GridHeadItem
-                    size={2}
+                    size={1.5}
                     label="Mode de paiement"
                     align="right"
                   />
@@ -330,6 +371,9 @@ function TurnoverModule({}) {
                     }}
                   >
                     <GridItem size={1}>{formatPrice(payment.amount)}€</GridItem>
+                    <GridItem size={1}>
+                      {formatPrice(payment.totals.vat)}€
+                    </GridItem>
                     <GridItem size={1}>{formatPrice(payment.fees)}€</GridItem>
                     <GridItem
                       size={3}
@@ -337,12 +381,12 @@ function TurnoverModule({}) {
                     >
                       {payment.order.label}
                     </GridItem>
-                    <GridItem size={2}>
+                    <GridItem size={1.5}>
                       {payment.order.client_firstname +
                         " " +
                         payment.order.client_lastname}
                     </GridItem>
-                    <GridItem size={2} align="right">
+                    <GridItem size={1.5} align="right">
                       {payment.type}
                     </GridItem>
                     <GridItem
