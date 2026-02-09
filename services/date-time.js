@@ -85,7 +85,7 @@ export function formatDayDate({ timestamp, timezone }) {
   const today = getTodayShortString().split(" ")[0]
   const yesterday = getYesterdayShortString().split(" ")[0]
   const dateTime = convertToShortString(
-    getLocaleDateTime(new Date(timestamp), timezone)
+    getLocaleDateTime(new Date(timestamp), timezone),
   )
   const date = dateTime.split(" ")[0]
   const time = dateTime.split(" ")[1]
@@ -108,7 +108,7 @@ export function formatDayDate({ timestamp, timezone }) {
     .split(",")
 
   let formattedDate = dateTimeStr
-  if (date === today) formattedDate = `${time}`
+  if (date === today) formattedDate = `Auj. à ${time}`
   if (date === yesterday) formattedDate = `Hier à ${time}`
   return formattedDate
 }
