@@ -187,7 +187,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
       <Stack
         gap={2}
         padding={{ xs: "0", md: "2rem 0" }}
-        flexDirection={{ xs: "column", lg: "row" }}
+        flexDirection={{ xs: "column", xl: "row" }}
         position="relative"
       >
         <Stack width="100%">
@@ -399,7 +399,7 @@ export default function BeforeCheckoutSteps_Main({ orderId }) {
 
         {/********** PRICE LATERAL BAR **********/}
         <Stack gap={1} position="sticky" top="180px" alignSelf="flex-start">
-          <Stack maxWidth="400px">
+          <Stack maxWidth="600px">
             <PriceDetails items={order.items} order={order} />
           </Stack>
 

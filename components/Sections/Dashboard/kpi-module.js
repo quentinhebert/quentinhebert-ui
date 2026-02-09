@@ -236,15 +236,51 @@ function TurnoverModule({}) {
                     background: "rgb(0,0,0,0.2)",
                     borderRadius: "7.5px 7.5px 0 0",
                     padding: 2,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Grid item xs={6} md={8} textAlign="left">
+                    <Typography fontSize="1.5rem">CA HT</Typography>
+                  </Grid>
+                  <Grid item xs={6} md={4} sx={{ textAlign: "right" }}>
+                    <Typography
+                      color="secondary"
+                      fontSize="1.5rem"
+                      whiteSpace="nowrap"
+                    >
+                      {formatPrice(Number(turnover.total) - totals.vat)} €
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6} md={8} textAlign="left">
+                    <Typography color="grey" fontSize="1.5rem">
+                      TVA
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6} md={4} sx={{ textAlign: "right" }}>
+                    <Typography
+                      fontSize="1.5rem"
+                      whiteSpace="nowrap"
+                      color="grey"
+                    >
+                      {formatPrice(totals.vat)} €
+                    </Typography>
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  container
+                  sx={{
+                    background: "rgb(0,0,0,0.5)",
+                    borderRadius: "0 0 7.5px 7.5px",
+                    padding: 2,
                   }}
                 >
                   <Grid item xs={8} sx={{ textAlign: "left" }}>
-                    <Typography color="grey">
-                      Chiffre d'affaire facturé
-                    </Typography>
+                    <Typography>Total TTC facturé</Typography>
                   </Grid>
                   <Grid item xs={4} sx={{ textAlign: "right" }}>
-                    <Typography color="secondary" fontStyle="italic">
+                    <Typography fontStyle="italic">
                       + {formatPrice(Number(turnover.total))} €
                     </Typography>
                   </Grid>
@@ -266,27 +302,45 @@ function TurnoverModule({}) {
                       - {formatPrice(Number(turnover.total_fees))} €
                     </Typography>
                   </Grid>
-                </Grid>
 
-                <Grid
-                  container
-                  sx={{
-                    background: "rgb(0,0,0,0.5)",
-                    borderRadius: "0 0 7.5px 7.5px",
-                    padding: 2,
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
+                  <Grid item xs={6} md={8} textAlign="left">
+                    <Typography color="grey">Cotisations et impôts</Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={6}
+                    md={4}
+                    sx={{ textAlign: "right" }}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="end"
+                  >
+                    <Typography color="error.main" whiteSpace="nowrap">
+                      ~{" "}
+                      {formatPrice((Number(turnover.real) - totals.vat) * 0.3)}{" "}
+                      €
+                    </Typography>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Box
+                      sx={{
+                        borderBottom: "1px solid rgb(256,256,256,0.15)",
+                        marginTop: 2,
+                        marginBottom: 1,
+                      }}
+                    />
+                  </Grid>
+
                   <Grid
                     item
                     xs={6}
                     md={8}
-                    sx={{
-                      textAlign: "left",
-                    }}
+                    textAlign="left"
+                    display="flex"
+                    alignItems="center"
                   >
-                    <Typography>Chiffre d'affaire perçu</Typography>
+                    <Typography color="green">Estimation du revenu</Typography>
                   </Grid>
                   <Grid item xs={6} md={4} sx={{ textAlign: "right" }}>
                     <Typography
@@ -294,26 +348,7 @@ function TurnoverModule({}) {
                       fontSize="1.5rem"
                       whiteSpace="nowrap"
                     >
-                      + {formatPrice(Number(turnover.real) - totals.vat)} €
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={6}
-                    md={8}
-                    sx={{
-                      textAlign: "left",
-                    }}
-                  >
-                    <Typography color="grey">Estimation du revenu</Typography>
-                  </Grid>
-                  <Grid item xs={6} md={4} sx={{ textAlign: "right" }}>
-                    <Typography
-                      color="grey"
-                      fontSize="1rem"
-                      whiteSpace="nowrap"
-                    >
-                      +{" "}
+                      ~{" "}
                       {formatPrice((Number(turnover.real) - totals.vat) * 0.7)}{" "}
                       €
                     </Typography>
@@ -342,9 +377,10 @@ function TurnoverModule({}) {
                   }}
                 >
                   <GridHeadItem size={1} label="Montant" />
+                  <GridHeadItem size={1} label="HT" />
                   <GridHeadItem size={1} label="TVA" />
                   <GridHeadItem size={1} label="Frais" />
-                  <GridHeadItem size={3} label="Commande" />
+                  <GridHeadItem size={2} label="Commande" />
                   <GridHeadItem size={1.5} label="Client" />
                   <GridHeadItem
                     size={1.5}
@@ -371,17 +407,23 @@ function TurnoverModule({}) {
                     }}
                   >
                     <GridItem size={1}>{formatPrice(payment.amount)}€</GridItem>
-                    <GridItem size={1}>
+                    <GridItem size={1} color="secondary">
+                      {formatPrice(payment.amount - payment.totals?.vat || 0)}€
+                    </GridItem>
+                    <GridItem size={1} color="grey">
                       {formatPrice(payment.totals.vat)}€
                     </GridItem>
-                    <GridItem size={1}>{formatPrice(payment.fees)}€</GridItem>
+                    <GridItem size={1} color="grey">
+                      {formatPrice(payment.fees)}€
+                    </GridItem>
                     <GridItem
-                      size={3}
+                      size={2}
                       href={`/dashboard/orders/${payment.order.id}/edit`}
+                      orderLabel
                     >
                       {payment.order.label}
                     </GridItem>
-                    <GridItem size={1.5}>
+                    <GridItem size={1.5} client>
                       {payment.order.client_firstname +
                         " " +
                         payment.order.client_lastname}
@@ -562,7 +604,7 @@ function GridHeadItem({ size, align, label }) {
     </Grid>
   )
 }
-function GridItem({ size, align, href, ...props }) {
+function GridItem({ size, align, href, orderLabel, client, ...props }) {
   return (
     <Grid
       item

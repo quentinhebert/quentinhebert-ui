@@ -76,9 +76,9 @@ export function getPaymentFractionsDetails({ order }) {
   const successfulPayments = order.payments?.filter(
     (p) => p.status === "succeeded",
   )
-  successfulPayments.sort((a, b) => {
-    const numA = parseInt(a.invoice_number.split("-")[1], 10)
-    const numB = parseInt(b.invoice_number.split("-")[1], 10)
+  successfulPayments?.sort((a, b) => {
+    const numA = parseInt(a.invoice_number?.split("-")[1], 10)
+    const numB = parseInt(b.invoice_number?.split("-")[1], 10)
     return numB - numA // ordre décroissant
   })
 
