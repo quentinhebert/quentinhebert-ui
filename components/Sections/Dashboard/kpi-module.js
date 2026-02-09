@@ -170,10 +170,10 @@ function TurnoverModule({}) {
   }, [isGeneratingPdf])
 
   useEffect(() => {
-    if (!!pdf?.path) {
-      setIsGeneratingPdf(false)
+    if (!!pdf?.path && isGeneratingPdf) {
       setSnackMessage("Génération terminée !")
       setSnackSeverity("success")
+      setIsGeneratingPdf(false)
     }
   }, [pdf?.path])
 
