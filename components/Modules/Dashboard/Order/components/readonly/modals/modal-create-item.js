@@ -116,12 +116,12 @@ export default function ModalCreateItem({}) {
             </Grid>
             <Grid item xs={3}>
               <BasicTooltip
-                title={`Pour modifier la TVA, veuillez décocher "TVA non applicable" à l'étape (4/6).`}
-                disabled={!state.order.noVat}
+                title={`Pour modifier la TVA, veuillez décocher "TVA non applicable" à l'étape (4/5).`}
+                disabled={!state.order.no_vat}
               >
                 <Stack>
                   <CustomFilledInput
-                    disabled={state.order.noVat}
+                    disabled={state.order.no_vat}
                     inputProps={{
                       // WARNING: inputProps !== InputProps
                       inputmode: "decimal", // Numeric pad on mobile

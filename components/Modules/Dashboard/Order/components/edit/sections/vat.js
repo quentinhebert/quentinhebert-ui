@@ -30,6 +30,11 @@ export default function VAT() {
       localItems.map((item) => (item.vat = 0))
       newState.items = localItems
     }
+    if (!bool) {
+      const localItems = state.items
+      localItems.map((item) => (item.vat = 20))
+      newState.items = localItems
+    }
     setState(newState)
   }
 }

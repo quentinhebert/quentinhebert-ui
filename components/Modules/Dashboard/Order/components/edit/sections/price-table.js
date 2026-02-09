@@ -120,7 +120,7 @@ const SortableRow = SortableElement(({ item, index, onClick, ...props }) => {
         <Grid item xs={1}>
           <Cell whiteSpace="nowrap">
             {formatPrice(
-              item.no_vat_price * item.quantity * (1 + item.vat / 100)
+              item.no_vat_price * item.quantity * (1 + item.vat / 100),
             )}{" "}
             €
           </Cell>
@@ -147,13 +147,13 @@ const SortableList = SortableContainer(({ items }) => {
       <Box className="no-padding full-width">
         <Grid container>
           <Grid item xs={2}>
-            <HeadCell>type</HeadCell>
+            <HeadCell>Type</HeadCell>
           </Grid>
           <Grid item xs={2}>
-            <HeadCell>label</HeadCell>
+            <HeadCell>Désignation</HeadCell>
           </Grid>
           <Grid item xs={4}>
-            <HeadCell>description</HeadCell>
+            <HeadCell>Description</HeadCell>
           </Grid>
           <Grid item xs={1}>
             <HeadCell>Qté.</HeadCell>
@@ -165,7 +165,7 @@ const SortableList = SortableContainer(({ items }) => {
             <HeadCell whiteSpace="nowrap">Prix unit.</HeadCell>
           </Grid>
           <Grid item xs={1}>
-            <HeadCell whiteSpace="nowrap">total</HeadCell>
+            <HeadCell whiteSpace="nowrap">TTC</HeadCell>
           </Grid>
         </Grid>
       </Box>
