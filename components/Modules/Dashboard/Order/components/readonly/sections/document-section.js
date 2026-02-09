@@ -71,7 +71,7 @@ export default function DocumentsSection() {
   }, [state.order.quotations, totalQuotes])
 
   useEffect(() => {
-    const currentTotal = state.order.invoices.length
+    const currentTotal = state.order.invoices?.length
     if (isInvoiceGenerating)
       setIsInvoiceGenerating(currentTotal !== expectedTotalInvoices)
     const interval = setInterval(() => {

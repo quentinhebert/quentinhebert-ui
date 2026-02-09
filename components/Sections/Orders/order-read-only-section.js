@@ -167,45 +167,46 @@ export default function OrderReadOnlySection({
             >
               <TableHead />
 
-              {items.map((item, key) => (
-                <Line key={key} index={key}>
-                  <Cell>
-                    {
-                      QUOTATION_ITEM_TYPES.filter(
-                        (elt) => elt.id === item.type,
-                      )[0].label
-                    }
-                  </Cell>
-                  <Cell>
-                    <Box
-                      component="span"
-                      fontSize=".9rem"
-                      color="#fff"
-                      fontStyle="italic"
-                    >
-                      {item.label}
-                    </Box>
-                    <Box
-                      mt={1}
-                      component="div"
-                      fontSize={{ xs: ".8rem", md: "1rem" }}
-                      color={(theme) => theme.palette.text.grey}
-                    >
-                      {item.description}
-                    </Box>
-                  </Cell>
-                  <Cell textAlign="right">{item.quantity}</Cell>
-                  <Cell whiteSpace="nowrap" textAlign="right">
-                    {formatPrice(item.no_vat_price)} €
-                  </Cell>
-                  <Cell whiteSpace="nowrap" textAlign="right">
-                    {item.vat} %
-                  </Cell>
-                  <Cell whiteSpace="nowrap" textAlign="right">
-                    {formatPrice(item.no_vat_price * item.quantity)} €
-                  </Cell>
-                </Line>
-              ))}
+              {items &&
+                items.map((item, key) => (
+                  <Line key={key} index={key}>
+                    <Cell>
+                      {
+                        QUOTATION_ITEM_TYPES.filter(
+                          (elt) => elt.id === item.type,
+                        )[0].label
+                      }
+                    </Cell>
+                    <Cell>
+                      <Box
+                        component="span"
+                        fontSize=".9rem"
+                        color="#fff"
+                        fontStyle="italic"
+                      >
+                        {item.label}
+                      </Box>
+                      <Box
+                        mt={1}
+                        component="div"
+                        fontSize={{ xs: ".8rem", md: "1rem" }}
+                        color={(theme) => theme.palette.text.grey}
+                      >
+                        {item.description}
+                      </Box>
+                    </Cell>
+                    <Cell textAlign="right">{item.quantity}</Cell>
+                    <Cell whiteSpace="nowrap" textAlign="right">
+                      {formatPrice(item.no_vat_price)} €
+                    </Cell>
+                    <Cell whiteSpace="nowrap" textAlign="right">
+                      {item.vat} %
+                    </Cell>
+                    <Cell whiteSpace="nowrap" textAlign="right">
+                      {formatPrice(item.no_vat_price * item.quantity)} €
+                    </Cell>
+                  </Line>
+                ))}
             </Box>
           </Stack>
 

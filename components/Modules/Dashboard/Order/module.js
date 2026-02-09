@@ -44,6 +44,12 @@ export default function OrderModule({ id, defaultMode }) {
     payments: [],
     payment_fractions: [30, 70],
     activity_type: ACTIVITY_TYPES.video,
+    variable_quote: false,
+    variable_quote_elements: {
+      price_conditions: "",
+      price_estimation: "",
+      price_validation: "",
+    },
   }
   const initialState = {
     order: initialOrder,

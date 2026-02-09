@@ -13,13 +13,15 @@ export const checkBeforeGen = (
     additional_mentions,
     no_vat,
     payment_delay_penalties,
-  }
+    items,
+  },
 ) => {
   // Errors init
   let errors = {}
   Object.keys(order).map((key) => (errors[key] = false))
 
   // Check errors
+  // if (!(order.items?.length > 0)) errors.items = true
   if (!notEmptyString(order.label)) errors.label = true
   if (!order.client?.id) errors.client = true
   if (!order.date) errors.date = true
@@ -49,14 +51,14 @@ export const checkBeforeInvoiceGen = (
     additional_mentions,
     no_vat,
     payment_delay_penalties,
-  }
+  },
 ) => {
   // Errors init
   let errors = {}
   Object.keys(order).map((key) => (errors[key] = false))
   console.log(
     "order.client?.address?.postal_code",
-    order.client?.address?.postal_code
+    order.client?.address?.postal_code,
   )
   // Check errors
   if (!notEmptyString(order.label)) errors.label = true

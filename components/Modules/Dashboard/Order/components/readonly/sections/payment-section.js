@@ -41,7 +41,7 @@ export function PaymentSection() {
 
             <Stack>
               <Typography color="secondary" variant="h2">
-                {formatPrice(nextPayment.amount)}€
+                {formatPrice(nextPayment.amount || 0)}€
               </Typography>
               <Typography textTransform="capitalize" color="grey">
                 {nextPayment.label} ({nextPayment.percent})
@@ -93,7 +93,7 @@ export function PaymentSection() {
 
     setState({ ...state, errors: localErrors })
     const errorsCount = Object.values(localErrors).filter(
-      (elt) => elt === true
+      (elt) => elt === true,
     ).length
 
     if (errorsCount === 0 || (errorsCount === 1 && localErrors.client)) {
@@ -101,7 +101,7 @@ export function PaymentSection() {
       handleOpenModal(MODALS.PAYMENT)
     } else {
       setSnackMessage(
-        `Certains champs sont manquants dans les conditions et mentions obligatoires.`
+        `Certains champs sont manquants dans les conditions et mentions obligatoires.`,
       )
       setSnackSeverity("error")
       setState({ ...state, mode: MODES.EDIT })

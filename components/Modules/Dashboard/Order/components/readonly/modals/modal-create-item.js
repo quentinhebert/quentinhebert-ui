@@ -227,7 +227,7 @@ export default function ModalCreateItem({}) {
   }
 
   async function handleAdd() {
-    const localItems = state.items
+    const localItems = state.items || []
     const localItem = item
 
     // Format price from euros to cents

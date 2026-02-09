@@ -8,6 +8,7 @@ import Payment from "./components/edit/sections/payment"
 import { Context } from "./module"
 import VAT from "./components/edit/sections/vat"
 import PriceTable from "./components/edit/sections/price-table"
+import VariableQuote from "./components/edit/sections/variable-quote"
 
 export default function OrderEdit({}) {
   const { state, setState } = useContext(Context)
@@ -26,6 +27,7 @@ export default function OrderEdit({}) {
           }}
         >
           <ActivityType />
+          <VariableQuote />
           <MissionDate />
           <DeliveryDate />
           <Payment />

@@ -175,15 +175,16 @@ const SortableList = SortableContainer(({ items }) => {
         className="list-style-none no-padding full-width"
         margin={0}
       >
-        {items.map((item, index) => (
-          <SortableRow
-            axis="xy"
-            key={index}
-            index={index}
-            item={item}
-            onClick={() => handleEdit(item, index)}
-          />
-        ))}
+        {items &&
+          items.map((item, index) => (
+            <SortableRow
+              axis="xy"
+              key={index}
+              index={index}
+              item={item}
+              onClick={() => handleEdit(item, index)}
+            />
+          ))}
       </Box>
     </Stack>
   )
