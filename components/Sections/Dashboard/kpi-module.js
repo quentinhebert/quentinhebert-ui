@@ -13,6 +13,7 @@ import PillButton from "../../Buttons/pill-button"
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf"
 import DownloadIcon from "@mui/icons-material/Download"
 import { AppContext } from "../../../contexts/AppContext"
+import PleaseWait from "../../Helpers/please-wait"
 
 const MONTHS = [
   "Année entière",
@@ -116,6 +117,7 @@ function TurnoverModule({}) {
   const [selectedYear, setSelectedYear] = useState(currentYear)
   const [totals, setTotals] = useState({ vat: 0 })
   const [isFirstLoad, setIsFirstLoad] = useState(true)
+  const [isFetching, setIsFetching] = useState(false)
 
   useEffect(() => {
     const localTotals = { vat: 0 }
@@ -128,10 +130,8 @@ function TurnoverModule({}) {
     setIsFirstLoad(false)
   }, [])
   useEffect(() => {
-    if (isFirstLoad) {
-      fetchData({})
-      setIsFirstLoad(false)
-    } else {
+    if (isFirstLoad) fetchData({})
+    else {
       setTurnover(initialTurnover)
       setPayments(initialPayments)
       /******** Specific condition bloc because my company was not created ********/
@@ -253,7 +253,9 @@ function TurnoverModule({}) {
                       fontSize="1.5rem"
                       whiteSpace="nowrap"
                     >
-                      {formatPrice(Number(turnover.total) - totals.vat)} €
+                      {isFetching
+                        ? "-"
+                        : `${formatPrice(Number(turnover.total) - totals.vat)} €`}
                     </Typography>
                   </Grid>
                   <Grid item xs={6} md={8} textAlign="left">
@@ -267,7 +269,7 @@ function TurnoverModule({}) {
                       whiteSpace="nowrap"
                       color="grey"
                     >
-                      {formatPrice(totals.vat)} €
+                      {isFetching ? "-" : `${formatPrice(totals.vat)} €`}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -285,7 +287,9 @@ function TurnoverModule({}) {
                   </Grid>
                   <Grid item xs={4} sx={{ textAlign: "right" }}>
                     <Typography fontStyle="italic">
-                      + {formatPrice(Number(turnover.total))} €
+                      {isFetching
+                        ? "-"
+                        : `+ ${formatPrice(Number(turnover.total))} €`}
                     </Typography>
                   </Grid>
                   <Grid item xs={8} sx={{ textAlign: "left" }}>
@@ -293,7 +297,9 @@ function TurnoverModule({}) {
                   </Grid>
                   <Grid item xs={4} sx={{ textAlign: "right" }}>
                     <Typography color="error.main" fontStyle="italic">
-                      - {formatPrice(Number(totals.vat))} €
+                      {isFetching
+                        ? "-"
+                        : `- ${formatPrice(Number(totals.vat))} €`}
                     </Typography>
                   </Grid>
                   <Grid item xs={8} sx={{ textAlign: "left" }}>
@@ -303,7 +309,9 @@ function TurnoverModule({}) {
                   </Grid>
                   <Grid item xs={4} sx={{ textAlign: "right" }}>
                     <Typography color="error.main" fontStyle="italic">
-                      - {formatPrice(Number(turnover.total_fees))} €
+                      {isFetching
+                        ? "-"
+                        : `- ${formatPrice(Number(turnover.total_fees))} €`}
                     </Typography>
                   </Grid>
 
@@ -320,9 +328,9 @@ function TurnoverModule({}) {
                     justifyContent="end"
                   >
                     <Typography color="error.main" whiteSpace="nowrap">
-                      ~{" "}
-                      {formatPrice((Number(turnover.real) - totals.vat) * 0.3)}{" "}
-                      €
+                      {isFetching
+                        ? "-"
+                        : `~ ${formatPrice((Number(turnover.real) - totals.vat) * 0.3)} €`}
                     </Typography>
                   </Grid>
 
@@ -352,9 +360,9 @@ function TurnoverModule({}) {
                       fontSize="1.5rem"
                       whiteSpace="nowrap"
                     >
-                      ~{" "}
-                      {formatPrice((Number(turnover.real) - totals.vat) * 0.7)}{" "}
-                      €
+                      {isFetching
+                        ? "-"
+                        : `~ ${formatPrice((Number(turnover.real) - totals.vat) * 0.7)} €`}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -450,7 +458,9 @@ function TurnoverModule({}) {
               </Box>
 
               <CustomCard borderRadius="15px">
-                {!!pdf.path ? (
+                {isFetching ? (
+                  <PleaseWait />
+                ) : !!pdf.path ? (
                   <Box
                     component="a"
                     href={`${buildPublicURL(pdf.path)}`}
@@ -514,6 +524,7 @@ function TurnoverModule({}) {
     )
   }
   async function fetchData({ month }) {
+    setIsFetching(true)
     const res = await apiCall.dashboard.payments.getPerMonth({
       month: month || selectedMonth,
       year: selectedYear,
@@ -524,6 +535,7 @@ function TurnoverModule({}) {
       setTurnover(jsonRes.turnover)
       setPdf(jsonRes.file)
     }
+    setIsFetching(false)
   }
 }
 function Label(props) {
