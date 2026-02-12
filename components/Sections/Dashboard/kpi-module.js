@@ -130,23 +130,27 @@ function TurnoverModule({}) {
     setIsFirstLoad(false)
   }, [])
   useEffect(() => {
+    if (!isFirstLoad) {
+      setTurnover(initialTurnover)
+      setPayments(initialPayments)
+
+      // When user selects a new year to fetch :
+      // If "whole year" is selected (as selected month), then keep "whole year" selected
+      if (selectedMonth === 0) fetchData({})
+      // Else if "2023" is the new selected year, then auto select June as my company was not created before
+      else if (selectedYear === 2023) setSelectedMonth(6)
+      // Else, auto select first month (January)
+      else setSelectedMonth(1) // All years (except 2023) start at January
+    }
+  }, [selectedYear])
+  useEffect(() => {
     if (isFirstLoad) fetchData({})
     else {
       setTurnover(initialTurnover)
       setPayments(initialPayments)
-      /******** Specific condition bloc because my company was not created ********/
-      // Default select first available month on new selected year
-      if (selectedMonth === 0) setSelectedMonth(0)
-      // Do nothing if month === 0 (it means we want to compare whole years)
-      else if (selectedYear === 2023) setSelectedMonth(6)
-      // All years have all months except 2023 (starts at June)
-      else setSelectedMonth(1) // All years (except 2023) start at January
-      /****************************************************************************/
-      fetchData({
-        month: selectedMonth === 0 ? 0 : selectedYear === 2023 ? 6 : 1,
-      })
+      fetchData({ month: selectedMonth })
     }
-  }, [selectedYear, selectedMonth])
+  }, [selectedMonth])
 
   const handleGenerateReport = async () => {
     setIsGeneratingPdf(true)
