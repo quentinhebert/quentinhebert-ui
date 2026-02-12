@@ -136,7 +136,6 @@ export default function EditUserForm({
                 sx={{
                   width: "150px",
                   height: "150px",
-                  marginBottom: "1rem",
                   border: (theme) => `1px solid rgb(256,256,256, 0.5)`,
                 }}
               />
@@ -150,6 +149,11 @@ export default function EditUserForm({
                   placeholder="Nom"
                   value={user.lastname || ""}
                   onChange={handleChange("lastname")}
+                />
+                <NameLabelInput
+                  placeholder="Nom d'affichage"
+                  value={user.display_name || ""}
+                  onChange={handleChange("display_name")}
                 />
               </Stack>
             </Stack>
@@ -412,19 +416,39 @@ function NameInput({ ...props }) {
         disableUnderline: true,
         sx: {
           color: (theme) => theme.palette.text.white,
-          fontSize: "2rem",
+          fontSize: "1.5rem",
           background: "rgb(256,256,256, 0.1)",
           padding: "0 1rem",
           borderRadius: 30,
         },
-        endAdornment: (
-          <InputAdornment position="end">
-            {/* <EditIcon sx={{ color: "grey !important" }} /> */}
-            <Typography color="grey" fontSize=".75rem">
-              Modifier
-            </Typography>
-          </InputAdornment>
-        ),
+        // endAdornment: (
+        //   <InputAdornment position="end">
+        //     {/* <EditIcon sx={{ color: "grey !important" }} /> */}
+        //     <Typography color="grey" fontSize=".75rem">
+        //       Modifier
+        //     </Typography>
+        //   </InputAdornment>
+        // ),
+      }}
+      {...props}
+    />
+  )
+}
+function NameLabelInput({ ...props }) {
+  return (
+    <TextField
+      required
+      type="input"
+      variant="standard"
+      InputProps={{
+        disableUnderline: true,
+        sx: {
+          color: (theme) => theme.palette.text.white,
+          fontSize: "1rem",
+          background: "rgb(256,256,256, 0.1)",
+          padding: "0 1rem",
+          borderRadius: 30,
+        },
       }}
       {...props}
     />

@@ -79,6 +79,11 @@ const headCells = [
     label: "Nom",
   },
   {
+    id: "display_name",
+    numeric: false,
+    label: "Nom d'affichage",
+  },
+  {
     id: "email",
     numeric: false,
     label: "E-mail",
@@ -163,7 +168,7 @@ function UsersPanel_Main(props) {
           errorsCount -= 1
         }
         return errorsCount
-      })
+      }),
     )
 
     if (errors === 0) {
@@ -172,7 +177,7 @@ function UsersPanel_Main(props) {
     } else {
       setSnackSeverity("error")
       setSnackMessage(
-        `A problem occured while deletibg ${errors} of the selected users.`
+        `A problem occured while deletibg ${errors} of the selected users.`,
       )
     }
 
@@ -183,7 +188,7 @@ function UsersPanel_Main(props) {
     if (!usersToDelete.length) {
       setSnackSeverity("error")
       return setSnackMessage(
-        `Un problème est survenu lors de la suppression de(s) ${usersToDelete.length} utilisateur(s)`
+        `Un problème est survenu lors de la suppression de(s) ${usersToDelete.length} utilisateur(s)`,
       )
     }
     // Open confirm modal
