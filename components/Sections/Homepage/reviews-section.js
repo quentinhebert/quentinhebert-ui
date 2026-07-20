@@ -120,8 +120,8 @@ export default function ReviewsSection(props) {
                   }}
                 />
                 <Typography color="#fff" className={styles.shine}>
-                  {review.company ||
-                    review.display_name ||
+                  {review.display_name ||
+                    review.company ||
                     review.firstname + " " + review.lastname}
                 </Typography>
               </Stack>
