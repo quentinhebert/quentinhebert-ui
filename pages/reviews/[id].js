@@ -44,6 +44,7 @@ export default function ReviewPage({ navbar, footer }) {
     firstname: "",
     lastname: "",
     company: "",
+    display_name: "",
   }
 
   const [fetching, setFetching] = useState(true)
@@ -147,7 +148,7 @@ export default function ReviewPage({ navbar, footer }) {
                 }
               />
 
-              {!!review.user_id?.company && (
+              {(!!review.user_id.display_name || !!review.user_id?.company) && (
                 <Stack
                   color="gray"
                   flexDirection="row"
@@ -158,7 +159,10 @@ export default function ReviewPage({ navbar, footer }) {
                   <InfoOutlinedIcon fontSize=".8rem" />
                   <Typography textAlign="center" fontSize=".8rem">
                     {translations.reviews.publishAs[lang]}{" "}
-                    <em>{review.user_id.company}</em>.
+                    <em>
+                      {review.user_id.display_name || review.user_id.company}
+                    </em>
+                    .
                   </Typography>
                 </Stack>
               )}
